@@ -1,0 +1,13 @@
+{
+  "description": "The spec marks `{key-version}` required on GetKey and GetKeyAttestation, but documents it as optional (\"This URI fragment is optional.\"). Make it optional; the protocol sends an empty segment when it is omitted.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.keyvault_keys#GetKeyRequest/members/keyVersion/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.keyvault_keys#GetKeyAttestationRequest/members/keyVersion/traits/smithy.api#required"
+    }
+  ]
+}

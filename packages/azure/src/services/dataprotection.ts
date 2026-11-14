@@ -1085,6 +1085,8 @@ export interface GetBackupVaultInResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type BackupVaultResourceTagsMap = { [key: string]: string | undefined };
@@ -1115,11 +1117,13 @@ export interface GetBackupVaultInResourceGroupResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: GetBackupVaultInResourceGroupResponseValueList | undefined;
+  value: GetBackupVaultInResourceGroupResponseValueList;
 }
 export interface GetBackupVaultInSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** List of resources. */
 export type GetBackupVaultInSubscriptionResponseValueList = Array<BackupVaultResource>;
@@ -1127,7 +1131,7 @@ export interface GetBackupVaultInSubscriptionResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: GetBackupVaultInSubscriptionResponseValueList | undefined;
+  value: GetBackupVaultInSubscriptionResponseValueList;
 }
 export interface GetBackupVaultOperationResultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1679,6 +1683,8 @@ export interface GetResourceGuardBackupSecurityPINRequestsObjectsRequest {
   resourceGroupName: string;
   /** The name of the ResourceGuardResource */
   resourceGuardsName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
@@ -1725,6 +1731,8 @@ export interface GetResourceGuardResourcesInResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ResourceGuardResourceTagsMap = { [key: string]: string | undefined };
@@ -1754,11 +1762,13 @@ export interface GetResourceGuardResourcesInResourceGroupResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: GetResourceGuardResourcesInResourceGroupResponseValueList | undefined;
+  value: GetResourceGuardResourcesInResourceGroupResponseValueList;
 }
 export interface GetResourceGuardResourcesInSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** List of resources. */
 export type GetResourceGuardResourcesInSubscriptionResponseValueList = Array<ResourceGuardResource>;
@@ -1766,7 +1776,7 @@ export interface GetResourceGuardResourcesInSubscriptionResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: GetResourceGuardResourcesInSubscriptionResponseValueList | undefined;
+  value: GetResourceGuardResourcesInSubscriptionResponseValueList;
 }
 export interface ListBackupInstancesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1775,6 +1785,8 @@ export interface ListBackupInstancesRequest {
   resourceGroupName: string;
   /** The name of the backup vault. */
   vaultName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Proxy Resource tags. */
 export type BackupInstanceResourceTagsMap = { [key: string]: string | undefined };
@@ -1799,11 +1811,13 @@ export interface ListBackupInstancesResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupInstancesResponseValueList | undefined;
+  value: ListBackupInstancesResponseValueList;
 }
 export interface ListBackupInstancesExtensionRoutingRequest {
   /** ARM path of the resource to be protected using Microsoft.DataProtection */
   resourceId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** List of resources. */
 export type ListBackupInstancesExtensionRoutingResponseValueList = Array<BackupInstanceResource>;
@@ -1811,7 +1825,7 @@ export interface ListBackupInstancesExtensionRoutingResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupInstancesExtensionRoutingResponseValueList | undefined;
+  value: ListBackupInstancesExtensionRoutingResponseValueList;
 }
 export interface ListBackupPoliciesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1820,6 +1834,8 @@ export interface ListBackupPoliciesRequest {
   resourceGroupName: string;
   /** The name of the backup vault. */
   vaultName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** BaseBackupPolicy resource */
 export interface BaseBackupPolicyResource {
@@ -1840,9 +1856,12 @@ export interface ListBackupPoliciesResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupPoliciesResponseValueList | undefined;
+  value: ListBackupPoliciesResponseValueList;
 }
-export interface ListDataProtectionOperationsRequest {}
+export interface ListDataProtectionOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1875,7 +1894,7 @@ export interface Operation {
 export type ListDataProtectionOperationsResponseValueList = Array<Operation>;
 export interface ListDataProtectionOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListDataProtectionOperationsResponseValueList | undefined;
+  value: ListDataProtectionOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -1886,6 +1905,8 @@ export interface ListDeletedBackupInstancesRequest {
   resourceGroupName: string;
   /** The name of the backup vault. */
   vaultName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Deleted Backup Instance */
 export interface DeletedBackupInstanceResource {
@@ -1906,13 +1927,15 @@ export interface ListDeletedBackupInstancesResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListDeletedBackupInstancesResponseValueList | undefined;
+  value: ListDeletedBackupInstancesResponseValueList;
 }
 export interface ListDeletedBackupVaultByLocationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Deleted Backup Vault Resource (available from version 2025-09-01) */
 export interface DeletedBackupVaultResource {
@@ -1943,6 +1966,8 @@ export interface ListDppResourceGuardProxyRequest {
   resourceGroupName: string;
   /** The name of the backup vault. */
   vaultName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** ResourceGuardProxyBaseResource object, used for response and request bodies for ResourceGuardProxy APIs */
 export interface ResourceGuardProxyBaseResource {
@@ -1963,7 +1988,7 @@ export interface ListDppResourceGuardProxyResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListDppResourceGuardProxyResponseValueList | undefined;
+  value: ListDppResourceGuardProxyResponseValueList;
 }
 export interface ListFetchCrossRegionRestoreJobsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1976,6 +2001,8 @@ export interface ListFetchCrossRegionRestoreJobsRequest {
   _filter?: string | undefined;
   sourceRegion: string;
   sourceBackupVaultId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** AzureBackup Job Resource Class */
 export interface AzureBackupJobResource {
@@ -1996,7 +2023,7 @@ export interface ListFetchCrossRegionRestoreJobsResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListFetchCrossRegionRestoreJobsResponseValueList | undefined;
+  value: ListFetchCrossRegionRestoreJobsResponseValueList;
 }
 export interface ListFetchSecondaryRecoveryPointsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2013,6 +2040,8 @@ export interface ListFetchSecondaryRecoveryPointsRequest {
   sourceRegion?: string | undefined;
   /** ARM Path of BackupInstance */
   sourceBackupInstanceId?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure backup recoveryPoint resource */
 export interface AzureBackupRecoveryPointResource {
@@ -2034,7 +2063,7 @@ export interface ListFetchSecondaryRecoveryPointsResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListFetchSecondaryRecoveryPointsResponseValueList | undefined;
+  value: ListFetchSecondaryRecoveryPointsResponseValueList;
 }
 export interface ListJobsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2043,6 +2072,8 @@ export interface ListJobsRequest {
   resourceGroupName: string;
   /** The name of the backup vault. */
   vaultName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** List of resources. */
 export type ListJobsResponseValueList = Array<AzureBackupJobResource>;
@@ -2050,7 +2081,7 @@ export interface ListJobsResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListJobsResponseValueList | undefined;
+  value: ListJobsResponseValueList;
 }
 export interface ListRecoveryPointsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2065,6 +2096,8 @@ export interface ListRecoveryPointsRequest {
   _filter?: string | undefined;
   /** skipToken Filter. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** List of resources. */
 export type ListRecoveryPointsResponseValueList = Array<AzureBackupRecoveryPointResource>;
@@ -2072,7 +2105,7 @@ export interface ListRecoveryPointsResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListRecoveryPointsResponseValueList | undefined;
+  value: ListRecoveryPointsResponseValueList;
 }
 /** Resource Guard tags. */
 export type PatchResourceGuardRequestTagsMap = { [key: string]: string | undefined };
@@ -2259,6 +2292,8 @@ export interface ResourceGuardsGetDeleteProtectedItemRequestsObjectsRequest {
   resourceGroupName: string;
   /** The name of the ResourceGuardResource */
   resourceGuardsName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2267,6 +2302,8 @@ export interface ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsRequest
   resourceGroupName: string;
   /** The name of the ResourceGuardResource */
   resourceGuardsName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ResourceGuardsGetDisableSoftDeleteRequestsObjectsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2275,6 +2312,8 @@ export interface ResourceGuardsGetDisableSoftDeleteRequestsObjectsRequest {
   resourceGroupName: string;
   /** The name of the ResourceGuardResource */
   resourceGuardsName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ResourceGuardsGetUpdateProtectedItemRequestsObjectsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2283,6 +2322,8 @@ export interface ResourceGuardsGetUpdateProtectedItemRequestsObjectsRequest {
   resourceGroupName: string;
   /** The name of the ResourceGuardResource */
   resourceGuardsName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2291,6 +2332,8 @@ export interface ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsRequest {
   resourceGroupName: string;
   /** The name of the ResourceGuardResource */
   resourceGuardsName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Gets or sets the type of the source data store. */
 export type RestoreSourceDataStoreType = "OperationalStore" | "VaultStore" | "ArchiveStore";
@@ -2978,12 +3021,13 @@ export const GetBackupVault: API.OperationMethod<
 
 export type GetBackupVaultInResourceGroupError = AzureOpError;
 /** Returns resource collection belonging to a resource group. */
-export const GetBackupVaultInResourceGroup: API.OperationMethod<
+export const GetBackupVaultInResourceGroup: API.PaginatedOperationMethod<
   GetBackupVaultInResourceGroupRequest,
   GetBackupVaultInResourceGroupResponse,
   GetBackupVaultInResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BackupVaultResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<GetBackupVaultInResourceGroupRequest>,
   output: __S(545, __c34, 1) as any as S.Schema<GetBackupVaultInResourceGroupResponse>,
   errors: [UnknownAzureError],
@@ -2991,16 +3035,23 @@ export const GetBackupVaultInResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBackupVaultInResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type GetBackupVaultInSubscriptionError = AzureOpError;
 /** Returns resource collection belonging to a subscription. */
-export const GetBackupVaultInSubscription: API.OperationMethod<
+export const GetBackupVaultInSubscription: API.PaginatedOperationMethod<
   GetBackupVaultInSubscriptionRequest,
   GetBackupVaultInSubscriptionResponse,
   GetBackupVaultInSubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BackupVaultResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<GetBackupVaultInSubscriptionRequest>,
   output: __S(545, __c34, 1) as any as S.Schema<GetBackupVaultInSubscriptionResponse>,
   errors: [UnknownAzureError],
@@ -3008,7 +3059,13 @@ export const GetBackupVaultInSubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBackupVaultInSubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type GetBackupVaultOperationResultError = AzureOpError;
 /** Get a BackupVaultResource */
@@ -3233,12 +3290,13 @@ export const GetResourceGuard: API.OperationMethod<
 
 export type GetResourceGuardBackupSecurityPINRequestsObjectsError = AzureOpError;
 /** Returns collection of operation request objects for a critical operation protected by the given ResourceGuard resource. */
-export const GetResourceGuardBackupSecurityPINRequestsObjects: API.OperationMethod<
+export const GetResourceGuardBackupSecurityPINRequestsObjects: API.PaginatedOperationMethod<
   GetResourceGuardBackupSecurityPINRequestsObjectsRequest,
   DppBaseResourceList,
   GetResourceGuardBackupSecurityPINRequestsObjectsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Resource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     896,
     __c56,
@@ -3250,7 +3308,13 @@ export const GetResourceGuardBackupSecurityPINRequestsObjects: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetResourceGuardBackupSecurityPINRequestsObjects",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type GetResourceGuardDefaultBackupSecurityPINRequestsObjectError = AzureOpError;
 /** Returns collection of operation request objects for a critical operation protected by the given ResourceGuard resource. */
@@ -3279,12 +3343,13 @@ export const GetResourceGuardDefaultBackupSecurityPINRequestsObject: API.Operati
 
 export type GetResourceGuardResourcesInResourceGroupError = AzureOpError;
 /** Returns ResourceGuards collection belonging to a ResourceGroup. */
-export const GetResourceGuardResourcesInResourceGroup: API.OperationMethod<
+export const GetResourceGuardResourcesInResourceGroup: API.PaginatedOperationMethod<
   GetResourceGuardResourcesInResourceGroupRequest,
   GetResourceGuardResourcesInResourceGroupResponse,
   GetResourceGuardResourcesInResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceGuardResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<GetResourceGuardResourcesInResourceGroupRequest>,
   output: __S(977, __c61, 1) as any as S.Schema<GetResourceGuardResourcesInResourceGroupResponse>,
   errors: [UnknownAzureError],
@@ -3292,16 +3357,23 @@ export const GetResourceGuardResourcesInResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetResourceGuardResourcesInResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type GetResourceGuardResourcesInSubscriptionError = AzureOpError;
 /** Returns ResourceGuards collection belonging to a subscription. */
-export const GetResourceGuardResourcesInSubscription: API.OperationMethod<
+export const GetResourceGuardResourcesInSubscription: API.PaginatedOperationMethod<
   GetResourceGuardResourcesInSubscriptionRequest,
   GetResourceGuardResourcesInSubscriptionResponse,
   GetResourceGuardResourcesInSubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceGuardResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<GetResourceGuardResourcesInSubscriptionRequest>,
   output: __S(977, __c61, 1) as any as S.Schema<GetResourceGuardResourcesInSubscriptionResponse>,
   errors: [UnknownAzureError],
@@ -3309,16 +3381,23 @@ export const GetResourceGuardResourcesInSubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetResourceGuardResourcesInSubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupInstancesError = AzureOpError;
 /** Gets a backup instances belonging to a backup vault */
-export const ListBackupInstances: API.OperationMethod<
+export const ListBackupInstances: API.PaginatedOperationMethod<
   ListBackupInstancesRequest,
   ListBackupInstancesResponse,
   ListBackupInstancesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BackupInstanceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<ListBackupInstancesRequest>,
   output: __S(1041, __c65, 1) as any as S.Schema<ListBackupInstancesResponse>,
   errors: [UnknownAzureError],
@@ -3326,16 +3405,23 @@ export const ListBackupInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupInstances",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupInstancesExtensionRoutingError = AzureOpError;
 /** Gets a list of backup instances associated with a tracked resource */
-export const ListBackupInstancesExtensionRouting: API.OperationMethod<
+export const ListBackupInstancesExtensionRouting: API.PaginatedOperationMethod<
   ListBackupInstancesExtensionRoutingRequest,
   ListBackupInstancesExtensionRoutingResponse,
   ListBackupInstancesExtensionRoutingError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BackupInstanceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<ListBackupInstancesExtensionRoutingRequest>,
   output: __S(1041, __c65, 1) as any as S.Schema<ListBackupInstancesExtensionRoutingResponse>,
   errors: [UnknownAzureError],
@@ -3348,16 +3434,23 @@ export const ListBackupInstancesExtensionRouting: API.OperationMethod<
       "url.template": "/{resourceId}/providers/Microsoft.DataProtection/backupInstances",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupPoliciesError = AzureOpError;
 /** Returns list of backup policies belonging to a backup vault */
-export const ListBackupPolicies: API.OperationMethod<
+export const ListBackupPolicies: API.PaginatedOperationMethod<
   ListBackupPoliciesRequest,
   ListBackupPoliciesResponse,
   ListBackupPoliciesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BaseBackupPolicyResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<ListBackupPoliciesRequest>,
   output: __S(1074, __c67, 2) as any as S.Schema<ListBackupPoliciesResponse>,
   errors: [UnknownAzureError],
@@ -3365,16 +3458,23 @@ export const ListBackupPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupPolicies",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDataProtectionOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListDataProtectionOperations: API.OperationMethod<
+export const ListDataProtectionOperations: API.PaginatedOperationMethod<
   ListDataProtectionOperationsRequest,
   ListDataProtectionOperationsResponse,
   ListDataProtectionOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<ListDataProtectionOperationsRequest>,
   output: __S(1092, __c68, 4) as any as S.Schema<ListDataProtectionOperationsResponse>,
   errors: [UnknownAzureError],
@@ -3382,16 +3482,23 @@ export const ListDataProtectionOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDataProtectionOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeletedBackupInstancesError = AzureOpError;
 /** Gets deleted backup instances belonging to a backup vault */
-export const ListDeletedBackupInstances: API.OperationMethod<
+export const ListDeletedBackupInstances: API.PaginatedOperationMethod<
   ListDeletedBackupInstancesRequest,
   ListDeletedBackupInstancesResponse,
   ListDeletedBackupInstancesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeletedBackupInstanceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<ListDeletedBackupInstancesRequest>,
   output: __S(1106, __c69, 2) as any as S.Schema<ListDeletedBackupInstancesResponse>,
   errors: [UnknownAzureError],
@@ -3399,16 +3506,23 @@ export const ListDeletedBackupInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeletedBackupInstances",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeletedBackupVaultByLocationError = AzureOpError;
 /** Lists deleted backup vaults by location */
-export const ListDeletedBackupVaultByLocation: API.OperationMethod<
+export const ListDeletedBackupVaultByLocation: API.PaginatedOperationMethod<
   ListDeletedBackupVaultByLocationRequest,
   DeletedBackupVaultResourceListResult,
   ListDeletedBackupVaultByLocationError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeletedBackupVaultResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<ListDeletedBackupVaultByLocationRequest>,
   output: __S(1122, __c70, 2) as any as S.Schema<DeletedBackupVaultResourceListResult>,
   errors: [UnknownAzureError],
@@ -3416,16 +3530,23 @@ export const ListDeletedBackupVaultByLocation: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeletedBackupVaultByLocation",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDppResourceGuardProxyError = AzureOpError;
 /** Returns the list of ResourceGuardProxies associated with the vault */
-export const ListDppResourceGuardProxy: API.OperationMethod<
+export const ListDppResourceGuardProxy: API.PaginatedOperationMethod<
   ListDppResourceGuardProxyRequest,
   ListDppResourceGuardProxyResponse,
   ListDppResourceGuardProxyError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceGuardProxyBaseResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<ListDppResourceGuardProxyRequest>,
   output: __S(1138, __c71, 2) as any as S.Schema<ListDppResourceGuardProxyResponse>,
   errors: [UnknownAzureError],
@@ -3433,16 +3554,23 @@ export const ListDppResourceGuardProxy: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDppResourceGuardProxy",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFetchCrossRegionRestoreJobsError = AzureOpError;
 /** Fetches list of Cross Region Restore job belonging to the vault */
-export const ListFetchCrossRegionRestoreJobs: API.OperationMethod<
+export const ListFetchCrossRegionRestoreJobs: API.PaginatedOperationMethod<
   ListFetchCrossRegionRestoreJobsRequest,
   ListFetchCrossRegionRestoreJobsResponse,
   ListFetchCrossRegionRestoreJobsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AzureBackupJobResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<ListFetchCrossRegionRestoreJobsRequest>,
   output: __S(1169, __c73, 1) as any as S.Schema<ListFetchCrossRegionRestoreJobsResponse>,
   errors: [UnknownAzureError],
@@ -3450,16 +3578,23 @@ export const ListFetchCrossRegionRestoreJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFetchCrossRegionRestoreJobs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFetchSecondaryRecoveryPointsError = AzureOpError;
 /** Returns a list of Secondary Recovery Points for a DataSource in a vault, that can be used for Cross Region Restore. */
-export const ListFetchSecondaryRecoveryPoints: API.OperationMethod<
+export const ListFetchSecondaryRecoveryPoints: API.PaginatedOperationMethod<
   ListFetchSecondaryRecoveryPointsRequest,
   ListFetchSecondaryRecoveryPointsResponse,
   ListFetchSecondaryRecoveryPointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AzureBackupRecoveryPointResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<ListFetchSecondaryRecoveryPointsRequest>,
   output: __S(1201, __c75, 1) as any as S.Schema<ListFetchSecondaryRecoveryPointsResponse>,
   errors: [UnknownAzureError],
@@ -3467,16 +3602,23 @@ export const ListFetchSecondaryRecoveryPoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFetchSecondaryRecoveryPoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobsError = AzureOpError;
 /** Returns list of jobs belonging to a backup vault */
-export const ListJobs: API.OperationMethod<
+export const ListJobs: API.PaginatedOperationMethod<
   ListJobsRequest,
   ListJobsResponse,
   ListJobsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AzureBackupJobResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<ListJobsRequest>,
   output: __S(1169, __c73, 1) as any as S.Schema<ListJobsResponse>,
   errors: [UnknownAzureError],
@@ -3484,16 +3626,23 @@ export const ListJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRecoveryPointsError = AzureOpError;
 /** Returns a list of Recovery Points for a DataSource in a vault. */
-export const ListRecoveryPoints: API.OperationMethod<
+export const ListRecoveryPoints: API.PaginatedOperationMethod<
   ListRecoveryPointsRequest,
   ListRecoveryPointsResponse,
   ListRecoveryPointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AzureBackupRecoveryPointResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<ListRecoveryPointsRequest>,
   output: __S(1201, __c75, 1) as any as S.Schema<ListRecoveryPointsResponse>,
   errors: [UnknownAzureError],
@@ -3501,7 +3650,13 @@ export const ListRecoveryPoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRecoveryPoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PatchResourceGuardError = AzureOpError;
 /** Updates a ResourceGuard resource belonging to a resource group. For example, updating tags for a resource. */
@@ -3664,12 +3819,13 @@ export const ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObject: API.O
 
 export type ResourceGuardsGetDeleteProtectedItemRequestsObjectsError = AzureOpError;
 /** Returns collection of operation request objects for a critical operation protected by the given ResourceGuard resource. */
-export const ResourceGuardsGetDeleteProtectedItemRequestsObjects: API.OperationMethod<
+export const ResourceGuardsGetDeleteProtectedItemRequestsObjects: API.PaginatedOperationMethod<
   ResourceGuardsGetDeleteProtectedItemRequestsObjectsRequest,
   DppBaseResourceList,
   ResourceGuardsGetDeleteProtectedItemRequestsObjectsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Resource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     1392,
     __c87,
@@ -3681,16 +3837,23 @@ export const ResourceGuardsGetDeleteProtectedItemRequestsObjects: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResourceGuardsGetDeleteProtectedItemRequestsObjects",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsError = AzureOpError;
 /** Returns collection of operation request objects for a critical operation protected by the given ResourceGuard resource. */
-export const ResourceGuardsGetDeleteResourceGuardProxyRequestsObjects: API.OperationMethod<
+export const ResourceGuardsGetDeleteResourceGuardProxyRequestsObjects: API.PaginatedOperationMethod<
   ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsRequest,
   DppBaseResourceList,
   ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Resource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     1424,
     __c89,
@@ -3702,16 +3865,23 @@ export const ResourceGuardsGetDeleteResourceGuardProxyRequestsObjects: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResourceGuardsGetDeleteResourceGuardProxyRequestsObjects",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ResourceGuardsGetDisableSoftDeleteRequestsObjectsError = AzureOpError;
 /** Returns collection of operation request objects for a critical operation protected by the given ResourceGuard resource. */
-export const ResourceGuardsGetDisableSoftDeleteRequestsObjects: API.OperationMethod<
+export const ResourceGuardsGetDisableSoftDeleteRequestsObjects: API.PaginatedOperationMethod<
   ResourceGuardsGetDisableSoftDeleteRequestsObjectsRequest,
   DppBaseResourceList,
   ResourceGuardsGetDisableSoftDeleteRequestsObjectsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Resource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     1440,
     __c90,
@@ -3723,16 +3893,23 @@ export const ResourceGuardsGetDisableSoftDeleteRequestsObjects: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResourceGuardsGetDisableSoftDeleteRequestsObjects",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ResourceGuardsGetUpdateProtectedItemRequestsObjectsError = AzureOpError;
 /** Returns collection of operation request objects for a critical operation protected by the given ResourceGuard resource. */
-export const ResourceGuardsGetUpdateProtectedItemRequestsObjects: API.OperationMethod<
+export const ResourceGuardsGetUpdateProtectedItemRequestsObjects: API.PaginatedOperationMethod<
   ResourceGuardsGetUpdateProtectedItemRequestsObjectsRequest,
   DppBaseResourceList,
   ResourceGuardsGetUpdateProtectedItemRequestsObjectsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Resource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     1456,
     __c91,
@@ -3744,16 +3921,23 @@ export const ResourceGuardsGetUpdateProtectedItemRequestsObjects: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResourceGuardsGetUpdateProtectedItemRequestsObjects",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsError = AzureOpError;
 /** Returns collection of operation request objects for a critical operation protected by the given ResourceGuard resource. */
-export const ResourceGuardsGetUpdateProtectionPolicyRequestsObjects: API.OperationMethod<
+export const ResourceGuardsGetUpdateProtectionPolicyRequestsObjects: API.PaginatedOperationMethod<
   ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsRequest,
   DppBaseResourceList,
   ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Resource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     1472,
     __c92,
@@ -3765,7 +3949,13 @@ export const ResourceGuardsGetUpdateProtectionPolicyRequestsObjects: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResourceGuardsGetUpdateProtectionPolicyRequestsObjects",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RestorableTimeRangesFindError = AzureOpError;
 export const RestorableTimeRangesFind: API.OperationMethod<
@@ -4617,12 +4807,14 @@ function __c33(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "GetBackupVaultInResourceGroupRequest" });
@@ -4636,7 +4828,7 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(544, __c34, 0)),
+          value: __S(544, __c34, 0),
         }),
       ).annotate({ identifier: "GetBackupVaultInResourceGroupResponse" });
   }
@@ -4647,12 +4839,14 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DataProtection/backupVaults",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "GetBackupVaultInSubscriptionRequest" });
@@ -5252,12 +5446,14 @@ function __c56(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceGuardsName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/getBackupSecurityPINRequests",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "GetResourceGuardBackupSecurityPINRequestsObjectsRequest" });
@@ -5316,12 +5512,14 @@ function __c60(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "GetResourceGuardResourcesInResourceGroupRequest" });
@@ -5335,7 +5533,7 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(976, __c61, 0)),
+          value: __S(976, __c61, 0),
         }),
       ).annotate({ identifier: "GetResourceGuardResourcesInResourceGroupResponse" });
   }
@@ -5367,12 +5565,14 @@ function __c63(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DataProtection/resourceGuards",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "GetResourceGuardResourcesInSubscriptionRequest" });
@@ -5386,12 +5586,14 @@ function __c64(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupInstancesRequest" });
@@ -5405,7 +5607,7 @@ function __c65(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(1040, __c65, 0)),
+          value: __S(1040, __c65, 0),
         }),
       ).annotate({ identifier: "ListBackupInstancesResponse" });
   }
@@ -5416,12 +5618,14 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceId+}/providers/Microsoft.DataProtection/backupInstances",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupInstancesExtensionRoutingRequest" });
@@ -5435,12 +5639,14 @@ function __c67(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupPolicies",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupPoliciesRequest" });
@@ -5450,7 +5656,7 @@ function __c67(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(1073, __c67, 1)),
+          value: __S(1073, __c67, 1),
         }),
       ).annotate({ identifier: "ListBackupPoliciesResponse" });
   }
@@ -5459,12 +5665,15 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.DataProtection/operations",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDataProtectionOperationsRequest" });
@@ -5492,7 +5701,7 @@ function __c68(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1091, __c68, 3)),
+          value: __S(1091, __c68, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDataProtectionOperationsResponse" });
@@ -5506,12 +5715,14 @@ function __c69(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/deletedBackupInstances",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeletedBackupInstancesRequest" });
@@ -5521,7 +5732,7 @@ function __c69(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(1105, __c69, 1)),
+          value: __S(1105, __c69, 1),
         }),
       ).annotate({ identifier: "ListDeletedBackupInstancesResponse" });
   }
@@ -5533,12 +5744,14 @@ function __c70(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DataProtection/locations/{location}/deletedVaults",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeletedBackupVaultByLocationRequest" });
@@ -5561,12 +5774,14 @@ function __c71(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupResourceGuardProxies",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDppResourceGuardProxyRequest" });
@@ -5576,7 +5791,7 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(1137, __c71, 1)),
+          value: __S(1137, __c71, 1),
         }),
       ).annotate({ identifier: "ListDppResourceGuardProxyResponse" });
   }
@@ -5592,12 +5807,14 @@ function __c72(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           sourceRegion: S.String,
           sourceBackupVaultId: S.String,
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/fetchCrossRegionRestoreJobs",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFetchCrossRegionRestoreJobsRequest" });
@@ -5611,7 +5828,7 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(1168, __c73, 0)),
+          value: __S(1168, __c73, 0),
         }),
       ).annotate({ identifier: "ListFetchCrossRegionRestoreJobsResponse" });
   }
@@ -5628,12 +5845,14 @@ function __c74(j: number): any {
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
           sourceRegion: S.optional(S.String),
           sourceBackupInstanceId: S.optional(S.String),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/fetchSecondaryRecoveryPoints",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFetchSecondaryRecoveryPointsRequest" });
@@ -5647,7 +5866,7 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(1200, __c75, 0)),
+          value: __S(1200, __c75, 0),
         }),
       ).annotate({ identifier: "ListFetchSecondaryRecoveryPointsResponse" });
   }
@@ -5692,12 +5911,14 @@ function __c78(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupJobs",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobsRequest" });
@@ -5714,12 +5935,14 @@ function __c79(j: number): any {
           backupInstanceName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/recoveryPoints",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRecoveryPointsRequest" });
@@ -5890,12 +6113,14 @@ function __c87(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceGuardsName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/deleteProtectedItemRequests",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ResourceGuardsGetDeleteProtectedItemRequestsObjectsRequest" });
@@ -5930,12 +6155,14 @@ function __c89(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceGuardsName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/deleteResourceGuardProxyRequests",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsRequest" });
@@ -5949,12 +6176,14 @@ function __c90(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceGuardsName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/disableSoftDeleteRequests",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ResourceGuardsGetDisableSoftDeleteRequestsObjectsRequest" });
@@ -5968,12 +6197,14 @@ function __c91(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceGuardsName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/updateProtectedItemRequests",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ResourceGuardsGetUpdateProtectedItemRequestsObjectsRequest" });
@@ -5987,12 +6218,14 @@ function __c92(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceGuardsName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/updateProtectionPolicyRequests",
             code: 200,
             apiVersion: "2026-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsRequest" });

@@ -1,0 +1,389 @@
+{
+  "description": "Type the Call Automation errors per operation: `CallConnectionNotFound` (HTTP 404, empty body or code 8522 \"Call not found\") for an unknown or ended call, `InvalidIncomingCallContext` (HTTP 400, code 8523) on answer/redirect/reject, and `RecordingNotFound` (HTTP 404) for an unknown recording.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallConnectionNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The call connection does not exist or the call ended (HTTP 404).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#InvalidIncomingCallContext",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The incoming call context is not valid or expired (HTTP 400, code 8523).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "body": {
+                "/error/code": "8523"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#RecordingNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The recording does not exist (HTTP 404).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallConnectionGetCall/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallConnectionHangupCall/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallConnectionTerminateCall/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallConnectionTransferToParticipant/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallMediaPlay/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallMediaStartTranscription/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallMediaStopTranscription/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallMediaUpdateTranscription/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallMediaCancelAllMediaOperations/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallMediaRecognize/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallMediaStartContinuousDtmfRecognition/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallMediaStopContinuousDtmfRecognition/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallMediaSendDtmfTones/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallMediaHold/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallMediaUnhold/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallMediaStartMediaStreaming/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallMediaStopMediaStreaming/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallConnectionGetParticipants/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallConnectionAddParticipant/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallConnectionRemoveParticipant/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallConnectionMute/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallConnectionCancelAddParticipant/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallConnectionMoveParticipants/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallConnectionGetParticipant/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallRecordingStartRecording/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#CallConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#AnswerCall/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#InvalidIncomingCallContext"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#RedirectCall/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#InvalidIncomingCallContext"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#RejectCall/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#InvalidIncomingCallContext"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallRecordingGetRecordingProperties/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#RecordingNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallRecordingStopRecording/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#RecordingNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallRecordingPauseRecording/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#RecordingNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CallRecordingResumeRecording/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_call_automation#RecordingNotFound"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1521 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "note": "Hand-authored: the Durable Task Scheduler publishes only its ARM (Microsoft.DurableTask) Swagger. The data plane is the REST API the Durable Task Scheduler dashboard (dashboard.durabletask.io) calls on a scheduler endpoint; request and response shapes were transcribed from the dashboard client and checked against a live Consumption scheduler (create answers 201 with a `location` header and no body, a taken instance ID 409 text/plain, an unknown instance 404 problem+json, addhistoryevents a JSON array of unknown instance IDs).",
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ]
+  },
+  "shapes": {
+    "com.azure.durabletask_data#AddHistoryEvents": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.durabletask_data#AddHistoryEventsRequest"
+      },
+      "output": {
+        "target": "com.azure.durabletask_data#AddHistoryEventsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/taskhubs/orchestrations/addhistoryevents",
+          "code": 200,
+          "host": "{endpoint}",
+          "hostRaw": ["endpoint"]
+        },
+        "smithy.api#documentation": "Append events to the history of one or more instances: raise an external event, terminate, suspend or resume (`POST /v1/taskhubs/orchestrations/addhistoryevents`). Returns the instance IDs that do not exist."
+      },
+      "errors": [
+        {
+          "target": "com.azure.durabletask_data#DurableTaskAccessDenied"
+        }
+      ]
+    },
+    "com.azure.durabletask_data#AddHistoryEventsRequest": {
+      "type": "structure",
+      "members": {
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scheduler endpoint (`https://<scheduler>.<region>.durabletask.io`, the `Azure.DurableTask.Scheduler` `endpoint` attribute).",
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {}
+          }
+        },
+        "taskHub": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The task hub name (`x-taskhub` header).",
+            "smithy.api#required": {},
+            "smithy.api#httpHeader": "x-taskhub"
+          }
+        },
+        "events": {
+          "target": "com.azure.durabletask_data#NewHistoryEventMap",
+          "traits": {
+            "smithy.api#documentation": "One event per instance ID.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.durabletask_data#AddHistoryEventsResponse": {
+      "type": "structure",
+      "members": {
+        "notFound": {
+          "target": "com.azure.durabletask_data#InstanceIdList",
+          "traits": {
+            "smithy.api#documentation": "Instance IDs from `events` that do not exist.",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.durabletask_data#CreateOrchestration": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.durabletask_data#CreateOrchestrationRequest"
+      },
+      "output": {
+        "target": "com.azure.durabletask_data#CreateOrchestrationResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/taskhubs/orchestrations",
+          "code": 201,
+          "host": "{endpoint}",
+          "hostRaw": ["endpoint"]
+        },
+        "smithy.api#documentation": "Schedule a new orchestration instance (`POST /v1/taskhubs/orchestrations`). Fails with `OrchestrationAlreadyExists` when the instance ID is taken."
+      },
+      "errors": [
+        {
+          "target": "com.azure.durabletask_data#OrchestrationAlreadyExists"
+        },
+        {
+          "target": "com.azure.durabletask_data#DurableTaskAccessDenied"
+        }
+      ]
+    },
+    "com.azure.durabletask_data#CreateOrchestrationRequest": {
+      "type": "structure",
+      "members": {
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scheduler endpoint (`https://<scheduler>.<region>.durabletask.io`, the `Azure.DurableTask.Scheduler` `endpoint` attribute).",
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {}
+          }
+        },
+        "taskHub": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The task hub name (`x-taskhub` header).",
+            "smithy.api#required": {},
+            "smithy.api#httpHeader": "x-taskhub"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The orchestration (orchestrator function) name.",
+            "smithy.api#required": {}
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The instance ID. The service generates one when omitted."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The orchestration version."
+          }
+        },
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The orchestration input, as JSON text (`{\"id\":\"a\"}`)."
+          }
+        },
+        "scheduledStartTimestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start the instance at this time (ISO 8601) instead of now."
+          }
+        },
+        "tags": {
+          "target": "com.azure.durabletask_data#TagMap",
+          "traits": {
+            "smithy.api#documentation": "Tags to attach to the instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.durabletask_data#CreateOrchestrationResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The new instance's path (`orchestrations/<instanceId>`).",
+            "smithy.api#httpHeader": "location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.durabletask_data#DurableTaskAccessDenied": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error detail."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The token is missing, for another audience, or the principal lacks a Durable Task data role on the scheduler or task hub (HTTP 401 or 403). Retry while a new role assignment propagates.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 401
+          },
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.azure.durabletask_data#DurabletaskData": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.azure.durabletask_data#AddHistoryEvents"
+        },
+        {
+          "target": "com.azure.durabletask_data#CreateOrchestration"
+        },
+        {
+          "target": "com.azure.durabletask_data#GetOrchestration"
+        },
+        {
+          "target": "com.azure.durabletask_data#GetOrchestrationHistory"
+        },
+        {
+          "target": "com.azure.durabletask_data#GetOrchestrationPayloads"
+        },
+        {
+          "target": "com.azure.durabletask_data#PurgeOrchestration"
+        },
+        {
+          "target": "com.azure.durabletask_data#QueryOrchestrations"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Azure Durable Task Scheduler data plane",
+        "smithy.api#documentation": "The Durable Task Scheduler's REST data plane on a scheduler endpoint: start, read, query, signal, terminate and purge orchestration instances in a task hub (`x-taskhub` header). Authenticates with a Microsoft Entra token for https://durabletask.io/.default; the caller needs a Durable Task data role on the scheduler or task hub.",
+        "com.azure.protocols#host": {
+          "template": "{endpoint}",
+          "parameters": [
+            {
+              "name": "endpoint",
+              "skipUrlEncoding": true
+            }
+          ]
+        },
+        "com.azure.protocols#audience": "https://durabletask.io/.default"
+      }
+    },
+    "com.azure.durabletask_data#EventRaisedEvent": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The event name."
+          }
+        },
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The event payload, as JSON text."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#ExecutionCompletedEvent": {
+      "type": "structure",
+      "members": {
+        "orchestrationStatus": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The final status (`ORCHESTRATION_STATUS_*`)."
+          }
+        },
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The output, as JSON text."
+          }
+        },
+        "failureDetails": {
+          "target": "com.azure.durabletask_data#FailureDetails",
+          "traits": {
+            "smithy.api#documentation": "Why the execution failed."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#ExecutionResumedEvent": {
+      "type": "structure",
+      "members": {
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The reason, as JSON text."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#ExecutionStartedEvent": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The orchestration name."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The orchestration version."
+          }
+        },
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The input, as JSON text."
+          }
+        },
+        "parentInstance": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The parent orchestration, for a sub-orchestration."
+          }
+        },
+        "tags": {
+          "target": "com.azure.durabletask_data#TagMap",
+          "traits": {
+            "smithy.api#documentation": "The instance's tags."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#ExecutionSuspendedEvent": {
+      "type": "structure",
+      "members": {
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The reason, as JSON text."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#ExecutionTerminatedEvent": {
+      "type": "structure",
+      "members": {
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The termination reason, as JSON text."
+          }
+        },
+        "recurse": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether sub-orchestrations are terminated too."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#FailureDetails": {
+      "type": "structure",
+      "members": {
+        "errorType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error type (the exception or error class name)."
+          }
+        },
+        "errorMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error message."
+          }
+        },
+        "stackTrace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stack trace, when the worker sent one."
+          }
+        },
+        "isNonRetriable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the failure must not be retried."
+          }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Extra properties the worker attached."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Why an orchestration or task failed."
+      }
+    },
+    "com.azure.durabletask_data#GetOrchestration": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.durabletask_data#GetOrchestrationRequest"
+      },
+      "output": {
+        "target": "com.azure.durabletask_data#GetOrchestrationResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/taskhubs/orchestrations/{instanceId}",
+          "code": 200,
+          "host": "{endpoint}",
+          "hostRaw": ["endpoint"]
+        },
+        "smithy.api#documentation": "Read an orchestration instance's status and metadata (`GET /v1/taskhubs/orchestrations/{instanceId}`). Inputs and outputs are read with `GetOrchestrationPayloads`."
+      },
+      "errors": [
+        {
+          "target": "com.azure.durabletask_data#OrchestrationNotFound"
+        },
+        {
+          "target": "com.azure.durabletask_data#DurableTaskAccessDenied"
+        }
+      ]
+    },
+    "com.azure.durabletask_data#GetOrchestrationHistory": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.durabletask_data#GetOrchestrationHistoryRequest"
+      },
+      "output": {
+        "target": "com.azure.durabletask_data#GetOrchestrationHistoryResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/taskhubs/orchestrations/{instanceId}/executions/{executionId}/history",
+          "code": 200,
+          "host": "{endpoint}",
+          "hostRaw": ["endpoint"]
+        },
+        "smithy.api#documentation": "Read the history of one execution of an orchestration instance (`GET /v1/taskhubs/orchestrations/{instanceId}/executions/{executionId}/history`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.durabletask_data#OrchestrationNotFound"
+        },
+        {
+          "target": "com.azure.durabletask_data#DurableTaskAccessDenied"
+        }
+      ]
+    },
+    "com.azure.durabletask_data#GetOrchestrationHistoryRequest": {
+      "type": "structure",
+      "members": {
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scheduler endpoint (`https://<scheduler>.<region>.durabletask.io`, the `Azure.DurableTask.Scheduler` `endpoint` attribute).",
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {}
+          }
+        },
+        "taskHub": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The task hub name (`x-taskhub` header).",
+            "smithy.api#required": {},
+            "smithy.api#httpHeader": "x-taskhub"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The orchestration instance ID.",
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {}
+          }
+        },
+        "executionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The execution ID (`GetOrchestration` `executionId`).",
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.durabletask_data#GetOrchestrationHistoryResponse": {
+      "type": "structure",
+      "members": {
+        "history": {
+          "target": "com.azure.durabletask_data#HistoryEventList",
+          "traits": {
+            "smithy.api#documentation": "The events, oldest first."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.durabletask_data#GetOrchestrationPayloads": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.durabletask_data#GetOrchestrationPayloadsRequest"
+      },
+      "output": {
+        "target": "com.azure.durabletask_data#GetOrchestrationPayloadsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/taskhubs/orchestrations/{instanceId}/payloads",
+          "code": 200,
+          "host": "{endpoint}",
+          "hostRaw": ["endpoint"]
+        },
+        "smithy.api#documentation": "Read an orchestration instance's input, output, custom status and failure (`GET /v1/taskhubs/orchestrations/{instanceId}/payloads`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.durabletask_data#OrchestrationNotFound"
+        },
+        {
+          "target": "com.azure.durabletask_data#DurableTaskAccessDenied"
+        }
+      ]
+    },
+    "com.azure.durabletask_data#GetOrchestrationPayloadsRequest": {
+      "type": "structure",
+      "members": {
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scheduler endpoint (`https://<scheduler>.<region>.durabletask.io`, the `Azure.DurableTask.Scheduler` `endpoint` attribute).",
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {}
+          }
+        },
+        "taskHub": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The task hub name (`x-taskhub` header).",
+            "smithy.api#required": {},
+            "smithy.api#httpHeader": "x-taskhub"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The orchestration instance ID.",
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.durabletask_data#GetOrchestrationPayloadsResponse": {
+      "type": "structure",
+      "members": {
+        "orchestrationStatus": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The runtime status (`ORCHESTRATION_STATUS_*`)."
+          }
+        },
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The input, as JSON text."
+          }
+        },
+        "output": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The output, as JSON text (a terminated instance's reason)."
+          }
+        },
+        "customStatus": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The custom status the orchestrator set, as JSON text."
+          }
+        },
+        "failureDetails": {
+          "target": "com.azure.durabletask_data#FailureDetails",
+          "traits": {
+            "smithy.api#documentation": "Why the instance failed or was terminated."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.durabletask_data#GetOrchestrationRequest": {
+      "type": "structure",
+      "members": {
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scheduler endpoint (`https://<scheduler>.<region>.durabletask.io`, the `Azure.DurableTask.Scheduler` `endpoint` attribute).",
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {}
+          }
+        },
+        "taskHub": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The task hub name (`x-taskhub` header).",
+            "smithy.api#required": {},
+            "smithy.api#httpHeader": "x-taskhub"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The orchestration instance ID.",
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.durabletask_data#GetOrchestrationResponse": {
+      "type": "structure",
+      "members": {
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The instance ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The orchestration (orchestrator function) name."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The orchestration version, when one was set."
+          }
+        },
+        "orchestrationStatus": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The runtime status: `ORCHESTRATION_STATUS_PENDING`, `_RUNNING`, `_COMPLETED`, `_FAILED`, `_TERMINATED`, `_SUSPENDED` or `_CANCELED`."
+          }
+        },
+        "createdTimestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the instance was created (ISO 8601)."
+          }
+        },
+        "lastUpdatedTimestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the instance last changed (ISO 8601)."
+          }
+        },
+        "completedTimestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the instance finished (ISO 8601)."
+          }
+        },
+        "scheduledStartTimestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When a scheduled start is due (ISO 8601)."
+          }
+        },
+        "executionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the instance's current execution (generation)."
+          }
+        },
+        "parentInstanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The parent orchestration's instance ID, for a sub-orchestration."
+          }
+        },
+        "tags": {
+          "target": "com.azure.durabletask_data#TagMap",
+          "traits": {
+            "smithy.api#documentation": "The instance's tags."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.durabletask_data#HistoryEvent": {
+      "type": "structure",
+      "members": {
+        "eventId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The event's sequence number: `-1` for events from outside the orchestration."
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the event happened (ISO 8601)."
+          }
+        },
+        "executionStarted": {
+          "target": "com.azure.durabletask_data#ExecutionStartedEvent",
+          "traits": {
+            "smithy.api#documentation": "The execution started."
+          }
+        },
+        "executionCompleted": {
+          "target": "com.azure.durabletask_data#ExecutionCompletedEvent",
+          "traits": {
+            "smithy.api#documentation": "The execution finished."
+          }
+        },
+        "executionTerminated": {
+          "target": "com.azure.durabletask_data#ExecutionTerminatedEvent",
+          "traits": {
+            "smithy.api#documentation": "The execution was terminated."
+          }
+        },
+        "executionSuspended": {
+          "target": "com.azure.durabletask_data#ExecutionSuspendedEvent",
+          "traits": {
+            "smithy.api#documentation": "The execution was suspended."
+          }
+        },
+        "executionResumed": {
+          "target": "com.azure.durabletask_data#ExecutionResumedEvent",
+          "traits": {
+            "smithy.api#documentation": "The execution was resumed."
+          }
+        },
+        "taskScheduled": {
+          "target": "com.azure.durabletask_data#TaskScheduledEvent",
+          "traits": {
+            "smithy.api#documentation": "An activity was scheduled."
+          }
+        },
+        "taskCompleted": {
+          "target": "com.azure.durabletask_data#TaskCompletedEvent",
+          "traits": {
+            "smithy.api#documentation": "An activity completed."
+          }
+        },
+        "taskFailed": {
+          "target": "com.azure.durabletask_data#TaskFailedEvent",
+          "traits": {
+            "smithy.api#documentation": "An activity failed."
+          }
+        },
+        "subOrchestrationInstanceCreated": {
+          "target": "com.azure.durabletask_data#SubOrchestrationInstanceCreatedEvent",
+          "traits": {
+            "smithy.api#documentation": "A sub-orchestration was started."
+          }
+        },
+        "subOrchestrationInstanceCompleted": {
+          "target": "com.azure.durabletask_data#SubOrchestrationInstanceCompletedEvent",
+          "traits": {
+            "smithy.api#documentation": "A sub-orchestration completed."
+          }
+        },
+        "subOrchestrationInstanceFailed": {
+          "target": "com.azure.durabletask_data#SubOrchestrationInstanceFailedEvent",
+          "traits": {
+            "smithy.api#documentation": "A sub-orchestration failed."
+          }
+        },
+        "timerCreated": {
+          "target": "com.azure.durabletask_data#TimerCreatedEvent",
+          "traits": {
+            "smithy.api#documentation": "A durable timer was created."
+          }
+        },
+        "timerFired": {
+          "target": "com.azure.durabletask_data#TimerFiredEvent",
+          "traits": {
+            "smithy.api#documentation": "A durable timer fired."
+          }
+        },
+        "eventRaised": {
+          "target": "com.azure.durabletask_data#EventRaisedEvent",
+          "traits": {
+            "smithy.api#documentation": "An external event arrived."
+          }
+        },
+        "orchestratorStarted": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "An orchestrator episode started."
+          }
+        },
+        "orchestratorCompleted": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "An orchestrator episode ended."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One event of an orchestration's history: `eventId`, `timestamp` and exactly one event member."
+      }
+    },
+    "com.azure.durabletask_data#HistoryEventList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.durabletask_data#HistoryEvent"
+      }
+    },
+    "com.azure.durabletask_data#InstanceIdList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.azure.durabletask_data#NewHistoryEvent": {
+      "type": "structure",
+      "members": {
+        "eventId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Always `-1`: the event comes from outside the orchestration.",
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the event happened (ISO 8601).",
+            "smithy.api#required": {}
+          }
+        },
+        "eventRaised": {
+          "target": "com.azure.durabletask_data#RaiseEventDetails",
+          "traits": {
+            "smithy.api#documentation": "Raise an external event."
+          }
+        },
+        "executionTerminated": {
+          "target": "com.azure.durabletask_data#TerminateDetails",
+          "traits": {
+            "smithy.api#documentation": "Terminate the instance."
+          }
+        },
+        "executionSuspended": {
+          "target": "com.azure.durabletask_data#SuspendDetails",
+          "traits": {
+            "smithy.api#documentation": "Suspend the instance."
+          }
+        },
+        "executionResumed": {
+          "target": "com.azure.durabletask_data#SuspendDetails",
+          "traits": {
+            "smithy.api#documentation": "Resume a suspended instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An event to append to an instance's history; set exactly one event member."
+      }
+    },
+    "com.azure.durabletask_data#NewHistoryEventMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.azure.durabletask_data#NewHistoryEvent"
+      }
+    },
+    "com.azure.durabletask_data#OrchestrationAlreadyExists": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error detail."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "smithy.api#documentation": "An instance with this ID already exists and is not in a reusable state (HTTP 409 `An Orchestration instance with the status '<status>' already exists.`).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.azure.durabletask_data#OrchestrationFilter": {
+      "type": "structure",
+      "members": {
+        "orchestrationId": {
+          "target": "com.azure.durabletask_data#StringFilter",
+          "traits": {
+            "smithy.api#documentation": "Instance ID prefix."
+          }
+        },
+        "name": {
+          "target": "com.azure.durabletask_data#StringFilter",
+          "traits": {
+            "smithy.api#documentation": "Orchestration name."
+          }
+        },
+        "orchestrationStatus": {
+          "target": "com.azure.durabletask_data#StatusFilter",
+          "traits": {
+            "smithy.api#documentation": "Runtime statuses."
+          }
+        },
+        "createdAt": {
+          "target": "com.azure.durabletask_data#TimeRange",
+          "traits": {
+            "smithy.api#documentation": "Creation time range."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#OrchestrationList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.durabletask_data#OrchestrationMetadata"
+      }
+    },
+    "com.azure.durabletask_data#OrchestrationMetadata": {
+      "type": "structure",
+      "members": {
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The instance ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The orchestration (orchestrator function) name."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The orchestration version, when one was set."
+          }
+        },
+        "orchestrationStatus": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The runtime status: `ORCHESTRATION_STATUS_PENDING`, `_RUNNING`, `_COMPLETED`, `_FAILED`, `_TERMINATED`, `_SUSPENDED` or `_CANCELED`."
+          }
+        },
+        "createdTimestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the instance was created (ISO 8601)."
+          }
+        },
+        "lastUpdatedTimestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the instance last changed (ISO 8601)."
+          }
+        },
+        "completedTimestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the instance finished (ISO 8601)."
+          }
+        },
+        "scheduledStartTimestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When a scheduled start is due (ISO 8601)."
+          }
+        },
+        "executionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the instance's current execution (generation)."
+          }
+        },
+        "parentInstanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The parent orchestration's instance ID, for a sub-orchestration."
+          }
+        },
+        "tags": {
+          "target": "com.azure.durabletask_data#TagMap",
+          "traits": {
+            "smithy.api#documentation": "The instance's tags."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An orchestration instance, without its payloads."
+      }
+    },
+    "com.azure.durabletask_data#OrchestrationNotFound": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error detail."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "smithy.api#documentation": "No orchestration instance with this ID exists in the task hub (HTTP 404).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.azure.durabletask_data#Pagination": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Page size."
+          }
+        },
+        "startIndex": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Index of the first instance to return."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#PurgeOrchestration": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.durabletask_data#PurgeOrchestrationRequest"
+      },
+      "output": {
+        "target": "com.azure.durabletask_data#PurgeOrchestrationResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/taskhubs/orchestrations/{instanceId}",
+          "code": 200,
+          "host": "{endpoint}",
+          "hostRaw": ["endpoint"]
+        },
+        "smithy.api#documentation": "Delete a finished orchestration instance and its history (`DELETE /v1/taskhubs/orchestrations/{instanceId}`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.durabletask_data#OrchestrationNotFound"
+        },
+        {
+          "target": "com.azure.durabletask_data#DurableTaskAccessDenied"
+        }
+      ]
+    },
+    "com.azure.durabletask_data#PurgeOrchestrationRequest": {
+      "type": "structure",
+      "members": {
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scheduler endpoint (`https://<scheduler>.<region>.durabletask.io`, the `Azure.DurableTask.Scheduler` `endpoint` attribute).",
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {}
+          }
+        },
+        "taskHub": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The task hub name (`x-taskhub` header).",
+            "smithy.api#required": {},
+            "smithy.api#httpHeader": "x-taskhub"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The orchestration instance ID.",
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.durabletask_data#PurgeOrchestrationResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.durabletask_data#QueryOrchestrations": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.durabletask_data#QueryOrchestrationsRequest"
+      },
+      "output": {
+        "target": "com.azure.durabletask_data#QueryOrchestrationsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/taskhubs/orchestrations/query",
+          "code": 200,
+          "host": "{endpoint}",
+          "hostRaw": ["endpoint"]
+        },
+        "smithy.api#documentation": "List orchestration instances that match a filter (`POST /v1/taskhubs/orchestrations/query`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.durabletask_data#DurableTaskAccessDenied"
+        }
+      ]
+    },
+    "com.azure.durabletask_data#QueryOrchestrationsRequest": {
+      "type": "structure",
+      "members": {
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scheduler endpoint (`https://<scheduler>.<region>.durabletask.io`, the `Azure.DurableTask.Scheduler` `endpoint` attribute).",
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {}
+          }
+        },
+        "taskHub": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The task hub name (`x-taskhub` header).",
+            "smithy.api#required": {},
+            "smithy.api#httpHeader": "x-taskhub"
+          }
+        },
+        "filter": {
+          "target": "com.azure.durabletask_data#OrchestrationFilter",
+          "traits": {
+            "smithy.api#documentation": "What to match. Omit to list every instance."
+          }
+        },
+        "pagination": {
+          "target": "com.azure.durabletask_data#Pagination",
+          "traits": {
+            "smithy.api#documentation": "Which page to return."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.durabletask_data#QueryOrchestrationsResponse": {
+      "type": "structure",
+      "members": {
+        "orchestrations": {
+          "target": "com.azure.durabletask_data#OrchestrationList",
+          "traits": {
+            "smithy.api#documentation": "The matching instances."
+          }
+        },
+        "totalCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many instances match."
+          }
+        },
+        "trivia": {
+          "target": "com.azure.durabletask_data#QueryTrivia",
+          "traits": {
+            "smithy.api#documentation": "Counts by status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.durabletask_data#QueryTrivia": {
+      "type": "structure",
+      "members": {
+        "totalCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Matching instances."
+          }
+        },
+        "completedCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Completed instances."
+          }
+        },
+        "runningCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Running instances."
+          }
+        },
+        "failedCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Failed instances."
+          }
+        },
+        "pendingCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Pending instances."
+          }
+        },
+        "terminatedCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Terminated instances."
+          }
+        },
+        "suspendedCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Suspended instances."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#RaiseEventDetails": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The event name.",
+            "smithy.api#required": {}
+          }
+        },
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The event payload, as JSON text."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#StatusFilter": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.azure.durabletask_data#StatusList",
+          "traits": {
+            "smithy.api#documentation": "Statuses to match (`ORCHESTRATION_STATUS_*`)."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#StatusList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.azure.durabletask_data#StringFilter": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The value (a prefix, for `orchestrationId`)."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#SubOrchestrationInstanceCompletedEvent": {
+      "type": "structure",
+      "members": {
+        "taskScheduledId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The `eventId` of the matching `subOrchestrationInstanceCreated` event."
+          }
+        },
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sub-orchestration output, as JSON text."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#SubOrchestrationInstanceCreatedEvent": {
+      "type": "structure",
+      "members": {
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sub-orchestration's instance ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sub-orchestration name."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sub-orchestration version."
+          }
+        },
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sub-orchestration input, as JSON text."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#SubOrchestrationInstanceFailedEvent": {
+      "type": "structure",
+      "members": {
+        "taskScheduledId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The `eventId` of the matching `subOrchestrationInstanceCreated` event."
+          }
+        },
+        "failureDetails": {
+          "target": "com.azure.durabletask_data#FailureDetails",
+          "traits": {
+            "smithy.api#documentation": "Why the sub-orchestration failed."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#SuspendDetails": {
+      "type": "structure",
+      "members": {
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The reason, as JSON text."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#TagMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.azure.durabletask_data#TaskCompletedEvent": {
+      "type": "structure",
+      "members": {
+        "taskScheduledId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The `eventId` of the matching `taskScheduled` event."
+          }
+        },
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The activity result, as JSON text."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#TaskFailedEvent": {
+      "type": "structure",
+      "members": {
+        "taskScheduledId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The `eventId` of the matching `taskScheduled` event."
+          }
+        },
+        "failureDetails": {
+          "target": "com.azure.durabletask_data#FailureDetails",
+          "traits": {
+            "smithy.api#documentation": "Why the activity failed."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#TaskScheduledEvent": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The activity name."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The activity version."
+          }
+        },
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The activity input, as JSON text."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#TerminateDetails": {
+      "type": "structure",
+      "members": {
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The termination reason, as JSON text; it becomes the instance's output."
+          }
+        },
+        "recurse": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Terminate the instance's sub-orchestrations too."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#TimeRange": {
+      "type": "structure",
+      "members": {
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Earliest time (ISO 8601)."
+          }
+        },
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Latest time (ISO 8601)."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#TimerCreatedEvent": {
+      "type": "structure",
+      "members": {
+        "fireAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the timer fires (ISO 8601)."
+          }
+        }
+      }
+    },
+    "com.azure.durabletask_data#TimerFiredEvent": {
+      "type": "structure",
+      "members": {
+        "fireAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the timer was due (ISO 8601)."
+          }
+        },
+        "timerId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The `eventId` of the matching `timerCreated` event."
+          }
+        }
+      }
+    }
+  }
+}

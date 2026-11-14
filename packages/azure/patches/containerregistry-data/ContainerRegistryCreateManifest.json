@@ -1,0 +1,44 @@
+{
+  "description": "Put Manifest sends the manifest document itself as the body, under its media type (`Content-Type`); the swagger models only a `schemaVersion` body field, so no manifest can be pushed. Model the raw manifest bytes and the Content-Type header, and read the stored digest from `Docker-Content-Digest`.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryCreateManifestRequest/members/schemaVersion"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryCreateManifestRequest/members/payload",
+      "value": {
+        "target": "smithy.api#Blob",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The manifest document, as the exact bytes whose digest the registry stores."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryCreateManifestRequest/members/contentType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Media type of the manifest, e.g. `application/vnd.oci.image.manifest.v1+json`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryCreateManifestResponse/members/dockerContentDigest",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Docker-Content-Digest",
+          "smithy.api#documentation": "Digest of the content the registry stored or returned."
+        }
+      }
+    }
+  ]
+}

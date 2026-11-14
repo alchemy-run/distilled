@@ -1,0 +1,370 @@
+{
+  "description": "Type the Web PubSub data-plane errors callers handle: 401/403 while the caller has no data role (or while a new role assignment propagates), and the 404 the four HEAD existence checks (`ConnectionExists`, `GroupExists`, `UserExists`, `CheckPermission`) answer for `false`. Web PubSub sends these with an empty body, so they match on status alone.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#WebPubSubAccessDenied",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message (often empty)."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The caller's Entra principal has no Web PubSub data-plane role that allows the action on this service (HTTP 401 or 403, usually with an empty body). A new role assignment can take a few minutes to apply.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 401
+            },
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#WebPubSubConnectionNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message (often empty)."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The connection does not exist in the hub (HTTP 404 with an empty body).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#WebPubSubGroupNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message (often empty)."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The group has no connections in the hub (HTTP 404 with an empty body).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#WebPubSubUserNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message (often empty)."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The user has no connections in the hub (HTTP 404 with an empty body).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#WebPubSubPermissionNotGranted",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message (often empty)."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The connection does not hold the permission (HTTP 404 with an empty body).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#AddConnectionsToGroups/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#AddConnectionToGroup/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#AddUserToGroup/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#CheckPermission/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        },
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubPermissionNotGranted"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#CloseAllConnections/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#CloseConnection/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#CloseGroupConnections/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#CloseUserConnections/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#ConnectionExists/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        },
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubConnectionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#GenerateClientToken/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#GetServiceStatus/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#GrantPermission/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#GroupExists/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        },
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubGroupNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#ListConnectionsInGroup/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#RemoveConnectionFromAllGroups/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#RemoveConnectionFromGroup/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#RemoveConnectionsFromGroups/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#RemoveUserFromAllGroups/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#RemoveUserFromGroup/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#RevokePermission/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#SendToAll/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#SendToConnection/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#SendToGroup/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#SendToUser/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#UserExists/errors",
+      "value": [
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubAccessDenied"
+        },
+        {
+          "target": "com.azure.webpubsub_data#WebPubSubUserNotFound"
+        }
+      ]
+    }
+  ]
+}

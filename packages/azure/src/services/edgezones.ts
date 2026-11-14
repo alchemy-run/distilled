@@ -111,6 +111,8 @@ export interface GetExtendedZoneResponse {
 export interface ListExtendedZoneBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource that represents an Azure Extended Zone available to a subscription for registering and unregistering. */
 export interface ExtendedZone {
@@ -134,7 +136,10 @@ export interface ExtendedZoneListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -167,7 +172,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -226,12 +231,13 @@ export const GetExtendedZone: API.OperationMethod<
 
 export type ListExtendedZoneBySubscriptionError = AzureOpError;
 /** Lists the Azure Extended Zones available to a subscription */
-export const ListExtendedZoneBySubscription: API.OperationMethod<
+export const ListExtendedZoneBySubscription: API.PaginatedOperationMethod<
   ListExtendedZoneBySubscriptionRequest,
   ExtendedZoneListResult,
   ListExtendedZoneBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ExtendedZone
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<ListExtendedZoneBySubscriptionRequest>,
   output: __S(18, __c2, 2) as any as S.Schema<ExtendedZoneListResult>,
   errors: [UnknownAzureError],
@@ -239,16 +245,23 @@ export const ListExtendedZoneBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExtendedZoneBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(28, __c3, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -256,7 +269,13 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RegisterExtendedZoneError = AzureOpError;
 /** Registers a subscription for an Extended Zone */
@@ -358,12 +377,14 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeZones/extendedZones",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListExtendedZoneBySubscriptionRequest" });
@@ -382,12 +403,15 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.EdgeZones/operations",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -415,7 +439,7 @@ function __c3(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(27, __c3, 3)),
+          value: __S(27, __c3, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });

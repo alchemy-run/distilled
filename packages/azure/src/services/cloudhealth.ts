@@ -71,6 +71,8 @@ export interface AuthenticationSettingPropertiesInput {
   displayName?: string | undefined;
   /** Kind of the authentication setting */
   authenticationKind: AuthenticationKind | (string & {});
+  /** Name of the managed identity to use (ManagedIdentity). Either 'SystemAssigned' or the resource ID of a user-assigned identity. */
+  managedIdentityName?: string | undefined;
 }
 export interface AuthenticationSettingsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -118,6 +120,8 @@ export interface AuthenticationSettingProperties {
   displayName?: string | undefined;
   /** Kind of the authentication setting */
   authenticationKind: AuthenticationKind;
+  /** Name of the managed identity to use (ManagedIdentity). Either 'SystemAssigned' or the resource ID of a user-assigned identity. */
+  managedIdentityName?: string | undefined;
 }
 export interface AuthenticationSettingsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -327,6 +331,10 @@ export type DiscoveryRuleKind = "ResourceGraphQuery" | "ApplicationInsightsTopol
 export interface DiscoveryRuleSpecification {
   /** Kind of the discovery rule specification */
   kind: DiscoveryRuleKind | (string & {});
+  /** Azure Resource Graph query text in KQL syntax (ResourceGraphQuery). The query must return at least a column named 'id' with the resource ID of each discovered resource. */
+  resourceGraphQuery?: string | undefined;
+  /** Application Insights resource ID (ApplicationInsightsTopology). */
+  applicationInsightsResourceId?: string | undefined;
 }
 /** Whether to automatically add a signal for the Azure resource's availability state from Azure Resource Health to the discovered entities. Defaults to `Enabled`: discovery rules updated via this API version without setting this field will begin emitting a Resource Health availability signal. Pass `Disabled` to preserve pre-`2026-05-01-preview` behavior. */
 export type DiscoveryRulePropertiesInputAddResourceHealthSignal = "Enabled" | "Disabled";
@@ -1411,6 +1419,20 @@ export interface SignalDefinitionProperties {
   dataUnit?: string | undefined;
   /** Evaluation rules for the signal definition */
   evaluationRules: EvaluationRule;
+  /** Metric namespace (AzureResourceMetric). */
+  metricNamespace?: string | undefined;
+  /** Name of the metric (AzureResourceMetric). */
+  metricName?: string | undefined;
+  /** Type of aggregation to apply to the metric (AzureResourceMetric). */
+  aggregationType?: MetricAggregationType | undefined;
+  /** Dimension filter to apply to the metric (AzureResourceMetric). */
+  dimensionFilter?: string | undefined;
+  /** Query text: KQL (LogAnalyticsQuery) or PromQL (PrometheusMetricsQuery). */
+  queryText?: string | undefined;
+  /** Name of the numeric result column evaluated against the thresholds (LogAnalyticsQuery). */
+  valueColumnName?: string | undefined;
+  /** Time range of the signal, ISO 8601 duration like PT10M. */
+  timeGrain?: string | undefined;
 }
 export interface GetSignalDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1431,6 +1453,8 @@ export interface ListAuthenticationSettingsByHealthModelRequest {
   resourceGroupName: string;
   /** Name of health model resource */
   healthModelName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An authentication setting in a health model */
 export interface AuthenticationSetting {
@@ -1463,6 +1487,8 @@ export interface ListDiscoveryRuleByHealthModelRequest {
   healthModelName: string;
   /** Timestamp to use for the operation. When specified, the version of the resource at this point in time is retrieved. If not specified, the latest version is used. */
   timestamp?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A discovery rule which automatically finds entities and relationships in a health model based on an Azure Resource Graph query */
 export interface DiscoveryRule {
@@ -1495,6 +1521,8 @@ export interface ListEntityByHealthModelRequest {
   healthModelName: string;
   /** Timestamp to use for the operation. When specified, the version of the resource at this point in time is retrieved. If not specified, the latest version is used. */
   timestamp?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An entity (aka node) of a health model */
 export interface Entity {
@@ -1523,6 +1551,8 @@ export interface ListHealthModelByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type HealthModelTagsMap = { [key: string]: string | undefined };
@@ -1571,8 +1601,13 @@ export interface HealthModelListResult {
 export interface ListHealthModelBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1605,7 +1640,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -1618,6 +1653,8 @@ export interface ListRelationshipByHealthModelRequest {
   healthModelName: string;
   /** Timestamp to use for the operation. When specified, the version of the resource at this point in time is retrieved. If not specified, the latest version is used. */
   timestamp?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A relationship (aka edge) between two entities in a health model */
 export interface Relationship {
@@ -1650,6 +1687,8 @@ export interface ListSignalDefinitionByHealthModelRequest {
   healthModelName: string;
   /** Timestamp to use for the operation. When specified, the version of the resource at this point in time is retrieved. If not specified, the latest version is used. */
   timestamp?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A signal definition in a health model */
 export interface SignalDefinition {
@@ -1739,6 +1778,20 @@ export interface SignalDefinitionPropertiesInput {
   dataUnit?: string | undefined;
   /** Evaluation rules for the signal definition */
   evaluationRules: EvaluationRule;
+  /** Metric namespace (AzureResourceMetric). */
+  metricNamespace?: string | undefined;
+  /** Name of the metric (AzureResourceMetric). */
+  metricName?: string | undefined;
+  /** Type of aggregation to apply to the metric (AzureResourceMetric). */
+  aggregationType?: MetricAggregationType | (string & {}) | undefined;
+  /** Dimension filter to apply to the metric (AzureResourceMetric). */
+  dimensionFilter?: string | undefined;
+  /** Query text: KQL (LogAnalyticsQuery) or PromQL (PrometheusMetricsQuery). */
+  queryText?: string | undefined;
+  /** Name of the numeric result column evaluated against the thresholds (LogAnalyticsQuery). */
+  valueColumnName?: string | undefined;
+  /** Time range of the signal, ISO 8601 duration like PT10M. */
+  timeGrain?: string | undefined;
 }
 export interface SignalDefinitionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2206,12 +2259,13 @@ export const GetSignalDefinition: API.OperationMethod<
 
 export type ListAuthenticationSettingsByHealthModelError = AzureOpError;
 /** List AuthenticationSetting resources by HealthModel */
-export const ListAuthenticationSettingsByHealthModel: API.OperationMethod<
+export const ListAuthenticationSettingsByHealthModel: API.PaginatedOperationMethod<
   ListAuthenticationSettingsByHealthModelRequest,
   AuthenticationSettingListResult,
   ListAuthenticationSettingsByHealthModelError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AuthenticationSetting
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListAuthenticationSettingsByHealthModelRequest>,
   output: __S(1026, __c32, 2) as any as S.Schema<AuthenticationSettingListResult>,
   errors: [UnknownAzureError],
@@ -2219,16 +2273,23 @@ export const ListAuthenticationSettingsByHealthModel: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAuthenticationSettingsByHealthModel",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDiscoveryRuleByHealthModelError = AzureOpError;
 /** List DiscoveryRule resources by HealthModel */
-export const ListDiscoveryRuleByHealthModel: API.OperationMethod<
+export const ListDiscoveryRuleByHealthModel: API.PaginatedOperationMethod<
   ListDiscoveryRuleByHealthModelRequest,
   DiscoveryRuleListResult,
   ListDiscoveryRuleByHealthModelError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DiscoveryRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ListDiscoveryRuleByHealthModelRequest>,
   output: __S(1058, __c33, 2) as any as S.Schema<DiscoveryRuleListResult>,
   errors: [UnknownAzureError],
@@ -2236,16 +2297,23 @@ export const ListDiscoveryRuleByHealthModel: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDiscoveryRuleByHealthModel",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEntityByHealthModelError = AzureOpError;
 /** List Entity resources by HealthModel */
-export const ListEntityByHealthModel: API.OperationMethod<
+export const ListEntityByHealthModel: API.PaginatedOperationMethod<
   ListEntityByHealthModelRequest,
   EntityListResult,
   ListEntityByHealthModelError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Entity
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ListEntityByHealthModelRequest>,
   output: __S(1090, __c34, 2) as any as S.Schema<EntityListResult>,
   errors: [UnknownAzureError],
@@ -2253,16 +2321,23 @@ export const ListEntityByHealthModel: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEntityByHealthModel",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHealthModelByResourceGroupError = AzureOpError;
 /** List HealthModel resources by resource group */
-export const ListHealthModelByResourceGroup: API.OperationMethod<
+export const ListHealthModelByResourceGroup: API.PaginatedOperationMethod<
   ListHealthModelByResourceGroupRequest,
   HealthModelListResult,
   ListHealthModelByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HealthModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<ListHealthModelByResourceGroupRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<HealthModelListResult>,
   errors: [UnknownAzureError],
@@ -2270,16 +2345,23 @@ export const ListHealthModelByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHealthModelByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHealthModelBySubscriptionError = AzureOpError;
 /** List HealthModel resources by subscription ID */
-export const ListHealthModelBySubscription: API.OperationMethod<
+export const ListHealthModelBySubscription: API.PaginatedOperationMethod<
   ListHealthModelBySubscriptionRequest,
   HealthModelListResult,
   ListHealthModelBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HealthModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ListHealthModelBySubscriptionRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<HealthModelListResult>,
   errors: [UnknownAzureError],
@@ -2287,16 +2369,23 @@ export const ListHealthModelBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHealthModelBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1220, __c38, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -2304,16 +2393,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRelationshipByHealthModelError = AzureOpError;
 /** List Relationship resources by HealthModel */
-export const ListRelationshipByHealthModel: API.OperationMethod<
+export const ListRelationshipByHealthModel: API.PaginatedOperationMethod<
   ListRelationshipByHealthModelRequest,
   RelationshipListResult,
   ListRelationshipByHealthModelError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Relationship
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ListRelationshipByHealthModelRequest>,
   output: __S(1250, __c39, 2) as any as S.Schema<RelationshipListResult>,
   errors: [UnknownAzureError],
@@ -2321,16 +2417,23 @@ export const ListRelationshipByHealthModel: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRelationshipByHealthModel",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSignalDefinitionByHealthModelError = AzureOpError;
 /** List SignalDefinition resources by HealthModel */
-export const ListSignalDefinitionByHealthModel: API.OperationMethod<
+export const ListSignalDefinitionByHealthModel: API.PaginatedOperationMethod<
   ListSignalDefinitionByHealthModelRequest,
   SignalDefinitionListResult,
   ListSignalDefinitionByHealthModelError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SignalDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<ListSignalDefinitionByHealthModelRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<SignalDefinitionListResult>,
   errors: [UnknownAzureError],
@@ -2338,7 +2441,13 @@ export const ListSignalDefinitionByHealthModel: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSignalDefinitionByHealthModel",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RelationshipsCreateOrUpdateError = AzureOpError;
 /** Create a Relationship */
@@ -2440,6 +2549,7 @@ function __c3(j: number): any {
         S.Struct({
           displayName: S.optional(S.String),
           authenticationKind: S.String,
+          managedIdentityName: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthenticationSettingPropertiesInput" });
     case 1:
@@ -2481,6 +2591,7 @@ function __c4(j: number): any {
           provisioningState: S.optional(S.String),
           displayName: S.optional(S.String),
           authenticationKind: S.String,
+          managedIdentityName: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthenticationSettingProperties" });
   }
@@ -3409,6 +3520,13 @@ function __c31(j: number): any {
           tags: S.optional(__S(64, __c2, 0)),
           dataUnit: S.optional(S.String),
           evaluationRules: __S(225, __c7, 1),
+          metricNamespace: S.optional(S.String),
+          metricName: S.optional(S.String),
+          aggregationType: S.optional(S.String),
+          dimensionFilter: S.optional(S.String),
+          queryText: S.optional(S.String),
+          valueColumnName: S.optional(S.String),
+          timeGrain: S.optional(S.String),
         }),
       ).annotate({ identifier: "SignalDefinitionProperties" });
   }
@@ -3421,12 +3539,14 @@ function __c32(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           healthModelName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudHealth/healthmodels/{healthModelName}/authenticationsettings",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAuthenticationSettingsByHealthModelRequest" });
@@ -3450,12 +3570,14 @@ function __c33(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           healthModelName: S.String.pipe(T.Label()),
           timestamp: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudHealth/healthmodels/{healthModelName}/discoveryrules",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDiscoveryRuleByHealthModelRequest" });
@@ -3479,12 +3601,14 @@ function __c34(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           healthModelName: S.String.pipe(T.Label()),
           timestamp: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudHealth/healthmodels/{healthModelName}/entities",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEntityByHealthModelRequest" });
@@ -3506,12 +3630,14 @@ function __c35(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudHealth/healthmodels",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHealthModelByResourceGroupRequest" });
@@ -3536,12 +3662,14 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.CloudHealth/healthmodels",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHealthModelBySubscriptionRequest" });
@@ -3551,12 +3679,15 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.CloudHealth/operations",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -3584,7 +3715,7 @@ function __c38(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1219, __c38, 3)),
+          value: __S(1219, __c38, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -3599,12 +3730,14 @@ function __c39(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           healthModelName: S.String.pipe(T.Label()),
           timestamp: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudHealth/healthmodels/{healthModelName}/relationships",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRelationshipByHealthModelRequest" });
@@ -3628,12 +3761,14 @@ function __c40(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           healthModelName: S.String.pipe(T.Label()),
           timestamp: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudHealth/healthmodels/{healthModelName}/signaldefinitions",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSignalDefinitionByHealthModelRequest" });
@@ -3732,6 +3867,13 @@ function __c44(j: number): any {
           tags: S.optional(__S(64, __c2, 0)),
           dataUnit: S.optional(S.String),
           evaluationRules: __S(225, __c7, 1),
+          metricNamespace: S.optional(S.String),
+          metricName: S.optional(S.String),
+          aggregationType: S.optional(S.String),
+          dimensionFilter: S.optional(S.String),
+          queryText: S.optional(S.String),
+          valueColumnName: S.optional(S.String),
+          timeGrain: S.optional(S.String),
         }),
       ).annotate({ identifier: "SignalDefinitionPropertiesInput" });
     case 1:
@@ -3956,6 +4098,8 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
+          resourceGraphQuery: S.optional(S.String),
+          applicationInsightsResourceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiscoveryRuleSpecification" });
     case 1:

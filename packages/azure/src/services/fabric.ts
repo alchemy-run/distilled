@@ -212,6 +212,8 @@ export interface ListFabricCapacityByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type FabricCapacityTagsMap = { [key: string]: string | undefined };
@@ -246,10 +248,14 @@ export interface FabricCapacityListResult {
 export interface ListFabricCapacityBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListFabricCapacitySkusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of available locations for the SKU */
 export type RpSkuDetailsForNewResourceLocationsList = Array<string>;
@@ -278,6 +284,8 @@ export interface ListFabricCapacitySkusForCapacityRequest {
   resourceGroupName: string;
   /** The name of the Microsoft Fabric capacity. It must be a minimum of 3 characters, and a maximum of 63. */
   capacityName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An object that represents SKU details for existing resources */
 export interface RpSkuDetailsForExistingResource {
@@ -296,7 +304,10 @@ export interface RpSkuEnumerationForExistingResourceResult {
   /** Url for the next page. Null if no more pages available */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -329,7 +340,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -476,12 +487,13 @@ export const GetFabricCapacity: API.OperationMethod<
 
 export type ListFabricCapacityByResourceGroupError = AzureOpError;
 /** List FabricCapacity resources by resource group */
-export const ListFabricCapacityByResourceGroup: API.OperationMethod<
+export const ListFabricCapacityByResourceGroup: API.PaginatedOperationMethod<
   ListFabricCapacityByResourceGroupRequest,
   FabricCapacityListResult,
   ListFabricCapacityByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FabricCapacity
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ListFabricCapacityByResourceGroupRequest>,
   output: __S(97, __c12, 1) as any as S.Schema<FabricCapacityListResult>,
   errors: [UnknownAzureError],
@@ -489,16 +501,23 @@ export const ListFabricCapacityByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFabricCapacityByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFabricCapacityBySubscriptionError = AzureOpError;
 /** List FabricCapacity resources by subscription ID */
-export const ListFabricCapacityBySubscription: API.OperationMethod<
+export const ListFabricCapacityBySubscription: API.PaginatedOperationMethod<
   ListFabricCapacityBySubscriptionRequest,
   FabricCapacityListResult,
   ListFabricCapacityBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FabricCapacity
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<ListFabricCapacityBySubscriptionRequest>,
   output: __S(97, __c12, 1) as any as S.Schema<FabricCapacityListResult>,
   errors: [UnknownAzureError],
@@ -506,16 +525,23 @@ export const ListFabricCapacityBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFabricCapacityBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFabricCapacitySkusError = AzureOpError;
 /** List eligible SKUs for Microsoft Fabric resource provider */
-export const ListFabricCapacitySkus: API.OperationMethod<
+export const ListFabricCapacitySkus: API.PaginatedOperationMethod<
   ListFabricCapacitySkusRequest,
   RpSkuEnumerationForNewResourceResult,
   ListFabricCapacitySkusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RpSkuDetailsForNewResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<ListFabricCapacitySkusRequest>,
   output: __S(115, __c14, 3) as any as S.Schema<RpSkuEnumerationForNewResourceResult>,
   errors: [UnknownAzureError],
@@ -523,16 +549,23 @@ export const ListFabricCapacitySkus: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFabricCapacitySkus",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFabricCapacitySkusForCapacityError = AzureOpError;
 /** List eligible SKUs for a Microsoft Fabric resource */
-export const ListFabricCapacitySkusForCapacity: API.OperationMethod<
+export const ListFabricCapacitySkusForCapacity: API.PaginatedOperationMethod<
   ListFabricCapacitySkusForCapacityRequest,
   RpSkuEnumerationForExistingResourceResult,
   ListFabricCapacitySkusForCapacityError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RpSkuDetailsForExistingResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ListFabricCapacitySkusForCapacityRequest>,
   output: __S(123, __c15, 3) as any as S.Schema<RpSkuEnumerationForExistingResourceResult>,
   errors: [UnknownAzureError],
@@ -540,16 +573,23 @@ export const ListFabricCapacitySkusForCapacity: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFabricCapacitySkusForCapacity",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(132, __c16, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -557,7 +597,13 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ResumeFabricCapacityError = AzureOpError;
 /** Resume operation of the specified Fabric capacity instance. */
@@ -866,12 +912,14 @@ function __c11(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities",
             code: 200,
             apiVersion: "2023-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFabricCapacityByResourceGroupRequest" });
@@ -896,12 +944,14 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/capacities",
             code: 200,
             apiVersion: "2023-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFabricCapacityBySubscriptionRequest" });
@@ -913,12 +963,14 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/skus",
             code: 200,
             apiVersion: "2023-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFabricCapacitySkusRequest" });
@@ -949,12 +1001,14 @@ function __c15(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           capacityName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}/skus",
             code: 200,
             apiVersion: "2023-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFabricCapacitySkusForCapacityRequest" });
@@ -980,12 +1034,15 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Fabric/operations",
             code: 200,
             apiVersion: "2023-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1013,7 +1070,7 @@ function __c16(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(131, __c16, 3)),
+          value: __S(131, __c16, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });

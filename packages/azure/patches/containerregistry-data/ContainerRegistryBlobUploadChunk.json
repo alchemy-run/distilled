@@ -1,0 +1,15 @@
+{
+  "description": "Upload Chunk sends raw blob bytes as `application/octet-stream`; the swagger types the body as a string, which the client JSON-encodes.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryBlobUploadChunkRequest/members/body/target",
+      "value": "smithy.api#Blob"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryBlobUploadChunk/traits/smithy.api#http/bodyMediaType",
+      "value": "application/octet-stream"
+    }
+  ]
+}

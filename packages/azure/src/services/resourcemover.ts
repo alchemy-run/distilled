@@ -477,6 +477,8 @@ export interface GetUnresolvedDependencyRequest {
   _orderby?: string | undefined;
   /** The filter to apply on the operation. For example, $apply=filter(count eq 2). */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Unresolved dependency. */
 export interface UnresolvedDependency {
@@ -506,7 +508,7 @@ export interface SummaryCollection {
 /** Unresolved dependency collection. */
 export interface UnresolvedDependencyCollection {
   /** Gets or sets the list of unresolved dependencies. */
-  value?: UnresolvedDependencyCollectionValueList | undefined;
+  value: UnresolvedDependencyCollectionValueList;
   /** Gets or sets the value of next link. */
   nextLink?: string | undefined;
   /** Gets or sets the list of summary items and the field on which summary is done. */
@@ -540,13 +542,15 @@ export interface ListMoveResourcesRequest {
   moveCollectionName: string;
   /** The filter to apply on the operation. For example, you can use $filter=Properties/ProvisioningState eq 'Succeeded'. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Gets the list of move resources. */
 export type MoveResourceCollectionValueList = Array<MoveResource>;
 /** Defines the collection of move resources. */
 export interface MoveResourceCollection {
   /** Gets the list of move resources. */
-  value?: MoveResourceCollectionValueList | undefined;
+  value: MoveResourceCollectionValueList;
   /** Gets the value of next link. */
   nextLink?: string | undefined;
   /** Gets or sets the list of summary items and the field on which summary is done. */
@@ -602,19 +606,23 @@ export interface MoveCollectionsListMoveCollectionsByResourceGroupRequest {
   subscriptionId: string;
   /** The Resource Group Name. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Gets the list of move collections. */
 export type MoveCollectionResultListValueList = Array<MoveCollection>;
 /** Defines the collection of move collections. */
 export interface MoveCollectionResultList {
   /** Gets the list of move collections. */
-  value?: MoveCollectionResultListValueList | undefined;
+  value: MoveCollectionResultListValueList;
   /** Gets the value of next link. */
   nextLink?: string | undefined;
 }
 export interface MoveCollectionsListMoveCollectionsBySubscriptionRequest {
   /** The Subscription ID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
 export type MoveCollectionsPrepareRequestMoveResourcesList = Array<string>;
@@ -789,12 +797,13 @@ export const GetOperationsDiscovery: API.OperationMethod<
 
 export type GetUnresolvedDependencyError = AzureOpError;
 /** Gets a list of unresolved dependencies. */
-export const GetUnresolvedDependency: API.OperationMethod<
+export const GetUnresolvedDependency: API.PaginatedOperationMethod<
   GetUnresolvedDependencyRequest,
   UnresolvedDependencyCollection,
   GetUnresolvedDependencyError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  UnresolvedDependency
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<GetUnresolvedDependencyRequest>,
   output: __S(371, __c23, 3) as any as S.Schema<UnresolvedDependencyCollection>,
   errors: [UnknownAzureError],
@@ -802,7 +811,13 @@ export const GetUnresolvedDependency: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetUnresolvedDependency",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMoveCollectionRequiredForError = AzureOpError;
 /** List of the move resources for which an arm resource is required for. */
@@ -823,12 +838,13 @@ export const ListMoveCollectionRequiredFor: API.OperationMethod<
 
 export type ListMoveResourcesError = AzureOpError;
 /** Lists the Move Resources in the move collection. */
-export const ListMoveResources: API.OperationMethod<
+export const ListMoveResources: API.PaginatedOperationMethod<
   ListMoveResourcesRequest,
   MoveResourceCollection,
   ListMoveResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MoveResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<ListMoveResourcesRequest>,
   output: __S(98, __c6, 2) as any as S.Schema<MoveResourceCollection>,
   errors: [UnknownAzureError],
@@ -836,7 +852,13 @@ export const ListMoveResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMoveResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MoveCollectionsBulkRemoveError = AzureOpError;
 /** Removes the set of move resources included in the request body from move collection. The orchestration is done by service. To aid the user to prerequisite the operation the client can call operation with validateOnly property set to true. */
@@ -891,12 +913,13 @@ export const MoveCollectionsInitiateMove: API.OperationMethod<
 
 export type MoveCollectionsListMoveCollectionsByResourceGroupError = AzureOpError;
 /** Get all Move Collections. Get all the Move Collections in the resource group. */
-export const MoveCollectionsListMoveCollectionsByResourceGroup: API.OperationMethod<
+export const MoveCollectionsListMoveCollectionsByResourceGroup: API.PaginatedOperationMethod<
   MoveCollectionsListMoveCollectionsByResourceGroupRequest,
   MoveCollectionResultList,
   MoveCollectionsListMoveCollectionsByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MoveCollection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     160,
     __c10,
@@ -908,16 +931,23 @@ export const MoveCollectionsListMoveCollectionsByResourceGroup: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveCollectionsListMoveCollectionsByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MoveCollectionsListMoveCollectionsBySubscriptionError = AzureOpError;
 /** Get all Move Collections. Get all the Move Collections in the subscription. */
-export const MoveCollectionsListMoveCollectionsBySubscription: API.OperationMethod<
+export const MoveCollectionsListMoveCollectionsBySubscription: API.PaginatedOperationMethod<
   MoveCollectionsListMoveCollectionsBySubscriptionRequest,
   MoveCollectionResultList,
   MoveCollectionsListMoveCollectionsBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MoveCollection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     192,
     __c12,
@@ -929,7 +959,13 @@ export const MoveCollectionsListMoveCollectionsBySubscription: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveCollectionsListMoveCollectionsBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MoveCollectionsPrepareError = AzureOpError;
 /** Initiates prepare for the set of resources included in the request body. The prepare operation is on the moveResources that are in the moveState 'PreparePending' or 'PrepareFailed', on a successful completion the moveResource moveState do a transition to MovePending. To aid the user to prerequisite the operation the client can call operation with validateOnly property set to true. */
@@ -1179,12 +1215,14 @@ function __c6(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           moveCollectionName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/moveResources",
             code: 200,
             apiVersion: "2023-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMoveResourcesRequest" });
@@ -1193,7 +1231,7 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(97, __c6, 1)),
+          value: __S(97, __c6, 1),
           nextLink: S.optional(S.String),
           summaryCollection: S.optional(__S(386, __c24, 2)),
           totalCount: S.optional(S.Number),
@@ -1274,12 +1312,14 @@ function __c10(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections",
             code: 200,
             apiVersion: "2023-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "MoveCollectionsListMoveCollectionsByResourceGroupRequest" });
@@ -1292,7 +1332,7 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(176, __c11, 0)),
+          value: __S(176, __c11, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "MoveCollectionResultList" });
@@ -1304,12 +1344,14 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Migrate/moveCollections",
             code: 200,
             apiVersion: "2023-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "MoveCollectionsListMoveCollectionsBySubscriptionRequest" });
@@ -1627,12 +1669,14 @@ function __c23(j: number): any {
           dependencyLevel: S.optional(S.String.pipe(T.Query())),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/unresolvedDependencies",
             code: 200,
             apiVersion: "2023-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "GetUnresolvedDependencyRequest" });
@@ -1648,7 +1692,7 @@ function __c23(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(370, __c23, 2)),
+          value: __S(370, __c23, 2),
           nextLink: S.optional(S.String),
           summaryCollection: S.optional(__S(386, __c24, 2)),
           totalCount: S.optional(S.Number),

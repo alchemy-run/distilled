@@ -133,13 +133,15 @@ export type OperationListResultValueList = Array<Operation>;
 /** An array of operations supported by the resource provider. */
 export interface OperationListResult {
   /** List of AML Studio operations supported by the AML Studio resource provider. */
-  value?: OperationListResultValueList | undefined;
+  value: OperationListResultValueList;
 }
 export interface ListWorkspaceByResourceGroupRequest {
   /** The Microsoft Azure subscription ID. */
   subscriptionId: string;
   /** The name of the resource group to which the machine learning workspace belongs. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The tags of the resource. */
 export type WorkspaceTagsMap = { [key: string]: string | undefined };
@@ -165,13 +167,15 @@ export type WorkspaceListResultValueList = Array<Workspace>;
 /** The result of a request to list machine learning workspace keys. */
 export interface WorkspaceListResult {
   /** The list of machine learning workspaces. Since this list may be incomplete, the nextLink field should be used to request the next list of machine learning workspaces. */
-  value?: WorkspaceListResultValueList | undefined;
+  value: WorkspaceListResultValueList;
   /** The URI that can be used to request the next list of machine learning workspaces. */
   nextLink?: string | undefined;
 }
 export interface ListWorkspacesRequest {
   /** The Microsoft Azure subscription ID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceWorkspaceKeysRequest {
   /** The Microsoft Azure subscription ID. */
@@ -328,12 +332,13 @@ export const GetWorkspace: API.OperationMethod<
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available Azure Machine Learning Studio REST API operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(36, __c4, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -341,16 +346,18 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListWorkspaceByResourceGroupError = AzureOpError;
 /** Lists all the available machine learning workspaces under the specified resource group. */
-export const ListWorkspaceByResourceGroup: API.OperationMethod<
+export const ListWorkspaceByResourceGroup: API.PaginatedOperationMethod<
   ListWorkspaceByResourceGroupRequest,
   WorkspaceListResult,
   ListWorkspaceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Workspace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ListWorkspaceByResourceGroupRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<WorkspaceListResult>,
   errors: [UnknownAzureError],
@@ -358,16 +365,23 @@ export const ListWorkspaceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspacesError = AzureOpError;
 /** Lists all the available machine learning workspaces under the specified subscription. */
-export const ListWorkspaces: API.OperationMethod<
+export const ListWorkspaces: API.PaginatedOperationMethod<
   ListWorkspacesRequest,
   WorkspaceListResult,
   ListWorkspacesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Workspace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<ListWorkspacesRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<WorkspaceListResult>,
   errors: [UnknownAzureError],
@@ -375,7 +389,13 @@ export const ListWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaces",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspaceWorkspaceKeysError = AzureOpError;
 /** List the authorization keys associated with this workspace. */
@@ -562,7 +582,7 @@ function __c4(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(35, __c4, 3)),
+          value: __S(35, __c4, 3),
         }),
       ).annotate({ identifier: "OperationListResult" });
   }
@@ -574,12 +594,14 @@ function __c5(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/workspaces",
             code: 200,
             apiVersion: "2019-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceByResourceGroupRequest" });
@@ -592,7 +614,7 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(48, __c6, 0)),
+          value: __S(48, __c6, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspaceListResult" });
@@ -604,12 +626,14 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearning/workspaces",
             code: 200,
             apiVersion: "2019-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspacesRequest" });

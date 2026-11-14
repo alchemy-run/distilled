@@ -1,0 +1,25 @@
+{
+  "description": "DiscoveryRuleSpecification is polymorphic on `kind` (ResourceGraphQuery, ApplicationInsightsTopology); the converted model keeps only the discriminator, so S.Struct strips the subtype payload on encode and decode. Add the union of the flat subtype members.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cloudhealth#DiscoveryRuleSpecification/members/resourceGraphQuery",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Azure Resource Graph query text in KQL syntax (ResourceGraphQuery). The query must return at least a column named 'id' with the resource ID of each discovered resource."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cloudhealth#DiscoveryRuleSpecification/members/applicationInsightsResourceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Application Insights resource ID (ApplicationInsightsTopology)."
+        }
+      }
+    }
+  ]
+}

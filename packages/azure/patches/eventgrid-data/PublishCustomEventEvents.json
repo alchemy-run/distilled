@@ -1,0 +1,10 @@
+{
+  "description": "Topic publish endpoint is /api/events (the spec's x-ms-paths key is only the '?overload=' discriminator, so the converted uri lost the path and requests hit / ).",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.eventgrid_data#PublishCustomEventEvents/traits/smithy.api#http/uri",
+      "value": "/api/events"
+    }
+  ]
+}

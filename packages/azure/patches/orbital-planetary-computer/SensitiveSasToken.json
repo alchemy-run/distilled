@@ -1,0 +1,15 @@
+{
+  "description": "SharedAccessSignatureToken.token (GetSasToken) is a SAS token for a collection's storage, and SharedAccessSignatureSignedLink.href (SasGetSign) is the asset URL with a SAS token in its query string; both grant read access, but the spec has no sensitive mark. Mark them sensitive so they decode as Redacted.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.orbital_planetary_computer#SharedAccessSignatureToken/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.orbital_planetary_computer#SharedAccessSignatureSignedLink/members/href/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

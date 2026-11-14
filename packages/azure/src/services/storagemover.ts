@@ -1000,6 +1000,8 @@ export interface ListAgentsRequest {
   resourceGroupName: string;
   /** The name of the Storage Mover resource. */
   storageMoverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Agent resource. */
 export interface Agent {
@@ -1029,6 +1031,8 @@ export interface ListConnectionsRequest {
   resourceGroupName: string;
   /** The name of the Storage Mover resource. */
   storageMoverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Connection resource. */
 export interface Connection {
@@ -1059,6 +1063,8 @@ export interface ListEndpointsRequest {
   resourceGroupName: string;
   /** The name of the Storage Mover resource. */
   storageMoverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type EndpointIdentity = EndpointsCreateOrUpdateResponseIdentity;
@@ -1095,6 +1101,8 @@ export interface ListJobDefinitionsRequest {
   storageMoverName: string;
   /** The name of the Project resource. */
   projectName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Job Definition resource. */
 export interface JobDefinition {
@@ -1129,6 +1137,8 @@ export interface ListJobRunsRequest {
   projectName: string;
   /** The name of the Job Definition resource. */
   jobDefinitionName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Job Run resource. */
 export interface JobRun {
@@ -1152,7 +1162,10 @@ export interface JobRunList {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1185,7 +1198,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -1196,6 +1209,8 @@ export interface ListProjectsRequest {
   resourceGroupName: string;
   /** The name of the Storage Mover resource. */
   storageMoverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Project resource. */
 export interface Project {
@@ -1222,6 +1237,8 @@ export interface ProjectList {
 export interface ListStorageMoverBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type StorageMoverTagsMap = { [key: string]: string | undefined };
@@ -1256,6 +1273,8 @@ export interface ListStorageMoversRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Project properties. */
 export interface ProjectPropertiesInput {
@@ -1839,12 +1858,13 @@ export const JobDefinitionsReconcileJob: API.OperationMethod<
 
 export type ListAgentsError = AzureOpError;
 /** Lists all Agents in a Storage Mover. */
-export const ListAgents: API.OperationMethod<
+export const ListAgents: API.PaginatedOperationMethod<
   ListAgentsRequest,
   AgentList,
   ListAgentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Agent
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListAgentsRequest>,
   output: __S(322, __c20, 2) as any as S.Schema<AgentList>,
   errors: [UnknownAzureError],
@@ -1852,16 +1872,23 @@ export const ListAgents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAgents",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConnectionsError = AzureOpError;
 /** Lists all Connections in a Storage Mover. */
-export const ListConnections: API.OperationMethod<
+export const ListConnections: API.PaginatedOperationMethod<
   ListConnectionsRequest,
   ConnectionList,
   ListConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Connection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<ListConnectionsRequest>,
   output: __S(338, __c21, 2) as any as S.Schema<ConnectionList>,
   errors: [UnknownAzureError],
@@ -1869,16 +1896,23 @@ export const ListConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConnections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEndpointsError = AzureOpError;
 /** Lists all Endpoints in a Storage Mover. */
-export const ListEndpoints: API.OperationMethod<
+export const ListEndpoints: API.PaginatedOperationMethod<
   ListEndpointsRequest,
   EndpointList,
   ListEndpointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Endpoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<ListEndpointsRequest>,
   output: __S(386, __c24, 2) as any as S.Schema<EndpointList>,
   errors: [UnknownAzureError],
@@ -1886,16 +1920,23 @@ export const ListEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEndpoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobDefinitionsError = AzureOpError;
 /** Lists all Job Definitions in a Project. */
-export const ListJobDefinitions: API.OperationMethod<
+export const ListJobDefinitions: API.PaginatedOperationMethod<
   ListJobDefinitionsRequest,
   JobDefinitionList,
   ListJobDefinitionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<ListJobDefinitionsRequest>,
   output: __S(402, __c25, 2) as any as S.Schema<JobDefinitionList>,
   errors: [UnknownAzureError],
@@ -1903,16 +1944,23 @@ export const ListJobDefinitions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobDefinitions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobRunsError = AzureOpError;
 /** Lists all Job Runs in a Job Definition. */
-export const ListJobRuns: API.OperationMethod<
+export const ListJobRuns: API.PaginatedOperationMethod<
   ListJobRunsRequest,
   JobRunList,
   ListJobRunsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobRun
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<ListJobRunsRequest>,
   output: __S(418, __c26, 2) as any as S.Schema<JobRunList>,
   errors: [UnknownAzureError],
@@ -1920,16 +1968,23 @@ export const ListJobRuns: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobRuns",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(436, __c27, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -1937,16 +1992,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProjectsError = AzureOpError;
 /** Lists all Projects in a Storage Mover. */
-export const ListProjects: API.OperationMethod<
+export const ListProjects: API.PaginatedOperationMethod<
   ListProjectsRequest,
   ProjectList,
   ListProjectsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Project
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<ListProjectsRequest>,
   output: __S(450, __c28, 2) as any as S.Schema<ProjectList>,
   errors: [UnknownAzureError],
@@ -1954,16 +2016,23 @@ export const ListProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjects",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageMoverBySubscriptionError = AzureOpError;
 /** Lists all Storage Movers in a subscription. */
-export const ListStorageMoverBySubscription: API.OperationMethod<
+export const ListStorageMoverBySubscription: API.PaginatedOperationMethod<
   ListStorageMoverBySubscriptionRequest,
   StorageMoverList,
   ListStorageMoverBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageMover
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<ListStorageMoverBySubscriptionRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<StorageMoverList>,
   errors: [UnknownAzureError],
@@ -1971,16 +2040,23 @@ export const ListStorageMoverBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageMoverBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageMoversError = AzureOpError;
 /** Lists all Storage Movers in a resource group. */
-export const ListStorageMovers: API.OperationMethod<
+export const ListStorageMovers: API.PaginatedOperationMethod<
   ListStorageMoversRequest,
   StorageMoverList,
   ListStorageMoversError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageMover
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ListStorageMoversRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<StorageMoverList>,
   errors: [UnknownAzureError],
@@ -1988,7 +2064,13 @@ export const ListStorageMovers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageMovers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ProjectsCreateOrUpdateError = AzureOpError;
 /** Creates or updates a Project resource, which is a logical grouping of related jobs. */
@@ -2736,12 +2818,14 @@ function __c20(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           storageMoverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/agents",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAgentsRequest" });
@@ -2764,12 +2848,14 @@ function __c21(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           storageMoverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/connections",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConnectionsRequest" });
@@ -2823,12 +2909,14 @@ function __c24(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           storageMoverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/endpoints",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEndpointsRequest" });
@@ -2852,12 +2940,14 @@ function __c25(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           storageMoverName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobDefinitionsRequest" });
@@ -2882,12 +2972,14 @@ function __c26(j: number): any {
           storageMoverName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           jobDefinitionName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}/jobRuns",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobRunsRequest" });
@@ -2906,12 +2998,15 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.StorageMover/operations",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2939,7 +3034,7 @@ function __c27(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(435, __c27, 3)),
+          value: __S(435, __c27, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -2953,12 +3048,14 @@ function __c28(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           storageMoverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProjectsRequest" });
@@ -2979,12 +3076,14 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageMover/storageMovers",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageMoverBySubscriptionRequest" });
@@ -3010,12 +3109,14 @@ function __c31(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageMoversRequest" });

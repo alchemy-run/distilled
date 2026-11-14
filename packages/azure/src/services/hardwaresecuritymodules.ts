@@ -751,6 +751,8 @@ export interface ListCloudHsmClusterByResourceGroupRequest {
   resourceGroupName: string;
   /** The page-continuation token to use with a paged version of this API */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CloudHsmClusterTagsMap = { [key: string]: string | undefined };
@@ -803,6 +805,8 @@ export interface ListCloudHsmClusterBySubscriptionRequest {
   subscriptionId: string;
   /** The page-continuation token to use with a paged version of this API */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListCloudHsmClusterPrivateLinkResourceByCloudHsmClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -811,6 +815,8 @@ export interface ListCloudHsmClusterPrivateLinkResourceByCloudHsmClusterRequest 
   resourceGroupName: string;
   /** The name of the Cloud HSM Cluster within the specified resource group. Cloud HSM Cluster names must be between 3 and 23 characters in length. */
   cloudHsmClusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The private link resource required member names. */
 export type PrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
@@ -843,7 +849,7 @@ export type ListCloudHsmClusterPrivateLinkResourceByCloudHsmClusterResponseValue
   Array<PrivateLinkResource>;
 export interface ListCloudHsmClusterPrivateLinkResourceByCloudHsmClusterResponse {
   /** Array of private link resources */
-  value?: ListCloudHsmClusterPrivateLinkResourceByCloudHsmClusterResponseValueList | undefined;
+  value: ListCloudHsmClusterPrivateLinkResourceByCloudHsmClusterResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -854,6 +860,8 @@ export interface ListDedicatedHsmByResourceGroupRequest {
   resourceGroupName: string;
   /** Maximum number of results to return. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DedicatedHsmTagsMap = { [key: string]: string | undefined };
@@ -894,6 +902,8 @@ export interface ListDedicatedHsmBySubscriptionRequest {
   subscriptionId: string;
   /** Maximum number of results to return. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDedicatedHsmOutboundNetworkDependenciesEndpointsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -902,6 +912,8 @@ export interface ListDedicatedHsmOutboundNetworkDependenciesEndpointsRequest {
   resourceGroupName: string;
   /** Name of the dedicated Hsm */
   name: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Connect information from the dedicated hsm service to a single endpoint. */
 export interface EndpointDetail {
@@ -941,7 +953,10 @@ export interface OutboundEnvironmentEndpointCollection {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -974,7 +989,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -985,6 +1000,8 @@ export interface ListPrivateEndpointConnectionByCloudHsmClusterRequest {
   resourceGroupName: string;
   /** The name of the Cloud HSM Cluster within the specified resource group. Cloud HSM Cluster names must be between 3 and 23 characters in length. */
   cloudHsmClusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The PrivateEndpointConnection items on this page */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
@@ -1368,12 +1385,13 @@ export const GetDedicatedHsm: API.OperationMethod<
 
 export type ListCloudHsmClusterByResourceGroupError = AzureOpError;
 /** The List operation gets information about the Cloud HSM Clusters associated with the subscription and within the specified resource group. */
-export const ListCloudHsmClusterByResourceGroup: API.OperationMethod<
+export const ListCloudHsmClusterByResourceGroup: API.PaginatedOperationMethod<
   ListCloudHsmClusterByResourceGroupRequest,
   CloudHsmClusterListResult,
   ListCloudHsmClusterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CloudHsmCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ListCloudHsmClusterByResourceGroupRequest>,
   output: __S(129, __c16, 1) as any as S.Schema<CloudHsmClusterListResult>,
   errors: [UnknownAzureError],
@@ -1381,16 +1399,23 @@ export const ListCloudHsmClusterByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudHsmClusterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCloudHsmClusterBySubscriptionError = AzureOpError;
 /** The List operation gets information about the Cloud HSM Clusters associated with the subscription. */
-export const ListCloudHsmClusterBySubscription: API.OperationMethod<
+export const ListCloudHsmClusterBySubscription: API.PaginatedOperationMethod<
   ListCloudHsmClusterBySubscriptionRequest,
   CloudHsmClusterListResult,
   ListCloudHsmClusterBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CloudHsmCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<ListCloudHsmClusterBySubscriptionRequest>,
   output: __S(129, __c16, 1) as any as S.Schema<CloudHsmClusterListResult>,
   errors: [UnknownAzureError],
@@ -1398,16 +1423,23 @@ export const ListCloudHsmClusterBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudHsmClusterBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCloudHsmClusterPrivateLinkResourceByCloudHsmClusterError = AzureOpError;
 /** Gets the private link resources supported for the Cloud Hsm Cluster. */
-export const ListCloudHsmClusterPrivateLinkResourceByCloudHsmCluster: API.OperationMethod<
+export const ListCloudHsmClusterPrivateLinkResourceByCloudHsmCluster: API.PaginatedOperationMethod<
   ListCloudHsmClusterPrivateLinkResourceByCloudHsmClusterRequest,
   ListCloudHsmClusterPrivateLinkResourceByCloudHsmClusterResponse,
   ListCloudHsmClusterPrivateLinkResourceByCloudHsmClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     144,
     __c18,
@@ -1423,16 +1455,23 @@ export const ListCloudHsmClusterPrivateLinkResourceByCloudHsmCluster: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudHsmClusterPrivateLinkResourceByCloudHsmCluster",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDedicatedHsmByResourceGroupError = AzureOpError;
 /** The List operation gets information about the dedicated HSMs associated with the subscription and within the specified resource group. */
-export const ListDedicatedHsmByResourceGroup: API.OperationMethod<
+export const ListDedicatedHsmByResourceGroup: API.PaginatedOperationMethod<
   ListDedicatedHsmByResourceGroupRequest,
   DedicatedHsmListResult,
   ListDedicatedHsmByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DedicatedHsm
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<ListDedicatedHsmByResourceGroupRequest>,
   output: __S(161, __c20, 1) as any as S.Schema<DedicatedHsmListResult>,
   errors: [UnknownAzureError],
@@ -1440,16 +1479,23 @@ export const ListDedicatedHsmByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDedicatedHsmByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDedicatedHsmBySubscriptionError = AzureOpError;
 /** The List operation gets information about the dedicated HSMs associated with the subscription. */
-export const ListDedicatedHsmBySubscription: API.OperationMethod<
+export const ListDedicatedHsmBySubscription: API.PaginatedOperationMethod<
   ListDedicatedHsmBySubscriptionRequest,
   DedicatedHsmListResult,
   ListDedicatedHsmBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DedicatedHsm
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<ListDedicatedHsmBySubscriptionRequest>,
   output: __S(161, __c20, 1) as any as S.Schema<DedicatedHsmListResult>,
   errors: [UnknownAzureError],
@@ -1457,16 +1503,23 @@ export const ListDedicatedHsmBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDedicatedHsmBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDedicatedHsmOutboundNetworkDependenciesEndpointsError = AzureOpError;
 /** Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified dedicated hsm resource. The operation returns properties of each egress endpoint. */
-export const ListDedicatedHsmOutboundNetworkDependenciesEndpoints: API.OperationMethod<
+export const ListDedicatedHsmOutboundNetworkDependenciesEndpoints: API.PaginatedOperationMethod<
   ListDedicatedHsmOutboundNetworkDependenciesEndpointsRequest,
   OutboundEnvironmentEndpointCollection,
   ListDedicatedHsmOutboundNetworkDependenciesEndpointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OutboundEnvironmentEndpoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     176,
     __c22,
@@ -1478,16 +1531,23 @@ export const ListDedicatedHsmOutboundNetworkDependenciesEndpoints: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDedicatedHsmOutboundNetworkDependenciesEndpoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(188, __c23, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -1495,16 +1555,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionByCloudHsmClusterError = AzureOpError;
 /** The List operation gets information about the private endpoint connections associated with the Cloud HSM Cluster */
-export const ListPrivateEndpointConnectionByCloudHsmCluster: API.OperationMethod<
+export const ListPrivateEndpointConnectionByCloudHsmCluster: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionByCloudHsmClusterRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionByCloudHsmClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     208,
     __c26,
@@ -1516,7 +1583,13 @@ export const ListPrivateEndpointConnectionByCloudHsmCluster: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionByCloudHsmCluster",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RestoreCloudHsmClusterError = AzureOpError;
 /** Restores all key materials of a specified Cloud HSM Cluster */
@@ -1943,12 +2016,14 @@ function __c15(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters",
             code: 200,
             apiVersion: "2025-03-31",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCloudHsmClusterByResourceGroupRequest" });
@@ -1974,12 +2049,14 @@ function __c17(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters",
             code: 200,
             apiVersion: "2025-03-31",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCloudHsmClusterBySubscriptionRequest" });
@@ -1993,12 +2070,14 @@ function __c18(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           cloudHsmClusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/privateLinkResources",
             code: 200,
             apiVersion: "2025-03-31",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCloudHsmClusterPrivateLinkResourceByCloudHsmClusterRequest" });
@@ -2025,7 +2104,7 @@ function __c18(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(147, __c18, 3)),
+          value: __S(147, __c18, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCloudHsmClusterPrivateLinkResourceByCloudHsmClusterResponse" });
@@ -2039,12 +2118,14 @@ function __c19(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs",
             code: 200,
             apiVersion: "2025-03-31",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDedicatedHsmByResourceGroupRequest" });
@@ -2070,12 +2151,14 @@ function __c21(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs",
             code: 200,
             apiVersion: "2025-03-31",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDedicatedHsmBySubscriptionRequest" });
@@ -2089,12 +2172,14 @@ function __c22(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs/{name}/outboundNetworkDependenciesEndpoints",
             code: 200,
             apiVersion: "2025-03-31",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDedicatedHsmOutboundNetworkDependenciesEndpointsRequest" });
@@ -2140,12 +2225,15 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.HardwareSecurityModules/operations",
             code: 200,
             apiVersion: "2025-03-31",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2173,7 +2261,7 @@ function __c23(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(187, __c23, 3)),
+          value: __S(187, __c23, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -2233,12 +2321,14 @@ function __c26(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           cloudHsmClusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2025-03-31",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByCloudHsmClusterRequest" });

@@ -1,0 +1,219 @@
+{
+  "description": "Table service errors arrive as `{\"odata.error\":{\"code\":...}}` with no `x-ms-error-code` header, so the client-level code map never sees them (404/409 surface as bare status classes, 412 as UnknownAzureError and is retried as a server error). Declare the observed codes as typed per-operation errors matched on the body code.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#TableEntityNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The entity does not exist (HTTP 404 `ResourceNotFound` in the `odata.error` body).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/odata.error/code": "ResourceNotFound"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#TableNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The table does not exist (HTTP 404 `TableNotFound`; Delete Table answers `ResourceNotFound`). Entity operations list `TableEntityNotFound` first, so their `ResourceNotFound` is the missing entity.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/odata.error/code": "TableNotFound"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/odata.error/code": "ResourceNotFound"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#TableEntityAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "An entity with the same PartitionKey and RowKey already exists (HTTP 409 `EntityAlreadyExists`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/odata.error/code": "EntityAlreadyExists"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#TableEntityConditionNotMet",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 412,
+          "smithy.api#documentation": "The entity's ETag does not match the request's If-Match (HTTP 412 `UpdateConditionNotSatisfied`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 412,
+              "body": {
+                "/odata.error/code": "UpdateConditionNotSatisfied"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#TableAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "A table with the same name already exists (HTTP 409 `TableAlreadyExists`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/odata.error/code": "TableAlreadyExists"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#TableBeingDeleted",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "A table with the same name is still being deleted (HTTP 409 `TableBeingDeleted`); retry after a delay.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/odata.error/code": "TableBeingDeleted"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#TablePermissionDenied",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          },
+          "body": {
+            "target": "smithy.api#Document",
+            "traits": {
+              "smithy.api#documentation": "The `odata.error` body; Cosmos DB names the missing data action in its message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The principal lacks the data role for the operation: Azure Table storage answers HTTP 403 `AuthorizationPermissionMismatch`, Cosmos DB for Table HTTP 403 `Forbidden`. Seen for a few minutes after a role assignment while it propagates.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "body": {
+                "/odata.error/code": "AuthorizationPermissionMismatch"
+              }
+            },
+            {
+              "status": 403,
+              "body": {
+                "/odata.error/code": "Forbidden"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

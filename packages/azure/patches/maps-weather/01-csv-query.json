@@ -1,0 +1,70 @@
+{
+  "description": "Azure Maps reads these array query parameters as one comma-separated value (`collectionFormat: csv`, e.g. `query=47.64,-122.13`), but the converted model sends a list as repeated parameters (`query=47.64&query=-122.13`), which Maps rejects (`Coordinate pair count in query mismatches...`). Model each as the comma-separated string Maps expects.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.maps_weather#WeatherGetSevereWeatherAlertsRequest/members/query/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.maps_weather#WeatherGetDailyIndicesRequest/members/query/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.maps_weather#WeatherGetDailyHistoricalRecordsRequest/members/query/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.maps_weather#WeatherGetDailyHistoricalNormalsRequest/members/query/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.maps_weather#WeatherGetDailyHistoricalActualsRequest/members/query/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.maps_weather#WeatherGetQuarterDayForecastRequest/members/query/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.maps_weather#WeatherGetMinuteForecastRequest/members/query/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.maps_weather#WeatherGetHourlyForecastRequest/members/query/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.maps_weather#WeatherGetDailyForecastRequest/members/query/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.maps_weather#WeatherGetCurrentConditionsRequest/members/query/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.maps_weather#WeatherGetAirQualityHourlyForecastsRequest/members/query/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.maps_weather#WeatherGetAirQualityDailyForecastsRequest/members/query/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.maps_weather#WeatherGetCurrentAirQualityRequest/members/query/target",
+      "value": "smithy.api#String"
+    }
+  ]
+}

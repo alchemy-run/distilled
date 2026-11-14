@@ -1318,6 +1318,8 @@ export interface ListDisasterRecoveryConfigAuthorizationRulesRequest {
   namespaceName: string;
   /** The Disaster Recovery configuration name */
   alias: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Description of a namespace authorization rule. */
 export interface SBAuthorizationRule {
@@ -1379,6 +1381,8 @@ export interface ListDisasterRecoveryConfigsRequest {
   resourceGroupName: string;
   /** The namespace name */
   namespaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Single item in List or Get Alias(Disaster Recovery configuration) operation */
 export interface ArmDisasterRecovery {
@@ -1411,6 +1415,8 @@ export interface ListMigrationConfigsRequest {
   resourceGroupName: string;
   /** The namespace name */
   namespaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Single item in List or Get Migration Config operation */
 export interface MigrationConfigProperties {
@@ -1443,12 +1449,16 @@ export interface ListNamespaceAuthorizationRulesRequest {
   resourceGroupName: string;
   /** The namespace name */
   namespaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListNamespaceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SBNamespaceTagsMap = { [key: string]: string | undefined };
@@ -1499,6 +1509,8 @@ export interface ListNamespaceNetworkRuleSetsRequest {
   resourceGroupName: string;
   /** The namespace name */
   namespaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Description of NetworkRuleSet resource. */
 export interface NetworkRuleSet {
@@ -1527,6 +1539,8 @@ export interface NetworkRuleSetListResult {
 export interface ListNamespacesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListNetworkSecurityPerimeterConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1535,6 +1549,8 @@ export interface ListNetworkSecurityPerimeterConfigurationRequest {
   resourceGroupName: string;
   /** The namespace name */
   namespaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Network Security Perimeter related configurations of a given namespace */
 export interface NetworkSecurityPerimeterConfiguration {
@@ -1561,7 +1577,10 @@ export interface NetworkSecurityPerimeterConfigurationList {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Operation display payload */
 export interface OperationDisplay {
   /** Resource provider of the operation */
@@ -1602,6 +1621,8 @@ export interface ListPrivateEndpointConnectionsRequest {
   resourceGroupName: string;
   /** The namespace name */
   namespaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The PrivateEndpointConnection items on this page */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
@@ -1621,6 +1642,8 @@ export interface ListQueueAuthorizationRulesRequest {
   namespaceName: string;
   /** The queue name. */
   queueName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListQueueByNamespaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1633,6 +1656,8 @@ export interface ListQueueByNamespaceRequest {
   _skip?: number | undefined;
   /** May be used to limit the number of results to the most recent N usageDetails. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Description of queue Resource. */
 export interface SBQueue {
@@ -1685,6 +1710,8 @@ export interface ListRuleBySubscriptionsRequest {
   _skip?: number | undefined;
   /** May be used to limit the number of results to the most recent N usageDetails. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Description of Rule Resource. */
 export interface Rule {
@@ -1723,6 +1750,8 @@ export interface ListSubscriptionByTopicRequest {
   _skip?: number | undefined;
   /** May be used to limit the number of results to the most recent N usageDetails. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Description of subscription resource. */
 export interface SBSubscription {
@@ -1757,6 +1786,8 @@ export interface ListTopicAuthorizationRulesRequest {
   namespaceName: string;
   /** The topic name. */
   topicName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListTopicByNamespaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1769,6 +1800,8 @@ export interface ListTopicByNamespaceRequest {
   _skip?: number | undefined;
   /** May be used to limit the number of results to the most recent N usageDetails. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Description of topic resource. */
 export interface SBTopic {
@@ -2983,12 +3016,13 @@ export const GetTopicAuthorizationRule: API.OperationMethod<
 
 export type ListDisasterRecoveryConfigAuthorizationRulesError = AzureOpError;
 /** Gets the authorization rules for a namespace. */
-export const ListDisasterRecoveryConfigAuthorizationRules: API.OperationMethod<
+export const ListDisasterRecoveryConfigAuthorizationRules: API.PaginatedOperationMethod<
   ListDisasterRecoveryConfigAuthorizationRulesRequest,
   SBAuthorizationRuleListResult,
   ListDisasterRecoveryConfigAuthorizationRulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SBAuthorizationRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<ListDisasterRecoveryConfigAuthorizationRulesRequest>,
   output: __S(769, __c48, 1) as any as S.Schema<SBAuthorizationRuleListResult>,
   errors: [UnknownAzureError],
@@ -2996,7 +3030,13 @@ export const ListDisasterRecoveryConfigAuthorizationRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDisasterRecoveryConfigAuthorizationRules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDisasterRecoveryConfigKeysError = AzureOpError;
 /** Gets the primary and secondary connection strings for the namespace. */
@@ -3017,12 +3057,13 @@ export const ListDisasterRecoveryConfigKeys: API.OperationMethod<
 
 export type ListDisasterRecoveryConfigsError = AzureOpError;
 /** Gets all Alias(Disaster Recovery configurations) */
-export const ListDisasterRecoveryConfigs: API.OperationMethod<
+export const ListDisasterRecoveryConfigs: API.PaginatedOperationMethod<
   ListDisasterRecoveryConfigsRequest,
   ArmDisasterRecoveryListResult,
   ListDisasterRecoveryConfigsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ArmDisasterRecovery
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<ListDisasterRecoveryConfigsRequest>,
   output: __S(818, __c51, 2) as any as S.Schema<ArmDisasterRecoveryListResult>,
   errors: [UnknownAzureError],
@@ -3030,16 +3071,23 @@ export const ListDisasterRecoveryConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDisasterRecoveryConfigs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMigrationConfigsError = AzureOpError;
 /** Gets all migrationConfigurations */
-export const ListMigrationConfigs: API.OperationMethod<
+export const ListMigrationConfigs: API.PaginatedOperationMethod<
   ListMigrationConfigsRequest,
   MigrationConfigListResult,
   ListMigrationConfigsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MigrationConfigProperties
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<ListMigrationConfigsRequest>,
   output: __S(834, __c52, 2) as any as S.Schema<MigrationConfigListResult>,
   errors: [UnknownAzureError],
@@ -3047,16 +3095,23 @@ export const ListMigrationConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMigrationConfigs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNamespaceAuthorizationRulesError = AzureOpError;
 /** Gets the authorization rules for a namespace. */
-export const ListNamespaceAuthorizationRules: API.OperationMethod<
+export const ListNamespaceAuthorizationRules: API.PaginatedOperationMethod<
   ListNamespaceAuthorizationRulesRequest,
   SBAuthorizationRuleListResult,
   ListNamespaceAuthorizationRulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SBAuthorizationRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<ListNamespaceAuthorizationRulesRequest>,
   output: __S(769, __c48, 1) as any as S.Schema<SBAuthorizationRuleListResult>,
   errors: [UnknownAzureError],
@@ -3064,16 +3119,23 @@ export const ListNamespaceAuthorizationRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNamespaceAuthorizationRules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNamespaceByResourceGroupError = AzureOpError;
 /** Gets the available namespaces within a resource group. */
-export const ListNamespaceByResourceGroup: API.OperationMethod<
+export const ListNamespaceByResourceGroup: API.PaginatedOperationMethod<
   ListNamespaceByResourceGroupRequest,
   SBNamespaceListResult,
   ListNamespaceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SBNamespace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<ListNamespaceByResourceGroupRequest>,
   output: __S(881, __c55, 1) as any as S.Schema<SBNamespaceListResult>,
   errors: [UnknownAzureError],
@@ -3081,7 +3143,13 @@ export const ListNamespaceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNamespaceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNamespaceKeysError = AzureOpError;
 /** Gets the primary and secondary connection strings for the namespace. */
@@ -3102,12 +3170,13 @@ export const ListNamespaceKeys: API.OperationMethod<
 
 export type ListNamespaceNetworkRuleSetsError = AzureOpError;
 /** Gets list of NetworkRuleSet for a Namespace. */
-export const ListNamespaceNetworkRuleSets: API.OperationMethod<
+export const ListNamespaceNetworkRuleSets: API.PaginatedOperationMethod<
   ListNamespaceNetworkRuleSetsRequest,
   NetworkRuleSetListResult,
   ListNamespaceNetworkRuleSetsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkRuleSet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<ListNamespaceNetworkRuleSetsRequest>,
   output: __S(914, __c57, 2) as any as S.Schema<NetworkRuleSetListResult>,
   errors: [UnknownAzureError],
@@ -3115,16 +3184,23 @@ export const ListNamespaceNetworkRuleSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNamespaceNetworkRuleSets",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNamespacesError = AzureOpError;
 /** Gets all the available namespaces within the subscription, irrespective of the resource groups. */
-export const ListNamespaces: API.OperationMethod<
+export const ListNamespaces: API.PaginatedOperationMethod<
   ListNamespacesRequest,
   SBNamespaceListResult,
   ListNamespacesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SBNamespace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<ListNamespacesRequest>,
   output: __S(881, __c55, 1) as any as S.Schema<SBNamespaceListResult>,
   errors: [UnknownAzureError],
@@ -3132,16 +3208,23 @@ export const ListNamespaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNamespaces",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkSecurityPerimeterConfigurationError = AzureOpError;
 /** Gets list of current NetworkSecurityPerimeterConfiguration for Namespace */
-export const ListNetworkSecurityPerimeterConfiguration: API.OperationMethod<
+export const ListNetworkSecurityPerimeterConfiguration: API.PaginatedOperationMethod<
   ListNetworkSecurityPerimeterConfigurationRequest,
   NetworkSecurityPerimeterConfigurationList,
   ListNetworkSecurityPerimeterConfigurationError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkSecurityPerimeterConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<ListNetworkSecurityPerimeterConfigurationRequest>,
   output: __S(962, __c60, 2) as any as S.Schema<NetworkSecurityPerimeterConfigurationList>,
   errors: [UnknownAzureError],
@@ -3149,16 +3232,23 @@ export const ListNetworkSecurityPerimeterConfiguration: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkSecurityPerimeterConfiguration",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(980, __c61, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -3166,16 +3256,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
 /** Gets the available PrivateEndpointConnections within a namespace. */
-export const ListPrivateEndpointConnections: API.OperationMethod<
+export const ListPrivateEndpointConnections: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionsRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
   output: __S(993, __c62, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
@@ -3183,16 +3280,23 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListQueueAuthorizationRulesError = AzureOpError;
 /** Gets all authorization rules for a queue. */
-export const ListQueueAuthorizationRules: API.OperationMethod<
+export const ListQueueAuthorizationRules: API.PaginatedOperationMethod<
   ListQueueAuthorizationRulesRequest,
   SBAuthorizationRuleListResult,
   ListQueueAuthorizationRulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SBAuthorizationRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<ListQueueAuthorizationRulesRequest>,
   output: __S(769, __c48, 1) as any as S.Schema<SBAuthorizationRuleListResult>,
   errors: [UnknownAzureError],
@@ -3200,16 +3304,23 @@ export const ListQueueAuthorizationRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListQueueAuthorizationRules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListQueueByNamespaceError = AzureOpError;
 /** Gets the queues within a namespace. */
-export const ListQueueByNamespace: API.OperationMethod<
+export const ListQueueByNamespace: API.PaginatedOperationMethod<
   ListQueueByNamespaceRequest,
   SBQueueListResult,
   ListQueueByNamespaceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SBQueue
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<ListQueueByNamespaceRequest>,
   output: __S(1026, __c64, 2) as any as S.Schema<SBQueueListResult>,
   errors: [UnknownAzureError],
@@ -3217,7 +3328,13 @@ export const ListQueueByNamespace: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListQueueByNamespace",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListQueueKeysError = AzureOpError;
 /** Primary and secondary connection strings to the queue. */
@@ -3238,12 +3355,13 @@ export const ListQueueKeys: API.OperationMethod<
 
 export type ListRuleBySubscriptionsError = AzureOpError;
 /** List all the rules within given topic-subscription */
-export const ListRuleBySubscriptions: API.OperationMethod<
+export const ListRuleBySubscriptions: API.PaginatedOperationMethod<
   ListRuleBySubscriptionsRequest,
   RuleListResult,
   ListRuleBySubscriptionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Rule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<ListRuleBySubscriptionsRequest>,
   output: __S(1058, __c66, 2) as any as S.Schema<RuleListResult>,
   errors: [UnknownAzureError],
@@ -3251,16 +3369,23 @@ export const ListRuleBySubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRuleBySubscriptions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSubscriptionByTopicError = AzureOpError;
 /** List all the subscriptions under a specified topic. */
-export const ListSubscriptionByTopic: API.OperationMethod<
+export const ListSubscriptionByTopic: API.PaginatedOperationMethod<
   ListSubscriptionByTopicRequest,
   SBSubscriptionListResult,
   ListSubscriptionByTopicError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SBSubscription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<ListSubscriptionByTopicRequest>,
   output: __S(1074, __c67, 2) as any as S.Schema<SBSubscriptionListResult>,
   errors: [UnknownAzureError],
@@ -3268,16 +3393,23 @@ export const ListSubscriptionByTopic: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSubscriptionByTopic",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTopicAuthorizationRulesError = AzureOpError;
 /** Gets authorization rules for a topic. */
-export const ListTopicAuthorizationRules: API.OperationMethod<
+export const ListTopicAuthorizationRules: API.PaginatedOperationMethod<
   ListTopicAuthorizationRulesRequest,
   SBAuthorizationRuleListResult,
   ListTopicAuthorizationRulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SBAuthorizationRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<ListTopicAuthorizationRulesRequest>,
   output: __S(769, __c48, 1) as any as S.Schema<SBAuthorizationRuleListResult>,
   errors: [UnknownAzureError],
@@ -3285,16 +3417,23 @@ export const ListTopicAuthorizationRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTopicAuthorizationRules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTopicByNamespaceError = AzureOpError;
 /** Gets all the topics in a namespace. */
-export const ListTopicByNamespace: API.OperationMethod<
+export const ListTopicByNamespace: API.PaginatedOperationMethod<
   ListTopicByNamespaceRequest,
   SBTopicListResult,
   ListTopicByNamespaceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SBTopic
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<ListTopicByNamespaceRequest>,
   output: __S(1122, __c70, 2) as any as S.Schema<SBTopicListResult>,
   errors: [UnknownAzureError],
@@ -3302,7 +3441,13 @@ export const ListTopicByNamespace: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTopicByNamespace",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTopicKeysError = AzureOpError;
 /** Gets the primary and secondary connection strings for the topic. */
@@ -4842,12 +4987,14 @@ function __c47(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
           alias: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/authorizationRules",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDisasterRecoveryConfigAuthorizationRulesRequest" });
@@ -4911,12 +5058,14 @@ function __c51(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDisasterRecoveryConfigsRequest" });
@@ -4939,12 +5088,14 @@ function __c52(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMigrationConfigsRequest" });
@@ -4967,12 +5118,14 @@ function __c53(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/AuthorizationRules",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNamespaceAuthorizationRulesRequest" });
@@ -4985,12 +5138,14 @@ function __c54(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNamespaceByResourceGroupRequest" });
@@ -5037,12 +5192,14 @@ function __c57(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/networkRuleSets",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNamespaceNetworkRuleSetsRequest" });
@@ -5083,12 +5240,14 @@ function __c59(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceBus/namespaces",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNamespacesRequest" });
@@ -5102,12 +5261,14 @@ function __c60(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/networkSecurityPerimeterConfigurations",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkSecurityPerimeterConfigurationRequest" });
@@ -5126,12 +5287,15 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.ServiceBus/operations",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -5173,12 +5337,14 @@ function __c62(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsRequest" });
@@ -5200,12 +5366,14 @@ function __c63(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
           queueName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListQueueAuthorizationRulesRequest" });
@@ -5221,12 +5389,14 @@ function __c64(j: number): any {
           namespaceName: S.String.pipe(T.Label()),
           _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListQueueByNamespaceRequest" });
@@ -5274,12 +5444,14 @@ function __c66(j: number): any {
           subscriptionName: S.String.pipe(T.Label()),
           _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRuleBySubscriptionsRequest" });
@@ -5305,12 +5477,14 @@ function __c67(j: number): any {
           topicName: S.String.pipe(T.Label()),
           _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSubscriptionByTopicRequest" });
@@ -5334,12 +5508,14 @@ function __c68(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
           topicName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/authorizationRules",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTopicAuthorizationRulesRequest" });
@@ -5380,12 +5556,14 @@ function __c70(j: number): any {
           namespaceName: S.String.pipe(T.Label()),
           _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTopicByNamespaceRequest" });

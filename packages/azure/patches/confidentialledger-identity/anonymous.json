@@ -1,0 +1,10 @@
+{
+  "description": "The confidential ledger identity service (`https://identity.confidential-ledger.core.azure.com`) serves a ledger's network identity (its TLS certificate) without authentication, and the spec declares no security scheme. Mark it anonymous so no token is minted or sent.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.confidentialledger_identity#ConfidentialledgerIdentity/traits/com.azure.protocols#anonymous",
+      "value": true
+    }
+  ]
+}

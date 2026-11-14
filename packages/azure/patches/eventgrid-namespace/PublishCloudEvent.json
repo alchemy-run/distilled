@@ -1,0 +1,10 @@
+{
+  "description": "A single CloudEvent in structured mode is sent as application/cloudevents+json (the spec's consumes); under application/json the namespace reads it as binary mode and looks for ce-* headers.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.eventgrid_namespace#PublishCloudEvent/traits/smithy.api#http/jsonContentType",
+      "value": "application/cloudevents+json; charset=utf-8"
+    }
+  ]
+}

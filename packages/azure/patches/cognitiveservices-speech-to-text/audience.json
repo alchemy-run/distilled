@@ -1,0 +1,10 @@
+{
+  "description": "The spec declares no OAuth2 scope. Azure AI services accept Microsoft Entra ID tokens for the `https://cognitiveservices.azure.com` resource (Microsoft Learn: \"Authenticate requests to Azure AI services\", Microsoft Entra ID authentication).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_speech_to_text#CognitiveservicesSpeechToText/traits/com.azure.protocols#audience",
+      "value": "https://cognitiveservices.azure.com/.default"
+    }
+  ]
+}

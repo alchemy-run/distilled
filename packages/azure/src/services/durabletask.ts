@@ -353,7 +353,10 @@ export interface GetTaskHubResponse {
   /** The resource-specific properties for this resource. */
   properties?: TaskHubProperties | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -386,7 +389,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -397,6 +400,8 @@ export interface ListRetentionPolicyBySchedulerRequest {
   resourceGroupName: string;
   /** The name of the Scheduler */
   schedulerName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A retention policy resource belonging to the scheduler */
 export interface RetentionPolicy {
@@ -425,6 +430,8 @@ export interface ListSchedulerByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SchedulerTagsMap = { [key: string]: string | undefined };
@@ -457,6 +464,8 @@ export interface SchedulerListResult {
 export interface ListSchedulerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSchedulerPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -465,6 +474,8 @@ export interface ListSchedulerPrivateEndpointConnectionsRequest {
   resourceGroupName: string;
   /** The name of the Scheduler */
   schedulerName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The private endpoint connection resource. */
 export type PrivateEndpointConnectionListResultValueItem =
@@ -486,6 +497,8 @@ export interface ListSchedulerPrivateLinksRequest {
   resourceGroupName: string;
   /** The name of the Scheduler */
   schedulerName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A private link resource. */
 export interface SchedulerPrivateLinkResourceListResultValueItem {
@@ -517,6 +530,8 @@ export interface ListTaskHubBySchedulerRequest {
   resourceGroupName: string;
   /** The name of the Scheduler */
   schedulerName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A Task Hub resource belonging to the scheduler */
 export interface TaskHub {
@@ -965,12 +980,13 @@ export const GetTaskHub: API.OperationMethod<
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(308, __c38, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -978,16 +994,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRetentionPolicyBySchedulerError = AzureOpError;
 /** List Retention Policies */
-export const ListRetentionPolicyByScheduler: API.OperationMethod<
+export const ListRetentionPolicyByScheduler: API.PaginatedOperationMethod<
   ListRetentionPolicyBySchedulerRequest,
   RetentionPolicyListResult,
   ListRetentionPolicyBySchedulerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RetentionPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<ListRetentionPolicyBySchedulerRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<RetentionPolicyListResult>,
   errors: [UnknownAzureError],
@@ -995,16 +1018,23 @@ export const ListRetentionPolicyByScheduler: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRetentionPolicyByScheduler",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSchedulerByResourceGroupError = AzureOpError;
 /** List Schedulers by resource group */
-export const ListSchedulerByResourceGroup: API.OperationMethod<
+export const ListSchedulerByResourceGroup: API.PaginatedOperationMethod<
   ListSchedulerByResourceGroupRequest,
   SchedulerListResult,
   ListSchedulerByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Scheduler
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ListSchedulerByResourceGroupRequest>,
   output: __S(41, __c5, 1) as any as S.Schema<SchedulerListResult>,
   errors: [UnknownAzureError],
@@ -1012,16 +1042,23 @@ export const ListSchedulerByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSchedulerByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSchedulerBySubscriptionError = AzureOpError;
 /** List Schedulers by subscription */
-export const ListSchedulerBySubscription: API.OperationMethod<
+export const ListSchedulerBySubscription: API.PaginatedOperationMethod<
   ListSchedulerBySubscriptionRequest,
   SchedulerListResult,
   ListSchedulerBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Scheduler
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<ListSchedulerBySubscriptionRequest>,
   output: __S(41, __c5, 1) as any as S.Schema<SchedulerListResult>,
   errors: [UnknownAzureError],
@@ -1029,16 +1066,23 @@ export const ListSchedulerBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSchedulerBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSchedulerPrivateEndpointConnectionsError = AzureOpError;
 /** List private endpoint connections for the durable task scheduler */
-export const ListSchedulerPrivateEndpointConnections: API.OperationMethod<
+export const ListSchedulerPrivateEndpointConnections: API.PaginatedOperationMethod<
   ListSchedulerPrivateEndpointConnectionsRequest,
   PrivateEndpointConnectionListResult,
   ListSchedulerPrivateEndpointConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SchedulerPropertiesPrivateEndpointConnectionsItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<ListSchedulerPrivateEndpointConnectionsRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
@@ -1046,16 +1090,23 @@ export const ListSchedulerPrivateEndpointConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSchedulerPrivateEndpointConnections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSchedulerPrivateLinksError = AzureOpError;
 /** List private link resources for the durable task scheduler */
-export const ListSchedulerPrivateLinks: API.OperationMethod<
+export const ListSchedulerPrivateLinks: API.PaginatedOperationMethod<
   ListSchedulerPrivateLinksRequest,
   SchedulerPrivateLinkResourceListResult,
   ListSchedulerPrivateLinksError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SchedulerPrivateLinkResourceListResultValueItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ListSchedulerPrivateLinksRequest>,
   output: __S(66, __c8, 2) as any as S.Schema<SchedulerPrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
@@ -1063,16 +1114,23 @@ export const ListSchedulerPrivateLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSchedulerPrivateLinks",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTaskHubBySchedulerError = AzureOpError;
 /** List Task Hubs */
-export const ListTaskHubByScheduler: API.OperationMethod<
+export const ListTaskHubByScheduler: API.PaginatedOperationMethod<
   ListTaskHubBySchedulerRequest,
   TaskHubListResult,
   ListTaskHubBySchedulerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TaskHub
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<ListTaskHubBySchedulerRequest>,
   output: __S(74, __c9, 2) as any as S.Schema<TaskHubListResult>,
   errors: [UnknownAzureError],
@@ -1080,7 +1138,13 @@ export const ListTaskHubByScheduler: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTaskHubByScheduler",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RetentionPoliciesCreateOrReplaceError = AzureOpError;
 /** Create or Update a Retention Policy */
@@ -1267,12 +1331,14 @@ function __c3(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           schedulerName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/retentionPolicies",
             code: 200,
             apiVersion: "2026-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRetentionPolicyBySchedulerRequest" });
@@ -1294,12 +1360,14 @@ function __c4(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers",
             code: 200,
             apiVersion: "2026-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSchedulerByResourceGroupRequest" });
@@ -1324,12 +1392,14 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DurableTask/schedulers",
             code: 200,
             apiVersion: "2026-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSchedulerBySubscriptionRequest" });
@@ -1343,12 +1413,14 @@ function __c7(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           schedulerName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2026-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSchedulerPrivateEndpointConnectionsRequest" });
@@ -1369,12 +1441,14 @@ function __c8(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           schedulerName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/privateLinkResources",
             code: 200,
             apiVersion: "2026-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSchedulerPrivateLinksRequest" });
@@ -1397,12 +1471,14 @@ function __c9(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           schedulerName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/taskHubs",
             code: 200,
             apiVersion: "2026-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTaskHubBySchedulerRequest" });
@@ -2036,12 +2112,15 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.DurableTask/operations",
             code: 200,
             apiVersion: "2026-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2069,7 +2148,7 @@ function __c38(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(307, __c38, 3)),
+          value: __S(307, __c38, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });

@@ -639,6 +639,8 @@ export interface ListAccountByResourceGroupRequest {
   resourceGroupName: string;
   /** The skip token. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Tags on the azure resource. */
 export type AccountTagsMap = { [key: string]: string | undefined };
@@ -679,6 +681,8 @@ export interface ListAccountBySubscriptionRequest {
   subscriptionId: string;
   /** The skip token. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListAccountKeysRequest {
   /** The subscription identifier */
@@ -704,6 +708,8 @@ export interface ListKafkaConfigurationByAccountRequest {
   accountName: string;
   /** The skip token. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The configuration of the event streaming service resource attached to the Purview account for kafka notifications. */
 export interface KafkaConfiguration {
@@ -727,7 +733,10 @@ export interface KafkaConfigurationList {
   /** Collection of items of type results. */
   value: KafkaConfigurationListValueList;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The response model for get operation properties */
 export interface OperationDisplay {
   /** Description of the operation for display purposes */
@@ -841,6 +850,8 @@ export interface ListPrivateEndpointConnectionByAccountRequest {
   accountName: string;
   /** The skip token. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Collection of items of type results. */
 export type PrivateEndpointConnectionListValueList = Array<PrivateEndpointConnection>;
@@ -858,6 +869,8 @@ export interface ListPrivateLinkResourceByAccountRequest {
   resourceGroupName: string;
   /** The name of the account. */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Collection of items of type results. */
 export type PrivateLinkResourceListValueList = Array<PrivateLinkResource>;
@@ -1220,12 +1233,13 @@ export const KafkaConfigurationsCreateOrUpdate: API.OperationMethod<
 
 export type ListAccountByResourceGroupError = AzureOpError;
 /** Gets the accounts resources by resource group. List accounts in ResourceGroup */
-export const ListAccountByResourceGroup: API.OperationMethod<
+export const ListAccountByResourceGroup: API.PaginatedOperationMethod<
   ListAccountByResourceGroupRequest,
   AccountList,
   ListAccountByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Account
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<ListAccountByResourceGroupRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<AccountList>,
   errors: [UnknownAzureError],
@@ -1233,16 +1247,23 @@ export const ListAccountByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccountByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAccountBySubscriptionError = AzureOpError;
 /** Gets the accounts resources by subscription. List accounts in Subscription */
-export const ListAccountBySubscription: API.OperationMethod<
+export const ListAccountBySubscription: API.PaginatedOperationMethod<
   ListAccountBySubscriptionRequest,
   AccountList,
   ListAccountBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Account
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<ListAccountBySubscriptionRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<AccountList>,
   errors: [UnknownAzureError],
@@ -1250,7 +1271,13 @@ export const ListAccountBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccountBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAccountKeysError = AzureOpError;
 /** Lists the keys asynchronous. List the authorization keys associated with this account. */
@@ -1271,12 +1298,13 @@ export const ListAccountKeys: API.OperationMethod<
 
 export type ListKafkaConfigurationByAccountError = AzureOpError;
 /** Gets the list of Kafka configurations for the account. Lists the Kafka configurations in the Account */
-export const ListKafkaConfigurationByAccount: API.OperationMethod<
+export const ListKafkaConfigurationByAccount: API.PaginatedOperationMethod<
   ListKafkaConfigurationByAccountRequest,
   KafkaConfigurationList,
   ListKafkaConfigurationByAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  KafkaConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<ListKafkaConfigurationByAccountRequest>,
   output: __S(306, __c19, 2) as any as S.Schema<KafkaConfigurationList>,
   errors: [UnknownAzureError],
@@ -1284,16 +1312,23 @@ export const ListKafkaConfigurationByAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListKafkaConfigurationByAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists the available operations List of available operations */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationList,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(332, __c20, 12) as any as S.Schema<OperationList>,
   errors: [UnknownAzureError],
@@ -1301,16 +1336,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionByAccountError = AzureOpError;
 /** Gets private endpoint connections. Get private endpoint connections for account */
-export const ListPrivateEndpointConnectionByAccount: API.OperationMethod<
+export const ListPrivateEndpointConnectionByAccount: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionByAccountRequest,
   PrivateEndpointConnectionList,
   ListPrivateEndpointConnectionByAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<ListPrivateEndpointConnectionByAccountRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<PrivateEndpointConnectionList>,
   errors: [UnknownAzureError],
@@ -1318,16 +1360,23 @@ export const ListPrivateEndpointConnectionByAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionByAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourceByAccountError = AzureOpError;
 /** Gets a list of privately linkable resources for an account. Gets a list of privately linkable resources for an account */
-export const ListPrivateLinkResourceByAccount: API.OperationMethod<
+export const ListPrivateLinkResourceByAccount: API.PaginatedOperationMethod<
   ListPrivateLinkResourceByAccountRequest,
   PrivateLinkResourceList,
   ListPrivateLinkResourceByAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<ListPrivateLinkResourceByAccountRequest>,
   output: __S(370, __c23, 2) as any as S.Schema<PrivateLinkResourceList>,
   errors: [UnknownAzureError],
@@ -1335,7 +1384,13 @@ export const ListPrivateLinkResourceByAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResourceByAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PrivateEndpointConnectionsCreateOrUpdateError = AzureOpError;
 /** Approves/Rejects private endpoint connection request. Create or update a private endpoint connection */
@@ -1827,12 +1882,14 @@ function __c15(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Purview/accounts",
             code: 200,
             apiVersion: "2021-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccountByResourceGroupRequest" });
@@ -1859,12 +1916,14 @@ function __c17(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Purview/accounts",
             code: 200,
             apiVersion: "2021-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccountBySubscriptionRequest" });
@@ -1905,12 +1964,14 @@ function __c19(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Purview/accounts/{accountName}/kafkaConfigurations",
             code: 200,
             apiVersion: "2021-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListKafkaConfigurationByAccountRequest" });
@@ -1929,12 +1990,15 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Purview/operations",
             code: 200,
             apiVersion: "2021-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2056,12 +2120,14 @@ function __c22(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Purview/accounts/{accountName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2021-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByAccountRequest" });
@@ -2082,12 +2148,14 @@ function __c23(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Purview/accounts/{accountName}/privateLinkResources",
             code: 200,
             apiVersion: "2021-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceByAccountRequest" });

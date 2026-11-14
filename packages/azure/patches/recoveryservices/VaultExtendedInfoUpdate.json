@@ -1,0 +1,21 @@
+{
+  "description": "Vault extended info is write-once: a PATCH on existing extended info fails with HTTP 412 and an empty body, which surfaced as a retried UnknownAzureError. Add the optional If-Match header member and type the 412 as VaultExtendedInfoAlreadySet (shape added by VaultExtendedInfoCreateOrUpdate.json).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservices#VaultExtendedInfoUpdateRequest/members/ifMatch",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "If-Match",
+          "smithy.api#documentation": "Etag of the current extended info (from a GET); \"*\" matches any version."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservices#VaultExtendedInfoUpdate/errors",
+      "value": [{ "target": "com.azure.recoveryservices#VaultExtendedInfoAlreadySet" }]
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "description": "The spec sends these query arrays with `collectionFormat: csv` (one comma-separated value), but the generated client repeats the key per item, so the service reads only the first item (Image Analysis returned only `tags` for `features=tags&features=read`). Type them as the comma-separated string the service expects.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_document_intelligence#DocumentModelsAnalyzeBatchDocumentsRequest/members/features/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_document_intelligence#DocumentModelsAnalyzeBatchDocumentsRequest/members/features/traits/smithy.api#documentation",
+      "value": "List of optional analysis features. Comma-separated (`ocrHighResolution`, `languages`, `barcodes`, `formulas`, `keyValuePairs`, `styleFont`, `queryFields`)."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_document_intelligence#DocumentModelsAnalyzeBatchDocumentsRequest/members/queryFields/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_document_intelligence#DocumentModelsAnalyzeBatchDocumentsRequest/members/queryFields/traits/smithy.api#documentation",
+      "value": "List of additional fields to extract.  Ex. \"NumberOfGuests,StoreNumber\" Comma-separated."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_document_intelligence#DocumentModelsAnalyzeBatchDocumentsRequest/members/output/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_document_intelligence#DocumentModelsAnalyzeBatchDocumentsRequest/members/output/traits/smithy.api#documentation",
+      "value": "Additional outputs to generate during analysis. Comma-separated (`pdf`, `figures`)."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_document_intelligence#DocumentModelsAnalyzeDocumentFromStreamRequest/members/features/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_document_intelligence#DocumentModelsAnalyzeDocumentFromStreamRequest/members/features/traits/smithy.api#documentation",
+      "value": "List of optional analysis features. Comma-separated (`ocrHighResolution`, `languages`, `barcodes`, `formulas`, `keyValuePairs`, `styleFont`, `queryFields`)."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_document_intelligence#DocumentModelsAnalyzeDocumentFromStreamRequest/members/queryFields/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_document_intelligence#DocumentModelsAnalyzeDocumentFromStreamRequest/members/queryFields/traits/smithy.api#documentation",
+      "value": "List of additional fields to extract.  Ex. \"NumberOfGuests,StoreNumber\" Comma-separated."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_document_intelligence#DocumentModelsAnalyzeDocumentFromStreamRequest/members/output/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_document_intelligence#DocumentModelsAnalyzeDocumentFromStreamRequest/members/output/traits/smithy.api#documentation",
+      "value": "Additional outputs to generate during analysis. Comma-separated (`pdf`, `figures`)."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_document_intelligence#DocumentModelsAnalyzeDocumentRequest/members/features/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_document_intelligence#DocumentModelsAnalyzeDocumentRequest/members/features/traits/smithy.api#documentation",
+      "value": "List of optional analysis features. Comma-separated (`ocrHighResolution`, `languages`, `barcodes`, `formulas`, `keyValuePairs`, `styleFont`, `queryFields`)."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_document_intelligence#DocumentModelsAnalyzeDocumentRequest/members/queryFields/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_document_intelligence#DocumentModelsAnalyzeDocumentRequest/members/queryFields/traits/smithy.api#documentation",
+      "value": "List of additional fields to extract.  Ex. \"NumberOfGuests,StoreNumber\" Comma-separated."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_document_intelligence#DocumentModelsAnalyzeDocumentRequest/members/output/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_document_intelligence#DocumentModelsAnalyzeDocumentRequest/members/output/traits/smithy.api#documentation",
+      "value": "Additional outputs to generate during analysis. Comma-separated (`pdf`, `figures`)."
+    }
+  ]
+}

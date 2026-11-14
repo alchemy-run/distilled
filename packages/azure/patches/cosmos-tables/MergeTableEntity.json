@@ -1,0 +1,28 @@
+{
+  "description": "Attach the observed Table service errors to MergeTableEntity. Send Merge Entity with the MERGE verb its REST reference documents: Cosmos DB for Table answers the spec's PATCH with 400 InvalidInput (MERGE returns 204, and Azure Table storage accepts MERGE too).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#TableMergeEntity/errors",
+      "value": [
+        {
+          "target": "com.azure.cosmos_tables#TableEntityNotFound"
+        },
+        {
+          "target": "com.azure.cosmos_tables#TableEntityConditionNotMet"
+        },
+        {
+          "target": "com.azure.cosmos_tables#TableNotFound"
+        },
+        {
+          "target": "com.azure.cosmos_tables#TablePermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cosmos_tables#TableMergeEntity/traits/smithy.api#http/method",
+      "value": "MERGE"
+    }
+  ]
+}

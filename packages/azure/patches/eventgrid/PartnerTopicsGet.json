@@ -1,0 +1,20 @@
+{
+  "description": "A partner topic that a partner's channel just created returns `\"tags\": null` (live GET, 2026-10-24); the spec types tags as an optional map. Mark tags nullable on the partner topic read shapes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.eventgrid#PartnerTopicsGetResponse/members/tags/traits/com.distilled.openapi#nullable",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.eventgrid#PartnerTopicsActivateResponse/members/tags/traits/com.distilled.openapi#nullable",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.eventgrid#PartnerTopic/members/tags/traits/com.distilled.openapi#nullable",
+      "value": {}
+    }
+  ]
+}

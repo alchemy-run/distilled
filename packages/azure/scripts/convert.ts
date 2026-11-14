@@ -1,11 +1,15 @@
 #!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Azure ARM Swagger 2.0 specs into Smithy 2.0 JSON models,
- * one merged model per Azure service.
+ * one merged model per Azure service, plus one model per data-plane group
+ * (see the "Data planes" section).
  *
  * Input:  specs/spec-mirror-azure/specs/specification/<service>/resource-manager/
  *         <Microsoft.Provider>[/<subService>]/stable/<version>/*.json
- * Output: .generated-specs/<service>.json
+ *         specs/spec-mirror-azure/specs/specification/<service>/data-plane/
+ *         <group>[/<sub>]/stable/<version>/*.json
+ * Output: .generated-specs/<service>.json, .generated-specs/<service>-<group>.json
+ *         (+ manual-specs/<module>.json copied in, see "Manual specs")
  *
  * Ported from distilled v0's `packages/azure/scripts/generate.ts` (the
  * spec-side half). The pipeline per spec file:
@@ -37,7 +41,12 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
+import {
+  clearModels,
+  modelExists,
+  writeModel,
+  writeModelText,
+} from "@distilled.cloud/dev/codegen/models";
 import {
   API_VERSION_TRAIT,
   convertOpenApiToSmithy,
@@ -735,8 +744,1242 @@ function foldApiVersion(model: SmithyModel): void {
 }
 
 // ============================================================================
+// Spec loading (shared by the ARM and data-plane passes)
+// ============================================================================
+
+/**
+ * Read one swagger document and make it self-contained: sibling
+ * definitions merged, external `$ref`s inlined, dangling `#/definitions/`
+ * refs transplanted from the file cache.
+ */
+function loadResolvedSpec(filePath: string, versionDir: string): any {
+  const specContent = fs.readFileSync(filePath, "utf-8");
+  const specObj = JSON.parse(specContent);
+  const specDir = path.dirname(filePath);
+
+  // Merge sibling definitions
+  mergeSiblingDefinitions(specObj, versionDir);
+
+  // Resolve external $refs, transplanting missing definitions from
+  // common-types
+  const ctx: ExternalRefContext = {
+    mainSpec: specObj,
+    transplanting: new Set(),
+  };
+  const resolved = resolveExternalRefs(specObj, specDir, new Set(), ctx);
+
+  // Copy transplanted definitions into the resolved spec
+  // (resolveExternalRefs returns a new object tree, but
+  // transplantMissingDefinitions adds definitions to ctx.mainSpec which
+  // is the original specObj)
+  if (specObj.definitions) {
+    if (!resolved.definitions) resolved.definitions = {};
+    for (const [name, def] of Object.entries(specObj.definitions)) {
+      if (!resolved.definitions[name]) {
+        resolved.definitions[name] = JSON.parse(JSON.stringify(def));
+      }
+    }
+  }
+  if (specObj.parameters) {
+    if (!resolved.parameters) resolved.parameters = {};
+    for (const [name, param] of Object.entries(specObj.parameters)) {
+      if (!resolved.parameters[name]) {
+        resolved.parameters[name] = JSON.parse(JSON.stringify(param));
+      }
+    }
+  }
+
+  // Second pass: find any remaining dangling #/definitions/ refs that
+  // weren't caught during the first resolve pass
+  collectMissingDefinitions(resolved, specDir, resolved);
+  return resolved;
+}
+
+/** Apply the converter's deferred names; returns final id → upstream id. */
+function applyDeferredNames(model: SmithyModel): Map<string, string> {
+  const rename: Record<string, string> = model.metadata?.[RENAME_METADATA_KEY] ?? {};
+  delete model.metadata?.[RENAME_METADATA_KEY];
+  renameShapes(model, new Map(Object.entries(rename)));
+  return new Map(Object.entries(rename).map(([from, to]) => [to, from]));
+}
+
+const newMergedService = (): MergedService => ({
+  shapes: {},
+  taken: new Set(),
+  ops: [],
+  skippedOps: 0,
+  upstream: new Map(),
+});
+
+/** Add the merged service shape and write `.generated-specs/<file>.json`. */
+function writeMergedModel(
+  file: string,
+  ns: string,
+  serviceName: string,
+  merged: MergedService,
+  traits: Record<string, unknown>,
+): void {
+  const serviceId = `${ns}#${
+    merged.taken.has(serviceName) ? `${serviceName}Service` : serviceName
+  }`;
+  merged.shapes[serviceId] = {
+    type: "service",
+    version: "1.0",
+    operations: merged.ops.map((target) => ({ target })),
+    traits,
+  };
+
+  const model: SmithyModel = {
+    smithy: "2.0",
+    metadata: {
+      suppressions: [
+        { id: "HttpUriConflict", namespace: "*" },
+        { id: "HttpMethodSemantics", namespace: "*" },
+        { id: "UnreferencedShape", namespace: "*" },
+      ],
+    },
+    shapes: merged.shapes,
+  };
+  const upstreamModel = withUpstreamNames(model, merged.upstream);
+
+  writeModel(path.join(outDir, `${file}.json`), upstreamModel);
+}
+
+// ============================================================================
+// Data planes
+// ============================================================================
+//
+// specification/<service>/data-plane/<group>/[<sub>/]stable/<version>/*.json
+//
+// Every in-scope group becomes its own module `<service>-<group-kebab>`
+// (`keyvault-secrets`, `storage-blob`, `appconfiguration-data`). ARM module
+// names never contain `-`, so the two can never collide (checked anyway).
+//
+// Data-plane swagger differs from ARM in where a request goes, not in how
+// its body looks. So the spec is rewritten into something the shared
+// converter handles (prepareDataPlaneSpec), and the converted model is
+// stamped with what the protocol needs (stampDataPlaneModel):
+//
+//   host      `x-ms-parameterized-host` (`{vaultBaseUrl}`,
+//             `https://{dpsName}.azure-devices-provisioning.net`, …), OpenAPI 3
+//             `servers[0]`, or a fixed `host` + `basePath`. Its parameters
+//             become input members carrying HOST_LABEL_TRAIT (not path
+//             labels, query, or body); the template goes on the operation's
+//             `smithy.api#http` trait as `host`, and the protocol builds the
+//             base URL from it instead of `apiBaseUrl`. A host parameter
+//             with exactly one allowed value is baked into the template; one
+//             with a spec default is optional and falls back to it.
+//   version   `api-version` (query) or Storage's `x-ms-version` (header) is
+//             dropped from the input and pinned per operation as
+//             `apiVersion` (+ `apiVersionHeader` for the header form), so
+//             callers never pass it.
+//   constants required query/header parameters with a single allowed value
+//             (Storage's `comp=list`, `restype=container`) become the
+//             operation's constant `query` / `headers`. The query string of
+//             an `x-ms-paths` key (`/{containerName}?restype=container&comp=list`,
+//             `?_overload=…`) only makes the key unique and is never sent.
+//   audience  the AAD scope the spec's security scheme declares, recorded
+//             as the service-level AUDIENCE_TRAIT; generate.ts folds it into
+//             every operation's http trait and the protocol asks Credentials
+//             for a token for it. A spec that declares none, or the wrong
+//             one, gets its audience from a patch
+//             (`patches/<module>/audience.json`), as do a token exchange
+//             (`#tokenExchange`), an unauthenticated service (`#anonymous`),
+//             per-host audiences (`#audienceByHost`) and constant headers
+//             (`#headers`).
+
+/** Member trait: the member fills a `{placeholder}` of the operation's host template. */
+const HOST_LABEL_TRAIT = "com.azure.protocols#hostLabel";
+/** Service trait: the AAD token audience (`https://vault.azure.net/.default`). */
+const AUDIENCE_TRAIT = "com.azure.protocols#audience";
+/** Service trait: the host template and its parameters. */
+const HOST_TRAIT = "com.azure.protocols#host";
+
+/**
+ * Data planes name their version directories freely: dates (`2025-07-01`,
+ * `2021-05`, `2024-07-01.20.0`), dotted numbers (`7.6`, `1.0`) and
+ * `v`-prefixed ones (`v3.2`, `v1`). A group that moved from numbered to
+ * dated versions (Key Vault `7.6` → `2025-07-01`) is newest on its dates, so
+ * a dated version ranks above any other; within a kind, versions compare
+ * numerically. Mirrors `compareDataPlaneVersions` in the spec mirror's
+ * `.meta/fetch-specs.ts` — keep the two in step.
+ */
+const DATED_VERSION = /^\d{4}-\d{2}/;
+const compareDataPlaneVersions = (a: string, b: string): number => {
+  const rank = (v: string) => (DATED_VERSION.test(v) ? 1 : 0);
+  return rank(a) - rank(b) || a.localeCompare(b, "en", { numeric: true });
+};
+
+/**
+ * Groups out of scope (`<service>/*` for a whole service), with the reason
+ * the Azure factory audit gives.
+ */
+const DATA_PLANE_SKIP: Readonly<Record<string, string>> = {
+  "contosowidgetmanager/*": "TypeSpec sample service",
+  "widget/*": "TypeSpec sample service",
+  "datalake-analytics/*": "Data Lake Analytics is retired",
+  "datalake-store/*": "Data Lake Storage Gen1 is retired",
+  "timeseriesinsights/*": "Time Series Insights is retired",
+  "keyvault/Legacy": "superseded by the per-area Key Vault groups",
+  "keyvault/SecretsStorage": "internal Key Vault storage API",
+  "imds/*": "VM-local Instance Metadata Service, not a cloud endpoint",
+  "machinelearningservices/*": "out of scope per the audit",
+  "purview/*": "out of scope per the audit",
+  "marketplacecatalog/*": "out of scope per the audit",
+  "servicefabric/*": "cluster-local Service Fabric API",
+  "cognitiveservices/LUISAuthoring": "LUIS is retired",
+  "cognitiveservices/LUISRuntime": "LUIS is retired",
+  "cognitiveservices/Personalizer": "Personalizer is retired",
+  "cognitiveservices/AnomalyDetector": "Anomaly Detector is retired",
+  "cognitiveservices/MetricsAdvisor": "Metrics Advisor is retired",
+  "cognitiveservices/ContentModerator": "Content Moderator is retired",
+  "cognitiveservices/FormRecognizer": "retired; superseded by ai/DocumentIntelligence",
+  "cognitiveservices/ComputerVision": "retired; superseded by ai/ImageAnalysis",
+  "cognitiveservices/TextAnalytics": "retired; superseded by LanguageAnalyzeText",
+  "cognitiveservices/Face": "retired; superseded by ai/Face",
+};
+
+/** Module names that the generic rule would not produce. */
+const DATA_PLANE_MODULE_NAMES: Readonly<Record<string, string>> = {
+  "containerregistry/Registry": "containerregistry-data",
+  "cosmos-db/Tables": "cosmos-tables",
+  "loadtestservice/loadtesting": "loadtesting-data",
+  "monitor/Ingestion": "monitor-ingestion",
+  "storage/DataLakeStorage": "storage-datalake",
+};
+
+/** Module-name prefix for services whose directory name reads badly. */
+const DATA_PLANE_SERVICE_PREFIX: Readonly<Record<string, string>> = {
+  "cosmos-db": "cosmos",
+  deviceprovisioningservices: "deviceprovisioning",
+  loadtestservice: "loadtesting",
+};
+
+/** `secret-name` → `secretName`, `Endpoint` → `endpoint`. */
+const camelIdent = (s: string): string => {
+  const parts = s.split(/[^A-Za-z0-9]+/).filter(Boolean);
+  if (parts.length === 0) return "_";
+  let out = parts
+    .map((p, i) =>
+      i === 0 ? p.charAt(0).toLowerCase() + p.slice(1) : p.charAt(0).toUpperCase() + p.slice(1),
+    )
+    .join("");
+  if (/^[0-9]/.test(out)) out = `_${out}`;
+  return out;
+};
+
+/** `LanguageAnalyzeText` → `[language, analyze, text]`, `OpenAIInference` → `[openai, inference]`. */
+const words = (s: string): string[] =>
+  s
+    .replace(/OpenAI/g, "Openai")
+    .replace(/IoT/g, "Iot")
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+    .replace(/([A-Z]+)([A-Z][a-z])/g, "$1-$2")
+    .split(/[^A-Za-z0-9]+/)
+    .filter(Boolean)
+    .map((w) => w.toLowerCase());
+
+/**
+ * `<service>/<group>` → module name. An explicit entry wins. Otherwise the
+ * group's last path segment, without a `Microsoft.` prefix and without the
+ * service name at either end (`EventGridNamespace` → `namespace`,
+ * `BlobStorage` → `blob`), kebab-cased; a group that is just the service
+ * (`DevCenter` under `devcenter`) becomes `data`.
+ */
+function dataPlaneModuleName(service: string, group: string): string {
+  const explicit = DATA_PLANE_MODULE_NAMES[`${service}/${group}`];
+  if (explicit) return explicit;
+  const prefix = DATA_PLANE_SERVICE_PREFIX[service] ?? service;
+  const svc = service.toLowerCase().replace(/[^a-z0-9]/g, "");
+  let w = words(
+    group
+      .split("/")
+      .at(-1)!
+      .replace(/^Microsoft\./i, ""),
+  );
+  for (let i = 1; i <= w.length; i++) {
+    if (w.slice(0, i).join("") === svc || w.slice(0, i).join("") === `${svc}services`) {
+      w = w.slice(i);
+      break;
+    }
+  }
+  for (let i = 1; i <= w.length; i++) {
+    if (w.slice(-i).join("") === svc) {
+      w = w.slice(0, -i);
+      break;
+    }
+  }
+  return `${prefix}-${w.length === 0 ? "data" : w.join("-")}`;
+}
+
+interface DataPlaneGroup {
+  service: string;
+  /** Path below `data-plane/`, e.g. `Secrets` or `duiothub/Microsoft.DeviceUpdate`. */
+  group: string;
+  module: string;
+  apiVersion: string;
+  versionDir: string;
+  files: string[];
+}
+
+interface DataPlaneSkip {
+  label: string;
+  reason: string;
+}
+
+const isDir = (p: string): boolean => fs.existsSync(p) && fs.statSync(p).isDirectory();
+
+const hasOperations = (filePath: string): boolean => {
+  try {
+    const parsed = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    if (!parsed.swagger && !parsed.openapi) return false;
+    return (
+      Object.keys(parsed.paths ?? {}).length > 0 ||
+      Object.keys(parsed["x-ms-paths"] ?? {}).length > 0
+    );
+  } catch {
+    return false;
+  }
+};
+
+function discoverDataPlanes(): { groups: DataPlaneGroup[]; skipped: DataPlaneSkip[] } {
+  const groups: DataPlaneGroup[] = [];
+  const skipped: DataPlaneSkip[] = [];
+  for (const service of fs.readdirSync(specsRoot).sort()) {
+    if (service === "common-types") continue;
+    const dpPath = path.join(specsRoot, service, "data-plane");
+    if (!isDir(dpPath)) continue;
+
+    // <group>/stable or <group>/<sub>/stable
+    const candidates: string[] = [];
+    for (const g of fs.readdirSync(dpPath).sort()) {
+      const gPath = path.join(dpPath, g);
+      if (!isDir(gPath)) continue;
+      if (isDir(path.join(gPath, "stable"))) candidates.push(g);
+      for (const sub of fs.readdirSync(gPath).sort()) {
+        if (sub === "stable" || sub === "preview") continue;
+        if (isDir(path.join(gPath, sub, "stable"))) candidates.push(`${g}/${sub}`);
+      }
+    }
+
+    for (const group of candidates) {
+      const label = `${service}/${group}`;
+      const reason = DATA_PLANE_SKIP[label] ?? DATA_PLANE_SKIP[`${service}/*`];
+      if (reason) {
+        skipped.push({ label, reason });
+        continue;
+      }
+      const stablePath = path.join(dpPath, group, "stable");
+      const versions = fs
+        .readdirSync(stablePath)
+        .filter((v) => isDir(path.join(stablePath, v)) && !v.includes("preview"))
+        .sort(compareDataPlaneVersions);
+      if (versions.length === 0) {
+        skipped.push({ label, reason: "no stable api-version" });
+        continue;
+      }
+      const apiVersion = versions.at(-1)!;
+      const versionDir = path.join(stablePath, apiVersion);
+      let files = fs
+        .readdirSync(versionDir)
+        .filter((f) => f.endsWith(".json") && !f.startsWith("examples"))
+        .sort()
+        .map((f) => path.join(versionDir, f))
+        .filter(hasOperations);
+      // Storage ships the hand-maintained swagger next to a TypeSpec export
+      // of the same API (`blob.json` + `generated_blob.json`). Keep the
+      // hand-maintained one: it carries the XML metadata the SDKs use.
+      if (files.some((f) => !path.basename(f).startsWith("generated_"))) {
+        files = files.filter((f) => !path.basename(f).startsWith("generated_"));
+      }
+      if (files.length === 0) {
+        skipped.push({ label, reason: `no operations in ${apiVersion}` });
+        continue;
+      }
+      groups.push({
+        service,
+        group,
+        module: dataPlaneModuleName(service, group),
+        apiVersion,
+        versionDir,
+        files,
+      });
+    }
+  }
+  return { groups, skipped };
+}
+
+/** Per-operation facts the rewritten spec cannot carry through the converter. */
+interface DataPlaneOp {
+  apiVersion?: string;
+  apiVersionHeader?: string;
+  query: Record<string, string>;
+  headers: Record<string, string>;
+  /** Path labels marked `x-ms-skip-url-encoding` (Key Vault's RBAC `{scope}`): kept greedy. */
+  greedy: string[];
+  /** Storage only: bodies, header maps and response headers (see stampStorageOp). */
+  storage?: StorageOp;
+}
+
+/**
+ * What a Storage operation sends and returns beyond JSON members, read from
+ * the swagger: XML bodies (`xml: { name, wrapped, attribute }`), raw bytes
+ * (`format: file`), `x-ms-meta-*` header collections, and response headers.
+ */
+interface StorageOp {
+  /** Request body: XML under `root` (described by `schema`), or raw bytes. */
+  body?: { kind: "xml"; root: string; schema: any } | { kind: "binary" };
+  /** Success body: XML described by `schema`, or raw bytes. JSON bodies stay with the converter. */
+  response?: { kind: "xml"; schema: any } | { kind: "binary" };
+  /** Request headers sent as one header per map key (`x-ms-meta` → `x-ms-meta-<key>`). */
+  prefixParams: StorageHeader[];
+  /** Headers the success responses declare, first declaration wins. */
+  responseHeaders: StorageHeader[];
+}
+
+interface StorageHeader {
+  /** Wire name as the spec declares it (`x-ms-meta`, `Content-Length`). */
+  name: string;
+  /** Collections only: the per-key header prefix (`x-ms-meta-`). */
+  prefix?: string;
+  /** Collections only: the member name (`metadata`). */
+  member?: string;
+  type: "string" | "integer" | "boolean";
+  description?: string;
+}
+
+/** Data planes that speak Storage's XML / header / raw-bytes REST dialect. */
+const STORAGE_DATA_PLANES: ReadonlySet<string> = new Set([
+  "storage-blob",
+  "storage-queue",
+  "storage-file",
+  "storage-datalake",
+]);
+
+/** The schema is raw bytes (`{ type: object, format: file }`, `format: binary`). */
+const isFileSchema = (s: any): boolean =>
+  s !== null && typeof s === "object" && (s.format === "file" || s.format === "binary");
+
+/** The header declares a key → value collection under a prefix (`x-ms-meta-*`). */
+const headerCollection = (p: any): { prefix: string; member: string } | undefined => {
+  const prefix =
+    typeof p?.["x-ms-header-collection-prefix"] === "string"
+      ? p["x-ms-header-collection-prefix"]
+      : // Queue_Create's `x-ms-meta` omits the extension; the wire format is the same.
+        p?.name === "x-ms-meta"
+        ? "x-ms-meta-"
+        : undefined;
+  if (prefix === undefined) return undefined;
+  const clientName = typeof p["x-ms-client-name"] === "string" ? p["x-ms-client-name"] : undefined;
+  return { prefix, member: camelIdent(clientName ?? prefix.replace(/-+$/, "")) };
+};
+
+const headerType = (s: any): StorageHeader["type"] =>
+  s?.type === "integer" ? "integer" : s?.type === "boolean" ? "boolean" : "string";
+
+/** Read a Storage operation's body, response and header facts from its swagger. */
+function storageOpFacts(
+  deref: (x: any) => any,
+  doc: any,
+  op: any,
+  params: Iterable<any>,
+): StorageOp {
+  const consumes: string[] = op.consumes ?? doc.consumes ?? [];
+  const produces: string[] = op.produces ?? doc.produces ?? [];
+  const facts: StorageOp = { prefixParams: [], responseHeaders: [] };
+  for (const p of params) {
+    if (p.in === "header") {
+      const collection = headerCollection(p);
+      if (collection) facts.prefixParams.push({ name: p.name, type: "string", ...collection });
+    }
+    if (p.in !== "body") continue;
+    const schema = deref(p.schema);
+    if (isFileSchema(schema)) {
+      facts.body = { kind: "binary" };
+    } else if (consumes.some((c) => c.includes("xml")) && schema && typeof schema === "object") {
+      const refName =
+        typeof p.schema?.$ref === "string" ? p.schema.$ref.split("/").pop() : undefined;
+      facts.body = { kind: "xml", root: schema.xml?.name ?? refName ?? p.name, schema: p.schema };
+    }
+  }
+  const seen = new Set<string>();
+  for (const code of Object.keys(op.responses ?? {}).sort()) {
+    if (!/^2\d\d$/.test(code)) continue;
+    const resp = deref(op.responses[code]);
+    if (!resp || typeof resp !== "object") continue;
+    if (facts.response === undefined && resp.schema !== undefined) {
+      const schema = deref(resp.schema);
+      if (isFileSchema(schema)) facts.response = { kind: "binary" };
+      else if (produces.some((c) => c.includes("xml"))) {
+        facts.response = { kind: "xml", schema: resp.schema };
+      }
+    }
+    for (const [name, raw] of Object.entries<any>(resp.headers ?? {})) {
+      const lower = name.toLowerCase();
+      if (seen.has(lower)) continue;
+      seen.add(lower);
+      const header = deref(raw);
+      facts.responseHeaders.push({
+        name,
+        type: headerType(header),
+        ...(typeof header?.description === "string" ? { description: header.description } : {}),
+        ...headerCollection({ ...header, name }),
+      });
+    }
+  }
+  return facts;
+}
+
+interface HostMember {
+  ident: string;
+  /** `x-ms-skip-url-encoding`: the value is a URL inserted verbatim. */
+  raw: boolean;
+  default?: string;
+  description?: string;
+}
+
+interface DataPlaneHost {
+  /** Template with member placeholders: `{vaultBaseUrl}`, `https://{dpsName}.x.net`. */
+  template: string;
+  members: HostMember[];
+}
+
+const OP_MARKER = "__dpop_";
+const HTTP_METHOD_KEYS = ["get", "put", "post", "patch", "delete", "head"] as const;
+
+/** The single value a parameter allows (one-value `enum`), if any. */
+const soleValue = (p: any): string | undefined => {
+  const values = Array.isArray(p?.enum) ? p.enum : p?.schema?.enum;
+  return Array.isArray(values) && values.length === 1 && typeof values[0] === "string"
+    ? values[0]
+    : undefined;
+};
+
+/**
+ * Rewrite a resolved data-plane spec so the shared converter produces the
+ * right members, and collect what it cannot carry (see the section comment).
+ *
+ * Every operation gets its own path key: a marker label `/{__dpop_<n>}`
+ * (stripped again in stampDataPlaneModel, it matches the converted operation
+ * back to its facts), one label per host member, then the operation's path
+ * with its labels camel-cased (`{secret-name}` → `{secretName}`).
+ */
+function prepareDataPlaneSpec(
+  doc: any,
+  dirVersion: string,
+  storage = false,
+): { host: DataPlaneHost; ops: DataPlaneOp[] } {
+  const deref = (x: any): any => {
+    let cur = x;
+    for (let i = 0; i < 10 && typeof cur?.$ref === "string" && cur.$ref.startsWith("#/"); i++) {
+      cur = resolvePointer(doc, cur.$ref);
+    }
+    return cur;
+  };
+
+  // ---- host ----
+  let template: string;
+  const hostParams: any[] = [];
+  let fromServers = false;
+  const ph = doc["x-ms-parameterized-host"];
+  if (typeof doc.openapi === "string" && typeof doc.servers?.[0]?.url === "string") {
+    // OpenAPI 3 server variables must carry a default; it is a placeholder
+    // (`your-resource-name.openai.azure.com`), not a usable value.
+    template = doc.servers[0].url;
+    fromServers = true;
+    for (const [name, v] of Object.entries<any>(doc.servers[0].variables ?? {})) {
+      hostParams.push({ name, type: "string", enum: v?.enum, description: v?.description });
+    }
+  } else if (ph && typeof ph.hostTemplate === "string") {
+    template = ph.hostTemplate;
+    if (ph.useSchemePrefix !== false && !/^[a-z]+:\/\//i.test(template)) {
+      template = `https://${template}`;
+    }
+    for (const raw of ph.parameters ?? []) {
+      const p = deref(raw);
+      if (p && typeof p.name === "string") hostParams.push(p);
+    }
+  } else if (typeof doc.host === "string" && doc.host.includes(".")) {
+    template = `https://${doc.host}`;
+  } else {
+    // No usable host (TypeSpec exports without one, a `digitaltwins-hostname`
+    // placeholder): the caller passes the endpoint URL.
+    template = "{endpoint}";
+    hostParams.push({
+      name: "endpoint",
+      type: "string",
+      "x-ms-skip-url-encoding": true,
+      description: "The service endpoint URL.",
+    });
+  }
+  if (!fromServers && typeof doc.basePath === "string" && doc.basePath !== "/") {
+    template += doc.basePath.replace(/\/+$/, "");
+  }
+  const members: HostMember[] = [];
+  for (const p of hostParams) {
+    const placeholder = `{${p.name}}`;
+    if (!template.includes(placeholder)) continue;
+    const fixed = soleValue(p);
+    if (fixed !== undefined) {
+      template = template.split(placeholder).join(fixed);
+      continue;
+    }
+    const ident = camelIdent(p.name);
+    template = template.split(placeholder).join(`{${ident}}`);
+    if (members.some((m) => m.ident === ident)) continue;
+    members.push({
+      ident,
+      raw: p["x-ms-skip-url-encoding"] === true,
+      default: !fromServers && typeof p.default === "string" ? p.default : undefined,
+      description: typeof p.description === "string" ? p.description : undefined,
+    });
+  }
+  template = template.replace(/\/+$/, "");
+
+  // ---- operations ----
+  const infoVersion = typeof doc.info?.version === "string" ? doc.info.version : undefined;
+  const all: Array<[string, any]> = [
+    ...Object.entries<any>(doc.paths ?? {}),
+    ...Object.entries<any>(doc["x-ms-paths"] ?? {}),
+  ];
+  const ops: DataPlaneOp[] = [];
+  const paths: Record<string, any> = {};
+  const hostSegments = members.map((m) => `/{${m.ident}}`).join("");
+  const hostLabelParams = members.map((m) => ({
+    name: m.ident,
+    in: "path",
+    required: true,
+    type: "string",
+    ...(m.description ? { description: m.description } : {}),
+  }));
+
+  for (const [rawKey, item] of all) {
+    if (!item || typeof item !== "object") continue;
+    let pathPart = rawKey.split("?")[0]!;
+    if (!pathPart.startsWith("/")) pathPart = `/${pathPart}`;
+    const pathLevel = (Array.isArray(item.parameters) ? item.parameters : []).map(deref);
+
+    for (const method of HTTP_METHOD_KEYS) {
+      const op = item[method];
+      if (!op || typeof op !== "object") continue;
+
+      // Path-level parameters first; an op-level one with the same
+      // (in, name) overrides it.
+      const byKey = new Map<string, any>();
+      for (const p of [
+        ...pathLevel,
+        ...(Array.isArray(op.parameters) ? op.parameters : []).map(deref),
+      ]) {
+        if (p && typeof p.name === "string") byKey.set(`${p.in}${p.name}`, p);
+      }
+
+      const facts: DataPlaneOp = { query: {}, headers: {}, greedy: [] };
+      if (storage) facts.storage = storageOpFacts(deref, doc, op, byKey.values());
+      const kept: any[] = [];
+      const labelRenames = new Map<string, string>();
+      for (const p of byKey.values()) {
+        if (p.in === "query" && p.name === "api-version") {
+          facts.apiVersion = soleValue(p) ?? p.default ?? infoVersion ?? dirVersion;
+          continue;
+        }
+        if (p.in === "header" && p.name.toLowerCase() === "x-ms-version") {
+          facts.apiVersion = soleValue(p) ?? p.default ?? infoVersion ?? dirVersion;
+          facts.apiVersionHeader = p.name;
+          continue;
+        }
+        if ((p.in === "query" || p.in === "header") && p.required === true) {
+          const fixed = soleValue(p);
+          if (fixed !== undefined) {
+            if (p.in === "query") facts.query[p.name] = fixed;
+            else facts.headers[p.name] = fixed;
+            continue;
+          }
+        }
+        // The protocol and the HTTP client own authentication, content
+        // negotiation and framing.
+        if (p.in === "header" && /^(authorization|accept|content-length)$/i.test(p.name)) {
+          continue;
+        }
+        if (p.in === "path") {
+          const ident = camelIdent(p.name);
+          labelRenames.set(p.name, ident);
+          if (p["x-ms-skip-url-encoding"] === true) facts.greedy.push(ident);
+          kept.push({ ...p, name: ident });
+          continue;
+        }
+        // A raw-bytes body converts as a string payload; stampStorageOp
+        // retargets it to bytes.
+        if (p.in === "body" && facts.storage?.body?.kind === "binary") {
+          kept.push({ ...p, schema: { type: "string" } });
+          continue;
+        }
+        kept.push(p);
+      }
+
+      const opPath = pathPart.replace(
+        /\{([^}]+)\}/g,
+        (_m, name: string) => `{${labelRenames.get(name) ?? camelIdent(name)}}`,
+      );
+      const marker = `${OP_MARKER}${ops.length}`;
+      ops.push(facts);
+      paths[`/{${marker}}${hostSegments}${opPath}`] = {
+        [method]: {
+          ...op,
+          parameters: [
+            { name: marker, in: "path", required: true, type: "string" },
+            ...hostLabelParams,
+            ...kept,
+          ],
+        },
+      };
+    }
+  }
+  doc.paths = paths;
+  delete doc["x-ms-paths"];
+  delete doc["x-ms-parameterized-host"];
+  return { host: { template, members }, ops };
+}
+
+/**
+ * Strip the marker and host labels back out of every converted operation,
+ * turn the host labels into HOST_LABEL_TRAIT members, and stamp the
+ * operation's http trait with the host, api-version and constants.
+ */
+function stampDataPlaneModel(
+  model: SmithyModel,
+  host: DataPlaneHost,
+  ops: DataPlaneOp[],
+  doc?: any,
+): void {
+  const markerRe = new RegExp(`^/\\{${OP_MARKER}(\\d+)\\}`);
+  const raw = host.members.filter((hm) => hm.raw).map((hm) => hm.ident);
+  const defaults = Object.fromEntries(
+    host.members.flatMap((hm) => (hm.default !== undefined ? [[hm.ident, hm.default]] : [])),
+  );
+  for (const [opId, def] of Object.entries<any>(model.shapes)) {
+    if (def.type !== "operation") continue;
+    const http = def.traits?.["smithy.api#http"];
+    const m = typeof http?.uri === "string" ? markerRe.exec(http.uri) : null;
+    if (!m) throw new Error(`data-plane operation without its marker: ${http?.uri}`);
+    const facts = ops[Number(m[1])]!;
+    let uri: string = http.uri.slice(m[0].length);
+    for (const hm of host.members) {
+      const seg = `/{${hm.ident}}`;
+      if (!uri.startsWith(seg)) throw new Error(`host label ${hm.ident} missing from ${http.uri}`);
+      uri = uri.slice(seg.length);
+    }
+    for (const label of facts.greedy) uri = uri.split(`{${label}}`).join(`{${label}+}`);
+    http.uri = uri === "" ? "/" : uri;
+    http.host = host.template;
+    if (raw.length > 0) http.hostRaw = raw;
+    if (Object.keys(defaults).length > 0) http.hostDefaults = defaults;
+    if (facts.apiVersion !== undefined) http.apiVersion = facts.apiVersion;
+    if (facts.apiVersionHeader !== undefined) http.apiVersionHeader = facts.apiVersionHeader;
+    if (Object.keys(facts.query).length > 0) http.query = facts.query;
+    if (Object.keys(facts.headers).length > 0) http.headers = facts.headers;
+
+    const input = model.shapes[def.input?.target];
+    if (!input?.members) throw new Error(`data-plane operation without an input: ${http.uri}`);
+    delete input.members[`${OP_MARKER}${m[1]}`];
+    for (const hm of host.members) {
+      const member = input.members[hm.ident];
+      if (!member) continue;
+      const traits = { ...member.traits };
+      delete traits["smithy.api#httpLabel"];
+      if (hm.default !== undefined) delete traits["smithy.api#required"];
+      traits[HOST_LABEL_TRAIT] = {};
+      member.traits = traits;
+    }
+    if (facts.storage !== undefined && doc !== undefined) {
+      stampStorageOp(model, doc, opId, def, http, facts.storage);
+    }
+  }
+}
+
+// ---- Storage (XML bodies, header maps, raw bytes) ----
+
+/** Member trait: the member is the text content of its parent XML element. */
+const XML_TEXT_TRAIT = "com.azure.protocols#xmlText";
+/** Member trait: the element name of each item of a wrapped XML list. */
+const XML_ITEM_NAME_TRAIT = "com.azure.protocols#xmlItemName";
+const HTTP_PREFIX_HEADERS_TRAIT = "smithy.api#httpPrefixHeaders";
+/** The string → string map every header collection targets. */
+const HEADER_MAP_SHAPE = "HeaderCollection";
+
+const PRELUDE_FOR_HEADER: Record<StorageHeader["type"], string> = {
+  string: "smithy.api#String",
+  integer: "smithy.api#Integer",
+  boolean: "smithy.api#Boolean",
+};
+
+/**
+ * Stamp one Storage operation: raw-bytes bodies become `smithy.api#Blob`
+ * payloads, header collections become `httpPrefixHeaders` string maps, the
+ * success response gets its declared headers (and a bytes `body` payload
+ * for downloads), and XML bodies get the swagger's `xml` metadata as
+ * `xmlName` / `xmlAttribute` / `xmlFlattened` / xmlText / xmlItemName
+ * member traits (the request's root element goes on the http trait).
+ */
+function stampStorageOp(
+  model: SmithyModel,
+  doc: any,
+  opId: string,
+  op: any,
+  http: any,
+  facts: StorageOp,
+): void {
+  const [ns, opLocal] = opId.split("#") as [string, string];
+  http.storage = true;
+  const deref = (x: any): any => {
+    let cur = x;
+    for (let i = 0; i < 10 && typeof cur?.$ref === "string" && cur.$ref.startsWith("#/"); i++) {
+      cur = resolvePointer(doc, cur.$ref);
+    }
+    return cur;
+  };
+  const headerMap = (): string => {
+    const id = `${ns}#${HEADER_MAP_SHAPE}`;
+    model.shapes[id] ??= {
+      type: "map",
+      key: { target: "smithy.api#String" },
+      value: { target: "smithy.api#String" },
+    };
+    return id;
+  };
+
+  // ---- input ----
+  const input = model.shapes[op.input?.target];
+  const inMembers: Record<string, any> = input?.members ?? {};
+  for (const p of facts.prefixParams) {
+    const entry = Object.entries<any>(inMembers).find(
+      ([, m]) => m.traits?.["smithy.api#httpHeader"]?.toLowerCase() === p.name.toLowerCase(),
+    );
+    if (!entry) continue;
+    const [name, m] = entry;
+    const traits = { ...m.traits };
+    delete traits["smithy.api#httpHeader"];
+    traits[HTTP_PREFIX_HEADERS_TRAIT] = p.prefix;
+    delete inMembers[name];
+    inMembers[p.member ?? name] = { target: headerMap(), traits };
+  }
+  if (facts.body?.kind === "binary") {
+    const payload = Object.values<any>(inMembers).find(
+      (m) => m.traits?.["smithy.api#httpPayload"] !== undefined,
+    );
+    if (payload) payload.target = "smithy.api#Blob";
+  } else if (facts.body?.kind === "xml") {
+    http.xmlRoot = facts.body.root;
+    const schema = deref(facts.body.schema);
+    const payload = Object.entries<any>(inMembers).find(
+      ([, m]) => m.traits?.["smithy.api#httpPayload"] !== undefined,
+    );
+    if (payload) {
+      // A bare list body (`<SignedIdentifiers><SignedIdentifier/>…`).
+      stampXmlMember(model, deref, payload[1], facts.body.schema, facts.body.root, new Set());
+    } else if (input) {
+      stampXmlStruct(model, deref, schema, input, new Set());
+    }
+  }
+
+  // ---- output ----
+  const outId: string | undefined = op.output?.target;
+  let output = outId !== undefined ? model.shapes[outId] : undefined;
+  const isRawRoot = (shape: any) =>
+    Object.values<any>(shape?.members ?? {}).some(
+      (m) => m.traits?.["com.distilled.openapi#rawResponse"] !== undefined,
+    );
+  if (facts.response?.kind === "xml" && output !== undefined) {
+    const schema = deref(facts.response.schema);
+    if (isRawRoot(output)) {
+      // A bare list response (`<QueueMessagesList><QueueMessage/>…`).
+      const [body] = Object.values<any>(output.members);
+      stampXmlMember(model, deref, body, facts.response.schema, undefined, new Set());
+    } else if (output.type === "structure") {
+      stampXmlStruct(model, deref, schema, output, new Set());
+    }
+  }
+  const binary = facts.response?.kind === "binary";
+  if (facts.responseHeaders.length === 0 && !binary) return;
+  // A bare list response has no object to carry headers.
+  if (!binary && output !== undefined && isRawRoot(output)) return;
+
+  // The operation gets its own output structure, so headers never leak
+  // into another operation sharing a named component.
+  const ownName = `${ns}#${opLocal}Response`;
+  let members: Record<string, any>;
+  if (binary) {
+    members = {
+      body: {
+        target: "smithy.api#Blob",
+        traits: { "smithy.api#httpPayload": {}, "smithy.api#required": {} },
+      },
+    };
+  } else if (output !== undefined && output.type === "structure") {
+    members = { ...output.members };
+  } else {
+    members = {};
+  }
+  const taken = new Set(Object.keys(members));
+  const wired = new Set(
+    Object.values<any>(members)
+      .map((m) => m.traits?.["smithy.api#httpHeader"]?.toLowerCase())
+      .filter(Boolean),
+  );
+  for (const h of facts.responseHeaders) {
+    if (wired.has(h.name.toLowerCase())) continue;
+    let name = h.member ?? camelIdent(h.name);
+    if (taken.has(name)) name = `${name}Header`;
+    if (taken.has(name)) continue;
+    taken.add(name);
+    members[name] =
+      h.prefix !== undefined
+        ? {
+            target: headerMap(),
+            traits: {
+              [HTTP_PREFIX_HEADERS_TRAIT]: h.prefix,
+              ...(h.description ? { "smithy.api#documentation": h.description } : {}),
+            },
+          }
+        : {
+            target: PRELUDE_FOR_HEADER[h.type],
+            traits: {
+              "smithy.api#httpHeader": h.name,
+              ...(h.description ? { "smithy.api#documentation": h.description } : {}),
+            },
+          };
+  }
+  output = {
+    type: "structure",
+    members,
+    traits: { ...(output?.type === "structure" ? output.traits : {}), "smithy.api#output": {} },
+  };
+  let id = ownName;
+  for (let k = 2; model.shapes[id] !== undefined && id !== outId; k++) id = `${ownName}${k}`;
+  model.shapes[id] = output;
+  op.output = { target: id };
+}
+
+/** The `xml` object of a property: its own, else the one of the schema it references. */
+const xmlOf = (prop: any, deref: (x: any) => any): any => prop?.xml ?? deref(prop)?.xml ?? {};
+
+/** Stamp the members of a structure shape from the swagger object schema it came from. */
+function stampXmlStruct(
+  model: SmithyModel,
+  deref: (x: any) => any,
+  schema: any,
+  shape: any,
+  seen: Set<any>,
+): void {
+  if (seen.has(shape) || shape?.type !== "structure") return;
+  seen.add(shape);
+  const props: Record<string, any> = {};
+  const collect = (s: any, depth = 0): void => {
+    const r = deref(s);
+    if (!r || typeof r !== "object" || depth > 8) return;
+    for (const part of r.allOf ?? []) collect(part, depth + 1);
+    Object.assign(props, r.properties ?? {});
+  };
+  collect(schema);
+  for (const [name, member] of Object.entries<any>(shape.members ?? {})) {
+    const wire = member.traits?.["smithy.api#jsonName"] ?? name;
+    const prop = props[wire];
+    if (prop === undefined) continue;
+    stampXmlMember(model, deref, member, prop, wire, seen);
+  }
+}
+
+/**
+ * Stamp one member from its swagger property: element/attribute name, text
+ * content, list wrapping and item names; then recurse into its structure
+ * (or its list's item structure).
+ */
+function stampXmlMember(
+  model: SmithyModel,
+  deref: (x: any) => any,
+  member: any,
+  prop: any,
+  wire: string | undefined,
+  seen: Set<any>,
+): void {
+  const resolved = deref(prop);
+  if (!resolved || typeof resolved !== "object") return;
+  const xml = xmlOf(prop, deref);
+  const traits: Record<string, any> = { ...member.traits };
+  const setName = (name: string | undefined) => {
+    if (name !== undefined && name !== wire) traits["smithy.api#xmlName"] = name;
+  };
+  if (xml["x-ms-text"] === true) traits[XML_TEXT_TRAIT] = {};
+  if (xml.attribute === true) traits["smithy.api#xmlAttribute"] = {};
+  const isList = resolved.type === "array" || resolved.items !== undefined;
+  if (isList) {
+    const items = resolved.items;
+    const itemName: string | undefined =
+      items?.xml?.name ??
+      deref(items)?.xml?.name ??
+      (typeof items?.$ref === "string" ? items.$ref.split("/").pop() : undefined);
+    if (xml.wrapped === true) {
+      setName(xml.name ?? wire);
+      if (itemName !== undefined) traits[XML_ITEM_NAME_TRAIT] = itemName;
+    } else {
+      traits["smithy.api#xmlFlattened"] = {};
+      setName(itemName ?? xml.name ?? wire);
+    }
+  } else {
+    // A referenced schema's own name wins (`Segment` → `<Blobs>`).
+    setName(xml.name);
+  }
+  member.traits = traits;
+
+  const target = model.shapes[member.target];
+  if (target?.type === "structure") {
+    stampXmlStruct(model, deref, resolved, target, seen);
+  } else if (target?.type === "list" && isList) {
+    const item = model.shapes[target.member?.target];
+    if (item?.type === "structure") stampXmlStruct(model, deref, resolved.items, item, seen);
+  }
+}
+
+/** The first `https://…` OAuth2 scope the spec's security definitions declare. */
+function specAudience(doc: any): string | undefined {
+  const schemes = {
+    ...doc.securityDefinitions,
+    ...doc.components?.securitySchemes,
+  };
+  for (const scheme of Object.values<any>(schemes)) {
+    if (scheme?.type !== "oauth2") continue;
+    const scopes = [
+      ...Object.keys(scheme.scopes ?? {}),
+      ...Object.values<any>(scheme.flows ?? {}).flatMap((f) => Object.keys(f?.scopes ?? {})),
+    ];
+    const scope = scopes.find((s) => s.startsWith("https://"));
+    // Batch declares `https://batch.core.windows.net//.default`.
+    if (scope) return scope.replace(/\/\/\.default$/, "/.default");
+  }
+  return undefined;
+}
+
+// ============================================================================
+// Pagination (`x-ms-pageable`)
+// ============================================================================
+//
+// Azure lists answer `{ value: [...], nextLink?: "<absolute url>" }` and the
+// swagger marks the operation `x-ms-pageable: { nextLinkName, itemName }`
+// (`itemName` defaults to `value`; `nextLinkName: null` is a single page).
+// The converter drops vendor extensions, so markPageableOps tags each
+// pageable swagger operation with a marker query parameter, and
+// stampPageable finds it on the converted input again and turns it into:
+//
+//   nextLink  `smithy.api#paginated { mode: "cursor", inputToken: "nextLink",
+//             outputToken: <nextLink member>, items }` plus an input member
+//             `nextLink` named by the http trait's `nextLink`. The protocol
+//             GETs that absolute URL as-is (it already carries
+//             `api-version` and skip tokens) with the operation's auth.
+//   marker    Storage's `NextMarker` fed back as the `marker` query
+//             parameter: a plain cursor, no URL override.
+//   single    `nextLinkName: null`: `{ mode: "single", items }`.
+//
+// A pageable operation whose next page is another operation
+// (`operationName`, a POST) or whose response has no items list stays a
+// plain operation.
+
+const PAGEABLE_MARKER = "__distilled_pageable_";
+const PAGINATED_TRAIT = "smithy.api#paginated";
+/** The input member the protocol reads the next page's URL from. */
+const NEXT_LINK_MEMBER = "nextLink";
+
+interface PageableOp {
+  readonly nextLinkName: string | null;
+  readonly itemName: string;
+  readonly operationName?: string;
+}
+
+/** Mirrors the shared converter's member naming (`@odata.nextLink` → `_odata_nextLink`). */
+const pageMemberIdent = (name: string): string => {
+  let out = name.replace(/[^A-Za-z0-9_]/g, "_");
+  if (/^[0-9]/.test(out)) out = `_${out}`;
+  return out || "_";
+};
+
+/** Tag every `x-ms-pageable` operation of a swagger document; returns their facts by marker index. */
+function markPageableOps(doc: any): PageableOp[] {
+  const facts: PageableOp[] = [];
+  const items: Array<[string, any]> = [
+    ...Object.entries<any>(doc.paths ?? {}),
+    ...Object.entries<any>(doc["x-ms-paths"] ?? {}),
+  ];
+  for (const [, item] of items) {
+    if (!item || typeof item !== "object") continue;
+    for (const method of HTTP_METHOD_KEYS) {
+      const op = item[method];
+      const pageable = op?.["x-ms-pageable"];
+      if (!pageable || typeof pageable !== "object") continue;
+      const nextLinkName = typeof pageable.nextLinkName === "string" ? pageable.nextLinkName : null;
+      const itemName = typeof pageable.itemName === "string" ? pageable.itemName : "value";
+      const operationName =
+        typeof pageable.operationName === "string" ? pageable.operationName : undefined;
+      op.parameters = [
+        ...(Array.isArray(op.parameters) ? op.parameters : []),
+        { name: `${PAGEABLE_MARKER}${facts.length}`, in: "query", type: "string" },
+      ];
+      facts.push({ nextLinkName, itemName, ...(operationName ? { operationName } : {}) });
+    }
+  }
+  return facts;
+}
+
+/** The member of `shape` whose key or wire name is `wire`. */
+const memberByWire = (shape: any, wire: string): string | undefined =>
+  Object.entries<any>(shape?.members ?? {}).find(
+    ([key, m]) => key === wire || m?.traits?.["smithy.api#jsonName"] === wire,
+  )?.[0];
+
+/**
+ * The items path of a page: the `itemName` member, or (Storage, whose specs
+ * leave `itemName` at its `value` default) the first list member at the
+ * top level or one struct below (`Segment.BlobItems`).
+ */
+function pageItemsPath(model: SmithyModel, output: any, itemName: string): string | undefined {
+  const isList = (m: any) => model.shapes[m?.target]?.type === "list";
+  const named = memberByWire(output, itemName);
+  if (named !== undefined) return isList(output.members[named]) ? named : undefined;
+  const members = Object.entries<any>(output.members ?? {});
+  const top = members.find(([, m]) => isList(m));
+  if (top) return top[0];
+  for (const [key, m] of members) {
+    const inner = model.shapes[m?.target];
+    if (inner?.type !== "structure") continue;
+    const lists = Object.entries<any>(inner.members ?? {}).filter(([, im]) => isList(im));
+    const pick = lists.find(([k]) => k.endsWith("Items")) ?? lists[0];
+    if (pick) return `${key}.${pick[0]}`;
+  }
+  return undefined;
+}
+
+/** Counts of how each marked operation was stamped, for the convert summary. */
+const pageableStats = { nextLink: 0, marker: 0, single: 0, skipped: [] as string[] };
+
+/**
+ * Replace every converted operation's pageable marker with its pagination
+ * (see the section comment). Runs after the data-plane stamp, so Storage's
+ * XML outputs are in their final shape.
+ */
+function stampPageable(model: SmithyModel, facts: readonly PageableOp[]): void {
+  for (const [opId, def] of Object.entries<any>(model.shapes)) {
+    if (def.type !== "operation") continue;
+    const input = model.shapes[def.input?.target];
+    const entry = Object.entries<any>(input?.members ?? {}).find(
+      ([, m]) =>
+        typeof m?.traits?.["smithy.api#httpQuery"] === "string" &&
+        m.traits["smithy.api#httpQuery"].startsWith(PAGEABLE_MARKER),
+    );
+    if (!entry) continue;
+    const [markerKey, marker] = entry;
+    delete input.members[markerKey];
+    const page = facts[Number(marker.traits["smithy.api#httpQuery"].slice(PAGEABLE_MARKER.length))];
+    const output = model.shapes[def.output?.target];
+    const http = def.traits?.["smithy.api#http"];
+    if (!page || !http) throw new Error(`pageable marker without its facts on ${opId}`);
+    if (page.operationName !== undefined) {
+      pageableStats.skipped.push(`${local(opId)}: next page is ${page.operationName}`);
+      continue;
+    }
+    const items =
+      output?.type === "structure" ? pageItemsPath(model, output, page.itemName) : undefined;
+    if (items === undefined) {
+      pageableStats.skipped.push(`${local(opId)}: no ${page.itemName} list in the response`);
+      continue;
+    }
+    if (page.nextLinkName === null) {
+      def.traits[PAGINATED_TRAIT] = { mode: "single", items };
+      pageableStats.single++;
+      continue;
+    }
+    let outputToken = memberByWire(output, page.nextLinkName);
+    if (outputToken === undefined) {
+      // Many list schemas leave the next link out; the service still sends it.
+      outputToken = pageMemberIdent(page.nextLinkName);
+      if (outputToken in output.members) {
+        pageableStats.skipped.push(`${local(opId)}: ${outputToken} is not the next link`);
+        continue;
+      }
+      output.members[outputToken] = {
+        target: "smithy.api#String",
+        traits: {
+          "smithy.api#documentation": "The URL to get the next page of results, if any.",
+          ...(outputToken !== page.nextLinkName
+            ? { "smithy.api#jsonName": page.nextLinkName }
+            : {}),
+        },
+      };
+    }
+    // Storage: `NextMarker` goes back as the `marker` query parameter.
+    const markerInput = Object.entries<any>(input.members).find(
+      ([, m]) => m?.traits?.["smithy.api#httpQuery"] === "marker",
+    )?.[0];
+    if (page.nextLinkName === "NextMarker" && markerInput !== undefined) {
+      def.traits[PAGINATED_TRAIT] = {
+        mode: "cursor",
+        inputToken: markerInput,
+        outputToken,
+        items,
+      };
+      pageableStats.marker++;
+      continue;
+    }
+    if (NEXT_LINK_MEMBER in input.members) {
+      pageableStats.skipped.push(`${local(opId)}: input already has ${NEXT_LINK_MEMBER}`);
+      continue;
+    }
+    input.members[NEXT_LINK_MEMBER] = {
+      target: "smithy.api#String",
+      traits: {
+        "smithy.api#documentation":
+          "The absolute URL of a page returned by a previous call; when set, every other member is ignored.",
+      },
+    };
+    http.nextLink = NEXT_LINK_MEMBER;
+    def.traits[PAGINATED_TRAIT] = {
+      mode: "cursor",
+      inputToken: NEXT_LINK_MEMBER,
+      outputToken,
+      items,
+    };
+    pageableStats.nextLink++;
+  }
+}
+
+// ============================================================================
 // Main
 // ============================================================================
+
+// ============================================================================
+// Manual specs
+// ============================================================================
+//
+// manual-specs/<module>.json are hand-authored Smithy models for Azure APIs
+// that publish no Swagger (Service Bus / Event Hubs messaging, the Cosmos DB
+// SQL API, Kudu). They join `.generated-specs` before finalizeConvert, so
+// `patches/<module>/` applies to them like to any converted model, and
+// generate compiles them through the same path. A manual model must not
+// shadow a converted one: if Azure publishes the spec, delete the manual one.
+
+const manualSpecsDir = path.join(rootDir, "manual-specs");
+
+function copyManualSpecs(): number {
+  if (!isDir(manualSpecsDir)) return 0;
+  let count = 0;
+  for (const file of fs.readdirSync(manualSpecsDir).sort()) {
+    if (!file.endsWith(".json")) continue;
+    const target = path.join(outDir, file);
+    if (modelExists(target)) {
+      throw new Error(`manual-specs/${file} shadows a converted model — rename or delete it`);
+    }
+    writeModelText(target, fs.readFileSync(path.join(manualSpecsDir, file), "utf8"));
+    console.log(`📦 ${file} (manual)`);
+    count++;
+  }
+  return count;
+}
 
 async function main() {
   const started = Date.now();
@@ -766,16 +2009,11 @@ async function main() {
   let serviceCount = 0;
   let totalOps = 0;
   let totalSkipped = 0;
+  const armModules = new Set<string>();
 
   for (const [service, serviceSpecs] of byService) {
     const ns = `com.azure.${sanitizeNsSegment(service)}`;
-    const merged: MergedService = {
-      shapes: {},
-      taken: new Set(),
-      ops: [],
-      skippedOps: 0,
-      upstream: new Map(),
-    };
+    const merged = newMergedService();
 
     for (const spec of serviceSpecs) {
       const label = spec.subService
@@ -783,45 +2021,8 @@ async function main() {
         : `${spec.service}/${spec.provider} (${spec.apiVersion})`;
 
       try {
-        const specContent = fs.readFileSync(spec.filePath, "utf-8");
-        const specObj = JSON.parse(specContent);
-        const specDir = path.dirname(spec.filePath);
-
-        // Merge sibling definitions
-        mergeSiblingDefinitions(specObj, spec.versionDir);
-
-        // Resolve external $refs, transplanting missing definitions from
-        // common-types
-        const ctx: ExternalRefContext = {
-          mainSpec: specObj,
-          transplanting: new Set(),
-        };
-        const resolved = resolveExternalRefs(specObj, specDir, new Set(), ctx);
-
-        // Copy transplanted definitions into the resolved spec
-        // (resolveExternalRefs returns a new object tree, but
-        // transplantMissingDefinitions adds definitions to ctx.mainSpec which
-        // is the original specObj)
-        if (specObj.definitions) {
-          if (!resolved.definitions) resolved.definitions = {};
-          for (const [name, def] of Object.entries(specObj.definitions)) {
-            if (!resolved.definitions[name]) {
-              resolved.definitions[name] = JSON.parse(JSON.stringify(def));
-            }
-          }
-        }
-        if (specObj.parameters) {
-          if (!resolved.parameters) resolved.parameters = {};
-          for (const [name, param] of Object.entries(specObj.parameters)) {
-            if (!resolved.parameters[name]) {
-              resolved.parameters[name] = JSON.parse(JSON.stringify(param));
-            }
-          }
-        }
-
-        // Second pass: find any remaining dangling #/definitions/ refs that
-        // weren't caught during the first resolve pass
-        collectMissingDefinitions(resolved, specDir, resolved);
+        const resolved = loadResolvedSpec(spec.filePath, spec.versionDir);
+        const pageable = markPageableOps(resolved);
 
         // Merging resolves collisions by final name (v0 semantics), so name
         // first and keep the way back to the upstream names.
@@ -842,11 +2043,9 @@ async function main() {
           // callers can follow the operation (distilled does not poll).
           responseHeaders: ["Azure-AsyncOperation", "Location", "Retry-After"],
         });
-        const rename: Record<string, string> = model.metadata?.[RENAME_METADATA_KEY] ?? {};
-        delete model.metadata?.[RENAME_METADATA_KEY];
-        renameShapes(model, new Map(Object.entries(rename)));
-        const upstreamOf = new Map(Object.entries(rename).map(([from, to]) => [to, from]));
+        const upstreamOf = applyDeferredNames(model);
         foldApiVersion(model);
+        stampPageable(model, pageable);
         mergeSpecModel(merged, model, upstreamOf);
 
         specSuccessCount++;
@@ -860,36 +2059,13 @@ async function main() {
 
     // Merged service shape carrying every kept operation.
     const serviceName = pascal(service);
-    const serviceId = `${ns}#${
-      merged.taken.has(serviceName) ? `${serviceName}Service` : serviceName
-    }`;
-    merged.shapes[serviceId] = {
-      type: "service",
-      version: "1.0",
-      operations: merged.ops.map((target) => ({ target })),
-      traits: {
-        "smithy.api#title": `Azure ${serviceName}`,
-        "smithy.api#documentation":
-          `Azure ${serviceName} API — merged from the ${service} ` +
-          "resource-manager specs (latest stable api-version per resource provider).",
-      },
-    };
-
-    const model: SmithyModel = {
-      smithy: "2.0",
-      metadata: {
-        suppressions: [
-          { id: "HttpUriConflict", namespace: "*" },
-          { id: "HttpMethodSemantics", namespace: "*" },
-          { id: "UnreferencedShape", namespace: "*" },
-        ],
-      },
-      shapes: merged.shapes,
-    };
-    const upstreamModel = withUpstreamNames(model, merged.upstream);
-
-    const outPath = path.join(outDir, `${sanitizeNsSegment(service)}.json`);
-    writeModel(outPath, upstreamModel);
+    writeMergedModel(sanitizeNsSegment(service), ns, serviceName, merged, {
+      "smithy.api#title": `Azure ${serviceName}`,
+      "smithy.api#documentation":
+        `Azure ${serviceName} API — merged from the ${service} ` +
+        "resource-manager specs (latest stable api-version per resource provider).",
+    });
+    armModules.add(sanitizeNsSegment(service));
     serviceCount++;
     totalOps += merged.ops.length;
     totalSkipped += merged.skippedOps;
@@ -900,13 +2076,116 @@ async function main() {
     );
   }
 
+  // ---- data planes ----
+  const { groups, skipped } = discoverDataPlanes();
+  const dataPlaneFiles = groups.reduce((n, g) => n + g.files.length, 0);
+  console.log(`\n   Found ${groups.length} data-plane groups (${skipped.length} skipped).`);
+  const dataPlaneModules = new Map<string, string>();
+  let dataPlaneCount = 0;
+  let dataPlaneOps = 0;
+  for (const g of groups) {
+    const label = `${g.service}/data-plane/${g.group} (${g.apiVersion})`;
+    const nsSegment = sanitizeNsSegment(g.module);
+    if (armModules.has(g.module) || armModules.has(nsSegment)) {
+      throw new Error(`data-plane module ${g.module} (${label}) collides with an ARM module`);
+    }
+    const clash = dataPlaneModules.get(g.module);
+    if (clash) throw new Error(`data-plane module ${g.module}: ${clash} and ${label}`);
+    dataPlaneModules.set(g.module, label);
+
+    const ns = `com.azure.${nsSegment}`;
+    const serviceName = pascal(g.module);
+    const merged = newMergedService();
+    let audience: string | undefined;
+    let hostRecord: DataPlaneHost | undefined;
+    for (const filePath of g.files) {
+      try {
+        const resolved = loadResolvedSpec(filePath, g.versionDir);
+        audience ??= specAudience(resolved);
+        const pageable = markPageableOps(resolved);
+        const { host, ops } = prepareDataPlaneSpec(
+          resolved,
+          g.apiVersion,
+          STORAGE_DATA_PLANES.has(g.module),
+        );
+        hostRecord ??= host;
+        const model = convertOpenApiToSmithy(resolved, {
+          deferNaming: true,
+          namespace: ns,
+          serviceName,
+          statusToErrorClass: {},
+          skipDeprecated: true,
+          // Data-plane headers are real inputs (Storage's `x-ms-blob-type`,
+          // App Configuration's `Sync-Token`); the protocol-owned ones were
+          // dropped or pinned by prepareDataPlaneSpec.
+          headerParams: true,
+          extraHttpMethods: ["head"],
+          responseHeaders: [
+            "Azure-AsyncOperation",
+            "Operation-Location",
+            "Location",
+            "Retry-After",
+            "ETag",
+          ],
+        });
+        const upstreamOf = applyDeferredNames(model);
+        stampDataPlaneModel(model, host, ops, resolved);
+        stampPageable(model, pageable);
+        mergeSpecModel(merged, model, upstreamOf);
+        specSuccessCount++;
+      } catch (error: any) {
+        specErrorCount++;
+        console.error(`❌ ${label} ${path.basename(filePath)}: ${error.message}`);
+      }
+    }
+    if (merged.ops.length === 0) continue;
+
+    const traits: Record<string, unknown> = {
+      "smithy.api#title": `Azure ${g.group.split("/").at(-1)} data plane`,
+      "smithy.api#documentation":
+        `Azure ${g.service} data plane — ${g.service}/data-plane/${g.group} ` +
+        `(latest stable api-version ${g.apiVersion}).`,
+    };
+    if (hostRecord) {
+      traits[HOST_TRAIT] = {
+        template: hostRecord.template,
+        parameters: hostRecord.members.map((m) => ({
+          name: m.ident,
+          ...(m.raw ? { skipUrlEncoding: true } : {}),
+          ...(m.default !== undefined ? { default: m.default } : {}),
+        })),
+      };
+    }
+    if (audience) traits[AUDIENCE_TRAIT] = audience;
+
+    writeMergedModel(g.module, ns, serviceName, merged, traits);
+    dataPlaneCount++;
+    dataPlaneOps += merged.ops.length;
+    totalSkipped += merged.skippedOps;
+    console.log(
+      `📦 ${g.module}.json (${merged.ops.length} operations` +
+        (merged.skippedOps ? `, ${merged.skippedOps} colliding skipped` : "") +
+        `, spec audience ${audience ?? "none"})`,
+    );
+  }
+  for (const s of skipped) console.log(`   ⏭  ${s.label}: ${s.reason}`);
+
+  const manualCount = copyManualSpecs();
+
   console.log(`\n${"=".repeat(60)}`);
   console.log(`Azure spec conversion complete.`);
-  console.log(`  Specs processed: ${specSuccessCount}/${specs.length}`);
+  console.log(`  Specs processed: ${specSuccessCount}/${specs.length + dataPlaneFiles}`);
   console.log(`  Errors: ${specErrorCount}`);
-  console.log(`  Service models: ${serviceCount}`);
-  console.log(`  Total operations: ${totalOps}`);
+  console.log(
+    `  Service models: ${serviceCount} ARM + ${dataPlaneCount} data-plane + ${manualCount} manual`,
+  );
+  console.log(`  Total operations: ${totalOps} ARM + ${dataPlaneOps} data-plane`);
   console.log(`  Colliding operations skipped (first spec wins): ${totalSkipped}`);
+  console.log(
+    `  Pageable operations: ${pageableStats.nextLink} nextLink, ${pageableStats.marker} marker, ` +
+      `${pageableStats.single} single page, ${pageableStats.skipped.length} left unpaginated`,
+  );
+  for (const s of pageableStats.skipped) console.log(`   ⏭  ${s}`);
   console.log(`  Elapsed: ${((Date.now() - started) / 1000).toFixed(1)}s`);
   console.log(`  Output: ${outDir}`);
   // patches/<service>/*.json are Smithy ops on upstream names; finalize

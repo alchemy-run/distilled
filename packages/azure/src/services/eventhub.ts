@@ -1422,6 +1422,8 @@ export interface ListApplicationGroupByNamespaceRequest {
   resourceGroupName: string;
   /** The Namespace name */
   namespaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Application Group object */
 export interface ApplicationGroup {
@@ -1467,6 +1469,8 @@ export interface ListClusterByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ClusterTagsMap = { [key: string]: string | undefined };
@@ -1501,6 +1505,8 @@ export interface ClusterListResult {
 export interface ListClusterBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListClusterNamespacesRequest {
   /** The ID of the target subscription. */
@@ -1535,6 +1541,8 @@ export interface ListConsumerGroupByEventHubRequest {
   _skip?: number | undefined;
   /** May be used to limit the number of results to the most recent N usageDetails. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Single item in List or Get Consumer group operation */
 export interface ConsumerGroup {
@@ -1569,6 +1577,8 @@ export interface ListDisasterRecoveryConfigAuthorizationRulesRequest {
   namespaceName: string;
   /** The Disaster Recovery configuration name */
   alias: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Single item in a List or Get AuthorizationRule operation */
 export interface AuthorizationRule {
@@ -1630,6 +1640,8 @@ export interface ListDisasterRecoveryConfigsRequest {
   resourceGroupName: string;
   /** The Namespace name */
   namespaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Single item in List or Get Alias(Disaster Recovery configuration) operation */
 export interface ArmDisasterRecovery {
@@ -1664,6 +1676,8 @@ export interface ListEventHubAuthorizationRulesRequest {
   namespaceName: string;
   /** The Event Hub name */
   eventHubName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEventHubByNamespaceRequest {
   /** The ID of the target subscription. */
@@ -1676,6 +1690,8 @@ export interface ListEventHubByNamespaceRequest {
   _skip?: number | undefined;
   /** May be used to limit the number of results to the most recent N usageDetails. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Single item in List or Get Event Hub operation */
 export interface Eventhub2 {
@@ -1720,12 +1736,16 @@ export interface ListNamespaceAuthorizationRulesRequest {
   resourceGroupName: string;
   /** The Namespace name */
   namespaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListNamespaceByResourceGroupRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EHNamespaceTagsMap = { [key: string]: string | undefined };
@@ -1804,6 +1824,8 @@ export interface NetworkRuleSetListResult {
 export interface ListNamespacesRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListNetworkSecurityPerimeterConfigurationRequest {
   /** The ID of the target subscription. */
@@ -1836,7 +1858,10 @@ export interface NetworkSecurityPerimeterConfigurationList {
   /** A collection of NetworkSecurityPerimeterConfigurations */
   value?: NetworkSecurityPerimeterConfigurationListValueList | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Operation display payload */
 export interface OperationDisplay {
   /** Resource provider of the operation */
@@ -1877,6 +1902,8 @@ export interface ListPrivateEndpointConnectionsRequest {
   resourceGroupName: string;
   /** The Namespace name */
   namespaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The PrivateEndpointConnection items on this page */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
@@ -1898,6 +1925,8 @@ export interface ListSchemaRegistryByNamespaceRequest {
   _skip?: number | undefined;
   /** May be used to limit the number of results to the most recent N usageDetails. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Single item in List or Get Schema Group operation */
 export interface SchemaGroup {
@@ -2928,12 +2957,13 @@ export const GetSchemaRegistry: API.OperationMethod<
 
 export type ListApplicationGroupByNamespaceError = AzureOpError;
 /** Gets a list of application groups for a Namespace. */
-export const ListApplicationGroupByNamespace: API.OperationMethod<
+export const ListApplicationGroupByNamespace: API.PaginatedOperationMethod<
   ListApplicationGroupByNamespaceRequest,
   ApplicationGroupListResult,
   ListApplicationGroupByNamespaceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApplicationGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<ListApplicationGroupByNamespaceRequest>,
   output: __S(834, __c52, 2) as any as S.Schema<ApplicationGroupListResult>,
   errors: [UnknownAzureError],
@@ -2941,7 +2971,13 @@ export const ListApplicationGroupByNamespace: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplicationGroupByNamespace",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClusterAvailableClusterRegionError = AzureOpError;
 /** List the quantity of available pre-provisioned Event Hubs Clusters, indexed by Azure region. */
@@ -2962,12 +2998,13 @@ export const ListClusterAvailableClusterRegion: API.OperationMethod<
 
 export type ListClusterByResourceGroupError = AzureOpError;
 /** Lists the available Event Hubs Clusters within an ARM resource group */
-export const ListClusterByResourceGroup: API.OperationMethod<
+export const ListClusterByResourceGroup: API.PaginatedOperationMethod<
   ListClusterByResourceGroupRequest,
   ClusterListResult,
   ListClusterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<ListClusterByResourceGroupRequest>,
   output: __S(881, __c55, 1) as any as S.Schema<ClusterListResult>,
   errors: [UnknownAzureError],
@@ -2975,16 +3012,23 @@ export const ListClusterByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClusterBySubscriptionError = AzureOpError;
 /** Lists the available Event Hubs Clusters within an ARM resource group */
-export const ListClusterBySubscription: API.OperationMethod<
+export const ListClusterBySubscription: API.PaginatedOperationMethod<
   ListClusterBySubscriptionRequest,
   ClusterListResult,
   ListClusterBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<ListClusterBySubscriptionRequest>,
   output: __S(881, __c55, 1) as any as S.Schema<ClusterListResult>,
   errors: [UnknownAzureError],
@@ -2992,7 +3036,13 @@ export const ListClusterBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusterBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClusterNamespacesError = AzureOpError;
 /** List all Event Hubs Namespace IDs in an Event Hubs Dedicated Cluster. */
@@ -3013,12 +3063,13 @@ export const ListClusterNamespaces: API.OperationMethod<
 
 export type ListConsumerGroupByEventHubError = AzureOpError;
 /** Gets all the consumer groups in a Namespace. An empty feed is returned if no consumer group exists in the Namespace. */
-export const ListConsumerGroupByEventHub: API.OperationMethod<
+export const ListConsumerGroupByEventHub: API.PaginatedOperationMethod<
   ListConsumerGroupByEventHubRequest,
   ConsumerGroupListResult,
   ListConsumerGroupByEventHubError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConsumerGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<ListConsumerGroupByEventHubRequest>,
   output: __S(962, __c60, 2) as any as S.Schema<ConsumerGroupListResult>,
   errors: [UnknownAzureError],
@@ -3026,16 +3077,23 @@ export const ListConsumerGroupByEventHub: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConsumerGroupByEventHub",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDisasterRecoveryConfigAuthorizationRulesError = AzureOpError;
 /** Gets a list of authorization rules for a Namespace. */
-export const ListDisasterRecoveryConfigAuthorizationRules: API.OperationMethod<
+export const ListDisasterRecoveryConfigAuthorizationRules: API.PaginatedOperationMethod<
   ListDisasterRecoveryConfigAuthorizationRulesRequest,
   AuthorizationRuleListResult,
   ListDisasterRecoveryConfigAuthorizationRulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AuthorizationRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<ListDisasterRecoveryConfigAuthorizationRulesRequest>,
   output: __S(993, __c62, 1) as any as S.Schema<AuthorizationRuleListResult>,
   errors: [UnknownAzureError],
@@ -3043,7 +3101,13 @@ export const ListDisasterRecoveryConfigAuthorizationRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDisasterRecoveryConfigAuthorizationRules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDisasterRecoveryConfigKeysError = AzureOpError;
 /** Gets the primary and secondary connection strings for the Namespace. */
@@ -3064,12 +3128,13 @@ export const ListDisasterRecoveryConfigKeys: API.OperationMethod<
 
 export type ListDisasterRecoveryConfigsError = AzureOpError;
 /** Gets all Alias(Disaster Recovery configurations) */
-export const ListDisasterRecoveryConfigs: API.OperationMethod<
+export const ListDisasterRecoveryConfigs: API.PaginatedOperationMethod<
   ListDisasterRecoveryConfigsRequest,
   ArmDisasterRecoveryListResult,
   ListDisasterRecoveryConfigsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ArmDisasterRecovery
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<ListDisasterRecoveryConfigsRequest>,
   output: __S(1042, __c65, 2) as any as S.Schema<ArmDisasterRecoveryListResult>,
   errors: [UnknownAzureError],
@@ -3077,16 +3142,23 @@ export const ListDisasterRecoveryConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDisasterRecoveryConfigs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEventHubAuthorizationRulesError = AzureOpError;
 /** Gets the authorization rules for an Event Hub. */
-export const ListEventHubAuthorizationRules: API.OperationMethod<
+export const ListEventHubAuthorizationRules: API.PaginatedOperationMethod<
   ListEventHubAuthorizationRulesRequest,
   AuthorizationRuleListResult,
   ListEventHubAuthorizationRulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AuthorizationRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<ListEventHubAuthorizationRulesRequest>,
   output: __S(993, __c62, 1) as any as S.Schema<AuthorizationRuleListResult>,
   errors: [UnknownAzureError],
@@ -3094,16 +3166,23 @@ export const ListEventHubAuthorizationRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEventHubAuthorizationRules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEventHubByNamespaceError = AzureOpError;
 /** Gets all the Event Hubs in a Namespace. */
-export const ListEventHubByNamespace: API.OperationMethod<
+export const ListEventHubByNamespace: API.PaginatedOperationMethod<
   ListEventHubByNamespaceRequest,
   EventHubListResult,
   ListEventHubByNamespaceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Eventhub2
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<ListEventHubByNamespaceRequest>,
   output: __S(1074, __c67, 2) as any as S.Schema<EventHubListResult>,
   errors: [UnknownAzureError],
@@ -3111,7 +3190,13 @@ export const ListEventHubByNamespace: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEventHubByNamespace",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEventHubKeysError = AzureOpError;
 /** Gets the ACS and SAS connection strings for the Event Hub. */
@@ -3132,12 +3217,13 @@ export const ListEventHubKeys: API.OperationMethod<
 
 export type ListNamespaceAuthorizationRulesError = AzureOpError;
 /** Gets a list of authorization rules for a Namespace. */
-export const ListNamespaceAuthorizationRules: API.OperationMethod<
+export const ListNamespaceAuthorizationRules: API.PaginatedOperationMethod<
   ListNamespaceAuthorizationRulesRequest,
   AuthorizationRuleListResult,
   ListNamespaceAuthorizationRulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AuthorizationRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<ListNamespaceAuthorizationRulesRequest>,
   output: __S(993, __c62, 1) as any as S.Schema<AuthorizationRuleListResult>,
   errors: [UnknownAzureError],
@@ -3145,16 +3231,23 @@ export const ListNamespaceAuthorizationRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNamespaceAuthorizationRules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNamespaceByResourceGroupError = AzureOpError;
 /** Lists the available Namespaces within a resource group. */
-export const ListNamespaceByResourceGroup: API.OperationMethod<
+export const ListNamespaceByResourceGroup: API.PaginatedOperationMethod<
   ListNamespaceByResourceGroupRequest,
   EHNamespaceListResult,
   ListNamespaceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EHNamespace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<ListNamespaceByResourceGroupRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<EHNamespaceListResult>,
   errors: [UnknownAzureError],
@@ -3162,7 +3255,13 @@ export const ListNamespaceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNamespaceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNamespaceKeysError = AzureOpError;
 /** Gets the primary and secondary connection strings for the Namespace. */
@@ -3200,12 +3299,13 @@ export const ListNamespaceNetworkRuleSet: API.OperationMethod<
 
 export type ListNamespacesError = AzureOpError;
 /** Lists all the available Namespaces within a subscription, irrespective of the resource groups. */
-export const ListNamespaces: API.OperationMethod<
+export const ListNamespaces: API.PaginatedOperationMethod<
   ListNamespacesRequest,
   EHNamespaceListResult,
   ListNamespacesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EHNamespace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<ListNamespacesRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<EHNamespaceListResult>,
   errors: [UnknownAzureError],
@@ -3213,7 +3313,13 @@ export const ListNamespaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNamespaces",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkSecurityPerimeterConfigurationError = AzureOpError;
 /** Gets list of current NetworkSecurityPerimeterConfiguration for Namespace */
@@ -3234,12 +3340,13 @@ export const ListNetworkSecurityPerimeterConfiguration: API.OperationMethod<
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available Event Hub REST API operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1252, __c78, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -3247,16 +3354,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
 /** Gets the available PrivateEndpointConnections within a namespace. */
-export const ListPrivateEndpointConnections: API.OperationMethod<
+export const ListPrivateEndpointConnections: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionsRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
   output: __S(1265, __c79, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
@@ -3264,16 +3378,23 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSchemaRegistryByNamespaceError = AzureOpError;
 /** Gets all the Schema Groups in a Namespace. */
-export const ListSchemaRegistryByNamespace: API.OperationMethod<
+export const ListSchemaRegistryByNamespace: API.PaginatedOperationMethod<
   ListSchemaRegistryByNamespaceRequest,
   SchemaGroupListResult,
   ListSchemaRegistryByNamespaceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SchemaGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<ListSchemaRegistryByNamespaceRequest>,
   output: __S(1282, __c80, 2) as any as S.Schema<SchemaGroupListResult>,
   errors: [UnknownAzureError],
@@ -3281,7 +3402,13 @@ export const ListSchemaRegistryByNamespace: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSchemaRegistryByNamespace",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type NamespacesCreateOrUpdateError = AzureOpError;
 /** Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent. */
@@ -4776,12 +4903,14 @@ function __c52(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/applicationGroups",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationGroupByNamespaceRequest" });
@@ -4834,12 +4963,14 @@ function __c54(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/clusters",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClusterByResourceGroupRequest" });
@@ -4864,12 +4995,14 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.EventHub/clusters",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClusterBySubscriptionRequest" });
@@ -4962,12 +5095,14 @@ function __c60(j: number): any {
           eventHubName: S.String.pipe(T.Label()),
           _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConsumerGroupByEventHubRequest" });
@@ -4991,12 +5126,14 @@ function __c61(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
           alias: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/authorizationRules",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDisasterRecoveryConfigAuthorizationRulesRequest" });
@@ -5060,12 +5197,14 @@ function __c65(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDisasterRecoveryConfigsRequest" });
@@ -5089,12 +5228,14 @@ function __c66(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
           eventHubName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEventHubAuthorizationRulesRequest" });
@@ -5110,12 +5251,14 @@ function __c67(j: number): any {
           namespaceName: S.String.pipe(T.Label()),
           _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEventHubByNamespaceRequest" });
@@ -5159,12 +5302,14 @@ function __c69(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/authorizationRules",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNamespaceAuthorizationRulesRequest" });
@@ -5177,12 +5322,14 @@ function __c70(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNamespaceByResourceGroupRequest" });
@@ -5283,12 +5430,14 @@ function __c76(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.EventHub/namespaces",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNamespacesRequest" });
@@ -5325,12 +5474,15 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.EventHub/operations",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -5372,12 +5524,14 @@ function __c79(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsRequest" });
@@ -5400,12 +5554,14 @@ function __c80(j: number): any {
           namespaceName: S.String.pipe(T.Label()),
           _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/schemagroups",
             code: 200,
             apiVersion: "2026-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSchemaRegistryByNamespaceRequest" });

@@ -1,0 +1,10 @@
+{
+  "description": "The spec declares no OAuth2 scope. Azure Storage accepts Microsoft Entra ID tokens for the `https://storage.azure.com` resource (Microsoft Learn: \"Authorize access to blobs using Microsoft Entra ID\"; the same resource serves Queue, Files and Data Lake).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_file#StorageFile/traits/com.azure.protocols#audience",
+      "value": "https://storage.azure.com/.default"
+    }
+  ]
+}

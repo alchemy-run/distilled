@@ -618,6 +618,8 @@ export interface ListGroupQuotaLimitsRequestRequest {
   resourceProviderName: string;
   /** | Field | Supported operators \r\n|---------------------|------------------------\n\r\n location eq {location} and resource eq {resourceName}\n Example: $filter=location eq eastus and resourceName eq cores */
   _filter: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Status of a single GroupQuota request. */
 export interface SubmittedResourceRequestStatus {
@@ -643,6 +645,8 @@ export interface SubmittedResourceRequestStatusList {
 export interface ListGroupQuotasRequest {
   /** The management group ID. */
   managementGroupId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Properties and filters for ShareQuota. The request parameter is optional, if there are no filters specified. */
 export interface GroupQuotasEntity {
@@ -729,6 +733,8 @@ export interface ListGroupQuotaSubscriptionAllocationRequestRequest {
   resourceProviderName: string;
   /** | Field | Supported operators |---------------------|------------------------ location eq {location} Example: $filter=location eq eastus */
   _filter: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The subscription quota allocation status. */
 export interface QuotaAllocationRequestStatus {
@@ -756,6 +762,8 @@ export interface ListGroupQuotaSubscriptionRequestsRequest {
   managementGroupId: string;
   /** The GroupQuota name. The name should be unique for the provided context tenantId/MgId. */
   groupQuotaName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The new quota limit request status. */
 export interface GroupQuotaSubscriptionRequestStatus {
@@ -784,6 +792,8 @@ export interface ListGroupQuotaSubscriptionsRequest {
   managementGroupId: string;
   /** The GroupQuota name. The name should be unique for the provided context tenantId/MgId. */
   groupQuotaName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** This represents a Azure subscriptionId that is associated with a GroupQuotasEntity. */
 export interface GroupQuotaSubscriptionId {
@@ -815,6 +825,8 @@ export interface ListGroupQuotaUsagesRequest {
   resourceProviderName: string;
   /** The name of the Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response. */
 export type GroupQuotaUsagesBaseName = GroupQuotaRequestBasePropertiesName;
@@ -854,6 +866,8 @@ export interface ResourceUsageList {
 export interface ListQuotaRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   scope: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Quota limit. */
 export interface CurrentQuotaLimitBase {
@@ -877,7 +891,10 @@ export interface QuotaLimits {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListQuotaOperationRequest {}
+export interface ListQuotaOperationRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 export interface OperationDisplay {
   /** Provider name. */
   provider?: string | undefined;
@@ -911,6 +928,8 @@ export interface ListQuotaRequestStatusRequest {
   _top?: number | undefined;
   /** The **Skiptoken** parameter is used only if a previous operation returned a partial result. If a previous response contains a **nextLink** element, its value includes a **skiptoken** parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** List of quota requests with details. */
 export interface QuotaRequestDetails {
@@ -937,6 +956,8 @@ export interface QuotaRequestDetailsList {
 export interface ListUsagesRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   scope: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource usage. */
 export interface CurrentUsagesBase {
@@ -1466,12 +1487,13 @@ export const ListGroupQuotaLimits: API.OperationMethod<
 
 export type ListGroupQuotaLimitsRequest2Error = AzureOpError;
 /** Get API to check the status of a GroupQuota request by requestId. */
-export const ListGroupQuotaLimitsRequest2: API.OperationMethod<
+export const ListGroupQuotaLimitsRequest2: API.PaginatedOperationMethod<
   ListGroupQuotaLimitsRequestRequest,
   SubmittedResourceRequestStatusList,
   ListGroupQuotaLimitsRequest2Error,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SubmittedResourceRequestStatus
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<ListGroupQuotaLimitsRequestRequest>,
   output: __S(106, __c13, 2) as any as S.Schema<SubmittedResourceRequestStatusList>,
   errors: [UnknownAzureError],
@@ -1479,16 +1501,23 @@ export const ListGroupQuotaLimitsRequest2: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGroupQuotaLimitsRequest2",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGroupQuotasError = AzureOpError;
 /** Lists GroupQuotas for the scope passed. It will return the GroupQuotas QuotaEntity properties only.The details on group quota can be access from the group quota APIs. */
-export const ListGroupQuotas: API.OperationMethod<
+export const ListGroupQuotas: API.PaginatedOperationMethod<
   ListGroupQuotasRequest,
   GroupQuotaList,
   ListGroupQuotasError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GroupQuotasEntity
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<ListGroupQuotasRequest>,
   output: __S(114, __c14, 2) as any as S.Schema<GroupQuotaList>,
   errors: [UnknownAzureError],
@@ -1496,7 +1525,13 @@ export const ListGroupQuotas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGroupQuotas",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGroupQuotaSubscriptionAllocationError = AzureOpError;
 /** Gets all the quota allocated to a subscription for the specified resource provider and location for resource names passed in $filter=resourceName eq {SKU}. This will include the GroupQuota and total quota allocated to the subscription. Only the Group quota allocated to the subscription can be allocated back to the MG Group Quota. */
@@ -1517,12 +1552,13 @@ export const ListGroupQuotaSubscriptionAllocation: API.OperationMethod<
 
 export type ListGroupQuotaSubscriptionAllocationRequestError = AzureOpError;
 /** Get all the quotaAllocationRequests for a resourceProvider/location. The filter paramter for location is required. */
-export const ListGroupQuotaSubscriptionAllocationRequest: API.OperationMethod<
+export const ListGroupQuotaSubscriptionAllocationRequest: API.PaginatedOperationMethod<
   ListGroupQuotaSubscriptionAllocationRequestRequest,
   QuotaAllocationRequestStatusList,
   ListGroupQuotaSubscriptionAllocationRequestError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  QuotaAllocationRequestStatus
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<ListGroupQuotaSubscriptionAllocationRequestRequest>,
   output: __S(138, __c17, 2) as any as S.Schema<QuotaAllocationRequestStatusList>,
   errors: [UnknownAzureError],
@@ -1530,16 +1566,23 @@ export const ListGroupQuotaSubscriptionAllocationRequest: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGroupQuotaSubscriptionAllocationRequest",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGroupQuotaSubscriptionRequestsError = AzureOpError;
 /** List API to check the status of a subscriptionId requests by requestId. Request history is maintained for 1 year. */
-export const ListGroupQuotaSubscriptionRequests: API.OperationMethod<
+export const ListGroupQuotaSubscriptionRequests: API.PaginatedOperationMethod<
   ListGroupQuotaSubscriptionRequestsRequest,
   GroupQuotaSubscriptionRequestStatusList,
   ListGroupQuotaSubscriptionRequestsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GroupQuotaSubscriptionRequestStatus
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<ListGroupQuotaSubscriptionRequestsRequest>,
   output: __S(146, __c18, 2) as any as S.Schema<GroupQuotaSubscriptionRequestStatusList>,
   errors: [UnknownAzureError],
@@ -1547,16 +1590,23 @@ export const ListGroupQuotaSubscriptionRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGroupQuotaSubscriptionRequests",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGroupQuotaSubscriptionsError = AzureOpError;
 /** Returns a list of the subscriptionIds associated with the GroupQuotas. */
-export const ListGroupQuotaSubscriptions: API.OperationMethod<
+export const ListGroupQuotaSubscriptions: API.PaginatedOperationMethod<
   ListGroupQuotaSubscriptionsRequest,
   GroupQuotaSubscriptionIdList,
   ListGroupQuotaSubscriptionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GroupQuotaSubscriptionId
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<ListGroupQuotaSubscriptionsRequest>,
   output: __S(186, __c23, 2) as any as S.Schema<GroupQuotaSubscriptionIdList>,
   errors: [UnknownAzureError],
@@ -1564,16 +1614,23 @@ export const ListGroupQuotaSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGroupQuotaSubscriptions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGroupQuotaUsagesError = AzureOpError;
 /** Gets the GroupQuotas usages and limits(quota). Location is required paramter. */
-export const ListGroupQuotaUsages: API.OperationMethod<
+export const ListGroupQuotaUsages: API.PaginatedOperationMethod<
   ListGroupQuotaUsagesRequest,
   ResourceUsageList,
   ListGroupQuotaUsagesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceUsages
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<ListGroupQuotaUsagesRequest>,
   output: __S(196, __c24, 4) as any as S.Schema<ResourceUsageList>,
   errors: [UnknownAzureError],
@@ -1581,16 +1638,23 @@ export const ListGroupQuotaUsages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGroupQuotaUsages",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListQuotaError = AzureOpError;
 /** Get a list of current quota limits of all resources for the specified scope. The response from this GET operation can be leveraged to submit requests to update a quota. */
-export const ListQuota: API.OperationMethod<
+export const ListQuota: API.PaginatedOperationMethod<
   ListQuotaRequest,
   QuotaLimits,
   ListQuotaError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CurrentQuotaLimitBase
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<ListQuotaRequest>,
   output: __S(202, __c25, 2) as any as S.Schema<QuotaLimits>,
   errors: [UnknownAzureError],
@@ -1601,16 +1665,23 @@ export const ListQuota: API.OperationMethod<
     op: "ListQuota",
     attributes: { "url.template": "/{scope}/providers/Microsoft.Quota/quotas" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListQuotaOperationError = AzureOpError;
 /** List the operations for the provider */
-export const ListQuotaOperation: API.OperationMethod<
+export const ListQuotaOperation: API.PaginatedOperationMethod<
   ListQuotaOperationRequest,
   OperationList,
   ListQuotaOperationError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<ListQuotaOperationRequest>,
   output: __S(212, __c26, 4) as any as S.Schema<OperationList>,
   errors: [UnknownAzureError],
@@ -1618,16 +1689,23 @@ export const ListQuotaOperation: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListQuotaOperation",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListQuotaRequestStatusError = AzureOpError;
 /** For the specified scope, get the current quota requests for a one year period ending at the time is made. Use the **oData** filter to select quota requests. */
-export const ListQuotaRequestStatus: API.OperationMethod<
+export const ListQuotaRequestStatus: API.PaginatedOperationMethod<
   ListQuotaRequestStatusRequest,
   QuotaRequestDetailsList,
   ListQuotaRequestStatusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  QuotaRequestDetails
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<ListQuotaRequestStatusRequest>,
   output: __S(218, __c27, 2) as any as S.Schema<QuotaRequestDetailsList>,
   errors: [UnknownAzureError],
@@ -1638,16 +1716,23 @@ export const ListQuotaRequestStatus: API.OperationMethod<
     op: "ListQuotaRequestStatus",
     attributes: { "url.template": "/{scope}/providers/Microsoft.Quota/quotaRequests" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUsagesError = AzureOpError;
 /** Get a list of current usage for all resources for the scope specified. */
-export const ListUsages: API.OperationMethod<
+export const ListUsages: API.PaginatedOperationMethod<
   ListUsagesRequest,
   UsagesLimits,
   ListUsagesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CurrentUsagesBase
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<ListUsagesRequest>,
   output: __S(226, __c28, 2) as any as S.Schema<UsagesLimits>,
   errors: [UnknownAzureError],
@@ -1658,7 +1743,13 @@ export const ListUsages: API.OperationMethod<
     op: "ListUsages",
     attributes: { "url.template": "/{scope}/providers/Microsoft.Quota/usages" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type QuotaCreateOrUpdateError = AzureOpError;
 /** Create or update the quota limit for the specified resource with the requested value. To update the quota, follow these steps: 1. Use the GET operation for quotas and usages to determine how much quota remains for the specific resource and to calculate the new quota limit. These steps are detailed in [this example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670). 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request. */
@@ -2102,12 +2193,14 @@ function __c13(j: number): any {
           groupQuotaName: S.String.pipe(T.Label()),
           resourceProviderName: S.String.pipe(T.Label()),
           _filter: S.String.pipe(T.Query("$filter")),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/groupQuotaRequests",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGroupQuotaLimitsRequestRequest" });
@@ -2128,12 +2221,14 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           managementGroupId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGroupQuotasRequest" });
@@ -2218,12 +2313,14 @@ function __c17(j: number): any {
           groupQuotaName: S.String.pipe(T.Label()),
           resourceProviderName: S.String.pipe(T.Label()),
           _filter: S.String.pipe(T.Query("$filter")),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/quotaAllocationRequests",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGroupQuotaSubscriptionAllocationRequestRequest" });
@@ -2245,12 +2342,14 @@ function __c18(j: number): any {
         S.Struct({
           managementGroupId: S.String.pipe(T.Label()),
           groupQuotaName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/subscriptionRequests",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGroupQuotaSubscriptionRequestsRequest" });
@@ -2355,12 +2454,14 @@ function __c23(j: number): any {
         S.Struct({
           managementGroupId: S.String.pipe(T.Label()),
           groupQuotaName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/subscriptions",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGroupQuotaSubscriptionsRequest" });
@@ -2384,12 +2485,14 @@ function __c24(j: number): any {
           groupQuotaName: S.String.pipe(T.Label()),
           resourceProviderName: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/locationUsages/{location}",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGroupQuotaUsagesRequest" });
@@ -2429,12 +2532,14 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scope: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{scope+}/providers/Microsoft.Quota/quotas",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListQuotaRequest" });
@@ -2453,12 +2558,15 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Quota/operations",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListQuotaOperationRequest" });
@@ -2499,12 +2607,14 @@ function __c27(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{scope+}/providers/Microsoft.Quota/quotaRequests",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListQuotaRequestStatusRequest" });
@@ -2525,12 +2635,14 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scope: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{scope+}/providers/Microsoft.Quota/usages",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUsagesRequest" });

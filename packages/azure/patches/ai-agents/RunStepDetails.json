@@ -1,0 +1,25 @@
+{
+  "description": "RunStepDetails is polymorphic on `type` (`message_creation`, `tool_calls`), but the converted model keeps only the discriminator, so run step details are dropped. Add the subtype members.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.ai_agents#RunStepDetails/members/message_creation",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "For `type: \"message_creation\"`: the message the step created."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.ai_agents#RunStepDetails/members/tool_calls",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "For `type: \"tool_calls\"`: the tool calls the step made."
+        }
+      }
+    }
+  ]
+}

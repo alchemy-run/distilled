@@ -1041,6 +1041,8 @@ export interface ListDnsForwardingRulesetByResourceGroupRequest {
   resourceGroupName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DnsForwardingRulesetTagsMap = { [key: string]: string | undefined };
@@ -1081,6 +1083,8 @@ export interface ListDnsForwardingRulesetByVirtualNetworkRequest {
   virtualNetworkName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The reference to the virtual network link that associates between the DNS forwarding ruleset and virtual network. */
 export interface VirtualNetworkLinkSubResourceProperties {
@@ -1109,6 +1113,8 @@ export interface ListDnsForwardingRulesetsRequest {
   subscriptionId: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDnsResolverByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1117,6 +1123,8 @@ export interface ListDnsResolverByResourceGroupRequest {
   resourceGroupName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DnsResolverTagsMap = { [key: string]: string | undefined };
@@ -1157,6 +1165,8 @@ export interface ListDnsResolverByVirtualNetworkRequest {
   virtualNetworkName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The SubResource items on this page */
 export type SubResourceListResultValueList = Array<SubResource>;
@@ -1174,6 +1184,8 @@ export interface ListDnsResolverDomainListByResourceGroupRequest {
   resourceGroupName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DnsResolverDomainListTagsMap = { [key: string]: string | undefined };
@@ -1210,12 +1222,16 @@ export interface ListDnsResolverDomainListsRequest {
   subscriptionId: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDnsResolverPoliciesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DnsResolverPolicyTagsMap = { [key: string]: string | undefined };
@@ -1254,6 +1270,8 @@ export interface ListDnsResolverPolicyByResourceGroupRequest {
   resourceGroupName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDnsResolverPolicyByVirtualNetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1262,6 +1280,8 @@ export interface ListDnsResolverPolicyByVirtualNetworkRequest {
   resourceGroupName: string;
   /** The name of the VirtualNetwork */
   virtualNetworkName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDnsResolverPolicyVirtualNetworkLinksRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1272,6 +1292,8 @@ export interface ListDnsResolverPolicyVirtualNetworkLinksRequest {
   dnsResolverPolicyName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DnsResolverPolicyVirtualNetworkLinkTagsMap = { [key: string]: string | undefined };
@@ -1309,6 +1331,8 @@ export interface ListDnsResolversRequest {
   subscriptionId: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDnsSecurityRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1319,6 +1343,8 @@ export interface ListDnsSecurityRulesRequest {
   dnsResolverPolicyName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DnsSecurityRuleTagsMap = { [key: string]: string | undefined };
@@ -1359,6 +1385,8 @@ export interface ListForwardingRulesRequest {
   dnsForwardingRulesetName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Describes a forwarding rule within a DNS forwarding ruleset. */
 export interface ForwardingRule {
@@ -1393,6 +1421,8 @@ export interface ListInboundEndpointsRequest {
   dnsResolverName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type InboundEndpointTagsMap = { [key: string]: string | undefined };
@@ -1433,6 +1463,8 @@ export interface ListOutboundEndpointsRequest {
   dnsResolverName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type OutboundEndpointTagsMap = { [key: string]: string | undefined };
@@ -1473,6 +1505,8 @@ export interface ListVirtualNetworkLinksRequest {
   dnsForwardingRulesetName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Describes a virtual network link. */
 export interface VirtualNetworkLink {
@@ -2489,12 +2523,13 @@ export const InboundEndpointsCreateOrUpdate: API.OperationMethod<
 
 export type ListDnsForwardingRulesetByResourceGroupError = AzureOpError;
 /** Lists DNS forwarding rulesets within a resource group. */
-export const ListDnsForwardingRulesetByResourceGroup: API.OperationMethod<
+export const ListDnsForwardingRulesetByResourceGroup: API.PaginatedOperationMethod<
   ListDnsForwardingRulesetByResourceGroupRequest,
   DnsForwardingRulesetListResult,
   ListDnsForwardingRulesetByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DnsForwardingRuleset
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(424, __c53, 0) as any as S.Schema<ListDnsForwardingRulesetByResourceGroupRequest>,
   output: __S(433, __c54, 1) as any as S.Schema<DnsForwardingRulesetListResult>,
   errors: [UnknownAzureError],
@@ -2502,16 +2537,23 @@ export const ListDnsForwardingRulesetByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDnsForwardingRulesetByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDnsForwardingRulesetByVirtualNetworkError = AzureOpError;
 /** Lists DNS forwarding ruleset resource IDs attached to a virtual network. */
-export const ListDnsForwardingRulesetByVirtualNetwork: API.OperationMethod<
+export const ListDnsForwardingRulesetByVirtualNetwork: API.PaginatedOperationMethod<
   ListDnsForwardingRulesetByVirtualNetworkRequest,
   VirtualNetworkDnsForwardingRulesetListResult,
   ListDnsForwardingRulesetByVirtualNetworkError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VirtualNetworkDnsForwardingRuleset
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c56, 0) as any as S.Schema<ListDnsForwardingRulesetByVirtualNetworkRequest>,
   output: __S(452, __c56, 4) as any as S.Schema<VirtualNetworkDnsForwardingRulesetListResult>,
   errors: [UnknownAzureError],
@@ -2519,16 +2561,23 @@ export const ListDnsForwardingRulesetByVirtualNetwork: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDnsForwardingRulesetByVirtualNetwork",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDnsForwardingRulesetsError = AzureOpError;
 /** Lists DNS forwarding rulesets in all resource groups of a subscription. */
-export const ListDnsForwardingRulesets: API.OperationMethod<
+export const ListDnsForwardingRulesets: API.PaginatedOperationMethod<
   ListDnsForwardingRulesetsRequest,
   DnsForwardingRulesetListResult,
   ListDnsForwardingRulesetsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DnsForwardingRuleset
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(456, __c57, 0) as any as S.Schema<ListDnsForwardingRulesetsRequest>,
   output: __S(433, __c54, 1) as any as S.Schema<DnsForwardingRulesetListResult>,
   errors: [UnknownAzureError],
@@ -2536,16 +2585,23 @@ export const ListDnsForwardingRulesets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDnsForwardingRulesets",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDnsResolverByResourceGroupError = AzureOpError;
 /** Lists DNS resolvers within a resource group. */
-export const ListDnsResolverByResourceGroup: API.OperationMethod<
+export const ListDnsResolverByResourceGroup: API.PaginatedOperationMethod<
   ListDnsResolverByResourceGroupRequest,
   DnsResolverListResult,
   ListDnsResolverByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DnsResolver
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(464, __c58, 0) as any as S.Schema<ListDnsResolverByResourceGroupRequest>,
   output: __S(473, __c59, 1) as any as S.Schema<DnsResolverListResult>,
   errors: [UnknownAzureError],
@@ -2553,16 +2609,23 @@ export const ListDnsResolverByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDnsResolverByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDnsResolverByVirtualNetworkError = AzureOpError;
 /** Lists DNS resolver resource IDs linked to a virtual network. */
-export const ListDnsResolverByVirtualNetwork: API.OperationMethod<
+export const ListDnsResolverByVirtualNetwork: API.PaginatedOperationMethod<
   ListDnsResolverByVirtualNetworkRequest,
   SubResourceListResult,
   ListDnsResolverByVirtualNetworkError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SubResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(480, __c60, 0) as any as S.Schema<ListDnsResolverByVirtualNetworkRequest>,
   output: __S(488, __c61, 0) as any as S.Schema<SubResourceListResult>,
   errors: [UnknownAzureError],
@@ -2570,16 +2633,23 @@ export const ListDnsResolverByVirtualNetwork: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDnsResolverByVirtualNetwork",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDnsResolverDomainListByResourceGroupError = AzureOpError;
 /** Lists DNS resolver domain lists within a resource group. */
-export const ListDnsResolverDomainListByResourceGroup: API.OperationMethod<
+export const ListDnsResolverDomainListByResourceGroup: API.PaginatedOperationMethod<
   ListDnsResolverDomainListByResourceGroupRequest,
   DnsResolverDomainListListResult,
   ListDnsResolverDomainListByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DnsResolverDomainList
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(496, __c62, 0) as any as S.Schema<ListDnsResolverDomainListByResourceGroupRequest>,
   output: __S(505, __c63, 1) as any as S.Schema<DnsResolverDomainListListResult>,
   errors: [UnknownAzureError],
@@ -2587,16 +2657,23 @@ export const ListDnsResolverDomainListByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDnsResolverDomainListByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDnsResolverDomainListsError = AzureOpError;
 /** Lists DNS resolver domain lists in all resource groups of a subscription. */
-export const ListDnsResolverDomainLists: API.OperationMethod<
+export const ListDnsResolverDomainLists: API.PaginatedOperationMethod<
   ListDnsResolverDomainListsRequest,
   DnsResolverDomainListListResult,
   ListDnsResolverDomainListsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DnsResolverDomainList
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(512, __c64, 0) as any as S.Schema<ListDnsResolverDomainListsRequest>,
   output: __S(505, __c63, 1) as any as S.Schema<DnsResolverDomainListListResult>,
   errors: [UnknownAzureError],
@@ -2604,16 +2681,23 @@ export const ListDnsResolverDomainLists: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDnsResolverDomainLists",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDnsResolverPoliciesError = AzureOpError;
 /** Lists DNS resolver policies in all resource groups of a subscription. */
-export const ListDnsResolverPolicies: API.OperationMethod<
+export const ListDnsResolverPolicies: API.PaginatedOperationMethod<
   ListDnsResolverPoliciesRequest,
   DnsResolverPolicyListResult,
   ListDnsResolverPoliciesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DnsResolverPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(520, __c65, 0) as any as S.Schema<ListDnsResolverPoliciesRequest>,
   output: __S(529, __c66, 1) as any as S.Schema<DnsResolverPolicyListResult>,
   errors: [UnknownAzureError],
@@ -2621,16 +2705,23 @@ export const ListDnsResolverPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDnsResolverPolicies",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDnsResolverPolicyByResourceGroupError = AzureOpError;
 /** Lists DNS resolver policies within a resource group. */
-export const ListDnsResolverPolicyByResourceGroup: API.OperationMethod<
+export const ListDnsResolverPolicyByResourceGroup: API.PaginatedOperationMethod<
   ListDnsResolverPolicyByResourceGroupRequest,
   DnsResolverPolicyListResult,
   ListDnsResolverPolicyByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DnsResolverPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(536, __c67, 0) as any as S.Schema<ListDnsResolverPolicyByResourceGroupRequest>,
   output: __S(529, __c66, 1) as any as S.Schema<DnsResolverPolicyListResult>,
   errors: [UnknownAzureError],
@@ -2638,16 +2729,23 @@ export const ListDnsResolverPolicyByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDnsResolverPolicyByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDnsResolverPolicyByVirtualNetworkError = AzureOpError;
 /** Lists DNS resolver policy resource IDs linked to a virtual network. */
-export const ListDnsResolverPolicyByVirtualNetwork: API.OperationMethod<
+export const ListDnsResolverPolicyByVirtualNetwork: API.PaginatedOperationMethod<
   ListDnsResolverPolicyByVirtualNetworkRequest,
   SubResourceListResult,
   ListDnsResolverPolicyByVirtualNetworkError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SubResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c68, 0) as any as S.Schema<ListDnsResolverPolicyByVirtualNetworkRequest>,
   output: __S(488, __c61, 0) as any as S.Schema<SubResourceListResult>,
   errors: [UnknownAzureError],
@@ -2655,16 +2753,23 @@ export const ListDnsResolverPolicyByVirtualNetwork: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDnsResolverPolicyByVirtualNetwork",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDnsResolverPolicyVirtualNetworkLinksError = AzureOpError;
 /** Lists DNS resolver policy virtual network links. */
-export const ListDnsResolverPolicyVirtualNetworkLinks: API.OperationMethod<
+export const ListDnsResolverPolicyVirtualNetworkLinks: API.PaginatedOperationMethod<
   ListDnsResolverPolicyVirtualNetworkLinksRequest,
   DnsResolverPolicyVirtualNetworkLinkListResult,
   ListDnsResolverPolicyVirtualNetworkLinksError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DnsResolverPolicyVirtualNetworkLink
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(552, __c69, 0) as any as S.Schema<ListDnsResolverPolicyVirtualNetworkLinksRequest>,
   output: __S(554, __c69, 2) as any as S.Schema<DnsResolverPolicyVirtualNetworkLinkListResult>,
   errors: [UnknownAzureError],
@@ -2672,16 +2777,23 @@ export const ListDnsResolverPolicyVirtualNetworkLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDnsResolverPolicyVirtualNetworkLinks",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDnsResolversError = AzureOpError;
 /** Lists DNS resolvers in all resource groups of a subscription. */
-export const ListDnsResolvers: API.OperationMethod<
+export const ListDnsResolvers: API.PaginatedOperationMethod<
   ListDnsResolversRequest,
   DnsResolverListResult,
   ListDnsResolversError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DnsResolver
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(568, __c71, 0) as any as S.Schema<ListDnsResolversRequest>,
   output: __S(473, __c59, 1) as any as S.Schema<DnsResolverListResult>,
   errors: [UnknownAzureError],
@@ -2689,16 +2801,23 @@ export const ListDnsResolvers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDnsResolvers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDnsSecurityRulesError = AzureOpError;
 /** Lists DNS security rules for a DNS resolver policy. */
-export const ListDnsSecurityRules: API.OperationMethod<
+export const ListDnsSecurityRules: API.PaginatedOperationMethod<
   ListDnsSecurityRulesRequest,
   DnsSecurityRuleListResult,
   ListDnsSecurityRulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DnsSecurityRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(576, __c72, 0) as any as S.Schema<ListDnsSecurityRulesRequest>,
   output: __S(578, __c72, 2) as any as S.Schema<DnsSecurityRuleListResult>,
   errors: [UnknownAzureError],
@@ -2706,16 +2825,23 @@ export const ListDnsSecurityRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDnsSecurityRules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListForwardingRulesError = AzureOpError;
 /** Lists forwarding rules in a DNS forwarding ruleset. */
-export const ListForwardingRules: API.OperationMethod<
+export const ListForwardingRules: API.PaginatedOperationMethod<
   ListForwardingRulesRequest,
   ForwardingRuleListResult,
   ListForwardingRulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ForwardingRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(584, __c73, 0) as any as S.Schema<ListForwardingRulesRequest>,
   output: __S(586, __c73, 2) as any as S.Schema<ForwardingRuleListResult>,
   errors: [UnknownAzureError],
@@ -2723,16 +2849,23 @@ export const ListForwardingRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListForwardingRules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListInboundEndpointsError = AzureOpError;
 /** Lists inbound endpoints for a DNS resolver. */
-export const ListInboundEndpoints: API.OperationMethod<
+export const ListInboundEndpoints: API.PaginatedOperationMethod<
   ListInboundEndpointsRequest,
   InboundEndpointListResult,
   ListInboundEndpointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  InboundEndpoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(592, __c74, 0) as any as S.Schema<ListInboundEndpointsRequest>,
   output: __S(594, __c74, 2) as any as S.Schema<InboundEndpointListResult>,
   errors: [UnknownAzureError],
@@ -2740,16 +2873,23 @@ export const ListInboundEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInboundEndpoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOutboundEndpointsError = AzureOpError;
 /** Lists outbound endpoints for a DNS resolver. */
-export const ListOutboundEndpoints: API.OperationMethod<
+export const ListOutboundEndpoints: API.PaginatedOperationMethod<
   ListOutboundEndpointsRequest,
   OutboundEndpointListResult,
   ListOutboundEndpointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OutboundEndpoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(600, __c75, 0) as any as S.Schema<ListOutboundEndpointsRequest>,
   output: __S(602, __c75, 2) as any as S.Schema<OutboundEndpointListResult>,
   errors: [UnknownAzureError],
@@ -2757,16 +2897,23 @@ export const ListOutboundEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOutboundEndpoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualNetworkLinksError = AzureOpError;
 /** Lists virtual network links to a DNS forwarding ruleset. */
-export const ListVirtualNetworkLinks: API.OperationMethod<
+export const ListVirtualNetworkLinks: API.PaginatedOperationMethod<
   ListVirtualNetworkLinksRequest,
   VirtualNetworkLinkListResult,
   ListVirtualNetworkLinksError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VirtualNetworkLink
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c76, 0) as any as S.Schema<ListVirtualNetworkLinksRequest>,
   output: __S(610, __c76, 2) as any as S.Schema<VirtualNetworkLinkListResult>,
   errors: [UnknownAzureError],
@@ -2774,7 +2921,13 @@ export const ListVirtualNetworkLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualNetworkLinks",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type OutboundEndpointsCreateOrUpdateError = AzureOpError;
 /** Creates or updates an outbound endpoint for a DNS resolver. */
@@ -3966,12 +4119,14 @@ function __c53(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsForwardingRulesets",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDnsForwardingRulesetByResourceGroupRequest" });
@@ -4018,12 +4173,14 @@ function __c56(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           virtualNetworkName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listDnsForwardingRulesets",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDnsForwardingRulesetByVirtualNetworkRequest" });
@@ -4058,12 +4215,14 @@ function __c57(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/dnsForwardingRulesets",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDnsForwardingRulesetsRequest" });
@@ -4077,12 +4236,14 @@ function __c58(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDnsResolverByResourceGroupRequest" });
@@ -4110,12 +4271,14 @@ function __c60(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           virtualNetworkName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listDnsResolvers",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDnsResolverByVirtualNetworkRequest" });
@@ -4140,12 +4303,14 @@ function __c62(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolverDomainLists",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDnsResolverDomainListByResourceGroupRequest" });
@@ -4171,12 +4336,14 @@ function __c64(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/dnsResolverDomainLists",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDnsResolverDomainListsRequest" });
@@ -4189,12 +4356,14 @@ function __c65(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/dnsResolverPolicies",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDnsResolverPoliciesRequest" });
@@ -4221,12 +4390,14 @@ function __c67(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolverPolicies",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDnsResolverPolicyByResourceGroupRequest" });
@@ -4240,12 +4411,14 @@ function __c68(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           virtualNetworkName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listDnsResolverPolicies",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDnsResolverPolicyByVirtualNetworkRequest" });
@@ -4260,12 +4433,14 @@ function __c69(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           dnsResolverPolicyName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolverPolicies/{dnsResolverPolicyName}/virtualNetworkLinks",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDnsResolverPolicyVirtualNetworkLinksRequest" });
@@ -4306,12 +4481,14 @@ function __c71(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/dnsResolvers",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDnsResolversRequest" });
@@ -4326,12 +4503,14 @@ function __c72(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           dnsResolverPolicyName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolverPolicies/{dnsResolverPolicyName}/dnsSecurityRules",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDnsSecurityRulesRequest" });
@@ -4355,12 +4534,14 @@ function __c73(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           dnsForwardingRulesetName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsForwardingRulesets/{dnsForwardingRulesetName}/forwardingRules",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListForwardingRulesRequest" });
@@ -4384,12 +4565,14 @@ function __c74(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           dnsResolverName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}/inboundEndpoints",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListInboundEndpointsRequest" });
@@ -4413,12 +4596,14 @@ function __c75(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           dnsResolverName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}/outboundEndpoints",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOutboundEndpointsRequest" });
@@ -4442,12 +4627,14 @@ function __c76(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           dnsForwardingRulesetName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsForwardingRulesets/{dnsForwardingRulesetName}/virtualNetworkLinks",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualNetworkLinksRequest" });

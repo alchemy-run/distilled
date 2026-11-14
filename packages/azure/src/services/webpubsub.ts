@@ -667,7 +667,10 @@ export interface GetWebPubSubSharedPrivateLinkResourceResponse {
   systemData?: SystemData | undefined;
   properties?: SharedPrivateLinkResourceProperties | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The object that describes a operation. */
 export interface OperationDisplay {
   /** Friendly name of the resource provider */
@@ -749,7 +752,7 @@ export type OperationListValueList = Array<Operation>;
 /** Result of the request to list REST API operations. It contains a list of operations. */
 export interface OperationList {
   /** List of operations supported by the resource provider. */
-  value?: OperationListValueList | undefined;
+  value: OperationListValueList;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -758,6 +761,8 @@ export interface ListUsagesRequest {
   subscriptionId: string;
   /** the location like "eastus" */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Localizable String object containing the name and a localized value. */
 export interface SignalRServiceUsageName {
@@ -783,7 +788,7 @@ export type SignalRServiceUsageListValueList = Array<SignalRServiceUsage>;
 /** Object that includes an array of the resource usages and a possible link for next set. */
 export interface SignalRServiceUsageList {
   /** List of the resource usages */
-  value?: SignalRServiceUsageListValueList | undefined;
+  value: SignalRServiceUsageListValueList;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -792,6 +797,8 @@ export interface ListWebPubSubByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type WebPubSubResourceTagsMap = { [key: string]: string | undefined };
@@ -819,13 +826,15 @@ export type WebPubSubResourceListValueList = Array<WebPubSubResource>;
 /** Object that includes an array of resources and a possible link for next set. */
 export interface WebPubSubResourceList {
   /** List of the resources */
-  value?: WebPubSubResourceListValueList | undefined;
+  value: WebPubSubResourceListValueList;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
 export interface ListWebPubSubBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListWebPubSubCustomCertificatesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -834,6 +843,8 @@ export interface ListWebPubSubCustomCertificatesRequest {
   resourceGroupName: string;
   /** The name of the resource. */
   resourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A custom certificate. */
 export interface CustomCertificate {
@@ -852,7 +863,7 @@ export type CustomCertificateListValueList = Array<CustomCertificate>;
 /** Custom certificates list. */
 export interface CustomCertificateList {
   /** List of custom certificates of this resource. */
-  value?: CustomCertificateListValueList | undefined;
+  value: CustomCertificateListValueList;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -863,6 +874,8 @@ export interface ListWebPubSubCustomDomainsRequest {
   resourceGroupName: string;
   /** The name of the resource. */
   resourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A custom domain */
 export interface CustomDomain {
@@ -881,7 +894,7 @@ export type CustomDomainListValueList = Array<CustomDomain>;
 /** Custom domains list */
 export interface CustomDomainList {
   /** List of custom domains that bind to this resource. */
-  value?: CustomDomainListValueList | undefined;
+  value: CustomDomainListValueList;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -892,6 +905,8 @@ export interface ListWebPubSubHubsRequest {
   resourceGroupName: string;
   /** The name of the resource. */
   resourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A hub setting */
 export interface WebPubSubHub {
@@ -910,7 +925,7 @@ export type WebPubSubHubListValueList = Array<WebPubSubHub>;
 /** Hub setting list */
 export interface WebPubSubHubList {
   /** List of hub settings to this resource. */
-  value?: WebPubSubHubListValueList | undefined;
+  value: WebPubSubHubListValueList;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -940,13 +955,15 @@ export interface ListWebPubSubPrivateEndpointConnectionsRequest {
   resourceGroupName: string;
   /** The name of the resource. */
   resourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of the private endpoint connections */
 export type PrivateEndpointConnectionListValueList = Array<PrivateEndpointConnection>;
 /** A list of private endpoint connections */
 export interface PrivateEndpointConnectionList {
   /** The list of the private endpoint connections */
-  value?: PrivateEndpointConnectionListValueList | undefined;
+  value: PrivateEndpointConnectionListValueList;
   /** Request URL that can be used to query next page of private endpoint connections. Returned when the total number of requested private endpoint connections exceed maximum page size. */
   nextLink?: string | undefined;
 }
@@ -957,6 +974,8 @@ export interface ListWebPubSubPrivateLinkResourcesRequest {
   resourceGroupName: string;
   /** The name of the resource. */
   resourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Required members of the private link resource */
 export type PrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
@@ -1010,7 +1029,7 @@ export type PrivateLinkResourceListValueList = Array<PrivateLinkResource>;
 /** Contains a list of PrivateLinkResource and a possible link to query more results */
 export interface PrivateLinkResourceList {
   /** List of PrivateLinkResource */
-  value?: PrivateLinkResourceListValueList | undefined;
+  value: PrivateLinkResourceListValueList;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -1021,6 +1040,8 @@ export interface ListWebPubSubReplicasRequest {
   resourceGroupName: string;
   /** The name of the resource. */
   resourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ReplicaTagsMap = { [key: string]: string | undefined };
@@ -1045,7 +1066,7 @@ export interface Replica {
 export type ReplicaListValueList = Array<Replica>;
 export interface ReplicaList {
   /** List of the replica */
-  value?: ReplicaListValueList | undefined;
+  value: ReplicaListValueList;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -1058,13 +1079,15 @@ export interface ListWebPubSubReplicaSharedPrivateLinkResourcesRequest {
   resourceName: string;
   /** The name of the replica. */
   replicaName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of the shared private link resources */
 export type SharedPrivateLinkResourceListValueList = Array<SharedPrivateLinkResource>;
 /** A list of shared private link resources */
 export interface SharedPrivateLinkResourceList {
   /** The list of the shared private link resources */
-  value?: SharedPrivateLinkResourceListValueList | undefined;
+  value: SharedPrivateLinkResourceListValueList;
   /** Request URL that can be used to query next page of private endpoint connections. Returned when the total number of requested private endpoint connections exceed maximum page size. */
   nextLink?: string | undefined;
 }
@@ -1117,6 +1140,8 @@ export interface ListWebPubSubSharedPrivateLinkResourcesRequest {
   resourceGroupName: string;
   /** The name of the resource. */
   resourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListWebPubSubSkusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1808,12 +1833,13 @@ export const GetWebPubSubSharedPrivateLinkResource: API.OperationMethod<
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available REST API operations of the Microsoft.SignalRService provider. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationList,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(428, __c13, 12) as any as S.Schema<OperationList>,
   errors: [UnknownAzureError],
@@ -1821,16 +1847,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUsagesError = AzureOpError;
 /** List resource usage quotas by location. */
-export const ListUsages: API.OperationMethod<
+export const ListUsages: API.PaginatedOperationMethod<
   ListUsagesRequest,
   SignalRServiceUsageList,
   ListUsagesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SignalRServiceUsage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<ListUsagesRequest>,
   output: __S(452, __c14, 4) as any as S.Schema<SignalRServiceUsageList>,
   errors: [UnknownAzureError],
@@ -1838,16 +1871,23 @@ export const ListUsages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsages",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWebPubSubByResourceGroupError = AzureOpError;
 /** Handles requests to list all resources in a resource group. */
-export const ListWebPubSubByResourceGroup: API.OperationMethod<
+export const ListWebPubSubByResourceGroup: API.PaginatedOperationMethod<
   ListWebPubSubByResourceGroupRequest,
   WebPubSubResourceList,
   ListWebPubSubByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WebPubSubResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<ListWebPubSubByResourceGroupRequest>,
   output: __S(513, __c16, 1) as any as S.Schema<WebPubSubResourceList>,
   errors: [UnknownAzureError],
@@ -1855,16 +1895,23 @@ export const ListWebPubSubByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWebPubSubByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWebPubSubBySubscriptionError = AzureOpError;
 /** Handles requests to list all resources in a subscription. */
-export const ListWebPubSubBySubscription: API.OperationMethod<
+export const ListWebPubSubBySubscription: API.PaginatedOperationMethod<
   ListWebPubSubBySubscriptionRequest,
   WebPubSubResourceList,
   ListWebPubSubBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WebPubSubResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<ListWebPubSubBySubscriptionRequest>,
   output: __S(513, __c16, 1) as any as S.Schema<WebPubSubResourceList>,
   errors: [UnknownAzureError],
@@ -1872,16 +1919,23 @@ export const ListWebPubSubBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWebPubSubBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWebPubSubCustomCertificatesError = AzureOpError;
 /** List all custom certificates. */
-export const ListWebPubSubCustomCertificates: API.OperationMethod<
+export const ListWebPubSubCustomCertificates: API.PaginatedOperationMethod<
   ListWebPubSubCustomCertificatesRequest,
   CustomCertificateList,
   ListWebPubSubCustomCertificatesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CustomCertificate
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<ListWebPubSubCustomCertificatesRequest>,
   output: __S(610, __c19, 2) as any as S.Schema<CustomCertificateList>,
   errors: [UnknownAzureError],
@@ -1889,16 +1943,23 @@ export const ListWebPubSubCustomCertificates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWebPubSubCustomCertificates",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWebPubSubCustomDomainsError = AzureOpError;
 /** List all custom domains. */
-export const ListWebPubSubCustomDomains: API.OperationMethod<
+export const ListWebPubSubCustomDomains: API.PaginatedOperationMethod<
   ListWebPubSubCustomDomainsRequest,
   CustomDomainList,
   ListWebPubSubCustomDomainsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CustomDomain
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<ListWebPubSubCustomDomainsRequest>,
   output: __S(642, __c20, 2) as any as S.Schema<CustomDomainList>,
   errors: [UnknownAzureError],
@@ -1906,16 +1967,23 @@ export const ListWebPubSubCustomDomains: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWebPubSubCustomDomains",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWebPubSubHubsError = AzureOpError;
 /** List hub settings. */
-export const ListWebPubSubHubs: API.OperationMethod<
+export const ListWebPubSubHubs: API.PaginatedOperationMethod<
   ListWebPubSubHubsRequest,
   WebPubSubHubList,
   ListWebPubSubHubsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WebPubSubHub
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<ListWebPubSubHubsRequest>,
   output: __S(674, __c21, 2) as any as S.Schema<WebPubSubHubList>,
   errors: [UnknownAzureError],
@@ -1923,7 +1991,13 @@ export const ListWebPubSubHubs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWebPubSubHubs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWebPubSubKeysError = AzureOpError;
 /** Get the access keys of the resource. */
@@ -1944,12 +2018,13 @@ export const ListWebPubSubKeys: API.OperationMethod<
 
 export type ListWebPubSubPrivateEndpointConnectionsError = AzureOpError;
 /** List private endpoint connections */
-export const ListWebPubSubPrivateEndpointConnections: API.OperationMethod<
+export const ListWebPubSubPrivateEndpointConnections: API.PaginatedOperationMethod<
   ListWebPubSubPrivateEndpointConnectionsRequest,
   PrivateEndpointConnectionList,
   ListWebPubSubPrivateEndpointConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<ListWebPubSubPrivateEndpointConnectionsRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<PrivateEndpointConnectionList>,
   errors: [UnknownAzureError],
@@ -1957,16 +2032,23 @@ export const ListWebPubSubPrivateEndpointConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWebPubSubPrivateEndpointConnections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWebPubSubPrivateLinkResourcesError = AzureOpError;
 /** Get the private link resources that need to be created for a resource. */
-export const ListWebPubSubPrivateLinkResources: API.OperationMethod<
+export const ListWebPubSubPrivateLinkResources: API.PaginatedOperationMethod<
   ListWebPubSubPrivateLinkResourcesRequest,
   PrivateLinkResourceList,
   ListWebPubSubPrivateLinkResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListWebPubSubPrivateLinkResourcesRequest>,
   output: __S(775, __c24, 7) as any as S.Schema<PrivateLinkResourceList>,
   errors: [UnknownAzureError],
@@ -1974,16 +2056,23 @@ export const ListWebPubSubPrivateLinkResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWebPubSubPrivateLinkResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWebPubSubReplicasError = AzureOpError;
 /** List all replicas belong to this resource */
-export const ListWebPubSubReplicas: API.OperationMethod<
+export const ListWebPubSubReplicas: API.PaginatedOperationMethod<
   ListWebPubSubReplicasRequest,
   ReplicaList,
   ListWebPubSubReplicasError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Replica
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<ListWebPubSubReplicasRequest>,
   output: __S(802, __c25, 2) as any as S.Schema<ReplicaList>,
   errors: [UnknownAzureError],
@@ -1991,16 +2080,23 @@ export const ListWebPubSubReplicas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWebPubSubReplicas",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWebPubSubReplicaSharedPrivateLinkResourcesError = AzureOpError;
 /** List shared private link resources */
-export const ListWebPubSubReplicaSharedPrivateLinkResources: API.OperationMethod<
+export const ListWebPubSubReplicaSharedPrivateLinkResources: API.PaginatedOperationMethod<
   ListWebPubSubReplicaSharedPrivateLinkResourcesRequest,
   SharedPrivateLinkResourceList,
   ListWebPubSubReplicaSharedPrivateLinkResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SharedPrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     832,
     __c26,
@@ -2012,7 +2108,13 @@ export const ListWebPubSubReplicaSharedPrivateLinkResources: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWebPubSubReplicaSharedPrivateLinkResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWebPubSubReplicaSkusError = AzureOpError;
 /** List all available skus of the replica resource. */
@@ -2033,12 +2135,13 @@ export const ListWebPubSubReplicaSkus: API.OperationMethod<
 
 export type ListWebPubSubSharedPrivateLinkResourcesError = AzureOpError;
 /** List shared private link resources */
-export const ListWebPubSubSharedPrivateLinkResources: API.OperationMethod<
+export const ListWebPubSubSharedPrivateLinkResources: API.PaginatedOperationMethod<
   ListWebPubSubSharedPrivateLinkResourcesRequest,
   SharedPrivateLinkResourceList,
   ListWebPubSubSharedPrivateLinkResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SharedPrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListWebPubSubSharedPrivateLinkResourcesRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<SharedPrivateLinkResourceList>,
   errors: [UnknownAzureError],
@@ -2046,7 +2149,13 @@ export const ListWebPubSubSharedPrivateLinkResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWebPubSubSharedPrivateLinkResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWebPubSubSkusError = AzureOpError;
 /** List all available skus of the resource. */
@@ -2604,12 +2713,15 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.SignalRService/operations",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2685,7 +2797,7 @@ function __c13(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(427, __c13, 11)),
+          value: __S(427, __c13, 11),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationList" });
@@ -2698,12 +2810,14 @@ function __c14(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/locations/{location}/usages",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUsagesRequest" });
@@ -2729,7 +2843,7 @@ function __c14(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(451, __c14, 3)),
+          value: __S(451, __c14, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SignalRServiceUsageList" });
@@ -2742,12 +2856,14 @@ function __c15(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWebPubSubByResourceGroupRequest" });
@@ -2760,7 +2876,7 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(512, __c16, 0)),
+          value: __S(512, __c16, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebPubSubResourceList" });
@@ -2772,12 +2888,14 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/webPubSub",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWebPubSubBySubscriptionRequest" });
@@ -2811,12 +2929,14 @@ function __c19(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customCertificates",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWebPubSubCustomCertificatesRequest" });
@@ -2825,7 +2945,7 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(609, __c19, 1)),
+          value: __S(609, __c19, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomCertificateList" });
@@ -2839,12 +2959,14 @@ function __c20(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customDomains",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWebPubSubCustomDomainsRequest" });
@@ -2853,7 +2975,7 @@ function __c20(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(641, __c20, 1)),
+          value: __S(641, __c20, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomDomainList" });
@@ -2867,12 +2989,14 @@ function __c21(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/hubs",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWebPubSubHubsRequest" });
@@ -2881,7 +3005,7 @@ function __c21(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(673, __c21, 1)),
+          value: __S(673, __c21, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebPubSubHubList" });
@@ -2923,19 +3047,21 @@ function __c23(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWebPubSubPrivateEndpointConnectionsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1984, __c62, 0)),
+          value: __S(1984, __c62, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionList" });
@@ -2949,12 +3075,14 @@ function __c24(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/privateLinkResources",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWebPubSubPrivateLinkResourcesRequest" });
@@ -2999,7 +3127,7 @@ function __c24(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(774, __c24, 6)),
+          value: __S(774, __c24, 6),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourceList" });
@@ -3013,12 +3141,14 @@ function __c25(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWebPubSubReplicasRequest" });
@@ -3027,7 +3157,7 @@ function __c25(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(801, __c25, 1)),
+          value: __S(801, __c25, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReplicaList" });
@@ -3042,12 +3172,14 @@ function __c26(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           replicaName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}/sharedPrivateLinkResources",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWebPubSubReplicaSharedPrivateLinkResourcesRequest" });
@@ -3058,7 +3190,7 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2016, __c63, 0)),
+          value: __S(2016, __c63, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SharedPrivateLinkResourceList" });
@@ -3125,12 +3257,14 @@ function __c30(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/sharedPrivateLinkResources",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWebPubSubSharedPrivateLinkResourcesRequest" });

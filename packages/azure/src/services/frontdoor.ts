@@ -1493,6 +1493,8 @@ export interface ListExperimentByProfileRequest {
   resourceGroupName: string;
   /** The Profile identifier associated with the Tenant and Partner */
   profileName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ExperimentTagsMap = { [key: string]: string | undefined };
@@ -1525,6 +1527,8 @@ export interface ListFrontDoorByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type FrontDoorTagsMap = { [key: string]: string | undefined };
@@ -1555,6 +1559,8 @@ export interface FrontDoorListResult {
 export interface ListFrontDoorsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListFrontendEndpointByFrontDoorRequest {
   /** The ID of the target subscription. */
@@ -1563,6 +1569,8 @@ export interface ListFrontendEndpointByFrontDoorRequest {
   resourceGroupName: string;
   /** Name of the Front Door which is globally unique. */
   frontDoorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The FrontendEndpoint items on this page */
 export type FrontendEndpointsListResultValueList = Array<FrontendEndpoint>;
@@ -1576,6 +1584,8 @@ export interface FrontendEndpointsListResult {
 export interface ListManagedRuleSetsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ManagedRuleSetDefinitionTagsMap = { [key: string]: string | undefined };
@@ -1657,6 +1667,8 @@ export interface ListNetworkExperimentProfileByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ProfileTagsMap = { [key: string]: string | undefined };
@@ -1689,12 +1701,16 @@ export interface ProfileList {
 export interface ListNetworkExperimentProfilesRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPoliciesRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type WebApplicationFirewallPolicyTagsMap = { [key: string]: string | undefined };
@@ -1729,6 +1745,8 @@ export interface WebApplicationFirewallPolicyList {
 export interface ListPolicyBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPreconfiguredEndpointsRequest {
   /** The ID of the target subscription. */
@@ -1737,6 +1755,8 @@ export interface ListPreconfiguredEndpointsRequest {
   resourceGroupName: string;
   /** The Profile identifier associated with the Tenant and Partner */
   profileName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PreconfiguredEndpointTagsMap = { [key: string]: string | undefined };
@@ -1784,6 +1804,8 @@ export interface ListRulesEngineByFrontDoorRequest {
   resourceGroupName: string;
   /** Name of the Front Door which is globally unique. */
   frontDoorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The RulesEngine items on this page */
 export type RulesEngineListResultValueList = Array<RulesEngine>;
@@ -2399,12 +2421,13 @@ export const GetRulesEngine: API.OperationMethod<
 
 export type ListExperimentByProfileError = AzureOpError;
 /** Gets a list of Experiments Gets a list of Experiments */
-export const ListExperimentByProfile: API.OperationMethod<
+export const ListExperimentByProfile: API.PaginatedOperationMethod<
   ListExperimentByProfileRequest,
   ExperimentList,
   ListExperimentByProfileError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Experiment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ListExperimentByProfileRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<ExperimentList>,
   errors: [UnknownAzureError],
@@ -2412,16 +2435,23 @@ export const ListExperimentByProfile: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExperimentByProfile",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFrontDoorByResourceGroupError = AzureOpError;
 /** Lists all of the Front Doors within a resource group under a subscription. */
-export const ListFrontDoorByResourceGroup: API.OperationMethod<
+export const ListFrontDoorByResourceGroup: API.PaginatedOperationMethod<
   ListFrontDoorByResourceGroupRequest,
   FrontDoorListResult,
   ListFrontDoorByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FrontDoor
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListFrontDoorByResourceGroupRequest>,
   output: __S(993, __c31, 1) as any as S.Schema<FrontDoorListResult>,
   errors: [UnknownAzureError],
@@ -2429,16 +2459,23 @@ export const ListFrontDoorByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFrontDoorByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFrontDoorsError = AzureOpError;
 /** Lists all of the Front Doors within an Azure subscription. */
-export const ListFrontDoors: API.OperationMethod<
+export const ListFrontDoors: API.PaginatedOperationMethod<
   ListFrontDoorsRequest,
   FrontDoorListResult,
   ListFrontDoorsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FrontDoor
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListFrontDoorsRequest>,
   output: __S(993, __c31, 1) as any as S.Schema<FrontDoorListResult>,
   errors: [UnknownAzureError],
@@ -2446,16 +2483,23 @@ export const ListFrontDoors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFrontDoors",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFrontendEndpointByFrontDoorError = AzureOpError;
 /** Lists all of the frontend endpoints within a Front Door. */
-export const ListFrontendEndpointByFrontDoor: API.OperationMethod<
+export const ListFrontendEndpointByFrontDoor: API.PaginatedOperationMethod<
   ListFrontendEndpointByFrontDoorRequest,
   FrontendEndpointsListResult,
   ListFrontendEndpointByFrontDoorError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FrontendEndpoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ListFrontendEndpointByFrontDoorRequest>,
   output: __S(1057, __c33, 1) as any as S.Schema<FrontendEndpointsListResult>,
   errors: [UnknownAzureError],
@@ -2463,16 +2507,23 @@ export const ListFrontendEndpointByFrontDoor: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFrontendEndpointByFrontDoor",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListManagedRuleSetsError = AzureOpError;
 /** Lists all available managed rule sets. */
-export const ListManagedRuleSets: API.OperationMethod<
+export const ListManagedRuleSets: API.PaginatedOperationMethod<
   ListManagedRuleSetsRequest,
   ManagedRuleSetDefinitionList,
   ListManagedRuleSetsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedRuleSetDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ListManagedRuleSetsRequest>,
   output: __S(1096, __c34, 8) as any as S.Schema<ManagedRuleSetDefinitionList>,
   errors: [UnknownAzureError],
@@ -2480,16 +2531,23 @@ export const ListManagedRuleSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedRuleSets",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkExperimentProfileByResourceGroupError = AzureOpError;
 /** Gets a list of Network Experiment Profiles within a resource group under a subscription Gets a list of Network Experiment Profiles within a resource group under a subscription */
-export const ListNetworkExperimentProfileByResourceGroup: API.OperationMethod<
+export const ListNetworkExperimentProfileByResourceGroup: API.PaginatedOperationMethod<
   ListNetworkExperimentProfileByResourceGroupRequest,
   ProfileList,
   ListNetworkExperimentProfileByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Profile
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<ListNetworkExperimentProfileByResourceGroupRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<ProfileList>,
   errors: [UnknownAzureError],
@@ -2497,16 +2555,23 @@ export const ListNetworkExperimentProfileByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkExperimentProfileByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkExperimentProfilesError = AzureOpError;
 /** Gets a list of Network Experiment Profiles under a subscription Gets a list of Network Experiment Profiles under a subscription */
-export const ListNetworkExperimentProfiles: API.OperationMethod<
+export const ListNetworkExperimentProfiles: API.PaginatedOperationMethod<
   ListNetworkExperimentProfilesRequest,
   ProfileList,
   ListNetworkExperimentProfilesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Profile
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ListNetworkExperimentProfilesRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<ProfileList>,
   errors: [UnknownAzureError],
@@ -2514,16 +2579,23 @@ export const ListNetworkExperimentProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkExperimentProfiles",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPoliciesError = AzureOpError;
 /** Lists all of the protection policies within a resource group. */
-export const ListPolicies: API.OperationMethod<
+export const ListPolicies: API.PaginatedOperationMethod<
   ListPoliciesRequest,
   WebApplicationFirewallPolicyList,
   ListPoliciesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WebApplicationFirewallPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ListPoliciesRequest>,
   output: __S(1249, __c39, 1) as any as S.Schema<WebApplicationFirewallPolicyList>,
   errors: [UnknownAzureError],
@@ -2531,16 +2603,23 @@ export const ListPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPolicies",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPolicyBySubscriptionError = AzureOpError;
 /** Lists all of the protection policies within a subscription. */
-export const ListPolicyBySubscription: API.OperationMethod<
+export const ListPolicyBySubscription: API.PaginatedOperationMethod<
   ListPolicyBySubscriptionRequest,
   WebApplicationFirewallPolicyList,
   ListPolicyBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WebApplicationFirewallPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<ListPolicyBySubscriptionRequest>,
   output: __S(1249, __c39, 1) as any as S.Schema<WebApplicationFirewallPolicyList>,
   errors: [UnknownAzureError],
@@ -2548,16 +2627,23 @@ export const ListPolicyBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPolicyBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPreconfiguredEndpointsError = AzureOpError;
 /** Gets a list of Preconfigured Endpoints Gets a list of Preconfigured Endpoints */
-export const ListPreconfiguredEndpoints: API.OperationMethod<
+export const ListPreconfiguredEndpoints: API.PaginatedOperationMethod<
   ListPreconfiguredEndpointsRequest,
   PreconfiguredEndpointList,
   ListPreconfiguredEndpointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PreconfiguredEndpoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<ListPreconfiguredEndpointsRequest>,
   output: __S(1316, __c41, 4) as any as S.Schema<PreconfiguredEndpointList>,
   errors: [UnknownAzureError],
@@ -2565,16 +2651,23 @@ export const ListPreconfiguredEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPreconfiguredEndpoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRulesEngineByFrontDoorError = AzureOpError;
 /** Lists all of the Rules Engine Configurations within a Front Door. */
-export const ListRulesEngineByFrontDoor: API.OperationMethod<
+export const ListRulesEngineByFrontDoor: API.PaginatedOperationMethod<
   ListRulesEngineByFrontDoorRequest,
   RulesEngineListResult,
   ListRulesEngineByFrontDoorError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RulesEngine
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<ListRulesEngineByFrontDoorRequest>,
   output: __S(1345, __c42, 1) as any as S.Schema<RulesEngineListResult>,
   errors: [UnknownAzureError],
@@ -2582,7 +2675,13 @@ export const ListRulesEngineByFrontDoor: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRulesEngineByFrontDoor",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type NetworkExperimentProfilesCreateOrUpdateError = AzureOpError;
 /** Creates an NetworkExperiment Profile Creates an NetworkExperiment Profile */
@@ -3659,12 +3758,14 @@ function __c27(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListExperimentByProfileRequest" });
@@ -3717,12 +3818,14 @@ function __c30(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFrontDoorByResourceGroupRequest" });
@@ -3747,12 +3850,14 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/frontDoors",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFrontDoorsRequest" });
@@ -3766,12 +3871,14 @@ function __c33(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           frontDoorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFrontendEndpointByFrontDoorRequest" });
@@ -3790,12 +3897,14 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/frontDoorWebApplicationFirewallManagedRuleSets",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListManagedRuleSetsRequest" });
@@ -3863,12 +3972,14 @@ function __c35(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkExperimentProfileByResourceGroupRequest" });
@@ -3893,12 +4004,14 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/NetworkExperimentProfiles",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkExperimentProfilesRequest" });
@@ -3911,12 +4024,14 @@ function __c38(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPoliciesRequest" });
@@ -3941,12 +4056,14 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPolicyBySubscriptionRequest" });
@@ -3960,12 +4077,14 @@ function __c41(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/preconfiguredEndpoints",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPreconfiguredEndpointsRequest" });
@@ -4008,12 +4127,14 @@ function __c42(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           frontDoorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRulesEngineByFrontDoorRequest" });

@@ -151,7 +151,7 @@ export interface ListWorkspaceCollectionByResourceGroupRequest {
 }
 export type WorkspaceCollectionListValueList = Array<WorkspaceCollection>;
 export interface WorkspaceCollectionList {
-  value?: WorkspaceCollectionListValueList | undefined;
+  value: WorkspaceCollectionListValueList;
 }
 export interface ListWorkspaceCollectionBySubscriptionRequest {
   /** Gets subscription credentials which uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -177,7 +177,7 @@ export interface Workspace {
 }
 export type WorkspaceListValueList = Array<Workspace>;
 export interface WorkspaceList {
-  value?: WorkspaceListValueList | undefined;
+  value: WorkspaceListValueList;
 }
 export type MigrateWorkspaceCollectionRequestResourcesList = Array<string>;
 export interface MigrateWorkspaceCollectionRequest {
@@ -317,12 +317,13 @@ export const GetWorkspaceCollectionByName: API.OperationMethod<
 
 export type ListWorkspaceCollectionByResourceGroupError = AzureOpError;
 /** Retrieves all existing Power BI workspace collections in the specified resource group. */
-export const ListWorkspaceCollectionByResourceGroup: API.OperationMethod<
+export const ListWorkspaceCollectionByResourceGroup: API.PaginatedOperationMethod<
   ListWorkspaceCollectionByResourceGroupRequest,
   WorkspaceCollectionList,
   ListWorkspaceCollectionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkspaceCollection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ListWorkspaceCollectionByResourceGroupRequest>,
   output: __S(97, __c12, 1) as any as S.Schema<WorkspaceCollectionList>,
   errors: [UnknownAzureError],
@@ -330,16 +331,18 @@ export const ListWorkspaceCollectionByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaceCollectionByResourceGroup",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListWorkspaceCollectionBySubscriptionError = AzureOpError;
 /** Retrieves all existing Power BI workspace collections in the specified subscription. */
-export const ListWorkspaceCollectionBySubscription: API.OperationMethod<
+export const ListWorkspaceCollectionBySubscription: API.PaginatedOperationMethod<
   ListWorkspaceCollectionBySubscriptionRequest,
   WorkspaceCollectionList,
   ListWorkspaceCollectionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkspaceCollection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<ListWorkspaceCollectionBySubscriptionRequest>,
   output: __S(97, __c12, 1) as any as S.Schema<WorkspaceCollectionList>,
   errors: [UnknownAzureError],
@@ -347,16 +350,18 @@ export const ListWorkspaceCollectionBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaceCollectionBySubscription",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListWorkspacesError = AzureOpError;
 /** Retrieves all existing Power BI workspaces in the specified workspace collection. */
-export const ListWorkspaces: API.OperationMethod<
+export const ListWorkspaces: API.PaginatedOperationMethod<
   ListWorkspacesRequest,
   WorkspaceList,
   ListWorkspacesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Workspace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<ListWorkspacesRequest>,
   output: __S(115, __c14, 3) as any as S.Schema<WorkspaceList>,
   errors: [UnknownAzureError],
@@ -364,7 +369,8 @@ export const ListWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaces",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type MigrateWorkspaceCollectionError = AzureOpError;
 /** Migrates an existing Power BI Workspace Collection to a different resource group and/or subscription. */
@@ -678,7 +684,7 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(96, __c12, 0)),
+          value: __S(96, __c12, 0),
         }),
       ).annotate({ identifier: "WorkspaceCollectionList" });
   }
@@ -731,7 +737,7 @@ function __c14(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(114, __c14, 2)),
+          value: __S(114, __c14, 2),
         }),
       ).annotate({ identifier: "WorkspaceList" });
   }

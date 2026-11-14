@@ -1,0 +1,154 @@
+{
+  "description": "Key Vault answers a missing secret, secret version, or deleted secret with HTTP 404 `{\"error\":{\"code\":\"SecretNotFound\"}}`, and a SetSecret whose name belongs to a soft-deleted secret with HTTP 409 `{\"error\":{\"code\":\"Conflict\",\"innererror\":{\"code\":\"ObjectIsDeletedButRecoverable\"}}}` (Key Vault soft-delete docs; reported on #976 by an Alchemy Azure provider user). The client-level code map cannot own `SecretNotFound` (ARM's Microsoft.KeyVault secrets use it as a plain 404), so type both per operation, like keyvault-keys/00-errors.json.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_secrets#KeyVaultSecretNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The Key Vault error code (`SecretNotFound`)."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The secret, the secret version, or the deleted secret does not exist (HTTP 404 `SecretNotFound`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/error/code": "SecretNotFound"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_secrets#KeyVaultSecretDeletedButRecoverable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The Key Vault error code (`Conflict`)."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "A deleted secret with this name is still recoverable, so the name cannot be reused until it is recovered or purged (HTTP 409 `Conflict`, inner code `ObjectIsDeletedButRecoverable`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/error/innererror/code": "ObjectIsDeletedButRecoverable"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_secrets#GetSecret/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_secrets#KeyVaultSecretNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_secrets#GetSecretVersions/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_secrets#KeyVaultSecretNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_secrets#UpdateSecret/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_secrets#KeyVaultSecretNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_secrets#DeleteSecret/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_secrets#KeyVaultSecretNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_secrets#BackupSecret/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_secrets#KeyVaultSecretNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_secrets#GetDeletedSecret/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_secrets#KeyVaultSecretNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_secrets#PurgeDeletedSecret/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_secrets#KeyVaultSecretNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_secrets#RecoverDeletedSecret/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_secrets#KeyVaultSecretNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_secrets#SetSecret/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_secrets#KeyVaultSecretDeletedButRecoverable"
+        }
+      ]
+    }
+  ]
+}

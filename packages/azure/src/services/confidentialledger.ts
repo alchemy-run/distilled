@@ -291,6 +291,8 @@ export interface ListLedgerByResourceGroupRequest {
   resourceGroupName: string;
   /** The filter to apply on the list operation. eg. $filter=ledgerType eq 'Public' */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ConfidentialLedgerTagsMap = { [key: string]: string | undefined };
@@ -325,8 +327,13 @@ export interface ListLedgerBySubscriptionRequest {
   subscriptionId: string;
   /** The filter to apply on the list operation. eg. $filter=ledgerType eq 'Public' */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Describes the properties of the Operation. */
 export interface ResourceProviderOperationDisplay {
   /** Name of the resource provider. */
@@ -352,7 +359,7 @@ export type ResourceProviderOperationListValueList = Array<ResourceProviderOpera
 /** List containing this Resource Provider's available operations. */
 export interface ResourceProviderOperationList {
   /** The list of operations. */
-  value?: ResourceProviderOperationListValueList | undefined;
+  value: ResourceProviderOperationListValueList;
   /** The URL to get the next set of results, if any. */
   nextLink?: string | undefined;
 }
@@ -479,12 +486,13 @@ export const GetLedger: API.OperationMethod<
 
 export type ListLedgerByResourceGroupError = AzureOpError;
 /** Retrieves the properties of all Confidential Ledgers. */
-export const ListLedgerByResourceGroup: API.OperationMethod<
+export const ListLedgerByResourceGroup: API.PaginatedOperationMethod<
   ListLedgerByResourceGroupRequest,
   ConfidentialLedgerList,
   ListLedgerByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfidentialLedger
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ListLedgerByResourceGroupRequest>,
   output: __S(73, __c9, 1) as any as S.Schema<ConfidentialLedgerList>,
   errors: [UnknownAzureError],
@@ -492,16 +500,23 @@ export const ListLedgerByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLedgerByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLedgerBySubscriptionError = AzureOpError;
 /** Retrieves the properties of all Confidential Ledgers. */
-export const ListLedgerBySubscription: API.OperationMethod<
+export const ListLedgerBySubscription: API.PaginatedOperationMethod<
   ListLedgerBySubscriptionRequest,
   ConfidentialLedgerList,
   ListLedgerBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfidentialLedger
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<ListLedgerBySubscriptionRequest>,
   output: __S(73, __c9, 1) as any as S.Schema<ConfidentialLedgerList>,
   errors: [UnknownAzureError],
@@ -509,16 +524,23 @@ export const ListLedgerBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLedgerBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ResourceProviderOperationList,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceProviderOperationDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(92, __c11, 4) as any as S.Schema<ResourceProviderOperationList>,
   errors: [UnknownAzureError],
@@ -526,7 +548,13 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type UpdateLedgerError = AzureOpError;
 /** Updates properties of Confidential Ledger */
@@ -789,12 +817,14 @@ function __c8(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConfidentialLedger/ledgers",
             code: 200,
             apiVersion: "2026-02-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLedgerByResourceGroupRequest" });
@@ -820,12 +850,14 @@ function __c10(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ConfidentialLedger/ledgers",
             code: 200,
             apiVersion: "2026-02-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLedgerBySubscriptionRequest" });
@@ -835,12 +867,15 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.ConfidentialLedger/operations",
             code: 200,
             apiVersion: "2026-02-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -866,7 +901,7 @@ function __c11(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(91, __c11, 3)),
+          value: __S(91, __c11, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceProviderOperationList" });

@@ -316,6 +316,8 @@ export interface GetStorageClassResponse {
 export interface ListBgpPeersRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A BgpPeer resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
 export interface BgpPeer {
@@ -342,6 +344,8 @@ export interface BgpPeerListResult {
 export interface ListLoadBalancersRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A LoadBalancer resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
 export interface LoadBalancer {
@@ -365,7 +369,10 @@ export interface LoadBalancerListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -398,13 +405,15 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
 export interface ListServicesRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A Service resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
 export interface ServiceResource {
@@ -431,6 +440,8 @@ export interface ServiceResourceListResult {
 export interface ListStorageClassRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A StorageClass resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
 export interface StorageClassResource {
@@ -850,12 +861,13 @@ export const GetStorageClass: API.OperationMethod<
 
 export type ListBgpPeersError = AzureOpError;
 /** List BgpPeer resources by parent */
-export const ListBgpPeers: API.OperationMethod<
+export const ListBgpPeers: API.PaginatedOperationMethod<
   ListBgpPeersRequest,
   BgpPeerListResult,
   ListBgpPeersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BgpPeer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<ListBgpPeersRequest>,
   output: __S(218, __c27, 2) as any as S.Schema<BgpPeerListResult>,
   errors: [UnknownAzureError],
@@ -866,16 +878,23 @@ export const ListBgpPeers: API.OperationMethod<
     op: "ListBgpPeers",
     attributes: { "url.template": "/{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLoadBalancersError = AzureOpError;
 /** List LoadBalancer resources by parent */
-export const ListLoadBalancers: API.OperationMethod<
+export const ListLoadBalancers: API.PaginatedOperationMethod<
   ListLoadBalancersRequest,
   LoadBalancerListResult,
   ListLoadBalancersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LoadBalancer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ListLoadBalancersRequest>,
   output: __S(42, __c5, 2) as any as S.Schema<LoadBalancerListResult>,
   errors: [UnknownAzureError],
@@ -888,16 +907,23 @@ export const ListLoadBalancers: API.OperationMethod<
       "url.template": "/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(52, __c6, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -905,16 +931,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServicesError = AzureOpError;
 /** List ServiceResource resources by parent */
-export const ListServices: API.OperationMethod<
+export const ListServices: API.PaginatedOperationMethod<
   ListServicesRequest,
   ServiceResourceListResult,
   ListServicesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ServiceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<ListServicesRequest>,
   output: __S(58, __c7, 2) as any as S.Schema<ServiceResourceListResult>,
   errors: [UnknownAzureError],
@@ -925,16 +958,23 @@ export const ListServices: API.OperationMethod<
     op: "ListServices",
     attributes: { "url.template": "/{resourceUri}/providers/Microsoft.KubernetesRuntime/services" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageClassError = AzureOpError;
 /** List StorageClassResource resources by parent */
-export const ListStorageClass: API.OperationMethod<
+export const ListStorageClass: API.PaginatedOperationMethod<
   ListStorageClassRequest,
   StorageClassResourceListResult,
   ListStorageClassError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageClassResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ListStorageClassRequest>,
   output: __S(66, __c8, 2) as any as S.Schema<StorageClassResourceListResult>,
   errors: [UnknownAzureError],
@@ -947,7 +987,13 @@ export const ListStorageClass: API.OperationMethod<
       "url.template": "/{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type LoadBalancersCreateOrUpdateError = AzureOpError;
 /** Create a LoadBalancer */
@@ -1137,12 +1183,14 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/loadBalancers",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLoadBalancersRequest" });
@@ -1161,12 +1209,15 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.KubernetesRuntime/operations",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1194,7 +1245,7 @@ function __c6(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(51, __c6, 3)),
+          value: __S(51, __c6, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -1206,12 +1257,14 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/services",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServicesRequest" });
@@ -1232,12 +1285,14 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/storageClasses",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageClassRequest" });
@@ -1683,12 +1738,14 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/bgpPeers",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBgpPeersRequest" });

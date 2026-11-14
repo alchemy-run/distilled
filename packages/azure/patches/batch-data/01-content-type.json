@@ -1,0 +1,130 @@
+{
+  "description": "Send Batch JSON bodies as `application/json; odata=minimalmetadata`, the media type the spec declares for these writes (plain `application/json` answers 400 `InvalidHeaderValue`).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobSchedulesCreateJobSchedule/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobSchedulesReplaceJobSchedule/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobSchedulesUpdateJobSchedule/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobsCreateJob/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobsDisableJob/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobsReplaceJob/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobsTerminateJob/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobsUpdateJob/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesCreateNodeUser/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesDeallocateNode/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesDisableNodeScheduling/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesRebootNode/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesReimageNode/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesReplaceNodeUser/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesUploadNodeLogs/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsCreatePool/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsEnablePoolAutoScale/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsEvaluatePoolAutoScale/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsRemoveNodes/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsReplacePoolProperties/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsResizePool/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsUpdatePool/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#TasksCreateTask/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#TasksCreateTaskCollection/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#TasksReplaceTask/traits/smithy.api#http/jsonContentType",
+      "value": "application/json; odata=minimalmetadata"
+    }
+  ]
+}

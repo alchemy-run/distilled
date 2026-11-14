@@ -214,6 +214,8 @@ export interface ListCustomLocationByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CustomLocationTagsMap = { [key: string]: string | undefined };
@@ -270,11 +272,13 @@ export interface CustomLocationListResult {
   /** The URL to use for getting the next set of results. */
   nextLink?: string | undefined;
   /** The list of Custom Locations. */
-  value?: CustomLocationListResultValueList | undefined;
+  value: CustomLocationListResultValueList;
 }
 export interface ListCustomLocationBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListCustomLocationEnabledResourceTypesRequest {
   /** The ID of the target subscription. */
@@ -283,6 +287,8 @@ export interface ListCustomLocationEnabledResourceTypesRequest {
   resourceGroupName: string;
   /** Custom Locations name. */
   resourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Metadata of the Resource Type. */
 export interface EnabledResourceTypePropertiesTypesMetadataItem {
@@ -352,9 +358,12 @@ export interface EnabledResourceTypesListResult {
   /** The URL to use for getting the next set of results. */
   nextLink?: string | undefined;
   /** The list of EnabledResourceTypes available for a customLocation. */
-  value?: EnabledResourceTypesListResultValueList | undefined;
+  value: EnabledResourceTypesListResultValueList;
 }
-export interface ListCustomLocationOperationsRequest {}
+export interface ListCustomLocationOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Describes the properties of a Custom Locations Operation Value Display. */
 export interface CustomLocationOperationValueDisplay {
   /** The description of the operation. */
@@ -502,12 +511,13 @@ export const GetCustomLocation: API.OperationMethod<
 
 export type ListCustomLocationByResourceGroupError = AzureOpError;
 /** Gets a list of Custom Locations in the specified subscription and resource group. Gets a list of Custom Locations in the specified subscription and resource group. The operation returns properties of each Custom Location. */
-export const ListCustomLocationByResourceGroup: API.OperationMethod<
+export const ListCustomLocationByResourceGroup: API.PaginatedOperationMethod<
   ListCustomLocationByResourceGroupRequest,
   CustomLocationListResult,
   ListCustomLocationByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CustomLocation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<ListCustomLocationByResourceGroupRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<CustomLocationListResult>,
   errors: [UnknownAzureError],
@@ -515,16 +525,23 @@ export const ListCustomLocationByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCustomLocationByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCustomLocationBySubscriptionError = AzureOpError;
 /** Gets a list of Custom Locations in a subscription. Gets a list of Custom Locations in the specified subscription. The operation returns properties of each Custom Location */
-export const ListCustomLocationBySubscription: API.OperationMethod<
+export const ListCustomLocationBySubscription: API.PaginatedOperationMethod<
   ListCustomLocationBySubscriptionRequest,
   CustomLocationListResult,
   ListCustomLocationBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CustomLocation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ListCustomLocationBySubscriptionRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<CustomLocationListResult>,
   errors: [UnknownAzureError],
@@ -532,16 +549,23 @@ export const ListCustomLocationBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCustomLocationBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCustomLocationEnabledResourceTypesError = AzureOpError;
 /** Gets the list of Enabled Resource Types. Gets the list of the Enabled Resource Types. */
-export const ListCustomLocationEnabledResourceTypes: API.OperationMethod<
+export const ListCustomLocationEnabledResourceTypes: API.PaginatedOperationMethod<
   ListCustomLocationEnabledResourceTypesRequest,
   EnabledResourceTypesListResult,
   ListCustomLocationEnabledResourceTypesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EnabledResourceType
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<ListCustomLocationEnabledResourceTypesRequest>,
   output: __S(78, __c9, 6) as any as S.Schema<EnabledResourceTypesListResult>,
   errors: [UnknownAzureError],
@@ -549,16 +573,23 @@ export const ListCustomLocationEnabledResourceTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCustomLocationEnabledResourceTypes",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCustomLocationOperationsError = AzureOpError;
 /** Lists all available Custom Locations operations. */
-export const ListCustomLocationOperations: API.OperationMethod<
+export const ListCustomLocationOperations: API.PaginatedOperationMethod<
   ListCustomLocationOperationsRequest,
   CustomLocationOperationsList,
   ListCustomLocationOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CustomLocationOperation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<ListCustomLocationOperationsRequest>,
   output: __S(84, __c10, 4) as any as S.Schema<CustomLocationOperationsList>,
   errors: [UnknownAzureError],
@@ -566,7 +597,13 @@ export const ListCustomLocationOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCustomLocationOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type UpdateCustomLocationError = AzureOpError;
 /** Updates a Custom Location. Updates a Custom Location with the specified Resource Name in the specified Resource Group and Subscription. */
@@ -729,12 +766,14 @@ function __c6(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations",
             code: 200,
             apiVersion: "2021-08-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCustomLocationByResourceGroupRequest" });
@@ -748,7 +787,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(56, __c7, 0)),
+          value: __S(56, __c7, 0),
         }),
       ).annotate({ identifier: "CustomLocationListResult" });
   }
@@ -759,12 +798,14 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ExtendedLocation/customLocations",
             code: 200,
             apiVersion: "2021-08-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCustomLocationBySubscriptionRequest" });
@@ -778,12 +819,14 @@ function __c9(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/enabledResourceTypes",
             code: 200,
             apiVersion: "2021-08-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCustomLocationEnabledResourceTypesRequest" });
@@ -821,7 +864,7 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(77, __c9, 5)),
+          value: __S(77, __c9, 5),
         }),
       ).annotate({ identifier: "EnabledResourceTypesListResult" });
   }
@@ -830,12 +873,15 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.ExtendedLocation/operations",
             code: 200,
             apiVersion: "2021-08-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCustomLocationOperationsRequest" });

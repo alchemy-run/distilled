@@ -1,0 +1,106 @@
+{
+  "description": "Type the Advanced Messaging errors: `ChannelNotFound` (HTTP 404 `ChannelNotFound` on templates; HTTP 400 with inner code `ChannelStorage+ErrorCode.DocumentNotFound` on send) and `MediaNotFound` (HTTP 404 `MediaNotFound`).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_messages#ChannelNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The channel registration does not exist on the communication service (HTTP 404 `ChannelNotFound`, or HTTP 400 with inner code `ChannelStorage+ErrorCode.DocumentNotFound` on send).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/error/code": "ChannelNotFound"
+              }
+            },
+            {
+              "status": 400,
+              "body": {
+                "/error/innererror/code": "ChannelStorage+ErrorCode.DocumentNotFound"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_messages#MediaNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The media object does not exist (HTTP 404 `MediaNotFound`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/error/code": "MediaNotFound"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_messages#TemplateOperationsListTemplates/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_messages#ChannelNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_messages#NotificationMessagesOperationsSend/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_messages#ChannelNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_messages#StreamOperationsGetMedia/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_messages#MediaNotFound"
+        }
+      ]
+    }
+  ]
+}

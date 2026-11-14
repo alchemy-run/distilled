@@ -813,6 +813,8 @@ export interface ListApiDefinitionsRequest {
   versionName: string;
   /** OData filter parameter. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** API definition entity. */
 export interface ApiDefinition {
@@ -847,6 +849,8 @@ export interface ListApisRequest {
   workspaceName: string;
   /** OData filter parameter. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** API entity. */
 export interface Api {
@@ -883,6 +887,8 @@ export interface ListApiVersionsRequest {
   apiName: string;
   /** OData filter parameter. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** API version entity. */
 export interface ApiVersion {
@@ -919,6 +925,8 @@ export interface ListDeploymentsRequest {
   apiName: string;
   /** OData filter parameter. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** API deployment entity. */
 export interface Deployment {
@@ -953,6 +961,8 @@ export interface ListEnvironmentsRequest {
   workspaceName: string;
   /** OData filter parameter. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Environment entity. */
 export interface Environment {
@@ -985,6 +995,8 @@ export interface ListMetadataSchemasRequest {
   serviceName: string;
   /** OData filter parameter. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Metadata schema entity. Used to define metadata for the entities in API catalog. */
 export interface MetadataSchema {
@@ -1008,7 +1020,10 @@ export interface MetadataSchemaListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1041,7 +1056,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -1050,6 +1065,8 @@ export interface ListServiceByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ServiceTagsMap = { [key: string]: string | undefined };
@@ -1086,6 +1103,8 @@ export interface ServiceListResult {
 export interface ListServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListWorkspacesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1096,6 +1115,8 @@ export interface ListWorkspacesRequest {
   serviceName: string;
   /** OData filter parameter. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Workspace entity. */
 export interface Workspace {
@@ -1668,12 +1689,13 @@ export const ImportApiDefinitionSpecification: API.OperationMethod<
 
 export type ListApiDefinitionsError = AzureOpError;
 /** Returns a collection of API definitions. */
-export const ListApiDefinitions: API.OperationMethod<
+export const ListApiDefinitions: API.PaginatedOperationMethod<
   ListApiDefinitionsRequest,
   ApiDefinitionListResult,
   ListApiDefinitionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApiDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<ListApiDefinitionsRequest>,
   output: __S(234, __c29, 2) as any as S.Schema<ApiDefinitionListResult>,
   errors: [UnknownAzureError],
@@ -1681,16 +1703,23 @@ export const ListApiDefinitions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApiDefinitions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApisError = AzureOpError;
 /** Returns a collection of APIs. */
-export const ListApis: API.OperationMethod<
+export const ListApis: API.PaginatedOperationMethod<
   ListApisRequest,
   ApiListResult,
   ListApisError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Api
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<ListApisRequest>,
   output: __S(242, __c30, 2) as any as S.Schema<ApiListResult>,
   errors: [UnknownAzureError],
@@ -1698,16 +1727,23 @@ export const ListApis: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApis",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApiVersionsError = AzureOpError;
 /** Returns a collection of API versions. */
-export const ListApiVersions: API.OperationMethod<
+export const ListApiVersions: API.PaginatedOperationMethod<
   ListApiVersionsRequest,
   ApiVersionListResult,
   ListApiVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApiVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<ListApiVersionsRequest>,
   output: __S(250, __c31, 2) as any as S.Schema<ApiVersionListResult>,
   errors: [UnknownAzureError],
@@ -1715,16 +1751,23 @@ export const ListApiVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApiVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentsError = AzureOpError;
 /** Returns a collection of API deployments. */
-export const ListDeployments: API.OperationMethod<
+export const ListDeployments: API.PaginatedOperationMethod<
   ListDeploymentsRequest,
   DeploymentListResult,
   ListDeploymentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Deployment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<ListDeploymentsRequest>,
   output: __S(258, __c32, 2) as any as S.Schema<DeploymentListResult>,
   errors: [UnknownAzureError],
@@ -1732,16 +1775,23 @@ export const ListDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeployments",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEnvironmentsError = AzureOpError;
 /** Returns a collection of environments. */
-export const ListEnvironments: API.OperationMethod<
+export const ListEnvironments: API.PaginatedOperationMethod<
   ListEnvironmentsRequest,
   EnvironmentListResult,
   ListEnvironmentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Environment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<ListEnvironmentsRequest>,
   output: __S(266, __c33, 2) as any as S.Schema<EnvironmentListResult>,
   errors: [UnknownAzureError],
@@ -1749,16 +1799,23 @@ export const ListEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnvironments",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMetadataSchemasError = AzureOpError;
 /** Returns a collection of metadata schemas. */
-export const ListMetadataSchemas: API.OperationMethod<
+export const ListMetadataSchemas: API.PaginatedOperationMethod<
   ListMetadataSchemasRequest,
   MetadataSchemaListResult,
   ListMetadataSchemasError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MetadataSchema
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<ListMetadataSchemasRequest>,
   output: __S(274, __c34, 2) as any as S.Schema<MetadataSchemaListResult>,
   errors: [UnknownAzureError],
@@ -1766,16 +1823,23 @@ export const ListMetadataSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMetadataSchemas",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(300, __c37, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -1783,16 +1847,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServiceByResourceGroupError = AzureOpError;
 /** Returns a collection of services within the resource group. */
-export const ListServiceByResourceGroup: API.OperationMethod<
+export const ListServiceByResourceGroup: API.PaginatedOperationMethod<
   ListServiceByResourceGroupRequest,
   ServiceListResult,
   ListServiceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Service
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<ListServiceByResourceGroupRequest>,
   output: __S(313, __c39, 1) as any as S.Schema<ServiceListResult>,
   errors: [UnknownAzureError],
@@ -1800,16 +1871,23 @@ export const ListServiceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServiceBySubscriptionError = AzureOpError;
 /** Lists services within an Azure subscription. */
-export const ListServiceBySubscription: API.OperationMethod<
+export const ListServiceBySubscription: API.PaginatedOperationMethod<
   ListServiceBySubscriptionRequest,
   ServiceListResult,
   ListServiceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Service
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c40, 0) as any as S.Schema<ListServiceBySubscriptionRequest>,
   output: __S(313, __c39, 1) as any as S.Schema<ServiceListResult>,
   errors: [UnknownAzureError],
@@ -1817,16 +1895,23 @@ export const ListServiceBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspacesError = AzureOpError;
 /** Returns a collection of workspaces. */
-export const ListWorkspaces: API.OperationMethod<
+export const ListWorkspaces: API.PaginatedOperationMethod<
   ListWorkspacesRequest,
   WorkspaceListResult,
   ListWorkspacesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Workspace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<ListWorkspacesRequest>,
   output: __S(330, __c41, 2) as any as S.Schema<WorkspaceListResult>,
   errors: [UnknownAzureError],
@@ -1834,7 +1919,13 @@ export const ListWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaces",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MetadataSchemasCreateOrUpdateError = AzureOpError;
 /** Creates new or updates existing metadata schema. */
@@ -2612,12 +2703,14 @@ function __c29(j: number): any {
           apiName: S.String.pipe(T.Label()),
           versionName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions/{versionName}/definitions",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApiDefinitionsRequest" });
@@ -2642,12 +2735,14 @@ function __c30(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApisRequest" });
@@ -2673,12 +2768,14 @@ function __c31(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           apiName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApiVersionsRequest" });
@@ -2704,12 +2801,14 @@ function __c32(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           apiName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/deployments",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentsRequest" });
@@ -2734,12 +2833,14 @@ function __c33(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/environments",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEnvironmentsRequest" });
@@ -2763,12 +2864,14 @@ function __c34(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/metadataSchemas",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMetadataSchemasRequest" });
@@ -2816,12 +2919,15 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.ApiCenter/operations",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2849,7 +2955,7 @@ function __c37(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(299, __c37, 3)),
+          value: __S(299, __c37, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -2862,12 +2968,14 @@ function __c38(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServiceByResourceGroupRequest" });
@@ -2892,12 +3000,14 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ApiCenter/services",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServiceBySubscriptionRequest" });
@@ -2912,12 +3022,14 @@ function __c41(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspacesRequest" });

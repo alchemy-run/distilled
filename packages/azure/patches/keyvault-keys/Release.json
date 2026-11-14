@@ -1,0 +1,46 @@
+{
+  "description": "Release (secure key release) answers HTTP 403 `Forbidden` \"Target environment attestation statement cannot be verified.\" when the `target` attestation token does not satisfy the key's release policy. The client-level map turns every 403 into the generic `Forbidden` (also used for missing RBAC roles), so type the attestation rejection on the operation.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#KeyReleaseAttestationRejected",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The Key Vault error code (`Forbidden`)."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The release `target` attestation token cannot be verified against the key's release policy (HTTP 403).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "attestation statement cannot be verified"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#Release/errors/-",
+      "value": {
+        "target": "com.azure.keyvault_keys#KeyReleaseAttestationRejected"
+      }
+    }
+  ]
+}

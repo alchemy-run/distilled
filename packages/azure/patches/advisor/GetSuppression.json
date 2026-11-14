@@ -1,0 +1,15 @@
+{
+  "description": "GetSuppression returns the expiry as `expirationTimestamp` (lowercase s); CreateSuppression returns the spec's `expirationTimeStamp`. Add the GET spelling as an optional member so both decode.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.advisor#SuppressionProperties/members/expirationTimestamp",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The expiration time stamp, as GetSuppression and ListSuppressions return it."
+        }
+      }
+    }
+  ]
+}

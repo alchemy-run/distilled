@@ -1,0 +1,82 @@
+{
+  "description": "FullBackup answers 202 with a FullBackupOperation body (the spec 202 schema) next to the Azure-AsyncOperation header; the converter kept only the headers, which drops the jobId the status operation needs. Add the body members and the 202 status.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.keyvault_administration#FullBackup/traits/smithy.api#http/code",
+      "value": 202
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_administration#FullBackupResponse/members/status",
+      "value": {
+        "target": "com.azure.keyvault_administration#OperationStatus",
+        "traits": {
+          "smithy.api#documentation": "Status of the operation."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_administration#FullBackupResponse/members/statusDetails",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The status details of the operation."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_administration#FullBackupResponse/members/error",
+      "value": {
+        "target": "com.azure.keyvault_administration#Error",
+        "traits": {
+          "smithy.api#documentation": "Error encountered, if any, during the operation.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_administration#FullBackupResponse/members/startTime",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "The start time of the operation in UTC"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_administration#FullBackupResponse/members/endTime",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "The end time of the operation in UTC",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_administration#FullBackupResponse/members/jobId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Identifier for the operation."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_administration#FullBackupResponse/members/azureStorageBlobContainerUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The Azure blob storage container Uri which contains the full backup"
+        }
+      }
+    }
+  ]
+}

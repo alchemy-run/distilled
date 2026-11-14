@@ -2220,6 +2220,8 @@ export interface PageResultOfCatalogItem {
 export interface ListGetApiKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** ApiKey object containing both the key and its alias. */
 export interface ApiKey {
@@ -2231,11 +2233,14 @@ export interface ApiKey {
 export type ApiKeysValueList = Array<ApiKey>;
 /** List of ApiKey objects. */
 export interface ApiKeys {
-  value?: ApiKeysValueList | undefined;
+  value: ApiKeysValueList;
   /** Next page of results. */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -2268,7 +2273,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -2527,6 +2532,8 @@ export interface ListSkusByBillingAccountRequest {
   _expand?: string | undefined;
   /** Ordering expression for the results using OData notation. Avoid using orderBy unless essential as this may impact the latency of your request. Example: $orderBy=skuName desc. This API only supports ordering by a single field. Fields that can be ordered by are: - `lastModifiedDateTime` - `skuName` - `skuId` - `productId` - `serviceFamily` - `service` */
   _orderBy?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The product attributes. */
 export type SkuSummaryProductAttributesList = Array<Attribute_2>;
@@ -2648,6 +2655,8 @@ export interface ListSkusByBillingProfileRequest {
   _expand?: string | undefined;
   /** Ordering expression for the results using OData notation. Avoid using orderBy unless essential as this may impact the latency of your request. Example: $orderBy=skuName desc. This API only supports ordering by a single field. Fields that can be ordered by are: - `lastModifiedDateTime` - `skuName` - `skuId` - `productId` - `serviceFamily` - `service` */
   _orderBy?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface PostCreateApiKeyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2914,12 +2923,13 @@ export const ListEdgeZonesProducts: API.OperationMethod<
 
 export type ListGetApiKeysError = AzureOpError;
 /** Retrieves a list of API keys associated with a selected subscription. Please note that this API is currently in a preview state and requires sign-up to the 'Discovery Api Key Early Access' preview feature using a valid Azure subscription. For more information on this process please see the documentation for Marketplace Catalog APIs [here](https://learn.microsoft.com/en-us/rest/api/marketplacecatalog/dataplane/products/get?view=rest-marketplacecatalog-dataplane-2023-05-01-preview&tabs=HTTP) */
-export const ListGetApiKeys: API.OperationMethod<
+export const ListGetApiKeys: API.PaginatedOperationMethod<
   ListGetApiKeysRequest,
   ApiKeys,
   ListGetApiKeysError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApiKey
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListGetApiKeysRequest>,
   output: __S(898, __c28, 2) as any as S.Schema<ApiKeys>,
   errors: [UnknownAzureError],
@@ -2927,16 +2937,23 @@ export const ListGetApiKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGetApiKeys",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available Microsoft.Marketplace REST API operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(964, __c30, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -2944,7 +2961,13 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProductListByBillingAccountError = AzureOpError;
 /** Lists products for billing account. */
@@ -3016,12 +3039,13 @@ export const ListProductListByTenant: API.OperationMethod<
 
 export type ListSkusByBillingAccountError = AzureOpError;
 /** Lists SKUs for billing account. */
-export const ListSkusByBillingAccount: API.OperationMethod<
+export const ListSkusByBillingAccount: API.PaginatedOperationMethod<
   ListSkusByBillingAccountRequest,
   SkuSummaryListResult,
   ListSkusByBillingAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SkuSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<ListSkusByBillingAccountRequest>,
   output: __S(418, __c13, 2) as any as S.Schema<SkuSummaryListResult>,
   errors: [UnknownAzureError],
@@ -3029,16 +3053,23 @@ export const ListSkusByBillingAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSkusByBillingAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSkusByBillingProfileError = AzureOpError;
 /** Lists SKUs for billing profile. */
-export const ListSkusByBillingProfile: API.OperationMethod<
+export const ListSkusByBillingProfile: API.PaginatedOperationMethod<
   ListSkusByBillingProfileRequest,
   SkuSummaryListResult,
   ListSkusByBillingProfileError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SkuSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<ListSkusByBillingProfileRequest>,
   output: __S(418, __c13, 2) as any as S.Schema<SkuSummaryListResult>,
   errors: [UnknownAzureError],
@@ -3046,7 +3077,13 @@ export const ListSkusByBillingProfile: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSkusByBillingProfile",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PostCreateApiKeyError = AzureOpError;
 /** Generates an API key, granting access to the full range of Marketplace Catalog APIs. Please note that this API is currently in a preview state and requires sign-up to the 'Discovery Api Key Early Access' preview feature using a valid Azure subscription. For more information on this process please see the documentation for Marketplace Catalog APIs [here](https://learn.microsoft.com/en-us/rest/api/marketplacecatalog/dataplane/products/get?view=rest-marketplacecatalog-dataplane-2023-05-01-preview&tabs=HTTP) */
@@ -3797,12 +3834,14 @@ function __c12(j: number): any {
           _select: S.optional(S.String.pipe(T.Query("$select"))),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
           _orderBy: S.optional(S.String.pipe(T.Query("$orderBy"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Marketplace/skus",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSkusByBillingAccountRequest" });
@@ -3879,12 +3918,14 @@ function __c14(j: number): any {
           _select: S.optional(S.String.pipe(T.Query("$select"))),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
           _orderBy: S.optional(S.String.pipe(T.Query("$orderBy"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Marketplace/skus",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSkusByBillingProfileRequest" });
@@ -4925,12 +4966,14 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Marketplace/keys",
             code: 200,
             apiVersion: "2023-01-01-preview",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGetApiKeysRequest" });
@@ -4939,7 +4982,7 @@ function __c28(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(897, __c28, 1)),
+          value: __S(897, __c28, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiKeys" });
@@ -4960,12 +5003,15 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Marketplace/operations",
             code: 200,
             apiVersion: "2023-01-01-preview",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -4993,7 +5039,7 @@ function __c30(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(963, __c30, 3)),
+          value: __S(963, __c30, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });

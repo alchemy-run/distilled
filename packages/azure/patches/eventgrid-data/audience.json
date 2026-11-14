@@ -1,0 +1,10 @@
+{
+  "description": "The spec declares no OAuth2 scope. Event Grid accepts Microsoft Entra ID tokens for the `https://eventgrid.azure.net` resource (Microsoft Learn: \"Authenticate publishing clients using Microsoft Entra ID\").",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.eventgrid_data#EventgridData/traits/com.azure.protocols#audience",
+      "value": "https://eventgrid.azure.net/.default"
+    }
+  ]
+}

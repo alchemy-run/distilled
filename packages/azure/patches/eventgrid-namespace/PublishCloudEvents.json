@@ -1,0 +1,10 @@
+{
+  "description": "A CloudEvents batch is sent as application/cloudevents-batch+json (the spec's consumes), not application/json.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.eventgrid_namespace#PublishCloudEvents/traits/smithy.api#http/jsonContentType",
+      "value": "application/cloudevents-batch+json; charset=utf-8"
+    }
+  ]
+}

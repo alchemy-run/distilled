@@ -1,0 +1,10 @@
+{
+  "description": "AccessToken.jwtToken is the workspace access token value (returned once by the create call), but the spec has no sensitive mark. Mark it sensitive so it decodes as Redacted.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.loadtesting_playwright#AccessToken/members/jwtToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

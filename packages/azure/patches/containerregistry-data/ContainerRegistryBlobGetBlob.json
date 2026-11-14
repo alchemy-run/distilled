@@ -1,0 +1,16 @@
+{
+  "description": "Get Blob answers the blob's raw bytes (after a redirect to storage, so the registry's Docker-Content-Digest header does not reach the caller); the swagger models the body as an untyped document. Model it as bytes.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryBlobGetBlobResponse/members/body",
+      "value": {
+        "target": "smithy.api#Blob",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {}
+        }
+      }
+    }
+  ]
+}

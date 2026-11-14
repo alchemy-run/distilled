@@ -1,0 +1,115 @@
+{
+  "description": "The spec sends these query arrays with `collectionFormat: csv` (one comma-separated value), but the generated client repeats the key per item, so the service reads only the first item (Image Analysis returned only `tags` for `features=tags&features=read`). Type them as the comma-separated string the service expects.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#PersonGroupOperationsAddLargePersonGroupPersonFaceFromUrlRequest/members/targetFace/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#PersonGroupOperationsAddLargePersonGroupPersonFaceFromUrlRequest/members/targetFace/traits/smithy.api#documentation",
+      "value": "A face rectangle to specify the target face to be added to a person, in the format of 'targetFace=left,top,width,height'. Comma-separated."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#PersonGroupOperationsAddLargePersonGroupPersonFaceRequest/members/targetFace/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#PersonGroupOperationsAddLargePersonGroupPersonFaceRequest/members/targetFace/traits/smithy.api#documentation",
+      "value": "A face rectangle to specify the target face to be added to a person, in the format of 'targetFace=left,top,width,height'. Comma-separated."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#PersonGroupOperationsAddPersonGroupPersonFaceFromUrlRequest/members/targetFace/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#PersonGroupOperationsAddPersonGroupPersonFaceFromUrlRequest/members/targetFace/traits/smithy.api#documentation",
+      "value": "A face rectangle to specify the target face to be added to a person, in the format of 'targetFace=left,top,width,height'. Comma-separated."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#PersonGroupOperationsAddPersonGroupPersonFaceRequest/members/targetFace/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#PersonGroupOperationsAddPersonGroupPersonFaceRequest/members/targetFace/traits/smithy.api#documentation",
+      "value": "A face rectangle to specify the target face to be added to a person, in the format of 'targetFace=left,top,width,height'. Comma-separated."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#FaceDetectionOperationsDetectFromSessionImageIdRequest/members/returnFaceAttributes/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#FaceDetectionOperationsDetectFromSessionImageIdRequest/members/returnFaceAttributes/traits/smithy.api#documentation",
+      "value": "Analyze and return the one or more specified face attributes in the comma-separated string like 'returnFaceAttributes=headPose,glasses'. Face attribute analysis has additional computational and time cost. Comma-separated (`headPose`, `glasses`, `occlusion`, `accessories`, `blur`, `exposure`, `noise`, `mask`, `qualityForRecognition`, `age`, `smile`, `facialHair`, `hair`)."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#FaceDetectionOperationsDetectFromUrlRequest/members/returnFaceAttributes/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#FaceDetectionOperationsDetectFromUrlRequest/members/returnFaceAttributes/traits/smithy.api#documentation",
+      "value": "Analyze and return the one or more specified face attributes in the comma-separated string like 'returnFaceAttributes=headPose,glasses'. Face attribute analysis has additional computational and time cost. Comma-separated (`headPose`, `glasses`, `occlusion`, `accessories`, `blur`, `exposure`, `noise`, `mask`, `qualityForRecognition`, `age`, `smile`, `facialHair`, `hair`)."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#FaceDetectionOperationsDetectRequest/members/returnFaceAttributes/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#FaceDetectionOperationsDetectRequest/members/returnFaceAttributes/traits/smithy.api#documentation",
+      "value": "Analyze and return the one or more specified face attributes in the comma-separated string like 'returnFaceAttributes=headPose,glasses'. Face attribute analysis has additional computational and time cost. Comma-separated (`headPose`, `glasses`, `occlusion`, `accessories`, `blur`, `exposure`, `noise`, `mask`, `qualityForRecognition`, `age`, `smile`, `facialHair`, `hair`)."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#FaceListOperationsAddFaceListFaceFromUrlRequest/members/targetFace/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#FaceListOperationsAddFaceListFaceFromUrlRequest/members/targetFace/traits/smithy.api#documentation",
+      "value": "A face rectangle to specify the target face to be added to a person, in the format of 'targetFace=left,top,width,height'. Comma-separated."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#FaceListOperationsAddFaceListFaceRequest/members/targetFace/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#FaceListOperationsAddFaceListFaceRequest/members/targetFace/traits/smithy.api#documentation",
+      "value": "A face rectangle to specify the target face to be added to a person, in the format of 'targetFace=left,top,width,height'. Comma-separated."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#FaceListOperationsAddLargeFaceListFaceFromUrlRequest/members/targetFace/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#FaceListOperationsAddLargeFaceListFaceFromUrlRequest/members/targetFace/traits/smithy.api#documentation",
+      "value": "A face rectangle to specify the target face to be added to a person, in the format of 'targetFace=left,top,width,height'. Comma-separated."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#FaceListOperationsAddLargeFaceListFaceRequest/members/targetFace/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_face#FaceListOperationsAddLargeFaceListFaceRequest/members/targetFace/traits/smithy.api#documentation",
+      "value": "A face rectangle to specify the target face to be added to a person, in the format of 'targetFace=left,top,width,height'. Comma-separated."
+    }
+  ]
+}

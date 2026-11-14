@@ -1,0 +1,82 @@
+{
+  "description": "RegisterSchema sends the schema text verbatim under its format's Content-Type (the spec models the format as `consumes`, which the converter drops, so the body went out JSON-quoted with no format), answers 204, and returns the schema's identity in Schema-* response headers.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.schemaregistry_data#RegisterSchemaRequest/members/contentType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Format of the schema: `application/json; serialization=Avro`, `application/json; serialization=Json`, `text/plain; charset=utf-8` (custom), or `text/vnd.ms.protobuf`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.schemaregistry_data#RegisterSchema/traits/smithy.api#http/bodyMediaType",
+      "value": "text/plain; charset=utf-8"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.schemaregistry_data#RegisterSchema/traits/smithy.api#http/code",
+      "value": 204
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.schemaregistry_data#RegisterSchemaResponse/members/schemaId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Schema-Id",
+          "smithy.api#documentation": "References a specific schema in the registry namespace."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.schemaregistry_data#RegisterSchemaResponse/members/schemaIdLocation",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Schema-Id-Location",
+          "smithy.api#documentation": "URL location of schema, identified by schema ID."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.schemaregistry_data#RegisterSchemaResponse/members/schemaGroupName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Schema-Group-Name",
+          "smithy.api#documentation": "References a specific schema group in the registry namespace."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.schemaregistry_data#RegisterSchemaResponse/members/schemaName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Schema-Name",
+          "smithy.api#documentation": "References a specific schema in the registry namespace."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.schemaregistry_data#RegisterSchemaResponse/members/schemaVersion",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpHeader": "Schema-Version",
+          "smithy.api#documentation": "Version of the returned schema."
+        }
+      }
+    }
+  ]
+}

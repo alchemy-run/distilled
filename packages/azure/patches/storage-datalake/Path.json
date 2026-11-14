@@ -1,0 +1,25 @@
+{
+  "description": "List Paths and List FileSystems return JSON whose values are strings: `\"isDirectory\": \"true\"`, `\"contentLength\": \"5\"`, and the entity tag under the lowercase key `etag` (seen live, x-ms-version 2026-06-06). Type isDirectory and contentLength as strings and read eTag from `etag`.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storage_datalake#Path/members/isDirectory/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storage_datalake#Path/members/contentLength/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_datalake#Path/members/eTag/traits",
+      "value": { "smithy.api#jsonName": "etag" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_datalake#FileSystem/members/eTag/traits",
+      "value": { "smithy.api#jsonName": "etag" }
+    }
+  ]
+}

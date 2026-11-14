@@ -262,7 +262,10 @@ export interface GetServerDetailsResponse {
   /** Properties of the provision operation request. */
   properties?: AnalysisServicesServerProperties | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.Consumption. */
@@ -342,7 +345,7 @@ export type OperationListResultValueList = Array<Operation>;
 /** Result of listing consumption operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of analysis services operations supported by the Microsoft.AnalysisServices resource provider. */
-  value?: OperationListResultValueList | undefined;
+  value: OperationListResultValueList;
   /** URL to get the next set of operation list results if there are any. */
   nextLink?: string | undefined;
 }
@@ -654,12 +657,13 @@ export const GetServerDetails: API.OperationMethod<
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available consumption REST API operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(236, __c14, 12) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -667,16 +671,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServerByResourceGroupError = AzureOpError;
 /** Gets all the Analysis Services servers for the given resource group. */
-export const ListServerByResourceGroup: API.OperationMethod<
+export const ListServerByResourceGroup: API.PaginatedOperationMethod<
   ListServerByResourceGroupRequest,
   AnalysisServicesServers,
   ListServerByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AnalysisServicesServer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<ListServerByResourceGroupRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<AnalysisServicesServers>,
   errors: [UnknownAzureError],
@@ -684,7 +695,8 @@ export const ListServerByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServerByResourceGroup",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListServerGatewayStatusError = AzureOpError;
 /** Return the gateway status of the specified Analysis Services server instance. */
@@ -739,12 +751,13 @@ export const ListServerOperationStatuses: API.OperationMethod<
 
 export type ListServersError = AzureOpError;
 /** Lists all the Analysis Services servers for the given subscription. */
-export const ListServers: API.OperationMethod<
+export const ListServers: API.PaginatedOperationMethod<
   ListServersRequest,
   AnalysisServicesServers,
   ListServersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AnalysisServicesServer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListServersRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<AnalysisServicesServers>,
   errors: [UnknownAzureError],
@@ -752,7 +765,8 @@ export const ListServers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServers",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListServerSkusForExistingError = AzureOpError;
 /** Lists eligible SKUs for an Analysis Services resource. */
@@ -1208,12 +1222,15 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.AnalysisServices/operations",
             code: 200,
             apiVersion: "2017-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1285,7 +1302,7 @@ function __c14(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(235, __c14, 11)),
+          value: __S(235, __c14, 11),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });

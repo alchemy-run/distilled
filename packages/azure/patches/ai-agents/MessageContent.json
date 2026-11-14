@@ -1,0 +1,50 @@
+{
+  "description": "MessageContent is polymorphic on `type` (MessageTextContent `text`, MessageImageFileContent `image_file`), but the converted model keeps only the discriminator, so decoding a thread message drops its text. Add the subtype members.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.ai_agents#MessageTextDetails",
+      "value": {
+        "type": "structure",
+        "members": {
+          "value": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The text data.",
+              "smithy.api#required": {}
+            }
+          },
+          "annotations": {
+            "target": "smithy.api#Document",
+            "traits": {
+              "smithy.api#documentation": "A list of annotations associated with this text."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The text and associated annotations for a single item of agent thread message content."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.ai_agents#MessageContent/members/text",
+      "value": {
+        "target": "com.azure.ai_agents#MessageTextDetails",
+        "traits": {
+          "smithy.api#documentation": "For `type: \"text\"`: the text and its annotations."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.ai_agents#MessageContent/members/image_file",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "For `type: \"image_file\"`: the image file reference."
+        }
+      }
+    }
+  ]
+}

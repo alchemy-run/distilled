@@ -1,0 +1,10 @@
+{
+  "description": "The upstream spec sends the draft content as `text/powershell`, but the converted model drops the media type, so the generated client JSON-encoded the string body: a runbook uploaded as `Start-Sleep 600` arrived as the string literal `\"Start-Sleep 600\"` (a PowerShell Workflow runbook was wrapped in an InlineScript that only echoed it). Send the body verbatim as `text/powershell`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.automation#RunbookDraftReplaceContent/traits/smithy.api#http/bodyMediaType",
+      "value": "text/powershell"
+    }
+  ]
+}

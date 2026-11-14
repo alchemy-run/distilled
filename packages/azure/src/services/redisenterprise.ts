@@ -984,6 +984,8 @@ export interface ListAccessPolicyAssignmentRequest {
   clusterName: string;
   /** The name of the Redis Enterprise database. */
   databaseName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Describes the access policy assignment of Redis Enterprise database */
 export interface AccessPolicyAssignment {
@@ -1014,6 +1016,8 @@ export interface ListDatabaseByClusterRequest {
   resourceGroupName: string;
   /** The name of the Redis Enterprise cluster. Name must be 1-60 characters long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor consecutive hyphens */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Describes a database on the Redis Enterprise cluster */
 export interface Database {
@@ -1061,6 +1065,8 @@ export interface ListMigrationsRequest {
   resourceGroupName: string;
   /** The name of the Redis Enterprise cluster. Name must be 1-60 characters long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor consecutive hyphens */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Describes the current migration operation on a Redis Enterprise cluster. */
 export interface Migration {
@@ -1084,7 +1090,10 @@ export interface MigrationList {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1117,7 +1126,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -1128,6 +1137,8 @@ export interface ListPrivateEndpointConnectionsRequest {
   resourceGroupName: string;
   /** The name of the Redis Enterprise cluster. Name must be 1-60 characters long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor consecutive hyphens */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The private endpoint connection resource. */
 export type PrivateEndpointConnectionListResultValueItem =
@@ -1149,6 +1160,8 @@ export interface ListPrivateLinkResourceByClusterRequest {
   resourceGroupName: string;
   /** The name of the Redis Enterprise cluster. Name must be 1-60 characters long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor consecutive hyphens */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The private link resource required member names. */
 export type PrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
@@ -1180,13 +1193,15 @@ export interface PrivateLinkResource {
 export type ListPrivateLinkResourceByClusterResponseValueList = Array<PrivateLinkResource>;
 export interface ListPrivateLinkResourceByClusterResponse {
   /** Array of private link resources */
-  value?: ListPrivateLinkResourceByClusterResponseValueList | undefined;
+  value: ListPrivateLinkResourceByClusterResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
 export interface ListRedisEnterpriseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ClusterTagsMap = { [key: string]: string | undefined };
@@ -1233,6 +1248,8 @@ export interface ListRedisEnterpriseByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRedisEnterpriseSkusForScalingRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1907,12 +1924,13 @@ export const ImportDatabase: API.OperationMethod<
 
 export type ListAccessPolicyAssignmentError = AzureOpError;
 /** Gets all access policy assignments.. */
-export const ListAccessPolicyAssignment: API.OperationMethod<
+export const ListAccessPolicyAssignment: API.PaginatedOperationMethod<
   ListAccessPolicyAssignmentRequest,
   AccessPolicyAssignmentList,
   ListAccessPolicyAssignmentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AccessPolicyAssignment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListAccessPolicyAssignmentRequest>,
   output: __S(322, __c20, 2) as any as S.Schema<AccessPolicyAssignmentList>,
   errors: [UnknownAzureError],
@@ -1920,16 +1938,23 @@ export const ListAccessPolicyAssignment: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccessPolicyAssignment",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDatabaseByClusterError = AzureOpError;
 /** Gets all databases in the specified Redis Enterprise cluster. */
-export const ListDatabaseByCluster: API.OperationMethod<
+export const ListDatabaseByCluster: API.PaginatedOperationMethod<
   ListDatabaseByClusterRequest,
   DatabaseList,
   ListDatabaseByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Database
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<ListDatabaseByClusterRequest>,
   output: __S(338, __c21, 2) as any as S.Schema<DatabaseList>,
   errors: [UnknownAzureError],
@@ -1937,7 +1962,13 @@ export const ListDatabaseByCluster: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDatabaseByCluster",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDatabaseKeysError = AzureOpError;
 /** Retrieves the access keys for the Redis Enterprise database. */
@@ -1958,12 +1989,13 @@ export const ListDatabaseKeys: API.OperationMethod<
 
 export type ListMigrationsError = AzureOpError;
 /** Gets information about all migrations attempts in a Redis Enterprise cluster. */
-export const ListMigrations: API.OperationMethod<
+export const ListMigrations: API.PaginatedOperationMethod<
   ListMigrationsRequest,
   MigrationList,
   ListMigrationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Migration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ListMigrationsRequest>,
   output: __S(498, __c31, 2) as any as S.Schema<MigrationList>,
   errors: [UnknownAzureError],
@@ -1971,16 +2003,23 @@ export const ListMigrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMigrations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available REST API operations of the Microsoft.Cache provider. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(516, __c32, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -1988,16 +2027,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
 /** Lists all the private endpoint connections associated with the Redis Enterprise cluster. */
-export const ListPrivateEndpointConnections: API.OperationMethod<
+export const ListPrivateEndpointConnections: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionsRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ClusterCreatePropertiesPrivateEndpointConnectionsItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
   output: __S(529, __c33, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
@@ -2005,16 +2051,23 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourceByClusterError = AzureOpError;
 /** Gets the private link resources that need to be created for a Redis Enterprise cluster. */
-export const ListPrivateLinkResourceByCluster: API.OperationMethod<
+export const ListPrivateLinkResourceByCluster: API.PaginatedOperationMethod<
   ListPrivateLinkResourceByClusterRequest,
   ListPrivateLinkResourceByClusterResponse,
   ListPrivateLinkResourceByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<ListPrivateLinkResourceByClusterRequest>,
   output: __S(548, __c34, 4) as any as S.Schema<ListPrivateLinkResourceByClusterResponse>,
   errors: [UnknownAzureError],
@@ -2022,16 +2075,23 @@ export const ListPrivateLinkResourceByCluster: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResourceByCluster",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRedisEnterpriseError = AzureOpError;
 /** Lists all Redis Enterprise clusters in the specified subscription. */
-export const ListRedisEnterprise: API.OperationMethod<
+export const ListRedisEnterprise: API.PaginatedOperationMethod<
   ListRedisEnterpriseRequest,
   ClusterList,
   ListRedisEnterpriseError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<ListRedisEnterpriseRequest>,
   output: __S(577, __c36, 1) as any as S.Schema<ClusterList>,
   errors: [UnknownAzureError],
@@ -2039,16 +2099,23 @@ export const ListRedisEnterprise: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRedisEnterprise",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRedisEnterpriseByResourceGroupError = AzureOpError;
 /** Lists all Redis Enterprise clusters in a resource group. */
-export const ListRedisEnterpriseByResourceGroup: API.OperationMethod<
+export const ListRedisEnterpriseByResourceGroup: API.PaginatedOperationMethod<
   ListRedisEnterpriseByResourceGroupRequest,
   ClusterList,
   ListRedisEnterpriseByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<ListRedisEnterpriseByResourceGroupRequest>,
   output: __S(577, __c36, 1) as any as S.Schema<ClusterList>,
   errors: [UnknownAzureError],
@@ -2056,7 +2123,13 @@ export const ListRedisEnterpriseByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRedisEnterpriseByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRedisEnterpriseSkusForScalingError = AzureOpError;
 /** Lists the available SKUs for scaling the Redis Enterprise cluster. */
@@ -2720,12 +2793,14 @@ function __c20(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/accessPolicyAssignments",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccessPolicyAssignmentRequest" });
@@ -2748,12 +2823,14 @@ function __c21(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseByClusterRequest" });
@@ -3021,12 +3098,14 @@ function __c31(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/migrations",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMigrationsRequest" });
@@ -3045,12 +3124,15 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Cache/operations",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -3078,7 +3160,7 @@ function __c32(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(515, __c32, 3)),
+          value: __S(515, __c32, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -3092,12 +3174,14 @@ function __c33(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsRequest" });
@@ -3118,12 +3202,14 @@ function __c34(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/privateLinkResources",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceByClusterRequest" });
@@ -3150,7 +3236,7 @@ function __c34(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(547, __c34, 3)),
+          value: __S(547, __c34, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPrivateLinkResourceByClusterResponse" });
@@ -3162,12 +3248,14 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Cache/redisEnterprise",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRedisEnterpriseRequest" });
@@ -3193,12 +3281,14 @@ function __c37(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRedisEnterpriseByResourceGroupRequest" });

@@ -1,0 +1,10 @@
+{
+  "description": "The spec declares no OAuth2 scope. Azure Digital Twins accepts Microsoft Entra ID tokens for the `https://digitaltwins.azure.net` resource (Microsoft Learn: \"Write app authentication code\", Azure Digital Twins data plane).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitaltwinsData/traits/com.azure.protocols#audience",
+      "value": "https://digitaltwins.azure.net/.default"
+    }
+  ]
+}
