@@ -1,0 +1,39 @@
+{
+  "description": "Type `namespace.name_not_unique` (409), which createNamespace returns when a namespace with the name already exists (observed against rivet-engine 3.0.0-preview.4), so callers can treat a create race as success.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.namespaces#NamespaceAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "A namespace with this name already exists (`namespace.name_not_unique`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "headers": {
+                "x-rivet-error": "namespace.name_not_unique"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.namespaces#NamespacesCreate/errors",
+      "value": [
+        {
+          "target": "com.rivet.namespaces#NamespaceAlreadyExists"
+        }
+      ]
+    }
+  ]
+}

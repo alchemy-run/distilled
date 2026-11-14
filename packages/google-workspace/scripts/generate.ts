@@ -21,6 +21,7 @@
 
 import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 import { PURE } from "@distilled.cloud/dev/codegen/emit";
+import { flattenStructurePayloads } from "@distilled.cloud/dev/codegen/flatten-payload";
 import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import { lowerFirst } from "@distilled.cloud/dev/codegen/naming";
 
@@ -106,6 +107,9 @@ runGeneratorCli({
   description: "Generate the Google Workspace Effect SDK from the Smithy models",
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
+  // A request body schema becomes top-level input fields, as in every other
+  // SDK, after convert has applied the patches to it.
+  transformModel: (model) => flattenStructurePayloads(model),
   targets: [
     { smithyDir: ".generated-specs/stable", outDir: "src/services" },
     { smithyDir: ".generated-specs/unstable", outDir: "src/unstable-services" },

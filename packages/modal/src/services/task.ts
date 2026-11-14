@@ -24,52 +24,51 @@ const TELEMETRY = {
 } as const;
 
 export interface ListTaskRequest {
-  environmentName?: string;
-  appId?: string;
+  environmentName?: string | undefined;
+  appId?: string | undefined;
 }
 export interface TaskStats {
-  taskId?: string;
-  appId?: string;
-  appDescription?: string;
-  startedAt?: number;
-  enqueuedAt?: number;
+  taskId: string;
+  appId: string;
+  appDescription: string;
+  startedAt: number;
+  enqueuedAt: number;
 }
 export type TaskStatsList = Array<TaskStats>;
 export interface ListTaskResponse {
-  tasks?: TaskStatsList;
+  tasks: TaskStatsList;
 }
 export interface TaskClusterHelloRequest {
-  taskId?: string;
-  containerIp?: string;
-  imexHostIp?: string;
+  taskId?: string | undefined;
+  containerIp?: string | undefined;
+  imexHostIp?: string | undefined;
 }
 export type StringList = Array<string>;
 export interface TaskClusterHelloResponse {
-  clusterId?: string;
-  clusterRank?: number;
+  clusterId: string;
+  clusterRank: number;
   /** All IPv6 addresses in cluster, ordered by cluster rank */
-  containerIps?: StringList;
-  containerIpv4Ips?: StringList;
+  containerIps: StringList;
+  containerIpv4Ips: StringList;
   /** All nvidia-imex IPs in fabric, ordered by cluster rank, and otherwise absent on non-NVL72 systems */
-  imexPeerIps?: StringList;
+  imexPeerIps: StringList;
   /** GPU-memory-fabric labels, ordered by cluster rank */
-  fabricIds?: StringList;
+  fabricIds: StringList;
 }
 export interface TaskCurrentInputsRequest {}
 export interface TaskCurrentInputsResponse {
-  inputIds?: StringList;
+  inputIds: StringList;
 }
 export interface TaskGetCommandRouterAccessRequest {
-  taskId?: string;
+  taskId?: string | undefined;
 }
 export interface TaskGetCommandRouterAccessResponse {
-  jwt?: string;
-  url?: string;
+  jwt: string;
+  url: string;
 }
 export interface TaskGetInfoRequest {
-  taskId?: string;
+  taskId?: string | undefined;
 }
-/** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
   | "GENERIC_STATUS_UNSPECIFIED"
   | "GENERIC_STATUS_SUCCESS"
@@ -79,28 +78,30 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_INIT_FAILURE"
   | "GENERIC_STATUS_INTERNAL_FAILURE"
   | "GENERIC_STATUS_IDLE_TIMEOUT"
-  | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION";
-/** sub-type for generic types like lists */
+  | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION"
+  | "GENERIC_STATUS_MEMORY_THRASHING_EVICTION"
+  | "GENERIC_STATUS_KERNEL_OOM_KILL";
+/** Used for both tasks and function outputs */
 export interface GenericResult {
-  status?: GenericResultGenericStatus | (string & {});
   /** Status of the task or function output. */
-  exception?: string;
+  status?: GenericResultGenericStatus | (string & {}) | undefined;
   /** Exception message for failures, if available. */
-  exitcode?: number;
+  exception?: string | undefined;
   /** Status code of the container entrypoint or builder process if it terminates unexpectedly. */
-  traceback?: string;
+  exitcode?: number | undefined;
   /** String value of the Python traceback. */
-  serializedTb?: string;
+  traceback?: string | undefined;
   /** Pickled traceback object. */
-  tbLineCache?: string;
+  serializedTb?: string | undefined;
   /** Pickled line cache for traceback object. */
-  data?: string;
+  tbLineCache?: string | undefined;
   /** Inline data of the result. */
-  dataBlobId?: string;
+  data?: string | undefined;
   /** Blob ID for large data. */
-  propagationReason?: string;
+  dataBlobId?: string | undefined;
+  /** (?) */
+  propagationReason?: string | undefined;
 }
-/** ENOSPC: No space left on device */
 export type TaskSnapshotBehavior =
   | "TASK_SNAPSHOT_BEHAVIOR_UNSPECIFIED"
   | "TASK_SNAPSHOT_BEHAVIOR_SNAPSHOT"
@@ -118,29 +119,29 @@ export type GPUType =
   | "GPU_TYPE_L40S"
   | "GPU_TYPE_H200";
 export interface GPUConfig {
-  type?: GPUType;
   /** Deprecated, at some point */
-  count?: number;
-  gpuType?: string;
+  type: GPUType;
+  count: number;
+  gpuType: string;
 }
 export interface TaskInfo {
-  id?: string;
-  startedAt?: number;
+  id: string;
   /** For Function containers, this corresponds to the "ready" time, after startup phase */
-  finishedAt?: number;
-  result?: GenericResult;
-  enqueuedAt?: number;
-  gpuType?: string;
-  sandboxId?: string;
-  snapshotBehavior?: TaskSnapshotBehavior;
-  gpuConfig?: GPUConfig;
+  startedAt: number;
+  finishedAt: number;
+  result?: GenericResult | undefined;
+  enqueuedAt: number;
+  gpuType: string;
+  sandboxId: string;
+  snapshotBehavior: TaskSnapshotBehavior;
+  gpuConfig?: GPUConfig | undefined;
 }
 export interface TaskGetInfoResponse {
-  appId?: string;
-  info?: TaskInfo;
+  appId: string;
+  info?: TaskInfo | undefined;
 }
 export interface TaskResultRequest {
-  result?: GenericResult;
+  result?: GenericResult | undefined;
 }
 export interface TaskResultResponse {}
 export type ListTaskError = ModalOpError;
@@ -253,11 +254,11 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          taskId: S.optional(S.String),
-          appId: S.optional(S.String),
-          appDescription: S.optional(S.String),
-          startedAt: S.optional(S.Number),
-          enqueuedAt: S.optional(S.Number),
+          taskId: S.String,
+          appId: S.String,
+          appDescription: S.String,
+          startedAt: S.Number,
+          enqueuedAt: S.Number,
         }),
       ).annotate({ identifier: "TaskStats" });
     case 2:
@@ -265,7 +266,7 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tasks: S.optional(__S(2, __c0, 2)),
+          tasks: __S(2, __c0, 2),
         }),
       ).annotate({ identifier: "ListTaskResponse" });
   }
@@ -285,12 +286,12 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          clusterId: S.optional(S.String),
-          clusterRank: S.optional(S.Number),
-          containerIps: S.optional(__S(8, __c2, 0)),
-          containerIpv4Ips: S.optional(__S(8, __c2, 0)),
-          imexPeerIps: S.optional(__S(8, __c2, 0)),
-          fabricIds: S.optional(__S(8, __c2, 0)),
+          clusterId: S.String,
+          clusterRank: S.Number,
+          containerIps: __S(8, __c2, 0),
+          containerIpv4Ips: __S(8, __c2, 0),
+          imexPeerIps: __S(8, __c2, 0),
+          fabricIds: __S(8, __c2, 0),
         }),
       ).annotate({ identifier: "TaskClusterHelloResponse" });
   }
@@ -312,7 +313,7 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          inputIds: S.optional(__S(8, __c2, 0)),
+          inputIds: __S(8, __c2, 0),
         }),
       ).annotate({ identifier: "TaskCurrentInputsResponse" });
   }
@@ -334,8 +335,8 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          jwt: S.optional(S.String),
-          url: S.optional(S.String),
+          jwt: S.String,
+          url: S.String,
         }),
       ).annotate({ identifier: "TaskGetCommandRouterAccessResponse" });
   }
@@ -353,29 +354,29 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          count: S.optional(S.Number),
-          gpuType: S.optional(S.String),
+          type: S.String,
+          count: S.Number,
+          gpuType: S.String,
         }),
       ).annotate({ identifier: "GPUConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          startedAt: S.optional(S.Number),
-          finishedAt: S.optional(S.Number),
+          id: S.String,
+          startedAt: S.Number,
+          finishedAt: S.Number,
           result: S.optional(__S(24, __c6, 0)),
-          enqueuedAt: S.optional(S.Number),
-          gpuType: S.optional(S.String),
-          sandboxId: S.optional(S.String),
-          snapshotBehavior: S.optional(S.String),
+          enqueuedAt: S.Number,
+          gpuType: S.String,
+          sandboxId: S.String,
+          snapshotBehavior: S.String,
           gpuConfig: S.optional(__S(21, __c5, 1)),
         }),
       ).annotate({ identifier: "TaskInfo" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
+          appId: S.String,
           info: S.optional(__S(22, __c5, 2)),
         }),
       ).annotate({ identifier: "TaskGetInfoResponse" });

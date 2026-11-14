@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * PlanetScaleProtocol -- hand-written.
  *
@@ -39,7 +40,8 @@ export type PlanetScaleOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | PlanetScaleParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated PlanetScale operation. */
 export type PlanetScaleOpContext = Credentials | HttpClient.HttpClient;
@@ -53,11 +55,6 @@ export const PlanetScaleProtocol: Layer.Layer<API.Protocol> =
     headers: (creds) => formatHeaders(creds),
     // PlanetScale's error body is `{ code: string, message?: string }` -- the
     // factory's default lenient envelope covers it.
-    unknownError: ({ code, message, body }) =>
-      new UnknownPlanetScaleError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownPlanetScaleError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new PlanetScaleParseError({ body, cause }),
   });

@@ -148,13 +148,13 @@ export type TargetArn = string;
 export type RoleArn = string;
 export type ResourceArn = string;
 export interface DeadLetterConfig {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type MaximumEventAgeInSeconds = number;
 export type MaximumRetryAttempts = number;
 export interface RetryPolicy {
-  MaximumEventAgeInSeconds?: number;
-  MaximumRetryAttempts?: number;
+  MaximumEventAgeInSeconds?: number | undefined;
+  MaximumRetryAttempts?: number | undefined;
 }
 export type TargetInput = string;
 export type TaskDefinitionArn = string;
@@ -167,11 +167,11 @@ export type SecurityGroups = string[];
 export type AssignPublicIp = string;
 export interface AwsVpcConfiguration {
   Subnets: string[];
-  SecurityGroups?: string[];
-  AssignPublicIp?: string;
+  SecurityGroups?: string[] | undefined;
+  AssignPublicIp?: string | undefined;
 }
 export interface NetworkConfiguration {
-  awsvpcConfiguration?: AwsVpcConfiguration;
+  awsvpcConfiguration?: AwsVpcConfiguration | undefined;
 }
 export type PlatformVersion = string;
 export type Group = string;
@@ -180,8 +180,8 @@ export type CapacityProviderStrategyItemWeight = number;
 export type CapacityProviderStrategyItemBase = number;
 export interface CapacityProviderStrategyItem {
   capacityProvider: string;
-  weight?: number;
-  base?: number;
+  weight?: number | undefined;
+  base?: number | undefined;
 }
 export type CapacityProviderStrategy = CapacityProviderStrategyItem[];
 export type EnableECSManagedTags = boolean;
@@ -189,15 +189,15 @@ export type EnableExecuteCommand = boolean;
 export type PlacementConstraintType = string;
 export type PlacementConstraintExpression = string;
 export interface PlacementConstraint {
-  type?: string;
-  expression?: string;
+  type?: string | undefined;
+  expression?: string | undefined;
 }
 export type PlacementConstraints = PlacementConstraint[];
 export type PlacementStrategyType = string;
 export type PlacementStrategyField = string;
 export interface PlacementStrategy {
-  type?: string;
-  field?: string;
+  type?: string | undefined;
+  field?: string | undefined;
 }
 export type PlacementStrategies = PlacementStrategy[];
 export type PropagateTags = string;
@@ -208,19 +208,19 @@ export type TagMap = { [key: string]: string | undefined };
 export type Tags = { [key: string]: string | undefined }[];
 export interface EcsParameters {
   TaskDefinitionArn: string;
-  TaskCount?: number;
-  LaunchType?: string;
-  NetworkConfiguration?: NetworkConfiguration;
-  PlatformVersion?: string;
-  Group?: string;
-  CapacityProviderStrategy?: CapacityProviderStrategyItem[];
-  EnableECSManagedTags?: boolean;
-  EnableExecuteCommand?: boolean;
-  PlacementConstraints?: PlacementConstraint[];
-  PlacementStrategy?: PlacementStrategy[];
-  PropagateTags?: string;
-  ReferenceId?: string;
-  Tags?: { [key: string]: string | undefined }[];
+  TaskCount?: number | undefined;
+  LaunchType?: string | undefined;
+  NetworkConfiguration?: NetworkConfiguration | undefined;
+  PlatformVersion?: string | undefined;
+  Group?: string | undefined;
+  CapacityProviderStrategy?: CapacityProviderStrategyItem[] | undefined;
+  EnableECSManagedTags?: boolean | undefined;
+  EnableExecuteCommand?: boolean | undefined;
+  PlacementConstraints?: PlacementConstraint[] | undefined;
+  PlacementStrategy?: PlacementStrategy[] | undefined;
+  PropagateTags?: string | undefined;
+  ReferenceId?: string | undefined;
+  Tags?: { [key: string]: string | undefined }[] | undefined;
 }
 export type DetailType = string;
 export type Source = string;
@@ -240,46 +240,46 @@ export interface SageMakerPipelineParameter {
 }
 export type SageMakerPipelineParameterList = SageMakerPipelineParameter[];
 export interface SageMakerPipelineParameters {
-  PipelineParameterList?: SageMakerPipelineParameter[];
+  PipelineParameterList?: SageMakerPipelineParameter[] | undefined;
 }
 export type MessageGroupId = string;
 export interface SqsParameters {
-  MessageGroupId?: string;
+  MessageGroupId?: string | undefined;
 }
 export interface Target {
   Arn: string;
   RoleArn: string;
-  DeadLetterConfig?: DeadLetterConfig;
-  RetryPolicy?: RetryPolicy;
-  Input?: string;
-  EcsParameters?: EcsParameters;
-  EventBridgeParameters?: EventBridgeParameters;
-  KinesisParameters?: KinesisParameters;
-  SageMakerPipelineParameters?: SageMakerPipelineParameters;
-  SqsParameters?: SqsParameters;
+  DeadLetterConfig?: DeadLetterConfig | undefined;
+  RetryPolicy?: RetryPolicy | undefined;
+  Input?: string | undefined;
+  EcsParameters?: EcsParameters | undefined;
+  EventBridgeParameters?: EventBridgeParameters | undefined;
+  KinesisParameters?: KinesisParameters | undefined;
+  SageMakerPipelineParameters?: SageMakerPipelineParameters | undefined;
+  SqsParameters?: SqsParameters | undefined;
 }
 export type FlexibleTimeWindowMode = string;
 export type MaximumWindowInMinutes = number;
 export interface FlexibleTimeWindow {
   Mode: string;
-  MaximumWindowInMinutes?: number;
+  MaximumWindowInMinutes?: number | undefined;
 }
 export type ClientToken = string;
 export type ActionAfterCompletion = string;
 export interface CreateScheduleInput {
   Name: string;
-  GroupName?: string;
+  GroupName?: string | undefined;
   ScheduleExpression: string;
-  StartDate?: Date;
-  EndDate?: Date;
-  Description?: string;
-  ScheduleExpressionTimezone?: string;
-  State?: string;
-  KmsKeyArn?: string;
+  StartDate?: Date | undefined;
+  EndDate?: Date | undefined;
+  Description?: string | undefined;
+  ScheduleExpressionTimezone?: string | undefined;
+  State?: string | undefined;
+  KmsKeyArn?: string | undefined;
   Target: Target;
   FlexibleTimeWindow: FlexibleTimeWindow;
-  ClientToken?: string;
-  ActionAfterCompletion?: string;
+  ClientToken?: string | undefined;
+  ActionAfterCompletion?: string | undefined;
 }
 export type ScheduleArn = string;
 export interface CreateScheduleOutput {
@@ -292,8 +292,8 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateScheduleGroupInput {
   Name: string;
-  Tags?: Tag[];
-  ClientToken?: string;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export type ScheduleGroupArn = string;
 export interface CreateScheduleGroupOutput {
@@ -301,92 +301,92 @@ export interface CreateScheduleGroupOutput {
 }
 export interface DeleteScheduleInput {
   Name: string;
-  GroupName?: string;
-  ClientToken?: string;
+  GroupName?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface DeleteScheduleOutput {}
 export interface DeleteScheduleGroupInput {
   Name: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DeleteScheduleGroupOutput {}
 export interface GetScheduleInput {
   Name: string;
-  GroupName?: string;
+  GroupName?: string | undefined;
 }
 export type CreationDate = Date;
 export type LastModificationDate = Date;
 export interface GetScheduleOutput {
-  Arn?: string;
-  GroupName?: string;
-  Name?: string;
-  ScheduleExpression?: string;
-  StartDate?: Date;
-  EndDate?: Date;
-  Description?: string;
-  ScheduleExpressionTimezone?: string;
-  State?: string;
-  CreationDate?: Date;
-  LastModificationDate?: Date;
-  KmsKeyArn?: string;
-  Target?: Target;
-  FlexibleTimeWindow?: FlexibleTimeWindow;
-  ActionAfterCompletion?: string;
+  Arn?: string | undefined;
+  GroupName?: string | undefined;
+  Name?: string | undefined;
+  ScheduleExpression?: string | undefined;
+  StartDate?: Date | undefined;
+  EndDate?: Date | undefined;
+  Description?: string | undefined;
+  ScheduleExpressionTimezone?: string | undefined;
+  State?: string | undefined;
+  CreationDate?: Date | undefined;
+  LastModificationDate?: Date | undefined;
+  KmsKeyArn?: string | undefined;
+  Target?: Target | undefined;
+  FlexibleTimeWindow?: FlexibleTimeWindow | undefined;
+  ActionAfterCompletion?: string | undefined;
 }
 export interface GetScheduleGroupInput {
   Name: string;
 }
 export type ScheduleGroupState = string;
 export interface GetScheduleGroupOutput {
-  Arn?: string;
-  Name?: string;
-  State?: string;
-  CreationDate?: Date;
-  LastModificationDate?: Date;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  State?: string | undefined;
+  CreationDate?: Date | undefined;
+  LastModificationDate?: Date | undefined;
 }
 export type ScheduleGroupNamePrefix = string;
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListScheduleGroupsInput {
-  NamePrefix?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NamePrefix?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ScheduleGroupSummary {
-  Arn?: string;
-  Name?: string;
-  State?: string;
-  CreationDate?: Date;
-  LastModificationDate?: Date;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  State?: string | undefined;
+  CreationDate?: Date | undefined;
+  LastModificationDate?: Date | undefined;
 }
 export type ScheduleGroupList = ScheduleGroupSummary[];
 export interface ListScheduleGroupsOutput {
-  NextToken?: string;
+  NextToken?: string | undefined;
   ScheduleGroups: ScheduleGroupSummary[];
 }
 export type NamePrefix = string;
 export interface ListSchedulesInput {
-  GroupName?: string;
-  NamePrefix?: string;
-  State?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  GroupName?: string | undefined;
+  NamePrefix?: string | undefined;
+  State?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface TargetSummary {
   Arn: string;
 }
 export interface ScheduleSummary {
-  Arn?: string;
-  Name?: string;
-  GroupName?: string;
-  State?: string;
-  CreationDate?: Date;
-  LastModificationDate?: Date;
-  Target?: TargetSummary;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  GroupName?: string | undefined;
+  State?: string | undefined;
+  CreationDate?: Date | undefined;
+  LastModificationDate?: Date | undefined;
+  Target?: TargetSummary | undefined;
 }
 export type ScheduleList = ScheduleSummary[];
 export interface ListSchedulesOutput {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Schedules: ScheduleSummary[];
 }
 export type TagResourceArn = string;
@@ -394,7 +394,7 @@ export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface TagResourceInput {
   ResourceArn: string;
@@ -409,18 +409,18 @@ export interface UntagResourceInput {
 export interface UntagResourceOutput {}
 export interface UpdateScheduleInput {
   Name: string;
-  GroupName?: string;
+  GroupName?: string | undefined;
   ScheduleExpression: string;
-  StartDate?: Date;
-  EndDate?: Date;
-  Description?: string;
-  ScheduleExpressionTimezone?: string;
-  State?: string;
-  KmsKeyArn?: string;
+  StartDate?: Date | undefined;
+  EndDate?: Date | undefined;
+  Description?: string | undefined;
+  ScheduleExpressionTimezone?: string | undefined;
+  State?: string | undefined;
+  KmsKeyArn?: string | undefined;
   Target: Target;
   FlexibleTimeWindow: FlexibleTimeWindow;
-  ClientToken?: string;
-  ActionAfterCompletion?: string;
+  ClientToken?: string | undefined;
+  ActionAfterCompletion?: string | undefined;
 }
 export interface UpdateScheduleOutput {
   ScheduleArn: string;

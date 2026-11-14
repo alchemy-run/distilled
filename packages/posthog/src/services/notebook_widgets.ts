@@ -77,11 +77,11 @@ export interface GenerateReusableWidgetRequest {
   /** Idempotency key for this generation job. */
   generation_id: string;
   /** AI model used to generate the widget. * `claude-haiku-4-5` - claude-haiku-4-5 * `claude-sonnet-4-6` - claude-sonnet-4-6 * `claude-sonnet-5` - claude-sonnet-5 * `claude-opus-5` - claude-opus-5 */
-  model?: WidgetGenerateRequestModelEnum | (string & {});
+  model?: WidgetGenerateRequestModelEnum | (string & {}) | undefined;
   /** Whether to generate from scratch or improve the current source. * `initial` - initial * `regenerate` - regenerate * `improve` - improve */
-  generation_operation?: GenerationOperationEnum | (string & {});
+  generation_operation?: GenerationOperationEnum | (string & {}) | undefined;
   /** Current widget version the improvement is based on. Required for improve operations. */
-  expected_current_version_id?: string;
+  expected_current_version_id?: string | undefined;
 }
 export interface GenerateReusableWidgetResponse {}
 export interface GetReusableWidgetRequest {
@@ -113,7 +113,7 @@ export interface WidgetInputContractItem {
   /** Original dataframe name when the widget was published. */
   sourceName: string;
   /** Columns the notebook-local binding must produce after its optional Hog mapping. */
-  columns?: WidgetInputContractItemColumnsList;
+  columns?: WidgetInputContractItemColumnsList | undefined;
   /** Hash of the expected column schema. */
   schemaHash: string;
 }
@@ -154,7 +154,7 @@ export interface WidgetSecurityReview {
 }
 export interface ReusableWidgetVersionDetail {
   /** Estimated generation charge in USD, including retries, security review, and the AI credit markup. Null when unavailable. */
-  generation_cost_usd?: string | null;
+  generation_cost_usd?: string | null | undefined;
   /** Immutable widget version identifier. */
   id: string;
   /** Title stored with this version. */
@@ -211,9 +211,9 @@ export interface ReusableWidgetDetail {
 export interface ListReusableWidgetsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  limit?: number;
-  offset?: number;
-  search?: string;
+  limit?: number | undefined;
+  offset?: number | undefined;
+  search?: string | undefined;
 }
 /** Searchable widget labels. */
 export type ReusableWidgetSummaryTagsList = Array<string>;
@@ -243,7 +243,12 @@ export interface ReusableWidgetSummary {
 }
 /** Reusable widgets in this page. */
 export type ReusableWidgetPageResultsList = Array<ReusableWidgetSummary>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
 export interface ReusableWidgetPage {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
   /** Reusable widgets in this page. */
   results: ReusableWidgetPageResultsList;
   /** Total reusable widgets matching the search. */
@@ -267,7 +272,7 @@ export interface ReusableWidgetsDemoFrameRequest {
   /** Logical dataframe slot requested by the widget demo. */
   frame_name: string;
   /** Immutable version whose saved demo data should be returned. */
-  version_id?: string;
+  version_id?: string | undefined;
 }
 export interface WidgetFrameColumn {
   /** Column name. */
@@ -323,7 +328,7 @@ export interface ReusableWidgetsSourceRequest {
   project_id: string;
   id: string;
   /** Immutable reusable widget version whose source should be returned. */
-  version_id?: string;
+  version_id?: string | undefined;
 }
 export interface WidgetSource {
   /** Read-only source code for the current widget version. */
@@ -352,7 +357,7 @@ export type FailurePhaseEnum =
 export type WidgetStatusFrameNamesList = Array<string>;
 export interface WidgetStatusInputBindingsValue {
   source: string;
-  hog?: string;
+  hog?: string | undefined;
 }
 /** Notebook-local mapping from each logical widget input slot to a dataframe and optional Hog transform. */
 export type WidgetStatusInputBindingsMap = {
@@ -380,13 +385,13 @@ export interface WidgetStatus {
   /** Current widget and preview state. * `awaiting_generation` - awaiting_generation * `generating` - generating * `building` - building * `ready` - ready * `failed` - failed * `incompatible` - incompatible */
   lifecycle_status: LifecycleStatusEnum;
   /** Actionable failure detail. */
-  error_detail?: string | null;
+  error_detail?: string | null | undefined;
   /** Stable failure code for support and diagnostics. */
-  error_code?: string | null;
+  error_code?: string | null | undefined;
   /** Generation step that failed, if a generation job failed. * `generating_source` - generating_source * `reviewing_source` - reviewing_source * `publishing_source` - publishing_source * `unknown` - unknown */
-  failure_phase?: FailurePhaseEnum | null;
+  failure_phase?: FailurePhaseEnum | null | undefined;
   /** Short-lived URL for the selected widget version's preview. */
-  artifact_url?: string | null;
+  artifact_url?: string | null | undefined;
   /** Logical dataframe slots available to the selected version. */
   frame_names: WidgetStatusFrameNamesList;
   /** Notebook-local mapping from each logical widget input slot to a dataframe and optional Hog transform. */
@@ -417,13 +422,18 @@ export interface ReusableWidgetsVersionsRequest {
   project_id: string;
   id: string;
   /** Maximum versions to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Zero-based version offset. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** Published versions, newest first. */
 export type ReusableWidgetVersionPageResultsList = Array<ReusableWidgetVersionDetail>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
 export interface ReusableWidgetVersionPage {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
   /** Published versions, newest first. */
   results: ReusableWidgetVersionPageResultsList;
   /** Total number of published versions. */
@@ -752,6 +762,8 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
           results: __S(25, __c3, 1),
           count: S.Number,
           next_offset: S.NullOr(S.Number),
@@ -955,6 +967,8 @@ function __c12(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
           results: __S(98, __c12, 2),
           count: S.Number,
           next_offset: S.NullOr(S.Number),

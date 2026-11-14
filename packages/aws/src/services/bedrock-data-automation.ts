@@ -114,6 +114,22 @@ export class InternalServerException
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
+export class LibraryIngestionJobsActive
+  extends /*@__PURE__*/ S.TaggedError<LibraryIngestionJobsActive>()(
+    "LibraryIngestionJobsActive",
+    {
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      fieldList: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => __S(929, __c29, 1)).annotate({
+          identifier: "ValidationExceptionFieldList",
+        }),
+      ),
+    },
+    /*@__PURE__*/ T.SyntheticError({
+      from: "ValidationException",
+      message: { includes: "there are active ingestion jobs" },
+    }),
+  ) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -138,7 +154,7 @@ export class ValidationException
     {
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
       fieldList: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(1057, __c33, 1)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(929, __c29, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
@@ -152,7 +168,7 @@ export interface CopyBlueprintStageRequest {
   blueprintArn: string;
   sourceStage: BlueprintStage;
   targetStage: BlueprintStage;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CopyBlueprintStageResponse {}
 export type BlueprintName = string | redacted.Redacted<string>;
@@ -164,7 +180,7 @@ export type EncryptionContextValue = string;
 export type KmsEncryptionContext = { [key: string]: string | undefined };
 export interface EncryptionConfiguration {
   kmsKeyId: string;
-  kmsEncryptionContext?: { [key: string]: string | undefined };
+  kmsEncryptionContext?: { [key: string]: string | undefined } | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -176,18 +192,18 @@ export type TagList = Tag[];
 export interface CreateBlueprintRequest {
   blueprintName: string | redacted.Redacted<string>;
   type: Type;
-  blueprintStage?: BlueprintStage;
+  blueprintStage?: BlueprintStage | undefined;
   schema: string | redacted.Redacted<string>;
-  clientToken?: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  tags?: Tag[];
+  clientToken?: string | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  tags?: Tag[] | undefined;
 }
 export type BlueprintVersion = string;
 export type S3Uri = string;
 export type S3ObjectVersion = string;
 export interface S3Object {
   s3Uri: string;
-  version?: string;
+  version?: string | undefined;
 }
 export interface BlueprintOptimizationSample {
   assetS3Object: S3Object;
@@ -201,19 +217,19 @@ export interface Blueprint {
   creationTime: Date;
   lastModifiedTime: Date;
   blueprintName: string | redacted.Redacted<string>;
-  blueprintVersion?: string;
-  blueprintStage?: BlueprintStage;
-  kmsKeyId?: string;
-  kmsEncryptionContext?: { [key: string]: string | undefined };
-  optimizationSamples?: BlueprintOptimizationSample[];
-  optimizationTime?: Date;
+  blueprintVersion?: string | undefined;
+  blueprintStage?: BlueprintStage | undefined;
+  kmsKeyId?: string | undefined;
+  kmsEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  optimizationSamples?: BlueprintOptimizationSample[] | undefined;
+  optimizationTime?: Date | undefined;
 }
 export interface CreateBlueprintResponse {
   blueprint: Blueprint;
 }
 export interface CreateBlueprintVersionRequest {
   blueprintArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CreateBlueprintVersionResponse {
   blueprint: Blueprint;
@@ -222,16 +238,16 @@ export type DataAutomationLibraryName = string | redacted.Redacted<string>;
 export type DataAutomationLibraryDescription = string | redacted.Redacted<string>;
 export interface CreateDataAutomationLibraryRequest {
   libraryName: string | redacted.Redacted<string>;
-  libraryDescription?: string | redacted.Redacted<string>;
-  clientToken?: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  tags?: Tag[];
+  libraryDescription?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  tags?: Tag[] | undefined;
 }
 export type DataAutomationLibraryArn = string;
 export type DataAutomationLibraryStatus = "ACTIVE" | "DELETING" | (string & {});
 export interface CreateDataAutomationLibraryResponse {
-  libraryArn?: string;
-  status?: DataAutomationLibraryStatus;
+  libraryArn?: string | undefined;
+  status?: DataAutomationLibraryStatus | undefined;
 }
 export type DataAutomationProjectName = string | redacted.Redacted<string>;
 export type DataAutomationProjectDescription = string | redacted.Redacted<string>;
@@ -246,7 +262,7 @@ export type DocumentExtractionGranularityType =
   | (string & {});
 export type DocumentExtractionGranularityTypes = DocumentExtractionGranularityType[];
 export interface DocumentExtractionGranularity {
-  types?: DocumentExtractionGranularityType[];
+  types?: DocumentExtractionGranularityType[] | undefined;
 }
 export type State = "ENABLED" | "DISABLED" | (string & {});
 export interface DocumentBoundingBox {
@@ -267,7 +283,7 @@ export type DocumentOutputTextFormatType =
   | (string & {});
 export type DocumentOutputTextFormatTypes = DocumentOutputTextFormatType[];
 export interface DocumentOutputTextFormat {
-  types?: DocumentOutputTextFormatType[];
+  types?: DocumentOutputTextFormatType[] | undefined;
 }
 export interface DocumentOutputAdditionalFileFormat {
   state: State;
@@ -277,9 +293,9 @@ export interface DocumentOutputFormat {
   additionalFileFormat: DocumentOutputAdditionalFileFormat;
 }
 export interface DocumentStandardOutputConfiguration {
-  extraction?: DocumentStandardExtraction;
-  generativeField?: DocumentStandardGenerativeField;
-  outputFormat?: DocumentOutputFormat;
+  extraction?: DocumentStandardExtraction | undefined;
+  generativeField?: DocumentStandardGenerativeField | undefined;
+  outputFormat?: DocumentOutputFormat | undefined;
 }
 export type ImageExtractionCategoryType =
   | "CONTENT_MODERATION"
@@ -289,7 +305,7 @@ export type ImageExtractionCategoryType =
 export type ImageExtractionCategoryTypes = ImageExtractionCategoryType[];
 export interface ImageExtractionCategory {
   state: State;
-  types?: ImageExtractionCategoryType[];
+  types?: ImageExtractionCategoryType[] | undefined;
 }
 export interface ImageBoundingBox {
   state: State;
@@ -302,11 +318,11 @@ export type ImageStandardGenerativeFieldType = "IMAGE_SUMMARY" | "IAB" | (string
 export type ImageStandardGenerativeFieldTypes = ImageStandardGenerativeFieldType[];
 export interface ImageStandardGenerativeField {
   state: State;
-  types?: ImageStandardGenerativeFieldType[];
+  types?: ImageStandardGenerativeFieldType[] | undefined;
 }
 export interface ImageStandardOutputConfiguration {
-  extraction?: ImageStandardExtraction;
-  generativeField?: ImageStandardGenerativeField;
+  extraction?: ImageStandardExtraction | undefined;
+  generativeField?: ImageStandardGenerativeField | undefined;
 }
 export type VideoExtractionCategoryType =
   | "CONTENT_MODERATION"
@@ -317,7 +333,7 @@ export type VideoExtractionCategoryType =
 export type VideoExtractionCategoryTypes = VideoExtractionCategoryType[];
 export interface VideoExtractionCategory {
   state: State;
-  types?: VideoExtractionCategoryType[];
+  types?: VideoExtractionCategoryType[] | undefined;
 }
 export interface VideoBoundingBox {
   state: State;
@@ -334,11 +350,11 @@ export type VideoStandardGenerativeFieldType =
 export type VideoStandardGenerativeFieldTypes = VideoStandardGenerativeFieldType[];
 export interface VideoStandardGenerativeField {
   state: State;
-  types?: VideoStandardGenerativeFieldType[];
+  types?: VideoStandardGenerativeFieldType[] | undefined;
 }
 export interface VideoStandardOutputConfiguration {
-  extraction?: VideoStandardExtraction;
-  generativeField?: VideoStandardGenerativeField;
+  extraction?: VideoStandardExtraction | undefined;
+  generativeField?: VideoStandardGenerativeField | undefined;
 }
 export type AudioExtractionCategoryType =
   | "AUDIO_CONTENT_MODERATION"
@@ -353,16 +369,16 @@ export interface ChannelLabelingConfiguration {
   state: State;
 }
 export interface TranscriptConfiguration {
-  speakerLabeling?: SpeakerLabelingConfiguration;
-  channelLabeling?: ChannelLabelingConfiguration;
+  speakerLabeling?: SpeakerLabelingConfiguration | undefined;
+  channelLabeling?: ChannelLabelingConfiguration | undefined;
 }
 export interface AudioExtractionCategoryTypeConfiguration {
-  transcript?: TranscriptConfiguration;
+  transcript?: TranscriptConfiguration | undefined;
 }
 export interface AudioExtractionCategory {
   state: State;
-  types?: AudioExtractionCategoryType[];
-  typeConfiguration?: AudioExtractionCategoryTypeConfiguration;
+  types?: AudioExtractionCategoryType[] | undefined;
+  typeConfiguration?: AudioExtractionCategoryTypeConfiguration | undefined;
 }
 export interface AudioStandardExtraction {
   category: AudioExtractionCategory;
@@ -375,37 +391,37 @@ export type AudioStandardGenerativeFieldType =
 export type AudioStandardGenerativeFieldTypes = AudioStandardGenerativeFieldType[];
 export interface AudioStandardGenerativeField {
   state: State;
-  types?: AudioStandardGenerativeFieldType[];
+  types?: AudioStandardGenerativeFieldType[] | undefined;
 }
 export interface AudioStandardOutputConfiguration {
-  extraction?: AudioStandardExtraction;
-  generativeField?: AudioStandardGenerativeField;
+  extraction?: AudioStandardExtraction | undefined;
+  generativeField?: AudioStandardGenerativeField | undefined;
 }
 export interface StandardOutputConfiguration {
-  document?: DocumentStandardOutputConfiguration;
-  image?: ImageStandardOutputConfiguration;
-  video?: VideoStandardOutputConfiguration;
-  audio?: AudioStandardOutputConfiguration;
+  document?: DocumentStandardOutputConfiguration | undefined;
+  image?: ImageStandardOutputConfiguration | undefined;
+  video?: VideoStandardOutputConfiguration | undefined;
+  audio?: AudioStandardOutputConfiguration | undefined;
 }
 export interface BlueprintItem {
   blueprintArn: string;
-  blueprintVersion?: string;
-  blueprintStage?: BlueprintStage;
+  blueprintVersion?: string | undefined;
+  blueprintStage?: BlueprintStage | undefined;
 }
 export type BlueprintItems = BlueprintItem[];
 export type FallbackBlueprintItems = BlueprintItem[];
 export interface DocumentCustomOutputConfiguration {
-  fallbackBlueprints?: BlueprintItem[];
+  fallbackBlueprints?: BlueprintItem[] | undefined;
 }
 export interface CustomOutputConfiguration {
-  blueprints?: BlueprintItem[];
-  document?: DocumentCustomOutputConfiguration;
+  blueprints?: BlueprintItem[] | undefined;
+  document?: DocumentCustomOutputConfiguration | undefined;
 }
 export interface SplitterConfiguration {
-  state?: State;
+  state?: State | undefined;
 }
 export interface ModalityProcessingConfiguration {
-  state?: State;
+  state?: State | undefined;
 }
 export type SensitiveDataDetectionMode = "DETECTION" | "DETECTION_AND_REDACTION" | (string & {});
 export type SensitiveDataDetectionScopeType = "STANDARD" | "CUSTOM" | (string & {});
@@ -447,26 +463,26 @@ export type PIIEntityType =
 export type PIIEntityTypes = PIIEntityType[];
 export type PIIRedactionMaskMode = "PII" | "ENTITY_TYPE" | (string & {});
 export interface PIIEntitiesConfiguration {
-  piiEntityTypes?: PIIEntityType[];
-  redactionMaskMode?: PIIRedactionMaskMode;
+  piiEntityTypes?: PIIEntityType[] | undefined;
+  redactionMaskMode?: PIIRedactionMaskMode | undefined;
 }
 export interface SensitiveDataConfiguration {
   detectionMode: SensitiveDataDetectionMode;
-  detectionScope?: SensitiveDataDetectionScopeType[];
-  piiEntitiesConfiguration?: PIIEntitiesConfiguration;
+  detectionScope?: SensitiveDataDetectionScopeType[] | undefined;
+  piiEntitiesConfiguration?: PIIEntitiesConfiguration | undefined;
 }
 export interface DocumentOverrideConfiguration {
-  splitter?: SplitterConfiguration;
-  modalityProcessing?: ModalityProcessingConfiguration;
-  sensitiveDataConfiguration?: SensitiveDataConfiguration;
+  splitter?: SplitterConfiguration | undefined;
+  modalityProcessing?: ModalityProcessingConfiguration | undefined;
+  sensitiveDataConfiguration?: SensitiveDataConfiguration | undefined;
 }
 export interface ImageOverrideConfiguration {
-  modalityProcessing?: ModalityProcessingConfiguration;
-  sensitiveDataConfiguration?: SensitiveDataConfiguration;
+  modalityProcessing?: ModalityProcessingConfiguration | undefined;
+  sensitiveDataConfiguration?: SensitiveDataConfiguration | undefined;
 }
 export interface VideoOverrideConfiguration {
-  modalityProcessing?: ModalityProcessingConfiguration;
-  sensitiveDataConfiguration?: SensitiveDataConfiguration;
+  modalityProcessing?: ModalityProcessingConfiguration | undefined;
+  sensitiveDataConfiguration?: SensitiveDataConfiguration | undefined;
 }
 export type Language =
   | "EN"
@@ -484,79 +500,79 @@ export type Language =
 export type AudioInputLanguages = Language[];
 export type AudioGenerativeOutputLanguage = "DEFAULT" | "EN" | (string & {});
 export interface AudioLanguageConfiguration {
-  inputLanguages?: Language[];
-  generativeOutputLanguage?: AudioGenerativeOutputLanguage;
-  identifyMultipleLanguages?: boolean;
+  inputLanguages?: Language[] | undefined;
+  generativeOutputLanguage?: AudioGenerativeOutputLanguage | undefined;
+  identifyMultipleLanguages?: boolean | undefined;
 }
 export interface AudioOverrideConfiguration {
-  modalityProcessing?: ModalityProcessingConfiguration;
-  languageConfiguration?: AudioLanguageConfiguration;
-  sensitiveDataConfiguration?: SensitiveDataConfiguration;
+  modalityProcessing?: ModalityProcessingConfiguration | undefined;
+  languageConfiguration?: AudioLanguageConfiguration | undefined;
+  sensitiveDataConfiguration?: SensitiveDataConfiguration | undefined;
 }
 export type DesiredModality = "IMAGE" | "DOCUMENT" | "AUDIO" | "VIDEO" | (string & {});
 export interface ModalityRoutingConfiguration {
-  jpeg?: DesiredModality;
-  png?: DesiredModality;
-  mp4?: DesiredModality;
-  mov?: DesiredModality;
+  jpeg?: DesiredModality | undefined;
+  png?: DesiredModality | undefined;
+  mp4?: DesiredModality | undefined;
+  mov?: DesiredModality | undefined;
 }
 export interface OverrideConfiguration {
-  document?: DocumentOverrideConfiguration;
-  image?: ImageOverrideConfiguration;
-  video?: VideoOverrideConfiguration;
-  audio?: AudioOverrideConfiguration;
-  modalityRouting?: ModalityRoutingConfiguration;
+  document?: DocumentOverrideConfiguration | undefined;
+  image?: ImageOverrideConfiguration | undefined;
+  video?: VideoOverrideConfiguration | undefined;
+  audio?: AudioOverrideConfiguration | undefined;
+  modalityRouting?: ModalityRoutingConfiguration | undefined;
 }
 export interface DataAutomationLibraryItem {
   libraryArn: string;
 }
 export type DataAutomationLibraryItems = DataAutomationLibraryItem[];
 export interface DataAutomationLibraryConfiguration {
-  libraries?: DataAutomationLibraryItem[];
+  libraries?: DataAutomationLibraryItem[] | undefined;
 }
 export interface CreateDataAutomationProjectRequest {
   projectName: string | redacted.Redacted<string>;
-  projectDescription?: string | redacted.Redacted<string>;
-  projectStage?: DataAutomationProjectStage;
-  projectType?: DataAutomationProjectType;
+  projectDescription?: string | redacted.Redacted<string> | undefined;
+  projectStage?: DataAutomationProjectStage | undefined;
+  projectType?: DataAutomationProjectType | undefined;
   standardOutputConfiguration: StandardOutputConfiguration;
-  customOutputConfiguration?: CustomOutputConfiguration;
-  overrideConfiguration?: OverrideConfiguration;
-  dataAutomationLibraryConfiguration?: DataAutomationLibraryConfiguration;
-  clientToken?: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  tags?: Tag[];
+  customOutputConfiguration?: CustomOutputConfiguration | undefined;
+  overrideConfiguration?: OverrideConfiguration | undefined;
+  dataAutomationLibraryConfiguration?: DataAutomationLibraryConfiguration | undefined;
+  clientToken?: string | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  tags?: Tag[] | undefined;
 }
 export type DataAutomationProjectArn = string;
 export type DataAutomationProjectStatus = "COMPLETED" | "IN_PROGRESS" | "FAILED" | (string & {});
 export interface CreateDataAutomationProjectResponse {
   projectArn: string;
-  projectStage?: DataAutomationProjectStage;
-  status?: DataAutomationProjectStatus;
+  projectStage?: DataAutomationProjectStage | undefined;
+  status?: DataAutomationProjectStatus | undefined;
 }
 export interface DeleteBlueprintRequest {
   blueprintArn: string;
-  blueprintVersion?: string;
+  blueprintVersion?: string | undefined;
 }
 export interface DeleteBlueprintResponse {}
 export interface DeleteDataAutomationLibraryRequest {
   libraryArn: string;
 }
 export interface DeleteDataAutomationLibraryResponse {
-  libraryArn?: string;
-  status?: DataAutomationLibraryStatus;
+  libraryArn?: string | undefined;
+  status?: DataAutomationLibraryStatus | undefined;
 }
 export interface DeleteDataAutomationProjectRequest {
   projectArn: string;
 }
 export interface DeleteDataAutomationProjectResponse {
   projectArn: string;
-  status?: DataAutomationProjectStatus;
+  status?: DataAutomationProjectStatus | undefined;
 }
 export interface GetBlueprintRequest {
   blueprintArn: string;
-  blueprintVersion?: string;
-  blueprintStage?: BlueprintStage;
+  blueprintVersion?: string | undefined;
+  blueprintStage?: BlueprintStage | undefined;
 }
 export interface GetBlueprintResponse {
   blueprint: Blueprint;
@@ -576,10 +592,10 @@ export interface BlueprintOptimizationOutputConfiguration {
   s3Object: S3Object;
 }
 export interface GetBlueprintOptimizationStatusResponse {
-  status?: BlueprintOptimizationJobStatus;
-  errorType?: string;
-  errorMessage?: string;
-  outputConfiguration?: BlueprintOptimizationOutputConfiguration;
+  status?: BlueprintOptimizationJobStatus | undefined;
+  errorType?: string | undefined;
+  errorMessage?: string | undefined;
+  outputConfiguration?: BlueprintOptimizationOutputConfiguration | undefined;
 }
 export interface GetDataAutomationLibraryRequest {
   libraryArn: string;
@@ -588,21 +604,21 @@ export type EntityType = "VOCABULARY" | (string & {});
 export type EntityMetadata = string;
 export interface EntityTypeInfo {
   entityType: EntityType;
-  entityMetadata?: string;
+  entityMetadata?: string | undefined;
 }
 export type EntityTypeInfoList = EntityTypeInfo[];
 export interface DataAutomationLibrary {
   libraryArn: string;
   creationTime: Date;
   libraryName: string | redacted.Redacted<string>;
-  libraryDescription?: string | redacted.Redacted<string>;
+  libraryDescription?: string | redacted.Redacted<string> | undefined;
   status: DataAutomationLibraryStatus;
-  entityTypes?: EntityTypeInfo[];
-  kmsKeyId?: string;
-  kmsEncryptionContext?: { [key: string]: string | undefined };
+  entityTypes?: EntityTypeInfo[] | undefined;
+  kmsKeyId?: string | undefined;
+  kmsEncryptionContext?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetDataAutomationLibraryResponse {
-  library?: DataAutomationLibrary;
+  library?: DataAutomationLibrary | undefined;
 }
 export type EntityId = string;
 export interface GetDataAutomationLibraryEntityRequest {
@@ -615,19 +631,19 @@ export type PhraseText = string | redacted.Redacted<string>;
 export type PhraseDisplayAsText = string | redacted.Redacted<string>;
 export interface Phrase {
   text: string | redacted.Redacted<string>;
-  displayAsText?: string | redacted.Redacted<string>;
+  displayAsText?: string | redacted.Redacted<string> | undefined;
 }
 export type PhraseList = Phrase[];
 export interface VocabularyEntity {
-  entityId?: string;
-  description?: string | redacted.Redacted<string>;
-  language?: Language;
-  phrases?: Phrase[];
-  lastModifiedTime?: Date;
+  entityId?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  language?: Language | undefined;
+  phrases?: Phrase[] | undefined;
+  lastModifiedTime?: Date | undefined;
 }
 export type EntityDetails = { vocabulary: VocabularyEntity };
 export interface GetDataAutomationLibraryEntityResponse {
-  entity?: EntityDetails;
+  entity?: EntityDetails | undefined;
 }
 export type DataAutomationLibraryIngestionJobArn = string;
 export interface GetDataAutomationLibraryIngestionJobRequest {
@@ -651,39 +667,39 @@ export interface DataAutomationLibraryIngestionJob {
   operationType: LibraryIngestionJobOperationType;
   jobStatus: LibraryIngestionJobStatus;
   outputConfiguration: OutputConfiguration;
-  completionTime?: Date;
-  errorMessage?: string;
-  errorType?: string;
+  completionTime?: Date | undefined;
+  errorMessage?: string | undefined;
+  errorType?: string | undefined;
 }
 export interface GetDataAutomationLibraryIngestionJobResponse {
-  job?: DataAutomationLibraryIngestionJob;
+  job?: DataAutomationLibraryIngestionJob | undefined;
 }
 export interface GetDataAutomationProjectRequest {
   projectArn: string;
-  projectStage?: DataAutomationProjectStage;
+  projectStage?: DataAutomationProjectStage | undefined;
 }
 export interface DataAutomationProject {
   projectArn: string;
   creationTime: Date;
   lastModifiedTime: Date;
   projectName: string | redacted.Redacted<string>;
-  projectStage?: DataAutomationProjectStage;
-  projectType?: DataAutomationProjectType;
-  projectDescription?: string | redacted.Redacted<string>;
-  standardOutputConfiguration?: StandardOutputConfiguration;
-  customOutputConfiguration?: CustomOutputConfiguration;
-  overrideConfiguration?: OverrideConfiguration;
-  dataAutomationLibraryConfiguration?: DataAutomationLibraryConfiguration;
+  projectStage?: DataAutomationProjectStage | undefined;
+  projectType?: DataAutomationProjectType | undefined;
+  projectDescription?: string | redacted.Redacted<string> | undefined;
+  standardOutputConfiguration?: StandardOutputConfiguration | undefined;
+  customOutputConfiguration?: CustomOutputConfiguration | undefined;
+  overrideConfiguration?: OverrideConfiguration | undefined;
+  dataAutomationLibraryConfiguration?: DataAutomationLibraryConfiguration | undefined;
   status: DataAutomationProjectStatus;
-  kmsKeyId?: string;
-  kmsEncryptionContext?: { [key: string]: string | undefined };
+  kmsKeyId?: string | undefined;
+  kmsEncryptionContext?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetDataAutomationProjectResponse {
   project: DataAutomationProject;
 }
 export interface BlueprintOptimizationObject {
   blueprintArn: string;
-  stage?: BlueprintStage;
+  stage?: BlueprintStage | undefined;
 }
 export type DataAutomationProfileArn = string;
 export interface InvokeBlueprintOptimizationAsyncRequest {
@@ -691,15 +707,15 @@ export interface InvokeBlueprintOptimizationAsyncRequest {
   samples: BlueprintOptimizationSample[];
   outputConfiguration: BlueprintOptimizationOutputConfiguration;
   dataAutomationProfileArn: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  tags?: Tag[];
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface InvokeBlueprintOptimizationAsyncResponse {
   invocationArn: string;
 }
 export interface VocabularyEntityInfo {
-  entityId?: string;
-  description?: string | redacted.Redacted<string>;
+  entityId?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   language: Language;
   phrases: Phrase[];
 }
@@ -710,11 +726,11 @@ export interface DeleteEntitiesInfo {
   entityIds: string[];
 }
 export type InlinePayload =
-  | { upsertEntitiesInfo: UpsertEntityInfo[]; deleteEntitiesInfo?: never }
-  | { upsertEntitiesInfo?: never; deleteEntitiesInfo: DeleteEntitiesInfo };
+  | { upsertEntitiesInfo: UpsertEntityInfo[]; deleteEntitiesInfo?: undefined }
+  | { upsertEntitiesInfo?: undefined; deleteEntitiesInfo: DeleteEntitiesInfo };
 export interface InputConfiguration {
-  s3Object?: S3Object;
-  inlinePayload?: InlinePayload;
+  s3Object?: S3Object | undefined;
+  inlinePayload?: InlinePayload | undefined;
 }
 export interface EventBridgeConfiguration {
   eventBridgeEnabled: boolean;
@@ -724,16 +740,16 @@ export interface NotificationConfiguration {
 }
 export interface InvokeDataAutomationLibraryIngestionJobRequest {
   libraryArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   inputConfiguration: InputConfiguration;
   entityType: EntityType;
   operationType: LibraryIngestionJobOperationType;
   outputConfiguration: OutputConfiguration;
-  notificationConfiguration?: NotificationConfiguration;
-  tags?: Tag[];
+  notificationConfiguration?: NotificationConfiguration | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface InvokeDataAutomationLibraryIngestionJobResponse {
-  jobArn?: string;
+  jobArn?: string | undefined;
 }
 export type ResourceOwner = "SERVICE" | "ACCOUNT" | (string & {});
 export type BlueprintStageFilter = "DEVELOPMENT" | "LIVE" | "ALL" | (string & {});
@@ -741,67 +757,67 @@ export type MaxResults = number;
 export type NextToken = string;
 export interface DataAutomationProjectFilter {
   projectArn: string;
-  projectStage?: DataAutomationProjectStage;
+  projectStage?: DataAutomationProjectStage | undefined;
 }
 export interface ListBlueprintsRequest {
-  blueprintArn?: string;
-  resourceOwner?: ResourceOwner;
-  blueprintStageFilter?: BlueprintStageFilter;
-  maxResults?: number;
-  nextToken?: string;
-  projectFilter?: DataAutomationProjectFilter;
+  blueprintArn?: string | undefined;
+  resourceOwner?: ResourceOwner | undefined;
+  blueprintStageFilter?: BlueprintStageFilter | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  projectFilter?: DataAutomationProjectFilter | undefined;
 }
 export interface BlueprintSummary {
   blueprintArn: string;
-  blueprintVersion?: string;
-  blueprintStage?: BlueprintStage;
-  blueprintName?: string | redacted.Redacted<string>;
+  blueprintVersion?: string | undefined;
+  blueprintStage?: BlueprintStage | undefined;
+  blueprintName?: string | redacted.Redacted<string> | undefined;
   creationTime: Date;
-  lastModifiedTime?: Date;
+  lastModifiedTime?: Date | undefined;
 }
 export type Blueprints = BlueprintSummary[];
 export interface ListBlueprintsResponse {
   blueprints: BlueprintSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDataAutomationLibrariesRequest {
-  maxResults?: number;
-  nextToken?: string;
-  projectFilter?: DataAutomationProjectFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  projectFilter?: DataAutomationProjectFilter | undefined;
 }
 export interface DataAutomationLibrarySummary {
   libraryArn: string;
-  libraryName?: string | redacted.Redacted<string>;
+  libraryName?: string | redacted.Redacted<string> | undefined;
   creationTime: Date;
 }
 export type DataAutomationLibrarySummaries = DataAutomationLibrarySummary[];
 export interface ListDataAutomationLibrariesResponse {
-  libraries?: DataAutomationLibrarySummary[];
-  nextToken?: string;
+  libraries?: DataAutomationLibrarySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDataAutomationLibraryEntitiesRequest {
   libraryArn: string;
   entityType: EntityType;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface VocabularyEntitySummary {
-  entityId?: string;
-  description?: string | redacted.Redacted<string>;
-  language?: Language;
-  numOfPhrases?: number;
-  lastModifiedTime?: Date;
+  entityId?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  language?: Language | undefined;
+  numOfPhrases?: number | undefined;
+  lastModifiedTime?: Date | undefined;
 }
 export type DataAutomationLibraryEntitySummary = { vocabulary: VocabularyEntitySummary };
 export type DataAutomationLibraryEntitySummaries = DataAutomationLibraryEntitySummary[];
 export interface ListDataAutomationLibraryEntitiesResponse {
-  entities?: DataAutomationLibraryEntitySummary[];
-  nextToken?: string;
+  entities?: DataAutomationLibraryEntitySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDataAutomationLibraryIngestionJobsRequest {
   libraryArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DataAutomationLibraryIngestionJobSummary {
   jobArn: string;
@@ -809,48 +825,48 @@ export interface DataAutomationLibraryIngestionJobSummary {
   entityType: EntityType;
   operationType: LibraryIngestionJobOperationType;
   creationTime: Date;
-  completionTime?: Date;
+  completionTime?: Date | undefined;
 }
 export type DataAutomationLibraryIngestionJobSummaries = DataAutomationLibraryIngestionJobSummary[];
 export interface ListDataAutomationLibraryIngestionJobsResponse {
-  jobs?: DataAutomationLibraryIngestionJobSummary[];
-  nextToken?: string;
+  jobs?: DataAutomationLibraryIngestionJobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DataAutomationProjectStageFilter = "DEVELOPMENT" | "LIVE" | "ALL" | (string & {});
 export interface BlueprintFilter {
   blueprintArn: string;
-  blueprintVersion?: string;
-  blueprintStage?: BlueprintStage;
+  blueprintVersion?: string | undefined;
+  blueprintStage?: BlueprintStage | undefined;
 }
 export interface DataAutomationLibraryFilter {
   libraryArn: string;
 }
 export interface ListDataAutomationProjectsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  projectStageFilter?: DataAutomationProjectStageFilter;
-  blueprintFilter?: BlueprintFilter;
-  resourceOwner?: ResourceOwner;
-  libraryFilter?: DataAutomationLibraryFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  projectStageFilter?: DataAutomationProjectStageFilter | undefined;
+  blueprintFilter?: BlueprintFilter | undefined;
+  resourceOwner?: ResourceOwner | undefined;
+  libraryFilter?: DataAutomationLibraryFilter | undefined;
 }
 export interface DataAutomationProjectSummary {
   projectArn: string;
-  projectStage?: DataAutomationProjectStage;
-  projectType?: DataAutomationProjectType;
-  projectName?: string | redacted.Redacted<string>;
+  projectStage?: DataAutomationProjectStage | undefined;
+  projectType?: DataAutomationProjectType | undefined;
+  projectName?: string | redacted.Redacted<string> | undefined;
   creationTime: Date;
 }
 export type DataAutomationProjectSummaries = DataAutomationProjectSummary[];
 export interface ListDataAutomationProjectsResponse {
   projects: DataAutomationProjectSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type TaggableResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface TagResourceRequest {
   resourceARN: string;
@@ -866,35 +882,35 @@ export interface UntagResourceResponse {}
 export interface UpdateBlueprintRequest {
   blueprintArn: string;
   schema: string | redacted.Redacted<string>;
-  blueprintStage?: BlueprintStage;
-  encryptionConfiguration?: EncryptionConfiguration;
+  blueprintStage?: BlueprintStage | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface UpdateBlueprintResponse {
   blueprint: Blueprint;
 }
 export interface UpdateDataAutomationLibraryRequest {
   libraryArn: string;
-  libraryDescription?: string | redacted.Redacted<string>;
-  clientToken?: string;
+  libraryDescription?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateDataAutomationLibraryResponse {
-  libraryArn?: string;
-  status?: DataAutomationLibraryStatus;
+  libraryArn?: string | undefined;
+  status?: DataAutomationLibraryStatus | undefined;
 }
 export interface UpdateDataAutomationProjectRequest {
   projectArn: string;
-  projectStage?: DataAutomationProjectStage;
-  projectDescription?: string | redacted.Redacted<string>;
+  projectStage?: DataAutomationProjectStage | undefined;
+  projectDescription?: string | redacted.Redacted<string> | undefined;
   standardOutputConfiguration: StandardOutputConfiguration;
-  customOutputConfiguration?: CustomOutputConfiguration;
-  overrideConfiguration?: OverrideConfiguration;
-  dataAutomationLibraryConfiguration?: DataAutomationLibraryConfiguration;
-  encryptionConfiguration?: EncryptionConfiguration;
+  customOutputConfiguration?: CustomOutputConfiguration | undefined;
+  overrideConfiguration?: OverrideConfiguration | undefined;
+  dataAutomationLibraryConfiguration?: DataAutomationLibraryConfiguration | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface UpdateDataAutomationProjectResponse {
   projectArn: string;
-  projectStage?: DataAutomationProjectStage;
-  status?: DataAutomationProjectStatus;
+  projectStage?: DataAutomationProjectStage | undefined;
+  status?: DataAutomationProjectStatus | undefined;
 }
 export type NonBlankString = string;
 export interface ValidationExceptionField {
@@ -918,8 +934,8 @@ export const copyBlueprintStage: API.OperationMethod<
   CopyBlueprintStageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<CopyBlueprintStageRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<CopyBlueprintStageResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<CopyBlueprintStageRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<CopyBlueprintStageResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -951,8 +967,8 @@ export const createBlueprint: API.OperationMethod<
   CreateBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<CreateBlueprintRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<CreateBlueprintResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<CreateBlueprintRequest>,
+  output: __S(1313, __c41, 1) as any as S.Schema<CreateBlueprintResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -985,8 +1001,8 @@ export const createBlueprintVersion: API.OperationMethod<
   CreateBlueprintVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<CreateBlueprintVersionRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<CreateBlueprintVersionResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateBlueprintVersionRequest>,
+  output: __S(1313, __c41, 1) as any as S.Schema<CreateBlueprintVersionResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1019,8 +1035,8 @@ export const createDataAutomationLibrary: API.OperationMethod<
   CreateDataAutomationLibraryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateDataAutomationLibraryRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<CreateDataAutomationLibraryResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<CreateDataAutomationLibraryRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<CreateDataAutomationLibraryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1053,8 +1069,8 @@ export const createDataAutomationProject: API.OperationMethod<
   CreateDataAutomationProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<CreateDataAutomationProjectRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<CreateDataAutomationProjectResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<CreateDataAutomationProjectRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<CreateDataAutomationProjectResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1086,8 +1102,8 @@ export const deleteBlueprint: API.OperationMethod<
   DeleteBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<DeleteBlueprintRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<DeleteBlueprintResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<DeleteBlueprintRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<DeleteBlueprintResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1109,6 +1125,7 @@ export type DeleteDataAutomationLibraryError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | LibraryIngestionJobsActive
   | CommonErrors;
 /**
  * Deletes an existing Amazon Bedrock Data Automation Library
@@ -1119,8 +1136,8 @@ export const deleteDataAutomationLibrary: API.OperationMethod<
   DeleteDataAutomationLibraryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<DeleteDataAutomationLibraryRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteDataAutomationLibraryResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<DeleteDataAutomationLibraryRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<DeleteDataAutomationLibraryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1128,6 +1145,7 @@ export const deleteDataAutomationLibrary: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    LibraryIngestionJobsActive,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1152,8 +1170,8 @@ export const deleteDataAutomationProject: API.OperationMethod<
   DeleteDataAutomationProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<DeleteDataAutomationProjectRequest>,
-  output: __S(257, __c8, 1) as any as S.Schema<DeleteDataAutomationProjectResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<DeleteDataAutomationProjectRequest>,
+  output: __S(289, __c9, 1) as any as S.Schema<DeleteDataAutomationProjectResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1184,8 +1202,8 @@ export const getBlueprint: API.OperationMethod<
   GetBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetBlueprintRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<GetBlueprintResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<GetBlueprintRequest>,
+  output: __S(1313, __c41, 1) as any as S.Schema<GetBlueprintResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1216,8 +1234,8 @@ export const getBlueprintOptimizationStatus: API.OperationMethod<
   GetBlueprintOptimizationStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GetBlueprintOptimizationStatusRequest>,
-  output: __S(321, __c10, 1) as any as S.Schema<GetBlueprintOptimizationStatusResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetBlueprintOptimizationStatusRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<GetBlueprintOptimizationStatusResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1248,8 +1266,8 @@ export const getDataAutomationLibrary: API.OperationMethod<
   GetDataAutomationLibraryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetDataAutomationLibraryRequest>,
-  output: __S(388, __c12, 4) as any as S.Schema<GetDataAutomationLibraryResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetDataAutomationLibraryRequest>,
+  output: __S(420, __c13, 4) as any as S.Schema<GetDataAutomationLibraryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1280,8 +1298,8 @@ export const getDataAutomationLibraryEntity: API.OperationMethod<
   GetDataAutomationLibraryEntityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GetDataAutomationLibraryEntityRequest>,
-  output: __S(419, __c13, 3) as any as S.Schema<GetDataAutomationLibraryEntityResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<GetDataAutomationLibraryEntityRequest>,
+  output: __S(451, __c14, 3) as any as S.Schema<GetDataAutomationLibraryEntityResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1312,8 +1330,8 @@ export const getDataAutomationLibraryIngestionJob: API.OperationMethod<
   GetDataAutomationLibraryIngestionJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetDataAutomationLibraryIngestionJobRequest>,
-  output: __S(482, __c15, 2) as any as S.Schema<GetDataAutomationLibraryIngestionJobResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetDataAutomationLibraryIngestionJobRequest>,
+  output: __S(514, __c16, 2) as any as S.Schema<GetDataAutomationLibraryIngestionJobResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1344,8 +1362,8 @@ export const getDataAutomationProject: API.OperationMethod<
   GetDataAutomationProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetDataAutomationProjectRequest>,
-  output: __S(546, __c17, 2) as any as S.Schema<GetDataAutomationProjectResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetDataAutomationProjectRequest>,
+  output: __S(578, __c18, 2) as any as S.Schema<GetDataAutomationProjectResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1377,8 +1395,8 @@ export const invokeBlueprintOptimizationAsync: API.OperationMethod<
   InvokeBlueprintOptimizationAsyncError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(577, __c18, 1) as any as S.Schema<InvokeBlueprintOptimizationAsyncRequest>,
-  output: __S(578, __c18, 2) as any as S.Schema<InvokeBlueprintOptimizationAsyncResponse>,
+  input: __S(609, __c19, 1) as any as S.Schema<InvokeBlueprintOptimizationAsyncRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<InvokeBlueprintOptimizationAsyncResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1412,8 +1430,8 @@ export const invokeDataAutomationLibraryIngestionJob: API.OperationMethod<
   InvokeDataAutomationLibraryIngestionJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(616, __c19, 8) as any as S.Schema<InvokeDataAutomationLibraryIngestionJobRequest>,
-  output: __S(617, __c19, 9) as any as S.Schema<InvokeDataAutomationLibraryIngestionJobResponse>,
+  input: __S(648, __c20, 8) as any as S.Schema<InvokeDataAutomationLibraryIngestionJobRequest>,
+  output: __S(649, __c20, 9) as any as S.Schema<InvokeDataAutomationLibraryIngestionJobResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1447,8 +1465,8 @@ export const listBlueprints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BlueprintSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<ListBlueprintsRequest>,
-  output: __S(675, __c21, 3) as any as S.Schema<ListBlueprintsResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<ListBlueprintsRequest>,
+  output: __S(707, __c22, 3) as any as S.Schema<ListBlueprintsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1485,8 +1503,8 @@ export const listDataAutomationLibraries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DataAutomationLibrarySummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<ListDataAutomationLibrariesRequest>,
-  output: __S(739, __c23, 3) as any as S.Schema<ListDataAutomationLibrariesResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<ListDataAutomationLibrariesRequest>,
+  output: __S(771, __c24, 3) as any as S.Schema<ListDataAutomationLibrariesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1523,8 +1541,8 @@ export const listDataAutomationLibraryEntities: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DataAutomationLibraryEntitySummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<ListDataAutomationLibraryEntitiesRequest>,
-  output: __S(772, __c24, 4) as any as S.Schema<ListDataAutomationLibraryEntitiesResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<ListDataAutomationLibraryEntitiesRequest>,
+  output: __S(804, __c25, 4) as any as S.Schema<ListDataAutomationLibraryEntitiesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1562,8 +1580,8 @@ export const listDataAutomationLibraryIngestionJobs: API.PaginatedOperationMetho
   Credentials | HttpClient.HttpClient,
   DataAutomationLibraryIngestionJobSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<ListDataAutomationLibraryIngestionJobsRequest>,
-  output: __S(803, __c25, 3) as any as S.Schema<ListDataAutomationLibraryIngestionJobsResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<ListDataAutomationLibraryIngestionJobsRequest>,
+  output: __S(835, __c26, 3) as any as S.Schema<ListDataAutomationLibraryIngestionJobsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1601,8 +1619,8 @@ export const listDataAutomationProjects: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DataAutomationProjectSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<ListDataAutomationProjectsRequest>,
-  output: __S(835, __c26, 3) as any as S.Schema<ListDataAutomationProjectsResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<ListDataAutomationProjectsRequest>,
+  output: __S(867, __c27, 3) as any as S.Schema<ListDataAutomationProjectsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1639,8 +1657,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(865, __c27, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(897, __c28, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1672,8 +1690,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1705,8 +1723,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1738,8 +1756,8 @@ export const updateBlueprint: API.OperationMethod<
   UpdateBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<UpdateBlueprintRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<UpdateBlueprintResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<UpdateBlueprintRequest>,
+  output: __S(1313, __c41, 1) as any as S.Schema<UpdateBlueprintResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1772,8 +1790,8 @@ export const updateDataAutomationLibrary: API.OperationMethod<
   UpdateDataAutomationLibraryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<UpdateDataAutomationLibraryRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<UpdateDataAutomationLibraryResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<UpdateDataAutomationLibraryRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<UpdateDataAutomationLibraryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1807,8 +1825,8 @@ export const updateDataAutomationProject: API.OperationMethod<
   UpdateDataAutomationProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<UpdateDataAutomationProjectRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<UpdateDataAutomationProjectResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<UpdateDataAutomationProjectRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<UpdateDataAutomationProjectResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1831,11 +1849,31 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          blueprintArn: S.String.pipe(T.HttpLabel("blueprintArn")),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/blueprints/{blueprintArn}/versions/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateBlueprintVersionRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           libraryName: SensitiveString,
           libraryDescription: S.optional(SensitiveString),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          encryptionConfiguration: S.optional(__S(1216, __c38, 0)),
-          tags: S.optional(__S(1185, __c37, 1)),
+          encryptionConfiguration: S.optional(__S(1376, __c43, 0)),
+          tags: S.optional(__S(1345, __c42, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/data-automation-libraries/" }),
@@ -1849,7 +1887,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateDataAutomationLibraryRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1857,7 +1895,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateDataAutomationLibraryResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1866,13 +1904,13 @@ function __c2(j: number): any {
           projectDescription: S.optional(SensitiveString),
           projectStage: S.optional(S.String),
           projectType: S.optional(S.String),
-          standardOutputConfiguration: __S(142, __c4, 14),
-          customOutputConfiguration: S.optional(__S(145, __c4, 17)),
-          overrideConfiguration: S.optional(__S(154, __c4, 26)),
-          dataAutomationLibraryConfiguration: S.optional(__S(156, __c4, 28)),
+          standardOutputConfiguration: __S(174, __c5, 14),
+          customOutputConfiguration: S.optional(__S(177, __c5, 17)),
+          overrideConfiguration: S.optional(__S(186, __c5, 26)),
+          dataAutomationLibraryConfiguration: S.optional(__S(188, __c5, 28)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          encryptionConfiguration: S.optional(__S(1216, __c38, 0)),
-          tags: S.optional(__S(1185, __c37, 1)),
+          encryptionConfiguration: S.optional(__S(1376, __c43, 0)),
+          tags: S.optional(__S(1345, __c42, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/data-automation-projects/" }),
@@ -1886,7 +1924,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateDataAutomationProjectRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1902,12 +1940,12 @@ function __c3(j: number): any {
       });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
-      return S.suspend(() => S.Struct({ types: S.optional(__S(128, __c4, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ types: S.optional(__S(160, __c5, 0)) })).annotate({
         identifier: "DocumentExtractionGranularity",
       });
     case 2:
@@ -1916,85 +1954,85 @@ function __c4(j: number): any {
       });
     case 3:
       return S.suspend(() =>
-        S.Struct({ granularity: __S(129, __c4, 1), boundingBox: __S(130, __c4, 2) }),
+        S.Struct({ granularity: __S(161, __c5, 1), boundingBox: __S(162, __c5, 2) }),
       ).annotate({ identifier: "DocumentStandardExtraction" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ textFormat: __S(129, __c4, 1), additionalFileFormat: __S(130, __c4, 2) }),
+        S.Struct({ textFormat: __S(161, __c5, 1), additionalFileFormat: __S(162, __c5, 2) }),
       ).annotate({ identifier: "DocumentOutputFormat" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          extraction: S.optional(__S(131, __c4, 3)),
-          generativeField: S.optional(__S(130, __c4, 2)),
-          outputFormat: S.optional(__S(132, __c4, 4)),
+          extraction: S.optional(__S(163, __c5, 3)),
+          generativeField: S.optional(__S(162, __c5, 2)),
+          outputFormat: S.optional(__S(164, __c5, 4)),
         }),
       ).annotate({ identifier: "DocumentStandardOutputConfiguration" });
     case 6:
       return S.suspend(() =>
-        S.Struct({ state: S.String, types: S.optional(__S(128, __c4, 0)) }),
+        S.Struct({ state: S.String, types: S.optional(__S(160, __c5, 0)) }),
       ).annotate({ identifier: "ImageExtractionCategory" });
     case 7:
       return S.suspend(() =>
-        S.Struct({ category: __S(134, __c4, 6), boundingBox: __S(130, __c4, 2) }),
+        S.Struct({ category: __S(166, __c5, 6), boundingBox: __S(162, __c5, 2) }),
       ).annotate({ identifier: "ImageStandardExtraction" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          extraction: S.optional(__S(135, __c4, 7)),
-          generativeField: S.optional(__S(134, __c4, 6)),
+          extraction: S.optional(__S(167, __c5, 7)),
+          generativeField: S.optional(__S(166, __c5, 6)),
         }),
       ).annotate({ identifier: "ImageStandardOutputConfiguration" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          speakerLabeling: S.optional(__S(130, __c4, 2)),
-          channelLabeling: S.optional(__S(130, __c4, 2)),
+          speakerLabeling: S.optional(__S(162, __c5, 2)),
+          channelLabeling: S.optional(__S(162, __c5, 2)),
         }),
       ).annotate({ identifier: "TranscriptConfiguration" });
     case 10:
-      return S.suspend(() => S.Struct({ transcript: S.optional(__S(137, __c4, 9)) })).annotate({
+      return S.suspend(() => S.Struct({ transcript: S.optional(__S(169, __c5, 9)) })).annotate({
         identifier: "AudioExtractionCategoryTypeConfiguration",
       });
     case 11:
       return S.suspend(() =>
         S.Struct({
           state: S.String,
-          types: S.optional(__S(128, __c4, 0)),
-          typeConfiguration: S.optional(__S(138, __c4, 10)),
+          types: S.optional(__S(160, __c5, 0)),
+          typeConfiguration: S.optional(__S(170, __c5, 10)),
         }),
       ).annotate({ identifier: "AudioExtractionCategory" });
     case 12:
-      return S.suspend(() => S.Struct({ category: __S(139, __c4, 11) })).annotate({
+      return S.suspend(() => S.Struct({ category: __S(171, __c5, 11) })).annotate({
         identifier: "AudioStandardExtraction",
       });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          extraction: S.optional(__S(140, __c4, 12)),
-          generativeField: S.optional(__S(134, __c4, 6)),
+          extraction: S.optional(__S(172, __c5, 12)),
+          generativeField: S.optional(__S(166, __c5, 6)),
         }),
       ).annotate({ identifier: "AudioStandardOutputConfiguration" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          document: S.optional(__S(133, __c4, 5)),
-          image: S.optional(__S(136, __c4, 8)),
-          video: S.optional(__S(136, __c4, 8)),
-          audio: S.optional(__S(141, __c4, 13)),
+          document: S.optional(__S(165, __c5, 5)),
+          image: S.optional(__S(168, __c5, 8)),
+          video: S.optional(__S(168, __c5, 8)),
+          audio: S.optional(__S(173, __c5, 13)),
         }),
       ).annotate({ identifier: "StandardOutputConfiguration" });
     case 15:
-      return S.Array(__S(96, __c3, 0));
+      return S.Array(__S(128, __c4, 0));
     case 16:
       return S.suspend(() =>
-        S.Struct({ fallbackBlueprints: S.optional(__S(143, __c4, 15)) }),
+        S.Struct({ fallbackBlueprints: S.optional(__S(175, __c5, 15)) }),
       ).annotate({ identifier: "DocumentCustomOutputConfiguration" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          blueprints: S.optional(__S(143, __c4, 15)),
-          document: S.optional(__S(144, __c4, 16)),
+          blueprints: S.optional(__S(175, __c5, 15)),
+          document: S.optional(__S(176, __c5, 16)),
         }),
       ).annotate({ identifier: "CustomOutputConfiguration" });
     case 18:
@@ -2004,7 +2042,7 @@ function __c4(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
-          piiEntityTypes: S.optional(__S(128, __c4, 0)),
+          piiEntityTypes: S.optional(__S(160, __c5, 0)),
           redactionMaskMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "PIIEntitiesConfiguration" });
@@ -2012,29 +2050,29 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           detectionMode: S.String,
-          detectionScope: S.optional(__S(128, __c4, 0)),
-          piiEntitiesConfiguration: S.optional(__S(147, __c4, 19)),
+          detectionScope: S.optional(__S(160, __c5, 0)),
+          piiEntitiesConfiguration: S.optional(__S(179, __c5, 19)),
         }),
       ).annotate({ identifier: "SensitiveDataConfiguration" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          splitter: S.optional(__S(146, __c4, 18)),
-          modalityProcessing: S.optional(__S(146, __c4, 18)),
-          sensitiveDataConfiguration: S.optional(__S(148, __c4, 20)),
+          splitter: S.optional(__S(178, __c5, 18)),
+          modalityProcessing: S.optional(__S(178, __c5, 18)),
+          sensitiveDataConfiguration: S.optional(__S(180, __c5, 20)),
         }),
       ).annotate({ identifier: "DocumentOverrideConfiguration" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          modalityProcessing: S.optional(__S(146, __c4, 18)),
-          sensitiveDataConfiguration: S.optional(__S(148, __c4, 20)),
+          modalityProcessing: S.optional(__S(178, __c5, 18)),
+          sensitiveDataConfiguration: S.optional(__S(180, __c5, 20)),
         }),
       ).annotate({ identifier: "ImageOverrideConfiguration" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          inputLanguages: S.optional(__S(128, __c4, 0)),
+          inputLanguages: S.optional(__S(160, __c5, 0)),
           generativeOutputLanguage: S.optional(S.String),
           identifyMultipleLanguages: S.optional(S.Boolean),
         }),
@@ -2042,9 +2080,9 @@ function __c4(j: number): any {
     case 24:
       return S.suspend(() =>
         S.Struct({
-          modalityProcessing: S.optional(__S(146, __c4, 18)),
-          languageConfiguration: S.optional(__S(151, __c4, 23)),
-          sensitiveDataConfiguration: S.optional(__S(148, __c4, 20)),
+          modalityProcessing: S.optional(__S(178, __c5, 18)),
+          languageConfiguration: S.optional(__S(183, __c5, 23)),
+          sensitiveDataConfiguration: S.optional(__S(180, __c5, 20)),
         }),
       ).annotate({ identifier: "AudioOverrideConfiguration" });
     case 25:
@@ -2059,22 +2097,22 @@ function __c4(j: number): any {
     case 26:
       return S.suspend(() =>
         S.Struct({
-          document: S.optional(__S(149, __c4, 21)),
-          image: S.optional(__S(150, __c4, 22)),
-          video: S.optional(__S(150, __c4, 22)),
-          audio: S.optional(__S(152, __c4, 24)),
-          modalityRouting: S.optional(__S(153, __c4, 25)),
+          document: S.optional(__S(181, __c5, 21)),
+          image: S.optional(__S(182, __c5, 22)),
+          video: S.optional(__S(182, __c5, 22)),
+          audio: S.optional(__S(184, __c5, 24)),
+          modalityRouting: S.optional(__S(185, __c5, 25)),
         }),
       ).annotate({ identifier: "OverrideConfiguration" });
     case 27:
-      return S.Array(__S(97, __c3, 1));
+      return S.Array(__S(129, __c4, 1));
     case 28:
-      return S.suspend(() => S.Struct({ libraries: S.optional(__S(155, __c4, 27)) })).annotate({
+      return S.suspend(() => S.Struct({ libraries: S.optional(__S(187, __c5, 27)) })).annotate({
         identifier: "DataAutomationLibraryConfiguration",
       });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2086,7 +2124,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateDataAutomationProjectResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2106,7 +2144,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteBlueprintRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2123,7 +2161,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteDataAutomationLibraryRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2144,7 +2182,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeleteDataAutomationProjectResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2165,7 +2203,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetBlueprintRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2186,20 +2224,20 @@ function __c10(j: number): any {
           status: S.optional(S.String),
           errorType: S.optional(S.String),
           errorMessage: S.optional(S.String),
-          outputConfiguration: S.optional(__S(352, __c11, 0)),
+          outputConfiguration: S.optional(__S(384, __c12, 0)),
         }),
       ).annotate({ identifier: "GetBlueprintOptimizationStatusResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ s3Object: __S(1280, __c40, 0) })).annotate({
+      return S.suspend(() => S.Struct({ s3Object: __S(1248, __c39, 0) })).annotate({
         identifier: "BlueprintOptimizationOutputConfiguration",
       });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2219,7 +2257,7 @@ function __c12(j: number): any {
         S.Struct({ entityType: S.String, entityMetadata: S.optional(S.String) }),
       ).annotate({ identifier: "EntityTypeInfo" });
     case 2:
-      return S.Array(__S(385, __c12, 1));
+      return S.Array(__S(417, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2228,18 +2266,18 @@ function __c12(j: number): any {
           libraryName: SensitiveString,
           libraryDescription: S.optional(SensitiveString),
           status: S.String,
-          entityTypes: S.optional(__S(386, __c12, 2)),
+          entityTypes: S.optional(__S(418, __c13, 2)),
           kmsKeyId: S.optional(S.String),
-          kmsEncryptionContext: S.optional(__S(1248, __c39, 0)),
+          kmsEncryptionContext: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "DataAutomationLibrary" });
     case 4:
-      return S.suspend(() => S.Struct({ library: S.optional(__S(387, __c12, 3)) })).annotate({
+      return S.suspend(() => S.Struct({ library: S.optional(__S(419, __c13, 3)) })).annotate({
         identifier: "GetDataAutomationLibraryResponse",
       });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2267,29 +2305,29 @@ function __c13(j: number): any {
           entityId: S.optional(S.String),
           description: S.optional(SensitiveString),
           language: S.optional(S.String),
-          phrases: S.optional(__S(449, __c14, 1)),
+          phrases: S.optional(__S(481, __c15, 1)),
           lastModifiedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "VocabularyEntity" });
     case 2:
-      return S.Union([/*@__PURE__*/ S.Struct({ vocabulary: __S(417, __c13, 1) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ vocabulary: __S(449, __c14, 1) })]);
     case 3:
-      return S.suspend(() => S.Struct({ entity: S.optional(__S(418, __c13, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ entity: S.optional(__S(450, __c14, 2)) })).annotate({
         identifier: "GetDataAutomationLibraryEntityResponse",
       });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ text: SensitiveString, displayAsText: S.optional(SensitiveString) }),
       ).annotate({ identifier: "Phrase" });
     case 1:
-      return S.Array(__S(448, __c14, 0));
+      return S.Array(__S(480, __c15, 0));
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2318,19 +2356,19 @@ function __c15(j: number): any {
           entityType: S.String,
           operationType: S.String,
           jobStatus: S.String,
-          outputConfiguration: __S(512, __c16, 0),
+          outputConfiguration: __S(544, __c17, 0),
           completionTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           errorMessage: S.optional(S.String),
           errorType: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataAutomationLibraryIngestionJob" });
     case 2:
-      return S.suspend(() => S.Struct({ job: S.optional(__S(481, __c15, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ job: S.optional(__S(513, __c16, 1)) })).annotate({
         identifier: "GetDataAutomationLibraryIngestionJobResponse",
       });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ s3Uri: S.String })).annotate({
@@ -2338,7 +2376,7 @@ function __c16(j: number): any {
       });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2366,22 +2404,22 @@ function __c17(j: number): any {
           projectStage: S.optional(S.String),
           projectType: S.optional(S.String),
           projectDescription: S.optional(SensitiveString),
-          standardOutputConfiguration: S.optional(__S(142, __c4, 14)),
-          customOutputConfiguration: S.optional(__S(145, __c4, 17)),
-          overrideConfiguration: S.optional(__S(154, __c4, 26)),
-          dataAutomationLibraryConfiguration: S.optional(__S(156, __c4, 28)),
+          standardOutputConfiguration: S.optional(__S(174, __c5, 14)),
+          customOutputConfiguration: S.optional(__S(177, __c5, 17)),
+          overrideConfiguration: S.optional(__S(186, __c5, 26)),
+          dataAutomationLibraryConfiguration: S.optional(__S(188, __c5, 28)),
           status: S.String,
           kmsKeyId: S.optional(S.String),
-          kmsEncryptionContext: S.optional(__S(1248, __c39, 0)),
+          kmsEncryptionContext: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "DataAutomationProject" });
     case 2:
-      return S.suspend(() => S.Struct({ project: __S(545, __c17, 1) })).annotate({
+      return S.suspend(() => S.Struct({ project: __S(577, __c18, 1) })).annotate({
         identifier: "GetDataAutomationProjectResponse",
       });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2390,12 +2428,12 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          blueprint: __S(576, __c18, 0),
-          samples: __S(1313, __c41, 1),
-          outputConfiguration: __S(352, __c11, 0),
+          blueprint: __S(608, __c19, 0),
+          samples: __S(1281, __c40, 1),
+          outputConfiguration: __S(384, __c12, 0),
           dataAutomationProfileArn: S.String,
-          encryptionConfiguration: S.optional(__S(1216, __c38, 0)),
-          tags: S.optional(__S(1185, __c37, 1)),
+          encryptionConfiguration: S.optional(__S(1376, __c43, 0)),
+          tags: S.optional(__S(1345, __c42, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/invokeBlueprintOptimizationAsync" }),
@@ -2413,7 +2451,7 @@ function __c18(j: number): any {
       });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2421,27 +2459,27 @@ function __c19(j: number): any {
           entityId: S.optional(S.String),
           description: S.optional(SensitiveString),
           language: S.String,
-          phrases: __S(449, __c14, 1),
+          phrases: __S(481, __c15, 1),
         }),
       ).annotate({ identifier: "VocabularyEntityInfo" });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ vocabulary: __S(608, __c19, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ vocabulary: __S(640, __c20, 0) })]);
     case 2:
-      return S.Array(__S(609, __c19, 1));
+      return S.Array(__S(641, __c20, 1));
     case 3:
-      return S.suspend(() => S.Struct({ entityIds: __S(640, __c20, 0) })).annotate({
+      return S.suspend(() => S.Struct({ entityIds: __S(672, __c21, 0) })).annotate({
         identifier: "DeleteEntitiesInfo",
       });
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ upsertEntitiesInfo: __S(610, __c19, 2) }),
-        /*@__PURE__*/ S.Struct({ deleteEntitiesInfo: __S(611, __c19, 3) }),
+        /*@__PURE__*/ S.Struct({ upsertEntitiesInfo: __S(642, __c20, 2) }),
+        /*@__PURE__*/ S.Struct({ deleteEntitiesInfo: __S(643, __c20, 3) }),
       ]);
     case 5:
       return S.suspend(() =>
         S.Struct({
-          s3Object: S.optional(__S(1280, __c40, 0)),
-          inlinePayload: S.optional(__S(612, __c19, 4)),
+          s3Object: S.optional(__S(1248, __c39, 0)),
+          inlinePayload: S.optional(__S(644, __c20, 4)),
         }),
       ).annotate({ identifier: "InputConfiguration" });
     case 6:
@@ -2449,7 +2487,7 @@ function __c19(j: number): any {
         identifier: "EventBridgeConfiguration",
       });
     case 7:
-      return S.suspend(() => S.Struct({ eventBridgeConfiguration: __S(614, __c19, 6) })).annotate({
+      return S.suspend(() => S.Struct({ eventBridgeConfiguration: __S(646, __c20, 6) })).annotate({
         identifier: "NotificationConfiguration",
       });
     case 8:
@@ -2457,12 +2495,12 @@ function __c19(j: number): any {
         S.Struct({
           libraryArn: S.String.pipe(T.HttpLabel("libraryArn")),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          inputConfiguration: __S(613, __c19, 5),
+          inputConfiguration: __S(645, __c20, 5),
           entityType: S.String,
           operationType: S.String,
-          outputConfiguration: __S(512, __c16, 0),
-          notificationConfiguration: S.optional(__S(615, __c19, 7)),
-          tags: S.optional(__S(1185, __c37, 1)),
+          outputConfiguration: __S(544, __c17, 0),
+          notificationConfiguration: S.optional(__S(647, __c20, 7)),
+          tags: S.optional(__S(1345, __c42, 1)),
         }).pipe(
           T.all(
             T.Http({
@@ -2483,13 +2521,13 @@ function __c19(j: number): any {
       });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2499,7 +2537,7 @@ function __c21(j: number): any {
           blueprintStageFilter: S.optional(S.String),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
-          projectFilter: S.optional(__S(704, __c22, 0)),
+          projectFilter: S.optional(__S(736, __c23, 0)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/blueprints/" }), svc, auth, proto, ver, rules),
         ),
@@ -2516,14 +2554,14 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "BlueprintSummary" });
     case 2:
-      return S.Array(__S(673, __c21, 1));
+      return S.Array(__S(705, __c22, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ blueprints: __S(674, __c21, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ blueprints: __S(706, __c22, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListBlueprintsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2531,14 +2569,14 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DataAutomationProjectFilter" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
-          projectFilter: S.optional(__S(704, __c22, 0)),
+          projectFilter: S.optional(__S(736, __c23, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/data-automation-libraries/" }),
@@ -2559,14 +2597,14 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "DataAutomationLibrarySummary" });
     case 2:
-      return S.Array(__S(737, __c23, 1));
+      return S.Array(__S(769, __c24, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ libraries: S.optional(__S(738, __c23, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ libraries: S.optional(__S(770, __c24, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDataAutomationLibrariesResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2600,16 +2638,16 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "VocabularyEntitySummary" });
     case 2:
-      return S.Union([/*@__PURE__*/ S.Struct({ vocabulary: __S(769, __c24, 1) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ vocabulary: __S(801, __c25, 1) })]);
     case 3:
-      return S.Array(__S(770, __c24, 2));
+      return S.Array(__S(802, __c25, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ entities: S.optional(__S(771, __c24, 3)), nextToken: S.optional(S.String) }),
+        S.Struct({ entities: S.optional(__S(803, __c25, 3)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDataAutomationLibraryEntitiesResponse" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2643,14 +2681,14 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "DataAutomationLibraryIngestionJobSummary" });
     case 2:
-      return S.Array(__S(801, __c25, 1));
+      return S.Array(__S(833, __c26, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ jobs: S.optional(__S(802, __c25, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ jobs: S.optional(__S(834, __c26, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDataAutomationLibraryIngestionJobsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2658,9 +2696,9 @@ function __c26(j: number): any {
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
           projectStageFilter: S.optional(S.String),
-          blueprintFilter: S.optional(__S(96, __c3, 0)),
+          blueprintFilter: S.optional(__S(128, __c4, 0)),
           resourceOwner: S.optional(S.String),
-          libraryFilter: S.optional(__S(97, __c3, 1)),
+          libraryFilter: S.optional(__S(129, __c4, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/data-automation-projects/" }),
@@ -2683,14 +2721,14 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "DataAutomationProjectSummary" });
     case 2:
-      return S.Array(__S(833, __c26, 1));
+      return S.Array(__S(865, __c27, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ projects: __S(834, __c26, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ projects: __S(866, __c27, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDataAutomationProjectsResponse" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2706,32 +2744,42 @@ function __c27(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(1185, __c37, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(1345, __c42, 1)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ resourceARN: S.String, tags: __S(1185, __c37, 1) }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/tagResource" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "TagResourceRequest" });
   }
 }
 function __c29(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
+        identifier: "ValidationExceptionField",
+      });
+    case 1:
+      return S.Array(__S(928, __c29, 0));
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
-        S.Struct({ resourceARN: S.String, tagKeys: __S(640, __c20, 0) }).pipe(
+        S.Struct({ resourceARN: S.String, tags: __S(1345, __c42, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/tagResource" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceARN: S.String, tagKeys: __S(672, __c21, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/untagResource" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2739,7 +2787,7 @@ function __c30(j: number): any {
           blueprintArn: S.String.pipe(T.HttpLabel("blueprintArn")),
           schema: SensitiveString,
           blueprintStage: S.optional(S.String),
-          encryptionConfiguration: S.optional(__S(1216, __c38, 0)),
+          encryptionConfiguration: S.optional(__S(1376, __c43, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/blueprints/{blueprintArn}/" }),
@@ -2753,7 +2801,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "UpdateBlueprintRequest" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2774,7 +2822,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "UpdateDataAutomationLibraryRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2782,11 +2830,11 @@ function __c32(j: number): any {
           projectArn: S.String.pipe(T.HttpLabel("projectArn")),
           projectStage: S.optional(S.String),
           projectDescription: S.optional(SensitiveString),
-          standardOutputConfiguration: __S(142, __c4, 14),
-          customOutputConfiguration: S.optional(__S(145, __c4, 17)),
-          overrideConfiguration: S.optional(__S(154, __c4, 26)),
-          dataAutomationLibraryConfiguration: S.optional(__S(156, __c4, 28)),
-          encryptionConfiguration: S.optional(__S(1216, __c38, 0)),
+          standardOutputConfiguration: __S(174, __c5, 14),
+          customOutputConfiguration: S.optional(__S(177, __c5, 17)),
+          overrideConfiguration: S.optional(__S(186, __c5, 26)),
+          dataAutomationLibraryConfiguration: S.optional(__S(188, __c5, 28)),
+          encryptionConfiguration: S.optional(__S(1376, __c43, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/data-automation-projects/{projectArn}/" }),
@@ -2800,17 +2848,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UpdateDataAutomationProjectRequest" });
   }
 }
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
-        identifier: "ValidationExceptionField",
-      });
-    case 1:
-      return S.Array(__S(1056, __c33, 0));
-  }
-}
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2832,13 +2870,13 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CopyBlueprintStageRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CopyBlueprintStageResponse" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2848,39 +2886,21 @@ function __c36(j: number): any {
           blueprintStage: S.optional(S.String),
           schema: SensitiveString,
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          encryptionConfiguration: S.optional(__S(1216, __c38, 0)),
-          tags: S.optional(__S(1185, __c37, 1)),
+          encryptionConfiguration: S.optional(__S(1376, __c43, 0)),
+          tags: S.optional(__S(1345, __c42, 1)),
         }).pipe(
           T.all(T.Http({ method: "PUT", uri: "/blueprints/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "CreateBlueprintRequest" });
   }
 }
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ key: S.String, value: S.String })).annotate({
-        identifier: "Tag",
-      });
-    case 1:
-      return S.Array(__S(1184, __c37, 0));
-  }
-}
 function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ kmsKeyId: S.String, kmsEncryptionContext: S.optional(__S(1248, __c39, 0)) }),
-      ).annotate({ identifier: "EncryptionConfiguration" });
-  }
-}
-function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ s3Uri: S.String, version: S.optional(S.String) })).annotate(
@@ -2888,17 +2908,17 @@ function __c40(j: number): any {
       );
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ assetS3Object: __S(1280, __c40, 0), groundTruthS3Object: __S(1280, __c40, 0) }),
+        S.Struct({ assetS3Object: __S(1248, __c39, 0), groundTruthS3Object: __S(1248, __c39, 0) }),
       ).annotate({ identifier: "BlueprintOptimizationSample" });
     case 1:
-      return S.Array(__S(1312, __c41, 0));
+      return S.Array(__S(1280, __c40, 0));
   }
 }
-function __c42(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2912,35 +2932,33 @@ function __c42(j: number): any {
           blueprintVersion: S.optional(S.String),
           blueprintStage: S.optional(S.String),
           kmsKeyId: S.optional(S.String),
-          kmsEncryptionContext: S.optional(__S(1248, __c39, 0)),
-          optimizationSamples: S.optional(__S(1313, __c41, 1)),
+          kmsEncryptionContext: S.optional(__S(1216, __c38, 0)),
+          optimizationSamples: S.optional(__S(1281, __c40, 1)),
           optimizationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "Blueprint" });
     case 1:
-      return S.suspend(() => S.Struct({ blueprint: __S(1344, __c42, 0) })).annotate({
+      return S.suspend(() => S.Struct({ blueprint: __S(1312, __c41, 0) })).annotate({
         identifier: "CreateBlueprintResponse",
       });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ key: S.String, value: S.String })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(1344, __c42, 0));
   }
 }
 function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          blueprintArn: S.String.pipe(T.HttpLabel("blueprintArn")),
-          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-        }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/blueprints/{blueprintArn}/versions/" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "CreateBlueprintVersionRequest" });
+        S.Struct({ kmsKeyId: S.String, kmsEncryptionContext: S.optional(__S(1216, __c38, 0)) }),
+      ).annotate({ identifier: "EncryptionConfiguration" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

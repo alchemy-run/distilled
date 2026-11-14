@@ -62,182 +62,182 @@ export class NotFound
 export type Configv1BucketInputLabelsMap = { [key: string]: string | undefined };
 export interface Configv1BucketInput {
   /** Unique identifier of the Bucket. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Bucket is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the Bucket. You can modify this value after the Bucket is created. */
-  name?: string;
+  name?: string | undefined;
   /** Optional description of the bucket. */
-  description?: string;
+  description?: string | undefined;
   /** Optional labels marking the bucket. */
-  labels?: Configv1BucketInputLabelsMap;
+  labels?: Configv1BucketInputLabelsMap | undefined;
   /** Optional slug of the team the bucket belongs to. */
-  team_slug?: string;
+  team_slug?: string | undefined;
   /** Slug of the notification policy used by default for monitors in this bucket. This is optional if the bucket does not contain monitors or all of its monitors explicitly reference a policy. This policy takes precedence over a bucket-owned notification policy. This does not override the policy used when a monitor explicitly references a policy. */
-  notification_policy_slug?: string;
+  notification_policy_slug?: string | undefined;
 }
 export interface CreateBucketRequest {
-  bucket?: Configv1BucketInput;
+  bucket?: Configv1BucketInput | undefined;
   /** If true, the Bucket isn't created, and no response Bucket will be returned. The response will return an error if the given Bucket is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** Optional labels marking the bucket. */
 export type Configv1BucketLabelsMap = { [key: string]: string | undefined };
 export interface Configv1Bucket {
   /** Unique identifier of the Bucket. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Bucket is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the Bucket. You can modify this value after the Bucket is created. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the Bucket was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the Bucket was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Optional description of the bucket. */
-  description?: string;
+  description?: string | undefined;
   /** Optional labels marking the bucket. */
-  labels?: Configv1BucketLabelsMap;
+  labels?: Configv1BucketLabelsMap | undefined;
   /** Optional slug of the team the bucket belongs to. */
-  team_slug?: string;
+  team_slug?: string | undefined;
   /** Slug of the notification policy used by default for monitors in this bucket. This is optional if the bucket does not contain monitors or all of its monitors explicitly reference a policy. This policy takes precedence over a bucket-owned notification policy. This does not override the policy used when a monitor explicitly references a policy. */
-  notification_policy_slug?: string;
+  notification_policy_slug?: string | undefined;
 }
 export interface Configv1CreateBucketResponse {
-  bucket?: Configv1Bucket;
+  bucket?: Configv1Bucket | undefined;
 }
 /** Type values must match entitiespb.Collection.CollectionType. */
 export type Configv1CollectionReferenceType = "SIMPLE" | "SERVICE";
 export interface Configv1CollectionReference {
-  type?: Configv1CollectionReferenceType | (string & {});
-  slug?: string;
+  type?: Configv1CollectionReferenceType | (string & {}) | undefined;
+  slug?: string | undefined;
 }
 export interface Configv1GrafanaDashboardInput {
   /** Unique identifier of the GrafanaDashboard. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the GrafanaDashboard is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the GrafanaDashboard. You can modify this value after the GrafanaDashboard is created. */
-  name?: string;
+  name?: string | undefined;
   /** Slug of the bucket the dashboard belongs to. Required if collection_slug is not set. */
-  bucket_slug?: string;
+  bucket_slug?: string | undefined;
   /** Slug of the collection the dashboard belongs to. Required if bucket_slug is not set. */
-  collection_slug?: string;
-  collection?: Configv1CollectionReference;
+  collection_slug?: string | undefined;
+  collection?: Configv1CollectionReference | undefined;
   /** Required raw JSON of the Grafana dashboard. */
-  dashboard_json?: string;
+  dashboard_json?: string | undefined;
 }
 export interface CreateClassicDashboardRequest {
-  classic_dashboard?: Configv1GrafanaDashboardInput;
+  classic_dashboard?: Configv1GrafanaDashboardInput | undefined;
   /** If true, the GrafanaDashboard isn't created, and no response GrafanaDashboard will be returned. The response will return an error if the given GrafanaDashboard is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1GrafanaDashboard {
   /** Unique identifier of the GrafanaDashboard. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the GrafanaDashboard is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the GrafanaDashboard. You can modify this value after the GrafanaDashboard is created. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the GrafanaDashboard was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the GrafanaDashboard was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Slug of the bucket the dashboard belongs to. Required if collection_slug is not set. */
-  bucket_slug?: string;
+  bucket_slug?: string | undefined;
   /** Slug of the collection the dashboard belongs to. Required if bucket_slug is not set. */
-  collection_slug?: string;
-  collection?: Configv1CollectionReference;
+  collection_slug?: string | undefined;
+  collection?: Configv1CollectionReference | undefined;
   /** Required raw JSON of the Grafana dashboard. */
-  dashboard_json?: string;
+  dashboard_json?: string | undefined;
 }
 export interface Configv1CreateClassicDashboardResponse {
-  classic_dashboard?: Configv1GrafanaDashboard;
+  classic_dashboard?: Configv1GrafanaDashboard | undefined;
 }
 export interface Configv1CollectionInput {
   /** Unique identifier of the Collection. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Collection is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the Collection. You can modify this value after the Collection is created. */
-  name?: string;
+  name?: string | undefined;
   /** Required slug of the team the collection belongs to. */
-  team_slug?: string;
+  team_slug?: string | undefined;
   /** Optional description of the collection. */
-  description?: string;
+  description?: string | undefined;
   /** Slug of the notification policy used by default for monitors in this collection. This is optional if the collection does not contain monitors or all of its monitors explicitly reference a policy. This does not override the policy used when a monitor explicitly references a policy. */
-  notification_policy_slug?: string;
+  notification_policy_slug?: string | undefined;
 }
 export interface CreateCollectionRequest {
-  collection?: Configv1CollectionInput;
+  collection?: Configv1CollectionInput | undefined;
   /** If true, the Collection isn't created, and no response Collection will be returned. The response will return an error if the given Collection is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1Collection {
   /** Unique identifier of the Collection. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Collection is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the Collection. You can modify this value after the Collection is created. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the Collection was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the Collection was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Required slug of the team the collection belongs to. */
-  team_slug?: string;
+  team_slug?: string | undefined;
   /** Optional description of the collection. */
-  description?: string;
+  description?: string | undefined;
   /** Slug of the notification policy used by default for monitors in this collection. This is optional if the collection does not contain monitors or all of its monitors explicitly reference a policy. This does not override the policy used when a monitor explicitly references a policy. */
-  notification_policy_slug?: string;
+  notification_policy_slug?: string | undefined;
 }
 export interface Configv1CreateCollectionResponse {
-  collection?: Configv1Collection;
+  collection?: Configv1Collection | undefined;
 }
 /** Optional. Defines tags that add metadata about the dashboard. */
 export type Configv1DashboardInputLabelsMap = { [key: string]: string | undefined };
 export interface Configv1DashboardInput {
   /** Unique identifier of the Dashboard. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Dashboard is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the Dashboard. You can modify this value after the Dashboard is created. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Slug of the collection the dashboard belongs to. */
-  collection_slug?: string;
-  collection?: Configv1CollectionReference;
+  collection_slug?: string | undefined;
+  collection?: Configv1CollectionReference | undefined;
   /** Raw JSON representation that defines the structure of the dashboard. */
-  dashboard_json?: string;
+  dashboard_json?: string | undefined;
   /** Optional. Defines tags that add metadata about the dashboard. */
-  labels?: Configv1DashboardInputLabelsMap;
+  labels?: Configv1DashboardInputLabelsMap | undefined;
 }
 export interface CreateDashboardRequest {
-  dashboard?: Configv1DashboardInput;
+  dashboard?: Configv1DashboardInput | undefined;
   /** If true, the Dashboard isn't created, and no response Dashboard will be returned. The response will return an error if the given Dashboard is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** Optional. Defines tags that add metadata about the dashboard. */
 export type Configv1DashboardLabelsMap = { [key: string]: string | undefined };
 export interface Configv1Dashboard {
   /** Unique identifier of the Dashboard. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Dashboard is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the Dashboard. You can modify this value after the Dashboard is created. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the Dashboard was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the Dashboard was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Optional. Slug of the collection the dashboard belongs to. */
-  collection_slug?: string;
-  collection?: Configv1CollectionReference;
+  collection_slug?: string | undefined;
+  collection?: Configv1CollectionReference | undefined;
   /** Raw JSON representation that defines the structure of the dashboard. */
-  dashboard_json?: string;
+  dashboard_json?: string | undefined;
   /** Optional. Defines tags that add metadata about the dashboard. */
-  labels?: Configv1DashboardLabelsMap;
+  labels?: Configv1DashboardLabelsMap | undefined;
 }
 export interface Configv1CreateDashboardResponse {
-  dashboard?: Configv1Dashboard;
+  dashboard?: Configv1Dashboard | undefined;
 }
 export type DatasetDatasetType = "TRACES" | "LOGS";
 export interface TraceSearchFilterDurationFilter {
   /** Minimum duration, in seconds, required for a span or trace to match. */
-  min_secs?: number;
+  min_secs?: number | undefined;
   /** Maximum duration, in seconds, required for a span or trace to match. */
-  max_secs?: number;
+  max_secs?: number | undefined;
 }
 export interface TraceSearchFilterBoolFilter {
   /** The value of the filter compared to the target trace or span field. */
-  value?: boolean;
+  value?: boolean | undefined;
 }
 export interface TraceSearchFilterTraceFilter {
-  duration?: TraceSearchFilterDurationFilter;
-  error?: TraceSearchFilterBoolFilter;
+  duration?: TraceSearchFilterDurationFilter | undefined;
+  error?: TraceSearchFilterBoolFilter | undefined;
 }
 export type SpanFilterSpanFilterMatchType = "INCLUDE" | "EXCLUDE";
 export type StringFilterStringFilterMatchType =
@@ -250,11 +250,11 @@ export type StringFilterStringFilterMatchType =
 /** Values the filter tests against when using `IN` or `NOT_IN` match type. */
 export type TraceSearchFilterStringFilterInValuesList = Array<string>;
 export interface TraceSearchFilterStringFilter {
-  match?: StringFilterStringFilterMatchType | (string & {});
+  match?: StringFilterStringFilterMatchType | (string & {}) | undefined;
   /** The value of the filter compared to the target trace or span field. */
-  value?: string;
+  value?: string | undefined;
   /** Values the filter tests against when using `IN` or `NOT_IN` match type. */
-  in_values?: TraceSearchFilterStringFilterInValuesList;
+  in_values?: TraceSearchFilterStringFilterInValuesList | undefined;
 }
 export type NumericFilterComparisonType =
   | "EQUAL"
@@ -264,243 +264,243 @@ export type NumericFilterComparisonType =
   | "LESS_THAN"
   | "LESS_THAN_OR_EQUAL";
 export interface TraceSearchFilterNumericFilter {
-  comparison?: NumericFilterComparisonType | (string & {});
+  comparison?: NumericFilterComparisonType | (string & {}) | undefined;
   /** The filter value used in comparison against match candidates. */
-  value?: number;
+  value?: number | undefined;
 }
 export interface TraceSearchFilterTagFilter {
   /** The key or name of the span tag that this filter inspects. */
-  key?: string;
-  value?: TraceSearchFilterStringFilter;
-  numeric_value?: TraceSearchFilterNumericFilter;
+  key?: string | undefined;
+  value?: TraceSearchFilterStringFilter | undefined;
+  numeric_value?: TraceSearchFilterNumericFilter | undefined;
 }
 /** Matches the tags of the candidate span. */
 export type TraceSearchFilterSpanFilterTagsList = Array<TraceSearchFilterTagFilter>;
 export interface TraceSearchFilterCountFilter {
   /** Minimum number of spans that must match a span query, inclusive. */
-  min?: number;
+  min?: number | undefined;
   /** Maximum number of spans that must match a span query, inclusive. */
-  max?: number;
+  max?: number | undefined;
 }
 export interface TraceSearchFilterSpanFilter {
-  match_type?: SpanFilterSpanFilterMatchType | (string & {});
-  service?: TraceSearchFilterStringFilter;
-  operation?: TraceSearchFilterStringFilter;
-  parent_service?: TraceSearchFilterStringFilter;
-  parent_operation?: TraceSearchFilterStringFilter;
-  duration?: TraceSearchFilterDurationFilter;
-  error?: TraceSearchFilterBoolFilter;
+  match_type?: SpanFilterSpanFilterMatchType | (string & {}) | undefined;
+  service?: TraceSearchFilterStringFilter | undefined;
+  operation?: TraceSearchFilterStringFilter | undefined;
+  parent_service?: TraceSearchFilterStringFilter | undefined;
+  parent_operation?: TraceSearchFilterStringFilter | undefined;
+  duration?: TraceSearchFilterDurationFilter | undefined;
+  error?: TraceSearchFilterBoolFilter | undefined;
   /** Matches the tags of the candidate span. */
-  tags?: TraceSearchFilterSpanFilterTagsList;
-  span_count?: TraceSearchFilterCountFilter;
-  is_root_span?: TraceSearchFilterBoolFilter;
+  tags?: TraceSearchFilterSpanFilterTagsList | undefined;
+  span_count?: TraceSearchFilterCountFilter | undefined;
+  is_root_span?: TraceSearchFilterBoolFilter | undefined;
 }
 /** Specifies the span conditions to match on. All conditions must be true in a single span for the span to be considered a match. If `span_count` is specified, the number of spans within the trace that match span conditions must be within `[min, max]`. You can specify multiple span conditions, and each can be satisfied by any number of spans within the trace. */
 export type Configv1TraceSearchFilterSpanList = Array<TraceSearchFilterSpanFilter>;
 export interface Configv1TraceSearchFilter {
-  trace?: TraceSearchFilterTraceFilter;
+  trace?: TraceSearchFilterTraceFilter | undefined;
   /** Specifies the span conditions to match on. All conditions must be true in a single span for the span to be considered a match. If `span_count` is specified, the number of spans within the trace that match span conditions must be within `[min, max]`. You can specify multiple span conditions, and each can be satisfied by any number of spans within the trace. */
-  span?: Configv1TraceSearchFilterSpanList;
+  span?: Configv1TraceSearchFilterSpanList | undefined;
 }
 export interface Configv1TraceDataset {
-  match_criteria?: Configv1TraceSearchFilter;
+  match_criteria?: Configv1TraceSearchFilter | undefined;
 }
 export interface Configv1LogSearchFilter {
   /** Returns logs that match this query. The query can include only top-level operations. Nested clauses aren't supported. Only one type of `AND` or `OR` operator is allowed. */
-  query?: string;
+  query?: string | undefined;
 }
 export interface Configv1LogDataset {
-  match_criteria?: Configv1LogSearchFilter;
+  match_criteria?: Configv1LogSearchFilter | undefined;
 }
 export interface DatasetDatasetConfiguration {
-  type?: DatasetDatasetType | (string & {});
-  trace_dataset?: Configv1TraceDataset;
-  log_dataset?: Configv1LogDataset;
+  type?: DatasetDatasetType | (string & {}) | undefined;
+  trace_dataset?: Configv1TraceDataset | undefined;
+  log_dataset?: Configv1LogDataset | undefined;
 }
 export interface Configv1DatasetInput {
   /** Required. Name of the Dataset. You can modify this value after the Dataset is created. */
-  name?: string;
+  name?: string | undefined;
   /** Unique identifier of the Dataset. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Dataset is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Description of the dataset. */
-  description?: string;
-  configuration?: DatasetDatasetConfiguration;
+  description?: string | undefined;
+  configuration?: DatasetDatasetConfiguration | undefined;
 }
 export interface CreateDatasetRequest {
-  dataset?: Configv1DatasetInput;
+  dataset?: Configv1DatasetInput | undefined;
   /** If true, the Dataset isn't created, and no response Dataset will be returned. The response will return an error if the given Dataset is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1Dataset {
   /** Required. Name of the Dataset. You can modify this value after the Dataset is created. */
-  name?: string;
+  name?: string | undefined;
   /** Unique identifier of the Dataset. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Dataset is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Timestamp of when the Dataset was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the Dataset was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Required. Description of the dataset. */
-  description?: string;
-  configuration?: DatasetDatasetConfiguration;
+  description?: string | undefined;
+  configuration?: DatasetDatasetConfiguration | undefined;
 }
 export interface Configv1CreateDatasetResponse {
-  dataset?: Configv1Dataset;
+  dataset?: Configv1Dataset | undefined;
 }
 export interface Configv1LabelFilter {
   /** Name of the label to match. */
-  name?: string;
+  name?: string | undefined;
   /** Glob value of the label to match. */
-  value_glob?: string;
+  value_glob?: string | undefined;
 }
 export type ConstructedLabelValueDefinitionFiltersList = Array<Configv1LabelFilter>;
 export interface ConstructedLabelValueDefinition {
-  value?: string;
-  filters?: ConstructedLabelValueDefinitionFiltersList;
+  value?: string | undefined;
+  filters?: ConstructedLabelValueDefinitionFiltersList | undefined;
 }
 export type MetricLabelConstructedLabelValueDefinitionsList =
   Array<ConstructedLabelValueDefinition>;
 export interface MetricLabelConstructedLabel {
-  value_definitions?: MetricLabelConstructedLabelValueDefinitionsList;
+  value_definitions?: MetricLabelConstructedLabelValueDefinitionsList | undefined;
 }
 export type MappingLabelNameMappingFiltersList = Array<Configv1LabelFilter>;
 /** Defines the source label values that should be mapped into the given target_value. */
 export type MappingLabelValueMappingSourceValueGlobsList = Array<string>;
 export interface MappingLabelValueMapping {
   /** Defines the source label values that should be mapped into the given target_value. */
-  source_value_globs?: MappingLabelValueMappingSourceValueGlobsList;
+  source_value_globs?: MappingLabelValueMappingSourceValueGlobsList | undefined;
   /** The value that source_value_globs are mapped into. For example, given this mapping: ```yaml value_mappings: - source_value_globs: - Cat - CAT target_value: cat ``` This indicates that the target value `cat` maps to the source label's values `Cat` and `CAT`. */
-  target_value?: string;
+  target_value?: string | undefined;
 }
 /** These value mappings apply to just the name mapping they belong to. */
 export type MappingLabelNameMappingValueMappingsList = Array<MappingLabelValueMapping>;
 export interface MappingLabelNameMapping {
-  filters?: MappingLabelNameMappingFiltersList;
+  filters?: MappingLabelNameMappingFiltersList | undefined;
   /** The actual label ingested on the time series */
-  source_label?: string;
+  source_label?: string | undefined;
   /** These value mappings apply to just the name mapping they belong to. */
-  value_mappings?: MappingLabelNameMappingValueMappingsList;
+  value_mappings?: MappingLabelNameMappingValueMappingsList | undefined;
 }
 export type MetricLabelMappingLabelNameMappingsList = Array<MappingLabelNameMapping>;
 /** These value mappings apply to the whole mapping label. If there's no name_mappings, these value mappings apply to the label that exists on the metric. */
 export type MetricLabelMappingLabelValueMappingsList = Array<MappingLabelValueMapping>;
 export interface MetricLabelMappingLabel {
-  name_mappings?: MetricLabelMappingLabelNameMappingsList;
+  name_mappings?: MetricLabelMappingLabelNameMappingsList | undefined;
   /** These value mappings apply to the whole mapping label. If there's no name_mappings, these value mappings apply to the label that exists on the metric. */
-  value_mappings?: MetricLabelMappingLabelValueMappingsList;
+  value_mappings?: MetricLabelMappingLabelValueMappingsList | undefined;
 }
 export interface DerivedLabelMetricLabel {
-  constructed_label?: MetricLabelConstructedLabel;
-  mapping_label?: MetricLabelMappingLabel;
+  constructed_label?: MetricLabelConstructedLabel | undefined;
+  mapping_label?: MetricLabelMappingLabel | undefined;
 }
 export type Configv1DerivedLabelLabelPolicy = "KEEP" | "OVERRIDE";
 export interface Configv1DerivedLabelInput {
   /** Required. Name of the DerivedLabel. You can modify this value after the DerivedLabel is created. */
-  name?: string;
+  name?: string | undefined;
   /** Unique identifier of the DerivedLabel. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the DerivedLabel is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Name of the derived label. It needs to be unique across the system. */
-  label_name?: string;
+  label_name?: string | undefined;
   /** Optional description of the derived label. */
-  description?: string;
-  metric_label?: DerivedLabelMetricLabel;
-  existing_label_policy?: Configv1DerivedLabelLabelPolicy | (string & {});
+  description?: string | undefined;
+  metric_label?: DerivedLabelMetricLabel | undefined;
+  existing_label_policy?: Configv1DerivedLabelLabelPolicy | (string & {}) | undefined;
 }
 export interface CreateDerivedLabelRequest {
-  derived_label?: Configv1DerivedLabelInput;
+  derived_label?: Configv1DerivedLabelInput | undefined;
   /** If true, the DerivedLabel isn't created, and no response DerivedLabel will be returned. The response will return an error if the given DerivedLabel is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1DerivedLabel {
   /** Required. Name of the DerivedLabel. You can modify this value after the DerivedLabel is created. */
-  name?: string;
+  name?: string | undefined;
   /** Unique identifier of the DerivedLabel. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the DerivedLabel is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Timestamp of when the DerivedLabel was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the DerivedLabel was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Name of the derived label. It needs to be unique across the system. */
-  label_name?: string;
+  label_name?: string | undefined;
   /** Optional description of the derived label. */
-  description?: string;
-  metric_label?: DerivedLabelMetricLabel;
-  existing_label_policy?: Configv1DerivedLabelLabelPolicy;
+  description?: string | undefined;
+  metric_label?: DerivedLabelMetricLabel | undefined;
+  existing_label_policy?: Configv1DerivedLabelLabelPolicy | undefined;
 }
 export interface Configv1CreateDerivedLabelResponse {
-  derived_label?: Configv1DerivedLabel;
+  derived_label?: Configv1DerivedLabel | undefined;
 }
 export type Configv1DerivedMetricLabelMatcherMatcherType = "EXACT";
 export interface Configv1DerivedMetricLabelMatcher {
-  type?: Configv1DerivedMetricLabelMatcherMatcherType | (string & {});
+  type?: Configv1DerivedMetricLabelMatcherMatcherType | (string & {}) | undefined;
   /** name always matches against an exact label name. */
-  name?: string;
+  name?: string | undefined;
   /** value matches against a label value based on the configured type. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Labels which must match in the derived metric usage for the selector to match. */
 export type DerivedMetricSelectorLabelsList = Array<Configv1DerivedMetricLabelMatcher>;
 export interface DerivedMetricSelector {
   /** Labels which must match in the derived metric usage for the selector to match. */
-  labels?: DerivedMetricSelectorLabelsList;
+  labels?: DerivedMetricSelectorLabelsList | undefined;
 }
 export interface DerivedMetricVariable {
   /** Required name of the variable. */
-  name?: string;
+  name?: string | undefined;
   /** Required PromQL label selector which must match the given variable name. If the variable is not specified in the derived metric usage, then this default selector is used. */
-  default_prometheus_selector?: string;
+  default_prometheus_selector?: string | undefined;
 }
 /** Optional variables which may be used in the derived metric as label selectors. */
 export type DerivedMetricQueryVariablesList = Array<DerivedMetricVariable>;
 export interface DerivedMetricQuery {
   /** Required PromQL expression which the derived metric executes. Should include all configured variables. */
-  prometheus_expr?: string;
+  prometheus_expr?: string | undefined;
   /** Optional variables which may be used in the derived metric as label selectors. */
-  variables?: DerivedMetricQueryVariablesList;
+  variables?: DerivedMetricQueryVariablesList | undefined;
 }
 export interface DerivedMetricSelectorQuery {
-  selector?: DerivedMetricSelector;
-  query?: DerivedMetricQuery;
+  selector?: DerivedMetricSelector | undefined;
+  query?: DerivedMetricQuery | undefined;
 }
 /** Required queries that the derived metric can map to. */
 export type Configv1DerivedMetricInputQueriesList = Array<DerivedMetricSelectorQuery>;
 export interface Configv1DerivedMetricInput {
   /** Required. Name of the DerivedMetric. You can modify this value after the DerivedMetric is created. */
-  name?: string;
+  name?: string | undefined;
   /** Unique identifier of the DerivedMetric. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the DerivedMetric is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required metric name of the derived metric, which must be unique across the system. */
-  metric_name?: string;
+  metric_name?: string | undefined;
   /** Optional description of the derived metric. */
-  description?: string;
+  description?: string | undefined;
   /** Required queries that the derived metric can map to. */
-  queries?: Configv1DerivedMetricInputQueriesList;
+  queries?: Configv1DerivedMetricInputQueriesList | undefined;
 }
 export interface CreateDerivedMetricRequest {
-  derived_metric?: Configv1DerivedMetricInput;
+  derived_metric?: Configv1DerivedMetricInput | undefined;
   /** If true, the DerivedMetric isn't created, and no response DerivedMetric will be returned. The response will return an error if the given DerivedMetric is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** Required queries that the derived metric can map to. */
 export type Configv1DerivedMetricQueriesList = Array<DerivedMetricSelectorQuery>;
 export interface Configv1DerivedMetric {
   /** Required. Name of the DerivedMetric. You can modify this value after the DerivedMetric is created. */
-  name?: string;
+  name?: string | undefined;
   /** Unique identifier of the DerivedMetric. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the DerivedMetric is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Timestamp of when the DerivedMetric was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the DerivedMetric was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Required metric name of the derived metric, which must be unique across the system. */
-  metric_name?: string;
+  metric_name?: string | undefined;
   /** Optional description of the derived metric. */
-  description?: string;
+  description?: string | undefined;
   /** Required queries that the derived metric can map to. */
-  queries?: Configv1DerivedMetricQueriesList;
+  queries?: Configv1DerivedMetricQueriesList | undefined;
 }
 export interface Configv1CreateDerivedMetricResponse {
-  derived_metric?: Configv1DerivedMetric;
+  derived_metric?: Configv1DerivedMetric | undefined;
 }
 export type Configv1DropRuleMode = "ENABLED" | "DISABLED";
 /** Defines the conditions that determine whether to drop a metric. Drop rules can have multiple filter conditions on different labels, making it possible to drop a subset of the series matching a particular metric name. */
@@ -508,117 +508,117 @@ export type Configv1DropRuleInputFiltersList = Array<Configv1LabelFilter>;
 /** No longer supported and cannot be used. Defines behavior for conditional drop policies. */
 export interface DropRuleConditionalRateBasedDrop {
   /** Enables rate-based metric dropping. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Percentage of the licensed limit reached in order to activate the drop rule, between 0 and 100. */
-  rate_limit_threshold?: number;
+  rate_limit_threshold?: number | undefined;
   /** Once activated, activated_drop_duration_secs defines how long the drop rule stays activated before rechecking against the rate_limit_threshold. */
-  activated_drop_duration_secs?: number;
+  activated_drop_duration_secs?: number | undefined;
 }
 export interface DropRuleValueBasedDrop {
   /** Enables dropping metrics based on a set value. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The target data point value at which to drop metrics. */
-  target_drop_value?: number;
+  target_drop_value?: number | undefined;
 }
 export interface Configv1DropRuleInput {
   /** Unique identifier of the DropRule. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the DropRule is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the DropRule. You can modify this value after the DropRule is created. */
-  name?: string;
-  mode?: Configv1DropRuleMode | (string & {});
+  name?: string | undefined;
+  mode?: Configv1DropRuleMode | (string & {}) | undefined;
   /** Defines the conditions that determine whether to drop a metric. Drop rules can have multiple filter conditions on different labels, making it possible to drop a subset of the series matching a particular metric name. */
-  filters?: Configv1DropRuleInputFiltersList;
-  conditional_rate_based_drop?: DropRuleConditionalRateBasedDrop;
-  value_based_drop?: DropRuleValueBasedDrop;
+  filters?: Configv1DropRuleInputFiltersList | undefined;
+  conditional_rate_based_drop?: DropRuleConditionalRateBasedDrop | undefined;
+  value_based_drop?: DropRuleValueBasedDrop | undefined;
   /** Drops data points if values are Not a Number (NaN). If set to true, Chronosphere drops NaN data points, along with any published staleness markers. See the [drop rules documentation](https://docs.chronosphere.io/control/shaping/rules/drop-rules#define-a-value-based-drop-rule) for more information. */
-  drop_nan_value?: boolean;
+  drop_nan_value?: boolean | undefined;
 }
 export interface CreateDropRuleRequest {
-  drop_rule?: Configv1DropRuleInput;
+  drop_rule?: Configv1DropRuleInput | undefined;
   /** If true, the DropRule isn't created, and no response DropRule will be returned. The response will return an error if the given DropRule is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** Defines the conditions that determine whether to drop a metric. Drop rules can have multiple filter conditions on different labels, making it possible to drop a subset of the series matching a particular metric name. */
 export type Configv1DropRuleFiltersList = Array<Configv1LabelFilter>;
 export interface Configv1DropRule {
   /** Unique identifier of the DropRule. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the DropRule is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the DropRule. You can modify this value after the DropRule is created. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the DropRule was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the DropRule was last updated. Cannot be set by clients. */
-  updated_at?: string;
-  mode?: Configv1DropRuleMode;
+  updated_at?: string | undefined;
+  mode?: Configv1DropRuleMode | undefined;
   /** Defines the conditions that determine whether to drop a metric. Drop rules can have multiple filter conditions on different labels, making it possible to drop a subset of the series matching a particular metric name. */
-  filters?: Configv1DropRuleFiltersList;
-  conditional_rate_based_drop?: DropRuleConditionalRateBasedDrop;
-  value_based_drop?: DropRuleValueBasedDrop;
+  filters?: Configv1DropRuleFiltersList | undefined;
+  conditional_rate_based_drop?: DropRuleConditionalRateBasedDrop | undefined;
+  value_based_drop?: DropRuleValueBasedDrop | undefined;
   /** Drops data points if values are Not a Number (NaN). If set to true, Chronosphere drops NaN data points, along with any published staleness markers. See the [drop rules documentation](https://docs.chronosphere.io/control/shaping/rules/drop-rules#define-a-value-based-drop-rule) for more information. */
-  drop_nan_value?: boolean;
+  drop_nan_value?: boolean | undefined;
 }
 export interface Configv1CreateDropRuleResponse {
-  drop_rule?: Configv1DropRule;
+  drop_rule?: Configv1DropRule | undefined;
 }
 export interface Configv1GcpMetricsIntegrationServiceAccount {
   /** Email address of the service account to impersonate. */
-  client_email?: string;
+  client_email?: string | undefined;
 }
 /** List of Gcp metric prefixes to ingest. */
 export type GcpMetricsIntegrationMetricGroupPrefixesList = Array<string>;
 export interface GcpMetricsIntegrationMetricGroup {
   /** Project ID that has access to the metric data. */
-  project_id?: string;
+  project_id?: string | undefined;
   /** List of Gcp metric prefixes to ingest. */
-  prefixes?: GcpMetricsIntegrationMetricGroupPrefixesList;
+  prefixes?: GcpMetricsIntegrationMetricGroupPrefixesList | undefined;
 }
 /** Metric groups to be ingested for this integration. */
 export type Configv1GcpMetricsIntegrationInputMetricGroupsList =
   Array<GcpMetricsIntegrationMetricGroup>;
 export interface Configv1GcpMetricsIntegrationInput {
   /** Unique identifier of the GcpMetricsIntegration. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the GcpMetricsIntegration is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the GcpMetricsIntegration. You can modify this value after the GcpMetricsIntegration is created. */
-  name?: string;
-  service_account?: Configv1GcpMetricsIntegrationServiceAccount;
+  name?: string | undefined;
+  service_account?: Configv1GcpMetricsIntegrationServiceAccount | undefined;
   /** Metric groups to be ingested for this integration. */
-  metric_groups?: Configv1GcpMetricsIntegrationInputMetricGroupsList;
+  metric_groups?: Configv1GcpMetricsIntegrationInputMetricGroupsList | undefined;
 }
 export interface CreateGcpMetricsIntegrationRequest {
-  gcp_metrics_integration?: Configv1GcpMetricsIntegrationInput;
+  gcp_metrics_integration?: Configv1GcpMetricsIntegrationInput | undefined;
   /** If true, the GcpMetricsIntegration isn't created, and no response GcpMetricsIntegration will be returned. The response will return an error if the given GcpMetricsIntegration is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** Metric groups to be ingested for this integration. */
 export type Configv1GcpMetricsIntegrationMetricGroupsList = Array<GcpMetricsIntegrationMetricGroup>;
 export interface Configv1GcpMetricsIntegration {
   /** Unique identifier of the GcpMetricsIntegration. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the GcpMetricsIntegration is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the GcpMetricsIntegration. You can modify this value after the GcpMetricsIntegration is created. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the GcpMetricsIntegration was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the GcpMetricsIntegration was last updated. Cannot be set by clients. */
-  updated_at?: string;
-  service_account?: Configv1GcpMetricsIntegrationServiceAccount;
+  updated_at?: string | undefined;
+  service_account?: Configv1GcpMetricsIntegrationServiceAccount | undefined;
   /** Metric groups to be ingested for this integration. */
-  metric_groups?: Configv1GcpMetricsIntegrationMetricGroupsList;
+  metric_groups?: Configv1GcpMetricsIntegrationMetricGroupsList | undefined;
 }
 export interface Configv1CreateGcpMetricsIntegrationResponse {
-  gcp_metrics_integration?: Configv1GcpMetricsIntegration;
+  gcp_metrics_integration?: Configv1GcpMetricsIntegration | undefined;
 }
 export interface CreateGrafanaDashboardRequest {
-  grafana_dashboard?: Configv1GrafanaDashboardInput;
+  grafana_dashboard?: Configv1GrafanaDashboardInput | undefined;
   /** If true, the GrafanaDashboard isn't created, and no response GrafanaDashboard will be returned. The response will return an error if the given GrafanaDashboard is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1CreateGrafanaDashboardResponse {
-  grafana_dashboard?: Configv1GrafanaDashboard;
+  grafana_dashboard?: Configv1GrafanaDashboard | undefined;
 }
 /** Configuration for allocating resources to a dataset. */
 export interface Configv1LogAllocationConfigAllocation {
   /** Sets the percentage of the license limit to allocate to the default dataset. */
-  percent_of_license?: number;
+  percent_of_license?: number | undefined;
 }
 /** A list of search filters defining which logs are considered high priority in this dataset. Filters are combined as OR statements so only one filter needs to match. */
 export type LogAllocationConfigHighLowPrioritiesHighPriorityFiltersList =
@@ -629,34 +629,34 @@ export type LogAllocationConfigHighLowPrioritiesLowPriorityFiltersList =
 /** Defines explicit high and low priority match criteria to specify which logs to drop first (low) and last (high). Anything not matched by either set of rules is considered default priority and is dropped after low priority but before high priority data. */
 export interface LogAllocationConfigHighLowPriorities {
   /** A list of search filters defining which logs are considered high priority in this dataset. Filters are combined as OR statements so only one filter needs to match. */
-  high_priority_filters?: LogAllocationConfigHighLowPrioritiesHighPriorityFiltersList;
+  high_priority_filters?: LogAllocationConfigHighLowPrioritiesHighPriorityFiltersList | undefined;
   /** A list of search filters defining which logs are considered low priority in this dataset. Filters are combined as OR statements so only one filter needs to match. */
-  low_priority_filters?: LogAllocationConfigHighLowPrioritiesLowPriorityFiltersList;
+  low_priority_filters?: LogAllocationConfigHighLowPrioritiesLowPriorityFiltersList | undefined;
 }
 /** Configuration for default dataset. */
 export interface LogAllocationConfigDefaultDataset {
-  allocation?: Configv1LogAllocationConfigAllocation;
-  priorities?: LogAllocationConfigHighLowPriorities;
+  allocation?: Configv1LogAllocationConfigAllocation | undefined;
+  priorities?: LogAllocationConfigHighLowPriorities | undefined;
 }
 export interface LogAllocationConfigDatasetAllocation {
   /** Slug of the dataset. */
-  dataset_slug?: string;
-  allocation?: Configv1LogAllocationConfigAllocation;
-  priorities?: LogAllocationConfigHighLowPriorities;
+  dataset_slug?: string | undefined;
+  allocation?: Configv1LogAllocationConfigAllocation | undefined;
+  priorities?: LogAllocationConfigHighLowPriorities | undefined;
 }
 /** Defines datasets and budget allocations. Datasets are evaluated in order. */
 export type Configv1LogAllocationConfigInputDatasetAllocationsList =
   Array<LogAllocationConfigDatasetAllocation>;
 /** LogAllocationConfig is a singleton configuration object that specifies the configuration for Log budget allocations. */
 export interface Configv1LogAllocationConfigInput {
-  default_dataset?: LogAllocationConfigDefaultDataset;
+  default_dataset?: LogAllocationConfigDefaultDataset | undefined;
   /** Defines datasets and budget allocations. Datasets are evaluated in order. */
-  dataset_allocations?: Configv1LogAllocationConfigInputDatasetAllocationsList;
+  dataset_allocations?: Configv1LogAllocationConfigInputDatasetAllocationsList | undefined;
 }
 export interface CreateLogAllocationConfigRequest {
-  log_allocation_config?: Configv1LogAllocationConfigInput;
+  log_allocation_config?: Configv1LogAllocationConfigInput | undefined;
   /** If true, the LogAllocationConfig isn't created, and no response LogAllocationConfig will be returned. The response will return an error if the given LogAllocationConfig is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** Defines datasets and budget allocations. Datasets are evaluated in order. */
 export type Configv1LogAllocationConfigDatasetAllocationsList =
@@ -664,47 +664,47 @@ export type Configv1LogAllocationConfigDatasetAllocationsList =
 /** LogAllocationConfig is a singleton configuration object that specifies the configuration for Log budget allocations. */
 export interface Configv1LogAllocationConfig {
   /** Timestamp of when the LogAllocationConfig was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the LogAllocationConfig was last updated. Cannot be set by clients. */
-  updated_at?: string;
-  default_dataset?: LogAllocationConfigDefaultDataset;
+  updated_at?: string | undefined;
+  default_dataset?: LogAllocationConfigDefaultDataset | undefined;
   /** Defines datasets and budget allocations. Datasets are evaluated in order. */
-  dataset_allocations?: Configv1LogAllocationConfigDatasetAllocationsList;
+  dataset_allocations?: Configv1LogAllocationConfigDatasetAllocationsList | undefined;
 }
 export interface Configv1CreateLogAllocationConfigResponse {
-  log_allocation_config?: Configv1LogAllocationConfig;
+  log_allocation_config?: Configv1LogAllocationConfig | undefined;
 }
 export interface Configv1LogParser {
   /** Name is the name of the parser. */
-  name?: string;
+  name?: string | undefined;
   /** Regex is the Re2 regex parser pattern to apply. Named capturing groups become named fields in the extracted log. */
-  regex?: string;
+  regex?: string | undefined;
 }
 /** The ordered list of parsers to run on ingested logs. The first parser which matches the log is used. */
 export type Configv1LogIngestConfigInputParsersList = Array<Configv1LogParser>;
 /** LogIngestConfig is a singleton configuration object that specifies the configuration for log ingest. */
 export interface Configv1LogIngestConfigInput {
   /** The ordered list of parsers to run on ingested logs. The first parser which matches the log is used. */
-  parsers?: Configv1LogIngestConfigInputParsersList;
+  parsers?: Configv1LogIngestConfigInputParsersList | undefined;
 }
 export interface CreateLogIngestConfigRequest {
-  log_ingest_config?: Configv1LogIngestConfigInput;
+  log_ingest_config?: Configv1LogIngestConfigInput | undefined;
   /** If true, the LogIngestConfig isn't created, and no response LogIngestConfig will be returned. The response will return an error if the given LogIngestConfig is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** The ordered list of parsers to run on ingested logs. The first parser which matches the log is used. */
 export type Configv1LogIngestConfigParsersList = Array<Configv1LogParser>;
 /** LogIngestConfig is a singleton configuration object that specifies the configuration for log ingest. */
 export interface Configv1LogIngestConfig {
   /** Timestamp of when the LogIngestConfig was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the LogIngestConfig was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The ordered list of parsers to run on ingested logs. The first parser which matches the log is used. */
-  parsers?: Configv1LogIngestConfigParsersList;
+  parsers?: Configv1LogIngestConfigParsersList | undefined;
 }
 export interface Configv1CreateLogIngestConfigResponse {
-  log_ingest_config?: Configv1LogIngestConfig;
+  log_ingest_config?: Configv1LogIngestConfig | undefined;
 }
 export type LogScaleActionActionType =
   | "EMAIL"
@@ -720,45 +720,45 @@ export type LogScaleActionActionType =
 export type LogScaleActionEmailActionRecipientsList = Array<string>;
 export interface LogScaleActionEmailAction {
   /** List of email addresses to send an email to. */
-  recipients?: LogScaleActionEmailActionRecipientsList;
+  recipients?: LogScaleActionEmailActionRecipientsList | undefined;
   /** Subject of the email. Can be templated with values from the query result. */
-  subject_template?: string;
+  subject_template?: string | undefined;
   /** Body of the email. Can be templated with values from the query result. */
-  body_template?: string;
+  body_template?: string | undefined;
   /** Whether the result set should be attached as a CSV file. */
-  attach_csv?: boolean;
+  attach_csv?: boolean | undefined;
   /** Defines whether the action should use the configured proxy to make web requests. */
-  use_proxy?: boolean;
+  use_proxy?: boolean | undefined;
 }
 export interface LogScaleActionHumioRepoAction {
   /** Ingest token for the repository that the action should ingest into. */
-  ingest_token?: string;
+  ingest_token?: string | undefined;
 }
 export interface LogScaleActionOpsGenieAction {
   /** OpsGenie webhook URL to send the request to. */
-  api_url?: string;
+  api_url?: string | undefined;
   /** Key to authenticate with OpsGenie. */
-  ops_genie_key?: string;
+  ops_genie_key?: string | undefined;
   /** Defines whether the action should use the configured proxy to make web requests. */
-  use_proxy?: boolean;
+  use_proxy?: boolean | undefined;
 }
 export type PagerDutyActionSeverity = "CRITICAL" | "ERROR" | "WARNING" | "INFO";
 export interface LogScaleActionPagerDutyAction {
-  severity?: PagerDutyActionSeverity | (string & {});
+  severity?: PagerDutyActionSeverity | (string & {}) | undefined;
   /** Routing key to authenticate with PagerDuty. */
-  routing_key?: string;
+  routing_key?: string | undefined;
   /** Defines whether the action should use the configured proxy to make web requests. */
-  use_proxy?: boolean;
+  use_proxy?: boolean | undefined;
 }
 /** Fields to include within the Slack message. Can be templated with values from the query result. */
 export type LogScaleActionSlackActionFieldsMap = { [key: string]: string | undefined };
 export interface LogScaleActionSlackAction {
   /** Slack webhook URL to send the request to. */
-  url?: string;
+  url?: string | undefined;
   /** Fields to include within the Slack message. Can be templated with values from the query result. */
-  fields?: LogScaleActionSlackActionFieldsMap;
+  fields?: LogScaleActionSlackActionFieldsMap | undefined;
   /** Defines whether the action should use the configured proxy to make web requests. */
-  use_proxy?: boolean;
+  use_proxy?: boolean | undefined;
 }
 /** List of Slack channels to message. */
 export type LogScaleActionSlackPostMessageActionChannelsList = Array<string>;
@@ -766,21 +766,21 @@ export type LogScaleActionSlackPostMessageActionChannelsList = Array<string>;
 export type LogScaleActionSlackPostMessageActionFieldsMap = { [key: string]: string | undefined };
 export interface LogScaleActionSlackPostMessageAction {
   /** API token to authenticate with Slack. */
-  api_token?: string | Redacted.Redacted<string>;
+  api_token?: string | Redacted.Redacted<string> | undefined;
   /** List of Slack channels to message. */
-  channels?: LogScaleActionSlackPostMessageActionChannelsList;
+  channels?: LogScaleActionSlackPostMessageActionChannelsList | undefined;
   /** Fields to include within the Slack message. Can be templated with values from the query result. */
-  fields?: LogScaleActionSlackPostMessageActionFieldsMap;
+  fields?: LogScaleActionSlackPostMessageActionFieldsMap | undefined;
   /** Defines whether the action should use the configured proxy to make web requests. */
-  use_proxy?: boolean;
+  use_proxy?: boolean | undefined;
 }
 export interface LogScaleActionVictorOpsAction {
   /** Type of the VictorOps message to make. */
-  message_type?: string;
+  message_type?: string | undefined;
   /** VictorOps webhook URL to send the request to. */
-  notify_url?: string;
+  notify_url?: string | undefined;
   /** Defines whether the action should use the configured proxy to make web requests. */
-  use_proxy?: boolean;
+  use_proxy?: boolean | undefined;
 }
 export type WebhookActionHTTPMethod =
   | "GET"
@@ -793,69 +793,69 @@ export type WebhookActionHTTPMethod =
 /** Headers of the HTTP or HTTPS request. */
 export type LogScaleActionWebhookActionHeadersMap = { [key: string]: string | undefined };
 export interface LogScaleActionWebhookAction {
-  method?: WebhookActionHTTPMethod | (string & {});
+  method?: WebhookActionHTTPMethod | (string & {}) | undefined;
   /** URL to send the HTTP or HTTPS request to. */
-  url?: string;
+  url?: string | undefined;
   /** Headers of the HTTP or HTTPS request. */
-  headers?: LogScaleActionWebhookActionHeadersMap;
+  headers?: LogScaleActionWebhookActionHeadersMap | undefined;
   /** Body of the HTTP or HTTPS request. Can be templated with values from the query result. */
-  body_template?: string;
+  body_template?: string | undefined;
   /** Flag indicating whether SSL should be ignored for the request. */
-  ignore_ssl?: boolean;
+  ignore_ssl?: boolean | undefined;
   /** Defines whether the action should use the configured proxy to make web requests. */
-  use_proxy?: boolean;
+  use_proxy?: boolean | undefined;
 }
 export interface LogScaleActionUploadFileAction {
   /** File name for the uploaded file. */
-  file_name?: string;
+  file_name?: string | undefined;
 }
 export interface Configv1LogScaleActionInput {
   /** Unique identifier of the LogScaleAction. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the LogScaleAction is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Name of the LogScale repository the alerts belongs to. Required. */
-  repository?: string;
+  repository?: string | undefined;
   /** Name of an action. */
-  name?: string;
-  action_type?: LogScaleActionActionType | (string & {});
-  email_action?: LogScaleActionEmailAction;
-  humio_action?: LogScaleActionHumioRepoAction;
-  ops_genie_action?: LogScaleActionOpsGenieAction;
-  pager_duty_action?: LogScaleActionPagerDutyAction;
-  slack_action?: LogScaleActionSlackAction;
-  slack_post_message_action?: LogScaleActionSlackPostMessageAction;
-  victor_ops_action?: LogScaleActionVictorOpsAction;
-  webhook_action?: LogScaleActionWebhookAction;
-  upload_file_action?: LogScaleActionUploadFileAction;
+  name?: string | undefined;
+  action_type?: LogScaleActionActionType | (string & {}) | undefined;
+  email_action?: LogScaleActionEmailAction | undefined;
+  humio_action?: LogScaleActionHumioRepoAction | undefined;
+  ops_genie_action?: LogScaleActionOpsGenieAction | undefined;
+  pager_duty_action?: LogScaleActionPagerDutyAction | undefined;
+  slack_action?: LogScaleActionSlackAction | undefined;
+  slack_post_message_action?: LogScaleActionSlackPostMessageAction | undefined;
+  victor_ops_action?: LogScaleActionVictorOpsAction | undefined;
+  webhook_action?: LogScaleActionWebhookAction | undefined;
+  upload_file_action?: LogScaleActionUploadFileAction | undefined;
 }
 export interface CreateLogScaleActionRequest {
-  log_scale_action?: Configv1LogScaleActionInput;
+  log_scale_action?: Configv1LogScaleActionInput | undefined;
   /** If true, the LogScaleAction isn't created, and no response LogScaleAction will be returned. The response will return an error if the given LogScaleAction is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1LogScaleAction {
   /** Unique identifier of the LogScaleAction. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the LogScaleAction is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Name of the LogScale repository the alerts belongs to. Required. */
-  repository?: string;
+  repository?: string | undefined;
   /** Name of an action. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the LogScaleAction was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the LogScaleAction was last updated. Cannot be set by clients. */
-  updated_at?: string;
-  action_type?: LogScaleActionActionType;
-  email_action?: LogScaleActionEmailAction;
-  humio_action?: LogScaleActionHumioRepoAction;
-  ops_genie_action?: LogScaleActionOpsGenieAction;
-  pager_duty_action?: LogScaleActionPagerDutyAction;
-  slack_action?: LogScaleActionSlackAction;
-  slack_post_message_action?: LogScaleActionSlackPostMessageAction;
-  victor_ops_action?: LogScaleActionVictorOpsAction;
-  webhook_action?: LogScaleActionWebhookAction;
-  upload_file_action?: LogScaleActionUploadFileAction;
+  updated_at?: string | undefined;
+  action_type?: LogScaleActionActionType | undefined;
+  email_action?: LogScaleActionEmailAction | undefined;
+  humio_action?: LogScaleActionHumioRepoAction | undefined;
+  ops_genie_action?: LogScaleActionOpsGenieAction | undefined;
+  pager_duty_action?: LogScaleActionPagerDutyAction | undefined;
+  slack_action?: LogScaleActionSlackAction | undefined;
+  slack_post_message_action?: LogScaleActionSlackPostMessageAction | undefined;
+  victor_ops_action?: LogScaleActionVictorOpsAction | undefined;
+  webhook_action?: LogScaleActionWebhookAction | undefined;
+  upload_file_action?: LogScaleActionUploadFileAction | undefined;
 }
 export interface Configv1CreateLogScaleActionResponse {
-  log_scale_action?: Configv1LogScaleAction;
+  log_scale_action?: Configv1LogScaleAction | undefined;
 }
 /** Slugs of LogScale actions that will receive the alerts. When the value is empty this alert won't trigger. Optional. */
 export type Configv1LogScaleAlertInputLogScaleActionSlugsList = Array<string>;
@@ -864,35 +864,35 @@ export type Configv1LogScaleAlertInputTagsList = Array<string>;
 export type LogScaleAlertAlertType = "STANDARD" | "FILTER";
 export interface Configv1LogScaleAlertInput {
   /** Unique identifier of the LogScaleAlert. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the LogScaleAlert is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Name of LogScale repository the alerts belongs to. Required. */
-  repository?: string;
+  repository?: string | undefined;
   /** Name of the alert. */
-  name?: string;
+  name?: string | undefined;
   /** Description of the alert. */
-  description?: string;
+  description?: string | undefined;
   /** Flag indicating whether the alert is disabled. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** LogScale query to execute. */
-  log_scale_query?: string;
+  log_scale_query?: string | undefined;
   /** Lookback window used for an alert's evaluation. If this is set to 86400 seconds (24 hours), only the events from the last 24 hours will be considered when the alert query is run. */
-  time_window_secs?: number;
+  time_window_secs?: number | undefined;
   /** Throttle time in seconds. The alert is triggered at most once per throttle period. */
-  throttle_secs?: number;
+  throttle_secs?: number | undefined;
   /** Field to throttle on. Optional. */
-  throttle_field?: string;
+  throttle_field?: string | undefined;
   /** Slugs of LogScale actions that will receive the alerts. When the value is empty this alert won't trigger. Optional. */
-  log_scale_action_slugs?: Configv1LogScaleAlertInputLogScaleActionSlugsList;
+  log_scale_action_slugs?: Configv1LogScaleAlertInputLogScaleActionSlugsList | undefined;
   /** Tags attached to the alert. */
-  tags?: Configv1LogScaleAlertInputTagsList;
+  tags?: Configv1LogScaleAlertInputTagsList | undefined;
   /** Email of the user that the alert runs on behalf of. Required. */
-  run_as_user?: string;
-  alert_type?: LogScaleAlertAlertType | (string & {});
+  run_as_user?: string | undefined;
+  alert_type?: LogScaleAlertAlertType | (string & {}) | undefined;
 }
 export interface CreateLogScaleAlertRequest {
-  log_scale_alert?: Configv1LogScaleAlertInput;
+  log_scale_alert?: Configv1LogScaleAlertInput | undefined;
   /** If true, the LogScaleAlert isn't created, and no response LogScaleAlert will be returned. The response will return an error if the given LogScaleAlert is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** Slugs of LogScale actions that will receive the alerts. When the value is empty this alert won't trigger. Optional. */
 export type Configv1LogScaleAlertLogScaleActionSlugsList = Array<string>;
@@ -900,37 +900,37 @@ export type Configv1LogScaleAlertLogScaleActionSlugsList = Array<string>;
 export type Configv1LogScaleAlertTagsList = Array<string>;
 export interface Configv1LogScaleAlert {
   /** Unique identifier of the LogScaleAlert. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the LogScaleAlert is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Name of LogScale repository the alerts belongs to. Required. */
-  repository?: string;
+  repository?: string | undefined;
   /** Name of the alert. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the LogScaleAlert was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the LogScaleAlert was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Description of the alert. */
-  description?: string;
+  description?: string | undefined;
   /** Flag indicating whether the alert is disabled. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** LogScale query to execute. */
-  log_scale_query?: string;
+  log_scale_query?: string | undefined;
   /** Lookback window used for an alert's evaluation. If this is set to 86400 seconds (24 hours), only the events from the last 24 hours will be considered when the alert query is run. */
-  time_window_secs?: number;
+  time_window_secs?: number | undefined;
   /** Throttle time in seconds. The alert is triggered at most once per throttle period. */
-  throttle_secs?: number;
+  throttle_secs?: number | undefined;
   /** Field to throttle on. Optional. */
-  throttle_field?: string;
+  throttle_field?: string | undefined;
   /** Slugs of LogScale actions that will receive the alerts. When the value is empty this alert won't trigger. Optional. */
-  log_scale_action_slugs?: Configv1LogScaleAlertLogScaleActionSlugsList;
+  log_scale_action_slugs?: Configv1LogScaleAlertLogScaleActionSlugsList | undefined;
   /** Tags attached to the alert. */
-  tags?: Configv1LogScaleAlertTagsList;
+  tags?: Configv1LogScaleAlertTagsList | undefined;
   /** Email of the user that the alert runs on behalf of. Required. */
-  run_as_user?: string;
-  alert_type?: LogScaleAlertAlertType;
+  run_as_user?: string | undefined;
+  alert_type?: LogScaleAlertAlertType | undefined;
 }
 export interface Configv1CreateLogScaleAlertResponse {
-  log_scale_alert?: Configv1LogScaleAlert;
+  log_scale_alert?: Configv1LogScaleAlert | undefined;
 }
 /** Required filters that determine to which metrics to apply the rule. */
 export type Configv1MappingRuleInputFiltersList = Array<Configv1LabelFilter>;
@@ -963,61 +963,61 @@ export type Configv1AggregationType =
   | "HISTOGRAM";
 export interface Configv1MappingRuleStoragePolicy {
   /** Required resolution of the aggregated metrics. */
-  resolution?: string;
+  resolution?: string | undefined;
   /** Required retention of the aggregated metrics. */
-  retention?: string;
+  retention?: string | undefined;
 }
 export interface MappingRuleAggregationPolicy {
-  aggregation?: Configv1AggregationType | (string & {});
-  storage_policy?: Configv1MappingRuleStoragePolicy;
+  aggregation?: Configv1AggregationType | (string & {}) | undefined;
+  storage_policy?: Configv1MappingRuleStoragePolicy | undefined;
   /** Interval between aggregated data points, equivalent to the resolution field in storage policy. If set, then the storage_policy field can't be set. */
-  interval?: string;
+  interval?: string | undefined;
   /** Deprecated: This field is no longer supported. */
-  drop_timestamp?: boolean;
+  drop_timestamp?: boolean | undefined;
 }
 /** - ENABLED: ENABLED rules are applied. Rules default to ENABLED. - PREVIEW: PREVIEW rules are not applied, but shaping impact stats for them rule are recorded. */
 export type Configv1MappingRuleMode = "ENABLED" | "PREVIEW";
 export interface Configv1MappingRuleInput {
   /** Unique identifier of the MappingRule. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the MappingRule is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the MappingRule. You can modify this value after the MappingRule is created. */
-  name?: string;
+  name?: string | undefined;
   /** Required. Slug of the bucket the MappingRule belongs to. */
-  bucket_slug?: string;
+  bucket_slug?: string | undefined;
   /** Required filters that determine to which metrics to apply the rule. */
-  filters?: Configv1MappingRuleInputFiltersList;
-  aggregation_policy?: MappingRuleAggregationPolicy;
+  filters?: Configv1MappingRuleInputFiltersList | undefined;
+  aggregation_policy?: MappingRuleAggregationPolicy | undefined;
   /** Whether to drop the given set of metrics. If set, then the aggregation policy can't be set. */
-  drop?: boolean;
-  mode?: Configv1MappingRuleMode | (string & {});
+  drop?: boolean | undefined;
+  mode?: Configv1MappingRuleMode | (string & {}) | undefined;
 }
 export interface CreateMappingRuleRequest {
-  mapping_rule?: Configv1MappingRuleInput;
+  mapping_rule?: Configv1MappingRuleInput | undefined;
   /** If true, the MappingRule isn't created, and no response MappingRule will be returned. The response will return an error if the given MappingRule is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** Required filters that determine to which metrics to apply the rule. */
 export type Configv1MappingRuleFiltersList = Array<Configv1LabelFilter>;
 export interface Configv1MappingRule {
   /** Unique identifier of the MappingRule. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the MappingRule is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the MappingRule. You can modify this value after the MappingRule is created. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the MappingRule was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the MappingRule was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Required. Slug of the bucket the MappingRule belongs to. */
-  bucket_slug?: string;
+  bucket_slug?: string | undefined;
   /** Required filters that determine to which metrics to apply the rule. */
-  filters?: Configv1MappingRuleFiltersList;
-  aggregation_policy?: MappingRuleAggregationPolicy;
+  filters?: Configv1MappingRuleFiltersList | undefined;
+  aggregation_policy?: MappingRuleAggregationPolicy | undefined;
   /** Whether to drop the given set of metrics. If set, then the aggregation policy can't be set. */
-  drop?: boolean;
-  mode?: Configv1MappingRuleMode;
+  drop?: boolean | undefined;
+  mode?: Configv1MappingRuleMode | undefined;
 }
 export interface Configv1CreateMappingRuleResponse {
-  mapping_rule?: Configv1MappingRule;
+  mapping_rule?: Configv1MappingRule | undefined;
 }
 /** Required. Labels to include in notifications generated by this monitor, and can be used to route alerts with notification overrides. */
 export type Configv1MonitorInputLabelsMap = { [key: string]: string | undefined };
@@ -1028,113 +1028,113 @@ export type MonitorSignalGroupingLabelNamesList = Array<string>;
 /** SignalGrouping defines how the set of series from the query are split into signals. */
 export interface MonitorSignalGrouping {
   /** Set of label names used to split series into signals. Each unique combination of labels result in its own signal. For example, if `label_names` is `["service", "code"]`, then all series including labels `{service="foo",code="404"}` will be grouped together in the same signal. Cannot be used if `graphite_query` is set. */
-  label_names?: MonitorSignalGroupingLabelNamesList;
+  label_names?: MonitorSignalGroupingLabelNamesList | undefined;
   /** If set to `true`, each series will have its own signal. Cannot be used with `label_names`. */
-  signal_per_series?: boolean;
+  signal_per_series?: boolean | undefined;
 }
 export type ConditionOp = "GEQ" | "GT" | "LEQ" | "LT" | "EQ" | "NEQ" | "EXISTS" | "NOT_EXISTS";
 export interface MonitorCondition {
-  op?: ConditionOp | (string & {});
+  op?: ConditionOp | (string & {}) | undefined;
   /** Required. The value to compare to the metric value using the `op` operation. */
-  value?: number;
+  value?: number | undefined;
   /** Amount of time the query needs to fail the condition check before an alert is triggered. Must be an integer. Accepts one of `s` (seconds), `m` (minutes), or `h` (hours) as units. */
-  sustain_secs?: number;
+  sustain_secs?: number | undefined;
   /** Amount of time the query needs to no longer fire before resolving. Must be an integer. Accepts one of `s` (seconds), `m` (minutes), or `h` (hours) as units. */
-  resolve_sustain_secs?: number;
+  resolve_sustain_secs?: number | undefined;
 }
 /** List of conditions to evaluate against a series. Only one condition must match to assign a severity to a signal. */
 export type SeriesConditionsConditionsConditionsList = Array<MonitorCondition>;
 export interface SeriesConditionsConditions {
   /** List of conditions to evaluate against a series. Only one condition must match to assign a severity to a signal. */
-  conditions?: SeriesConditionsConditionsConditionsList;
+  conditions?: SeriesConditionsConditionsConditionsList | undefined;
 }
 export interface SeriesConditionsSeverityConditions {
-  warn?: SeriesConditionsConditions;
-  critical?: SeriesConditionsConditions;
+  warn?: SeriesConditionsConditions | undefined;
+  critical?: SeriesConditionsConditions | undefined;
 }
 export type Configv1LabelMatcherMatcherType = "EXACT" | "REGEX";
 export interface Configv1LabelMatcher {
-  type?: Configv1LabelMatcherMatcherType | (string & {});
+  type?: Configv1LabelMatcherMatcherType | (string & {}) | undefined;
   /** name always matches against an exact label name. */
-  name?: string;
+  name?: string | undefined;
   /** value matches against a label value based on the configured type. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Set of matchers on a series' labels. If all labels match, then the conditions defined in this override are used. */
 export type MonitorSeriesConditionsOverrideLabelMatchersList = Array<Configv1LabelMatcher>;
 export interface MonitorSeriesConditionsOverride {
   /** Set of matchers on a series' labels. If all labels match, then the conditions defined in this override are used. */
-  label_matchers?: MonitorSeriesConditionsOverrideLabelMatchersList;
-  severity_conditions?: SeriesConditionsSeverityConditions;
+  label_matchers?: MonitorSeriesConditionsOverrideLabelMatchersList | undefined;
+  severity_conditions?: SeriesConditionsSeverityConditions | undefined;
 }
 /** Optional. Specifies a list of overrides to use for series having matching labels. Each override defines labels that potentially match a series' labels. If one or more overrides match a series, the severity conditions of the first matching override are used instead of the defaults. Cannot be used if `graphite_query` is set. */
 export type MonitorSeriesConditionsOverridesList = Array<MonitorSeriesConditionsOverride>;
 /** Conditions evaluated against each queried series to determine the severity of each series. */
 export interface MonitorSeriesConditions {
-  defaults?: SeriesConditionsSeverityConditions;
+  defaults?: SeriesConditionsSeverityConditions | undefined;
   /** Optional. Specifies a list of overrides to use for series having matching labels. Each override defines labels that potentially match a series' labels. If one or more overrides match a series, the severity conditions of the first matching override are used instead of the defaults. Cannot be used if `graphite_query` is set. */
-  overrides?: MonitorSeriesConditionsOverridesList;
+  overrides?: MonitorSeriesConditionsOverridesList | undefined;
 }
 export type ScheduleDayActive = "ALL_DAY" | "ONLY_DURING_RANGES" | "NEVER";
 export interface ScheduleDayTimeRange {
   /** Start time in the in format `"<hour>:<minute>"`. For example, `"15:30"`. */
-  start_hh_mm?: string;
+  start_hh_mm?: string | undefined;
   /** End time in the in format `"<hour>:<minute>"`. For example, `"15:30"`. */
-  end_hh_mm?: string;
+  end_hh_mm?: string | undefined;
 }
 /** The time ranges that the monitor is active on this day. Required if `active` is set to `ONLY_DURING_RANGES`. Otherwise, this field must be empty. */
 export type ScheduleScheduleDayRangesList = Array<ScheduleDayTimeRange>;
 export interface ScheduleScheduleDay {
-  active?: ScheduleDayActive | (string & {});
+  active?: ScheduleDayActive | (string & {}) | undefined;
   /** The time ranges that the monitor is active on this day. Required if `active` is set to `ONLY_DURING_RANGES`. Otherwise, this field must be empty. */
-  ranges?: ScheduleScheduleDayRangesList;
+  ranges?: ScheduleScheduleDayRangesList | undefined;
 }
 export interface ScheduleWeeklySchedule {
-  monday?: ScheduleScheduleDay;
-  tuesday?: ScheduleScheduleDay;
-  wednesday?: ScheduleScheduleDay;
-  thursday?: ScheduleScheduleDay;
-  friday?: ScheduleScheduleDay;
-  saturday?: ScheduleScheduleDay;
-  sunday?: ScheduleScheduleDay;
+  monday?: ScheduleScheduleDay | undefined;
+  tuesday?: ScheduleScheduleDay | undefined;
+  wednesday?: ScheduleScheduleDay | undefined;
+  thursday?: ScheduleScheduleDay | undefined;
+  friday?: ScheduleScheduleDay | undefined;
+  saturday?: ScheduleScheduleDay | undefined;
+  sunday?: ScheduleScheduleDay | undefined;
 }
 export interface MonitorSchedule {
   /** The timezone of the time ranges. */
-  timezone?: string;
-  weekly_schedule?: ScheduleWeeklySchedule;
+  timezone?: string | undefined;
+  weekly_schedule?: ScheduleWeeklySchedule | undefined;
 }
 export interface Configv1MonitorInput {
   /** Unique identifier of the Monitor. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Monitor is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the Monitor. You can modify this value after the Monitor is created. */
-  name?: string;
+  name?: string | undefined;
   /** Slug of the bucket the monitor belongs to. Required if `collection_slug` isn't set. */
-  bucket_slug?: string;
+  bucket_slug?: string | undefined;
   /** Slug of the collection the monitor belongs to. Required if `bucket_slug` isn't set. */
-  collection_slug?: string;
-  collection?: Configv1CollectionReference;
+  collection_slug?: string | undefined;
+  collection?: Configv1CollectionReference | undefined;
   /** Required. Labels to include in notifications generated by this monitor, and can be used to route alerts with notification overrides. */
-  labels?: Configv1MonitorInputLabelsMap;
+  labels?: Configv1MonitorInputLabelsMap | undefined;
   /** Annotations are visible in notifications generated by this monitor. They can be be templated with labels from notifications. */
-  annotations?: Configv1MonitorInputAnnotationsMap;
-  signal_grouping?: MonitorSignalGrouping;
-  series_conditions?: MonitorSeriesConditions;
+  annotations?: Configv1MonitorInputAnnotationsMap | undefined;
+  signal_grouping?: MonitorSignalGrouping | undefined;
+  series_conditions?: MonitorSeriesConditions | undefined;
   /** Specifies the notification policy used to route alerts generated by the monitor. If omitted, the notification policy is inherited from the monitor. */
-  notification_policy_slug?: string;
+  notification_policy_slug?: string | undefined;
   /** Specifies how often alerts are evaluated. Default: `60s`. */
-  interval_secs?: number;
+  interval_secs?: number | undefined;
   /** PromQL query to evaluate for the alert. If set, no other queries can be set. */
-  prometheus_query?: string;
+  prometheus_query?: string | undefined;
   /** Graphite query to evaluate for the alert. If set, no other queries can be set. */
-  graphite_query?: string;
-  schedule?: MonitorSchedule;
+  graphite_query?: string | undefined;
+  schedule?: MonitorSchedule | undefined;
   /** Logging query to evaluate for the alert. If set, no other queries can be set. */
-  logging_query?: string;
+  logging_query?: string | undefined;
 }
 export interface CreateMonitorRequest {
-  monitor?: Configv1MonitorInput;
+  monitor?: Configv1MonitorInput | undefined;
   /** If true, the Monitor isn't created, and no response Monitor will be returned. The response will return an error if the given Monitor is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** Required. Labels to include in notifications generated by this monitor, and can be used to route alerts with notification overrides. */
 export type Configv1MonitorLabelsMap = { [key: string]: string | undefined };
@@ -1142,38 +1142,38 @@ export type Configv1MonitorLabelsMap = { [key: string]: string | undefined };
 export type Configv1MonitorAnnotationsMap = { [key: string]: string | undefined };
 export interface Configv1Monitor {
   /** Unique identifier of the Monitor. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Monitor is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the Monitor. You can modify this value after the Monitor is created. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the Monitor was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the Monitor was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Slug of the bucket the monitor belongs to. Required if `collection_slug` isn't set. */
-  bucket_slug?: string;
+  bucket_slug?: string | undefined;
   /** Slug of the collection the monitor belongs to. Required if `bucket_slug` isn't set. */
-  collection_slug?: string;
-  collection?: Configv1CollectionReference;
+  collection_slug?: string | undefined;
+  collection?: Configv1CollectionReference | undefined;
   /** Required. Labels to include in notifications generated by this monitor, and can be used to route alerts with notification overrides. */
-  labels?: Configv1MonitorLabelsMap;
+  labels?: Configv1MonitorLabelsMap | undefined;
   /** Annotations are visible in notifications generated by this monitor. They can be be templated with labels from notifications. */
-  annotations?: Configv1MonitorAnnotationsMap;
-  signal_grouping?: MonitorSignalGrouping;
-  series_conditions?: MonitorSeriesConditions;
+  annotations?: Configv1MonitorAnnotationsMap | undefined;
+  signal_grouping?: MonitorSignalGrouping | undefined;
+  series_conditions?: MonitorSeriesConditions | undefined;
   /** Specifies the notification policy used to route alerts generated by the monitor. If omitted, the notification policy is inherited from the monitor. */
-  notification_policy_slug?: string;
+  notification_policy_slug?: string | undefined;
   /** Specifies how often alerts are evaluated. Default: `60s`. */
-  interval_secs?: number;
+  interval_secs?: number | undefined;
   /** PromQL query to evaluate for the alert. If set, no other queries can be set. */
-  prometheus_query?: string;
+  prometheus_query?: string | undefined;
   /** Graphite query to evaluate for the alert. If set, no other queries can be set. */
-  graphite_query?: string;
-  schedule?: MonitorSchedule;
+  graphite_query?: string | undefined;
+  schedule?: MonitorSchedule | undefined;
   /** Logging query to evaluate for the alert. If set, no other queries can be set. */
-  logging_query?: string;
+  logging_query?: string | undefined;
 }
 export interface Configv1CreateMonitorResponse {
-  monitor?: Configv1Monitor;
+  monitor?: Configv1Monitor | undefined;
 }
 export type Configv1MutingRuleLabelMatcherMatcherType =
   | "EXACT"
@@ -1181,55 +1181,55 @@ export type Configv1MutingRuleLabelMatcherMatcherType =
   | "NOT_EXACT"
   | "NOT_REGEXP";
 export interface Configv1MutingRuleLabelMatcher {
-  type?: Configv1MutingRuleLabelMatcherMatcherType | (string & {});
+  type?: Configv1MutingRuleLabelMatcherMatcherType | (string & {}) | undefined;
   /** Required. Always matches against an exact label name. */
-  name?: string;
+  name?: string | undefined;
   /** Required. Matches against a label value based on the configured type. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Required. Specifies which series are silenced by the muting rule. Alerting series must match all muting rule matchers to be silenced. You can't update this value. Updates must specify the original value. */
 export type Configv1MutingRuleInputLabelMatchersList = Array<Configv1MutingRuleLabelMatcher>;
 export interface Configv1MutingRuleInput {
   /** Unique identifier of the MutingRule. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the MutingRule is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the MutingRule. You can modify this value after the MutingRule is created. */
-  name?: string;
+  name?: string | undefined;
   /** Required. Specifies which series are silenced by the muting rule. Alerting series must match all muting rule matchers to be silenced. You can't update this value. Updates must specify the original value. */
-  label_matchers?: Configv1MutingRuleInputLabelMatchersList;
+  label_matchers?: Configv1MutingRuleInputLabelMatchersList | undefined;
   /** Required. Timestamp of when the muting rule becomes active. You can't update this value. Updates must specify the original value. */
-  starts_at?: string;
+  starts_at?: string | undefined;
   /** Required. Timestamp of when the muting rule stops being active. */
-  ends_at?: string;
+  ends_at?: string | undefined;
   /** Descriptive comment that explains why the muting rule was created. */
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface CreateMutingRuleRequest {
-  muting_rule?: Configv1MutingRuleInput;
+  muting_rule?: Configv1MutingRuleInput | undefined;
   /** If true, the MutingRule isn't created, and no response MutingRule will be returned. The response will return an error if the given MutingRule is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** Required. Specifies which series are silenced by the muting rule. Alerting series must match all muting rule matchers to be silenced. You can't update this value. Updates must specify the original value. */
 export type Configv1MutingRuleLabelMatchersList = Array<Configv1MutingRuleLabelMatcher>;
 export interface Configv1MutingRule {
   /** Unique identifier of the MutingRule. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the MutingRule is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the MutingRule. You can modify this value after the MutingRule is created. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the MutingRule was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the MutingRule was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Required. Specifies which series are silenced by the muting rule. Alerting series must match all muting rule matchers to be silenced. You can't update this value. Updates must specify the original value. */
-  label_matchers?: Configv1MutingRuleLabelMatchersList;
+  label_matchers?: Configv1MutingRuleLabelMatchersList | undefined;
   /** Required. Timestamp of when the muting rule becomes active. You can't update this value. Updates must specify the original value. */
-  starts_at?: string;
+  starts_at?: string | undefined;
   /** Required. Timestamp of when the muting rule stops being active. */
-  ends_at?: string;
+  ends_at?: string | undefined;
   /** Descriptive comment that explains why the muting rule was created. */
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface Configv1CreateMutingRuleResponse {
-  muting_rule?: Configv1MutingRule;
+  muting_rule?: Configv1MutingRule | undefined;
 }
 /** Slugs of notifiers that will receive the alerts. */
 export type RoutesNotifierListNotifierSlugsList = Array<string>;
@@ -1237,370 +1237,370 @@ export type RoutesNotifierListNotifierSlugsList = Array<string>;
 export type NotificationPolicyRoutesGroupByLabelNamesList = Array<string>;
 export interface NotificationPolicyRoutesGroupBy {
   /** Set of label names used to group alerts. For example, if label_names is ["service", "code"] then all alerts including labels {service="foo",code="404"} will be grouped together. */
-  label_names?: NotificationPolicyRoutesGroupByLabelNamesList;
+  label_names?: NotificationPolicyRoutesGroupByLabelNamesList | undefined;
 }
 export interface RoutesNotifierList {
   /** Slugs of notifiers that will receive the alerts. */
-  notifier_slugs?: RoutesNotifierListNotifierSlugsList;
+  notifier_slugs?: RoutesNotifierListNotifierSlugsList | undefined;
   /** Frequency at which to resend alerts. */
-  repeat_interval_secs?: number;
-  group_by?: NotificationPolicyRoutesGroupBy;
+  repeat_interval_secs?: number | undefined;
+  group_by?: NotificationPolicyRoutesGroupBy | undefined;
 }
 export interface RoutesSeverityNotifiers {
-  warn?: RoutesNotifierList;
-  critical?: RoutesNotifierList;
+  warn?: RoutesNotifierList | undefined;
+  critical?: RoutesNotifierList | undefined;
 }
 /** Set of matchers on an alert's labels. If all labels match then the override notifiers apply. */
 export type NotificationPolicyRoutesOverrideAlertLabelMatchersList = Array<Configv1LabelMatcher>;
 export interface NotificationPolicyRoutesOverride {
   /** Set of matchers on an alert's labels. If all labels match then the override notifiers apply. */
-  alert_label_matchers?: NotificationPolicyRoutesOverrideAlertLabelMatchersList;
-  notifiers?: RoutesSeverityNotifiers;
+  alert_label_matchers?: NotificationPolicyRoutesOverrideAlertLabelMatchersList | undefined;
+  notifiers?: RoutesSeverityNotifiers | undefined;
 }
 /** Optional list of overrides to use for alerts having matching labels. Each override defines labels that potentially match an alert's labels. If one or more overrides match an alert, the notifiers of the first matching override are used instead of the defaults. */
 export type NotificationPolicyRoutesOverridesList = Array<NotificationPolicyRoutesOverride>;
 export interface NotificationPolicyRoutes {
-  defaults?: RoutesSeverityNotifiers;
+  defaults?: RoutesSeverityNotifiers | undefined;
   /** Optional list of overrides to use for alerts having matching labels. Each override defines labels that potentially match an alert's labels. If one or more overrides match an alert, the notifiers of the first matching override are used instead of the defaults. */
-  overrides?: NotificationPolicyRoutesOverridesList;
+  overrides?: NotificationPolicyRoutesOverridesList | undefined;
 }
 export interface Configv1NotificationPolicyInput {
   /** Unique identifier of the NotificationPolicy. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the NotificationPolicy is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the NotificationPolicy. You can modify this value after the NotificationPolicy is created. */
-  name?: string;
+  name?: string | undefined;
   /** Slug of the bucket the notification policy belongs to. Required if team_slug is not set. */
-  bucket_slug?: string;
+  bucket_slug?: string | undefined;
   /** Slug of the team the notification policy belongs to. Required if bucket_slug is not set. */
-  team_slug?: string;
-  routes?: NotificationPolicyRoutes;
+  team_slug?: string | undefined;
+  routes?: NotificationPolicyRoutes | undefined;
 }
 export interface CreateNotificationPolicyRequest {
-  notification_policy?: Configv1NotificationPolicyInput;
+  notification_policy?: Configv1NotificationPolicyInput | undefined;
   /** If true, the NotificationPolicy isn't created, and no response NotificationPolicy will be returned. The response will return an error if the given NotificationPolicy is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1NotificationPolicy {
   /** Unique identifier of the NotificationPolicy. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the NotificationPolicy is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the NotificationPolicy. You can modify this value after the NotificationPolicy is created. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the NotificationPolicy was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the NotificationPolicy was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Slug of the bucket the notification policy belongs to. Required if team_slug is not set. */
-  bucket_slug?: string;
+  bucket_slug?: string | undefined;
   /** Slug of the team the notification policy belongs to. Required if bucket_slug is not set. */
-  team_slug?: string;
-  routes?: NotificationPolicyRoutes;
+  team_slug?: string | undefined;
+  routes?: NotificationPolicyRoutes | undefined;
 }
 export interface Configv1CreateNotificationPolicyResponse {
-  notification_policy?: Configv1NotificationPolicy;
+  notification_policy?: Configv1NotificationPolicy | undefined;
 }
 export interface HTTPConfigBasicAuth {
-  username?: string;
-  password?: string | Redacted.Redacted<string>;
+  username?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 export interface HTTPConfigTLSConfig {
   /** Disables validation of the server certificate. */
-  insecure_skip_verify?: boolean;
+  insecure_skip_verify?: boolean | undefined;
 }
 export interface NotifierHTTPConfig {
-  basic_auth?: HTTPConfigBasicAuth;
+  basic_auth?: HTTPConfigBasicAuth | undefined;
   /** Bearer token authentication. Cannot be set if basic_auth is set. */
-  bearer_token?: string;
+  bearer_token?: string | undefined;
   /** Optional proxy URL. DEPRECATED: Custom proxies are unsupported. */
-  proxy_url?: string;
-  tls_config?: HTTPConfigTLSConfig;
+  proxy_url?: string | undefined;
+  tls_config?: HTTPConfigTLSConfig | undefined;
 }
 export interface NotifierWebhookConfig {
-  http_config?: NotifierHTTPConfig;
+  http_config?: NotifierHTTPConfig | undefined;
   /** Required webhook URL (will be called as a POST request). */
-  url?: string;
+  url?: string | undefined;
 }
 export type NotifierSlackConfigMrkdwnInList = Array<string>;
 export interface SlackConfigField {
-  title?: string;
-  value?: string;
-  short?: boolean;
+  title?: string | undefined;
+  value?: string | undefined;
+  short?: boolean | undefined;
 }
 export type NotifierSlackConfigFieldsList = Array<SlackConfigField>;
 export interface SlackConfigConfirmationField {
-  text?: string;
-  title?: string;
-  ok_text?: string;
-  dismiss_text?: string;
+  text?: string | undefined;
+  title?: string | undefined;
+  ok_text?: string | undefined;
+  dismiss_text?: string | undefined;
 }
 export interface NotifierSlackConfigAction {
-  type?: string;
-  text?: string;
-  url?: string;
-  style?: string;
-  name?: string;
-  value?: string;
-  confirm_field?: SlackConfigConfirmationField;
+  type?: string | undefined;
+  text?: string | undefined;
+  url?: string | undefined;
+  style?: string | undefined;
+  name?: string | undefined;
+  value?: string | undefined;
+  confirm_field?: SlackConfigConfirmationField | undefined;
 }
 export type NotifierSlackConfigActionsList = Array<NotifierSlackConfigAction>;
 export interface NotifierSlackConfig {
-  http_config?: NotifierHTTPConfig;
+  http_config?: NotifierHTTPConfig | undefined;
   /** Required Slack webhook API URL. */
-  api_url?: string;
+  api_url?: string | undefined;
   /** The channel to send notifications to. */
-  channel?: string;
+  channel?: string | undefined;
   /** The user to send notifications to. */
-  username?: string;
-  color?: string;
-  title?: string;
-  title_link?: string;
-  pretext?: string;
-  text?: string;
-  footer?: string;
-  fallback?: string;
-  callback_id?: string;
-  icon_emoji?: string;
-  icon_url?: string;
-  image_url?: string;
-  thumb_url?: string;
-  short_fields?: boolean;
-  link_names?: boolean;
-  mrkdwn_in?: NotifierSlackConfigMrkdwnInList;
-  fields?: NotifierSlackConfigFieldsList;
-  actions?: NotifierSlackConfigActionsList;
+  username?: string | undefined;
+  color?: string | undefined;
+  title?: string | undefined;
+  title_link?: string | undefined;
+  pretext?: string | undefined;
+  text?: string | undefined;
+  footer?: string | undefined;
+  fallback?: string | undefined;
+  callback_id?: string | undefined;
+  icon_emoji?: string | undefined;
+  icon_url?: string | undefined;
+  image_url?: string | undefined;
+  thumb_url?: string | undefined;
+  short_fields?: boolean | undefined;
+  link_names?: boolean | undefined;
+  mrkdwn_in?: NotifierSlackConfigMrkdwnInList | undefined;
+  fields?: NotifierSlackConfigFieldsList | undefined;
+  actions?: NotifierSlackConfigActionsList | undefined;
 }
 /** Set of arbitrary key/value pairs which provide further detail about the incident. */
 export type NotifierPagerdutyConfigDetailsMap = { [key: string]: string | undefined };
 export interface PagerdutyConfigImage {
-  src?: string;
-  alt?: string;
-  href?: string;
+  src?: string | undefined;
+  alt?: string | undefined;
+  href?: string | undefined;
 }
 /** Images to attach to the incident. */
 export type NotifierPagerdutyConfigImagesList = Array<PagerdutyConfigImage>;
 export interface PagerdutyConfigLink {
-  href?: string;
-  text?: string;
+  href?: string | undefined;
+  text?: string | undefined;
 }
 /** Links to attach to the incident. */
 export type NotifierPagerdutyConfigLinksList = Array<PagerdutyConfigLink>;
 export interface NotifierPagerdutyConfig {
-  http_config?: NotifierHTTPConfig;
+  http_config?: NotifierHTTPConfig | undefined;
   /** The Pagerduty URL to send API requests to. */
-  url?: string;
+  url?: string | undefined;
   /** Client identification of the notification sender. */
-  client?: string;
+  client?: string | undefined;
   /** A backlink to the sender of the notification. */
-  client_url?: string;
+  client_url?: string | undefined;
   /** Description of the incident. */
-  description?: string;
+  description?: string | undefined;
   /** Severity of the incident. Valid values are 'critical', 'error', 'warning', 'info', or blank */
-  severity?: string;
+  severity?: string | undefined;
   /** The class/type of the event. */
-  class?: string;
+  class?: string | undefined;
   /** The part or component of the affected system which is broken. */
-  component?: string;
+  component?: string | undefined;
   /** A cluster or grouping of services. */
-  group?: string;
+  group?: string | undefined;
   /** Set of arbitrary key/value pairs which provide further detail about the incident. */
-  details?: NotifierPagerdutyConfigDetailsMap;
+  details?: NotifierPagerdutyConfigDetailsMap | undefined;
   /** Images to attach to the incident. */
-  images?: NotifierPagerdutyConfigImagesList;
+  images?: NotifierPagerdutyConfigImagesList | undefined;
   /** Links to attach to the incident. */
-  links?: NotifierPagerdutyConfigLinksList;
+  links?: NotifierPagerdutyConfigLinksList | undefined;
   /** The PagerDuty integration key (when using PagerDuty integration type "Prometheus"). Cannot be set if routing_key is set. */
-  service_key?: string;
+  service_key?: string | undefined;
   /** The PagerDuty integration key (when using PagerDuty integration type "Events API v2"). Cannot be set if service_key is set. */
-  routing_key?: string;
+  routing_key?: string | undefined;
 }
 export interface NotifierEmailConfig {
   /** Required email address to send notifications to. */
-  to?: string;
+  to?: string | undefined;
   /** Optional HTML body of the email. */
-  html?: string;
+  html?: string | undefined;
   /** Optional text body of the email. */
-  text?: string;
+  text?: string | undefined;
 }
 /** A set of arbitrary key/value pairs that provide further detail about the alert. */
 export type NotifierOpsGenieConfigDetailsMap = { [key: string]: string | undefined };
 export type ResponderResponderType = "TEAM" | "USER" | "ESCALATION" | "SCHEDULE";
 export interface OpsGenieConfigResponder {
   /** ID of the responder. Cannot be set if name or username are set. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the responder. Cannot be set if id or username are set. */
-  name?: string;
+  name?: string | undefined;
   /** Username of the responder. Cannot be set if id or name are set. */
-  username?: string;
-  responder_type?: ResponderResponderType | (string & {});
+  username?: string | undefined;
+  responder_type?: ResponderResponderType | (string & {}) | undefined;
 }
 /** List of responders responsible for notifications. */
 export type NotifierOpsGenieConfigRespondersList = Array<OpsGenieConfigResponder>;
 export interface NotifierOpsGenieConfig {
-  http_config?: NotifierHTTPConfig;
+  http_config?: NotifierHTTPConfig | undefined;
   /** Required OpsGenie API key. */
-  api_key?: string | Redacted.Redacted<string>;
+  api_key?: string | Redacted.Redacted<string> | undefined;
   /** Required OpsGenie API URL to send requests to, e.g. "https://api.opsgenie.com/". */
-  api_url?: string;
+  api_url?: string | undefined;
   /** Alert text. */
-  message?: string;
+  message?: string | undefined;
   /** Description of the alert. */
-  description?: string;
+  description?: string | undefined;
   /** A backlink to the sender of the notification. */
-  source?: string;
+  source?: string | undefined;
   /** A set of arbitrary key/value pairs that provide further detail about the alert. */
-  details?: NotifierOpsGenieConfigDetailsMap;
+  details?: NotifierOpsGenieConfigDetailsMap | undefined;
   /** List of responders responsible for notifications. */
-  responders?: NotifierOpsGenieConfigRespondersList;
+  responders?: NotifierOpsGenieConfigRespondersList | undefined;
   /** Comma separated list of tags attached to the notifications. */
-  tags?: string;
+  tags?: string | undefined;
   /** Additional alert note. */
-  note?: string;
+  note?: string | undefined;
   /** Priority level of alert. Possible values are P1, P2, P3, P4, and P5. */
-  priority?: string;
+  priority?: string | undefined;
 }
 export type NotifierVictorOpsConfigCustomFieldsMap = { [key: string]: string | undefined };
 export interface NotifierVictorOpsConfig {
-  http_config?: NotifierHTTPConfig;
+  http_config?: NotifierHTTPConfig | undefined;
   /** Required VictorOps API key. */
-  api_key?: string | Redacted.Redacted<string>;
+  api_key?: string | Redacted.Redacted<string> | undefined;
   /** Required VictorOps API URL. */
-  api_url?: string;
+  api_url?: string | undefined;
   /** Required VictorOps routing key. */
-  routing_key?: string;
+  routing_key?: string | undefined;
   /** Describes the behavior of the alert (CRITICAL, WARNING, INFO). */
-  message_type?: string;
+  message_type?: string | undefined;
   /** Summary of the alerted problem. */
-  entity_display_name?: string;
+  entity_display_name?: string | undefined;
   /** Long explanation of the alerted problem. */
-  state_message?: string;
+  state_message?: string | undefined;
   /** The monitoring tool the state message is from. */
-  monitoring_tool?: string;
-  custom_fields?: NotifierVictorOpsConfigCustomFieldsMap;
+  monitoring_tool?: string | undefined;
+  custom_fields?: NotifierVictorOpsConfigCustomFieldsMap | undefined;
 }
 export interface Configv1NotifierInput {
   /** Unique identifier of the Notifier. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Notifier is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the Notifier. You can modify this value after the Notifier is created. */
-  name?: string;
+  name?: string | undefined;
   /** If true, do not notify on resolved alerts. Cannot set if discard is set. */
-  skip_resolved?: boolean;
-  webhook?: NotifierWebhookConfig;
-  slack?: NotifierSlackConfig;
-  pagerduty?: NotifierPagerdutyConfig;
-  email?: NotifierEmailConfig;
-  ops_genie?: NotifierOpsGenieConfig;
-  victor_ops?: NotifierVictorOpsConfig;
+  skip_resolved?: boolean | undefined;
+  webhook?: NotifierWebhookConfig | undefined;
+  slack?: NotifierSlackConfig | undefined;
+  pagerduty?: NotifierPagerdutyConfig | undefined;
+  email?: NotifierEmailConfig | undefined;
+  ops_genie?: NotifierOpsGenieConfig | undefined;
+  victor_ops?: NotifierVictorOpsConfig | undefined;
   /** If set, enables the "discard" integration which simply discards all notifications. Cannot set if another integration is set. */
-  discard?: boolean;
+  discard?: boolean | undefined;
 }
 export interface CreateNotifierRequest {
-  notifier?: Configv1NotifierInput;
+  notifier?: Configv1NotifierInput | undefined;
   /** If true, the Notifier isn't created, and no response Notifier will be returned. The response will return an error if the given Notifier is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1Notifier {
   /** Unique identifier of the Notifier. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Notifier is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the Notifier. You can modify this value after the Notifier is created. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the Notifier was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the Notifier was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** If true, do not notify on resolved alerts. Cannot set if discard is set. */
-  skip_resolved?: boolean;
-  webhook?: NotifierWebhookConfig;
-  slack?: NotifierSlackConfig;
-  pagerduty?: NotifierPagerdutyConfig;
-  email?: NotifierEmailConfig;
-  ops_genie?: NotifierOpsGenieConfig;
-  victor_ops?: NotifierVictorOpsConfig;
+  skip_resolved?: boolean | undefined;
+  webhook?: NotifierWebhookConfig | undefined;
+  slack?: NotifierSlackConfig | undefined;
+  pagerduty?: NotifierPagerdutyConfig | undefined;
+  email?: NotifierEmailConfig | undefined;
+  ops_genie?: NotifierOpsGenieConfig | undefined;
+  victor_ops?: NotifierVictorOpsConfig | undefined;
   /** If set, enables the "discard" integration which simply discards all notifications. Cannot set if another integration is set. */
-  discard?: boolean;
+  discard?: boolean | undefined;
 }
 export interface Configv1CreateNotifierResponse {
-  notifier?: Configv1Notifier;
+  notifier?: Configv1Notifier | undefined;
 }
 export type ResourceAttributesFlattenMode = "MERGE" | "OVERWRITE" | "IGNORE";
 export type ResourceAttributesFilterMode = "APPEND_DEFAULT_EXCLUDE_KEYS" | "CUSTOM_EXCLUDE_KEYS";
 /** Do not copy any resource attribute whose key exactly matches one of the strings in this list. */
 export type OtelMetricsIngestionResourceAttributesExcludeKeysList = Array<string>;
 export interface OtelMetricsIngestionResourceAttributes {
-  flatten_mode?: ResourceAttributesFlattenMode | (string & {});
-  filter_mode?: ResourceAttributesFilterMode | (string & {});
+  flatten_mode?: ResourceAttributesFlattenMode | (string & {}) | undefined;
+  filter_mode?: ResourceAttributesFilterMode | (string & {}) | undefined;
   /** Do not copy any resource attribute whose key exactly matches one of the strings in this list. */
-  exclude_keys?: OtelMetricsIngestionResourceAttributesExcludeKeysList;
+  exclude_keys?: OtelMetricsIngestionResourceAttributesExcludeKeysList | undefined;
   /** Generate a target_info time series with labels derived from resource attributes. The filter_mode and exclude_keys settings apply in the same way as for the "flatten" operation. The default is false. */
-  generate_target_info?: boolean;
+  generate_target_info?: boolean | undefined;
 }
 export interface Configv1OtelMetricsIngestionInput {
-  resource_attributes?: OtelMetricsIngestionResourceAttributes;
+  resource_attributes?: OtelMetricsIngestionResourceAttributes | undefined;
 }
 export interface CreateOtelMetricsIngestionRequest {
-  otel_metrics_ingestion?: Configv1OtelMetricsIngestionInput;
+  otel_metrics_ingestion?: Configv1OtelMetricsIngestionInput | undefined;
   /** If true, the OtelMetricsIngestion isn't created, and no response OtelMetricsIngestion will be returned. The response will return an error if the given OtelMetricsIngestion is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1OtelMetricsIngestion {
   /** Timestamp of when the OtelMetricsIngestion was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the OtelMetricsIngestion was last updated. Cannot be set by clients. */
-  updated_at?: string;
-  resource_attributes?: OtelMetricsIngestionResourceAttributes;
+  updated_at?: string | undefined;
+  resource_attributes?: OtelMetricsIngestionResourceAttributes | undefined;
 }
 export interface Configv1CreateOtelMetricsIngestionResponse {
-  otel_metrics_ingestion?: Configv1OtelMetricsIngestion;
+  otel_metrics_ingestion?: Configv1OtelMetricsIngestion | undefined;
 }
 /** Labels to add or overwrite before storing the result. */
 export type Configv1RecordingRuleLabelPolicyAddMap = { [key: string]: string | undefined };
 export interface Configv1RecordingRuleLabelPolicy {
   /** Labels to add or overwrite before storing the result. */
-  add?: Configv1RecordingRuleLabelPolicyAddMap;
+  add?: Configv1RecordingRuleLabelPolicyAddMap | undefined;
 }
 export interface Configv1RecordingRuleInput {
   /** Unique identifier of the RecordingRule. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the RecordingRule is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the RecordingRule. You can modify this value after the RecordingRule is created. */
-  name?: string;
+  name?: string | undefined;
   /** Optional slug of the bucket the RecordingRule belongs to. */
-  bucket_slug?: string;
-  label_policy?: Configv1RecordingRuleLabelPolicy;
+  bucket_slug?: string | undefined;
+  label_policy?: Configv1RecordingRuleLabelPolicy | undefined;
   /** Optional interval for evaluating the recording rule. */
-  interval_secs?: number;
+  interval_secs?: number | undefined;
   /** The name of the time series to use for output, which must be a valid metric name. */
-  metric_name?: string;
+  metric_name?: string | undefined;
   /** The PromQL expression to evaluate at the time of each evaluation cycle. The result is recorded as a new time series with its metric name defined by the metric_name (or name) field. */
-  prometheus_expr?: string;
+  prometheus_expr?: string | undefined;
   /** Optional execution_group in which this rule is to be evaluated. At least one of bucket_slug and execution_group must be set. If both are set, then they are expected to match. */
-  execution_group?: string;
+  execution_group?: string | undefined;
 }
 export interface CreateRecordingRuleRequest {
-  recording_rule?: Configv1RecordingRuleInput;
+  recording_rule?: Configv1RecordingRuleInput | undefined;
   /** If true, the RecordingRule isn't created, and no response RecordingRule will be returned. The response will return an error if the given RecordingRule is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1RecordingRule {
   /** Unique identifier of the RecordingRule. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the RecordingRule is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the RecordingRule. You can modify this value after the RecordingRule is created. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the RecordingRule was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the RecordingRule was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Optional slug of the bucket the RecordingRule belongs to. */
-  bucket_slug?: string;
-  label_policy?: Configv1RecordingRuleLabelPolicy;
+  bucket_slug?: string | undefined;
+  label_policy?: Configv1RecordingRuleLabelPolicy | undefined;
   /** Optional interval for evaluating the recording rule. */
-  interval_secs?: number;
+  interval_secs?: number | undefined;
   /** The name of the time series to use for output, which must be a valid metric name. */
-  metric_name?: string;
+  metric_name?: string | undefined;
   /** The PromQL expression to evaluate at the time of each evaluation cycle. The result is recorded as a new time series with its metric name defined by the metric_name (or name) field. */
-  prometheus_expr?: string;
+  prometheus_expr?: string | undefined;
   /** Optional execution_group in which this rule is to be evaluated. At least one of bucket_slug and execution_group must be set. If both are set, then they are expected to match. */
-  execution_group?: string;
+  execution_group?: string | undefined;
 }
 export interface Configv1CreateRecordingRuleResponse {
-  recording_rule?: Configv1RecordingRule;
+  recording_rule?: Configv1RecordingRule | undefined;
 }
 export type ResourcePoolsLicense =
   | "PERSISTED_WRITES_STANDARD"
@@ -1610,32 +1610,32 @@ export type ResourcePoolsLicense =
   | "MATCHED_WRITES_STANDARD"
   | "MATCHED_WRITES_HISTOGRAM";
 export interface AllocationFixedValue {
-  license?: ResourcePoolsLicense | (string & {});
-  value?: string;
+  license?: ResourcePoolsLicense | (string & {}) | undefined;
+  value?: string | undefined;
 }
 /** Fixed values optionally override `percent_of_license` allocations for specified licenses. When defining fixed values for a license, all pools must have an explicit fixed value specification for that given license. The default pool receives all remaining quota left within the license, after subtracting the sum of fixed values across pools for that license. */
 export type Configv1ResourcePoolsAllocationFixedValuesList = Array<AllocationFixedValue>;
 export interface AllocationThreshold {
   /** Threshold expressed as a percent of the license allocated to a pool. A value of `100` represents a threshold that is the pool's full allocation. Values over `100` indicate thresholds that exceed the pool's allocation. For example, a value of `50` represents a threshold that is half the pool's allocation and a value of `200` represents a threshold that is double the pool's allocation. */
-  percent_of_pool_allocation?: number;
+  percent_of_pool_allocation?: number | undefined;
   /** Threshold expressed as a fixed value of the license. */
-  fixed_value?: string;
+  fixed_value?: string | undefined;
 }
 export interface AllocationThresholds {
-  license?: ResourcePoolsLicense | (string & {});
-  all_priorities?: AllocationThreshold;
-  default_and_low_priority?: AllocationThreshold;
-  low_priority?: AllocationThreshold;
+  license?: ResourcePoolsLicense | (string & {}) | undefined;
+  all_priorities?: AllocationThreshold | undefined;
+  default_and_low_priority?: AllocationThreshold | undefined;
+  low_priority?: AllocationThreshold | undefined;
 }
 /** Optional. For supported licenses, defines thresholds with strict limits for when to drop new consumption of the license for a pool. Currently, only `PERSISTED_CARDINALITY_STANDARD` and `PERSISTED_CARDINALITY_HISTOGRAM` are supported. */
 export type Configv1ResourcePoolsAllocationPriorityThresholdsList = Array<AllocationThresholds>;
 export interface Configv1ResourcePoolsAllocation {
   /** Percent of the license to allocate to this pool. Must be between 0 and 100 inclusive. The percent_of_license values across all pools (excluding the default pool) must be <= 100. default_pool need not specify an allocation, and implicitly receives any remaining allocation. If default_pool does explicitly specify an allocation, the sum of percent_of_license across all pools (including the default pool) must exactly equal 100. */
-  percent_of_license?: number;
+  percent_of_license?: number | undefined;
   /** Fixed values optionally override `percent_of_license` allocations for specified licenses. When defining fixed values for a license, all pools must have an explicit fixed value specification for that given license. The default pool receives all remaining quota left within the license, after subtracting the sum of fixed values across pools for that license. */
-  fixed_values?: Configv1ResourcePoolsAllocationFixedValuesList;
+  fixed_values?: Configv1ResourcePoolsAllocationFixedValuesList | undefined;
   /** Optional. For supported licenses, defines thresholds with strict limits for when to drop new consumption of the license for a pool. Currently, only `PERSISTED_CARDINALITY_STANDARD` and `PERSISTED_CARDINALITY_HISTOGRAM` are supported. */
-  priority_thresholds?: Configv1ResourcePoolsAllocationPriorityThresholdsList;
+  priority_thresholds?: Configv1ResourcePoolsAllocationPriorityThresholdsList | undefined;
 }
 /** Required filters which define which metrics are high priority, where any metric which matches at least one filter is considered high priority. High priority metrics are dropped last when the license limit is exceeded. */
 export type ResourcePoolsPrioritiesHighPriorityFiltersList = Array<Configv1LabelFilter>;
@@ -1643,53 +1643,53 @@ export type ResourcePoolsPrioritiesHighPriorityFiltersList = Array<Configv1Label
 export type ResourcePoolsPrioritiesLowPriorityFiltersList = Array<Configv1LabelFilter>;
 export interface ResourcePoolsPriorities {
   /** Required filters which define which metrics are high priority, where any metric which matches at least one filter is considered high priority. High priority metrics are dropped last when the license limit is exceeded. */
-  high_priority_filters?: ResourcePoolsPrioritiesHighPriorityFiltersList;
+  high_priority_filters?: ResourcePoolsPrioritiesHighPriorityFiltersList | undefined;
   /** Required filters which define which metrics are low priority, where any metric which matches at least one filter is considered low priority. Low priority metrics are dropped first when the license limit is exceeded. */
-  low_priority_filters?: ResourcePoolsPrioritiesLowPriorityFiltersList;
+  low_priority_filters?: ResourcePoolsPrioritiesLowPriorityFiltersList | undefined;
 }
 /** Optional. For supported licenses, defines thresholds with strict limits for when to drop new consumption of the license for a pool. Currently, only `PERSISTED_CARDINALITY_STANDARD` and `PERSISTED_CARDINALITY_HISTOGRAM` are supported. */
 export type ResourcePoolsDefaultPoolPriorityThresholdsList = Array<AllocationThresholds>;
 export interface ResourcePoolsDefaultPool {
-  allocation?: Configv1ResourcePoolsAllocation;
-  priorities?: ResourcePoolsPriorities;
+  allocation?: Configv1ResourcePoolsAllocation | undefined;
+  priorities?: ResourcePoolsPriorities | undefined;
   /** Optional. For supported licenses, defines thresholds with strict limits for when to drop new consumption of the license for a pool. Currently, only `PERSISTED_CARDINALITY_STANDARD` and `PERSISTED_CARDINALITY_HISTOGRAM` are supported. */
-  priority_thresholds?: ResourcePoolsDefaultPoolPriorityThresholdsList;
+  priority_thresholds?: ResourcePoolsDefaultPoolPriorityThresholdsList | undefined;
 }
 /** Required filters which define which metrics map to this pool, where any metric which matches at least one filter will map to the pool. */
 export type ResourcePoolsPoolFiltersList = Array<Configv1LabelFilter>;
 export interface ResourcePoolsPool {
   /** Required name of the pool. Must be unique. */
-  name?: string;
-  allocation?: Configv1ResourcePoolsAllocation;
+  name?: string | undefined;
+  allocation?: Configv1ResourcePoolsAllocation | undefined;
   /** Required filters which define which metrics map to this pool, where any metric which matches at least one filter will map to the pool. */
-  filters?: ResourcePoolsPoolFiltersList;
-  priorities?: ResourcePoolsPriorities;
+  filters?: ResourcePoolsPoolFiltersList | undefined;
+  priorities?: ResourcePoolsPriorities | undefined;
 }
 /** Optional pools. Cannot set more than 20 pools. */
 export type Configv1ResourcePoolsInputPoolsList = Array<ResourcePoolsPool>;
 export interface Configv1ResourcePoolsInput {
-  default_pool?: ResourcePoolsDefaultPool;
+  default_pool?: ResourcePoolsDefaultPool | undefined;
   /** Optional pools. Cannot set more than 20 pools. */
-  pools?: Configv1ResourcePoolsInputPoolsList;
+  pools?: Configv1ResourcePoolsInputPoolsList | undefined;
 }
 export interface CreateResourcePoolsRequest {
-  resource_pools?: Configv1ResourcePoolsInput;
+  resource_pools?: Configv1ResourcePoolsInput | undefined;
   /** If true, the ResourcePools isn't created, and no response ResourcePools will be returned. The response will return an error if the given ResourcePools is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** Optional pools. Cannot set more than 20 pools. */
 export type Configv1ResourcePoolsPoolsList = Array<ResourcePoolsPool>;
 export interface Configv1ResourcePools {
   /** Timestamp of when the ResourcePools was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the ResourcePools was last updated. Cannot be set by clients. */
-  updated_at?: string;
-  default_pool?: ResourcePoolsDefaultPool;
+  updated_at?: string | undefined;
+  default_pool?: ResourcePoolsDefaultPool | undefined;
   /** Optional pools. Cannot set more than 20 pools. */
-  pools?: Configv1ResourcePoolsPoolsList;
+  pools?: Configv1ResourcePoolsPoolsList | undefined;
 }
 export interface Configv1CreateResourcePoolsResponse {
-  resource_pools?: Configv1ResourcePools;
+  resource_pools?: Configv1ResourcePools | undefined;
 }
 /** Filters incoming metrics by label. If multiple label filters are specified, an incoming metric must match every label filter to match the rule. Label values support glob patterns, including matching multiple patterns with an `OR`, such as `service:{svc1,svc2}`. These special filters are available for matching metrics by non-label request metadata: * `__metric_type__`: Matches the incoming metric's [Cortex XCOR metric type](https://docs.chronosphere.io/control/shaping/types#cortex-xcor-types). This is the recommended method for filtering on metric type. Valid values: `cumulative_counter`, `cumulative_exponential_histogram`, `delta_counter`, `delta_exponential_histogram`, `gauge`, `measurement`. * `__metric_source__`: Matches the incoming metric's [source format](https://docs.chronosphere.io/control/shaping/types#supported-formats). Valid values: `carbon`, `chrono_gcp`, `dogstatsd`, `open_metrics`, `open_telemetry`, `prometheus`, `signalfx`, `statsd`, `wavefront`. * `__m3_prom_type__`: When ingesting with Prometheus, matches the incoming metric's [Prometheus metric type](https://docs.chronosphere.io/control/shaping/types#prometheus). Valid values: `counter`, `gauge`, `histogram`, `gauge_histogram`, `summary`, `info`, `state_set`, `quantile`. * `__otel_type__`: When ingesting with OpenTelemetry, matches on the incoming metric's [OpenTelemetry metric type](https://docs.chronosphere.io/control/shaping/types#opentelemetry). Valid values: `sum`, `monotonic_sum`, `gauge`, `histogram`, `exp_histogram`, `summary`. For example, the following filter matches any cumulative counter metric with a `service=gateway` label whose metric name starts with `http_requests_`: ``` __metric_type__:cumulative_counter service:gateway __name__:http_requests_* ``` */
 export type Configv1RollupRuleInputFiltersList = Array<Configv1LabelFilter>;
@@ -1712,132 +1712,132 @@ export type Configv1RollupRuleLabelPolicyDiscardList = Array<string>;
 /** TODO: consolidate w/ RecordingRule.LabelPolicy once both of these entities implement the same label semantics. */
 export interface Configv1RollupRuleLabelPolicy {
   /** Labels that should be retained in the output metric. If set, then the discard field must be empty. */
-  keep?: Configv1RollupRuleLabelPolicyKeepList;
+  keep?: Configv1RollupRuleLabelPolicyKeepList | undefined;
   /** Labels that should be discarded in the output metric. If set, then the keep field must be empty. */
-  discard?: Configv1RollupRuleLabelPolicyDiscardList;
+  discard?: Configv1RollupRuleLabelPolicyDiscardList | undefined;
 }
 export type Configv1RollupRuleMode = "ENABLED" | "PREVIEW";
 export interface GraphiteLabelPolicyReplace {
   /** Required name of the label whose value should be replaced. Only `__gX__` labels are allowed (aka positional Graphite labels). */
-  name?: string;
+  name?: string | undefined;
   /** Required new value of the replaced label. */
-  new_value?: string;
+  new_value?: string | undefined;
 }
 /** Required list of labels to replace. Useful for discarding high-cardinality values while still preserving the original positions of the Graphite metric. */
 export type RollupRuleGraphiteLabelPolicyReplaceList = Array<GraphiteLabelPolicyReplace>;
 export interface RollupRuleGraphiteLabelPolicy {
   /** Required list of labels to replace. Useful for discarding high-cardinality values while still preserving the original positions of the Graphite metric. */
-  replace?: RollupRuleGraphiteLabelPolicyReplaceList;
+  replace?: RollupRuleGraphiteLabelPolicyReplaceList | undefined;
 }
 export interface Configv1RollupRuleInput {
   /** Unique identifier of the RollupRule. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the RollupRule is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the RollupRule. You can modify this value after the RollupRule is created. */
-  name?: string;
+  name?: string | undefined;
   /** Required. Slug of the bucket the RollupRule belongs to. */
-  bucket_slug?: string;
+  bucket_slug?: string | undefined;
   /** Filters incoming metrics by label. If multiple label filters are specified, an incoming metric must match every label filter to match the rule. Label values support glob patterns, including matching multiple patterns with an `OR`, such as `service:{svc1,svc2}`. These special filters are available for matching metrics by non-label request metadata: * `__metric_type__`: Matches the incoming metric's [Cortex XCOR metric type](https://docs.chronosphere.io/control/shaping/types#cortex-xcor-types). This is the recommended method for filtering on metric type. Valid values: `cumulative_counter`, `cumulative_exponential_histogram`, `delta_counter`, `delta_exponential_histogram`, `gauge`, `measurement`. * `__metric_source__`: Matches the incoming metric's [source format](https://docs.chronosphere.io/control/shaping/types#supported-formats). Valid values: `carbon`, `chrono_gcp`, `dogstatsd`, `open_metrics`, `open_telemetry`, `prometheus`, `signalfx`, `statsd`, `wavefront`. * `__m3_prom_type__`: When ingesting with Prometheus, matches the incoming metric's [Prometheus metric type](https://docs.chronosphere.io/control/shaping/types#prometheus). Valid values: `counter`, `gauge`, `histogram`, `gauge_histogram`, `summary`, `info`, `state_set`, `quantile`. * `__otel_type__`: When ingesting with OpenTelemetry, matches on the incoming metric's [OpenTelemetry metric type](https://docs.chronosphere.io/control/shaping/types#opentelemetry). Valid values: `sum`, `monotonic_sum`, `gauge`, `histogram`, `exp_histogram`, `summary`. For example, the following filter matches any cumulative counter metric with a `service=gateway` label whose metric name starts with `http_requests_`: ``` __metric_type__:cumulative_counter service:gateway __name__:http_requests_* ``` */
-  filters?: Configv1RollupRuleInputFiltersList;
+  filters?: Configv1RollupRuleInputFiltersList | undefined;
   /** This field is optional for Graphite rollup rules. */
-  metric_name?: string;
-  metric_type?: RollupRuleMetricType | (string & {});
-  aggregation?: Configv1AggregationType | (string & {});
-  storage_policy?: Configv1MappingRuleStoragePolicy;
+  metric_name?: string | undefined;
+  metric_type?: RollupRuleMetricType | (string & {}) | undefined;
+  aggregation?: Configv1AggregationType | (string & {}) | undefined;
+  storage_policy?: Configv1MappingRuleStoragePolicy | undefined;
   /** The distance in time between aggregated data points. Intervals are based on your [retention policy](https://docs.chronosphere.io/administer/licensing#retention-policies). Use this optional field to set a custom interval. This field was known as `storage_policies` in version 0.286.0-2023-01-06-release.1 and earlier. */
-  interval?: string;
+  interval?: string | undefined;
   /** DEPRECATED. A series matches and aggregates only if each label defined by filters and `label_policy.keep` or `graphite_label_policy.replace` (respectively) exist in the series. Setting `expansive_match=true` removes this restriction. Default: `expansive_match=false`. If `false`, a series matches and aggregates only if each label defined by the provided `filters` and the `label_policy.keep` or `graphite_label_policy.replace` settings exist in the series. */
-  expansive_match?: boolean;
+  expansive_match?: boolean | undefined;
   /** Defines whether to add a `__rollup_type__` label in the new metric. */
-  add_metric_type_label?: boolean;
+  add_metric_type_label?: boolean | undefined;
   /** Defines whether to automatically generate drop rules for this rollup rule. Set to `true` to remove raw metrics that match this rollup rule. Default: `false`. */
-  drop_raw?: boolean;
-  label_policy?: Configv1RollupRuleLabelPolicy;
-  label_replace?: unknown;
-  mode?: Configv1RollupRuleMode | (string & {});
-  graphite_label_policy?: RollupRuleGraphiteLabelPolicy;
+  drop_raw?: boolean | undefined;
+  label_policy?: Configv1RollupRuleLabelPolicy | undefined;
+  label_replace?: unknown | undefined;
+  mode?: Configv1RollupRuleMode | (string & {}) | undefined;
+  graphite_label_policy?: RollupRuleGraphiteLabelPolicy | undefined;
 }
 export interface CreateRollupRuleRequest {
-  rollup_rule?: Configv1RollupRuleInput;
+  rollup_rule?: Configv1RollupRuleInput | undefined;
   /** If true, the RollupRule isn't created, and no response RollupRule will be returned. The response will return an error if the given RollupRule is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** Filters incoming metrics by label. If multiple label filters are specified, an incoming metric must match every label filter to match the rule. Label values support glob patterns, including matching multiple patterns with an `OR`, such as `service:{svc1,svc2}`. These special filters are available for matching metrics by non-label request metadata: * `__metric_type__`: Matches the incoming metric's [Cortex XCOR metric type](https://docs.chronosphere.io/control/shaping/types#cortex-xcor-types). This is the recommended method for filtering on metric type. Valid values: `cumulative_counter`, `cumulative_exponential_histogram`, `delta_counter`, `delta_exponential_histogram`, `gauge`, `measurement`. * `__metric_source__`: Matches the incoming metric's [source format](https://docs.chronosphere.io/control/shaping/types#supported-formats). Valid values: `carbon`, `chrono_gcp`, `dogstatsd`, `open_metrics`, `open_telemetry`, `prometheus`, `signalfx`, `statsd`, `wavefront`. * `__m3_prom_type__`: When ingesting with Prometheus, matches the incoming metric's [Prometheus metric type](https://docs.chronosphere.io/control/shaping/types#prometheus). Valid values: `counter`, `gauge`, `histogram`, `gauge_histogram`, `summary`, `info`, `state_set`, `quantile`. * `__otel_type__`: When ingesting with OpenTelemetry, matches on the incoming metric's [OpenTelemetry metric type](https://docs.chronosphere.io/control/shaping/types#opentelemetry). Valid values: `sum`, `monotonic_sum`, `gauge`, `histogram`, `exp_histogram`, `summary`. For example, the following filter matches any cumulative counter metric with a `service=gateway` label whose metric name starts with `http_requests_`: ``` __metric_type__:cumulative_counter service:gateway __name__:http_requests_* ``` */
 export type Configv1RollupRuleFiltersList = Array<Configv1LabelFilter>;
 export interface Configv1RollupRule {
   /** Unique identifier of the RollupRule. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the RollupRule is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the RollupRule. You can modify this value after the RollupRule is created. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the RollupRule was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the RollupRule was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Required. Slug of the bucket the RollupRule belongs to. */
-  bucket_slug?: string;
+  bucket_slug?: string | undefined;
   /** Filters incoming metrics by label. If multiple label filters are specified, an incoming metric must match every label filter to match the rule. Label values support glob patterns, including matching multiple patterns with an `OR`, such as `service:{svc1,svc2}`. These special filters are available for matching metrics by non-label request metadata: * `__metric_type__`: Matches the incoming metric's [Cortex XCOR metric type](https://docs.chronosphere.io/control/shaping/types#cortex-xcor-types). This is the recommended method for filtering on metric type. Valid values: `cumulative_counter`, `cumulative_exponential_histogram`, `delta_counter`, `delta_exponential_histogram`, `gauge`, `measurement`. * `__metric_source__`: Matches the incoming metric's [source format](https://docs.chronosphere.io/control/shaping/types#supported-formats). Valid values: `carbon`, `chrono_gcp`, `dogstatsd`, `open_metrics`, `open_telemetry`, `prometheus`, `signalfx`, `statsd`, `wavefront`. * `__m3_prom_type__`: When ingesting with Prometheus, matches the incoming metric's [Prometheus metric type](https://docs.chronosphere.io/control/shaping/types#prometheus). Valid values: `counter`, `gauge`, `histogram`, `gauge_histogram`, `summary`, `info`, `state_set`, `quantile`. * `__otel_type__`: When ingesting with OpenTelemetry, matches on the incoming metric's [OpenTelemetry metric type](https://docs.chronosphere.io/control/shaping/types#opentelemetry). Valid values: `sum`, `monotonic_sum`, `gauge`, `histogram`, `exp_histogram`, `summary`. For example, the following filter matches any cumulative counter metric with a `service=gateway` label whose metric name starts with `http_requests_`: ``` __metric_type__:cumulative_counter service:gateway __name__:http_requests_* ``` */
-  filters?: Configv1RollupRuleFiltersList;
+  filters?: Configv1RollupRuleFiltersList | undefined;
   /** This field is optional for Graphite rollup rules. */
-  metric_name?: string;
-  metric_type?: RollupRuleMetricType;
-  aggregation?: Configv1AggregationType;
-  storage_policy?: Configv1MappingRuleStoragePolicy;
+  metric_name?: string | undefined;
+  metric_type?: RollupRuleMetricType | undefined;
+  aggregation?: Configv1AggregationType | undefined;
+  storage_policy?: Configv1MappingRuleStoragePolicy | undefined;
   /** The distance in time between aggregated data points. Intervals are based on your [retention policy](https://docs.chronosphere.io/administer/licensing#retention-policies). Use this optional field to set a custom interval. This field was known as `storage_policies` in version 0.286.0-2023-01-06-release.1 and earlier. */
-  interval?: string;
+  interval?: string | undefined;
   /** DEPRECATED. A series matches and aggregates only if each label defined by filters and `label_policy.keep` or `graphite_label_policy.replace` (respectively) exist in the series. Setting `expansive_match=true` removes this restriction. Default: `expansive_match=false`. If `false`, a series matches and aggregates only if each label defined by the provided `filters` and the `label_policy.keep` or `graphite_label_policy.replace` settings exist in the series. */
-  expansive_match?: boolean;
+  expansive_match?: boolean | undefined;
   /** Defines whether to add a `__rollup_type__` label in the new metric. */
-  add_metric_type_label?: boolean;
+  add_metric_type_label?: boolean | undefined;
   /** Defines whether to automatically generate drop rules for this rollup rule. Set to `true` to remove raw metrics that match this rollup rule. Default: `false`. */
-  drop_raw?: boolean;
-  label_policy?: Configv1RollupRuleLabelPolicy;
-  label_replace?: unknown;
-  mode?: Configv1RollupRuleMode;
-  graphite_label_policy?: RollupRuleGraphiteLabelPolicy;
+  drop_raw?: boolean | undefined;
+  label_policy?: Configv1RollupRuleLabelPolicy | undefined;
+  label_replace?: unknown | undefined;
+  mode?: Configv1RollupRuleMode | undefined;
+  graphite_label_policy?: RollupRuleGraphiteLabelPolicy | undefined;
 }
 export interface Configv1CreateRollupRuleResponse {
-  rollup_rule?: Configv1RollupRule;
+  rollup_rule?: Configv1RollupRule | undefined;
 }
 export type MetricsRestrictionPermission = "READ" | "WRITE" | "READ_WRITE";
 /** Optional labels which further restricts the service account to only read or write metrics with the given label names and values. */
 export type ServiceAccountMetricsRestrictionLabelsMap = { [key: string]: string | undefined };
 export interface ServiceAccountMetricsRestriction {
-  permission?: MetricsRestrictionPermission | (string & {});
+  permission?: MetricsRestrictionPermission | (string & {}) | undefined;
   /** Optional labels which further restricts the service account to only read or write metrics with the given label names and values. */
-  labels?: ServiceAccountMetricsRestrictionLabelsMap;
+  labels?: ServiceAccountMetricsRestrictionLabelsMap | undefined;
 }
 export interface Configv1ServiceAccountInput {
   /** Unique identifier of the ServiceAccount. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the ServiceAccount is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the ServiceAccount. You can modify this value after the ServiceAccount is created. */
-  name?: string;
+  name?: string | undefined;
   /** If set, grants the service account access to all Cortex XCOR APIs (including resource configuration and metric data) within the access controls defined by the service account's team membership. Exactly one of unrestricted or metrics_restriction must be set. */
-  unrestricted?: boolean;
-  metrics_restriction?: ServiceAccountMetricsRestriction;
+  unrestricted?: boolean | undefined;
+  metrics_restriction?: ServiceAccountMetricsRestriction | undefined;
 }
 export interface CreateServiceAccountRequest {
-  service_account?: Configv1ServiceAccountInput;
+  service_account?: Configv1ServiceAccountInput | undefined;
   /** If true, the ServiceAccount isn't created, and no response ServiceAccount will be returned. The response will return an error if the given ServiceAccount is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1ServiceAccount {
   /** Unique identifier of the ServiceAccount. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the ServiceAccount is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the ServiceAccount. You can modify this value after the ServiceAccount is created. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the ServiceAccount was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the ServiceAccount was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** token is the generated API token of the service account. Cannot be set by clients. token is only set once by the server in the CreateServiceAccount response. ReadServiceAccount will always return an empty token. Therefore, when creating a service account, clients are responsible for securely storing the response token on their end, as they will not be able to read it again. */
-  token?: string;
+  token?: string | undefined;
   /** email is the generated email address of the service account. Cannot be set by clients. */
-  email?: string;
+  email?: string | undefined;
   /** If set, grants the service account access to all Cortex XCOR APIs (including resource configuration and metric data) within the access controls defined by the service account's team membership. Exactly one of unrestricted or metrics_restriction must be set. */
-  unrestricted?: boolean;
-  metrics_restriction?: ServiceAccountMetricsRestriction;
+  unrestricted?: boolean | undefined;
+  metrics_restriction?: ServiceAccountMetricsRestriction | undefined;
 }
 export interface Configv1CreateServiceAccountResponse {
-  service_account?: Configv1ServiceAccount;
+  service_account?: Configv1ServiceAccount | undefined;
 }
 /** Labels are visible in notifications generated by this SLO, and can be used to route alerts with notification overrides. */
 export type Configv1SLOInputLabelsMap = { [key: string]: string | undefined };
@@ -1846,23 +1846,23 @@ export type Configv1SLOInputAnnotationsMap = { [key: string]: string | undefined
 /** Configuration for error ratio SLIs. You can include these variables in PromQL queries for SLIs: - {{.Window}}. Specifies the window of time that the PromQL query operates on. - {{.GroupBy}}. Specifies a comma-separated list of signal and dimension labels to group the results by. - {{.AdditionalFilters}}. Requires setting `additional_promql_filters`. */
 export interface SLICustomIndicatorConfig {
   /** A PromQL query that measures the number of "good" events for this SLI. Either this or the bad_query_template must be set. */
-  good_query_template?: string;
+  good_query_template?: string | undefined;
   /** A PromQL query that measures the number of "bad" events for this SLI. Either this or the good_query_template must be set. */
-  bad_query_template?: string;
+  bad_query_template?: string | undefined;
   /** A PromQL query that measures the total number of events for this SLI. This is required for all error ratio SLOs. */
-  total_query_template?: string;
+  total_query_template?: string | undefined;
 }
 export type SLITimeSliceSize = "TIMESLICE_SIZE_ONE_MINUTE" | "TIMESLICE_SIZE_FIVE_MINUTES";
 export interface SLITimeSliceCondition {
-  op?: ConditionOp | (string & {});
+  op?: ConditionOp | (string & {}) | undefined;
   /** The value to compare against. */
-  value?: number;
+  value?: number | undefined;
 }
 export interface SLICustomTimeSliceIndicatorConfig {
   /** A PromQL query template for the timeslice SLI. */
-  query_template?: string;
-  timeslice_size?: SLITimeSliceSize | (string & {});
-  condition?: SLITimeSliceCondition;
+  query_template?: string | undefined;
+  timeslice_size?: SLITimeSliceSize | (string & {}) | undefined;
+  condition?: SLITimeSliceCondition | undefined;
 }
 /** Used to configure additional labels to export from the underlying queries. This feature provides a logical budget to group unique combination of dimensions. For example, if you want to track a budget per endpoint, add the endpoint label as a dimension. These dimensions are provided on the top-level SLI so that SLOs will receive them in `.GroupBy`. */
 export type Configv1SLICustomDimensionLabelsList = Array<string>;
@@ -1872,68 +1872,68 @@ export type CommonPromQLMatcherType =
   | "MatchNotEqual"
   | "MatchNotRegexp";
 export interface CommonPromQLMatcher {
-  type?: CommonPromQLMatcherType | (string & {});
+  type?: CommonPromQLMatcherType | (string & {}) | undefined;
   /** Prometheus label name for the matcher */
-  name?: string;
+  name?: string | undefined;
   /** Prometheus label value for the matcher */
-  value?: string;
+  value?: string | undefined;
 }
 /** These are made available to the SLO queries and are intended to be used for things like `cluster!~"dev"` */
 export type Configv1SLIAdditionalPromqlFiltersList = Array<CommonPromQLMatcher>;
 export interface Configv1SLI {
-  custom_indicator?: SLICustomIndicatorConfig;
-  custom_timeslice_indicator?: SLICustomTimeSliceIndicatorConfig;
+  custom_indicator?: SLICustomIndicatorConfig | undefined;
+  custom_timeslice_indicator?: SLICustomTimeSliceIndicatorConfig | undefined;
   /** Used to configure additional labels to export from the underlying queries. This feature provides a logical budget to group unique combination of dimensions. For example, if you want to track a budget per endpoint, add the endpoint label as a dimension. These dimensions are provided on the top-level SLI so that SLOs will receive them in `.GroupBy`. */
-  custom_dimension_labels?: Configv1SLICustomDimensionLabelsList;
+  custom_dimension_labels?: Configv1SLICustomDimensionLabelsList | undefined;
   /** These are made available to the SLO queries and are intended to be used for things like `cluster!~"dev"` */
-  additional_promql_filters?: Configv1SLIAdditionalPromqlFiltersList;
+  additional_promql_filters?: Configv1SLIAdditionalPromqlFiltersList | undefined;
 }
 export interface DefinitionTimeWindow {
   /** duration as a string in the format "28d" or "24h", etc. */
-  duration?: string;
+  duration?: string | undefined;
 }
 /** Labels to attach when this burn rate triggers. If you add these labels to `signal_groupings`, you can route them in the notification policy, and can route different burn rates to other notifiers. */
 export type DefinitionBurnRateDefinitionLabelsMap = { [key: string]: string | undefined };
 export interface DefinitionBurnRateDefinition {
-  window?: string;
+  window?: string | undefined;
   /** The amount of allowed errors during a given time window, expressed as a percentage of the error budget. Must be a value between `0.0` and `100.0`, exclusive. */
-  budget?: number;
+  budget?: number | undefined;
   /** Severity may only be one of: critical, warn. */
-  severity?: string;
+  severity?: string | undefined;
   /** Labels to attach when this burn rate triggers. If you add these labels to `signal_groupings`, you can route them in the notification policy, and can route different burn rates to other notifiers. */
-  labels?: DefinitionBurnRateDefinitionLabelsMap;
+  labels?: DefinitionBurnRateDefinitionLabelsMap | undefined;
 }
 /** Provides the burn rate alert configuration for the SLO. If not provided the default burn rates will be used. The configuration is only valid if the enable_burn_rate_alerting flag is set to true. */
 export type SLODefinitionBurnRateAlertingConfigList = Array<DefinitionBurnRateDefinition>;
 export interface SLODefinition {
-  objective?: number;
-  time_window?: DefinitionTimeWindow;
+  objective?: number | undefined;
+  time_window?: DefinitionTimeWindow | undefined;
   /** Provides the burn rate alert configuration for the SLO. If not provided the default burn rates will be used. The configuration is only valid if the enable_burn_rate_alerting flag is set to true. */
-  burn_rate_alerting_config?: SLODefinitionBurnRateAlertingConfigList;
+  burn_rate_alerting_config?: SLODefinitionBurnRateAlertingConfigList | undefined;
   /** If true enables burn rate alerting. */
-  enable_burn_rate_alerting?: boolean;
+  enable_burn_rate_alerting?: boolean | undefined;
 }
 export interface Configv1SLOInput {
   /** Unique identifier of the SLO. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the SLO is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the SLO. You can modify this value after the SLO is created. */
-  name?: string;
-  description?: string;
-  collection_ref?: Configv1CollectionReference;
+  name?: string | undefined;
+  description?: string | undefined;
+  collection_ref?: Configv1CollectionReference | undefined;
   /** Optional notification policy to explicitly apply to the generated monitors. Slug of the notification policy to use for the SLO. If you don't specify a value, then the collection or service this SLO belongs to must have a notification policy. */
-  notification_policy_slug?: string;
-  signal_grouping?: MonitorSignalGrouping;
+  notification_policy_slug?: string | undefined;
+  signal_grouping?: MonitorSignalGrouping | undefined;
   /** Labels are visible in notifications generated by this SLO, and can be used to route alerts with notification overrides. */
-  labels?: Configv1SLOInputLabelsMap;
+  labels?: Configv1SLOInputLabelsMap | undefined;
   /** Annotations are visible in notifications generated by this SLO They can be be templated with labels from notifications. */
-  annotations?: Configv1SLOInputAnnotationsMap;
-  sli?: Configv1SLI;
-  definition?: SLODefinition;
+  annotations?: Configv1SLOInputAnnotationsMap | undefined;
+  sli?: Configv1SLI | undefined;
+  definition?: SLODefinition | undefined;
 }
 export interface CreateSLORequest {
-  slo?: Configv1SLOInput;
+  slo?: Configv1SLOInput | undefined;
   /** If true, the SLO isn't created, and no response SLO will be returned. The response will return an error if the given SLO is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** Labels are visible in notifications generated by this SLO, and can be used to route alerts with notification overrides. */
 export type Configv1SLOLabelsMap = { [key: string]: string | undefined };
@@ -1941,187 +1941,187 @@ export type Configv1SLOLabelsMap = { [key: string]: string | undefined };
 export type Configv1SLOAnnotationsMap = { [key: string]: string | undefined };
 export interface Configv1SLO {
   /** Unique identifier of the SLO. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the SLO is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the SLO. You can modify this value after the SLO is created. */
-  name?: string;
-  description?: string;
+  name?: string | undefined;
+  description?: string | undefined;
   /** Timestamp of when the SLO was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the SLO was last updated. Cannot be set by clients. */
-  updated_at?: string;
-  collection_ref?: Configv1CollectionReference;
+  updated_at?: string | undefined;
+  collection_ref?: Configv1CollectionReference | undefined;
   /** Optional notification policy to explicitly apply to the generated monitors. Slug of the notification policy to use for the SLO. If you don't specify a value, then the collection or service this SLO belongs to must have a notification policy. */
-  notification_policy_slug?: string;
-  signal_grouping?: MonitorSignalGrouping;
+  notification_policy_slug?: string | undefined;
+  signal_grouping?: MonitorSignalGrouping | undefined;
   /** Labels are visible in notifications generated by this SLO, and can be used to route alerts with notification overrides. */
-  labels?: Configv1SLOLabelsMap;
+  labels?: Configv1SLOLabelsMap | undefined;
   /** Annotations are visible in notifications generated by this SLO They can be be templated with labels from notifications. */
-  annotations?: Configv1SLOAnnotationsMap;
-  sli?: Configv1SLI;
-  definition?: SLODefinition;
+  annotations?: Configv1SLOAnnotationsMap | undefined;
+  sli?: Configv1SLI | undefined;
+  definition?: SLODefinition | undefined;
 }
 export interface Configv1CreateSLOResponse {
-  slo?: Configv1SLO;
+  slo?: Configv1SLO | undefined;
 }
 /** Unordered set of emails whose users are members of this team. */
 export type Configv1TeamInputUserEmailsList = Array<string>;
 export interface Configv1TeamInput {
   /** Unique identifier of the Team. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Team is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the Team. You can modify this value after the Team is created. */
-  name?: string;
+  name?: string | undefined;
   /** Unordered set of emails whose users are members of this team. */
-  user_emails?: Configv1TeamInputUserEmailsList;
+  user_emails?: Configv1TeamInputUserEmailsList | undefined;
   /** Optional short description of the team. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateTeamRequest {
-  team?: Configv1TeamInput;
+  team?: Configv1TeamInput | undefined;
   /** If true, the Team isn't created, and no response Team will be returned. The response will return an error if the given Team is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** Unordered set of emails whose users are members of this team. */
 export type Configv1TeamUserEmailsList = Array<string>;
 export interface Configv1Team {
   /** Unique identifier of the Team. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Team is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the Team. You can modify this value after the Team is created. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the Team was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the Team was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Unordered set of emails whose users are members of this team. */
-  user_emails?: Configv1TeamUserEmailsList;
+  user_emails?: Configv1TeamUserEmailsList | undefined;
   /** Optional short description of the team. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface Configv1CreateTeamResponse {
-  team?: Configv1Team;
+  team?: Configv1Team | undefined;
 }
 /** - LOW_VALUE: Match indicates a low value trace. With multiple low value matches sample at the lowest rate. - HIGH_VALUE: Match indicates a high value trace. With multiple high value matches sample at the highest rate. */
 export type TraceBehaviorSamplingType = "LOW_VALUE" | "HIGH_VALUE";
 export interface TraceBehaviorErrorSampleOptions {
   /** Sample rate for traces with errors. */
-  sample_rate?: number;
-  sampling_type?: TraceBehaviorSamplingType | (string & {});
+  sample_rate?: number | undefined;
+  sampling_type?: TraceBehaviorSamplingType | (string & {}) | undefined;
   /** Whether or not to use these options. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface TraceBehaviorFastSampleOptions {
   /** Duration in seconds under which traces are sampled according to the given sample rate. */
-  max_duration_seconds?: number;
+  max_duration_seconds?: number | undefined;
   /** Sample rate for traces under the given duration. */
-  sample_rate?: number;
-  sampling_type?: TraceBehaviorSamplingType | (string & {});
+  sample_rate?: number | undefined;
+  sampling_type?: TraceBehaviorSamplingType | (string & {}) | undefined;
   /** Whether or not to use these options. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface TraceBehaviorSlowSampleOptions {
   /** Duration in seconds over which traces are sampled according to the given sample rate. */
-  min_duration_seconds?: number;
+  min_duration_seconds?: number | undefined;
   /** Sample rate. */
-  sample_rate?: number;
-  sampling_type?: TraceBehaviorSamplingType | (string & {});
+  sample_rate?: number | undefined;
+  sampling_type?: TraceBehaviorSamplingType | (string & {}) | undefined;
   /** Whether or not to use these options. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface TraceBehaviorLargeTraceSampleOptions {
   /** For N = number of spans in the trace, if N >= span_count_threshold, the trace is sampled according to the given sample rate. */
-  span_count_threshold?: number;
+  span_count_threshold?: number | undefined;
   /** Sample rate. */
-  sample_rate?: number;
-  sampling_type?: TraceBehaviorSamplingType | (string & {});
+  sample_rate?: number | undefined;
+  sampling_type?: TraceBehaviorSamplingType | (string & {}) | undefined;
   /** Whether or not to use these options. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface TraceBehaviorSmallTraceSampleOptions {
   /** For N = number of spans in the trace, if N <= span_count_threshold, the trace is sampled according to the given sample rate. */
-  span_count_threshold?: number;
+  span_count_threshold?: number | undefined;
   /** Sample rate. */
-  sample_rate?: number;
-  sampling_type?: TraceBehaviorSamplingType | (string & {});
+  sample_rate?: number | undefined;
+  sampling_type?: TraceBehaviorSamplingType | (string & {}) | undefined;
   /** Whether or not to use these options. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface Configv1TraceBehaviorInput {
   /** Required. Name of the TraceBehavior. You can modify this value after the TraceBehavior is created. */
-  name?: string;
+  name?: string | undefined;
   /** Unique identifier of the TraceBehavior. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the TraceBehavior is created. */
-  slug?: string;
-  description?: string;
+  slug?: string | undefined;
+  description?: string | undefined;
   /** Sample rate for fully assembled traces that do not apply to the error, fast, slow, large, or small sampling options. */
-  base_tail_sample_rate?: number;
+  base_tail_sample_rate?: number | undefined;
   /** Sample rate for head sampling. This applies to all root spans that are enrolled in head sampling, but do not have a specific rule defined for their service. */
-  base_head_sample_rate?: number;
-  error_sample_options?: TraceBehaviorErrorSampleOptions;
-  fast_sample_options?: TraceBehaviorFastSampleOptions;
-  slow_sample_options?: TraceBehaviorSlowSampleOptions;
-  large_trace_sample_options?: TraceBehaviorLargeTraceSampleOptions;
-  small_trace_sample_options?: TraceBehaviorSmallTraceSampleOptions;
+  base_head_sample_rate?: number | undefined;
+  error_sample_options?: TraceBehaviorErrorSampleOptions | undefined;
+  fast_sample_options?: TraceBehaviorFastSampleOptions | undefined;
+  slow_sample_options?: TraceBehaviorSlowSampleOptions | undefined;
+  large_trace_sample_options?: TraceBehaviorLargeTraceSampleOptions | undefined;
+  small_trace_sample_options?: TraceBehaviorSmallTraceSampleOptions | undefined;
 }
 export interface CreateTraceBehaviorRequest {
-  trace_behavior?: Configv1TraceBehaviorInput;
+  trace_behavior?: Configv1TraceBehaviorInput | undefined;
   /** If true, the TraceBehavior isn't created, and no response TraceBehavior will be returned. The response will return an error if the given TraceBehavior is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1TraceBehavior {
   /** Required. Name of the TraceBehavior. You can modify this value after the TraceBehavior is created. */
-  name?: string;
+  name?: string | undefined;
   /** Unique identifier of the TraceBehavior. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the TraceBehavior is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Timestamp of when the TraceBehavior was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the TraceBehavior was last updated. Cannot be set by clients. */
-  updated_at?: string;
-  description?: string;
+  updated_at?: string | undefined;
+  description?: string | undefined;
   /** Sample rate for fully assembled traces that do not apply to the error, fast, slow, large, or small sampling options. */
-  base_tail_sample_rate?: number;
+  base_tail_sample_rate?: number | undefined;
   /** Sample rate for head sampling. This applies to all root spans that are enrolled in head sampling, but do not have a specific rule defined for their service. */
-  base_head_sample_rate?: number;
-  error_sample_options?: TraceBehaviorErrorSampleOptions;
-  fast_sample_options?: TraceBehaviorFastSampleOptions;
-  slow_sample_options?: TraceBehaviorSlowSampleOptions;
-  large_trace_sample_options?: TraceBehaviorLargeTraceSampleOptions;
-  small_trace_sample_options?: TraceBehaviorSmallTraceSampleOptions;
+  base_head_sample_rate?: number | undefined;
+  error_sample_options?: TraceBehaviorErrorSampleOptions | undefined;
+  fast_sample_options?: TraceBehaviorFastSampleOptions | undefined;
+  slow_sample_options?: TraceBehaviorSlowSampleOptions | undefined;
+  large_trace_sample_options?: TraceBehaviorLargeTraceSampleOptions | undefined;
+  small_trace_sample_options?: TraceBehaviorSmallTraceSampleOptions | undefined;
 }
 export interface Configv1CreateTraceBehaviorResponse {
-  trace_behavior?: Configv1TraceBehavior;
+  trace_behavior?: Configv1TraceBehavior | undefined;
 }
 export interface TraceBehaviorConfigMainBehaviorAssignment {
   /** The timestamp of when the trace behavior was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The timestamp of when the trace behavior was updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The slug reference of a trace dataset. */
-  dataset_slug?: string;
+  dataset_slug?: string | undefined;
   /** The slug reference of a trace behavior. */
-  behavior_slug?: string;
+  behavior_slug?: string | undefined;
   /** The author or creator of the behavior assignment. */
-  created_by?: string;
+  created_by?: string | undefined;
   /** A description of the behavior assignment. */
-  description?: string;
+  description?: string | undefined;
 }
 /** List of assignments for the main behavior. The referenced datasets will be enrolled in behaviors. The referenced behaviors are the active behaviors for the dataset when there is no active override. Only one main behavior can be assigned to a dataset. See the documentation for [customizing your sampling strategy](https://docs.chronosphere.io/control/sampling/behaviors#customize-your-sampling-strategy) for more information. */
 export type Configv1TraceBehaviorConfigInputMainBehaviorAssignmentsList =
   Array<TraceBehaviorConfigMainBehaviorAssignment>;
 export interface TraceBehaviorConfigOverrideBehaviorAssignment {
   /** The timestamp of when the override behavior assignment was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The timestamp of when the override behavior assignment was updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The slug reference of a trace dataset. */
-  dataset_slug?: string;
+  dataset_slug?: string | undefined;
   /** The slug reference of a trace behavior. */
-  behavior_slug?: string;
+  behavior_slug?: string | undefined;
   /** The starting time of the override. */
-  start_time?: string;
+  start_time?: string | undefined;
   /** The ending time of the override. */
-  end_time?: string;
+  end_time?: string | undefined;
   /** The author or creator of the override. */
-  created_by?: string;
+  created_by?: string | undefined;
   /** A description of the override. */
-  description?: string;
+  description?: string | undefined;
 }
 /** List of assignments for the override behavior. These assignments specify the active behavior for a dataset over a specific time range. Only one override behavior can be assigned to a dataset. */
 export type Configv1TraceBehaviorConfigInputOverrideBehaviorAssignmentsList =
@@ -2134,20 +2134,26 @@ export type Configv1TraceBehaviorConfigInputPreviewBehaviorAssignmentsList =
 /** TraceBehaviorConfig is a singleton configuration object that specifies the configuration for trace behaviors. */
 export interface Configv1TraceBehaviorConfigInput {
   /** List of assignments for the main behavior. The referenced datasets will be enrolled in behaviors. The referenced behaviors are the active behaviors for the dataset when there is no active override. Only one main behavior can be assigned to a dataset. See the documentation for [customizing your sampling strategy](https://docs.chronosphere.io/control/sampling/behaviors#customize-your-sampling-strategy) for more information. */
-  main_behavior_assignments?: Configv1TraceBehaviorConfigInputMainBehaviorAssignmentsList;
+  main_behavior_assignments?:
+    | Configv1TraceBehaviorConfigInputMainBehaviorAssignmentsList
+    | undefined;
   /** List of assignments for the override behavior. These assignments specify the active behavior for a dataset over a specific time range. Only one override behavior can be assigned to a dataset. */
-  override_behavior_assignments?: Configv1TraceBehaviorConfigInputOverrideBehaviorAssignmentsList;
+  override_behavior_assignments?:
+    | Configv1TraceBehaviorConfigInputOverrideBehaviorAssignmentsList
+    | undefined;
   /** List of dataset priorities. This list specifies the order in which datasets are considered when determining the behavior to follow for a trace. Dataset priorities are used to break ties when a trace matches more than one dataset with an active behavior. * Each entry in this list must refer to the slug of an existing dataset. * The order of the list is the order in which the datasets are considered. * The list must contain all datasets referenced in either `main_behavior_assignments` or `override_behavior_assignments`. * The list can contain datasets that are not referenced in either of these assignments. */
-  dataset_priorities?: Configv1TraceBehaviorConfigInputDatasetPrioritiesList;
+  dataset_priorities?: Configv1TraceBehaviorConfigInputDatasetPrioritiesList | undefined;
   /** The baseline behavior to use for behavior assignments and base head sampling rates. */
-  baseline_behavior_slug?: string;
+  baseline_behavior_slug?: string | undefined;
   /** List of assignments for the preview behavior. The referenced behaviors are in preview mode for the assigned dataset. You can assign only one preview behavior to a dataset. */
-  preview_behavior_assignments?: Configv1TraceBehaviorConfigInputPreviewBehaviorAssignmentsList;
+  preview_behavior_assignments?:
+    | Configv1TraceBehaviorConfigInputPreviewBehaviorAssignmentsList
+    | undefined;
 }
 export interface CreateTraceBehaviorConfigRequest {
-  trace_behavior_config?: Configv1TraceBehaviorConfigInput;
+  trace_behavior_config?: Configv1TraceBehaviorConfigInput | undefined;
   /** If true, the TraceBehaviorConfig isn't created, and no response TraceBehaviorConfig will be returned. The response will return an error if the given TraceBehaviorConfig is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** List of assignments for the main behavior. The referenced datasets will be enrolled in behaviors. The referenced behaviors are the active behaviors for the dataset when there is no active override. Only one main behavior can be assigned to a dataset. See the documentation for [customizing your sampling strategy](https://docs.chronosphere.io/control/sampling/behaviors#customize-your-sampling-strategy) for more information. */
 export type Configv1TraceBehaviorConfigMainBehaviorAssignmentsList =
@@ -2163,83 +2169,97 @@ export type Configv1TraceBehaviorConfigPreviewBehaviorAssignmentsList =
 /** TraceBehaviorConfig is a singleton configuration object that specifies the configuration for trace behaviors. */
 export interface Configv1TraceBehaviorConfig {
   /** Timestamp of when the TraceBehaviorConfig was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the TraceBehaviorConfig was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** List of assignments for the main behavior. The referenced datasets will be enrolled in behaviors. The referenced behaviors are the active behaviors for the dataset when there is no active override. Only one main behavior can be assigned to a dataset. See the documentation for [customizing your sampling strategy](https://docs.chronosphere.io/control/sampling/behaviors#customize-your-sampling-strategy) for more information. */
-  main_behavior_assignments?: Configv1TraceBehaviorConfigMainBehaviorAssignmentsList;
+  main_behavior_assignments?: Configv1TraceBehaviorConfigMainBehaviorAssignmentsList | undefined;
   /** List of assignments for the override behavior. These assignments specify the active behavior for a dataset over a specific time range. Only one override behavior can be assigned to a dataset. */
-  override_behavior_assignments?: Configv1TraceBehaviorConfigOverrideBehaviorAssignmentsList;
+  override_behavior_assignments?:
+    | Configv1TraceBehaviorConfigOverrideBehaviorAssignmentsList
+    | undefined;
   /** List of dataset priorities. This list specifies the order in which datasets are considered when determining the behavior to follow for a trace. Dataset priorities are used to break ties when a trace matches more than one dataset with an active behavior. * Each entry in this list must refer to the slug of an existing dataset. * The order of the list is the order in which the datasets are considered. * The list must contain all datasets referenced in either `main_behavior_assignments` or `override_behavior_assignments`. * The list can contain datasets that are not referenced in either of these assignments. */
-  dataset_priorities?: Configv1TraceBehaviorConfigDatasetPrioritiesList;
+  dataset_priorities?: Configv1TraceBehaviorConfigDatasetPrioritiesList | undefined;
   /** The baseline behavior to use for behavior assignments and base head sampling rates. */
-  baseline_behavior_slug?: string;
+  baseline_behavior_slug?: string | undefined;
   /** List of assignments for the preview behavior. The referenced behaviors are in preview mode for the assigned dataset. You can assign only one preview behavior to a dataset. */
-  preview_behavior_assignments?: Configv1TraceBehaviorConfigPreviewBehaviorAssignmentsList;
+  preview_behavior_assignments?:
+    | Configv1TraceBehaviorConfigPreviewBehaviorAssignmentsList
+    | undefined;
 }
 export interface Configv1CreateTraceBehaviorConfigResponse {
-  trace_behavior_config?: Configv1TraceBehaviorConfig;
+  trace_behavior_config?: Configv1TraceBehaviorConfig | undefined;
 }
 export interface TraceJaegerRemoteSamplingStrategyProbabilisticStrategy {
   /** Value in the range [0, 1] that defines the probability of sampling any trace. */
-  sampling_rate?: number;
+  sampling_rate?: number | undefined;
 }
 export interface PerOperationSamplingStrategiesPerOperationSamplingStrategy {
   /** The operation to which this specific strategy should apply. */
-  operation?: string;
-  probabilistic_sampling_strategy?: TraceJaegerRemoteSamplingStrategyProbabilisticStrategy;
+  operation?: string | undefined;
+  probabilistic_sampling_strategy?:
+    | TraceJaegerRemoteSamplingStrategyProbabilisticStrategy
+    | undefined;
 }
 /** Defines explicit operations-specific strategies that take precedence over the default sampling rate. */
 export type TraceJaegerRemoteSamplingStrategyPerOperationSamplingStrategiesPerOperationStrategiesList =
   Array<PerOperationSamplingStrategiesPerOperationSamplingStrategy>;
 export interface TraceJaegerRemoteSamplingStrategyPerOperationSamplingStrategies {
   /** Defines the service-wide sampling probability (in the range [0, 1]) when specific operations are not matched. */
-  default_sampling_rate?: number;
+  default_sampling_rate?: number | undefined;
   /** Defines a minimum number of traces to send for ANY operation in the service, regardless of matching per operation strategy. */
-  default_lower_bound_traces_per_second?: number;
+  default_lower_bound_traces_per_second?: number | undefined;
   /** Defines a maximum number of traces to send for ANY operation in the service, regardless of matching per operation strategy. */
-  default_upper_bound_traces_per_second?: number;
+  default_upper_bound_traces_per_second?: number | undefined;
   /** Defines explicit operations-specific strategies that take precedence over the default sampling rate. */
-  per_operation_strategies?: TraceJaegerRemoteSamplingStrategyPerOperationSamplingStrategiesPerOperationStrategiesList;
+  per_operation_strategies?:
+    | TraceJaegerRemoteSamplingStrategyPerOperationSamplingStrategiesPerOperationStrategiesList
+    | undefined;
 }
 export interface TraceJaegerRemoteSamplingStrategyRateLimitingSamplingStrategy {
   /** Maximum number of traces to sample per second. */
-  max_traces_per_second?: number;
+  max_traces_per_second?: number | undefined;
 }
 export interface TraceJaegerRemoteSamplingStrategyAppliedStrategy {
-  probabilistic_strategy?: TraceJaegerRemoteSamplingStrategyProbabilisticStrategy;
-  per_operation_strategies?: TraceJaegerRemoteSamplingStrategyPerOperationSamplingStrategies;
-  rate_limiting_strategy?: TraceJaegerRemoteSamplingStrategyRateLimitingSamplingStrategy;
+  probabilistic_strategy?: TraceJaegerRemoteSamplingStrategyProbabilisticStrategy | undefined;
+  per_operation_strategies?:
+    | TraceJaegerRemoteSamplingStrategyPerOperationSamplingStrategies
+    | undefined;
+  rate_limiting_strategy?:
+    | TraceJaegerRemoteSamplingStrategyRateLimitingSamplingStrategy
+    | undefined;
 }
 export interface Configv1TraceJaegerRemoteSamplingStrategyInput {
   /** Unique identifier of the TraceJaegerRemoteSamplingStrategy. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the TraceJaegerRemoteSamplingStrategy is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the TraceJaegerRemoteSamplingStrategy. You can modify this value after the TraceJaegerRemoteSamplingStrategy is created. */
-  name?: string;
+  name?: string | undefined;
   /** The name of the service this sampling strategy applies to. This must match the slug and name fields. */
-  service_name?: string;
-  applied_strategy?: TraceJaegerRemoteSamplingStrategyAppliedStrategy;
+  service_name?: string | undefined;
+  applied_strategy?: TraceJaegerRemoteSamplingStrategyAppliedStrategy | undefined;
 }
 export interface CreateTraceJaegerRemoteSamplingStrategyRequest {
-  trace_jaeger_remote_sampling_strategy?: Configv1TraceJaegerRemoteSamplingStrategyInput;
+  trace_jaeger_remote_sampling_strategy?:
+    | Configv1TraceJaegerRemoteSamplingStrategyInput
+    | undefined;
   /** If true, the TraceJaegerRemoteSamplingStrategy isn't created, and no response TraceJaegerRemoteSamplingStrategy will be returned. The response will return an error if the given TraceJaegerRemoteSamplingStrategy is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1TraceJaegerRemoteSamplingStrategy {
   /** Unique identifier of the TraceJaegerRemoteSamplingStrategy. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the TraceJaegerRemoteSamplingStrategy is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the TraceJaegerRemoteSamplingStrategy. You can modify this value after the TraceJaegerRemoteSamplingStrategy is created. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the TraceJaegerRemoteSamplingStrategy was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the TraceJaegerRemoteSamplingStrategy was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The name of the service this sampling strategy applies to. This must match the slug and name fields. */
-  service_name?: string;
-  applied_strategy?: TraceJaegerRemoteSamplingStrategyAppliedStrategy;
+  service_name?: string | undefined;
+  applied_strategy?: TraceJaegerRemoteSamplingStrategyAppliedStrategy | undefined;
 }
 export interface Configv1CreateTraceJaegerRemoteSamplingStrategyResponse {
-  trace_jaeger_remote_sampling_strategy?: Configv1TraceJaegerRemoteSamplingStrategy;
+  trace_jaeger_remote_sampling_strategy?: Configv1TraceJaegerRemoteSamplingStrategy | undefined;
 }
 /** Labels to apply to the generated trace metrics. */
 export type Configv1TraceMetricsRuleInputMetricLabelsMap = { [key: string]: string | undefined };
@@ -2249,37 +2269,37 @@ export type Configv1TraceMetricsRuleInputHistogramBucketsSecsList = Array<number
 export type GroupByKeyGroupByKeyType = "SERVICE" | "OPERATION" | "TAG";
 /** GroupByKey describes a key to group by. */
 export interface GroupByGroupByKey {
-  type?: GroupByKeyGroupByKeyType | (string & {});
+  type?: GroupByKeyGroupByKeyType | (string & {}) | undefined;
   /** For named KeyTypes (e.g. span tags), the name of the key to group by. */
-  named_key?: string;
+  named_key?: string | undefined;
 }
 /** GroupBy contains fields required to group the resultant metrics of a TraceMetricsRule by a specific key. */
 export interface Configv1TraceMetricsRuleGroupBy {
   /** The label to use in the resultant metrics. */
-  label?: string;
-  key?: GroupByGroupByKey;
+  label?: string | undefined;
+  key?: GroupByGroupByKey | undefined;
 }
 /** Add labels to the resultant metrics based on these specified GroupBy messages. */
 export type Configv1TraceMetricsRuleInputGroupByList = Array<Configv1TraceMetricsRuleGroupBy>;
 export interface Configv1TraceMetricsRuleInput {
   /** Required. Name of the TraceMetricsRule. You can modify this value after the TraceMetricsRule is created. */
-  name?: string;
+  name?: string | undefined;
   /** Unique identifier of the TraceMetricsRule. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the TraceMetricsRule is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** The name of the generated trace metrics. */
-  metric_name?: string;
+  metric_name?: string | undefined;
   /** Labels to apply to the generated trace metrics. */
-  metric_labels?: Configv1TraceMetricsRuleInputMetricLabelsMap;
+  metric_labels?: Configv1TraceMetricsRuleInputMetricLabelsMap | undefined;
   /** Histogram bucket values, in seconds, for generated duration metrics. */
-  histogram_buckets_secs?: Configv1TraceMetricsRuleInputHistogramBucketsSecsList;
-  trace_filter?: Configv1TraceSearchFilter;
+  histogram_buckets_secs?: Configv1TraceMetricsRuleInputHistogramBucketsSecsList | undefined;
+  trace_filter?: Configv1TraceSearchFilter | undefined;
   /** Add labels to the resultant metrics based on these specified GroupBy messages. */
-  group_by?: Configv1TraceMetricsRuleInputGroupByList;
+  group_by?: Configv1TraceMetricsRuleInputGroupByList | undefined;
 }
 export interface CreateTraceMetricsRuleRequest {
-  trace_metrics_rule?: Configv1TraceMetricsRuleInput;
+  trace_metrics_rule?: Configv1TraceMetricsRuleInput | undefined;
   /** If true, the TraceMetricsRule isn't created, and no response TraceMetricsRule will be returned. The response will return an error if the given TraceMetricsRule is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** Labels to apply to the generated trace metrics. */
 export type Configv1TraceMetricsRuleMetricLabelsMap = { [key: string]: string | undefined };
@@ -2289,78 +2309,78 @@ export type Configv1TraceMetricsRuleHistogramBucketsSecsList = Array<number>;
 export type Configv1TraceMetricsRuleGroupByList = Array<Configv1TraceMetricsRuleGroupBy>;
 export interface Configv1TraceMetricsRule {
   /** Required. Name of the TraceMetricsRule. You can modify this value after the TraceMetricsRule is created. */
-  name?: string;
+  name?: string | undefined;
   /** Unique identifier of the TraceMetricsRule. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the TraceMetricsRule is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Timestamp of when the TraceMetricsRule was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the TraceMetricsRule was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The name of the generated trace metrics. */
-  metric_name?: string;
+  metric_name?: string | undefined;
   /** Labels to apply to the generated trace metrics. */
-  metric_labels?: Configv1TraceMetricsRuleMetricLabelsMap;
+  metric_labels?: Configv1TraceMetricsRuleMetricLabelsMap | undefined;
   /** Histogram bucket values, in seconds, for generated duration metrics. */
-  histogram_buckets_secs?: Configv1TraceMetricsRuleHistogramBucketsSecsList;
-  trace_filter?: Configv1TraceSearchFilter;
+  histogram_buckets_secs?: Configv1TraceMetricsRuleHistogramBucketsSecsList | undefined;
+  trace_filter?: Configv1TraceSearchFilter | undefined;
   /** Add labels to the resultant metrics based on these specified GroupBy messages. */
-  group_by?: Configv1TraceMetricsRuleGroupByList;
+  group_by?: Configv1TraceMetricsRuleGroupByList | undefined;
 }
 export interface Configv1CreateTraceMetricsRuleResponse {
-  trace_metrics_rule?: Configv1TraceMetricsRule;
+  trace_metrics_rule?: Configv1TraceMetricsRule | undefined;
 }
 /** Contains configuration for one tail sampling rule. */
 export interface Configv1TraceTailSamplingRule {
-  filter?: Configv1TraceSearchFilter;
+  filter?: Configv1TraceSearchFilter | undefined;
   /** A fraction of traces to keep, which should be a number between 0 and 1, inclusive */
-  sample_rate?: number;
+  sample_rate?: number | undefined;
   /** A human-readable name of the rule, which summarizes what it's for */
-  name?: string;
+  name?: string | undefined;
   /** Value used as the metric label value for metrics emitted relating to this rule. */
-  system_name?: string;
+  system_name?: string | undefined;
   /** When the rule was created (novel system_name) */
-  created_at?: string;
+  created_at?: string | undefined;
   /** When the rule was updated (existing system_name) */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** Optional. A list of rules, evaluated in order until a match is found, and the sample rate applied, or else the default sample rate is applied. */
 export type Configv1TraceTailSamplingRulesInputRulesList = Array<Configv1TraceTailSamplingRule>;
 export interface Configv1DefaultSampleRate {
   /** Whether to override the default sample rate */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** A fraction of traces to keep, which should be a number between 0 and 1, inclusive */
-  sample_rate?: number;
+  sample_rate?: number | undefined;
 }
 /** Root object containing all tail sampling rules (for a tenant). */
 export interface Configv1TraceTailSamplingRulesInput {
   /** Optional. A list of rules, evaluated in order until a match is found, and the sample rate applied, or else the default sample rate is applied. */
-  rules?: Configv1TraceTailSamplingRulesInputRulesList;
-  default_sample_rate?: Configv1DefaultSampleRate;
+  rules?: Configv1TraceTailSamplingRulesInputRulesList | undefined;
+  default_sample_rate?: Configv1DefaultSampleRate | undefined;
 }
 export interface CreateTraceTailSamplingRulesRequest {
-  trace_tail_sampling_rules?: Configv1TraceTailSamplingRulesInput;
+  trace_tail_sampling_rules?: Configv1TraceTailSamplingRulesInput | undefined;
   /** If true, the TraceTailSamplingRules isn't created, and no response TraceTailSamplingRules will be returned. The response will return an error if the given TraceTailSamplingRules is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** Optional. A list of rules, evaluated in order until a match is found, and the sample rate applied, or else the default sample rate is applied. */
 export type Configv1TraceTailSamplingRulesRulesList = Array<Configv1TraceTailSamplingRule>;
 /** Root object containing all tail sampling rules (for a tenant). */
 export interface Configv1TraceTailSamplingRules {
   /** Set in API responses. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Set in API responses. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Optional. A list of rules, evaluated in order until a match is found, and the sample rate applied, or else the default sample rate is applied. */
-  rules?: Configv1TraceTailSamplingRulesRulesList;
-  default_sample_rate?: Configv1DefaultSampleRate;
+  rules?: Configv1TraceTailSamplingRulesRulesList | undefined;
+  default_sample_rate?: Configv1DefaultSampleRate | undefined;
 }
 export interface Configv1CreateTraceTailSamplingRulesResponse {
-  trace_tail_sampling_rules?: Configv1TraceTailSamplingRules;
+  trace_tail_sampling_rules?: Configv1TraceTailSamplingRules | undefined;
 }
 export interface DeleteBucketRequest {
   slug: string;
   /** force_delete indicates deletion of the bucket and all resources that reference the bucket. This includes monitors, dashboards, notification policies, recording rules, and alerts. */
-  force_delete?: boolean;
+  force_delete?: boolean | undefined;
 }
 export type Configv1ResourceType =
   | "BUCKET"
@@ -2373,15 +2393,15 @@ export type Configv1ResourceType =
   | "ROLLUP_RULE";
 export type ResourceChangeAction = "CREATED" | "UPDATED" | "DELETED" | "NOOP";
 export interface ResourceChange {
-  resource?: Configv1ResourceType;
-  slug?: string;
-  action?: ResourceChangeAction;
+  resource?: Configv1ResourceType | undefined;
+  slug?: string | undefined;
+  action?: ResourceChangeAction | undefined;
 }
 /** Changes contains what resources are deleted. The bucket being deleted will always be included. When force_delete is used, the changelog will include all resources that reference the bucket that were deleted. */
 export type Configv1DeleteBucketResponseChangesList = Array<ResourceChange>;
 export interface Configv1DeleteBucketResponse {
   /** Changes contains what resources are deleted. The bucket being deleted will always be included. When force_delete is used, the changelog will include all resources that reference the bucket that were deleted. */
-  changes?: Configv1DeleteBucketResponseChangesList;
+  changes?: Configv1DeleteBucketResponseChangesList | undefined;
 }
 export interface DeleteClassicDashboardRequest {
   slug: string;
@@ -2458,7 +2478,7 @@ export interface DeleteRecordingRuleRequest {
 }
 export type DeleteRecordingRuleResponse = unknown;
 export interface DeleteResourcePoolsRequest {
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export type DeleteResourcePoolsResponse = unknown;
 export interface DeleteRollupRuleRequest {
@@ -2482,7 +2502,7 @@ export interface DeleteTraceBehaviorRequest {
 }
 export type DeleteTraceBehaviorResponse = unknown;
 export interface DeleteTraceBehaviorConfigRequest {
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export type DeleteTraceBehaviorConfigResponse = unknown;
 export interface DeleteTraceJaegerRemoteSamplingStrategyRequest {
@@ -2494,28 +2514,28 @@ export interface DeleteTraceMetricsRuleRequest {
 }
 export type DeleteTraceMetricsRuleResponse = unknown;
 export interface DeleteTraceTailSamplingRulesRequest {
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export type DeleteTraceTailSamplingRulesResponse = unknown;
 export type ListBucketsRequestSlugsList = Array<string>;
 export type ListBucketsRequestNamesList = Array<string>;
 export interface ListBucketsRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any Bucket with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListBucketsRequestSlugsList;
+  slugs?: ListBucketsRequestSlugsList | undefined;
   /** Filters results by name, where any Bucket with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListBucketsRequestNamesList;
+  names?: ListBucketsRequestNamesList | undefined;
 }
 export interface Configv1PageResult {
   /** Opaque page token which identifies the next page of items which the client should request. An empty next_token indicates that there are no more items to return. */
-  next_token?: string;
+  next_token?: string | undefined;
 }
 export type Configv1ListBucketsResponseBucketsList = Array<Configv1Bucket>;
 export interface Configv1ListBucketsResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   buckets: Configv1ListBucketsResponseBucketsList;
 }
 export type ListClassicDashboardsRequestSlugsList = Array<string>;
@@ -2524,24 +2544,24 @@ export type ListClassicDashboardsRequestCollectionSlugsList = Array<string>;
 export type ListClassicDashboardsRequestNamesList = Array<string>;
 export interface ListClassicDashboardsRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any ClassicDashboard with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListClassicDashboardsRequestSlugsList;
+  slugs?: ListClassicDashboardsRequestSlugsList | undefined;
   /** Filters results by bucket_slug, where any ClassicDashboard with a matching bucket_slug in the given list (and matches all other filters) is returned. */
-  bucket_slugs?: ListClassicDashboardsRequestBucketSlugsList;
+  bucket_slugs?: ListClassicDashboardsRequestBucketSlugsList | undefined;
   /** Filters results by collection_slug, where any ClassicDashboard with a matching collection_slug in the given list (and matches all other filters) is returned. */
-  collection_slugs?: ListClassicDashboardsRequestCollectionSlugsList;
+  collection_slugs?: ListClassicDashboardsRequestCollectionSlugsList | undefined;
   /** Filters results by name, where any ClassicDashboard with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListClassicDashboardsRequestNamesList;
+  names?: ListClassicDashboardsRequestNamesList | undefined;
   /** Optional flag to populate the dashboard_json of the returned dashboards. By default, dashboard_json will be left empty. */
-  include_dashboard_json?: boolean;
+  include_dashboard_json?: boolean | undefined;
 }
 export type Configv1ListClassicDashboardsResponseClassicDashboardsList =
   Array<Configv1GrafanaDashboard>;
 export interface Configv1ListClassicDashboardsResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   classic_dashboards: Configv1ListClassicDashboardsResponseClassicDashboardsList;
 }
 export type ListCollectionsRequestSlugsList = Array<string>;
@@ -2550,21 +2570,21 @@ export type ListCollectionsRequestNamesList = Array<string>;
 export type ListCollectionsRequestNotificationPolicySlugsList = Array<string>;
 export interface ListCollectionsRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any Collection with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListCollectionsRequestSlugsList;
+  slugs?: ListCollectionsRequestSlugsList | undefined;
   /** Filters results by team_slug, where any Collection with a matching team_slug in the given list (and matches all other filters) is returned. */
-  team_slugs?: ListCollectionsRequestTeamSlugsList;
+  team_slugs?: ListCollectionsRequestTeamSlugsList | undefined;
   /** Filters results by name, where any Collection with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListCollectionsRequestNamesList;
+  names?: ListCollectionsRequestNamesList | undefined;
   /** Get collections that directly reference notifications policies by the referenced policy slugs. */
-  notification_policy_slugs?: ListCollectionsRequestNotificationPolicySlugsList;
+  notification_policy_slugs?: ListCollectionsRequestNotificationPolicySlugsList | undefined;
 }
 export type Configv1ListCollectionsResponseCollectionsList = Array<Configv1Collection>;
 export interface Configv1ListCollectionsResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   collections: Configv1ListCollectionsResponseCollectionsList;
 }
 export type ListDashboardsRequestSlugsList = Array<string>;
@@ -2572,21 +2592,21 @@ export type ListDashboardsRequestCollectionSlugsList = Array<string>;
 export type ListDashboardsRequestNamesList = Array<string>;
 export interface ListDashboardsRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any Dashboard with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListDashboardsRequestSlugsList;
+  slugs?: ListDashboardsRequestSlugsList | undefined;
   /** Filters results by collection_slug, where any Dashboard with a matching collection_slug in the given list (and matches all other filters) is returned. */
-  collection_slugs?: ListDashboardsRequestCollectionSlugsList;
+  collection_slugs?: ListDashboardsRequestCollectionSlugsList | undefined;
   /** Filters results by name, where any Dashboard with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListDashboardsRequestNamesList;
+  names?: ListDashboardsRequestNamesList | undefined;
   /** Optional. Flag to populate the `dashboard_json` field of the returned dashboards. By default, `dashboard_json` is empty. */
-  include_dashboard_json?: boolean;
+  include_dashboard_json?: boolean | undefined;
 }
 export type Configv1ListDashboardsResponseDashboardsList = Array<Configv1Dashboard>;
 export interface Configv1ListDashboardsResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   dashboards: Configv1ListDashboardsResponseDashboardsList;
 }
 export type ListDatasetsRequestSlugsList = Array<string>;
@@ -2594,88 +2614,88 @@ export type ListDatasetsRequestNamesList = Array<string>;
 export type ListDatasetsRequestType = "TRACES" | "LOGS";
 export interface ListDatasetsRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any Dataset with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListDatasetsRequestSlugsList;
+  slugs?: ListDatasetsRequestSlugsList | undefined;
   /** Filters results by name, where any Dataset with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListDatasetsRequestNamesList;
+  names?: ListDatasetsRequestNamesList | undefined;
   /** Custom filtering option: list filtered down to a specific telemetry type. */
-  type?: ListDatasetsRequestType | (string & {});
+  type?: ListDatasetsRequestType | (string & {}) | undefined;
 }
 export type Configv1ListDatasetsResponseDatasetsList = Array<Configv1Dataset>;
 export interface Configv1ListDatasetsResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   datasets: Configv1ListDatasetsResponseDatasetsList;
 }
 export type ListDerivedLabelsRequestSlugsList = Array<string>;
 export type ListDerivedLabelsRequestNamesList = Array<string>;
 export interface ListDerivedLabelsRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any DerivedLabel with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListDerivedLabelsRequestSlugsList;
+  slugs?: ListDerivedLabelsRequestSlugsList | undefined;
   /** Filters results by name, where any DerivedLabel with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListDerivedLabelsRequestNamesList;
+  names?: ListDerivedLabelsRequestNamesList | undefined;
 }
 export type Configv1ListDerivedLabelsResponseDerivedLabelsList = Array<Configv1DerivedLabel>;
 export interface Configv1ListDerivedLabelsResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   derived_labels: Configv1ListDerivedLabelsResponseDerivedLabelsList;
 }
 export type ListDerivedMetricsRequestSlugsList = Array<string>;
 export type ListDerivedMetricsRequestNamesList = Array<string>;
 export interface ListDerivedMetricsRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any DerivedMetric with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListDerivedMetricsRequestSlugsList;
+  slugs?: ListDerivedMetricsRequestSlugsList | undefined;
   /** Filters results by name, where any DerivedMetric with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListDerivedMetricsRequestNamesList;
+  names?: ListDerivedMetricsRequestNamesList | undefined;
 }
 export type Configv1ListDerivedMetricsResponseDerivedMetricsList = Array<Configv1DerivedMetric>;
 export interface Configv1ListDerivedMetricsResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   derived_metrics: Configv1ListDerivedMetricsResponseDerivedMetricsList;
 }
 export type ListDropRulesRequestSlugsList = Array<string>;
 export type ListDropRulesRequestNamesList = Array<string>;
 export interface ListDropRulesRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any DropRule with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListDropRulesRequestSlugsList;
+  slugs?: ListDropRulesRequestSlugsList | undefined;
   /** Filters results by name, where any DropRule with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListDropRulesRequestNamesList;
+  names?: ListDropRulesRequestNamesList | undefined;
 }
 export type Configv1ListDropRulesResponseDropRulesList = Array<Configv1DropRule>;
 export interface Configv1ListDropRulesResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   drop_rules: Configv1ListDropRulesResponseDropRulesList;
 }
 export type ListGcpMetricsIntegrationsRequestSlugsList = Array<string>;
 export type ListGcpMetricsIntegrationsRequestNamesList = Array<string>;
 export interface ListGcpMetricsIntegrationsRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any GcpMetricsIntegration with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListGcpMetricsIntegrationsRequestSlugsList;
+  slugs?: ListGcpMetricsIntegrationsRequestSlugsList | undefined;
   /** Filters results by name, where any GcpMetricsIntegration with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListGcpMetricsIntegrationsRequestNamesList;
+  names?: ListGcpMetricsIntegrationsRequestNamesList | undefined;
 }
 export type Configv1ListGcpMetricsIntegrationsResponseGcpMetricsIntegrationsList =
   Array<Configv1GcpMetricsIntegration>;
 export interface Configv1ListGcpMetricsIntegrationsResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   gcp_metrics_integrations: Configv1ListGcpMetricsIntegrationsResponseGcpMetricsIntegrationsList;
 }
 export type ListGrafanaDashboardsRequestSlugsList = Array<string>;
@@ -2684,58 +2704,58 @@ export type ListGrafanaDashboardsRequestCollectionSlugsList = Array<string>;
 export type ListGrafanaDashboardsRequestNamesList = Array<string>;
 export interface ListGrafanaDashboardsRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any GrafanaDashboard with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListGrafanaDashboardsRequestSlugsList;
+  slugs?: ListGrafanaDashboardsRequestSlugsList | undefined;
   /** Filters results by bucket_slug, where any GrafanaDashboard with a matching bucket_slug in the given list (and matches all other filters) is returned. */
-  bucket_slugs?: ListGrafanaDashboardsRequestBucketSlugsList;
+  bucket_slugs?: ListGrafanaDashboardsRequestBucketSlugsList | undefined;
   /** Filters results by collection_slug, where any GrafanaDashboard with a matching collection_slug in the given list (and matches all other filters) is returned. */
-  collection_slugs?: ListGrafanaDashboardsRequestCollectionSlugsList;
+  collection_slugs?: ListGrafanaDashboardsRequestCollectionSlugsList | undefined;
   /** Filters results by name, where any GrafanaDashboard with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListGrafanaDashboardsRequestNamesList;
+  names?: ListGrafanaDashboardsRequestNamesList | undefined;
   /** Optional flag to populate the dashboard_json of the returned dashboards. By default, dashboard_json will be left empty. */
-  include_dashboard_json?: boolean;
+  include_dashboard_json?: boolean | undefined;
 }
 export type Configv1ListGrafanaDashboardsResponseGrafanaDashboardsList =
   Array<Configv1GrafanaDashboard>;
 export interface Configv1ListGrafanaDashboardsResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   grafana_dashboards: Configv1ListGrafanaDashboardsResponseGrafanaDashboardsList;
 }
 export type ListLogScaleActionsRequestSlugsList = Array<string>;
 export type ListLogScaleActionsRequestNamesList = Array<string>;
 export interface ListLogScaleActionsRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any LogScaleAction with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListLogScaleActionsRequestSlugsList;
+  slugs?: ListLogScaleActionsRequestSlugsList | undefined;
   /** Filters results by name, where any LogScaleAction with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListLogScaleActionsRequestNamesList;
+  names?: ListLogScaleActionsRequestNamesList | undefined;
 }
 export type Configv1ListLogScaleActionsResponseLogScaleActionsList = Array<Configv1LogScaleAction>;
 export interface Configv1ListLogScaleActionsResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   log_scale_actions: Configv1ListLogScaleActionsResponseLogScaleActionsList;
 }
 export type ListLogScaleAlertsRequestSlugsList = Array<string>;
 export type ListLogScaleAlertsRequestNamesList = Array<string>;
 export interface ListLogScaleAlertsRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any LogScaleAlert with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListLogScaleAlertsRequestSlugsList;
+  slugs?: ListLogScaleAlertsRequestSlugsList | undefined;
   /** Filters results by name, where any LogScaleAlert with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListLogScaleAlertsRequestNamesList;
+  names?: ListLogScaleAlertsRequestNamesList | undefined;
 }
 export type Configv1ListLogScaleAlertsResponseLogScaleAlertsList = Array<Configv1LogScaleAlert>;
 export interface Configv1ListLogScaleAlertsResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   log_scale_alerts: Configv1ListLogScaleAlertsResponseLogScaleAlertsList;
 }
 export type ListMappingRulesRequestSlugsList = Array<string>;
@@ -2743,19 +2763,19 @@ export type ListMappingRulesRequestBucketSlugsList = Array<string>;
 export type ListMappingRulesRequestNamesList = Array<string>;
 export interface ListMappingRulesRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any MappingRule with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListMappingRulesRequestSlugsList;
+  slugs?: ListMappingRulesRequestSlugsList | undefined;
   /** Filters results by bucket_slug, where any MappingRule with a matching bucket_slug in the given list (and matches all other filters) is returned. */
-  bucket_slugs?: ListMappingRulesRequestBucketSlugsList;
+  bucket_slugs?: ListMappingRulesRequestBucketSlugsList | undefined;
   /** Filters results by name, where any MappingRule with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListMappingRulesRequestNamesList;
+  names?: ListMappingRulesRequestNamesList | undefined;
 }
 export type Configv1ListMappingRulesResponseMappingRulesList = Array<Configv1MappingRule>;
 export interface Configv1ListMappingRulesResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   mapping_rules: Configv1ListMappingRulesResponseMappingRulesList;
 }
 export type ListMonitorsRequestSlugsList = Array<string>;
@@ -2765,23 +2785,23 @@ export type ListMonitorsRequestNamesList = Array<string>;
 export type ListMonitorsRequestTeamSlugsList = Array<string>;
 export interface ListMonitorsRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any Monitor with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListMonitorsRequestSlugsList;
+  slugs?: ListMonitorsRequestSlugsList | undefined;
   /** Filters results by bucket_slug, where any Monitor with a matching bucket_slug in the given list (and matches all other filters) is returned. */
-  bucket_slugs?: ListMonitorsRequestBucketSlugsList;
+  bucket_slugs?: ListMonitorsRequestBucketSlugsList | undefined;
   /** Filters results by collection_slug, where any Monitor with a matching collection_slug in the given list (and matches all other filters) is returned. */
-  collection_slugs?: ListMonitorsRequestCollectionSlugsList;
+  collection_slugs?: ListMonitorsRequestCollectionSlugsList | undefined;
   /** Filters results by name, where any Monitor with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListMonitorsRequestNamesList;
+  names?: ListMonitorsRequestNamesList | undefined;
   /** Filter returned monitors by the teams that own the collections that they belong to. */
-  team_slugs?: ListMonitorsRequestTeamSlugsList;
+  team_slugs?: ListMonitorsRequestTeamSlugsList | undefined;
 }
 export type Configv1ListMonitorsResponseMonitorsList = Array<Configv1Monitor>;
 export interface Configv1ListMonitorsResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   monitors: Configv1ListMonitorsResponseMonitorsList;
 }
 export type ListMutingRulesRequestSlugsList = Array<string>;
@@ -2792,19 +2812,19 @@ export type ListMutingRulesRequestStatesList = Array<
 >;
 export interface ListMutingRulesRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any MutingRule with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListMutingRulesRequestSlugsList;
+  slugs?: ListMutingRulesRequestSlugsList | undefined;
   /** Filters results by name, where any MutingRule with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListMutingRulesRequestNamesList;
+  names?: ListMutingRulesRequestNamesList | undefined;
   /** Lists muting rules filtered by the states. If empty, all muting rules are included. */
-  states?: ListMutingRulesRequestStatesList;
+  states?: ListMutingRulesRequestStatesList | undefined;
 }
 export type Configv1ListMutingRulesResponseMutingRulesList = Array<Configv1MutingRule>;
 export interface Configv1ListMutingRulesResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   muting_rules: Configv1ListMutingRulesResponseMutingRulesList;
 }
 export type ListNotificationPoliciesRequestSlugsList = Array<string>;
@@ -2813,39 +2833,39 @@ export type ListNotificationPoliciesRequestBucketSlugsList = Array<string>;
 export type ListNotificationPoliciesRequestTeamSlugsList = Array<string>;
 export interface ListNotificationPoliciesRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any NotificationPolicy with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListNotificationPoliciesRequestSlugsList;
+  slugs?: ListNotificationPoliciesRequestSlugsList | undefined;
   /** Filters results by name, where any NotificationPolicy with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListNotificationPoliciesRequestNamesList;
+  names?: ListNotificationPoliciesRequestNamesList | undefined;
   /** Filters results by bucket_slug, where any NotificationPolicy with a matching bucket_slug in the given list (and matches all other filters) is returned. */
-  bucket_slugs?: ListNotificationPoliciesRequestBucketSlugsList;
+  bucket_slugs?: ListNotificationPoliciesRequestBucketSlugsList | undefined;
   /** Filters results by team_slug, where any NotificationPolicy with a matching team_slug in the given list (and matches all other filters) is returned. */
-  team_slugs?: ListNotificationPoliciesRequestTeamSlugsList;
+  team_slugs?: ListNotificationPoliciesRequestTeamSlugsList | undefined;
 }
 export type Configv1ListNotificationPoliciesResponseNotificationPoliciesList =
   Array<Configv1NotificationPolicy>;
 export interface Configv1ListNotificationPoliciesResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   notification_policies: Configv1ListNotificationPoliciesResponseNotificationPoliciesList;
 }
 export type ListNotifiersRequestSlugsList = Array<string>;
 export type ListNotifiersRequestNamesList = Array<string>;
 export interface ListNotifiersRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any Notifier with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListNotifiersRequestSlugsList;
+  slugs?: ListNotifiersRequestSlugsList | undefined;
   /** Filters results by name, where any Notifier with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListNotifiersRequestNamesList;
+  names?: ListNotifiersRequestNamesList | undefined;
 }
 export type Configv1ListNotifiersResponseNotifiersList = Array<Configv1Notifier>;
 export interface Configv1ListNotifiersResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   notifiers: Configv1ListNotifiersResponseNotifiersList;
 }
 export type ListRecordingRulesRequestSlugsList = Array<string>;
@@ -2854,21 +2874,21 @@ export type ListRecordingRulesRequestBucketSlugsList = Array<string>;
 export type ListRecordingRulesRequestExecutionGroupsList = Array<string>;
 export interface ListRecordingRulesRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any RecordingRule with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListRecordingRulesRequestSlugsList;
+  slugs?: ListRecordingRulesRequestSlugsList | undefined;
   /** Filters results by name, where any RecordingRule with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListRecordingRulesRequestNamesList;
+  names?: ListRecordingRulesRequestNamesList | undefined;
   /** The execution_groups filter cannot be used when a bucket_slug filter is provided. */
-  bucket_slugs?: ListRecordingRulesRequestBucketSlugsList;
+  bucket_slugs?: ListRecordingRulesRequestBucketSlugsList | undefined;
   /** The bucket_slugs filter cannot be used when an execution_group filter is provided. */
-  execution_groups?: ListRecordingRulesRequestExecutionGroupsList;
+  execution_groups?: ListRecordingRulesRequestExecutionGroupsList | undefined;
 }
 export type Configv1ListRecordingRulesResponseRecordingRulesList = Array<Configv1RecordingRule>;
 export interface Configv1ListRecordingRulesResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   recording_rules: Configv1ListRecordingRulesResponseRecordingRulesList;
 }
 export type ListRollupRulesRequestSlugsList = Array<string>;
@@ -2876,36 +2896,36 @@ export type ListRollupRulesRequestNamesList = Array<string>;
 export type ListRollupRulesRequestBucketSlugsList = Array<string>;
 export interface ListRollupRulesRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any RollupRule with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListRollupRulesRequestSlugsList;
+  slugs?: ListRollupRulesRequestSlugsList | undefined;
   /** Filters results by name, where any RollupRule with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListRollupRulesRequestNamesList;
+  names?: ListRollupRulesRequestNamesList | undefined;
   /** Filters results by bucket_slug, where any RollupRule with a matching bucket_slug in the given list (and matches all other filters) is returned. */
-  bucket_slugs?: ListRollupRulesRequestBucketSlugsList;
+  bucket_slugs?: ListRollupRulesRequestBucketSlugsList | undefined;
 }
 export type Configv1ListRollupRulesResponseRollupRulesList = Array<Configv1RollupRule>;
 export interface Configv1ListRollupRulesResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   rollup_rules: Configv1ListRollupRulesResponseRollupRulesList;
 }
 export type ListServiceAccountsRequestSlugsList = Array<string>;
 export type ListServiceAccountsRequestNamesList = Array<string>;
 export interface ListServiceAccountsRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any ServiceAccount with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListServiceAccountsRequestSlugsList;
+  slugs?: ListServiceAccountsRequestSlugsList | undefined;
   /** Filters results by name, where any ServiceAccount with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListServiceAccountsRequestNamesList;
+  names?: ListServiceAccountsRequestNamesList | undefined;
 }
 export type Configv1ListServiceAccountsResponseServiceAccountsList = Array<Configv1ServiceAccount>;
 export interface Configv1ListServiceAccountsResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   service_accounts: Configv1ListServiceAccountsResponseServiceAccountsList;
 }
 export type ListSLOsRequestSlugsList = Array<string>;
@@ -2914,53 +2934,53 @@ export type ListSLOsRequestCollectionSlugsList = Array<string>;
 export type ListSLOsRequestServiceSlugsList = Array<string>;
 export interface ListSLOsRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any SLO with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListSLOsRequestSlugsList;
+  slugs?: ListSLOsRequestSlugsList | undefined;
   /** Filters results by name, where any SLO with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListSLOsRequestNamesList;
-  collection_slugs?: ListSLOsRequestCollectionSlugsList;
-  service_slugs?: ListSLOsRequestServiceSlugsList;
+  names?: ListSLOsRequestNamesList | undefined;
+  collection_slugs?: ListSLOsRequestCollectionSlugsList | undefined;
+  service_slugs?: ListSLOsRequestServiceSlugsList | undefined;
 }
 export type Configv1ListSLOsResponseSlosList = Array<Configv1SLO>;
 export interface Configv1ListSLOsResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   slos: Configv1ListSLOsResponseSlosList;
 }
 export type ListTeamsRequestSlugsList = Array<string>;
 export type ListTeamsRequestNamesList = Array<string>;
 export interface ListTeamsRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any Team with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListTeamsRequestSlugsList;
+  slugs?: ListTeamsRequestSlugsList | undefined;
   /** Filters results by name, where any Team with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListTeamsRequestNamesList;
+  names?: ListTeamsRequestNamesList | undefined;
 }
 export type Configv1ListTeamsResponseTeamsList = Array<Configv1Team>;
 export interface Configv1ListTeamsResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   teams: Configv1ListTeamsResponseTeamsList;
 }
 export type ListTraceBehaviorsRequestSlugsList = Array<string>;
 export type ListTraceBehaviorsRequestNamesList = Array<string>;
 export interface ListTraceBehaviorsRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any TraceBehavior with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListTraceBehaviorsRequestSlugsList;
+  slugs?: ListTraceBehaviorsRequestSlugsList | undefined;
   /** Filters results by name, where any TraceBehavior with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListTraceBehaviorsRequestNamesList;
+  names?: ListTraceBehaviorsRequestNamesList | undefined;
 }
 export type Configv1ListTraceBehaviorsResponseTraceBehaviorsList = Array<Configv1TraceBehavior>;
 export interface Configv1ListTraceBehaviorsResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   trace_behaviors: Configv1ListTraceBehaviorsResponseTraceBehaviorsList;
 }
 export type ListTraceJaegerRemoteSamplingStrategiesRequestSlugsList = Array<string>;
@@ -2968,21 +2988,21 @@ export type ListTraceJaegerRemoteSamplingStrategiesRequestNamesList = Array<stri
 export type ListTraceJaegerRemoteSamplingStrategiesRequestServiceNamesList = Array<string>;
 export interface ListTraceJaegerRemoteSamplingStrategiesRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any TraceJaegerRemoteSamplingStrategy with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListTraceJaegerRemoteSamplingStrategiesRequestSlugsList;
+  slugs?: ListTraceJaegerRemoteSamplingStrategiesRequestSlugsList | undefined;
   /** Filters results by name, where any TraceJaegerRemoteSamplingStrategy with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListTraceJaegerRemoteSamplingStrategiesRequestNamesList;
+  names?: ListTraceJaegerRemoteSamplingStrategiesRequestNamesList | undefined;
   /** Filters results by service_name, where any TraceJaegerRemoteSamplingStrategy with a matching service_name in the given list (and matches all other filters) is returned. */
-  service_names?: ListTraceJaegerRemoteSamplingStrategiesRequestServiceNamesList;
-  name_or_service_contains?: string;
+  service_names?: ListTraceJaegerRemoteSamplingStrategiesRequestServiceNamesList | undefined;
+  name_or_service_contains?: string | undefined;
 }
 export type Configv1ListTraceJaegerRemoteSamplingStrategiesResponseTraceJaegerRemoteSamplingStrategiesList =
   Array<Configv1TraceJaegerRemoteSamplingStrategy>;
 export interface Configv1ListTraceJaegerRemoteSamplingStrategiesResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   trace_jaeger_remote_sampling_strategies: Configv1ListTraceJaegerRemoteSamplingStrategiesResponseTraceJaegerRemoteSamplingStrategiesList;
 }
 export type ListTraceMetricsRulesRequestSlugsList = Array<string>;
@@ -2990,21 +3010,21 @@ export type ListTraceMetricsRulesRequestNamesList = Array<string>;
 export type ListTraceMetricsRulesRequestMetricNamesList = Array<string>;
 export interface ListTraceMetricsRulesRequest {
   /** Page size preference (i.e. how many items are returned in the next page). If zero, the server will use a default. Regardless of what size is given, clients must never assume how many items will be returned. */
-  page_max_size?: number;
+  page_max_size?: number | undefined;
   /** Opaque page token identifying which page to request. An empty token identifies the first page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** Filters results by slug, where any TraceMetricsRule with a matching slug in the given list (and matches all other filters) is returned. */
-  slugs?: ListTraceMetricsRulesRequestSlugsList;
+  slugs?: ListTraceMetricsRulesRequestSlugsList | undefined;
   /** Filters results by name, where any TraceMetricsRule with a matching name in the given list (and matches all other filters) is returned. */
-  names?: ListTraceMetricsRulesRequestNamesList;
+  names?: ListTraceMetricsRulesRequestNamesList | undefined;
   /** Get trace metric rules by name. */
-  metric_names?: ListTraceMetricsRulesRequestMetricNamesList;
+  metric_names?: ListTraceMetricsRulesRequestMetricNamesList | undefined;
 }
 /** Found trace metrics rules. */
 export type Configv1ListTraceMetricsRulesResponseTraceMetricsRulesList =
   Array<Configv1TraceMetricsRule>;
 export interface Configv1ListTraceMetricsRulesResponse {
-  page?: Configv1PageResult;
+  page?: Configv1PageResult | undefined;
   /** Found trace metrics rules. */
   trace_metrics_rules: Configv1ListTraceMetricsRulesResponseTraceMetricsRulesList;
 }
@@ -3012,521 +3032,523 @@ export interface ReadBucketRequest {
   slug: string;
 }
 export interface Configv1ReadBucketResponse {
-  bucket?: Configv1Bucket;
+  bucket?: Configv1Bucket | undefined;
 }
 export interface ReadClassicDashboardRequest {
   slug: string;
 }
 export interface Configv1ReadClassicDashboardResponse {
-  classic_dashboard?: Configv1GrafanaDashboard;
+  classic_dashboard?: Configv1GrafanaDashboard | undefined;
 }
 export interface ReadCollectionRequest {
   slug: string;
 }
 export interface Configv1ReadCollectionResponse {
-  collection?: Configv1Collection;
+  collection?: Configv1Collection | undefined;
 }
 export interface ReadDashboardRequest {
   slug: string;
 }
 export interface Configv1ReadDashboardResponse {
-  dashboard?: Configv1Dashboard;
+  dashboard?: Configv1Dashboard | undefined;
 }
 export interface ReadDatasetRequest {
   slug: string;
 }
 export interface Configv1ReadDatasetResponse {
-  dataset?: Configv1Dataset;
+  dataset?: Configv1Dataset | undefined;
 }
 export interface ReadDerivedLabelRequest {
   slug: string;
 }
 export interface Configv1ReadDerivedLabelResponse {
-  derived_label?: Configv1DerivedLabel;
+  derived_label?: Configv1DerivedLabel | undefined;
 }
 export interface ReadDerivedMetricRequest {
   slug: string;
 }
 export interface Configv1ReadDerivedMetricResponse {
-  derived_metric?: Configv1DerivedMetric;
+  derived_metric?: Configv1DerivedMetric | undefined;
 }
 export interface ReadDropRuleRequest {
   slug: string;
 }
 export interface Configv1ReadDropRuleResponse {
-  drop_rule?: Configv1DropRule;
+  drop_rule?: Configv1DropRule | undefined;
 }
 export interface ReadGcpMetricsIntegrationRequest {
   slug: string;
 }
 export interface Configv1ReadGcpMetricsIntegrationResponse {
-  gcp_metrics_integration?: Configv1GcpMetricsIntegration;
+  gcp_metrics_integration?: Configv1GcpMetricsIntegration | undefined;
 }
 export interface ReadGrafanaDashboardRequest {
   slug: string;
 }
 export interface Configv1ReadGrafanaDashboardResponse {
-  grafana_dashboard?: Configv1GrafanaDashboard;
+  grafana_dashboard?: Configv1GrafanaDashboard | undefined;
 }
 export interface ReadLogAllocationConfigRequest {}
 export interface Configv1ReadLogAllocationConfigResponse {
-  log_allocation_config?: Configv1LogAllocationConfig;
+  log_allocation_config?: Configv1LogAllocationConfig | undefined;
 }
 export interface ReadLogIngestConfigRequest {}
 export interface Configv1ReadLogIngestConfigResponse {
-  log_ingest_config?: Configv1LogIngestConfig;
+  log_ingest_config?: Configv1LogIngestConfig | undefined;
 }
 export interface ReadLogScaleActionRequest {
   slug: string;
 }
 export interface Configv1ReadLogScaleActionResponse {
-  log_scale_action?: Configv1LogScaleAction;
+  log_scale_action?: Configv1LogScaleAction | undefined;
 }
 export interface ReadLogScaleAlertRequest {
   slug: string;
 }
 export interface Configv1ReadLogScaleAlertResponse {
-  log_scale_alert?: Configv1LogScaleAlert;
+  log_scale_alert?: Configv1LogScaleAlert | undefined;
 }
 export interface ReadMappingRuleRequest {
   slug: string;
 }
 export interface Configv1ReadMappingRuleResponse {
-  mapping_rule?: Configv1MappingRule;
+  mapping_rule?: Configv1MappingRule | undefined;
 }
 export interface ReadMonitorRequest {
   slug: string;
 }
 export interface Configv1ReadMonitorResponse {
-  monitor?: Configv1Monitor;
+  monitor?: Configv1Monitor | undefined;
 }
 export interface ReadMutingRuleRequest {
   slug: string;
 }
 export interface Configv1ReadMutingRuleResponse {
-  muting_rule?: Configv1MutingRule;
+  muting_rule?: Configv1MutingRule | undefined;
 }
 export interface ReadNotificationPolicyRequest {
   slug: string;
 }
 export interface Configv1ReadNotificationPolicyResponse {
-  notification_policy?: Configv1NotificationPolicy;
+  notification_policy?: Configv1NotificationPolicy | undefined;
 }
 export interface ReadNotifierRequest {
   slug: string;
 }
 export interface Configv1ReadNotifierResponse {
-  notifier?: Configv1Notifier;
+  notifier?: Configv1Notifier | undefined;
 }
 export interface ReadOtelMetricsIngestionRequest {}
 export interface Configv1ReadOtelMetricsIngestionResponse {
-  otel_metrics_ingestion?: Configv1OtelMetricsIngestion;
+  otel_metrics_ingestion?: Configv1OtelMetricsIngestion | undefined;
 }
 export interface ReadRecordingRuleRequest {
   slug: string;
 }
 export interface Configv1ReadRecordingRuleResponse {
-  recording_rule?: Configv1RecordingRule;
+  recording_rule?: Configv1RecordingRule | undefined;
 }
 export interface ReadResourcePoolsRequest {}
 export interface Configv1ReadResourcePoolsResponse {
-  resource_pools?: Configv1ResourcePools;
+  resource_pools?: Configv1ResourcePools | undefined;
 }
 export interface ReadRollupRuleRequest {
   slug: string;
 }
 export interface Configv1ReadRollupRuleResponse {
-  rollup_rule?: Configv1RollupRule;
+  rollup_rule?: Configv1RollupRule | undefined;
 }
 export interface ReadServiceRequest {
   slug: string;
 }
 export interface Configv1Service {
   /** Unique identifier of the Service. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Service is created. */
-  slug?: string;
+  slug?: string | undefined;
   /** Required. Name of the Service. You can modify this value after the Service is created. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp of when the Service was created. Cannot be set by clients. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the Service was last updated. Cannot be set by clients. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Required slug of the team the service collection belongs to. */
-  team_slug?: string;
+  team_slug?: string | undefined;
   /** Optional description of the service collection. */
-  description?: string;
+  description?: string | undefined;
   /** Slug of the notification policy used by default for monitors in this service collection. This is optional if the collection does not contain monitors or all of its monitors explicitly reference a policy. This does not override the policy used when a monitor explicitly references a policy. */
-  notification_policy_slug?: string;
+  notification_policy_slug?: string | undefined;
 }
 export interface Configv1ReadServiceResponse {
-  service?: Configv1Service;
+  service?: Configv1Service | undefined;
 }
 export interface ReadServiceAccountRequest {
   slug: string;
 }
 export interface Configv1ReadServiceAccountResponse {
-  service_account?: Configv1ServiceAccount;
+  service_account?: Configv1ServiceAccount | undefined;
 }
 export interface ReadSLORequest {
   slug: string;
 }
 export interface Configv1ReadSLOResponse {
-  slo?: Configv1SLO;
+  slo?: Configv1SLO | undefined;
 }
 export interface ReadTeamRequest {
   slug: string;
 }
 export interface Configv1ReadTeamResponse {
-  team?: Configv1Team;
+  team?: Configv1Team | undefined;
 }
 export interface ReadTraceBehaviorRequest {
   slug: string;
 }
 export interface Configv1ReadTraceBehaviorResponse {
-  trace_behavior?: Configv1TraceBehavior;
+  trace_behavior?: Configv1TraceBehavior | undefined;
 }
 export interface ReadTraceBehaviorConfigRequest {}
 export interface Configv1ReadTraceBehaviorConfigResponse {
-  trace_behavior_config?: Configv1TraceBehaviorConfig;
+  trace_behavior_config?: Configv1TraceBehaviorConfig | undefined;
 }
 export interface ReadTraceJaegerRemoteSamplingStrategyRequest {
   slug: string;
 }
 export interface Configv1ReadTraceJaegerRemoteSamplingStrategyResponse {
-  trace_jaeger_remote_sampling_strategy?: Configv1TraceJaegerRemoteSamplingStrategy;
+  trace_jaeger_remote_sampling_strategy?: Configv1TraceJaegerRemoteSamplingStrategy | undefined;
 }
 export interface ReadTraceMetricsRuleRequest {
   slug: string;
 }
 export interface Configv1ReadTraceMetricsRuleResponse {
-  trace_metrics_rule?: Configv1TraceMetricsRule;
+  trace_metrics_rule?: Configv1TraceMetricsRule | undefined;
 }
 export interface ReadTraceTailSamplingRulesRequest {}
 export interface Configv1ReadTraceTailSamplingRulesResponse {
-  trace_tail_sampling_rules?: Configv1TraceTailSamplingRules;
+  trace_tail_sampling_rules?: Configv1TraceTailSamplingRules | undefined;
 }
 export interface UpdateBucketRequest {
   slug: string;
-  bucket?: Configv1BucketInput;
+  bucket?: Configv1BucketInput | undefined;
   /** If true, the Bucket will be created if it does not already exist, identified by slug. If false, an error will be returned if the Bucket does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the Bucket isn't created or updated, and no response Bucket will be returned. The response will return an error if the given Bucket is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateBucketResponse {
-  bucket?: Configv1Bucket;
+  bucket?: Configv1Bucket | undefined;
 }
 export interface UpdateClassicDashboardRequest {
   slug: string;
-  classic_dashboard?: Configv1GrafanaDashboardInput;
+  classic_dashboard?: Configv1GrafanaDashboardInput | undefined;
   /** If true, the GrafanaDashboard will be created if it does not already exist, identified by slug. If false, an error will be returned if the GrafanaDashboard does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the GrafanaDashboard isn't created or updated, and no response GrafanaDashboard will be returned. The response will return an error if the given GrafanaDashboard is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateClassicDashboardResponse {
-  classic_dashboard?: Configv1GrafanaDashboard;
+  classic_dashboard?: Configv1GrafanaDashboard | undefined;
 }
 export interface UpdateCollectionRequest {
   slug: string;
-  collection?: Configv1CollectionInput;
+  collection?: Configv1CollectionInput | undefined;
   /** If true, the Collection will be created if it does not already exist, identified by slug. If false, an error will be returned if the Collection does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the Collection isn't created or updated, and no response Collection will be returned. The response will return an error if the given Collection is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateCollectionResponse {
-  collection?: Configv1Collection;
+  collection?: Configv1Collection | undefined;
 }
 export interface UpdateDashboardRequest {
   slug: string;
-  dashboard?: Configv1DashboardInput;
+  dashboard?: Configv1DashboardInput | undefined;
   /** If true, the Dashboard will be created if it does not already exist, identified by slug. If false, an error will be returned if the Dashboard does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the Dashboard isn't created or updated, and no response Dashboard will be returned. The response will return an error if the given Dashboard is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateDashboardResponse {
-  dashboard?: Configv1Dashboard;
+  dashboard?: Configv1Dashboard | undefined;
 }
 export interface UpdateDatasetRequest {
   slug: string;
-  dataset?: Configv1DatasetInput;
+  dataset?: Configv1DatasetInput | undefined;
   /** If true, the Dataset will be created if it does not already exist, identified by slug. If false, an error will be returned if the Dataset does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the Dataset isn't created or updated, and no response Dataset will be returned. The response will return an error if the given Dataset is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateDatasetResponse {
-  dataset?: Configv1Dataset;
+  dataset?: Configv1Dataset | undefined;
 }
 export interface UpdateDerivedLabelRequest {
   slug: string;
-  derived_label?: Configv1DerivedLabelInput;
+  derived_label?: Configv1DerivedLabelInput | undefined;
   /** If true, the DerivedLabel will be created if it does not already exist, identified by slug. If false, an error will be returned if the DerivedLabel does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the DerivedLabel isn't created or updated, and no response DerivedLabel will be returned. The response will return an error if the given DerivedLabel is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateDerivedLabelResponse {
-  derived_label?: Configv1DerivedLabel;
+  derived_label?: Configv1DerivedLabel | undefined;
 }
 export interface UpdateDerivedMetricRequest {
   slug: string;
-  derived_metric?: Configv1DerivedMetricInput;
+  derived_metric?: Configv1DerivedMetricInput | undefined;
   /** If true, the DerivedMetric will be created if it does not already exist, identified by slug. If false, an error will be returned if the DerivedMetric does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the DerivedMetric isn't created or updated, and no response DerivedMetric will be returned. The response will return an error if the given DerivedMetric is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateDerivedMetricResponse {
-  derived_metric?: Configv1DerivedMetric;
+  derived_metric?: Configv1DerivedMetric | undefined;
 }
 export interface UpdateDropRuleRequest {
   slug: string;
-  drop_rule?: Configv1DropRuleInput;
+  drop_rule?: Configv1DropRuleInput | undefined;
   /** If true, the DropRule will be created if it does not already exist, identified by slug. If false, an error will be returned if the DropRule does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the DropRule isn't created or updated, and no response DropRule will be returned. The response will return an error if the given DropRule is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateDropRuleResponse {
-  drop_rule?: Configv1DropRule;
+  drop_rule?: Configv1DropRule | undefined;
 }
 export interface UpdateGcpMetricsIntegrationRequest {
   slug: string;
-  gcp_metrics_integration?: Configv1GcpMetricsIntegrationInput;
+  gcp_metrics_integration?: Configv1GcpMetricsIntegrationInput | undefined;
   /** If true, the GcpMetricsIntegration will be created if it does not already exist, identified by slug. If false, an error will be returned if the GcpMetricsIntegration does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the GcpMetricsIntegration isn't created or updated, and no response GcpMetricsIntegration will be returned. The response will return an error if the given GcpMetricsIntegration is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateGcpMetricsIntegrationResponse {
-  gcp_metrics_integration?: Configv1GcpMetricsIntegration;
+  gcp_metrics_integration?: Configv1GcpMetricsIntegration | undefined;
 }
 export interface UpdateGrafanaDashboardRequest {
   slug: string;
-  grafana_dashboard?: Configv1GrafanaDashboardInput;
+  grafana_dashboard?: Configv1GrafanaDashboardInput | undefined;
   /** If true, the GrafanaDashboard will be created if it does not already exist, identified by slug. If false, an error will be returned if the GrafanaDashboard does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the GrafanaDashboard isn't created or updated, and no response GrafanaDashboard will be returned. The response will return an error if the given GrafanaDashboard is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateGrafanaDashboardResponse {
-  grafana_dashboard?: Configv1GrafanaDashboard;
+  grafana_dashboard?: Configv1GrafanaDashboard | undefined;
 }
 export interface UpdateLogAllocationConfigRequest {
-  log_allocation_config?: Configv1LogAllocationConfigInput;
+  log_allocation_config?: Configv1LogAllocationConfigInput | undefined;
   /** If true, the LogAllocationConfig will be created if it does not already exist. If false, an error will be returned if the LogAllocationConfig does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the LogAllocationConfig isn't created or updated, and no response LogAllocationConfig will be returned. The response will return an error if the given LogAllocationConfig is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateLogAllocationConfigResponse {
-  log_allocation_config?: Configv1LogAllocationConfig;
+  log_allocation_config?: Configv1LogAllocationConfig | undefined;
 }
 export interface UpdateLogIngestConfigRequest {
-  log_ingest_config?: Configv1LogIngestConfigInput;
+  log_ingest_config?: Configv1LogIngestConfigInput | undefined;
   /** If true, the LogIngestConfig will be created if it does not already exist. If false, an error will be returned if the LogIngestConfig does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the LogIngestConfig isn't created or updated, and no response LogIngestConfig will be returned. The response will return an error if the given LogIngestConfig is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateLogIngestConfigResponse {
-  log_ingest_config?: Configv1LogIngestConfig;
+  log_ingest_config?: Configv1LogIngestConfig | undefined;
 }
 export interface UpdateLogScaleActionRequest {
   slug: string;
-  log_scale_action?: Configv1LogScaleActionInput;
+  log_scale_action?: Configv1LogScaleActionInput | undefined;
   /** If true, the LogScaleAction will be created if it does not already exist, identified by slug. If false, an error will be returned if the LogScaleAction does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the LogScaleAction isn't created or updated, and no response LogScaleAction will be returned. The response will return an error if the given LogScaleAction is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateLogScaleActionResponse {
-  log_scale_action?: Configv1LogScaleAction;
+  log_scale_action?: Configv1LogScaleAction | undefined;
 }
 export interface UpdateLogScaleAlertRequest {
   slug: string;
-  log_scale_alert?: Configv1LogScaleAlertInput;
+  log_scale_alert?: Configv1LogScaleAlertInput | undefined;
   /** If true, the LogScaleAlert will be created if it does not already exist, identified by slug. If false, an error will be returned if the LogScaleAlert does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the LogScaleAlert isn't created or updated, and no response LogScaleAlert will be returned. The response will return an error if the given LogScaleAlert is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateLogScaleAlertResponse {
-  log_scale_alert?: Configv1LogScaleAlert;
+  log_scale_alert?: Configv1LogScaleAlert | undefined;
 }
 export interface UpdateMappingRuleRequest {
   slug: string;
-  mapping_rule?: Configv1MappingRuleInput;
+  mapping_rule?: Configv1MappingRuleInput | undefined;
   /** If true, the MappingRule will be created if it does not already exist, identified by slug. If false, an error will be returned if the MappingRule does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the MappingRule isn't created or updated, and no response MappingRule will be returned. The response will return an error if the given MappingRule is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateMappingRuleResponse {
-  mapping_rule?: Configv1MappingRule;
+  mapping_rule?: Configv1MappingRule | undefined;
 }
 export interface UpdateMonitorRequest {
   slug: string;
-  monitor?: Configv1MonitorInput;
+  monitor?: Configv1MonitorInput | undefined;
   /** If true, the Monitor will be created if it does not already exist, identified by slug. If false, an error will be returned if the Monitor does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the Monitor isn't created or updated, and no response Monitor will be returned. The response will return an error if the given Monitor is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateMonitorResponse {
-  monitor?: Configv1Monitor;
+  monitor?: Configv1Monitor | undefined;
 }
 export interface UpdateMutingRuleRequest {
   slug: string;
-  muting_rule?: Configv1MutingRuleInput;
+  muting_rule?: Configv1MutingRuleInput | undefined;
   /** If true, the MutingRule will be created if it does not already exist, identified by slug. If false, an error will be returned if the MutingRule does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the MutingRule isn't created or updated, and no response MutingRule will be returned. The response will return an error if the given MutingRule is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateMutingRuleResponse {
-  muting_rule?: Configv1MutingRule;
+  muting_rule?: Configv1MutingRule | undefined;
 }
 export interface UpdateNotificationPolicyRequest {
   slug: string;
-  notification_policy?: Configv1NotificationPolicyInput;
+  notification_policy?: Configv1NotificationPolicyInput | undefined;
   /** If true, the NotificationPolicy will be created if it does not already exist, identified by slug. If false, an error will be returned if the NotificationPolicy does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the NotificationPolicy isn't created or updated, and no response NotificationPolicy will be returned. The response will return an error if the given NotificationPolicy is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateNotificationPolicyResponse {
-  notification_policy?: Configv1NotificationPolicy;
+  notification_policy?: Configv1NotificationPolicy | undefined;
 }
 export interface UpdateNotifierRequest {
   slug: string;
-  notifier?: Configv1NotifierInput;
+  notifier?: Configv1NotifierInput | undefined;
   /** If true, the Notifier will be created if it does not already exist, identified by slug. If false, an error will be returned if the Notifier does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the Notifier isn't created or updated, and no response Notifier will be returned. The response will return an error if the given Notifier is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateNotifierResponse {
-  notifier?: Configv1Notifier;
+  notifier?: Configv1Notifier | undefined;
 }
 export interface UpdateOtelMetricsIngestionRequest {
-  otel_metrics_ingestion?: Configv1OtelMetricsIngestionInput;
+  otel_metrics_ingestion?: Configv1OtelMetricsIngestionInput | undefined;
   /** If true, the OtelMetricsIngestion will be created if it does not already exist. If false, an error will be returned if the OtelMetricsIngestion does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the OtelMetricsIngestion isn't created or updated, and no response OtelMetricsIngestion will be returned. The response will return an error if the given OtelMetricsIngestion is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateOtelMetricsIngestionResponse {
-  otel_metrics_ingestion?: Configv1OtelMetricsIngestion;
+  otel_metrics_ingestion?: Configv1OtelMetricsIngestion | undefined;
 }
 export interface UpdateRecordingRuleRequest {
   slug: string;
-  recording_rule?: Configv1RecordingRuleInput;
+  recording_rule?: Configv1RecordingRuleInput | undefined;
   /** If true, the RecordingRule will be created if it does not already exist, identified by slug. If false, an error will be returned if the RecordingRule does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the RecordingRule isn't created or updated, and no response RecordingRule will be returned. The response will return an error if the given RecordingRule is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateRecordingRuleResponse {
-  recording_rule?: Configv1RecordingRule;
+  recording_rule?: Configv1RecordingRule | undefined;
 }
 export interface UpdateResourcePoolsRequest {
-  resource_pools?: Configv1ResourcePoolsInput;
+  resource_pools?: Configv1ResourcePoolsInput | undefined;
   /** If true, the ResourcePools will be created if it does not already exist. If false, an error will be returned if the ResourcePools does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the ResourcePools isn't created or updated, and no response ResourcePools will be returned. The response will return an error if the given ResourcePools is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateResourcePoolsResponse {
-  resource_pools?: Configv1ResourcePools;
+  resource_pools?: Configv1ResourcePools | undefined;
 }
 export interface UpdateRollupRuleRequest {
   slug: string;
-  rollup_rule?: Configv1RollupRuleInput;
+  rollup_rule?: Configv1RollupRuleInput | undefined;
   /** If true, the RollupRule will be created if it does not already exist, identified by slug. If false, an error will be returned if the RollupRule does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the RollupRule isn't created or updated, and no response RollupRule will be returned. The response will return an error if the given RollupRule is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateRollupRuleResponse {
-  rollup_rule?: Configv1RollupRule;
+  rollup_rule?: Configv1RollupRule | undefined;
 }
 export interface UpdateSLORequest {
   slug: string;
-  slo?: Configv1SLOInput;
+  slo?: Configv1SLOInput | undefined;
   /** If true, the SLO will be created if it does not already exist, identified by slug. If false, an error will be returned if the SLO does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the SLO isn't created or updated, and no response SLO will be returned. The response will return an error if the given SLO is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateSLOResponse {
-  slo?: Configv1SLO;
+  slo?: Configv1SLO | undefined;
 }
 export interface UpdateTeamRequest {
   slug: string;
-  team?: Configv1TeamInput;
+  team?: Configv1TeamInput | undefined;
   /** If true, the Team will be created if it does not already exist, identified by slug. If false, an error will be returned if the Team does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the Team isn't created or updated, and no response Team will be returned. The response will return an error if the given Team is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateTeamResponse {
-  team?: Configv1Team;
+  team?: Configv1Team | undefined;
 }
 export interface UpdateTraceBehaviorRequest {
   slug: string;
-  trace_behavior?: Configv1TraceBehaviorInput;
+  trace_behavior?: Configv1TraceBehaviorInput | undefined;
   /** If true, the TraceBehavior will be created if it does not already exist, identified by slug. If false, an error will be returned if the TraceBehavior does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the TraceBehavior isn't created or updated, and no response TraceBehavior will be returned. The response will return an error if the given TraceBehavior is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateTraceBehaviorResponse {
-  trace_behavior?: Configv1TraceBehavior;
+  trace_behavior?: Configv1TraceBehavior | undefined;
 }
 export interface UpdateTraceBehaviorConfigRequest {
-  trace_behavior_config?: Configv1TraceBehaviorConfigInput;
+  trace_behavior_config?: Configv1TraceBehaviorConfigInput | undefined;
   /** If true, the TraceBehaviorConfig will be created if it does not already exist. If false, an error will be returned if the TraceBehaviorConfig does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the TraceBehaviorConfig isn't created or updated, and no response TraceBehaviorConfig will be returned. The response will return an error if the given TraceBehaviorConfig is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateTraceBehaviorConfigResponse {
-  trace_behavior_config?: Configv1TraceBehaviorConfig;
+  trace_behavior_config?: Configv1TraceBehaviorConfig | undefined;
 }
 export interface UpdateTraceJaegerRemoteSamplingStrategyRequest {
   slug: string;
-  trace_jaeger_remote_sampling_strategy?: Configv1TraceJaegerRemoteSamplingStrategyInput;
+  trace_jaeger_remote_sampling_strategy?:
+    | Configv1TraceJaegerRemoteSamplingStrategyInput
+    | undefined;
   /** If true, the TraceJaegerRemoteSamplingStrategy will be created if it does not already exist, identified by slug. If false, an error will be returned if the TraceJaegerRemoteSamplingStrategy does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the TraceJaegerRemoteSamplingStrategy isn't created or updated, and no response TraceJaegerRemoteSamplingStrategy will be returned. The response will return an error if the given TraceJaegerRemoteSamplingStrategy is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateTraceJaegerRemoteSamplingStrategyResponse {
-  trace_jaeger_remote_sampling_strategy?: Configv1TraceJaegerRemoteSamplingStrategy;
+  trace_jaeger_remote_sampling_strategy?: Configv1TraceJaegerRemoteSamplingStrategy | undefined;
 }
 export interface UpdateTraceMetricsRuleRequest {
   slug: string;
-  trace_metrics_rule?: Configv1TraceMetricsRuleInput;
+  trace_metrics_rule?: Configv1TraceMetricsRuleInput | undefined;
   /** If true, the TraceMetricsRule will be created if it does not already exist, identified by slug. If false, an error will be returned if the TraceMetricsRule does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the TraceMetricsRule isn't created or updated, and no response TraceMetricsRule will be returned. The response will return an error if the given TraceMetricsRule is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateTraceMetricsRuleResponse {
-  trace_metrics_rule?: Configv1TraceMetricsRule;
+  trace_metrics_rule?: Configv1TraceMetricsRule | undefined;
 }
 export interface UpdateTraceTailSamplingRulesRequest {
-  trace_tail_sampling_rules?: Configv1TraceTailSamplingRulesInput;
+  trace_tail_sampling_rules?: Configv1TraceTailSamplingRulesInput | undefined;
   /** If true, the TraceTailSamplingRules will be created if it does not already exist. If false, an error will be returned if the TraceTailSamplingRules does not already exist. */
-  create_if_missing?: boolean;
+  create_if_missing?: boolean | undefined;
   /** If true, the TraceTailSamplingRules isn't created or updated, and no response TraceTailSamplingRules will be returned. The response will return an error if the given TraceTailSamplingRules is invalid. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface Configv1UpdateTraceTailSamplingRulesResponse {
-  trace_tail_sampling_rules?: Configv1TraceTailSamplingRules;
+  trace_tail_sampling_rules?: Configv1TraceTailSamplingRules | undefined;
 }
 export type CreateBucketError = BadRequest | Conflict | ChronosphereOpError;
 export const createBucket: API.OperationMethod<

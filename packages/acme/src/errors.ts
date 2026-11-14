@@ -34,6 +34,7 @@ import type {
   Forbidden as CoreForbidden,
   NotFound as CoreNotFound,
 } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -43,13 +44,11 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  */
 export class UnknownAcmeError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownAcmeError>()("UnknownAcmeError", {
+    ...UnknownErrorFields,
     /** The problem `type` URN, when the body was a problem document. */
     type: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    status: /*@__PURE__*/ Schema.optional(Schema.Number),
     detail: /*@__PURE__*/ Schema.optional(Schema.String),
     subproblems: /*@__PURE__*/ Schema.optional(/*@__PURE__*/ Schema.Array(Schema.Unknown)),
-    body: Schema.Unknown,
   }) {}
 
 /** Schema parse error wrapper. */

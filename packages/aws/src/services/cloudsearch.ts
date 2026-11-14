@@ -187,7 +187,7 @@ export interface BuildSuggestersRequest {
 export type FieldName = string;
 export type FieldNameList = string[];
 export interface BuildSuggestersResponse {
-  FieldNames?: string[];
+  FieldNames?: string[] | undefined;
 }
 export interface CreateDomainRequest {
   DomainName: string;
@@ -196,7 +196,7 @@ export type DomainId = string;
 export type ARN = string;
 export type ServiceUrl = string;
 export interface ServiceEndpoint {
-  Endpoint?: string;
+  Endpoint?: string | undefined;
 }
 export type SearchInstanceType = string;
 export type PartitionCount = number;
@@ -210,20 +210,20 @@ export interface Limits {
 export interface DomainStatus {
   DomainId: string;
   DomainName: string;
-  ARN?: string;
-  Created?: boolean;
-  Deleted?: boolean;
-  DocService?: ServiceEndpoint;
-  SearchService?: ServiceEndpoint;
+  ARN?: string | undefined;
+  Created?: boolean | undefined;
+  Deleted?: boolean | undefined;
+  DocService?: ServiceEndpoint | undefined;
+  SearchService?: ServiceEndpoint | undefined;
   RequiresIndexDocuments: boolean;
-  Processing?: boolean;
-  SearchInstanceType?: string;
-  SearchPartitionCount?: number;
-  SearchInstanceCount?: number;
-  Limits?: Limits;
+  Processing?: boolean | undefined;
+  SearchInstanceType?: string | undefined;
+  SearchPartitionCount?: number | undefined;
+  SearchInstanceCount?: number | undefined;
+  Limits?: Limits | undefined;
 }
 export interface CreateDomainResponse {
-  DomainStatus?: DomainStatus;
+  DomainStatus?: DomainStatus | undefined;
 }
 export type StandardName = string;
 export type AnalysisSchemeLanguage =
@@ -265,16 +265,16 @@ export type AnalysisSchemeLanguage =
   | (string & {});
 export type AlgorithmicStemming = "none" | "minimal" | "light" | "full" | (string & {});
 export interface AnalysisOptions {
-  Synonyms?: string;
-  Stopwords?: string;
-  StemmingDictionary?: string;
-  JapaneseTokenizationDictionary?: string;
-  AlgorithmicStemming?: AlgorithmicStemming;
+  Synonyms?: string | undefined;
+  Stopwords?: string | undefined;
+  StemmingDictionary?: string | undefined;
+  JapaneseTokenizationDictionary?: string | undefined;
+  AlgorithmicStemming?: AlgorithmicStemming | undefined;
 }
 export interface AnalysisScheme {
   AnalysisSchemeName: string;
   AnalysisSchemeLanguage: AnalysisSchemeLanguage;
-  AnalysisOptions?: AnalysisOptions;
+  AnalysisOptions?: AnalysisOptions | undefined;
 }
 export interface DefineAnalysisSchemeRequest {
   DomainName: string;
@@ -291,9 +291,9 @@ export type OptionState =
 export interface OptionStatus {
   CreationDate: Date;
   UpdateDate: Date;
-  UpdateVersion?: number;
+  UpdateVersion?: number | undefined;
   State: OptionState;
-  PendingDeletion?: boolean;
+  PendingDeletion?: boolean | undefined;
 }
 export interface AnalysisSchemeStatus {
   Options: AnalysisScheme;
@@ -333,105 +333,105 @@ export type IndexFieldType =
   | "date-array"
   | (string & {});
 export interface IntOptions {
-  DefaultValue?: number;
-  SourceField?: string;
-  FacetEnabled?: boolean;
-  SearchEnabled?: boolean;
-  ReturnEnabled?: boolean;
-  SortEnabled?: boolean;
+  DefaultValue?: number | undefined;
+  SourceField?: string | undefined;
+  FacetEnabled?: boolean | undefined;
+  SearchEnabled?: boolean | undefined;
+  ReturnEnabled?: boolean | undefined;
+  SortEnabled?: boolean | undefined;
 }
 export interface DoubleOptions {
-  DefaultValue?: number;
-  SourceField?: string;
-  FacetEnabled?: boolean;
-  SearchEnabled?: boolean;
-  ReturnEnabled?: boolean;
-  SortEnabled?: boolean;
+  DefaultValue?: number | undefined;
+  SourceField?: string | undefined;
+  FacetEnabled?: boolean | undefined;
+  SearchEnabled?: boolean | undefined;
+  ReturnEnabled?: boolean | undefined;
+  SortEnabled?: boolean | undefined;
 }
 export type FieldValue = string;
 export interface LiteralOptions {
-  DefaultValue?: string;
-  SourceField?: string;
-  FacetEnabled?: boolean;
-  SearchEnabled?: boolean;
-  ReturnEnabled?: boolean;
-  SortEnabled?: boolean;
+  DefaultValue?: string | undefined;
+  SourceField?: string | undefined;
+  FacetEnabled?: boolean | undefined;
+  SearchEnabled?: boolean | undefined;
+  ReturnEnabled?: boolean | undefined;
+  SortEnabled?: boolean | undefined;
 }
 export type Word = string;
 export interface TextOptions {
-  DefaultValue?: string;
-  SourceField?: string;
-  ReturnEnabled?: boolean;
-  SortEnabled?: boolean;
-  HighlightEnabled?: boolean;
-  AnalysisScheme?: string;
+  DefaultValue?: string | undefined;
+  SourceField?: string | undefined;
+  ReturnEnabled?: boolean | undefined;
+  SortEnabled?: boolean | undefined;
+  HighlightEnabled?: boolean | undefined;
+  AnalysisScheme?: string | undefined;
 }
 export interface DateOptions {
-  DefaultValue?: string;
-  SourceField?: string;
-  FacetEnabled?: boolean;
-  SearchEnabled?: boolean;
-  ReturnEnabled?: boolean;
-  SortEnabled?: boolean;
+  DefaultValue?: string | undefined;
+  SourceField?: string | undefined;
+  FacetEnabled?: boolean | undefined;
+  SearchEnabled?: boolean | undefined;
+  ReturnEnabled?: boolean | undefined;
+  SortEnabled?: boolean | undefined;
 }
 export interface LatLonOptions {
-  DefaultValue?: string;
-  SourceField?: string;
-  FacetEnabled?: boolean;
-  SearchEnabled?: boolean;
-  ReturnEnabled?: boolean;
-  SortEnabled?: boolean;
+  DefaultValue?: string | undefined;
+  SourceField?: string | undefined;
+  FacetEnabled?: boolean | undefined;
+  SearchEnabled?: boolean | undefined;
+  ReturnEnabled?: boolean | undefined;
+  SortEnabled?: boolean | undefined;
 }
 export type FieldNameCommaList = string;
 export interface IntArrayOptions {
-  DefaultValue?: number;
-  SourceFields?: string;
-  FacetEnabled?: boolean;
-  SearchEnabled?: boolean;
-  ReturnEnabled?: boolean;
+  DefaultValue?: number | undefined;
+  SourceFields?: string | undefined;
+  FacetEnabled?: boolean | undefined;
+  SearchEnabled?: boolean | undefined;
+  ReturnEnabled?: boolean | undefined;
 }
 export interface DoubleArrayOptions {
-  DefaultValue?: number;
-  SourceFields?: string;
-  FacetEnabled?: boolean;
-  SearchEnabled?: boolean;
-  ReturnEnabled?: boolean;
+  DefaultValue?: number | undefined;
+  SourceFields?: string | undefined;
+  FacetEnabled?: boolean | undefined;
+  SearchEnabled?: boolean | undefined;
+  ReturnEnabled?: boolean | undefined;
 }
 export interface LiteralArrayOptions {
-  DefaultValue?: string;
-  SourceFields?: string;
-  FacetEnabled?: boolean;
-  SearchEnabled?: boolean;
-  ReturnEnabled?: boolean;
+  DefaultValue?: string | undefined;
+  SourceFields?: string | undefined;
+  FacetEnabled?: boolean | undefined;
+  SearchEnabled?: boolean | undefined;
+  ReturnEnabled?: boolean | undefined;
 }
 export interface TextArrayOptions {
-  DefaultValue?: string;
-  SourceFields?: string;
-  ReturnEnabled?: boolean;
-  HighlightEnabled?: boolean;
-  AnalysisScheme?: string;
+  DefaultValue?: string | undefined;
+  SourceFields?: string | undefined;
+  ReturnEnabled?: boolean | undefined;
+  HighlightEnabled?: boolean | undefined;
+  AnalysisScheme?: string | undefined;
 }
 export interface DateArrayOptions {
-  DefaultValue?: string;
-  SourceFields?: string;
-  FacetEnabled?: boolean;
-  SearchEnabled?: boolean;
-  ReturnEnabled?: boolean;
+  DefaultValue?: string | undefined;
+  SourceFields?: string | undefined;
+  FacetEnabled?: boolean | undefined;
+  SearchEnabled?: boolean | undefined;
+  ReturnEnabled?: boolean | undefined;
 }
 export interface IndexField {
   IndexFieldName: string;
   IndexFieldType: IndexFieldType;
-  IntOptions?: IntOptions;
-  DoubleOptions?: DoubleOptions;
-  LiteralOptions?: LiteralOptions;
-  TextOptions?: TextOptions;
-  DateOptions?: DateOptions;
-  LatLonOptions?: LatLonOptions;
-  IntArrayOptions?: IntArrayOptions;
-  DoubleArrayOptions?: DoubleArrayOptions;
-  LiteralArrayOptions?: LiteralArrayOptions;
-  TextArrayOptions?: TextArrayOptions;
-  DateArrayOptions?: DateArrayOptions;
+  IntOptions?: IntOptions | undefined;
+  DoubleOptions?: DoubleOptions | undefined;
+  LiteralOptions?: LiteralOptions | undefined;
+  TextOptions?: TextOptions | undefined;
+  DateOptions?: DateOptions | undefined;
+  LatLonOptions?: LatLonOptions | undefined;
+  IntArrayOptions?: IntArrayOptions | undefined;
+  DoubleArrayOptions?: DoubleArrayOptions | undefined;
+  LiteralArrayOptions?: LiteralArrayOptions | undefined;
+  TextArrayOptions?: TextArrayOptions | undefined;
+  DateArrayOptions?: DateArrayOptions | undefined;
 }
 export interface DefineIndexFieldRequest {
   DomainName: string;
@@ -447,8 +447,8 @@ export interface DefineIndexFieldResponse {
 export type SuggesterFuzzyMatching = "none" | "low" | "high" | (string & {});
 export interface DocumentSuggesterOptions {
   SourceField: string;
-  FuzzyMatching?: SuggesterFuzzyMatching;
-  SortExpression?: string;
+  FuzzyMatching?: SuggesterFuzzyMatching | undefined;
+  SortExpression?: string | undefined;
 }
 export interface Suggester {
   SuggesterName: string;
@@ -476,7 +476,7 @@ export interface DeleteDomainRequest {
   DomainName: string;
 }
 export interface DeleteDomainResponse {
-  DomainStatus?: DomainStatus;
+  DomainStatus?: DomainStatus | undefined;
 }
 export interface DeleteExpressionRequest {
   DomainName: string;
@@ -502,8 +502,8 @@ export interface DeleteSuggesterResponse {
 export type StandardNameList = string[];
 export interface DescribeAnalysisSchemesRequest {
   DomainName: string;
-  AnalysisSchemeNames?: string[];
-  Deployed?: boolean;
+  AnalysisSchemeNames?: string[] | undefined;
+  Deployed?: boolean | undefined;
 }
 export type AnalysisSchemeStatusList = AnalysisSchemeStatus[];
 export interface DescribeAnalysisSchemesResponse {
@@ -511,7 +511,7 @@ export interface DescribeAnalysisSchemesResponse {
 }
 export interface DescribeAvailabilityOptionsRequest {
   DomainName: string;
-  Deployed?: boolean;
+  Deployed?: boolean | undefined;
 }
 export type MultiAZ = boolean;
 export interface AvailabilityOptionsStatus {
@@ -519,30 +519,30 @@ export interface AvailabilityOptionsStatus {
   Status: OptionStatus;
 }
 export interface DescribeAvailabilityOptionsResponse {
-  AvailabilityOptions?: AvailabilityOptionsStatus;
+  AvailabilityOptions?: AvailabilityOptionsStatus | undefined;
 }
 export interface DescribeDomainEndpointOptionsRequest {
   DomainName: string;
-  Deployed?: boolean;
+  Deployed?: boolean | undefined;
 }
 export type TLSSecurityPolicy =
   | "Policy-Min-TLS-1-0-2019-07"
   | "Policy-Min-TLS-1-2-2019-07"
   | (string & {});
 export interface DomainEndpointOptions {
-  EnforceHTTPS?: boolean;
-  TLSSecurityPolicy?: TLSSecurityPolicy;
+  EnforceHTTPS?: boolean | undefined;
+  TLSSecurityPolicy?: TLSSecurityPolicy | undefined;
 }
 export interface DomainEndpointOptionsStatus {
   Options: DomainEndpointOptions;
   Status: OptionStatus;
 }
 export interface DescribeDomainEndpointOptionsResponse {
-  DomainEndpointOptions?: DomainEndpointOptionsStatus;
+  DomainEndpointOptions?: DomainEndpointOptionsStatus | undefined;
 }
 export type DomainNameList = string[];
 export interface DescribeDomainsRequest {
-  DomainNames?: string[];
+  DomainNames?: string[] | undefined;
 }
 export type DomainStatusList = DomainStatus[];
 export interface DescribeDomainsResponse {
@@ -550,8 +550,8 @@ export interface DescribeDomainsResponse {
 }
 export interface DescribeExpressionsRequest {
   DomainName: string;
-  ExpressionNames?: string[];
-  Deployed?: boolean;
+  ExpressionNames?: string[] | undefined;
+  Deployed?: boolean | undefined;
 }
 export type ExpressionStatusList = ExpressionStatus[];
 export interface DescribeExpressionsResponse {
@@ -560,8 +560,8 @@ export interface DescribeExpressionsResponse {
 export type DynamicFieldNameList = string[];
 export interface DescribeIndexFieldsRequest {
   DomainName: string;
-  FieldNames?: string[];
-  Deployed?: boolean;
+  FieldNames?: string[] | undefined;
+  Deployed?: boolean | undefined;
 }
 export type IndexFieldStatusList = IndexFieldStatus[];
 export interface DescribeIndexFieldsResponse {
@@ -590,9 +590,9 @@ export type PartitionInstanceType =
   | "search.previousgeneration.2xlarge"
   | (string & {});
 export interface ScalingParameters {
-  DesiredInstanceType?: PartitionInstanceType;
-  DesiredReplicationCount?: number;
-  DesiredPartitionCount?: number;
+  DesiredInstanceType?: PartitionInstanceType | undefined;
+  DesiredReplicationCount?: number | undefined;
+  DesiredPartitionCount?: number | undefined;
 }
 export interface ScalingParametersStatus {
   Options: ScalingParameters;
@@ -603,7 +603,7 @@ export interface DescribeScalingParametersResponse {
 }
 export interface DescribeServiceAccessPoliciesRequest {
   DomainName: string;
-  Deployed?: boolean;
+  Deployed?: boolean | undefined;
 }
 export type PolicyDocument = string;
 export interface AccessPoliciesStatus {
@@ -615,8 +615,8 @@ export interface DescribeServiceAccessPoliciesResponse {
 }
 export interface DescribeSuggestersRequest {
   DomainName: string;
-  SuggesterNames?: string[];
-  Deployed?: boolean;
+  SuggesterNames?: string[] | undefined;
+  Deployed?: boolean | undefined;
 }
 export type SuggesterStatusList = SuggesterStatus[];
 export interface DescribeSuggestersResponse {
@@ -626,27 +626,27 @@ export interface IndexDocumentsRequest {
   DomainName: string;
 }
 export interface IndexDocumentsResponse {
-  FieldNames?: string[];
+  FieldNames?: string[] | undefined;
 }
 export interface ListDomainNamesRequest {}
 export type APIVersion = string;
 export type DomainNameMap = { [key: string]: string | undefined };
 export interface ListDomainNamesResponse {
-  DomainNames?: { [key: string]: string | undefined };
+  DomainNames?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateAvailabilityOptionsRequest {
   DomainName: string;
   MultiAZ: boolean;
 }
 export interface UpdateAvailabilityOptionsResponse {
-  AvailabilityOptions?: AvailabilityOptionsStatus;
+  AvailabilityOptions?: AvailabilityOptionsStatus | undefined;
 }
 export interface UpdateDomainEndpointOptionsRequest {
   DomainName: string;
   DomainEndpointOptions: DomainEndpointOptions;
 }
 export interface UpdateDomainEndpointOptionsResponse {
-  DomainEndpointOptions?: DomainEndpointOptionsStatus;
+  DomainEndpointOptions?: DomainEndpointOptionsStatus | undefined;
 }
 export interface UpdateScalingParametersRequest {
   DomainName: string;

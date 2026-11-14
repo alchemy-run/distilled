@@ -1,0 +1,60 @@
+{
+  "description": "Name the documented registries listing listContainerRegistries, like the other containers operations.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#RegistriesListResultList/member/target",
+      "value": "com.cloudflare.containers#ContainerRegistry"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#RegistriesListResultItem",
+      "path": "/shapes/com.cloudflare.containers#ContainerRegistry"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ContainerRegistry/members/kind/target",
+      "value": "com.cloudflare.containers#ContainerRegistryKind"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#RegistriesListResultItemKind",
+      "path": "/shapes/com.cloudflare.containers#ContainerRegistryKind"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#RegistriesListResponse/members/result/target",
+      "value": "com.cloudflare.containers#ContainerRegistryList"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#RegistriesListResultList",
+      "path": "/shapes/com.cloudflare.containers#ContainerRegistryList"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#RegistriesList",
+      "path": "/shapes/com.cloudflare.containers#ListContainerRegistries"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ListContainerRegistries/input/target",
+      "value": "com.cloudflare.containers#ListContainerRegistriesRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#RegistriesListRequest",
+      "path": "/shapes/com.cloudflare.containers#ListContainerRegistriesRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ListContainerRegistries/output/target",
+      "value": "com.cloudflare.containers#ListContainerRegistriesResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#RegistriesListResponse",
+      "path": "/shapes/com.cloudflare.containers#ListContainerRegistriesResponse"
+    }
+  ]
+}

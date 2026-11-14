@@ -86,113 +86,109 @@ export type StringList = Array<string>;
 /** The request message for language detection. */
 export interface DetectLanguageRequest {
   /** The input text upon which to perform language detection. Repeat this parameter to perform language detection on multiple text inputs. */
-  q?: StringList;
+  q?: StringList | undefined;
 }
-export interface DetectDetectionsRequest {
-  /** Pretty-print response. */
-  pp?: boolean;
+export interface DetectDetectionsRequest extends DetectLanguageRequest {
   /** OAuth bearer token. */
-  bearer_token?: string;
-  /** Request body */
-  body?: DetectLanguageRequest;
+  bearer_token?: string | undefined;
+  /** Pretty-print response. */
+  pp?: boolean | undefined;
 }
 export interface DetectionsResourceItem {
-  /** The confidence of the detection result of this language. */
-  confidence?: number;
-  /** The language we detected. */
-  language?: string;
   /** A boolean to indicate is the language detection result reliable. */
-  isReliable?: boolean;
+  isReliable?: boolean | undefined;
+  /** The language we detected. */
+  language?: string | undefined;
+  /** The confidence of the detection result of this language. */
+  confidence?: number | undefined;
 }
 /** An array of languages which we detect for the given text The most likely language list first. */
 export type DetectionsResource = Array<DetectionsResourceItem>;
 export type DetectionsResourceList = Array<DetectionsResource>;
 export interface DetectionsListResponse {
   /** A detections contains detection results of several text */
-  detections?: DetectionsResourceList;
+  detections?: DetectionsResourceList | undefined;
 }
 export interface ListDetectionsRequest {
-  /** Pretty-print response. */
-  pp?: boolean;
   /** OAuth bearer token. */
-  bearer_token?: string;
+  bearer_token?: string | undefined;
+  /** Pretty-print response. */
+  pp?: boolean | undefined;
   /** The input text upon which to perform language detection. Repeat this parameter to perform language detection on multiple text inputs. */
   q: StringList;
 }
 export interface ListLanguagesRequest {
-  /** Pretty-print response. */
-  pp?: boolean;
   /** OAuth bearer token. */
-  bearer_token?: string;
-  /** The model type for which supported languages should be returned. */
-  model?: string;
+  bearer_token?: string | undefined;
+  /** Pretty-print response. */
+  pp?: boolean | undefined;
   /** The language to use to return localized, human readable names of supported languages. */
-  target?: string;
+  target?: string | undefined;
+  /** The model type for which supported languages should be returned. */
+  model?: string | undefined;
 }
 export interface LanguagesResource {
   /** Human readable name of the language localized to the target language. */
-  name?: string;
+  name?: string | undefined;
   /** Supported language code, generally consisting of its ISO 639-1 identifier. (E.g. 'en', 'ja'). In certain cases, BCP-47 codes including language + region identifiers are returned (e.g. 'zh-TW' and 'zh-CH') */
-  language?: string;
+  language?: string | undefined;
 }
 export type LanguagesResourceList = Array<LanguagesResource>;
 export interface LanguagesListResponse {
   /** List of source/target languages supported by the translation API. If target parameter is unspecified, the list is sorted by the ASCII code point order of the language code. If target parameter is specified, the list is sorted by the collation order of the language name in the target language. */
-  languages?: LanguagesResourceList;
+  languages?: LanguagesResourceList | undefined;
 }
 export type ListTranslationsFormatEnum = "html" | "text";
 export interface ListTranslationsRequest {
-  /** Pretty-print response. */
-  pp?: boolean;
   /** OAuth bearer token. */
-  bearer_token?: string;
+  bearer_token?: string | undefined;
+  /** Pretty-print response. */
+  pp?: boolean | undefined;
+  /** The format of the source text, in either HTML (default) or plain-text. A value of "html" indicates HTML and a value of "text" indicates plain-text. */
+  format?: ListTranslationsFormatEnum | (string & {}) | undefined;
+  /** The customization id for translate */
+  cid?: StringList | undefined;
   /** The language to use for translation of the input text, set to one of the language codes listed in Language Support. */
   target: string;
   /** The `model` type requested for this translation. Valid values are listed in public documentation. */
-  model?: string;
-  /** The customization id for translate */
-  cid?: StringList;
+  model?: string | undefined;
+  /** The language of the source text, set to one of the language codes listed in Language Support. If the source language is not specified, the API will attempt to identify the source language automatically and return it within the response. */
+  source?: string | undefined;
   /** The input text to translate. Repeat this parameter to perform translation operations on multiple text inputs. */
   q: StringList;
-  /** The format of the source text, in either HTML (default) or plain-text. A value of "html" indicates HTML and a value of "text" indicates plain-text. */
-  format?: ListTranslationsFormatEnum | (string & {});
-  /** The language of the source text, set to one of the language codes listed in Language Support. If the source language is not specified, the API will attempt to identify the source language automatically and return it within the response. */
-  source?: string;
 }
 export interface TranslationsResource {
-  /** The source language of the initial request, detected automatically, if no source language was passed within the initial request. If the source language was passed, auto-detection of the language will not occur and this field will be empty. */
-  detectedSourceLanguage?: string;
   /** Text translated into the target language. */
-  translatedText?: string;
+  translatedText?: string | undefined;
   /** The `model` type used for this translation. Valid values are listed in public documentation. Can be different from requested `model`. Present only if specific model type was explicitly requested. */
-  model?: string;
+  model?: string | undefined;
+  /** The source language of the initial request, detected automatically, if no source language was passed within the initial request. If the source language was passed, auto-detection of the language will not occur and this field will be empty. */
+  detectedSourceLanguage?: string | undefined;
 }
 export type TranslationsResourceList = Array<TranslationsResource>;
 /** The main language translation response message. */
 export interface TranslationsListResponse {
   /** Translations contains list of translation results of given text */
-  translations?: TranslationsResourceList;
+  translations?: TranslationsResourceList | undefined;
 }
 /** The main translation request message for the Cloud Translation API. */
 export interface TranslateTextRequest {
-  /** The input text to translate. Repeat this parameter to perform translation operations on multiple text inputs. */
-  q?: StringList;
-  /** The `model` type requested for this translation. Valid values are listed in public documentation. */
-  model?: string;
   /** The format of the source text, in either HTML (default) or plain-text. A value of "html" indicates HTML and a value of "text" indicates plain-text. */
-  format?: string;
-  /** The language of the source text, set to one of the language codes listed in Language Support. If the source language is not specified, the API will attempt to identify the source language automatically and return it within the response. */
-  source?: string;
+  format?: string | undefined;
+  /** The input text to translate. Repeat this parameter to perform translation operations on multiple text inputs. */
+  q?: StringList | undefined;
   /** The language to use for translation of the input text, set to one of the language codes listed in Language Support. */
-  target?: string;
+  target?: string | undefined;
+  /** The `model` type requested for this translation. Valid values are listed in public documentation. */
+  model?: string | undefined;
+  /** The language of the source text, set to one of the language codes listed in Language Support. If the source language is not specified, the API will attempt to identify the source language automatically and return it within the response. */
+  source?: string | undefined;
 }
-export interface TranslateTranslationsRequest {
-  /** Pretty-print response. */
-  pp?: boolean;
+export interface TranslateTranslationsRequest extends TranslateTextRequest {
   /** OAuth bearer token. */
-  bearer_token?: string;
-  /** Request body */
-  body?: TranslateTextRequest;
+  bearer_token?: string | undefined;
+  /** Pretty-print response. */
+  pp?: boolean | undefined;
 }
 export type DetectDetectionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Detects the language of text within a request. */
@@ -290,11 +286,13 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DetectLanguageRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          pp: S.optional(S.Boolean.pipe(T.Query())),
-          bearer_token: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            bearer_token: S.optional(S.String.pipe(T.Query())),
+            pp: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/detect",
@@ -309,9 +307,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          confidence: S.optional(S.Number),
-          language: S.optional(S.String),
           isReliable: S.optional(S.Boolean),
+          language: S.optional(S.String),
+          confidence: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DetectionsResourceItem" });
     case 1:
@@ -337,8 +335,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pp: S.optional(S.Boolean.pipe(T.Query())),
           bearer_token: S.optional(S.String.pipe(T.Query())),
+          pp: S.optional(S.Boolean.pipe(T.Query())),
           q: __S(8, __c2, 0).pipe(T.Query()),
         }).pipe(
           T.Http({
@@ -355,10 +353,10 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pp: S.optional(S.Boolean.pipe(T.Query())),
           bearer_token: S.optional(S.String.pipe(T.Query())),
-          model: S.optional(S.String.pipe(T.Query())),
+          pp: S.optional(S.Boolean.pipe(T.Query())),
           target: S.optional(S.String.pipe(T.Query())),
+          model: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -389,14 +387,14 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pp: S.optional(S.Boolean.pipe(T.Query())),
           bearer_token: S.optional(S.String.pipe(T.Query())),
+          pp: S.optional(S.Boolean.pipe(T.Query())),
+          format: S.optional(S.String.pipe(T.Query())),
+          cid: S.optional(__S(8, __c2, 0).pipe(T.Query())),
           target: S.String.pipe(T.Query()),
           model: S.optional(S.String.pipe(T.Query())),
-          cid: S.optional(__S(8, __c2, 0).pipe(T.Query())),
-          q: __S(8, __c2, 0).pipe(T.Query()),
-          format: S.optional(S.String.pipe(T.Query())),
           source: S.optional(S.String.pipe(T.Query())),
+          q: __S(8, __c2, 0).pipe(T.Query()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -412,9 +410,9 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          detectedSourceLanguage: S.optional(S.String),
           translatedText: S.optional(S.String),
           model: S.optional(S.String),
+          detectedSourceLanguage: S.optional(S.String),
         }),
       ).annotate({ identifier: "TranslationsResource" });
     case 1:
@@ -432,20 +430,22 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          q: S.optional(__S(8, __c2, 0)),
-          model: S.optional(S.String),
           format: S.optional(S.String),
-          source: S.optional(S.String),
+          q: S.optional(__S(8, __c2, 0)),
           target: S.optional(S.String),
+          model: S.optional(S.String),
+          source: S.optional(S.String),
         }),
       ).annotate({ identifier: "TranslateTextRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          pp: S.optional(S.Boolean.pipe(T.Query())),
-          bearer_token: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(28, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28, __c7, 0),
+          S.Struct({
+            bearer_token: S.optional(S.String.pipe(T.Query())),
+            pp: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2",

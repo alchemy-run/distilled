@@ -64,14 +64,14 @@ export class NotFound
 
 /** Credentials for upstream registry */
 export interface Credentials {
-  access_key?: string;
-  access_secret?: string | Redacted.Redacted<string>;
+  access_key: string;
+  access_secret: string | Redacted.Redacted<string>;
 }
 /** Provide an upstream repository this project is a proxy for */
 export interface CreateProxyRequest {
-  credentials?: Credentials;
+  credentials?: Credentials | undefined;
   /** Description of the registry. */
-  description?: string;
+  description?: string | undefined;
   /** Which replication adapter to use for this registry. Discover the list of supported replication adapters, and therefore supported registry types, by calling GET /v1/projects/{projectId}/regions/{regionId}/replication/adapters */
   registry_type: string;
   /** Upstream registry url to proxy */
@@ -83,26 +83,28 @@ export interface CreateArtifactoryRequest {
   /** STACKIT region identification */
   regionId: string;
   /** If true, claims ownership of an existing Harbor project instead of creating a new one. */
-  claim?: boolean;
+  claim?: boolean | undefined;
   /** A user chosen name to distinguish multiple STACKIT Artifactories. */
   name: string;
   /** If proxy configuration is provided, this project will be created as a proxy-cache for the upstream registry. */
-  proxy?: CreateProxyRequest;
+  proxy?: CreateProxyRequest | undefined;
 }
 /** Credentials for upstream registry, redacted */
 export interface RedactedCredentials {
-  access_key?: string;
+  access_key: string;
 }
 /** Replication settings for a proxy-cache artifactory */
 export interface Proxy {
-  credentials?: RedactedCredentials;
+  credentials?: RedactedCredentials | undefined;
   /** Description of the registry. */
-  description?: string;
+  description?: string | undefined;
   /** Which replication adapter to use for this registry. Discover the list of supported replication adapters, and therefore supported registry types, by calling GET /v1/projects/{projectId}/regions/{regionId}/replication/adapters */
   registry_type: string;
   /** Upstream registry url to proxy */
   url: string;
 }
+/** The current state of the STACKIT Artifactory. */
+export type ArtifactoryState = "Reconciling" | "Active" | "Deleted" | "Error";
 /** Artifactory Information. */
 export interface Artifactory {
   /** How many bytes of quota is consumed. Read Only. */
@@ -113,13 +115,11 @@ export interface Artifactory {
   id: string;
   /** A user chosen name to distinguish multiple STACKIT Artifactories. */
   name: string;
-  proxy?: Proxy;
+  proxy?: Proxy | undefined;
   /** The current state of the STACKIT Artifactory. */
-  state: string;
+  state: ArtifactoryState;
   /** The base URL of the STACKIT Artifactory. */
   url: string;
-  /** How many users does this artifactory have. Read Only. */
-  user_count: number;
 }
 export interface DeleteArtifactoryRequest {
   /** Project identifier. */
@@ -144,16 +144,16 @@ export interface ListArtifactoriesRequest {
   /** STACKIT region identification */
   regionId: string;
   /** The maximum number of artifactories to return. The service may return fewer than this value. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** A page token, received from a previous `ListArtifactories` call. Provide this to retrieve the subsequent page. */
-  next_page_token?: string;
+  next_page_token?: string | undefined;
 }
 export type ArtifactoryListArtifactoriesList = Array<Artifactory>;
 /** A list of artifactories inside a STACKIT project. */
 export interface ArtifactoryList {
   artifactories: ArtifactoryListArtifactoriesList;
   /** A token to retrieve the next page of results. Pass this value as `page_token` in the subsequent request. If empty, there are no more pages. */
-  next_page_token?: string;
+  next_page_token?: string | undefined;
 }
 export interface ListReplicationAdaptersRequest {
   /** Project identifier. */
@@ -161,7 +161,11 @@ export interface ListReplicationAdaptersRequest {
   /** STACKIT region identification */
   regionId: string;
 }
+/** User-hint for what type of credentials are expected for replication adapter type. Values are one of `basic` for username/password, `oauth` for token based access, and `secret` for json-secret file. */
+export type ReplicationAdapterCredentialType = "basic" | "oauth" | "secret";
 export interface ReplicationAdapter {
+  /** User-hint for what type of credentials are expected for replication adapter type. Values are one of `basic` for username/password, `oauth` for token based access, and `secret` for json-secret file. */
+  credential_type: ReplicationAdapterCredentialType;
   /** Human-friendly name of the provider the adapter relates to. */
   display_name: string;
   /** Identifies the replication adapter */
@@ -171,16 +175,16 @@ export type ReplicationAdapterListReplicationAdaptersList = Array<ReplicationAda
 /** A list of replication adapters */
 export interface ReplicationAdapterList {
   /** A token to retrieve the next page of results. Pass this value as `page_token` in the subsequent request. If empty, there are no more pages. */
-  next_page_token?: string;
+  next_page_token?: string | undefined;
   replication_adapters: ReplicationAdapterListReplicationAdaptersList;
 }
 /** Update an upstream repository for a proxy-cache project */
 export interface UpdateProxyRequest {
-  credentials?: Credentials;
+  credentials?: Credentials | undefined;
   /** Description of the registry. */
-  description?: string;
+  description?: string | undefined;
   /** Upstream registry url to proxy */
-  url?: string;
+  url?: string | undefined;
 }
 export interface PatchArtifactoryRequest {
   /** Project identifier. */
@@ -189,7 +193,7 @@ export interface PatchArtifactoryRequest {
   regionId: string;
   /** Artifactory identifier. */
   artifactoryId: string;
-  proxy?: UpdateProxyRequest;
+  proxy?: UpdateProxyRequest | undefined;
 }
 export type CreateArtifactoryError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
 /** Creates an artifactory Creates an artifactory associated to the specified project. */
@@ -209,7 +213,7 @@ export const createArtifactory: API.OperationMethod<
 }));
 
 export type DeleteArtifactoryError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
-/** Soft delete the artifactory. Deletes the artifactory associated to the specified project. */
+/** Delete the artifactory. Deletes the artifactory associated to the specified project. */
 export const deleteArtifactory: API.OperationMethod<
   DeleteArtifactoryRequest,
   DeleteArtifactoryResponse,
@@ -329,7 +333,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          access_key: S.optional(S.String),
+          access_key: S.String,
         }),
       ).annotate({ identifier: "RedactedCredentials" });
     case 1:
@@ -351,7 +355,6 @@ function __c1(j: number): any {
           proxy: S.optional(__S(5, __c1, 1)),
           state: S.String,
           url: S.String,
-          user_count: S.Number,
         }),
       ).annotate({ identifier: "Artifactory" });
   }
@@ -361,8 +364,8 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          access_key: S.optional(S.String),
-          access_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          access_key: S.String,
+          access_secret: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "Credentials" });
   }
@@ -455,6 +458,7 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          credential_type: S.String,
           display_name: S.String,
           registry_type: S.String,
         }),

@@ -53,11 +53,11 @@ export interface ConfirmHostingWebTerminationRequest {
   /** Service name */
   serviceName: string;
   /** Commentary about your termination request */
-  commentary?: string;
+  commentary?: string | undefined;
   /** All future uses you can provide for a service termination */
-  futureUse?: ServiceTerminationFutureUseEnum | (string & {});
+  futureUse?: ServiceTerminationFutureUseEnum | (string & {}) | undefined;
   /** All reasons you can provide for a service termination */
-  reason?: ServiceTerminationReasonEnum | (string & {});
+  reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
   token: string;
 }
@@ -73,15 +73,15 @@ export type HostingWebDatabaseCopyStatusEnum = "doing" | "done" | "error" | "tod
 /** Copy */
 export interface HostingWebDatabaseCopy {
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Expiration date */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** Copy id */
-  id?: string;
+  id?: string | undefined;
   /** Last update date */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Copy status */
-  status?: HostingWebDatabaseCopyStatusEnum;
+  status?: HostingWebDatabaseCopyStatusEnum | undefined;
 }
 export interface CopyHostingWebDatabaseRestoreRequest {
   /** The internal name of your hosting */
@@ -91,7 +91,7 @@ export interface CopyHostingWebDatabaseRestoreRequest {
   /** UUID of the copy to restore */
   copyId: string;
   /** If database will be flushed before importing the dump. Default: false */
-  flushDatabase?: boolean;
+  flushDatabase?: boolean | undefined;
 }
 /** Object type enum */
 export type HostingWebTaskObjectTypeEnum =
@@ -128,21 +128,21 @@ export type HostingWebTaskStatusEnum = "cancelled" | "doing" | "done" | "init" |
 /** Tasks */
 export interface HostingWebTask {
   /** Completion date */
-  doneDate?: string | null;
+  doneDate?: string | null | undefined;
   /** Function name */
-  function?: string;
+  function?: string | undefined;
   /** the id of the task */
-  id?: number;
+  id?: number | undefined;
   /** last update */
-  lastUpdate?: string | null;
+  lastUpdate?: string | null | undefined;
   /** Task related object ID */
-  objectId?: string | null;
+  objectId?: string | null | undefined;
   /** Task object type */
-  objectType?: HostingWebTaskObjectTypeEnum | null;
+  objectType?: HostingWebTaskObjectTypeEnum | null | undefined;
   /** Task Creation date */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Task status */
-  status?: HostingWebTaskStatusEnum;
+  status?: HostingWebTaskStatusEnum | undefined;
 }
 /** whether or not the attachedDomain is linked to the hosting cdn */
 export type HostingWebAttachedDomainCdnEnum = "active" | "none";
@@ -168,23 +168,23 @@ export interface CreateHostingWebAttachedDomainRequest {
   /** Service name */
   serviceName: string;
   /** If set to true, DNS zone will not be updated by the operation */
-  bypassDNSConfiguration?: boolean | null;
+  bypassDNSConfiguration?: boolean | null | undefined;
   /** Whether the attached domain is linked to the hosting CDN */
-  cdn?: HostingWebAttachedDomainCdnEnum | (string & {}) | null;
+  cdn?: HostingWebAttachedDomainCdnEnum | (string & {}) | null | undefined;
   /** Domain to link */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Whether the firewall is active for this domain */
-  firewall?: HostingWebAttachedDomainFirewallEnum | (string & {}) | null;
+  firewall?: HostingWebAttachedDomainFirewallEnum | (string & {}) | null | undefined;
   /** Change attached domain's DNS to the IP of the country */
-  ipLocation?: HostingWebCountryEnum | (string & {}) | null;
+  ipLocation?: HostingWebCountryEnum | (string & {}) | null | undefined;
   /** Domain to separate the logs on */
-  ownLog?: string | null;
+  ownLog?: string | null | undefined;
   /** Path of the attached domain */
-  path?: string | null;
+  path?: string | null | undefined;
   /** The runtime configuration ID used on this domain */
-  runtimeId?: number | null;
+  runtimeId?: number | null | undefined;
   /** Whether to put the attached domain in the SSL certificate */
-  ssl?: boolean | null;
+  ssl?: boolean | null | undefined;
 }
 /** Task function enum */
 export type HostingWebTaskFunctionEnum =
@@ -381,21 +381,21 @@ export type HostingWebTaskFunctionEnum =
 /** Public task */
 export interface HostingWebPublicTask {
   /** Done date */
-  doneDate?: string | null;
+  doneDate?: string | null | undefined;
   /** Task function */
-  function?: HostingWebTaskFunctionEnum;
+  function?: HostingWebTaskFunctionEnum | undefined;
   /** Task's id */
-  id?: number;
+  id?: number | undefined;
   /** Last update date */
-  lastUpdate?: string | null;
+  lastUpdate?: string | null | undefined;
   /** Task object id */
-  objectId?: string | null;
+  objectId?: string | null | undefined;
   /** Task object type */
-  objectType?: HostingWebTaskObjectTypeEnum | null;
+  objectType?: HostingWebTaskObjectTypeEnum | null | undefined;
   /** Start date */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Task status */
-  status?: HostingWebTaskStatusEnum;
+  status?: HostingWebTaskStatusEnum | undefined;
 }
 export interface CreateHostingWebAttachedDomainSslRequest {
   /** Service name */
@@ -417,17 +417,17 @@ export type HostingWebHostedsslTypeEnum = "CUSTOM" | "DV" | "EV";
 /** Hosted SSL properties */
 export interface HostingWebSSL {
   /** If the hostedssl is currently bound to a report */
-  isReportable?: boolean;
+  isReportable?: boolean | undefined;
   /** Provider of the Hosted SSL */
-  provider?: HostingWebHostedsslProviderEnum;
+  provider?: HostingWebHostedsslProviderEnum | undefined;
   /** Regenerable flag */
-  regenerable?: boolean;
+  regenerable?: boolean | undefined;
   /** Status of the Hosted SSL */
-  status?: HostingWebHostedsslStatusEnum;
+  status?: HostingWebHostedsslStatusEnum | undefined;
   /** The task ID working on this Hosted SSL */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
   /** Type of the Hosted SSL */
-  type?: HostingWebHostedsslTypeEnum;
+  type?: HostingWebHostedsslTypeEnum | undefined;
 }
 /** Option pattern type */
 export type CdnOptionPatternTypeEnum = "extension" | "folder" | "regex" | "uri";
@@ -438,23 +438,23 @@ export type CdnDomainOptionConfigResourcesList = Array<string>;
 /** Option configuration */
 export interface CdnDomainOptionConfig {
   /** URL used for Mobile Redirect */
-  destination?: string | null;
+  destination?: string | null | undefined;
   /** Follow Uri on Mobile Redirect */
-  followUri?: boolean | null;
+  followUri?: boolean | null | undefined;
   /** Authorized Origins separated by a comma */
-  origins?: string | null;
+  origins?: string | null | undefined;
   /** Option pattern type */
-  patternType?: CdnOptionPatternTypeEnum | (string & {}) | null;
+  patternType?: CdnOptionPatternTypeEnum | (string & {}) | null | undefined;
   /** Cache Rule priority (lower is the strongest priority) */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Action to apply on query parameters */
-  queryParameters?: CdnOptionQueryParametersEnum | (string & {}) | null;
+  queryParameters?: CdnOptionQueryParametersEnum | (string & {}) | null | undefined;
   /** List of URI */
-  resources?: CdnDomainOptionConfigResourcesList | null;
+  resources?: CdnDomainOptionConfigResourcesList | null | undefined;
   /** Redirection HTTP Code */
-  statusCode?: number | null;
+  statusCode?: number | null | undefined;
   /** Cache time in seconds */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
 }
 /** Option type */
 export type CdnOptionTypePostEnum = "cache_rule";
@@ -464,22 +464,22 @@ export interface CreateHostingWebCdnDomainOptionRequest {
   /** Domain name */
   domainName: string;
   /** Option configuration */
-  config?: CdnDomainOptionConfig | null;
+  config?: CdnDomainOptionConfig | null | undefined;
   /** Enable / Disable the option */
   enabled: boolean;
   /** Option name */
   name: string;
   /** Url pattern */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Option type */
   type: CdnOptionTypePostEnum | (string & {});
 }
 /** Additional information about option */
 export interface CdnDomainOptionExtra {
   /** Maximum usage of the option */
-  quota?: number | null;
+  quota?: number | null | undefined;
   /** Current usage of the option */
-  usage?: number | null;
+  usage?: number | null | undefined;
 }
 /** Option type */
 export type CdnOptionTypeEnum =
@@ -499,30 +499,30 @@ export type CdnOptionTypeEnum =
 /** Option details */
 export interface CdnDomainOption {
   /** Option configuration */
-  config?: CdnDomainOptionConfig | null;
+  config?: CdnDomainOptionConfig | null | undefined;
   /** Enable / Disable the option */
   enabled: boolean;
   /** Additional information about option */
-  extra?: CdnDomainOptionExtra | null;
+  extra?: CdnDomainOptionExtra | null | undefined;
   /** Option name */
-  name?: string;
+  name?: string | undefined;
   /** Url pattern */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Option type */
   type: CdnOptionTypeEnum;
 }
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 export interface CreateHostingWebCdnServiceInfosUpdateRequest {
   /** The internal name of your hosting */
@@ -535,11 +535,11 @@ export interface CreateHostingWebChangeContactRequest {
   /** Service name */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateHostingWebChangeContactResponseBodyList = Array<number>;
 export type CreateHostingWebChangeContactResponse = CreateHostingWebChangeContactResponseBodyList;
@@ -579,15 +579,15 @@ export interface CreateHostingWebCronRequest {
   /** Command to execute */
   command: string;
   /** Description field for you */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Email used to receive error log (stderr) */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Frequency (crontab format) defined for the script (minutes are ignored) */
   frequency: string;
   /** Cron language */
   language: HostingWebLanguagesEnum | (string & {});
   /** Cron status */
-  status?: HostingWebCronStatusEnum | (string & {});
+  status?: HostingWebCronStatusEnum | (string & {}) | undefined;
 }
 /** Database capabitities type enum */
 export type HostingWebDatabaseDatabaseCapabilitiesTypeEnum =
@@ -639,15 +639,15 @@ export interface CreateHostingWebDatabaseRequest {
   /** Type of your database */
   capabilitie: HostingWebDatabaseDatabaseCapabilitiesTypeEnum | (string & {});
   /** Database password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Quota assign to your database. Only for extraSql */
-  quota?: HostingWebDatabaseExtraSqlQuotaEnum | (number & {});
+  quota?: HostingWebDatabaseExtraSqlQuotaEnum | (number & {}) | undefined;
   /** Type you want for your database */
   type: HostingWebDatabaseDatabaseCreationTypeEnum | (string & {});
   /** Database user name. Must begin with your hosting login and must be in lower case */
   user: string;
   /** Version you want for your database following the type */
-  version?: HostingWebDatabaseVersionEnum | (string & {});
+  version?: HostingWebDatabaseVersionEnum | (string & {}) | undefined;
 }
 export interface CreateHostingWebDatabaseChangePasswordRequest {
   /** The internal name of your hosting */
@@ -667,7 +667,7 @@ export interface CreateHostingWebDatabaseDumpRequest {
   /** The date you want to dump */
   date: HostingWebDatabaseDumpDateEnum | (string & {});
   /** Send an email when dump will be available? Default: true */
-  sendEmail?: boolean;
+  sendEmail?: boolean | undefined;
 }
 /** Types of action you can request for your database */
 export type HostingWebDatabaseRequestActionEnum = "CHECK_QUOTA";
@@ -716,7 +716,7 @@ export interface CreateHostingWebKeySshRequest {
 /** Key information */
 export interface HostingWebKey {
   /** Public key */
-  publicKey?: string;
+  publicKey?: string | undefined;
 }
 export interface CreateHostingWebLocalSeoLocationServiceInfosUpdateRequest {
   /** The internal name of your hosting */
@@ -742,49 +742,49 @@ export interface CreateHostingWebLocalSeoVisibilityCheckRequest {
 /** Struct describing a location being checked for visibility */
 export interface HostingWebLocalSeoSearchData {
   /** City of the location */
-  city?: string;
+  city?: string | undefined;
   /** Country of the location */
-  country?: string;
+  country?: string | undefined;
   /** Id of the search */
-  id?: number;
+  id?: number | undefined;
   /** Name of the location */
-  name?: string;
+  name?: string | undefined;
   /** Province of the location */
-  province?: string | null;
+  province?: string | null | undefined;
   /** Street of the location */
-  street?: string;
+  street?: string | undefined;
   /** Street numero of the location */
-  streetNo?: string;
+  streetNo?: string | undefined;
   /** Token to use to get the results of the search */
-  token?: string;
+  token?: string | undefined;
   /** Zipcode of the location */
-  zip?: string;
+  zip?: string | undefined;
 }
 /** Struct describing the response for a visibility check request */
 export interface HostingWebLocalSeoVisibilityCheckResponse {
   /** Is the searched location already managed ? */
-  alreadyManaged?: boolean | null;
+  alreadyManaged?: boolean | null | undefined;
   /** Searched location data */
-  searchData?: HostingWebLocalSeoSearchData;
+  searchData?: HostingWebLocalSeoSearchData | undefined;
 }
 /** The type of the dependency. A dependency can be a standard database (like MySQL or PostgreSQL) or a key-value store (like Redis or Memcached) for example */
 export type HostingWebModuleDependencyTypeEnum = "mysql";
 /** Dependency parameters. A dependency can be a standard database (like MySQL or PostgreSQL) or a key-value store (like Redis or Memcached) for example */
 export interface HostingWebModuleDependencyType {
   /** The name of this dependency */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The password associated with the user */
-  password?: string | Redacted.Redacted<string> | null;
+  password?: string | Redacted.Redacted<string> | null | undefined;
   /** The port on where to contact this dependency */
-  port?: number | null;
+  port?: number | null | undefined;
   /** The prefix to set to the data to distinguish between the data from the module and the rest */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** The server on where your dependency is hosted */
-  server?: string | null;
+  server?: string | null | undefined;
   /** Type */
-  type?: HostingWebModuleDependencyTypeEnum | (string & {});
+  type?: HostingWebModuleDependencyTypeEnum | (string & {}) | undefined;
   /** The user to use to connect to this dependency */
-  user?: string | null;
+  user?: string | null | undefined;
 }
 /** The dependencies that we have to configure on your module. A dependency can be a standard database (like MySQL or PostgreSQL) or a key-value store (like Redis or Memcached) for example */
 export type CreateHostingWebModuleRequestDependenciesList = Array<HostingWebModuleDependencyType>;
@@ -805,19 +805,19 @@ export interface CreateHostingWebModuleRequest {
   /** The internal name of your hosting */
   serviceName: string;
   /** The login for the admin account (may be a standard string or your email) */
-  adminName?: string;
+  adminName?: string | undefined;
   /** The password for the admin account (at least 8 characters) */
-  adminPassword?: string | Redacted.Redacted<string>;
+  adminPassword?: string | Redacted.Redacted<string> | undefined;
   /** The dependencies that we have to configure on your module. A dependency can be a standard database (like MySQL or PostgreSQL) or a key-value store (like Redis or Memcached) for example */
-  dependencies?: CreateHostingWebModuleRequestDependenciesList;
+  dependencies?: CreateHostingWebModuleRequestDependenciesList | undefined;
   /** On which domain the module has to be available (it can be a multidomain or a subdomain) - if not set, the module will be available on your serviceName domain */
-  domain?: string;
+  domain?: string | undefined;
   /** The language to set to your module */
-  language?: HostingWebModuleLanguageEnum | (string & {});
+  language?: HostingWebModuleLanguageEnum | (string & {}) | undefined;
   /** ID of the module you want to install */
   moduleId: number;
   /** Where to install the module, relative to your home directory */
-  path?: string;
+  path?: string | undefined;
 }
 export interface CreateHostingWebModuleUpgradeRequest {
   /** The internal name of your hosting */
@@ -861,15 +861,15 @@ export interface CreateHostingWebOvhConfigChangeConfigurationRequest {
   /** Configuration's id */
   id: number;
   /** Container to run this website */
-  container?: HostingWebOvhconfigContainerEnum | (string & {});
+  container?: HostingWebOvhconfigContainerEnum | (string & {}) | undefined;
   /** Version of engine you want */
-  engineName?: HostingWebOvhConfigEngineNameEnum | (string & {});
+  engineName?: HostingWebOvhConfigEngineNameEnum | (string & {}) | undefined;
   /** Name of engine you want */
-  engineVersion?: HostingWebOvhConfigAvailableEngineVersionEnum | (string & {});
+  engineVersion?: HostingWebOvhConfigAvailableEngineVersionEnum | (string & {}) | undefined;
   /** Environment configuration you want */
-  environment?: HostingWebOvhConfigEnvironmentEnum | (string & {});
+  environment?: HostingWebOvhConfigEnvironmentEnum | (string & {}) | undefined;
   /** Configuration you want for http firewall */
-  httpFirewall?: HostingWebOvhConfigHttpFirewallEnum | (string & {});
+  httpFirewall?: HostingWebOvhConfigHttpFirewallEnum | (string & {}) | undefined;
 }
 export interface CreateHostingWebOvhConfigRefreshRequest {
   /** The internal name of your hosting */
@@ -893,7 +893,7 @@ export interface CreateHostingWebOwnLogUserLogRequest {
   /** The userLogs login used to connect to logs.ovh.net */
   login: string;
   /** OwnLogs where this userLogs will be enable. Default : main domain ownlogs */
-  ownLogsId?: number;
+  ownLogsId?: number | undefined;
   /** The new userLogs password */
   password: string | Redacted.Redacted<string>;
 }
@@ -935,7 +935,7 @@ export interface CreateHostingWebRequestBoostRequest {
   /** Service name */
   serviceName: string;
   /** Requested boost offer */
-  offer?: HostingWebOfferEnum | (string & {}) | null;
+  offer?: HostingWebOfferEnum | (string & {}) | null | undefined;
 }
 /** Runtime env enum */
 export type HostingWebRuntimeEnvEnum = "development" | "production";
@@ -963,19 +963,19 @@ export interface CreateHostingWebRuntimeRequest {
   /** The internal name of your hosting */
   serviceName: string;
   /** The client application bootstrap script */
-  appBootstrap?: string;
+  appBootstrap?: string | undefined;
   /** The client application environment */
-  appEnv?: HostingWebRuntimeEnvEnum | (string & {});
+  appEnv?: HostingWebRuntimeEnvEnum | (string & {}) | undefined;
   /** The attached domains fqdn to link to this runtime configuration */
-  attachedDomains?: CreateHostingWebRuntimeRequestAttachedDomainsList;
+  attachedDomains?: CreateHostingWebRuntimeRequestAttachedDomainsList | undefined;
   /** Set if the runtime configuration is the one by default for the hosting */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** The custom display name of the runtime configuration */
-  name?: string;
+  name?: string | undefined;
   /** The client application public directory */
-  publicDir?: string;
+  publicDir?: string | undefined;
   /** The backend type of a runtime configuration */
-  type?: HostingWebRuntimeTypeEnum | (string & {});
+  type?: HostingWebRuntimeTypeEnum | (string & {}) | undefined;
 }
 /** Account's ssh state */
 export type HostingWebUserSshStateEnum = "active" | "none" | "sftponly";
@@ -989,7 +989,7 @@ export interface CreateHostingWebUserRequest {
   /** Password */
   password: string | Redacted.Redacted<string>;
   /** Ssh state for this user. Default: none */
-  sshState?: HostingWebUserSshStateEnum | (string & {});
+  sshState?: HostingWebUserSshStateEnum | (string & {}) | undefined;
 }
 export interface CreateHostingWebUserChangePasswordRequest {
   /** The internal name of your hosting */
@@ -1015,7 +1015,7 @@ export interface DeleteHostingWebAttachedDomainRequest {
   /** Domain */
   domain: string;
   /** If set to true, DNS zone will not be updated by the operation */
-  bypassDNSConfiguration?: boolean;
+  bypassDNSConfiguration?: boolean | undefined;
 }
 export interface DeleteHostingWebAttachedDomainSslRequest {
   /** Service name */
@@ -1114,7 +1114,7 @@ export interface DeployHostingWebWebsiteRequest {
   /** Id */
   id: number;
   /** Whether a reset was requested before deploying */
-  reset?: boolean;
+  reset?: boolean | undefined;
 }
 export interface GetHostingWebRequest {
   /** Service name */
@@ -1140,20 +1140,20 @@ export type OrderCurrencyCodeEnum =
 /** Price with its currency and textual representation */
 export interface OrderPrice {
   /** Currency code */
-  currencyCode?: OrderCurrencyCodeEnum;
+  currencyCode?: OrderCurrencyCodeEnum | undefined;
   /** Price in microcents */
-  priceInUcents?: number | null;
+  priceInUcents?: number | null | undefined;
   /** Textual representation */
-  text?: string;
+  text?: string | undefined;
   /** The effective price */
-  value?: number;
+  value?: number | undefined;
 }
 /** Struct which describs an boost offer from a service */
 export interface HostingWebAvailableOfferStruct {
   /** Available boost offer */
-  offer?: HostingWebOfferEnum;
+  offer?: HostingWebOfferEnum | undefined;
   /** The price in month for this boost offer */
-  price?: OrderPrice;
+  price?: OrderPrice | undefined;
 }
 /** Available offers for boost option */
 export type HostingWebServiceWithIAMAvailableBoostOfferList = Array<HostingWebAvailableOfferStruct>;
@@ -1246,11 +1246,11 @@ export type HostingWebOfferCapabilitiesEnum =
 /** Available clusterIp by country */
 export interface HostingWebCountriesIp {
   /** The whois country of the ip */
-  country?: HostingWebCountryEnum;
+  country?: HostingWebCountryEnum | undefined;
   /** The cluster ip */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** The cluster ipv6 */
-  ipv6?: string | null;
+  ipv6?: string | null | undefined;
 }
 /** Available clusterIp by countries */
 export type HostingWebServiceWithIAMCountriesIpList = Array<HostingWebCountriesIp>;
@@ -1259,13 +1259,13 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Hosting's OS */
 export type HostingWebOperatingSystemEnum = "linux";
@@ -1274,35 +1274,35 @@ export type HostingWebPhpVersionStateEnum = "BETA" | "END_OF_LIFE" | "SECURITY_F
 /** State of available php versions for this account */
 export interface HostingWebPhpVersion {
   /** Current support of this php version */
-  support?: HostingWebPhpVersionStateEnum;
+  support?: HostingWebPhpVersionStateEnum | undefined;
   /** PHP version */
-  version?: string;
+  version?: string | undefined;
 }
 /** State of available php versions for this account */
 export type HostingWebServiceWithIAMPhpVersionsList = Array<HostingWebPhpVersion>;
 /** A numeric value tagged with its unit */
 export interface ComplexTypeUnitAndValueDouble {
   /** Unit of the value */
-  unit?: string;
-  value?: number;
+  unit?: string | undefined;
+  value?: number | undefined;
 }
 /** Hosting's type */
 export type HostingWebResourceEnum = "bestEffort" | "cloud" | "dedicated" | "shared";
 /** Url and port of a service */
 export interface HostingWebAddress {
   /** Port to use to access to the service */
-  port?: number;
+  port?: number | undefined;
   /** Url to contact the service */
-  url?: string;
+  url?: string | undefined;
 }
 /** Different url to manage your service */
 export interface HostingWebServiceAccess {
   /** Address with url and port to manage files by ftp */
-  ftp?: HostingWebAddress;
+  ftp?: HostingWebAddress | undefined;
   /** Address to see your webhosting without domain */
-  http?: HostingWebAddress;
+  http?: HostingWebAddress | undefined;
   /** Address with url and port to manage webhosting by ssh */
-  ssh?: HostingWebAddress;
+  ssh?: HostingWebAddress | undefined;
 }
 /** Hosting's state */
 export type HostingWebStateEnum = "active" | "bloqued" | "maintenance";
@@ -1311,71 +1311,71 @@ export type HostingWebServiceWithIAMUpdatesList = Array<string>;
 /** Web Hosting */
 export interface HostingWebServiceWithIAM {
   /** Available offers for boost option */
-  availableBoostOffer?: HostingWebServiceWithIAMAvailableBoostOfferList;
+  availableBoostOffer?: HostingWebServiceWithIAMAvailableBoostOfferList | undefined;
   /** Current boost offer */
-  boostOffer?: HostingWebOfferCapabilitiesEnum | null;
+  boostOffer?: HostingWebOfferCapabilitiesEnum | null | undefined;
   /** Cluster name */
-  cluster?: string;
+  cluster?: string | undefined;
   /** This direct ip to your cluster ( usefull for application like api ) */
-  clusterIp?: string | null;
+  clusterIp?: string | null | undefined;
   /** This direct ipv6 to your cluster ( usefull for application like api ) */
-  clusterIpv6?: string | null;
+  clusterIpv6?: string | null | undefined;
   /** Available clusterIp by countries */
-  countriesIp?: HostingWebServiceWithIAMCountriesIpList | null;
+  countriesIp?: HostingWebServiceWithIAMCountriesIpList | null | undefined;
   /** Datacenter where this account is located */
-  datacenter?: string;
+  datacenter?: string | undefined;
   /** The default attached domain created along with your hosting */
-  defaultAttachedDomain?: string | null;
+  defaultAttachedDomain?: string | null | undefined;
   /** Set the name displayed in ManagerV6 for your hosting (max 50 chars, empty string resets to service name) */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Filer name */
-  filer?: string | null;
+  filer?: string | null | undefined;
   /** Has a CDN service linked on the hosting */
-  hasCdn?: boolean | null;
+  hasCdn?: boolean | null | undefined;
   /** Has a HostedSSL service linked on the hosting */
-  hasHostedSsl?: boolean | null;
+  hasHostedSsl?: boolean | null | undefined;
   /** Path of your home */
-  home?: string;
+  home?: string | undefined;
   /** The recommended ip for your hosting ( depends on hosting's linked services, e.g CDN or hostedSSL ) */
-  hostingIp?: string | null;
+  hostingIp?: string | null | undefined;
   /** The recommended ipv6 for your hosting ( depends on hosting's linked services, e.g CDN or hostedSSL ) */
-  hostingIpv6?: string | null;
+  hostingIpv6?: string | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** /hosting/web/{serviceName}/ovhConfig is stored in cache. This date is the last refresh of this data */
-  lastOvhConfigScan?: string | null;
+  lastOvhConfigScan?: string | null | undefined;
   /** If set to true, service can manage more than only one certificate */
-  multipleSSL?: boolean;
+  multipleSSL?: boolean | undefined;
   /** Hosting offer */
-  offer?: HostingWebOfferCapabilitiesEnum;
+  offer?: HostingWebOfferCapabilitiesEnum | undefined;
   /** Hosting's OS */
-  operatingSystem?: HostingWebOperatingSystemEnum;
+  operatingSystem?: HostingWebOperatingSystemEnum | undefined;
   /** State of available php versions for this account */
-  phpVersions?: HostingWebServiceWithIAMPhpVersionsList;
+  phpVersions?: HostingWebServiceWithIAMPhpVersionsList | undefined;
   /** Hosting's main login */
-  primaryLogin?: string;
+  primaryLogin?: string | undefined;
   /** Space allowed */
-  quotaSize?: ComplexTypeUnitAndValueDouble;
+  quotaSize?: ComplexTypeUnitAndValueDouble | undefined;
   /** Space used */
-  quotaUsed?: ComplexTypeUnitAndValueDouble | null;
+  quotaUsed?: ComplexTypeUnitAndValueDouble | null | undefined;
   /** If your offer is old, return a recommended offer to migrate on */
-  recommendedOffer?: HostingWebOfferEnum | null;
+  recommendedOffer?: HostingWebOfferEnum | null | undefined;
   /** Hosting resource type */
-  resourceType?: HostingWebResourceEnum;
+  resourceType?: HostingWebResourceEnum | undefined;
   /** URLs to use to manage your webhosting */
-  serviceManagementAccess?: HostingWebServiceAccess;
+  serviceManagementAccess?: HostingWebServiceAccess | undefined;
   /** Service name */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** State of your hosting */
-  state?: HostingWebStateEnum;
+  state?: HostingWebStateEnum | undefined;
   /** Use to link an external domain. ( This token has to be insert into a TXT field on your dns zone with ovhcontrol subdomain ) */
-  token?: string | null;
+  token?: string | null | undefined;
   /** Traffic quota allowed ( null = unlimited ) */
-  trafficQuotaSize?: ComplexTypeUnitAndValueDouble | null;
+  trafficQuotaSize?: ComplexTypeUnitAndValueDouble | null | undefined;
   /** Traffic quota used */
-  trafficQuotaUsed?: ComplexTypeUnitAndValueDouble | null;
+  trafficQuotaUsed?: ComplexTypeUnitAndValueDouble | null | undefined;
   /** List of updates on your hosting */
-  updates?: HostingWebServiceWithIAMUpdatesList;
+  updates?: HostingWebServiceWithIAMUpdatesList | undefined;
 }
 export interface GetHostingWebAttachedDomainRequest {
   /** Service name */
@@ -1388,13 +1388,13 @@ export type HostingWebAttachedDomainCapabilityMethodEnum = "DELETE" | "GET" | "P
 /** Attached domain Capability */
 export interface HostingWebAttachedDomainCapabilities {
   /** Capability description */
-  description?: string;
+  description?: string | undefined;
   /** Capability href */
-  href?: string;
+  href?: string | undefined;
   /** Capability key */
-  key?: string;
+  key?: string | undefined;
   /** Capability method */
-  method?: HostingWebAttachedDomainCapabilityMethodEnum;
+  method?: HostingWebAttachedDomainCapabilityMethodEnum | undefined;
 }
 /** Provides the capabilities related to your attachedDomain */
 export type HostingWebAttachedDomainPublicAttachedDomainCapabilitiesList =
@@ -1413,31 +1413,31 @@ export type HostingWebAttachedDomainVcsStatusEnum =
 /** Public attached domain */
 export interface HostingWebAttachedDomainPublicAttachedDomain {
   /** Provides the capabilities related to your attachedDomain */
-  capabilities?: HostingWebAttachedDomainPublicAttachedDomainCapabilitiesList;
+  capabilities?: HostingWebAttachedDomainPublicAttachedDomainCapabilitiesList | undefined;
   /** whether or not attachedDomain is linked to the hosting cdn */
-  cdn?: HostingWebAttachedDomainCdnEnum;
+  cdn?: HostingWebAttachedDomainCdnEnum | undefined;
   /** Domain linked (fqdn) */
-  domain?: string;
+  domain?: string | undefined;
   /** Firewall state for this path */
-  firewall?: HostingWebAttachedDomainFirewallEnum;
+  firewall?: HostingWebAttachedDomainFirewallEnum | undefined;
   /** IP location of the domain linked */
-  ipLocation?: HostingWebCountryEnum | null;
+  ipLocation?: HostingWebCountryEnum | null | undefined;
   /** Whether your CDN can be flushed */
-  isFlushable?: boolean;
+  isFlushable?: boolean | undefined;
   /** Domain for separate the logs */
-  ownLog?: string | null;
+  ownLog?: string | null | undefined;
   /** Attached domain path */
-  path?: string;
+  path?: string | undefined;
   /** The runtime configuration ID used on this domain */
-  runtimeId?: number | null;
+  runtimeId?: number | null | undefined;
   /** Put domain in SSL certificate */
-  ssl?: boolean | null;
+  ssl?: boolean | null | undefined;
   /** Domain status */
-  status?: HostingWebAttachedDomainStatusEnum;
+  status?: HostingWebAttachedDomainStatusEnum | undefined;
   /** The task ID working on this domain */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
   /** The status of the VCS synchronization */
-  vcsStatus?: HostingWebAttachedDomainVcsStatusEnum;
+  vcsStatus?: HostingWebAttachedDomainVcsStatusEnum | undefined;
 }
 export interface GetHostingWebAttachedDomainDigStatusRequest {
   /** Service name */
@@ -1452,20 +1452,20 @@ export type HostingWebAttachedDomainRecommendedIpsRecommendedIpV6List = Array<st
 /** Recommended IPs for DNS records configuration */
 export interface HostingWebAttachedDomainRecommendedIps {
   /** Recommended IPV4 */
-  recommendedIpV4?: HostingWebAttachedDomainRecommendedIpsRecommendedIpV4List;
+  recommendedIpV4?: HostingWebAttachedDomainRecommendedIpsRecommendedIpV4List | undefined;
   /** Recommended IPV6 */
-  recommendedIpV6?: HostingWebAttachedDomainRecommendedIpsRecommendedIpV6List;
+  recommendedIpV6?: HostingWebAttachedDomainRecommendedIpsRecommendedIpV6List | undefined;
 }
 /** DNS Record type */
 export type HostingWebAttachedDomainRecordTypeEnum = "A" | "AAAA";
 /** Attached domain record status */
 export interface HostingWebAttachedDomainRecordStatus {
   /** Whether DNS is configured */
-  dnsConfigured?: boolean;
+  dnsConfigured?: boolean | undefined;
   /** Whether IP is an OVH one */
-  isOvhIp?: boolean;
+  isOvhIp?: boolean | undefined;
   /** DNS record type */
-  type?: HostingWebAttachedDomainRecordTypeEnum;
+  type?: HostingWebAttachedDomainRecordTypeEnum | undefined;
 }
 export type HostingWebAttachedDomainDigStatusRecordsMap = {
   [key: string]: HostingWebAttachedDomainRecordStatus | undefined;
@@ -1473,9 +1473,9 @@ export type HostingWebAttachedDomainDigStatusRecordsMap = {
 /** Attached domain DNS status */
 export interface HostingWebAttachedDomainDigStatus {
   /** Attached domain */
-  domain?: string;
-  recommendedIps?: HostingWebAttachedDomainRecommendedIps;
-  records?: HostingWebAttachedDomainDigStatusRecordsMap;
+  domain?: string | undefined;
+  recommendedIps?: HostingWebAttachedDomainRecommendedIps | undefined;
+  records?: HostingWebAttachedDomainDigStatusRecordsMap | undefined;
 }
 export interface GetHostingWebAttachedDomainSslRequest {
   /** Service name */
@@ -1492,13 +1492,13 @@ export interface GetHostingWebBoostHistoryRequest {
 /** Boost History */
 export interface HostingWebBoostHistory {
   /** Account who requested the change */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Boost offer used */
-  boostOffer?: HostingWebOfferCapabilitiesEnum | null;
+  boostOffer?: HostingWebOfferCapabilitiesEnum | null | undefined;
   /** The date when the change has been requested */
-  date?: string;
+  date?: string | undefined;
   /** Offer when the change was made */
-  offer?: HostingWebOfferCapabilitiesEnum;
+  offer?: HostingWebOfferCapabilitiesEnum | undefined;
 }
 export interface GetHostingWebCdnRequest {
   /** Service name */
@@ -1516,17 +1516,17 @@ export type HostingWebCdnStatusEnum =
 /** CDN properties */
 export interface HostingWebCDN {
   /** Domain of this CDN */
-  domain?: string;
+  domain?: string | undefined;
   /** Whether CDN is free with the hosting */
-  free?: boolean;
+  free?: boolean | undefined;
   /** Status of the CDN option */
-  status?: HostingWebCdnStatusEnum;
+  status?: HostingWebCdnStatusEnum | undefined;
   /** The task ID working on this CDN */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
   /** Type of the CDN */
-  type?: string;
+  type?: string | undefined;
   /** Version of the CDN */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetHostingWebCdnDomainRequest {
   /** Service name */
@@ -1547,15 +1547,15 @@ export type CdnDomainStatusEnum =
 /** Domain details */
 export interface CdnDomain {
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Domain name */
-  name?: string;
+  name?: string | undefined;
   /** The domain configuration has been updated, it needs a refresh */
-  needRefresh?: boolean;
+  needRefresh?: boolean | undefined;
   /** Domain status */
-  status?: CdnDomainStatusEnum;
+  status?: CdnDomainStatusEnum | undefined;
   /** Last update date */
-  updatedDate?: string;
+  updatedDate?: string | undefined;
 }
 export interface GetHostingWebCdnDomainLogsRequest {
   /** Service name */
@@ -1563,14 +1563,14 @@ export interface GetHostingWebCdnDomainLogsRequest {
   /** Domain name */
   domainName: string;
   /** Logs date (default is yesterday) */
-  date?: string;
+  date?: string | undefined;
 }
 /** Logs archive URL */
 export interface CdnLogs {
   /** URL to logs archive */
-  url?: string;
+  url?: string | undefined;
   /** URL validity */
-  validity?: string;
+  validity?: string | undefined;
 }
 export interface GetHostingWebCdnDomainOptionRequest {
   /** Service name */
@@ -1602,46 +1602,46 @@ export type CdnOperationOfferEnum = "advanced" | "basic" | "security";
 /** Operation parameter */
 export interface CdnOperationParameter {
   /** CDN anycast IP */
-  anycastIp?: string | null;
+  anycastIp?: string | null | undefined;
   /** Cluster name */
-  cluster?: string | null;
+  cluster?: string | null | undefined;
   /** Date */
-  date?: string | null;
+  date?: string | null | undefined;
   /** Domain name */
-  domainName?: string | null;
+  domainName?: string | null | undefined;
   /** CDN certificate fingerprint */
-  fingerprint?: string | null;
+  fingerprint?: string | null | undefined;
   /** Shared CDN offer */
-  offer?: CdnOperationOfferEnum | null;
+  offer?: CdnOperationOfferEnum | null | undefined;
   /** Pattern to purge on CDN */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Service name */
-  service?: string | null;
+  service?: string | null | undefined;
   /** CDN ssl id */
-  sslId?: number | null;
+  sslId?: number | null | undefined;
 }
 /** Operation status */
 export type CdnOperationStatusEnum = "cancelled" | "doing" | "done" | "error" | "todo";
 /** Operation details */
 export interface CdnOperation {
   /** Comment */
-  comment?: string | null;
+  comment?: string | null | undefined;
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Operation function */
-  function?: CdnOperationFunctionEnum;
+  function?: CdnOperationFunctionEnum | undefined;
   /** Operation id */
-  id?: number;
+  id?: number | undefined;
   /** Operation parameter */
-  parameter?: CdnOperationParameter;
+  parameter?: CdnOperationParameter | undefined;
   /** Shared CDN service */
-  service?: string;
+  service?: string | undefined;
   /** Operation status */
-  status?: CdnOperationStatusEnum;
+  status?: CdnOperationStatusEnum | undefined;
   /** Next execution date */
-  todoDate?: string;
+  todoDate?: string | undefined;
   /** Last execution date */
-  updatedDate?: string;
+  updatedDate?: string | undefined;
 }
 export interface GetHostingWebCdnServiceInfosRequest {
   /** The internal name of your hosting */
@@ -1669,21 +1669,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetHostingWebConfigurationRequest {
   /** The internal name of your hosting */
@@ -1698,19 +1698,19 @@ export type HostingWebConfigurationStateEnum = "created" | "creating" | "deletin
 /** The Configuration of an hosting Power offer */
 export interface HostingWebConfiguration {
   /** Application environment */
-  appEnv?: HostingWebConfigurationEnvEnum;
+  appEnv?: HostingWebConfigurationEnvEnum | undefined;
   /** Application launch script */
-  entryPoint?: string | null;
+  entryPoint?: string | null | undefined;
   /** Id of the current configuration */
-  id?: number;
+  id?: number | undefined;
   /** language chosen for the current hosting */
-  language?: HostingWebConfigurationLanguageEnum;
+  language?: HostingWebConfigurationLanguageEnum | undefined;
   /** Directory of the application */
-  publicDir?: string | null;
+  publicDir?: string | null | undefined;
   /** Status of current configuration */
-  status?: HostingWebConfigurationStateEnum;
+  status?: HostingWebConfigurationStateEnum | undefined;
   /** version of the language chosen for the current hosting */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetHostingWebCronRequest {
   /** Service name */
@@ -1725,19 +1725,19 @@ export interface HostingWebCron {
   /** Command to execute */
   command: string;
   /** Description field for you */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Email used to receive error log (stderr) */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Frequency (crontab format) defined for the script (minutes are ignored) */
   frequency: string;
   /** Cron's id */
-  id?: number;
+  id?: number | undefined;
   /** Cron language */
   language: HostingWebLanguagesEnum;
   /** Cron language */
-  state?: HostingWebCronStateEnum;
+  state?: HostingWebCronStateEnum | undefined;
   /** Cron status */
-  status?: HostingWebCronStatusEnum;
+  status?: HostingWebCronStatusEnum | undefined;
 }
 export interface GetHostingWebDatabaseRequest {
   /** The internal name of your hosting */
@@ -1775,41 +1775,41 @@ export type HostingWebDatabaseSupportedVersionEnum = "beta" | "deprecated" | "st
 /** Database */
 export interface HostingWebDatabase {
   /** Whether service database is deprecated */
-  databaseServiceDeprecated?: boolean;
+  databaseServiceDeprecated?: boolean | undefined;
   /** Database service type */
-  databaseType?: HostingWebDatabaseDatabaseServiceTypeEnum | null;
+  databaseType?: HostingWebDatabaseDatabaseServiceTypeEnum | null | undefined;
   /** The number of available dumps associated to this database */
-  dumps?: number;
+  dumps?: number | undefined;
   /** URL for the graphical user interface */
-  guiURL?: string | null;
+  guiURL?: string | null | undefined;
   /** Date of the last check quota */
-  lastCheck?: string | null;
+  lastCheck?: string | null | undefined;
   /** Mode of your database */
-  mode?: HostingWebDatabaseModeEnum;
+  mode?: HostingWebDatabaseModeEnum | undefined;
   /** Database name (like mydb.mysql.db or mydb.postgres.db) */
-  name?: string;
+  name?: string | undefined;
   /** The port on where to contact this database */
-  port?: number;
+  port?: number | undefined;
   /** Space allowed */
-  quotaSize?: ComplexTypeUnitAndValueDouble;
+  quotaSize?: ComplexTypeUnitAndValueDouble | undefined;
   /** Space used */
-  quotaUsed?: ComplexTypeUnitAndValueDouble;
+  quotaUsed?: ComplexTypeUnitAndValueDouble | undefined;
   /** Your database server name */
-  server?: string | null;
+  server?: string | null | undefined;
   /** Database state */
-  state?: HostingWebDatabaseStateEnum;
+  state?: HostingWebDatabaseStateEnum | undefined;
   /** The database status */
-  status?: HostingWebDatabaseStatusEnum;
+  status?: HostingWebDatabaseStatusEnum | undefined;
   /** The task ID working on this database */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
   /** Type of your database */
-  type?: HostingWebDatabaseDatabaseTypeEnum;
+  type?: HostingWebDatabaseDatabaseTypeEnum | undefined;
   /** Database user name */
-  user?: string;
+  user?: string | undefined;
   /** Database version following the database type */
-  version?: HostingWebDatabaseVersionEnum;
+  version?: HostingWebDatabaseVersionEnum | undefined;
   /** Indicates the current support state of your database version */
-  versionSupport?: HostingWebDatabaseSupportedVersionEnum;
+  versionSupport?: HostingWebDatabaseSupportedVersionEnum | undefined;
 }
 export interface GetHostingWebDatabaseCapabilitiesRequest {
   /** The internal name of your hosting */
@@ -1820,23 +1820,23 @@ export interface GetHostingWebDatabaseCapabilitiesRequest {
 /** Struct which describe available features for a database */
 export interface HostingWebDatabaseDatabaseCapabilities {
   /** Availability of the changePassword function */
-  changePassword?: boolean;
+  changePassword?: boolean | undefined;
   /** Availability of the changeRight function */
-  changeRight?: boolean;
+  changeRight?: boolean | undefined;
   /** Availability of the delete function */
-  delete?: boolean;
+  delete?: boolean | undefined;
   /** Availability of the dump function */
-  dump?: boolean;
+  dump?: boolean | undefined;
   /** Availability of the getQuota function */
-  getQuota?: boolean;
+  getQuota?: boolean | undefined;
   /** Availability of the getQuota function */
-  getRight?: boolean;
+  getRight?: boolean | undefined;
   /** URL of the database management tool */
-  guiURL?: string;
+  guiURL?: string | undefined;
   /** Availability of the optimize function */
-  optimize?: boolean;
+  optimize?: boolean | undefined;
   /** Availability of the restore function */
-  restore?: boolean;
+  restore?: boolean | undefined;
 }
 export interface GetHostingWebDatabaseCopyRequest {
   /** The internal name of your hosting */
@@ -1859,19 +1859,19 @@ export type HostingWebDatabaseDumpStatusEnum = "created" | "creating" | "deletin
 /** Dump */
 export interface HostingWebDatabaseDump {
   /** Creation date of the dump */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Automatic deletion date of the dump */
-  deletionDate?: string;
+  deletionDate?: string | undefined;
   /** Dump id */
-  id?: number;
+  id?: number | undefined;
   /** The dump status */
-  status?: HostingWebDatabaseDumpStatusEnum;
+  status?: HostingWebDatabaseDumpStatusEnum | undefined;
   /** The task ID working on this dump */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
   /** Dump type */
-  type?: HostingWebDatabaseDumpDateEnum;
+  type?: HostingWebDatabaseDumpDateEnum | undefined;
   /** Dump url access */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface GetHostingWebDumpRequest {
   /** The internal name of your hosting */
@@ -1882,23 +1882,23 @@ export interface GetHostingWebDumpRequest {
 /** Dump */
 export interface HostingWebDump {
   /** Creation date of the dump */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Source database name */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** Automatic deletion date of the dump */
-  deletionDate?: string;
+  deletionDate?: string | undefined;
   /** Dump id */
-  id?: number;
+  id?: number | undefined;
   /** If source database was deleted */
-  orphan?: boolean;
+  orphan?: boolean | undefined;
   /** The dump status */
-  status?: HostingWebDatabaseDumpStatusEnum;
+  status?: HostingWebDatabaseDumpStatusEnum | undefined;
   /** The task ID working on this dump */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
   /** Dump type */
-  type?: HostingWebDatabaseDumpDateEnum;
+  type?: HostingWebDatabaseDumpDateEnum | undefined;
   /** Dump url access */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface GetHostingWebEmailRequest {
   /** The internal name of your hosting */
@@ -1909,17 +1909,17 @@ export type HostingWebMailStateEnum = "bounce" | "force" | "ko" | "ok" | "purgin
 /** Hosting automated emails */
 export interface HostingWebEmail {
   /** Bounce */
-  bounce?: number;
+  bounce?: number | undefined;
   /** Email used to receive errors */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Max email to sent per day */
-  maxPerDay?: number;
+  maxPerDay?: number | undefined;
   /** Email sent since hosting creation */
-  sent?: number;
+  sent?: number | undefined;
   /** Email sent today */
-  sentToday?: number;
+  sentToday?: number | undefined;
   /** Email state */
-  state?: HostingWebMailStateEnum;
+  state?: HostingWebMailStateEnum | undefined;
 }
 export interface GetHostingWebEmailOptionRequest {
   /** The internal name of your hosting */
@@ -1930,11 +1930,11 @@ export interface GetHostingWebEmailOptionRequest {
 /** Mail service linked to webhosting */
 export interface HostingWebEmailoption {
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Email service domain */
-  domain?: string;
+  domain?: string | undefined;
   /** Account id */
-  id?: number;
+  id?: number | undefined;
 }
 export interface GetHostingWebEmailOptionServiceInfosRequest {
   /** The internal name of your hosting */
@@ -1953,15 +1953,15 @@ export type HostingWebEnvVarStatusEnum = "created" | "creating" | "deleting" | "
 /** Environment variables set into your webhosting account */
 export interface HostingWebEnvVar {
   /** Name of the variable */
-  key?: string;
+  key?: string | undefined;
   /** The environnement variable status */
-  status?: HostingWebEnvVarStatusEnum;
+  status?: HostingWebEnvVarStatusEnum | undefined;
   /** The task ID working on this variable */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
   /** Type of variable set */
-  type?: HostingWebEnvVarTypeEnum;
+  type?: HostingWebEnvVarTypeEnum | undefined;
   /** Value of the variable */
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetHostingWebExtraSqlPersoRequest {
   /** The internal name of your hosting */
@@ -1974,17 +1974,17 @@ export type HostingWebExtrasqlpersoUsageList = Array<string>;
 /** Sqlperso service */
 export interface HostingWebExtrasqlperso {
   /** Number of database allowed by this option */
-  database?: number;
+  database?: number | undefined;
   /** The extraSqlPerso option name */
-  name?: string;
+  name?: string | undefined;
   /** Quota size allowed per each database by this option */
-  size?: ComplexTypeUnitAndValueDouble;
+  size?: ComplexTypeUnitAndValueDouble | undefined;
   /** The extraSqlPerso option status */
-  status?: string;
+  status?: string | undefined;
   /** The task ID working on this extraSqlPerso */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
   /** Linked databases */
-  usage?: HostingWebExtrasqlpersoUsageList;
+  usage?: HostingWebExtrasqlpersoUsageList | undefined;
 }
 export interface GetHostingWebExtraSqlPersoServiceInfosRequest {
   /** The internal name of your hosting */
@@ -2005,13 +2005,13 @@ export type HostingWebUserStateEnum = "off" | "rw";
 /** Hosting indys */
 export interface HostingWebIndy {
   /** AttachedDomain IDs linked to this multidomain */
-  attachedDomains?: HostingWebIndyAttachedDomainsList;
+  attachedDomains?: HostingWebIndyAttachedDomainsList | undefined;
   /** Home directory */
-  home?: string;
+  home?: string | undefined;
   /** Login of the multidomain independent user */
-  login?: string;
+  login?: string | undefined;
   /** User status */
-  state?: HostingWebUserStateEnum;
+  state?: HostingWebUserStateEnum | undefined;
 }
 export interface GetHostingWebKeySshRequest {
   /** Service name */
@@ -2028,17 +2028,17 @@ export type HostingWebLocalSeoAccountStatusEnum = "created" | "creating" | "dele
 /** Local SEO accounts */
 export interface HostingWebLocalSeoAccount {
   /** Date of creation of the account */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Email address associated to the account */
-  email?: string;
+  email?: string | undefined;
   /** Account id */
-  id?: number;
+  id?: number | undefined;
   /** Date of the last account's update */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Current status of the account */
-  status?: HostingWebLocalSeoAccountStatusEnum;
+  status?: HostingWebLocalSeoAccountStatusEnum | undefined;
   /** Running task associated to the account */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
 }
 export interface GetHostingWebLocalSeoEmailAvailabilityRequest {
   /** The email address to check */
@@ -2053,9 +2053,9 @@ export type HostingWebLocalSeoAccountEmailAvailabilityEnum =
 /** Struct describing the availability of an email address for a local SEO order */
 export interface HostingWebLocalSeoEmailAvailability {
   /** Availability of the email address */
-  availability?: HostingWebLocalSeoAccountEmailAvailabilityEnum;
+  availability?: HostingWebLocalSeoAccountEmailAvailabilityEnum | undefined;
   /** Hosting on which the email address is used */
-  serviceName?: string | null;
+  serviceName?: string | null | undefined;
 }
 export interface GetHostingWebLocalSeoEmailAvailabilityRequest2 {
   /** The internal name of your hosting */
@@ -2076,25 +2076,25 @@ export type HostingWebLocalSeoLocationStatusEnum = "created" | "creating" | "del
 /** Local SEO locations */
 export interface HostingWebLocalSeoLocation {
   /** Account id */
-  accountId?: number | null;
+  accountId?: number | null | undefined;
   /** Address of the location */
-  address?: string | null;
+  address?: string | null | undefined;
   /** Country of the location */
-  country?: HostingWebLocalSeoLocationCountryEnum;
+  country?: HostingWebLocalSeoLocationCountryEnum | undefined;
   /** Date of the installation of the location */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Location id */
-  id?: number;
+  id?: number | undefined;
   /** Date of the last location's update */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Name of the location */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Local SEO offer for this location */
-  offer?: HostingWebLocalSeoLocationOfferEnum;
+  offer?: HostingWebLocalSeoLocationOfferEnum | undefined;
   /** Current status of the location */
-  status?: HostingWebLocalSeoLocationStatusEnum;
+  status?: HostingWebLocalSeoLocationStatusEnum | undefined;
   /** Running task associated to the location */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
 }
 export interface GetHostingWebLocalSeoLocationServiceInfosRequest {
   /** The internal name of your hosting */
@@ -2109,11 +2109,11 @@ export interface GetHostingWebMetricsTokenRequest {
 /** Metrics token */
 export interface HostingWebMetricsToken {
   /** Backend url */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Token expiration date */
-  expiry?: string;
+  expiry?: string | undefined;
   /** Generated token */
-  token?: string;
+  token?: string | undefined;
 }
 export interface GetHostingWebModuleRequest {
   /** The internal name of your hosting */
@@ -2128,29 +2128,29 @@ export type HostingWebModuleStatusEnum = "created" | "creating" | "deleting" | "
 /** Hosting modules installed */
 export interface HostingWebModule {
   /** The admin folder, relative to the module's installation path */
-  adminFolder?: string;
+  adminFolder?: string | undefined;
   /** Login for the admin account */
-  adminName?: string;
+  adminName?: string | undefined;
   /** Date of the installation of the module */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** The dependencies to which the module has access. A dependency can be a standard database (like MySQL or PostgreSQL) or a key-value store (like Redis or Memcached) for example */
-  dependencies?: HostingWebModuleDependenciesList;
+  dependencies?: HostingWebModuleDependenciesList | undefined;
   /** Installation ID */
-  id?: number;
+  id?: number | undefined;
   /** The language of the module */
-  language?: HostingWebModuleLanguageEnum;
+  language?: HostingWebModuleLanguageEnum | undefined;
   /** Date of the last module's upgrade */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** ID of the module associated with this installation */
-  moduleId?: number;
+  moduleId?: number | undefined;
   /** Where the module is installed, relative to your home directory */
-  path?: string;
+  path?: string | undefined;
   /** The module status */
-  status?: HostingWebModuleStatusEnum;
+  status?: HostingWebModuleStatusEnum | undefined;
   /** The URL from where your module can be reached */
-  targetUrl?: string;
+  targetUrl?: string | undefined;
   /** The task ID working on this module */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
 }
 export interface GetHostingWebModuleListRequest {
   /** The ID of the module */
@@ -2167,39 +2167,39 @@ export type HostingWebModuleListLanguageList = Array<HostingWebModuleLanguageEnu
 /** A numeric value tagged with its unit */
 export interface ComplexTypeUnitAndValueString {
   /** Unit of the value */
-  unit?: string;
-  value?: string;
+  unit?: string | undefined;
+  value?: string | undefined;
 }
 /** The IDs of the module you can upgrade to */
 export type HostingWebModuleListUpgradeFromList = Array<number>;
 /** A module specifically packaged by OVH */
 export interface HostingWebModuleList {
   /** Is the module available? */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The type of the admin name */
-  adminNameType?: HostingWebModuleAdminNameTypeEnum;
+  adminNameType?: HostingWebModuleAdminNameTypeEnum | undefined;
   /** The packager of this module for OVH */
-  author?: string;
+  author?: string | undefined;
   /** The branch of the module */
-  branch?: HostingWebModuleBranchEnum;
+  branch?: HostingWebModuleBranchEnum | undefined;
   /** The ID of the module */
-  id?: number;
+  id?: number | undefined;
   /** The keywords for this module */
-  keywords?: HostingWebModuleListKeywordsList;
+  keywords?: HostingWebModuleListKeywordsList | undefined;
   /** All available languages for this module */
-  language?: HostingWebModuleListLanguageList;
+  language?: HostingWebModuleListLanguageList | undefined;
   /** Minimal language version required to run this module */
-  languageRequirement?: ComplexTypeUnitAndValueString;
+  languageRequirement?: ComplexTypeUnitAndValueString | undefined;
   /** Is this the latest version available? */
-  latest?: boolean;
+  latest?: boolean | undefined;
   /** The name of the module */
-  name?: string;
+  name?: string | undefined;
   /** Size of the module */
-  size?: ComplexTypeUnitAndValueDouble;
+  size?: ComplexTypeUnitAndValueDouble | undefined;
   /** The IDs of the module you can upgrade to */
-  upgradeFrom?: HostingWebModuleListUpgradeFromList;
+  upgradeFrom?: HostingWebModuleListUpgradeFromList | undefined;
   /** The version of the module */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetHostingWebOfferCapabilitiesRequest {
   /** Describe offer capabilities */
@@ -2215,15 +2215,15 @@ export type ComplexTypeUnitAndValueLong = ComplexTypeUnitAndValueDouble;
 /** Struct which describs quota and available for a specific type of database */
 export interface HostingWebDatabaseCreationDatabaseCapabilities {
   /** Number of database left for creation */
-  available?: number;
+  available?: number | undefined;
   /** Database software available on this platform */
-  engines?: HostingWebDatabaseCreationDatabaseCapabilitiesEnginesList;
+  engines?: HostingWebDatabaseCreationDatabaseCapabilitiesEnginesList | undefined;
   /** Technology use to isolate differents webhosting accounts */
-  isolation?: HostingWebDatabaseDatabaseIsolationEnum;
+  isolation?: HostingWebDatabaseDatabaseIsolationEnum | undefined;
   /** Size of data can be used */
-  quota?: ComplexTypeUnitAndValueDouble;
+  quota?: ComplexTypeUnitAndValueDouble | undefined;
   /** Database offer name */
-  type?: HostingWebDatabaseDatabaseCapabilitiesTypeEnum;
+  type?: HostingWebDatabaseDatabaseCapabilitiesTypeEnum | undefined;
 }
 /** Describe all databases type you can have */
 export type HostingWebCapabilitiesDatabasesList =
@@ -2233,18 +2233,18 @@ export type HostingWebDiskTypeEnum = "HDD" | "SSD";
 /** Disk properties (size and type of disk) */
 export interface HostingWebDiskType {
   /** Type of the disk */
-  type?: HostingWebDiskTypeEnum;
+  type?: HostingWebDiskTypeEnum | undefined;
   /** Unit for disk size */
-  unit?: string;
+  unit?: string | undefined;
   /** Size of the disk */
-  value?: number;
+  value?: number | undefined;
 }
 /** Struct which describes mail offer available and his quota */
 export interface HostingWebCreationEmailCapabilities {
   /** Number of email available for creation */
-  available?: number;
+  available?: number | undefined;
   /** Email account capacity */
-  quota?: ComplexTypeUnitAndValueDouble;
+  quota?: ComplexTypeUnitAndValueDouble | undefined;
 }
 /** Highlight tips for offer */
 export type HostingWebHighLightEnum = "best-seller" | "new";
@@ -2283,13 +2283,13 @@ export type HostingWebCronLanguageAvailableRubyList = Array<HostingWebRubyVersio
 /** Language available for cron script */
 export interface HostingWebCronLanguageAvailable {
   /** NodeJS versions */
-  nodejs?: HostingWebCronLanguageAvailableNodejsList;
+  nodejs?: HostingWebCronLanguageAvailableNodejsList | undefined;
   /** Php versions */
-  php?: HostingWebCronLanguageAvailablePhpList;
+  php?: HostingWebCronLanguageAvailablePhpList | undefined;
   /** Python versions */
-  python?: HostingWebCronLanguageAvailablePythonList;
+  python?: HostingWebCronLanguageAvailablePythonList | undefined;
   /** Ruby versions */
-  ruby?: HostingWebCronLanguageAvailableRubyList;
+  ruby?: HostingWebCronLanguageAvailableRubyList | undefined;
 }
 /** Describe all privateDatabases type you can have */
 export type HostingWebCapabilitiesPrivateDatabasesList =
@@ -2297,39 +2297,39 @@ export type HostingWebCapabilitiesPrivateDatabasesList =
 /** Struct which describs an offer */
 export interface HostingWebCapabilities {
   /** Number of domains you can attach to your hosting */
-  attachedDomains?: number;
+  attachedDomains?: number | undefined;
   /** Does the offer allow crontab */
-  crontab?: boolean;
+  crontab?: boolean | undefined;
   /** Number of database engines allowed for your hosting */
-  databaseEngines?: number;
+  databaseEngines?: number | undefined;
   /** Describe all databases type you can have */
-  databases?: HostingWebCapabilitiesDatabasesList;
+  databases?: HostingWebCapabilitiesDatabasesList | undefined;
   /** Disk capacity and type available for your hosting ( null for unlimited ) */
-  disk?: HostingWebDiskType | null;
+  disk?: HostingWebDiskType | null | undefined;
   /** Describe all email offer you can have */
-  emails?: HostingWebCreationEmailCapabilities;
+  emails?: HostingWebCreationEmailCapabilities | undefined;
   /** Number of environment variables allowed for your hosting */
-  envVars?: number;
+  envVars?: number | undefined;
   /** Number of ftp user you can create */
-  extraUsers?: number;
+  extraUsers?: number | undefined;
   /** Does the offer allow access to web files browser? */
-  filesBrowser?: boolean;
+  filesBrowser?: boolean | undefined;
   /** Marketing information about the current offer */
-  highlight?: HostingWebHighLightEnum | null;
+  highlight?: HostingWebHighLightEnum | null | undefined;
   /** Language available for cron script */
-  languages?: HostingWebCronLanguageAvailable;
+  languages?: HostingWebCronLanguageAvailable | undefined;
   /** Does the offer allow 1-click modules? */
-  moduleOneClick?: boolean;
+  moduleOneClick?: boolean | undefined;
   /** Describe all privateDatabases type you can have */
-  privateDatabases?: HostingWebCapabilitiesPrivateDatabasesList;
+  privateDatabases?: HostingWebCapabilitiesPrivateDatabasesList | undefined;
   /** Number of runtimes allowed for your hosting */
-  runtimes?: number;
+  runtimes?: number | undefined;
   /** Number of sites recommended for your hosting ( -1 for unlimited ) */
-  sitesRecommended?: number | null;
+  sitesRecommended?: number | null | undefined;
   /** Does the offer allow SSH access */
-  ssh?: boolean;
+  ssh?: boolean | undefined;
   /** Traffic quota size for your hosting ( null for unlimited ) */
-  traffic?: ComplexTypeUnitAndValueDouble | null;
+  traffic?: ComplexTypeUnitAndValueDouble | null | undefined;
 }
 export interface GetHostingWebOvhConfigRequest {
   /** The internal name of your hosting */
@@ -2363,29 +2363,29 @@ export type HostingWebOvhConfigStatusEnum = "created" | "rollbacking" | "updatin
 /** Virtual service */
 export interface HostingWebOvhConfig {
   /** Container to run this website */
-  container?: string;
+  container?: string | undefined;
   /** When ovhconfig was created, or found for the first time, on the hosting servers */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Version of engine you want */
-  engineName?: HostingWebOvhConfigEngineNameEnum;
+  engineName?: HostingWebOvhConfigEngineNameEnum | undefined;
   /** Name of engine you want */
-  engineVersion?: HostingWebOvhConfigEngineVersionEnum;
+  engineVersion?: HostingWebOvhConfigEngineVersionEnum | undefined;
   /** Environment configuration you want */
-  environment?: HostingWebOvhConfigEnvironmentEnum;
+  environment?: HostingWebOvhConfigEnvironmentEnum | undefined;
   /** If .ovhConfig exists */
-  fileExist?: boolean;
+  fileExist?: boolean | undefined;
   /** If this configuration is an old configuration */
-  historical?: boolean | null;
+  historical?: boolean | null | undefined;
   /** Configuration you want for http firewall */
-  httpFirewall?: HostingWebOvhConfigHttpFirewallEnum;
+  httpFirewall?: HostingWebOvhConfigHttpFirewallEnum | undefined;
   /** Configuration's id */
-  id?: number;
+  id?: number | undefined;
   /** Config path, relative to your home directory */
-  path?: string | null;
+  path?: string | null | undefined;
   /** The configuration status */
-  status?: HostingWebOvhConfigStatusEnum;
+  status?: HostingWebOvhConfigStatusEnum | undefined;
   /** The task ID working on this configuration */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
 }
 export interface GetHostingWebOvhConfigRecommendedValuesRequest {
   /** The internal name of your hosting */
@@ -2394,15 +2394,15 @@ export interface GetHostingWebOvhConfigRecommendedValuesRequest {
 /** Struct which recommend default values on ovhConfig file */
 export interface HostingWebOvhConfigRecommendedValues {
   /** Container to run this website */
-  container?: HostingWebOvhconfigContainerEnum;
+  container?: HostingWebOvhconfigContainerEnum | undefined;
   /** Engine name */
-  engineName?: HostingWebOvhConfigEngineNameEnum;
+  engineName?: HostingWebOvhConfigEngineNameEnum | undefined;
   /** PHP version */
-  engineVersion?: HostingWebOvhConfigAvailableEngineVersionEnum;
+  engineVersion?: HostingWebOvhConfigAvailableEngineVersionEnum | undefined;
   /** Environment configuration */
-  environment?: HostingWebOvhConfigEnvironmentEnum;
+  environment?: HostingWebOvhConfigEnvironmentEnum | undefined;
   /** Configuration for http firewall */
-  httpFirewall?: HostingWebOvhConfigHttpFirewallEnum;
+  httpFirewall?: HostingWebOvhConfigHttpFirewallEnum | undefined;
 }
 export interface GetHostingWebOwnLogRequest {
   /** The internal name of your hosting */
@@ -2415,17 +2415,17 @@ export type HostingWebOwnLogsStatusEnum = "created" | "creating" | "deleting";
 /** Hosting own logs */
 export interface HostingWebOwnLogs {
   /** The ownlogs fqdn available on logs.clusterXX.hosting.ovh.net */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** Identifier of this ownLogs */
-  id?: number;
+  id?: number | undefined;
   /** URL to access this ownLogs logs */
-  logs?: string;
+  logs?: string | undefined;
   /** URL to access this ownLogs stats */
-  stats?: string;
+  stats?: string | undefined;
   /** Status of this ownLogs */
-  status?: HostingWebOwnLogsStatusEnum;
+  status?: HostingWebOwnLogsStatusEnum | undefined;
   /** The task ID working on this ownLogs */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
 }
 export interface GetHostingWebOwnLogUserLogRequest {
   /** The internal name of your hosting */
@@ -2440,17 +2440,17 @@ export type HostingWebUserLogsStatusEnum = "created" | "creating" | "deleting" |
 /** Hosting users logs */
 export interface HostingWebUserLogs {
   /** Date of the user creation */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Description field for you */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The userLogs login used to connect to logs.ovh.net */
-  login?: string;
+  login?: string | undefined;
   /** OwnLogs where this userLogs will be enable. Default : main domain ownlogs */
-  ownLogsId?: number | null;
+  ownLogsId?: number | null | undefined;
   /** Status of this userLogs */
-  status?: HostingWebUserLogsStatusEnum;
+  status?: HostingWebUserLogsStatusEnum | undefined;
   /** The task ID working on this userLogs */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
 }
 export interface GetHostingWebRuntimeRequest {
   /** The internal name of your hosting */
@@ -2463,29 +2463,29 @@ export type HostingWebRuntimeStateEnum = "created" | "creating" | "deleting" | "
 /** The runtime configuration of an attached domain for cloud web offer */
 export interface HostingWebRuntime {
   /** The client application bootstrap script */
-  appBootstrap?: string | null;
+  appBootstrap?: string | null | undefined;
   /** The client application environment */
-  appEnv?: HostingWebRuntimeEnvEnum;
+  appEnv?: HostingWebRuntimeEnvEnum | undefined;
   /** The creation date of the runtime configuration */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** The runtime configuration ID */
-  id?: number;
+  id?: number | undefined;
   /** Is the runtime configuration is the one by default for the hosting */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Return if the runtime configuration can be deleted */
-  isDeletable?: boolean;
+  isDeletable?: boolean | undefined;
   /** The last update date of the runtime configuration */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** The custom display name of the runtime configuration */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The client application public directory */
-  publicDir?: string | null;
+  publicDir?: string | null | undefined;
   /** The status of the runtime */
-  status?: HostingWebRuntimeStateEnum;
+  status?: HostingWebRuntimeStateEnum | undefined;
   /** The link current task for the runtime configuration */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
   /** The backend type of the runtime */
-  type?: HostingWebRuntimeTypeEnum;
+  type?: HostingWebRuntimeTypeEnum | undefined;
 }
 export interface GetHostingWebServiceInfosRequest {
   /** Service name */
@@ -2511,49 +2511,49 @@ export interface GetHostingWebUserRequest {
 /** User, url and port of a service */
 export interface HostingWebUserCredentials {
   /** Port to use to access to the service */
-  port?: number;
+  port?: number | undefined;
   /** Url to contact the service */
-  url?: string;
+  url?: string | undefined;
   /** Login to authentificate you on the service */
-  user?: string;
+  user?: string | undefined;
 }
 /** Different credentials to manage your service */
 export interface HostingWebUserServiceCredentials {
   /** Credentials to manage files by ftp */
-  ftp?: HostingWebUserCredentials;
+  ftp?: HostingWebUserCredentials | undefined;
   /** Credentials to manage webhosting by ssh */
-  ssh?: HostingWebUserCredentials;
+  ssh?: HostingWebUserCredentials | undefined;
 }
 /** User status */
 export type HostingWebUserStatusEnum = "created" | "creating" | "deleting" | "updating";
 /** Hosting users */
 export interface HostingWebUser {
   /** Home directory */
-  home?: string;
+  home?: string | undefined;
   /** Is this user primary */
-  isPrimaryAccount?: boolean;
+  isPrimaryAccount?: boolean | undefined;
   /** Login used to connect on FTP and SSH */
-  login?: string;
+  login?: string | undefined;
   /** Credentials to manage your webhosting */
-  serviceManagementCredentials?: HostingWebUserServiceCredentials;
+  serviceManagementCredentials?: HostingWebUserServiceCredentials | undefined;
   /** User ssh status */
-  sshState?: HostingWebUserSshStateEnum;
+  sshState?: HostingWebUserSshStateEnum | undefined;
   /** User state */
-  state?: HostingWebUserStateEnum;
+  state?: HostingWebUserStateEnum | undefined;
   /** The user status */
-  status?: HostingWebUserStatusEnum;
+  status?: HostingWebUserStatusEnum | undefined;
   /** The task ID working on this user */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
 }
 export interface GetHostingWebUserLogsTokenRequest {
   /** The internal name of your hosting */
   serviceName: string;
   /** Specific attached domain to be included in the scope of your token */
-  attachedDomain?: string;
+  attachedDomain?: string | undefined;
   /** Whether to limit the use of the token to the remote IPv4 of API caller */
-  remoteCheck?: boolean;
+  remoteCheck?: boolean | undefined;
   /** Expiration of your token (in seconds) */
-  ttl?: number;
+  ttl?: number | undefined;
 }
 export type GetHostingWebUserLogsTokenResponse = string;
 /** Supported VCS platforms */
@@ -2569,7 +2569,7 @@ export interface GetHostingWebVcsWebhooksRequest {
 /** VCS webhooks URLs for given hosting and VCS platform */
 export interface HostingWebVcsWebhooks {
   /** Webhook URL for push events */
-  push?: string;
+  push?: string | undefined;
 }
 export interface GetHostingWebWebsiteRequest {
   /** Service name */
@@ -2580,11 +2580,11 @@ export interface GetHostingWebWebsiteRequest {
 /** A website domain */
 export interface HostingWebWebsiteDomain {
   /** If the CDN is currently active */
-  cdn?: boolean;
+  cdn?: boolean | undefined;
   /** FQDN of the website domain */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** If the SSL is currently active */
-  ssl?: boolean;
+  ssl?: boolean | undefined;
 }
 /** Domains of the website */
 export type HostingWebWebsiteDomainsList = Array<HostingWebWebsiteDomain>;
@@ -2599,23 +2599,23 @@ export type HostingWebWebsiteStatusEnum =
 /** A website on your hosting */
 export interface HostingWebWebsite {
   /** Domains of the website */
-  domains?: HostingWebWebsiteDomainsList;
+  domains?: HostingWebWebsiteDomainsList | undefined;
   /** Display name of the hosting */
-  hostingDisplayName?: string;
+  hostingDisplayName?: string | undefined;
   /** Name of the hosting service */
-  hostingServiceName?: string;
+  hostingServiceName?: string | undefined;
   /** Website numeric identifier */
-  id?: number;
+  id?: number | undefined;
   /** Customizable name of the website */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Relative path on the hosting filesystem the website is deployed into */
-  path?: string;
+  path?: string | undefined;
   /** Current status of the website */
-  status?: HostingWebWebsiteStatusEnum;
+  status?: HostingWebWebsiteStatusEnum | undefined;
   /** Branch of the repository containing the website source code to deploy */
-  vcsBranch?: string;
+  vcsBranch?: string | undefined;
   /** URL of the repository containing the website source code to deploy */
-  vcsUrl?: string;
+  vcsUrl?: string | undefined;
 }
 export interface GetHostingWebWebsiteCreationCapabilitiesRequest {
   /** Service name */
@@ -2624,9 +2624,9 @@ export interface GetHostingWebWebsiteCreationCapabilitiesRequest {
 /** Website creation capabilities of your hosting */
 export interface HostingWebWebsiteCreationCapabilities {
   /** Number of websites allowed by your hosting offer, -1 meaning unlimited */
-  allowedWebsites?: number;
+  allowedWebsites?: number | undefined;
   /** Number of existing websites on your hosting */
-  existingWebsites?: number;
+  existingWebsites?: number | undefined;
 }
 export interface GetHostingWebWebsiteDeploymentRequest {
   /** Service name */
@@ -2641,23 +2641,23 @@ export type HostingWebWebsiteDeploymentStatusEnum = "doing" | "failed" | "succes
 /** A website deployment */
 export interface HostingWebWebsiteDeployment {
   /** Date of the deployment */
-  date?: string;
+  date?: string | undefined;
   /** Deployment numeric identifier */
-  id?: number;
+  id?: number | undefined;
   /** Whether a reset was requested before deploying */
-  reset?: boolean;
+  reset?: boolean | undefined;
   /** Source which triggered the deployment */
-  source?: string;
+  source?: string | undefined;
   /** Current status of the deployment */
-  status?: HostingWebWebsiteDeploymentStatusEnum;
+  status?: HostingWebWebsiteDeploymentStatusEnum | undefined;
   /** Which branch of the repository is deployed */
-  vcsBranch?: string;
+  vcsBranch?: string | undefined;
   /** Identifier of the last commit after deployment */
-  vcsCommitId?: string | null;
+  vcsCommitId?: string | null | undefined;
   /** Message of the last commit after deployment */
-  vcsCommitMessage?: string | null;
+  vcsCommitMessage?: string | null | undefined;
   /** Website numeric identifier */
-  websiteId?: number;
+  websiteId?: number | undefined;
 }
 export interface ImportHostingWebDatabaseRequest {
   /** The internal name of your hosting */
@@ -2667,9 +2667,9 @@ export interface ImportHostingWebDatabaseRequest {
   /** Documents ID of the dump from /me/documents */
   documentId: string;
   /** If database will be flushed before importing the dump. Default: false */
-  flushDatabase?: boolean;
+  flushDatabase?: boolean | undefined;
   /** Send an email when the import will be done? Default: false */
-  sendEmail?: boolean;
+  sendEmail?: boolean | undefined;
 }
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -2679,7 +2679,7 @@ export type ListHostingWebRequestIamTagsMap = {
 };
 export interface ListHostingWebRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListHostingWebRequestIamTagsMap;
+  iamTags?: ListHostingWebRequestIamTagsMap | undefined;
 }
 export type ListHostingWebResponseBodyList = Array<string>;
 export type ListHostingWebResponse = ListHostingWebResponseBodyList;
@@ -2693,9 +2693,9 @@ export interface ListHostingWebAttachedDomainRequest2 {
   /** Service name */
   serviceName: string;
   /** Filter the value of domain property (like) */
-  domain?: string;
+  domain?: string | undefined;
   /** Filter the value of path property (like) */
-  path?: string;
+  path?: string | undefined;
 }
 export type ListHostingWebAttachedDomainResponseBodyList2 = Array<string>;
 export type ListHostingWebAttachedDomainResponse2 = ListHostingWebAttachedDomainResponseBodyList2;
@@ -2703,7 +2703,7 @@ export interface ListHostingWebAvailableConfigurationsRequest {
   /** The internal name of your hosting */
   serviceName: string;
   /** Filter on language name */
-  language?: HostingWebConfigurationLanguageEnum | (string & {});
+  language?: HostingWebConfigurationLanguageEnum | (string & {}) | undefined;
 }
 /** Configuration language versions enum */
 export type HostingWebConfigurationVersionEnum =
@@ -2728,7 +2728,7 @@ export interface ListHostingWebBoostHistoryRequest {
   /** Service name */
   serviceName: string;
   /** Filter the value of date property (=) */
-  date?: string;
+  date?: string | undefined;
 }
 export type ListHostingWebBoostHistoryResponseBodyList = Array<string>;
 export type ListHostingWebBoostHistoryResponse = ListHostingWebBoostHistoryResponseBodyList;
@@ -2743,47 +2743,47 @@ export type CdnOptionConfigParamTypeEnum = "bool" | "int" | "list" | "str";
 /** Option configuration constraints */
 export interface CdnAvailableOptionsConfigConstraints {
   /** Maximum number of items in value */
-  length?: number | null;
+  length?: number | null | undefined;
   /** Maximum value */
-  maximum?: number | null;
+  maximum?: number | null | undefined;
   /** Description of value */
-  message?: string | null;
+  message?: string | null | undefined;
   /** Minimum value */
-  minimum?: number | null;
+  minimum?: number | null | undefined;
   /** Type of value */
-  type?: CdnOptionConfigParamTypeEnum | null;
+  type?: CdnOptionConfigParamTypeEnum | null | undefined;
 }
 /** Option configuration */
 export interface CdnAvailableOptionsConfig {
   /** URL used for Mobile Redirect */
-  destination?: CdnAvailableOptionsConfigConstraints | null;
+  destination?: CdnAvailableOptionsConfigConstraints | null | undefined;
   /** Follow Uri on Mobile Redirect */
-  followUri?: CdnAvailableOptionsConfigConstraints | null;
+  followUri?: CdnAvailableOptionsConfigConstraints | null | undefined;
   /** Authorized Origins separated by a comma */
-  origins?: CdnAvailableOptionsConfigConstraints | null;
+  origins?: CdnAvailableOptionsConfigConstraints | null | undefined;
   /** Option pattern type */
-  patternType?: CdnAvailableOptionsConfigConstraints | null;
+  patternType?: CdnAvailableOptionsConfigConstraints | null | undefined;
   /** Cache Rule priority (lower is the strongest priority) */
-  priority?: CdnAvailableOptionsConfigConstraints | null;
+  priority?: CdnAvailableOptionsConfigConstraints | null | undefined;
   /** Action to apply on query parameters */
-  queryParameters?: CdnAvailableOptionsConfigConstraints | null;
+  queryParameters?: CdnAvailableOptionsConfigConstraints | null | undefined;
   /** List of URI */
-  resources?: CdnAvailableOptionsConfigConstraints | null;
+  resources?: CdnAvailableOptionsConfigConstraints | null | undefined;
   /** Redirection HTTP Code */
-  statusCode?: CdnAvailableOptionsConfigConstraints | null;
+  statusCode?: CdnAvailableOptionsConfigConstraints | null | undefined;
   /** Cache time in seconds */
-  ttl?: CdnAvailableOptionsConfigConstraints | null;
+  ttl?: CdnAvailableOptionsConfigConstraints | null | undefined;
 }
 /** Option type available */
 export interface CdnAvailableOptions {
   /** Option category */
-  category?: CdnOptionCategoryEnum | null;
+  category?: CdnOptionCategoryEnum | null | undefined;
   /** Option configuration */
-  config?: CdnAvailableOptionsConfig | null;
+  config?: CdnAvailableOptionsConfig | null | undefined;
   /** Max option items */
-  maxItems?: number;
+  maxItems?: number | undefined;
   /** Option type */
-  type?: string;
+  type?: string | undefined;
 }
 export type ListHostingWebCdnAvailableOptionsResponseBodyList = Array<CdnAvailableOptions>;
 export type ListHostingWebCdnAvailableOptionsResponse =
@@ -2812,13 +2812,13 @@ export interface ListHostingWebCronRequest {
   /** Service name */
   serviceName: string;
   /** Filter the value of command property (like) */
-  command?: string;
+  command?: string | undefined;
   /** Filter the value of description property (like) */
-  description?: string;
+  description?: string | undefined;
   /** Filter the value of email property (like) */
-  email?: string;
+  email?: string | undefined;
   /** Filter the value of language property (=) */
-  language?: HostingWebLanguagesEnum | (string & {});
+  language?: HostingWebLanguagesEnum | (string & {}) | undefined;
 }
 export type ListHostingWebCronResponseBodyList = Array<number>;
 export type ListHostingWebCronResponse = ListHostingWebCronResponseBodyList;
@@ -2833,15 +2833,15 @@ export interface ListHostingWebDatabaseRequest {
   /** The internal name of your hosting */
   serviceName: string;
   /** Filter the value of mode property (=) */
-  mode?: HostingWebDatabaseModeEnum | (string & {});
+  mode?: HostingWebDatabaseModeEnum | (string & {}) | undefined;
   /** Filter the value of name property (like) */
-  name?: string;
+  name?: string | undefined;
   /** Filter the value of server property (like) */
-  server?: string;
+  server?: string | undefined;
   /** Filter the value of type property (=) */
-  type?: HostingWebDatabaseDatabaseTypeEnum | (string & {});
+  type?: HostingWebDatabaseDatabaseTypeEnum | (string & {}) | undefined;
   /** Filter the value of user property (like) */
-  user?: string;
+  user?: string | undefined;
 }
 export type ListHostingWebDatabaseResponseBodyList = Array<string>;
 export type ListHostingWebDatabaseResponse = ListHostingWebDatabaseResponseBodyList;
@@ -2864,9 +2864,9 @@ export type HostingWebDatabaseAvailableVersionStructListList = Array<HostingWebD
 /** Database Available and Default version */
 export interface HostingWebDatabaseAvailableVersionStruct {
   /** Database default version */
-  default?: HostingWebDatabaseVersionEnum;
+  default?: HostingWebDatabaseVersionEnum | undefined;
   /** Database available version */
-  list?: HostingWebDatabaseAvailableVersionStructListList;
+  list?: HostingWebDatabaseAvailableVersionStructListList | undefined;
 }
 export interface ListHostingWebDatabaseCopyRequest {
   /** The internal name of your hosting */
@@ -2890,15 +2890,15 @@ export interface ListHostingWebDatabaseDumpRequest {
   /** Database name (like mydb.mysql.db or mydb.postgres.db) */
   name: string;
   /** Filter the value of creationDate property (>=) */
-  creationDate_from?: string;
+  creationDate_from?: string | undefined;
   /** Filter the value of creationDate property (<=) */
-  creationDate_to?: string;
+  creationDate_to?: string | undefined;
   /** Filter the value of deletionDate property (>=) */
-  deletionDate_from?: string;
+  deletionDate_from?: string | undefined;
   /** Filter the value of deletionDate property (<=) */
-  deletionDate_to?: string;
+  deletionDate_to?: string | undefined;
   /** Filter the value of type property (=) */
-  type?: HostingWebDatabaseDumpDateEnum | (string & {});
+  type?: HostingWebDatabaseDumpDateEnum | (string & {}) | undefined;
 }
 export type ListHostingWebDatabaseDumpResponseBodyList = Array<number>;
 export type ListHostingWebDatabaseDumpResponse = ListHostingWebDatabaseDumpResponseBodyList;
@@ -2918,16 +2918,16 @@ export interface ListHostingWebDatabaseStatisticsRequest {
 }
 /** A timestamp associated to a value */
 export interface ComplexTypeChartTimestampValue {
-  timestamp?: number;
-  value?: number | null;
+  timestamp?: number | undefined;
+  value?: number | null | undefined;
 }
 export type ComplexTypeChartSerieComplexTypeChartTimestampValueValuesList =
   Array<ComplexTypeChartTimestampValue>;
 /** A value set tagged with its unit and serie name */
 export interface ComplexTypeChartSerieComplexTypeChartTimestampValue {
-  serieName?: string;
-  unit?: string;
-  values?: ComplexTypeChartSerieComplexTypeChartTimestampValueValuesList;
+  serieName?: string | undefined;
+  unit?: string | undefined;
+  values?: ComplexTypeChartSerieComplexTypeChartTimestampValueValuesList | undefined;
 }
 export type ListHostingWebDatabaseStatisticsResponseBodyList =
   Array<ComplexTypeChartSerieComplexTypeChartTimestampValue>;
@@ -2937,17 +2937,17 @@ export interface ListHostingWebDumpRequest {
   /** The internal name of your hosting */
   serviceName: string;
   /** Filter the value of creationDate property (>=) */
-  creationDate_from?: string;
+  creationDate_from?: string | undefined;
   /** Filter the value of creationDate property (<=) */
-  creationDate_to?: string;
+  creationDate_to?: string | undefined;
   /** Filter the value of databaseName property (=) */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** Filter the value of deletionDate property (>=) */
-  deletionDate_from?: string;
+  deletionDate_from?: string | undefined;
   /** Filter the value of deletionDate property (<=) */
-  deletionDate_to?: string;
+  deletionDate_to?: string | undefined;
   /** Filter the value of orphan property (=) */
-  orphan?: boolean;
+  orphan?: boolean | undefined;
 }
 export type ListHostingWebDumpResponseBodyList = Array<number>;
 export type ListHostingWebDumpResponse = ListHostingWebDumpResponseBodyList;
@@ -2960,11 +2960,11 @@ export interface ListHostingWebEmailBouncesRequest {
 /** The volume history type */
 export interface HostingWebMailBounce {
   /** The datetime of this bounce */
-  date?: string;
+  date?: string | undefined;
   /** The return message for this bounce */
-  message?: string | null;
+  message?: string | null | undefined;
   /** The email where you have the bounce */
-  to?: string | null;
+  to?: string | null | undefined;
 }
 export type ListHostingWebEmailBouncesResponseBodyList = Array<HostingWebMailBounce>;
 export type ListHostingWebEmailBouncesResponse = ListHostingWebEmailBouncesResponseBodyList;
@@ -2981,9 +2981,9 @@ export interface ListHostingWebEmailVolumesRequest {
 /** The volume history type */
 export interface HostingWebMailVolumeHistory {
   /** The datetime of this volume history point */
-  date?: string;
+  date?: string | undefined;
   /** The volume history size */
-  volume?: number | null;
+  volume?: number | null | undefined;
 }
 export type ListHostingWebEmailVolumesResponseBodyList = Array<HostingWebMailVolumeHistory>;
 export type ListHostingWebEmailVolumesResponse = ListHostingWebEmailVolumesResponseBodyList;
@@ -2991,7 +2991,7 @@ export interface ListHostingWebEnvVarRequest {
   /** Service name */
   serviceName: string;
   /** Filter the value of type property (=) */
-  type?: HostingWebEnvVarTypeEnum | (string & {});
+  type?: HostingWebEnvVarTypeEnum | (string & {}) | undefined;
 }
 export type ListHostingWebEnvVarResponseBodyList = Array<string>;
 export type ListHostingWebEnvVarResponse = ListHostingWebEnvVarResponseBodyList;
@@ -3016,7 +3016,7 @@ export interface ListHostingWebFreedomRequest {
   /** Service name */
   serviceName: string;
   /** Filter the freedom status (=) */
-  status?: HostingWebFreedomStatusEnum | (string & {});
+  status?: HostingWebFreedomStatusEnum | (string & {}) | undefined;
 }
 export type ListHostingWebFreedomResponseBodyList = Array<string>;
 export type ListHostingWebFreedomResponse = ListHostingWebFreedomResponseBodyList;
@@ -3027,7 +3027,7 @@ export interface ListHostingWebIndyRequest {
   /** The internal name of your hosting */
   serviceName: string;
   /** Filter the value of login property (like) */
-  login?: string;
+  login?: string | undefined;
 }
 export type ListHostingWebIndyResponseBodyList = Array<string>;
 export type ListHostingWebIndyResponse = ListHostingWebIndyResponseBodyList;
@@ -3035,7 +3035,7 @@ export interface ListHostingWebLocalSeoAccountRequest {
   /** The internal name of your hosting */
   serviceName: string;
   /** Filter the value of email property (like) */
-  email?: string;
+  email?: string | undefined;
 }
 export type ListHostingWebLocalSeoAccountResponseBodyList = Array<number>;
 export type ListHostingWebLocalSeoAccountResponse = ListHostingWebLocalSeoAccountResponseBodyList;
@@ -3048,9 +3048,9 @@ export interface ListHostingWebLocalSeoDirectoriesListRequest {
 /** Struct describing a directory */
 export interface HostingWebLocalSeoDirectory {
   /** Identifier to use to get the result of a visibility check for the directory */
-  code?: string;
+  code?: string | undefined;
   /** Human-readable name of the directory */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Navigation systems */
 export type HostingWebLocalSeoDirectoriesListNavigationSystemsList =
@@ -3063,11 +3063,11 @@ export type HostingWebLocalSeoDirectoriesListSocialNetworksList =
 /** Struct describing a list of directories ordered by type */
 export interface HostingWebLocalSeoDirectoriesList {
   /** Navigation systems */
-  navigationSystems?: HostingWebLocalSeoDirectoriesListNavigationSystemsList;
+  navigationSystems?: HostingWebLocalSeoDirectoriesListNavigationSystemsList | undefined;
   /** Search engines */
-  searchEngines?: HostingWebLocalSeoDirectoriesListSearchEnginesList;
+  searchEngines?: HostingWebLocalSeoDirectoriesListSearchEnginesList | undefined;
   /** Social networks */
-  socialNetworks?: HostingWebLocalSeoDirectoriesListSocialNetworksList;
+  socialNetworks?: HostingWebLocalSeoDirectoriesListSocialNetworksList | undefined;
 }
 export interface ListHostingWebLocalSeoLocationRequest {
   /** The internal name of your hosting */
@@ -3117,65 +3117,65 @@ export type HostingWebLocalSeoListingStatusEnum =
 /** Struct describing a visibility check result */
 export interface HostingWebLocalSeoVisibilityCheckResultResponse {
   /** City of the location */
-  city?: string | null;
+  city?: string | null | undefined;
   /** City of the location (sync status) */
-  cityStatus?: HostingWebLocalSeoFieldStatusEnum | null;
+  cityStatus?: HostingWebLocalSeoFieldStatusEnum | null | undefined;
   /** Country of the location */
-  country?: string | null;
+  country?: string | null | undefined;
   /** Country of the location (sync status) */
-  countryStatus?: HostingWebLocalSeoFieldStatusEnum | null;
+  countryStatus?: HostingWebLocalSeoFieldStatusEnum | null | undefined;
   /** The date and time the listing was created in database */
-  dateCreated?: string | null;
+  dateCreated?: string | null | undefined;
   /** The directory where this listing appears */
-  directoryType?: string | null;
+  directoryType?: string | null | undefined;
   /** A contact email for the location */
-  email?: string | null;
+  email?: string | null | undefined;
   /** A contact email for the location (sync status) */
-  emailStatus?: HostingWebLocalSeoFieldStatusEnum | null;
+  emailStatus?: HostingWebLocalSeoFieldStatusEnum | null | undefined;
   /** The status of the current listing */
-  flowStatus?: HostingWebLocalSeoFlowStatusEnum | null;
+  flowStatus?: HostingWebLocalSeoFlowStatusEnum | null | undefined;
   /** The listing id in the directory database */
-  listingId?: string | null;
+  listingId?: string | null | undefined;
   /** The listing url on the directory website */
-  listingUrl?: string | null;
+  listingUrl?: string | null | undefined;
   /** The location's name used for this listing */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The location's name used for this listing (sync status) */
-  nameStatus?: HostingWebLocalSeoFieldStatusEnum | null;
+  nameStatus?: HostingWebLocalSeoFieldStatusEnum | null | undefined;
   /** The location's contact phone number */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** The location's contact phone number (sync status) */
-  phoneStatus?: HostingWebLocalSeoFieldStatusEnum | null;
+  phoneStatus?: HostingWebLocalSeoFieldStatusEnum | null | undefined;
   /** Province of the location */
-  province?: string | null;
+  province?: string | null | undefined;
   /** Province of the location (sync status) */
-  provinceStatus?: HostingWebLocalSeoFieldStatusEnum | null;
+  provinceStatus?: HostingWebLocalSeoFieldStatusEnum | null | undefined;
   /** The location's street address */
-  street?: string | null;
+  street?: string | null | undefined;
   /** A localized combination of street and streetNo */
-  streetAndNo?: string | null;
+  streetAndNo?: string | null | undefined;
   /** A localized combination of street and streetNo (sync status) */
-  streetAndNoStatus?: HostingWebLocalSeoFieldStatusEnum | null;
+  streetAndNoStatus?: HostingWebLocalSeoFieldStatusEnum | null | undefined;
   /** The location's street number */
-  streetNo?: string | null;
+  streetNo?: string | null | undefined;
   /** The location's street number (sync status) */
-  streetNoStatus?: HostingWebLocalSeoFieldStatusEnum | null;
+  streetNoStatus?: HostingWebLocalSeoFieldStatusEnum | null | undefined;
   /** The location's street address (sync status) */
-  streetStatus?: HostingWebLocalSeoFieldStatusEnum | null;
+  streetStatus?: HostingWebLocalSeoFieldStatusEnum | null | undefined;
   /** The street type for Spain */
-  streetType?: string | null;
+  streetType?: string | null | undefined;
   /** The street type for Spain (sync status) */
-  streetTypeStatus?: HostingWebLocalSeoFieldStatusEnum | null;
+  streetTypeStatus?: HostingWebLocalSeoFieldStatusEnum | null | undefined;
   /** The sync status of the listing */
-  syncStatus?: HostingWebLocalSeoListingStatusEnum | null;
+  syncStatus?: HostingWebLocalSeoListingStatusEnum | null | undefined;
   /** A valid url for the location's website */
-  website?: string | null;
+  website?: string | null | undefined;
   /** A valid url for the location's website (sync status) */
-  websiteStatus?: HostingWebLocalSeoFieldStatusEnum | null;
+  websiteStatus?: HostingWebLocalSeoFieldStatusEnum | null | undefined;
   /** Zipcode of the location */
-  zip?: string | null;
+  zip?: string | null | undefined;
   /** Zipcode of the location (sync status) */
-  zipStatus?: HostingWebLocalSeoFieldStatusEnum | null;
+  zipStatus?: HostingWebLocalSeoFieldStatusEnum | null | undefined;
 }
 export type ListHostingWebLocalSeoVisibilityCheckResultResponseBodyList =
   Array<HostingWebLocalSeoVisibilityCheckResultResponse>;
@@ -3189,11 +3189,11 @@ export type ListHostingWebModuleResponseBodyList = Array<number>;
 export type ListHostingWebModuleResponse = ListHostingWebModuleResponseBodyList;
 export interface ListHostingWebModuleListRequest {
   /** Filter the value of active property (=) */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Filter the value of branch property (=) */
-  branch?: HostingWebModuleBranchEnum | (string & {});
+  branch?: HostingWebModuleBranchEnum | (string & {}) | undefined;
   /** Filter the value of latest property (=) */
-  latest?: boolean;
+  latest?: boolean | undefined;
 }
 export type ListHostingWebModuleListResponseBodyList = Array<number>;
 export type ListHostingWebModuleListResponse = ListHostingWebModuleListResponseBodyList;
@@ -3201,9 +3201,9 @@ export interface ListHostingWebOvhConfigRequest {
   /** The internal name of your hosting */
   serviceName: string;
   /** Filter the value of historical property (=) */
-  historical?: boolean;
+  historical?: boolean | undefined;
   /** Filter the value of path property (like) */
-  path?: string;
+  path?: string | undefined;
 }
 export type ListHostingWebOvhConfigResponseBodyList = Array<number>;
 export type ListHostingWebOvhConfigResponse = ListHostingWebOvhConfigResponseBodyList;
@@ -3216,9 +3216,9 @@ export type HostingWebOvhConfigCapabilitiesContainerImageList = Array<string>;
 /** Struct which describes version and container image available */
 export interface HostingWebOvhConfigCapabilities {
   /** Container image available */
-  containerImage?: HostingWebOvhConfigCapabilitiesContainerImageList;
+  containerImage?: HostingWebOvhConfigCapabilitiesContainerImageList | undefined;
   /** PHP version */
-  version?: HostingWebOvhConfigAvailableEngineVersionEnum;
+  version?: HostingWebOvhConfigAvailableEngineVersionEnum | undefined;
 }
 export type ListHostingWebOvhConfigCapabilitiesResponseBodyList =
   Array<HostingWebOvhConfigCapabilities>;
@@ -3228,7 +3228,7 @@ export interface ListHostingWebOwnLogsRequest {
   /** The internal name of your hosting */
   serviceName: string;
   /** Filter the value of fqdn property (like) */
-  fqdn?: string;
+  fqdn?: string | undefined;
 }
 export type ListHostingWebOwnLogsResponseBodyList = Array<number>;
 export type ListHostingWebOwnLogsResponse = ListHostingWebOwnLogsResponseBodyList;
@@ -3238,7 +3238,7 @@ export interface ListHostingWebOwnLogUserLogsRequest {
   /** Id of the object */
   id: number;
   /** Filter the value of login property (like) */
-  login?: string;
+  login?: string | undefined;
 }
 export type ListHostingWebOwnLogUserLogsResponseBodyList = Array<string>;
 export type ListHostingWebOwnLogUserLogsResponse = ListHostingWebOwnLogUserLogsResponseBodyList;
@@ -3260,9 +3260,9 @@ export interface ListHostingWebRuntimeRequest {
   /** The internal name of your hosting */
   serviceName: string;
   /** Filter the value of name property (like) */
-  name?: string;
+  name?: string | undefined;
   /** Filter the value of type property (=) */
-  type?: HostingWebRuntimeTypeEnum | (string & {});
+  type?: HostingWebRuntimeTypeEnum | (string & {}) | undefined;
 }
 export type ListHostingWebRuntimeResponseBodyList = Array<number>;
 export type ListHostingWebRuntimeResponse = ListHostingWebRuntimeResponseBodyList;
@@ -3279,7 +3279,7 @@ export interface ListHostingWebRuntimeAvailableTypesRequest {
   /** The internal name of your hosting */
   serviceName: string;
   /** Specific programming language to filter */
-  language?: string;
+  language?: string | undefined;
 }
 export type ListHostingWebRuntimeAvailableTypesResponseBodyList = Array<HostingWebRuntimeTypeEnum>;
 export type ListHostingWebRuntimeAvailableTypesResponse =
@@ -3305,9 +3305,9 @@ export interface ListHostingWebTasksRequest {
   /** Service name */
   serviceName: string;
   /** Filter tasks by function (like) */
-  function?: string;
+  function?: string | undefined;
   /** Filter tasks by status (like) */
-  status?: HostingWebTaskStatusEnum | (string & {});
+  status?: HostingWebTaskStatusEnum | (string & {}) | undefined;
 }
 export type ListHostingWebTasksResponseBodyList = Array<number>;
 export type ListHostingWebTasksResponse = ListHostingWebTasksResponseBodyList;
@@ -3315,9 +3315,9 @@ export interface ListHostingWebUserRequest {
   /** The internal name of your hosting */
   serviceName: string;
   /** Filter the value of home property (like) */
-  home?: string;
+  home?: string | undefined;
   /** Filter the value of login property (like) */
-  login?: string;
+  login?: string | undefined;
 }
 export type ListHostingWebUserResponseBodyList = Array<string>;
 export type ListHostingWebUserResponse = ListHostingWebUserResponseBodyList;
@@ -3328,7 +3328,7 @@ export interface ListHostingWebWebsiteRequest {
   /** Service name */
   serviceName: string;
   /** Filter the value of path property */
-  path?: string;
+  path?: string | undefined;
 }
 export type ListHostingWebWebsiteResponseBodyList = Array<number>;
 export type ListHostingWebWebsiteResponse = ListHostingWebWebsiteResponseBodyList;
@@ -3352,9 +3352,9 @@ export interface ListHostingWebWebsiteDeploymentLogsRequest {
 /** Message from logs of a website deployment */
 export interface HostingWebWebsiteDeploymentLogsMessage {
   /** Date of the message */
-  date?: string;
+  date?: string | undefined;
   /** Content of the message */
-  message?: string;
+  message?: string | undefined;
 }
 export type ListHostingWebWebsiteDeploymentLogsResponseBodyList =
   Array<HostingWebWebsiteDeploymentLogsMessage>;
@@ -3381,15 +3381,15 @@ export interface PurgeHostingWebCdnDomainRequest {
   /** Domain name */
   domainName: string;
   /** Purge pattern */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Purge Pattern Type (default is regex) */
-  patternType?: CdnPurgeTypeEnum | (string & {});
+  patternType?: CdnPurgeTypeEnum | (string & {}) | undefined;
 }
 export interface PutHostingWebRequest {
   /** Service name */
   serviceName: string;
   /** Set the name displayed in ManagerV6 for your hosting (max 50 chars, empty string resets to service name) */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface PutHostingWebResponse {}
 export interface PutHostingWebAttachedDomainRequest {
@@ -3398,21 +3398,21 @@ export interface PutHostingWebAttachedDomainRequest {
   /** Domain */
   domain: string;
   /** If set to true, DNS zone will not be updated by the operation */
-  bypassDNSConfiguration?: boolean | null;
+  bypassDNSConfiguration?: boolean | null | undefined;
   /** Whether the attached domain is linked to the hosting CDN */
-  cdn?: HostingWebAttachedDomainCdnEnum | (string & {}) | null;
+  cdn?: HostingWebAttachedDomainCdnEnum | (string & {}) | null | undefined;
   /** Whether the firewall is active for this domain */
-  firewall?: HostingWebAttachedDomainFirewallEnum | (string & {}) | null;
+  firewall?: HostingWebAttachedDomainFirewallEnum | (string & {}) | null | undefined;
   /** Change attached domain's DNS to the IP of the country */
-  ipLocation?: HostingWebCountryEnum | (string & {}) | null;
+  ipLocation?: HostingWebCountryEnum | (string & {}) | null | undefined;
   /** Domain to separate the logs on */
-  ownLog?: string | null;
+  ownLog?: string | null | undefined;
   /** Path of the attached domain */
-  path?: string | null;
+  path?: string | null | undefined;
   /** The runtime configuration ID used on this domain */
-  runtimeId?: number | null;
+  runtimeId?: number | null | undefined;
   /** Whether to put the attached domain in the SSL certificate */
-  ssl?: boolean | null;
+  ssl?: boolean | null | undefined;
 }
 export interface PutHostingWebAttachedDomainResponse {}
 export interface PutHostingWebCdnDomainOptionRequest {
@@ -3423,13 +3423,13 @@ export interface PutHostingWebCdnDomainOptionRequest {
   /** Option name */
   optionName: string;
   /** Option configuration */
-  config?: CdnDomainOptionConfig | null;
+  config?: CdnDomainOptionConfig | null | undefined;
   /** Enable / Disable the option */
   enabled: boolean;
   /** Additional information about option */
-  extra?: CdnDomainOptionExtra | null;
+  extra?: CdnDomainOptionExtra | null | undefined;
   /** Url pattern */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Option type */
   type: CdnOptionTypeEnum | (string & {});
 }
@@ -3437,15 +3437,15 @@ export interface PutHostingWebConfigurationRequest {
   /** The internal name of your hosting */
   serviceName: string;
   /** Application environment */
-  appEnv?: HostingWebConfigurationEnvEnum | (string & {});
+  appEnv?: HostingWebConfigurationEnvEnum | (string & {}) | undefined;
   /** Application launch script */
-  entryPoint?: string | null;
+  entryPoint?: string | null | undefined;
   /** language chosen for the current hosting */
-  language?: HostingWebConfigurationLanguageEnum | (string & {});
+  language?: HostingWebConfigurationLanguageEnum | (string & {}) | undefined;
   /** Directory of the application */
-  publicDir?: string | null;
+  publicDir?: string | null | undefined;
   /** version of the language chosen for the current hosting */
-  version?: string;
+  version?: string | undefined;
 }
 export interface PutHostingWebConfigurationResponse {}
 export interface PutHostingWebCronRequest {
@@ -3456,22 +3456,22 @@ export interface PutHostingWebCronRequest {
   /** Command to execute */
   command: string;
   /** Description field for you */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Email used to receive error log (stderr) */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Frequency (crontab format) defined for the script (minutes are ignored) */
   frequency: string;
   /** Cron language */
   language: HostingWebLanguagesEnum | (string & {});
   /** Cron status */
-  status?: HostingWebCronStatusEnum | (string & {});
+  status?: HostingWebCronStatusEnum | (string & {}) | undefined;
 }
 export type PutHostingWebCronResponse = string;
 export interface PutHostingWebEmailRequest {
   /** The internal name of your hosting */
   serviceName: string;
   /** Email used to receive errors */
-  email?: string | null;
+  email?: string | null | undefined;
 }
 export interface PutHostingWebEmailResponse {}
 export interface PutHostingWebEnvVarRequest {
@@ -3480,7 +3480,7 @@ export interface PutHostingWebEnvVarRequest {
   /** Key */
   key: string;
   /** Value of the variable */
-  value?: string;
+  value?: string | undefined;
 }
 export interface PutHostingWebOwnLogUserLogRequest {
   /** The internal name of your hosting */
@@ -3490,7 +3490,7 @@ export interface PutHostingWebOwnLogUserLogRequest {
   /** The userLogs login used to connect to logs.ovh.net */
   login: string;
   /** Description field for you */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export interface PutHostingWebOwnLogUserLogResponse {}
 export interface PutHostingWebRuntimeRequest {
@@ -3499,24 +3499,24 @@ export interface PutHostingWebRuntimeRequest {
   /** The runtime configuration ID */
   id: number;
   /** The client application bootstrap script */
-  appBootstrap?: string | null;
+  appBootstrap?: string | null | undefined;
   /** The client application environment */
-  appEnv?: HostingWebRuntimeEnvEnum | (string & {});
+  appEnv?: HostingWebRuntimeEnvEnum | (string & {}) | undefined;
   /** Is the runtime configuration is the one by default for the hosting */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** The custom display name of the runtime configuration */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The client application public directory */
-  publicDir?: string | null;
+  publicDir?: string | null | undefined;
   /** The backend type of the runtime */
-  type?: HostingWebRuntimeTypeEnum | (string & {});
+  type?: HostingWebRuntimeTypeEnum | (string & {}) | undefined;
 }
 export interface PutHostingWebRuntimeResponse {}
 export interface PutHostingWebServiceInfosRequest {
   /** Service name */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutHostingWebServiceInfosResponse {}
 export interface PutHostingWebUserRequest {
@@ -3525,11 +3525,11 @@ export interface PutHostingWebUserRequest {
   /** Login used to connect on FTP and SSH */
   login: string;
   /** Home directory */
-  home?: string;
+  home?: string | undefined;
   /** User ssh status */
-  sshState?: HostingWebUserSshStateEnum | (string & {});
+  sshState?: HostingWebUserSshStateEnum | (string & {}) | undefined;
   /** User state */
-  state?: HostingWebUserStateEnum | (string & {});
+  state?: HostingWebUserStateEnum | (string & {}) | undefined;
 }
 export interface PutHostingWebUserResponse {}
 export interface PutHostingWebWebsiteRequest {
@@ -3538,7 +3538,7 @@ export interface PutHostingWebWebsiteRequest {
   /** Id */
   id: number;
   /** Branch of the repository containing the website source code to deploy */
-  vcsBranch?: string | null;
+  vcsBranch?: string | null | undefined;
 }
 export interface RefreshHostingWebCdnDomainRequest {
   /** Service name */
@@ -3560,7 +3560,7 @@ export interface RestoreHostingWebDatabaseRequest {
   /** The date you want to dump */
   date: HostingWebDatabaseDumpDateEnum | (string & {});
   /** Send an email when the restore will be done? Default: false */
-  sendEmail?: boolean;
+  sendEmail?: boolean | undefined;
 }
 export interface RestoreHostingWebDatabaseDumpRequest {
   /** The internal name of your hosting */

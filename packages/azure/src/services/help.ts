@@ -35,18 +35,18 @@ export interface CheckDiagnosticNameAvailabilityRequest {
   /** This is an extension resource provider and only resource level extension is supported at the moment. */
   scope: string;
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Response for whether the requested resource name is available or not. */
 export interface CheckNameAvailabilityResponse {
   /** Returns true or false depending on the availability of the name */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** Reason for why value is not available. This field is returned if nameAvailable is false. */
-  reason?: string;
+  reason?: string | undefined;
   /** Gets an error message explaining the 'reason' value with more details. This field is returned iif nameAvailable is false. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Global parameters that can be passed to all solutionIds. */
 export type DiagnosticResourcePropertiesInputGlobalParametersMap = {
@@ -57,18 +57,18 @@ export type DiagnosticInvocationAdditionalParametersMap = { [key: string]: strin
 /** Solution Invocation with additional params needed for invocation. */
 export interface DiagnosticInvocation {
   /** Solution Id to invoke. */
-  solutionId?: string;
+  solutionId?: string | undefined;
   /** Additional parameters required to invoke the solutionId. */
-  additionalParameters?: DiagnosticInvocationAdditionalParametersMap;
+  additionalParameters?: DiagnosticInvocationAdditionalParametersMap | undefined;
 }
 /** SolutionIds that are needed to be invoked. */
 export type DiagnosticResourcePropertiesInputInsightsList = Array<DiagnosticInvocation>;
 /** Diagnostic resource properties. */
 export interface DiagnosticResourcePropertiesInput {
   /** Global parameters that can be passed to all solutionIds. */
-  globalParameters?: DiagnosticResourcePropertiesInputGlobalParametersMap;
+  globalParameters?: DiagnosticResourcePropertiesInputGlobalParametersMap | undefined;
   /** SolutionIds that are needed to be invoked. */
-  insights?: DiagnosticResourcePropertiesInputInsightsList;
+  insights?: DiagnosticResourcePropertiesInputInsightsList | undefined;
 }
 export interface CreateDiagnosticRequest {
   /** This is an extension resource provider and only resource level extension is supported at the moment. */
@@ -76,7 +76,7 @@ export interface CreateDiagnosticRequest {
   /** Unique resource name for insight resources */
   diagnosticsResourceName: string;
   /** Diagnostic Resource properties. */
-  properties?: DiagnosticResourcePropertiesInput;
+  properties?: DiagnosticResourcePropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -85,17 +85,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Global parameters that can be passed to all solutionIds. */
 export type DiagnosticResourcePropertiesGlobalParametersMap = { [key: string]: string | undefined };
@@ -114,13 +114,13 @@ export type InsightImportanceLevel = "Critical" | "Warning" | "Information";
 /** Detailed insights(s) obtained via the invocation of an insight diagnostic troubleshooter. */
 export interface Insight {
   /** Article id. */
-  id?: string;
+  id?: string | undefined;
   /** This insight's title. */
-  title?: string;
+  title?: string | undefined;
   /** Detailed result content. */
-  results?: string;
+  results?: string | undefined;
   /** Importance level of the insight. */
-  importanceLevel?: InsightImportanceLevel;
+  importanceLevel?: InsightImportanceLevel | undefined;
 }
 /** The problems (if any) detected by this insight. */
 export type DiagnosticInsightsList = Array<Insight>;
@@ -129,49 +129,49 @@ export type ErrorDetailsList = Array<Error>;
 /** Error definition. */
 export interface Error {
   /** Service specific error code which serves as the substatus for the HTTP error code. */
-  code?: string;
+  code?: string | undefined;
   /** Service specific error type which serves as additional context for the error herein. */
-  type?: string;
+  type?: string | undefined;
   /** Description of the error. */
-  message?: string;
+  message?: string | undefined;
   /** An array of additional nested error response info objects, as described by this contract. */
-  details?: ErrorDetailsList;
+  details?: ErrorDetailsList | undefined;
 }
 /** Properties returned with in an insight. */
 export interface Diagnostic {
   /** Solution Id */
-  solutionId?: string;
-  status?: DiagnosticStatus;
+  solutionId?: string | undefined;
+  status?: DiagnosticStatus | undefined;
   /** The problems (if any) detected by this insight. */
-  insights?: DiagnosticInsightsList;
-  error?: Error;
+  insights?: DiagnosticInsightsList | undefined;
+  error?: Error | undefined;
 }
 /** Array of Diagnostics. */
 export type DiagnosticResourcePropertiesDiagnosticsList = Array<Diagnostic>;
 /** Diagnostic resource properties. */
 export interface DiagnosticResourceProperties {
   /** Global parameters that can be passed to all solutionIds. */
-  globalParameters?: DiagnosticResourcePropertiesGlobalParametersMap;
+  globalParameters?: DiagnosticResourcePropertiesGlobalParametersMap | undefined;
   /** SolutionIds that are needed to be invoked. */
-  insights?: DiagnosticResourcePropertiesInsightsList;
+  insights?: DiagnosticResourcePropertiesInsightsList | undefined;
   /** Diagnostic Request Accepted time. */
-  acceptedAt?: string;
+  acceptedAt?: string | undefined;
   /** Status of diagnostic provisioning. */
-  provisioningState?: DiagnosticResourcePropertiesProvisioningState;
+  provisioningState?: DiagnosticResourcePropertiesProvisioningState | undefined;
   /** Array of Diagnostics. */
-  diagnostics?: DiagnosticResourcePropertiesDiagnosticsList;
+  diagnostics?: DiagnosticResourcePropertiesDiagnosticsList | undefined;
 }
 export interface CreateDiagnosticResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Diagnostic Resource properties. */
-  properties?: DiagnosticResourceProperties;
+  properties?: DiagnosticResourceProperties | undefined;
 }
 export interface GetDiagnosticRequest {
   /** This is an extension resource provider and only resource level extension is supported at the moment. */
@@ -181,23 +181,23 @@ export interface GetDiagnosticRequest {
 }
 export interface GetDiagnosticResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Diagnostic Resource properties. */
-  properties?: DiagnosticResourceProperties;
+  properties?: DiagnosticResourceProperties | undefined;
 }
 export interface ListDiscoverySolutionRequest {
   /** This is an extension resource provider and only resource level extension is supported at the moment. */
   scope: string;
   /** Can be used to filter solutionIds by 'ProblemClassificationId'. The filter supports only 'and' and 'eq' operators. Example: $filter=ProblemClassificationId eq '1ddda5b4-cf6c-4d4f-91ad-bc38ab0e811e' and ProblemClassificationId eq '0a9673c2-7af6-4e19-90d3-4ee2461076d9'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export type SolutionMetadataPropertiesRequiredParameterSetsItemList = Array<string>;
 /** Required parameters for invoking this particular solution. */
@@ -206,47 +206,47 @@ export type SolutionMetadataPropertiesRequiredParameterSetsList =
 /** Diagnostic solution metadata. */
 export interface SolutionMetadataProperties {
   /** Solution Id. */
-  solutionId?: string;
+  solutionId?: string | undefined;
   /** Solution Type. */
-  solutionType?: string;
+  solutionType?: string | undefined;
   /** A detailed description of solution. */
-  description?: string;
+  description?: string | undefined;
   /** Required parameters for invoking this particular solution. */
-  requiredParameterSets?: SolutionMetadataPropertiesRequiredParameterSetsList;
+  requiredParameterSets?: SolutionMetadataPropertiesRequiredParameterSetsList | undefined;
 }
 /** Solution Metadata resource */
 export interface SolutionMetadataResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Solution metadata Resource properties. */
-  properties?: SolutionMetadataProperties;
+  properties?: SolutionMetadataProperties | undefined;
 }
 /** The list of solution metadata. */
 export type DiscoveryResponseValueList = Array<SolutionMetadataResource>;
 /** Discovery response. */
 export interface DiscoveryResponse {
   /** The list of solution metadata. */
-  value?: DiscoveryResponseValueList;
+  value?: DiscoveryResponseValueList | undefined;
   /** The link used to get the next page of solution metadata. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -255,23 +255,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type CheckDiagnosticNameAvailabilityError = AzureOpError;
 /** This API is used to check the uniqueness of a resource name used for a diagnostic check. */

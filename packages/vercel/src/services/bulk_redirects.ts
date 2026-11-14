@@ -56,33 +56,33 @@ export type DeleteRedirectsRequestRedirectsList = Array<string>;
 export interface DeleteRedirectsRequest {
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  name?: string;
+  slug?: string | undefined;
+  name?: string | undefined;
   /** The redirects to delete. The source of the redirect is used to match the redirect to delete. */
   redirects: DeleteRedirectsRequestRedirectsList;
 }
 export interface DeleteRedirectsResponseBodyCase0Version {
   /** The staging link for previewing redirects in this version. */
-  alias?: string;
+  alias?: string | undefined;
   createdBy: string;
   /** The unique identifier for the version. */
   id: string;
   /** Whether this version is currently live in production. */
-  isLive?: boolean;
+  isLive?: boolean | undefined;
   /** Whether this version has not been promoted to production yet and is not serving end users. */
-  isStaging?: boolean;
+  isStaging?: boolean | undefined;
   /** The key of the version. The key may be duplicated across versions if the contents are the same as a different version. */
   key: string;
   lastModified: number;
   /** Optional name for the version. If not provided, defaults to an ISO timestamp string. */
-  name?: string;
+  name?: string | undefined;
   /** The number of redirects in this version. */
-  redirectCount?: number;
+  redirectCount?: number | undefined;
 }
 export interface DeleteRedirectsResponseBodyCase0 {
-  alias?: string;
+  alias?: string | undefined;
   version: DeleteRedirectsResponseBodyCase0Version;
 }
 export type DeleteRedirectsResponseBodyCase1Version = DeleteRedirectsResponseBodyCase0Version;
@@ -103,24 +103,24 @@ export type DeleteRedirectsResponse = DeleteRedirectsResponseBody;
 /** The redirect object to edit. The source field is used to match the redirect to modify. */
 export interface EditRedirectRequestRedirect {
   source: string;
-  destination?: string;
-  statusCode?: number;
-  permanent?: boolean;
-  caseSensitive?: boolean;
-  query?: boolean;
-  preserveQueryParams?: boolean;
+  destination?: string | undefined;
+  statusCode?: number | undefined;
+  permanent?: boolean | undefined;
+  caseSensitive?: boolean | undefined;
+  query?: boolean | undefined;
+  preserveQueryParams?: boolean | undefined;
 }
 export interface EditRedirectRequest {
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  name?: string;
+  slug?: string | undefined;
+  name?: string | undefined;
   /** The redirect object to edit. The source field is used to match the redirect to modify. */
   redirect: EditRedirectRequestRedirect;
   /** If true, restores the redirect from the latest production version to staging. */
-  restore?: boolean;
+  restore?: boolean | undefined;
 }
 export type EditRedirectResponseVersion = DeleteRedirectsResponseBodyCase0Version;
 export interface EditRedirectResponse {
@@ -133,17 +133,17 @@ export type GetRedirectsRequestSortBy = "source" | "destination" | "statusCode";
 export type GetRedirectsRequestSortOrder = "asc" | "desc";
 export interface GetRedirectsRequest {
   projectId: string;
-  versionId?: string;
-  q?: string;
-  diff?: GetRedirectsRequestDiff;
-  page?: number;
-  per_page?: number;
-  sort_by?: GetRedirectsRequestSortBy | (string & {});
-  sort_order?: GetRedirectsRequestSortOrder | (string & {});
+  versionId?: string | undefined;
+  q?: string | undefined;
+  diff?: GetRedirectsRequestDiff | undefined;
+  page?: number | undefined;
+  per_page?: number | undefined;
+  sort_by?: GetRedirectsRequestSortBy | (string & {}) | undefined;
+  sort_order?: GetRedirectsRequestSortOrder | (string & {}) | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetRedirectsResponseBodyCase0Map = { [key: string]: unknown | undefined };
 export interface GetRedirectsResponseBodyCase1Pagination {
@@ -152,14 +152,14 @@ export interface GetRedirectsResponseBodyCase1Pagination {
   per_page: number;
 }
 export interface GetRedirectsResponseBodyCase1RedirectsItem {
-  caseSensitive?: boolean;
+  caseSensitive?: boolean | undefined;
   destination: string;
-  permanent?: boolean;
-  preserveQueryParams?: boolean;
-  query?: boolean;
-  sensitive?: boolean;
+  permanent?: boolean | undefined;
+  preserveQueryParams?: boolean | undefined;
+  query?: boolean | undefined;
+  sensitive?: boolean | undefined;
   source: string;
-  statusCode?: number;
+  statusCode?: number | undefined;
 }
 export type GetRedirectsResponseBodyCase1RedirectsList =
   Array<GetRedirectsResponseBodyCase1RedirectsItem>;
@@ -167,7 +167,7 @@ export type GetRedirectsResponseBodyCase1Version = DeleteRedirectsResponseBodyCa
 export interface GetRedirectsResponseBodyCase1 {
   pagination: GetRedirectsResponseBodyCase1Pagination;
   redirects: GetRedirectsResponseBodyCase1RedirectsList;
-  version?: DeleteRedirectsResponseBodyCase0Version;
+  version?: DeleteRedirectsResponseBodyCase0Version | undefined;
 }
 export type GetRedirectsResponseBodyCase2Pagination = GetRedirectsResponseBodyCase1Pagination;
 export type GetRedirectsResponseBodyCase2RedirectsItem = GetRedirectsResponseBodyCase1RedirectsItem;
@@ -187,9 +187,9 @@ export type GetRedirectsResponse = GetRedirectsResponseBody;
 export interface GetVersionsRequest {
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetVersionsResponseVersionsItem = DeleteRedirectsResponseBodyCase0Version;
 export type GetVersionsResponseVersionsList = Array<DeleteRedirectsResponseBodyCase0Version>;
@@ -201,10 +201,10 @@ export type RestoreRedirectsRequestRedirectsList = Array<string>;
 export interface RestoreRedirectsRequest {
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  name?: string;
+  slug?: string | undefined;
+  name?: string | undefined;
   /** The redirects to restore. The source of the redirect is used to match the redirect to restore. */
   redirects: RestoreRedirectsRequestRedirectsList;
 }
@@ -220,22 +220,22 @@ export type StageRedirectsRequestRedirectsItemStatusCode = number | string;
 export interface StageRedirectsRequestRedirectsItem {
   source: string;
   destination: string;
-  statusCode?: StageRedirectsRequestRedirectsItemStatusCode;
-  permanent?: boolean;
-  caseSensitive?: boolean;
-  query?: boolean;
-  preserveQueryParams?: boolean;
+  statusCode?: StageRedirectsRequestRedirectsItemStatusCode | undefined;
+  permanent?: boolean | undefined;
+  caseSensitive?: boolean | undefined;
+  query?: boolean | undefined;
+  preserveQueryParams?: boolean | undefined;
 }
 export type StageRedirectsRequestRedirectsList = Array<StageRedirectsRequestRedirectsItem>;
 export interface StageRedirectsRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   projectId: string;
-  overwrite?: boolean;
-  name?: string;
-  redirects?: StageRedirectsRequestRedirectsList;
+  overwrite?: boolean | undefined;
+  name?: string | undefined;
+  redirects?: StageRedirectsRequestRedirectsList | undefined;
 }
 export type StageRedirectsResponseVersion = DeleteRedirectsResponseBodyCase0Version;
 export interface StageRedirectsResponse {
@@ -246,12 +246,12 @@ export type UpdateVersionRequestAction = "promote" | "restore" | "discard";
 export interface UpdateVersionRequest {
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   id: string;
   action: UpdateVersionRequestAction | (string & {});
-  name?: string;
+  name?: string | undefined;
 }
 export type UpdateVersionResponseVersion = DeleteRedirectsResponseBodyCase0Version;
 export interface UpdateVersionResponse {

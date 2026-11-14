@@ -91,9 +91,9 @@ export interface CreateContextLayerCommitRequest {
   /** A `git bundle` carrying the ref to land, created in the agent's clone (for example `git bundle create out.bundle origin/main..main`). */
   bundle: string;
   /** Optional run summary stored in the landed commit body. */
-  summary?: string;
+  summary?: string | undefined;
   /** Land a dated dreaming branch (`dream/<YYYY-MM-DD>`) as one merge commit instead of rebasing onto `main`. Omit for ordinary commits on `main`. */
-  branch?: string | null;
+  branch?: string | null | undefined;
 }
 export interface GetContextLayerChannelPageRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -105,7 +105,7 @@ export interface ChannelWikiPage {
   /** Repo-relative path of the wiki page whose frontmatter names the channel. */
   path: string;
   /** Whether a page exists at this path. False when the path is a proposal for a channel whose page has not been created yet. */
-  exists?: boolean;
+  exists?: boolean | undefined;
 }
 export interface GetContextLayerDreamRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -154,11 +154,11 @@ export interface GetContextLayerPageRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Head from the first chunk. Required for continuation. A changed head returns 409. */
-  head_sha?: string;
+  head_sha?: string | undefined;
   /** Maximum characters to read. Omit for the full page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Character offset from next_offset. */
-  offset?: number;
+  offset?: number | undefined;
   /** Repo-relative Markdown path of the page to read. */
   path: string;
 }
@@ -256,9 +256,9 @@ export interface ListContextLayerProposalsRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface WikiPageProposal {
   /** Immutable suggested edit ID. Only its author can apply it through the user API. */
@@ -279,8 +279,8 @@ export interface WikiPageProposal {
 export type PaginatedWikiPageProposalListResultsList = Array<WikiPageProposal>;
 export interface PaginatedWikiPageProposalList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedWikiPageProposalListResultsList;
 }
 export interface UpdateContextLayerPageRequest {
@@ -291,7 +291,7 @@ export interface UpdateContextLayerPageRequest {
   /** The complete Markdown content for the page. */
   content: string;
   /** Optimistic-concurrency guard: the head sha the edit is based on. A moved head is rejected with 409 and the current head; omit to write unguarded. */
-  base_head?: string | null;
+  base_head?: string | null | undefined;
 }
 export type ContextLayerEnableCreateError = PosthogOpError;
 /** Enable the context layer Create the organization's wiki with the default structure and import existing channel CONTEXT.md documents once. Idempotent. */

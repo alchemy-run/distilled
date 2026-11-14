@@ -79,13 +79,14 @@ export interface ConnectConnectorCreateDataCase0ServerConfigJwksKeysItem {
   /** JSON Web Key type. */
   kty: string;
   /** JSON Web Key identifier. */
-  kid?: string;
+  kid?: string | undefined;
   /** Intended key use: signing or encryption. */
-  use?: ConnectConnectorCreateDataCase0ServerConfigJwksKeysItemUse | (string & {});
+  use?: ConnectConnectorCreateDataCase0ServerConfigJwksKeysItemUse | (string & {}) | undefined;
   /** Operations permitted for this key. */
-  key_ops?: ConnectConnectorCreateDataCase0ServerConfigJwksKeysItemKeyOpsList;
+  key_ops?: ConnectConnectorCreateDataCase0ServerConfigJwksKeysItemKeyOpsList | undefined;
   /** Algorithm intended for this key. */
-  alg?: string;
+  alg?: string | undefined;
+  [key: string]: unknown;
 }
 /** JSON Web Keys published by the authorization server. */
 export type ConnectConnectorCreateDataCase0ServerConfigJwksKeysList =
@@ -94,6 +95,7 @@ export type ConnectConnectorCreateDataCase0ServerConfigJwksKeysList =
 export interface ConnectConnectorCreateDataCase0ServerConfigJwks {
   /** JSON Web Keys published by the authorization server. */
   keys: ConnectConnectorCreateDataCase0ServerConfigJwksKeysList;
+  [key: string]: unknown;
 }
 /** OAuth response types supported by the server. */
 export type ConnectConnectorCreateDataCase0ServerConfigResponseTypesSupportedList = Array<string>;
@@ -141,79 +143,110 @@ export type ConnectConnectorCreateDataCase0ServerConfigAuthorizationDetailsTypes
 /** Authorization server metadata. Values override discovered metadata. Empty known string fields remove their stored overrides. */
 export interface ConnectConnectorCreateDataCase0ServerConfig {
   /** Authorization server issuer URL. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** OAuth authorization endpoint URL. */
-  authorization_endpoint?: string;
+  authorization_endpoint?: string | undefined;
   /** OAuth token endpoint URL. */
-  token_endpoint?: string;
+  token_endpoint?: string | undefined;
   /** OpenID Connect UserInfo endpoint URL. */
-  userinfo_endpoint?: string;
+  userinfo_endpoint?: string | undefined;
   /** URL of the authorization server JSON Web Key Set. */
-  jwks_uri?: string;
+  jwks_uri?: string | undefined;
   /** Inline authorization server JSON Web Key Set. */
-  jwks?: ConnectConnectorCreateDataCase0ServerConfigJwks;
+  jwks?: ConnectConnectorCreateDataCase0ServerConfigJwks | undefined;
   /** OAuth token revocation endpoint URL. */
-  revocation_endpoint?: string;
+  revocation_endpoint?: string | undefined;
   /** OAuth token introspection endpoint URL. */
-  introspection_endpoint?: string;
+  introspection_endpoint?: string | undefined;
   /** OpenID Connect session termination endpoint URL. */
-  end_session_endpoint?: string;
+  end_session_endpoint?: string | undefined;
   /** OAuth device authorization endpoint URL. */
-  device_authorization_endpoint?: string;
+  device_authorization_endpoint?: string | undefined;
   /** OAuth dynamic client registration endpoint URL. */
-  registration_endpoint?: string;
+  registration_endpoint?: string | undefined;
   /** OAuth response types supported by the server. */
-  response_types_supported?: ConnectConnectorCreateDataCase0ServerConfigResponseTypesSupportedList;
+  response_types_supported?:
+    | ConnectConnectorCreateDataCase0ServerConfigResponseTypesSupportedList
+    | undefined;
   /** Token endpoint client authentication methods supported by the server. */
-  token_endpoint_auth_methods_supported?: ConnectConnectorCreateDataCase0ServerConfigTokenEndpointAuthMethodsSupportedList;
+  token_endpoint_auth_methods_supported?:
+    | ConnectConnectorCreateDataCase0ServerConfigTokenEndpointAuthMethodsSupportedList
+    | undefined;
   /** Signing algorithms supported for token endpoint authentication. */
-  token_endpoint_auth_signing_alg_values_supported?: ConnectConnectorCreateDataCase0ServerConfigTokenEndpointAuthSigningAlgValuesSupportedList;
+  token_endpoint_auth_signing_alg_values_supported?:
+    | ConnectConnectorCreateDataCase0ServerConfigTokenEndpointAuthSigningAlgValuesSupportedList
+    | undefined;
   /** OAuth scopes supported by the server. */
-  scopes_supported?: ConnectConnectorCreateDataCase0ServerConfigScopesSupportedList;
+  scopes_supported?: ConnectConnectorCreateDataCase0ServerConfigScopesSupportedList | undefined;
   /** OAuth grant types supported by the server. */
-  grant_types_supported?: ConnectConnectorCreateDataCase0ServerConfigGrantTypesSupportedList;
+  grant_types_supported?:
+    | ConnectConnectorCreateDataCase0ServerConfigGrantTypesSupportedList
+    | undefined;
   /** Supported authorization grant profiles. urn:ietf:params:oauth:grant-profile:id-jag advertises XAA resource support. */
-  authorization_grant_profiles_supported?: ConnectConnectorCreateDataCase0ServerConfigAuthorizationGrantProfilesSupportedList;
+  authorization_grant_profiles_supported?:
+    | ConnectConnectorCreateDataCase0ServerConfigAuthorizationGrantProfilesSupportedList
+    | undefined;
   /** Token types supported for identity chaining. urn:ietf:params:oauth:token-type:id-jag advertises XAA IdP support. */
-  identity_chaining_requested_token_types_supported?: ConnectConnectorCreateDataCase0ServerConfigIdentityChainingRequestedTokenTypesSupportedList;
+  identity_chaining_requested_token_types_supported?:
+    | ConnectConnectorCreateDataCase0ServerConfigIdentityChainingRequestedTokenTypesSupportedList
+    | undefined;
   /** OAuth response modes supported by the server. */
-  response_modes_supported?: ConnectConnectorCreateDataCase0ServerConfigResponseModesSupportedList;
+  response_modes_supported?:
+    | ConnectConnectorCreateDataCase0ServerConfigResponseModesSupportedList
+    | undefined;
   /** OpenID Connect subject identifier types supported by the server. */
-  subject_types_supported?: ConnectConnectorCreateDataCase0ServerConfigSubjectTypesSupportedList;
+  subject_types_supported?:
+    | ConnectConnectorCreateDataCase0ServerConfigSubjectTypesSupportedList
+    | undefined;
   /** Signing algorithms supported for ID tokens. */
-  id_token_signing_alg_values_supported?: ConnectConnectorCreateDataCase0ServerConfigIdTokenSigningAlgValuesSupportedList;
+  id_token_signing_alg_values_supported?:
+    | ConnectConnectorCreateDataCase0ServerConfigIdTokenSigningAlgValuesSupportedList
+    | undefined;
   /** Key management algorithms supported for encrypted ID tokens. */
-  id_token_encryption_alg_values_supported?: ConnectConnectorCreateDataCase0ServerConfigIdTokenEncryptionAlgValuesSupportedList;
+  id_token_encryption_alg_values_supported?:
+    | ConnectConnectorCreateDataCase0ServerConfigIdTokenEncryptionAlgValuesSupportedList
+    | undefined;
   /** Content encryption algorithms supported for encrypted ID tokens. */
-  id_token_encryption_enc_values_supported?: ConnectConnectorCreateDataCase0ServerConfigIdTokenEncryptionEncValuesSupportedList;
+  id_token_encryption_enc_values_supported?:
+    | ConnectConnectorCreateDataCase0ServerConfigIdTokenEncryptionEncValuesSupportedList
+    | undefined;
   /** OpenID Connect claim value types supported by the server. */
-  claim_types_supported?: ConnectConnectorCreateDataCase0ServerConfigClaimTypesSupportedList;
+  claim_types_supported?:
+    | ConnectConnectorCreateDataCase0ServerConfigClaimTypesSupportedList
+    | undefined;
   /** Claims that the authorization server can return. */
-  claims_supported?: ConnectConnectorCreateDataCase0ServerConfigClaimsSupportedList;
+  claims_supported?: ConnectConnectorCreateDataCase0ServerConfigClaimsSupportedList | undefined;
   /** PKCE code challenge methods supported by the server. */
-  code_challenge_methods_supported?: ConnectConnectorCreateDataCase0ServerConfigCodeChallengeMethodsSupportedList;
+  code_challenge_methods_supported?:
+    | ConnectConnectorCreateDataCase0ServerConfigCodeChallengeMethodsSupportedList
+    | undefined;
   /** Authorization prompt values supported by the server. */
-  prompt_values_supported?: ConnectConnectorCreateDataCase0ServerConfigPromptValuesSupportedList;
+  prompt_values_supported?:
+    | ConnectConnectorCreateDataCase0ServerConfigPromptValuesSupportedList
+    | undefined;
   /** Whether authorization requests can use the claims parameter. */
-  claims_parameter_supported?: boolean;
+  claims_parameter_supported?: boolean | undefined;
   /** Whether authorization requests can use signed request objects. */
-  request_parameter_supported?: boolean;
+  request_parameter_supported?: boolean | undefined;
   /** Whether authorization requests can use request_uri. */
-  request_uri_parameter_supported?: boolean;
+  request_uri_parameter_supported?: boolean | undefined;
   /** Whether request_uri values must be registered in advance. */
-  require_request_uri_registration?: boolean;
+  require_request_uri_registration?: boolean | undefined;
   /** Authorization server documentation URL. */
-  service_documentation?: string;
+  service_documentation?: string | undefined;
   /** Authorization server privacy policy URL. */
-  op_policy_uri?: string;
+  op_policy_uri?: string | undefined;
   /** Authorization server terms of service URL. */
-  op_tos_uri?: string;
+  op_tos_uri?: string | undefined;
   /** Authorization server logo URL. */
-  logo_uri?: string;
+  logo_uri?: string | undefined;
   /** Whether the server supports OAuth client ID metadata documents. */
-  client_id_metadata_document_supported?: boolean;
+  client_id_metadata_document_supported?: boolean | undefined;
   /** OAuth authorization-detail types supported by the server. */
-  authorization_details_types_supported?: ConnectConnectorCreateDataCase0ServerConfigAuthorizationDetailsTypesSupportedList;
+  authorization_details_types_supported?:
+    | ConnectConnectorCreateDataCase0ServerConfigAuthorizationDetailsTypesSupportedList
+    | undefined;
+  [key: string]: unknown;
 }
 /** Default scopes to request when token params specify scopes: [\"*\"]. */
 export type ConnectConnectorCreateDataCase0UserAuthorizationScopesList = Array<string>;
@@ -222,7 +255,7 @@ export interface ConnectConnectorCreateDataCase0UserAuthorization {
   /** Whether this OAuth grant is enabled. */
   enabled: boolean;
   /** Default scopes to request when token params specify scopes: [\"*\"]. */
-  scopes?: ConnectConnectorCreateDataCase0UserAuthorizationScopesList;
+  scopes?: ConnectConnectorCreateDataCase0UserAuthorizationScopesList | undefined;
 }
 /** Refresh token settings. */
 export interface ConnectConnectorCreateDataCase0RefreshTokens {
@@ -236,14 +269,14 @@ export interface ConnectConnectorCreateDataCase0ClientCredentials {
   /** Whether this OAuth grant is enabled. */
   enabled: boolean;
   /** Default scopes to request when token params specify scopes: [\"*\"]. */
-  scopes?: ConnectConnectorCreateDataCase0ClientCredentialsScopesList;
+  scopes?: ConnectConnectorCreateDataCase0ClientCredentialsScopesList | undefined;
 }
 /** ID token claim names that Connect can expose. */
 export type ConnectConnectorCreateDataCase0ForwardedClaimsIdTokenList = Array<string>;
 /** Allow-list of extra claims to propagate, keyed by source (idToken). Only claims named here and present in that source are exposed. */
 export interface ConnectConnectorCreateDataCase0ForwardedClaims {
   /** ID token claim names that Connect can expose. */
-  idToken?: ConnectConnectorCreateDataCase0ForwardedClaimsIdTokenList;
+  idToken?: ConnectConnectorCreateDataCase0ForwardedClaimsIdTokenList | undefined;
 }
 /** Extra query parameters added to authorization URLs. */
 export type ConnectConnectorCreateDataCase0AuthorizationUrlParamsMap = {
@@ -258,21 +291,21 @@ export type ConnectConnectorCreateDataCase0JwtBearerAdditionalClaimsMap = {
 /** JWT bearer grant settings. */
 export interface ConnectConnectorCreateDataCase0JwtBearer {
   /** Whether JWT bearer grants are enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Default scopes to request when token params specify scopes: [\"*\"]. */
-  scopes?: ConnectConnectorCreateDataCase0JwtBearerScopesList;
+  scopes?: ConnectConnectorCreateDataCase0JwtBearerScopesList | undefined;
   /** Default JWT subject claim. */
-  sub?: string;
+  sub?: string | undefined;
   /** Default JWT issuer claim. */
-  iss?: string;
+  iss?: string | undefined;
   /** Default JWT audience claim. */
-  aud?: string;
+  aud?: string | undefined;
   /** Additional claims included in generated JWT assertions. */
-  additionalClaims?: ConnectConnectorCreateDataCase0JwtBearerAdditionalClaimsMap;
+  additionalClaims?: ConnectConnectorCreateDataCase0JwtBearerAdditionalClaimsMap | undefined;
   /** JWT lifetime in seconds. */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Whether JWT bearer requests also use client credentials. */
-  useClientCredentials?: boolean;
+  useClientCredentials?: boolean | undefined;
 }
 /** Additional claims included in the client assertion. */
 export type ConnectConnectorCreateDataCase0ClientAssertionClaimsMap = {
@@ -281,51 +314,51 @@ export type ConnectConnectorCreateDataCase0ClientAssertionClaimsMap = {
 /** `private_key_jwt` client assertion settings. */
 export interface ConnectConnectorCreateDataCase0ClientAssertion {
   /** OAuth client assertion type. Defaults to urn:ietf:params:oauth:client-assertion-type:jwt-bearer. An empty string clears the configured type. */
-  type?: string;
+  type?: string | undefined;
   /** Client assertion lifetime in seconds. */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Additional claims included in the client assertion. */
-  claims?: ConnectConnectorCreateDataCase0ClientAssertionClaimsMap;
+  claims?: ConnectConnectorCreateDataCase0ClientAssertionClaimsMap | undefined;
 }
 export interface ConnectConnectorCreateDataCase0 {
   /** Authorization server base URL used for discovery. */
-  serverUrl?: string;
+  serverUrl?: string | undefined;
   /** Authorization server metadata. Values override discovered metadata. Empty known string fields remove their stored overrides. */
-  serverConfig?: ConnectConnectorCreateDataCase0ServerConfig;
+  serverConfig?: ConnectConnectorCreateDataCase0ServerConfig | undefined;
   /** OAuth client ID assigned by the provider. */
   clientId: string;
   /** OAuth client name. */
-  clientName?: string;
+  clientName?: string | undefined;
   /** OAuth client secret. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** OAuth token endpoint authentication method. Common values are client_secret_post, client_secret_basic, none, and private_key_jwt. If omitted, Vercel selects a supported method from serverConfig and otherwise uses client_secret_post. */
-  tokenEndpointAuthMethod?: string;
+  tokenEndpointAuthMethod?: string | undefined;
   /** OAuth authorization response type. Defaults to code. Other provider-supported values are accepted. An empty string clears the configured type. */
-  responseType?: string;
+  responseType?: string | undefined;
   /** Whether user authorization must use PKCE. */
-  pkceRequired?: boolean;
+  pkceRequired?: boolean | undefined;
   /** PKCE code challenge method. Supported values are S256 and plain. Vercel prefers S256 when the provider supports it. An empty string clears the configured method. */
-  codeChallengeMethod?: string;
+  codeChallengeMethod?: string | undefined;
   /** User authorization grant settings. */
-  userAuthorization?: ConnectConnectorCreateDataCase0UserAuthorization;
+  userAuthorization?: ConnectConnectorCreateDataCase0UserAuthorization | undefined;
   /** Refresh token settings. */
-  refreshTokens?: ConnectConnectorCreateDataCase0RefreshTokens;
+  refreshTokens?: ConnectConnectorCreateDataCase0RefreshTokens | undefined;
   /** Client credentials grant settings. */
-  clientCredentials?: ConnectConnectorCreateDataCase0ClientCredentials;
+  clientCredentials?: ConnectConnectorCreateDataCase0ClientCredentials | undefined;
   /** Allow-list of extra claims to propagate, keyed by source (idToken). Only claims named here and present in that source are exposed. */
-  forwardedClaims?: ConnectConnectorCreateDataCase0ForwardedClaims;
+  forwardedClaims?: ConnectConnectorCreateDataCase0ForwardedClaims | undefined;
   /** Default audience used when a token request omits one. An empty string clears the default. */
-  defaultAudience?: string;
+  defaultAudience?: string | undefined;
   /** Default RFC 8707 resource sent on authorization and token requests when a token request omits one. An empty string clears the default. */
-  defaultResource?: string;
+  defaultResource?: string | undefined;
   /** Default token lifetime in seconds to use when the token response omits expires_in. */
-  defaultTokenExpiresIn?: number;
+  defaultTokenExpiresIn?: number | undefined;
   /** Extra query parameters added to authorization URLs. */
-  authorizationUrlParams?: ConnectConnectorCreateDataCase0AuthorizationUrlParamsMap;
+  authorizationUrlParams?: ConnectConnectorCreateDataCase0AuthorizationUrlParamsMap | undefined;
   /** JWT bearer grant settings. */
-  jwtBearer?: ConnectConnectorCreateDataCase0JwtBearer;
+  jwtBearer?: ConnectConnectorCreateDataCase0JwtBearer | undefined;
   /** `private_key_jwt` client assertion settings. */
-  clientAssertion?: ConnectConnectorCreateDataCase0ClientAssertion;
+  clientAssertion?: ConnectConnectorCreateDataCase0ClientAssertion | undefined;
 }
 /** Which subject the connector issues tokens for. Defaults to \"app\" (connector-level keys). \"user\" connectors store no connector-level values; each user supplies their own key during authorization. */
 export type ConnectConnectorCreateDataCase1SubjectType = "app" | "user";
@@ -333,9 +366,9 @@ export interface ConnectConnectorCreateDataCase1ValuesItem {
   /** API key value. */
   value: string;
   /** Optional scope associated with the API key value. */
-  scope?: string;
+  scope?: string | undefined;
   /** The timestamp when the API key value expires in milliseconds. */
-  expiresAt?: number;
+  expiresAt?: number | undefined;
 }
 /** Initial API key values stored by the connector. */
 export type ConnectConnectorCreateDataCase1ValuesList =
@@ -344,13 +377,13 @@ export type ConnectConnectorCreateDataCase1ValuesList =
 export type ConnectConnectorCreateDataCase1ServiceUrlsList = Array<string>;
 export interface ConnectConnectorCreateDataCase1 {
   /** Which subject the connector issues tokens for. Defaults to \"app\" (connector-level keys). \"user\" connectors store no connector-level values; each user supplies their own key during authorization. */
-  subjectType?: ConnectConnectorCreateDataCase1SubjectType | (string & {});
+  subjectType?: ConnectConnectorCreateDataCase1SubjectType | (string & {}) | undefined;
   /** Initial API key values stored by the connector. */
-  values?: ConnectConnectorCreateDataCase1ValuesList;
+  values?: ConnectConnectorCreateDataCase1ValuesList | undefined;
   /** The HTTPS resources the API key authenticates against. */
-  serviceUrls?: ConnectConnectorCreateDataCase1ServiceUrlsList;
+  serviceUrls?: ConnectConnectorCreateDataCase1ServiceUrlsList | undefined;
   /** Markdown instructions shown to each user on the authorization screen, explaining how to obtain the key they should paste. */
-  instructions?: string;
+  instructions?: string | undefined;
 }
 /** GitHub App owner type. */
 export type ConnectConnectorCreateDataCase2OwnerType =
@@ -367,7 +400,7 @@ export interface ConnectConnectorCreateDataCase2Owner {
   /** GitHub App owner login. */
   slug: string;
   /** GitHub App owner display name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Additional provider metadata stored with the connector. */
 export type ConnectConnectorCreateDataCase2ExtrasMap = { [key: string]: unknown | undefined };
@@ -381,15 +414,15 @@ export interface ConnectConnectorCreateDataCase2 {
   /** OAuth client ID assigned by GitHub. */
   clientId: string;
   /** GitHub App owner. */
-  owner?: ConnectConnectorCreateDataCase2Owner;
+  owner?: ConnectConnectorCreateDataCase2Owner | undefined;
   /** GitHub App OAuth client secret. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** GitHub App private key in PEM format. */
-  privateKeyPem?: string;
+  privateKeyPem?: string | undefined;
   /** GitHub App webhook secret. */
-  webhookSecret?: string;
+  webhookSecret?: string | undefined;
   /** Additional provider metadata stored with the connector. */
-  extras?: ConnectConnectorCreateDataCase2ExtrasMap;
+  extras?: ConnectConnectorCreateDataCase2ExtrasMap | undefined;
 }
 /** OAuth scopes requested for Linear application tokens. */
 export type ConnectConnectorCreateDataCase3AppScopesList = Array<string>;
@@ -404,7 +437,7 @@ export interface ConnectConnectorCreateDataCase3OwnerOrganization {
   /** Linear organization name. */
   name: string;
   /** Linear organization logo URL. */
-  logoUrl?: string | null;
+  logoUrl?: string | null | undefined;
 }
 /** Registered redirect URIs for the Linear OAuth application. */
 export type ConnectConnectorCreateDataCase3ApplicationRedirectUrisList = Array<string>;
@@ -419,57 +452,59 @@ export interface ConnectConnectorCreateDataCase3Application {
   /** Linear OAuth application name. */
   name: string;
   /** Linear OAuth application description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Linear OAuth application developer name. */
-  developer?: string | null;
+  developer?: string | null | undefined;
   /** Linear OAuth application developer URL. */
-  developerUrl?: string | null;
+  developerUrl?: string | null | undefined;
   /** Linear OAuth application image URL. */
-  imageUrl?: string | null;
+  imageUrl?: string | null | undefined;
   /** Registered redirect URIs for the Linear OAuth application. */
-  redirectUris?: ConnectConnectorCreateDataCase3ApplicationRedirectUrisList;
+  redirectUris?: ConnectConnectorCreateDataCase3ApplicationRedirectUrisList | undefined;
   /** Linear OAuth application distribution mode. */
-  distribution?: string | null;
+  distribution?: string | null | undefined;
   /** Linear resource types delivered to the webhook. */
-  webhookResourceTypes?: ConnectConnectorCreateDataCase3ApplicationWebhookResourceTypesList;
+  webhookResourceTypes?:
+    | ConnectConnectorCreateDataCase3ApplicationWebhookResourceTypesList
+    | undefined;
   /** Linear webhook URL. */
-  webhookUrl?: string | null;
+  webhookUrl?: string | null | undefined;
   /** Whether the Linear webhook is enabled. */
-  webhookEnabled?: boolean;
+  webhookEnabled?: boolean | undefined;
   /** Linear OAuth application creation timestamp. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Linear OAuth application update timestamp. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Additional provider metadata stored with the connector. */
 export type ConnectConnectorCreateDataCase3ExtrasMap = { [key: string]: unknown | undefined };
 export interface ConnectConnectorCreateDataCase3 {
   /** Linear application ID. */
-  appId?: string;
+  appId?: string | undefined;
   /** Linear application name. */
-  appName?: string;
+  appName?: string | undefined;
   /** OAuth client ID assigned by Linear. */
   clientId: string;
   /** Linear OAuth client secret. */
   clientSecret: string | Redacted.Redacted<string>;
   /** Linear webhook verification secret. */
-  webhookSecret?: string;
+  webhookSecret?: string | undefined;
   /** OAuth scopes requested for Linear application tokens. */
-  appScopes?: ConnectConnectorCreateDataCase3AppScopesList;
+  appScopes?: ConnectConnectorCreateDataCase3AppScopesList | undefined;
   /** OAuth scopes requested for Linear user tokens. */
-  userScopes?: ConnectConnectorCreateDataCase3UserScopesList;
+  userScopes?: ConnectConnectorCreateDataCase3UserScopesList | undefined;
   /** Linear organization that owns the OAuth application. */
-  ownerOrganization?: ConnectConnectorCreateDataCase3OwnerOrganization;
+  ownerOrganization?: ConnectConnectorCreateDataCase3OwnerOrganization | undefined;
   /** Linear OAuth application metadata. */
-  application?: ConnectConnectorCreateDataCase3Application;
+  application?: ConnectConnectorCreateDataCase3Application | undefined;
   /** Additional provider metadata stored with the connector. */
-  extras?: ConnectConnectorCreateDataCase3ExtrasMap;
+  extras?: ConnectConnectorCreateDataCase3ExtrasMap | undefined;
 }
 export type ConnectConnectorCreateDataCase4PhoneNumbersList = Array<string>;
 export interface ConnectConnectorCreateDataCase4 {
   /** Linq partner API token for the shared line. */
   apiToken: string | Redacted.Redacted<string>;
-  phoneNumbers?: ConnectConnectorCreateDataCase4PhoneNumbersList;
+  phoneNumbers?: ConnectConnectorCreateDataCase4PhoneNumbersList | undefined;
 }
 export interface ConnectConnectorCreateDataCase5 {
   /** Salesforce connected app consumer key. */
@@ -487,16 +522,16 @@ export interface ConnectConnectorCreateDataCase6 {
   /** Sendblue API secret key (`sb-api-secret-key`). */
   apiSecretKey: string | Redacted.Redacted<string>;
   /** E.164 Sendblue lines this connector sends and receives on. Used as the connector's display name, and the only lines its webhooks are registered for; an empty array clears them, which also removes the webhook subscription. */
-  phoneNumbers?: ConnectConnectorCreateDataCase6PhoneNumbersList;
+  phoneNumbers?: ConnectConnectorCreateDataCase6PhoneNumbersList | undefined;
 }
 /** Slack workspace metadata. */
 export interface ConnectConnectorCreateDataCase7SlackTeam {
   /** Slack workspace ID. */
   id: string;
   /** Slack workspace name. */
-  name?: string;
+  name?: string | undefined;
   /** Slack workspace domain. */
-  domain?: string;
+  domain?: string | undefined;
 }
 /** OAuth scopes requested for Slack bot tokens. */
 export type ConnectConnectorCreateDataCase7BotScopesList = Array<string>;
@@ -508,9 +543,9 @@ export interface ConnectConnectorCreateDataCase7SlashCommandsItem {
   /** Description shown for the slash command in Slack. */
   description: string;
   /** Optional usage hint shown for the slash command. */
-  usageHint?: string;
+  usageHint?: string | undefined;
   /** Whether Slack should escape command arguments. */
-  shouldEscape?: boolean;
+  shouldEscape?: boolean | undefined;
 }
 /** Slash commands configured for the managed Slack app. */
 export type ConnectConnectorCreateDataCase7SlashCommandsList =
@@ -530,6 +565,29 @@ export interface ConnectConnectorCreateDataCase7ShortcutsItem {
 /** Global and message shortcuts configured for the Slack app. */
 export type ConnectConnectorCreateDataCase7ShortcutsList =
   Array<ConnectConnectorCreateDataCase7ShortcutsItem>;
+/** App Home settings for the managed Slack app. Updates preserve omitted settings. */
+export interface ConnectConnectorCreateDataCase7AppHome {
+  /** Enable the Home tab for views.publish. Defaults to false for new apps. */
+  homeTabEnabled?: boolean | undefined;
+  /** Enable the Messages tab. Defaults to true for new apps. */
+  messagesTabEnabled?: boolean | undefined;
+  /** Make the Messages tab read-only. Defaults to false for new apps. */
+  messagesTabReadOnlyEnabled?: boolean | undefined;
+}
+/** Entity types to preview. An empty array clears the configured types. */
+export type ConnectConnectorCreateDataCase7RichPreviewsEntityTypesList = Array<string>;
+/** Work Object preview settings for the managed Slack app. Updates preserve omitted settings. */
+export interface ConnectConnectorCreateDataCase7RichPreviews {
+  /** Enable Work Object previews. Defaults to false for new apps. */
+  isActive?: boolean | undefined;
+  /** Entity types to preview. An empty array clears the configured types. */
+  entityTypes?: ConnectConnectorCreateDataCase7RichPreviewsEntityTypesList | undefined;
+}
+/** Code channel settings for the managed Slack app. Updates preserve omitted settings. */
+export interface ConnectConnectorCreateDataCase7CodeChannels {
+  /** Enable Slack code channels. Adds the code_channels:manage bot scope and, with triggers, the agent_session_stopped and message.session events. Defaults to false for new apps. */
+  enabled?: boolean | undefined;
+}
 /** Additional provider metadata stored with the connector. */
 export type ConnectConnectorCreateDataCase7ExtrasMap = { [key: string]: unknown | undefined };
 export interface ConnectConnectorCreateDataCase7 {
@@ -542,43 +600,49 @@ export interface ConnectConnectorCreateDataCase7 {
   /** Slack app OAuth client secret. */
   clientSecret: string | Redacted.Redacted<string>;
   /** Slack workspace metadata. */
-  slackTeam?: ConnectConnectorCreateDataCase7SlackTeam;
+  slackTeam?: ConnectConnectorCreateDataCase7SlackTeam | undefined;
   /** Slack request signing secret. */
-  signingSecret?: string;
+  signingSecret?: string | undefined;
   /** Legacy Slack webhook verification token. */
-  verificationToken?: string;
+  verificationToken?: string | undefined;
   /** OAuth scopes requested for Slack bot tokens. */
-  botScopes?: ConnectConnectorCreateDataCase7BotScopesList;
+  botScopes?: ConnectConnectorCreateDataCase7BotScopesList | undefined;
   /** OAuth scopes requested for Slack user tokens. */
-  userScopes?: ConnectConnectorCreateDataCase7UserScopesList;
+  userScopes?: ConnectConnectorCreateDataCase7UserScopesList | undefined;
   /** Slash commands configured for the managed Slack app. */
-  slashCommands?: ConnectConnectorCreateDataCase7SlashCommandsList;
+  slashCommands?: ConnectConnectorCreateDataCase7SlashCommandsList | undefined;
   /** Global and message shortcuts configured for the Slack app. */
-  shortcuts?: ConnectConnectorCreateDataCase7ShortcutsList;
+  shortcuts?: ConnectConnectorCreateDataCase7ShortcutsList | undefined;
+  /** App Home settings for the managed Slack app. Updates preserve omitted settings. */
+  appHome?: ConnectConnectorCreateDataCase7AppHome | undefined;
+  /** Work Object preview settings for the managed Slack app. Updates preserve omitted settings. */
+  richPreviews?: ConnectConnectorCreateDataCase7RichPreviews | undefined;
+  /** Code channel settings for the managed Slack app. Updates preserve omitted settings. */
+  codeChannels?: ConnectConnectorCreateDataCase7CodeChannels | undefined;
   /** Additional provider metadata stored with the connector. */
-  extras?: ConnectConnectorCreateDataCase7ExtrasMap;
+  extras?: ConnectConnectorCreateDataCase7ExtrasMap | undefined;
 }
 /** Additional provider metadata stored with the connector. */
 export type ConnectConnectorCreateDataCase8ExtrasMap = { [key: string]: unknown | undefined };
 export interface ConnectConnectorCreateDataCase8 {
   /** Snowflake OAuth client name. */
-  clientName?: string;
+  clientName?: string | undefined;
   /** Snowflake account identifier. */
   accountIdentifier: string;
   /** Default Snowflake role for created sessions. */
-  defaultSessionRole?: string;
+  defaultSessionRole?: string | undefined;
   /** Additional provider metadata stored with the connector. */
-  extras?: ConnectConnectorCreateDataCase8ExtrasMap;
+  extras?: ConnectConnectorCreateDataCase8ExtrasMap | undefined;
 }
 /** Additional provider metadata stored with the connector. */
 export type ConnectConnectorCreateDataCase9ExtrasMap = { [key: string]: unknown | undefined };
 export interface ConnectConnectorCreateDataCase9 {
   /** Snowflake client name. */
-  clientName?: string;
+  clientName?: string | undefined;
   /** Snowflake account identifier. */
-  accountIdentifier?: string;
+  accountIdentifier?: string | undefined;
   /** Additional provider metadata stored with the connector. */
-  extras?: ConnectConnectorCreateDataCase9ExtrasMap;
+  extras?: ConnectConnectorCreateDataCase9ExtrasMap | undefined;
 }
 export interface ConnectConnectorCreateDataCase10 {
   /** Photon project ID. */
@@ -586,7 +650,7 @@ export interface ConnectConnectorCreateDataCase10 {
   /** Photon project secret. */
   projectSecret: string;
   /** Photon webhook verification secret. */
-  webhookSecret?: string;
+  webhookSecret?: string | undefined;
 }
 export type ConnectConnectorCreateDataCase11Map = { [key: string]: unknown | undefined };
 /** Provider configuration. With type, provide the complete configuration for that type. With service and connectionMethod, provide only credentials and preferences; Connect supplies the type, endpoints, templates, and defaults. Other connector types accept an arbitrary object. */
@@ -612,29 +676,35 @@ export type CreateConnectorRequestEnvironmentsItem =
   | string;
 /** Environments for the project connection. Requires projectId. Use one or more built-in environment names or stable custom environment IDs that belong to the project. Duplicate values are accepted and removed. */
 export type CreateConnectorRequestEnvironmentsList = Array<CreateConnectorRequestEnvironmentsItem>;
-/** Trigger configuration, validated and encrypted by the trigger driver. An empty object applies driver defaults. */
-export type CreateConnectorRequestTriggerDataMap = { [key: string]: unknown | undefined };
+/** Plaintext verification inputs, validated by the trigger driver and encrypted into stored triggerData. An empty object makes no changes. */
+export type CreateConnectorRequestTriggerVerificationInputMap = {
+  [key: string]: unknown | undefined;
+};
+/** Additional registration inputs, validated by the trigger driver. Requires triggers: true. Shared verification credentials are read from triggerData. */
+export type CreateConnectorRequestTriggerRegistrationInputMap = {
+  [key: string]: unknown | undefined;
+};
 export interface CreateConnectorRequestTriggerDestinationCase0 {
   /** Project that receives triggers. During connector creation, omit it to use the top-level projectId. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Route path on the linked project that receives forwarded trigger requests. */
-  path?: string;
+  path?: string | undefined;
 }
 export interface CreateConnectorRequestTriggerDestinationCase1 {
   /** Project that receives triggers. During connector creation, omit it to use the top-level projectId. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Git branch used to select a preview deployment. */
   branch: string;
   /** Route path on the linked project that receives forwarded trigger requests. */
-  path?: string;
+  path?: string | undefined;
 }
 export interface CreateConnectorRequestTriggerDestinationCase2 {
   /** Project that receives triggers. During connector creation, omit it to use the top-level projectId. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Stable custom environment ID that belongs to the destination project. */
   customEnvironmentId: string;
   /** Route path on the linked project that receives forwarded trigger requests. */
-  path?: string;
+  path?: string | undefined;
 }
 /** Initial trigger destination. Requires triggers to be enabled and a projectId here or at the top level. Connector responses expose the resulting set as triggerDestinations. Replace the complete set with PATCH /v1/connect/connectors/{connector}/trigger-destinations. */
 export type CreateConnectorRequestTriggerDestination =
@@ -645,45 +715,47 @@ export type CreateConnectorRequestTriggerDestination =
 export type CreateConnectorRequestEventsList = Array<string>;
 export interface CreateConnectorRequest {
   /** The team ID that scopes the request. Do not send it with slug. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The team slug that scopes the request. Do not send it with teamId. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  slug?: string;
+  slug?: string | undefined;
   /** Provider configuration for the selected connector type or connection method. */
   data: ConnectConnectorCreateData;
   /** SHA-1 digest of a PNG or JPEG icon that is at least 640 by 640 pixels. This field does not accept a URL or image bytes. First compute the digest and upload the raw image with [POST /v2/files](https://vercel.com/docs/rest-api/deployments/upload-deployment-files). Send `Content-Length` and the same 40-character digest in `x-vercel-digest`. Then set `icon` to that digest. ```js import { createHash } from 'node:crypto'; import { readFile } from 'node:fs/promises'; const VERCEL_TOKEN = process.env.VERCEL_TOKEN; const connectorId = 'scl_...'; const bytes = await readFile('icon.png'); const digest = createHash('sha1').update(bytes).digest('hex'); await fetch('https://api.vercel.com/v2/files', { method: 'POST', headers: { Authorization: `Bearer ${VERCEL_TOKEN}`, 'Content-Type': 'application/octet-stream', 'Content-Length': String(bytes.length), 'x-vercel-digest': digest, }, body: bytes, }); await fetch(`https://api.vercel.com/v2/connect/connectors/${connectorId}`, { method: 'PATCH', headers: { Authorization: `Bearer ${VERCEL_TOKEN}`, 'Content-Type': 'application/json', }, body: JSON.stringify({ icon: digest }), }); ``` */
-  icon?: string;
+  icon?: string | undefined;
   /** Branding background color (6-digit hex, for example */
-  backgroundColor?: string;
+  backgroundColor?: string | undefined;
   /** Branding accent color (6-digit hex, for example */
-  accentColor?: string;
+  accentColor?: string | undefined;
   /** Connector implementation type for full configuration. Known types: api-key, discord, github, linear, linq, microsoft-entra, oauth, photon, salesforce, sendblue, slack, snowflake, snowflake-wif. Optional when service and connectionMethod select the type. */
-  type?: string;
+  type?: string | undefined;
   /** Service slug or URL for which the connector is used. Required when connectionMethod is set. Service alone does not enable preset configuration. */
-  service?: string;
+  service?: string | undefined;
   /** Connection method slug of the service. Use it with service to select preset configuration. */
-  connectionMethod?: string;
+  connectionMethod?: string | undefined;
   /** Values for the selected connection method's template fields. Requires connectionMethod. */
-  params?: CreateConnectorRequestParamsMap;
+  params?: CreateConnectorRequestParamsMap | undefined;
   /** Which of the service's targets this connector is for. Requires \"connectionMethod\" and must be one that method serves. Optional. */
-  target?: string;
+  target?: string | undefined;
   /** Optional team-scoped unique identifier for the connector. If omitted or empty, Connect generates a value. */
-  uid?: string;
+  uid?: string | undefined;
   /** Connector name. The value is trimmed and cannot contain control characters. If omitted or empty, the project name is used. A name or projectId is required. API key connectors require name. */
-  name?: string;
+  name?: string | undefined;
   /** Project to connect during creation. If environments is omitted, the connection uses development, preview, and production. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Environments for the project connection. Requires projectId. Use one or more built-in environment names or stable custom environment IDs that belong to the project. Duplicate values are accepted and removed. */
-  environments?: CreateConnectorRequestEnvironmentsList;
+  environments?: CreateConnectorRequestEnvironmentsList | undefined;
   /** Whether the triggers are enabled for this connector. */
-  triggers?: boolean;
+  triggers?: boolean | undefined;
   /** Trigger driver type. Resolved automatically from the known service connection method when not provided. Only set when using the newly decoupled triggers resolution flow. */
-  triggerType?: string;
-  /** Trigger configuration, validated and encrypted by the trigger driver. An empty object applies driver defaults. */
-  triggerData?: CreateConnectorRequestTriggerDataMap;
+  triggerType?: string | undefined;
+  /** Plaintext verification inputs, validated by the trigger driver and encrypted into stored triggerData. An empty object makes no changes. */
+  triggerVerificationInput?: CreateConnectorRequestTriggerVerificationInputMap | undefined;
+  /** Additional registration inputs, validated by the trigger driver. Requires triggers: true. Shared verification credentials are read from triggerData. */
+  triggerRegistrationInput?: CreateConnectorRequestTriggerRegistrationInputMap | undefined;
   /** Initial trigger destination. Requires triggers to be enabled and a projectId here or at the top level. Connector responses expose the resulting set as triggerDestinations. Replace the complete set with PATCH /v1/connect/connectors/{connector}/trigger-destinations. */
-  triggerDestination?: CreateConnectorRequestTriggerDestination;
+  triggerDestination?: CreateConnectorRequestTriggerDestination | undefined;
   /** Default trigger events for this connector. */
-  events?: CreateConnectorRequestEventsList;
+  events?: CreateConnectorRequestEventsList | undefined;
 }
 /** Known allowed app-level scopes. For Slack this is the bot scope set configured on the app; for OAuth it is the connector's enabled `clientCredentials.scopes` configuration. */
 export type ConnectConnectorCreateResultAppTokensScopesList = Array<string>;
@@ -693,18 +765,21 @@ export type ConnectConnectorCreateResultAppTokensSupportedAuthorizationDetailsLi
 export interface ConnectConnectorCreateResultAppTokens {
   /** Whether one app token can be used across installations. */
   crossInstallation: boolean;
+  isStaticCredential: boolean;
   /** Link to the page on the service where this connector's app-level permissions are declared and granted, when the service has one and it differs from `clientUrl`. */
-  permissionsUrl?: string;
+  permissionsUrl?: string | undefined;
   /** True when changing app token grants requires reinstalling the app, so tokens cannot be partitioned independently by requester environment. */
-  requiresReinstallation?: boolean;
+  requiresReinstallation?: boolean | undefined;
   /** Known allowed app-level scopes. For Slack this is the bot scope set configured on the app; for OAuth it is the connector's enabled `clientCredentials.scopes` configuration. */
-  scopes?: ConnectConnectorCreateResultAppTokensScopesList;
+  scopes?: ConnectConnectorCreateResultAppTokensScopesList | undefined;
   /** Supported OAuth authorization-detail type names. */
-  supportedAuthorizationDetails?: ConnectConnectorCreateResultAppTokensSupportedAuthorizationDetailsList;
+  supportedAuthorizationDetails?:
+    | ConnectConnectorCreateResultAppTokensSupportedAuthorizationDetailsList
+    | undefined;
   /** Whether callers can narrow app-token grants per request. */
   supportsRefinement: boolean;
   /** Whether callers can request resource-specific app tokens. */
-  supportsResources?: boolean;
+  supportsResources?: boolean | undefined;
 }
 /** Principal kind. */
 export type ConnectConnectorCreateResultCreatedByCase0Type = "user";
@@ -745,22 +820,24 @@ export type ConnectConnectorCreateResultEventsList = Array<string>;
 /** Managed connector metadata exposed without leaking the manager connector or installation identifiers. */
 export interface ConnectConnectorCreateResultManaged {
   /** Whether Vercel synchronizes provider-side configuration. */
-  sync?: boolean;
+  sync?: boolean | undefined;
 }
+/** MCP Events dashboard visibility. Defaults to auto: show after the first successful delivery. */
+export type ConnectConnectorCreateResultMcpEventsUiVisibility = "auto" | "hide" | "show";
 /** Token subject types supported by the connector. */
 export type ConnectConnectorCreateResultSupportedSubjectTypesList = Array<string>;
-/** Destinations that incoming triggers should be forwarded to. Limited to 3 entries. Set the initial destination with `triggerDestination` during creation. Replace the complete set with `PATCH /v1/connect/connectors/{connector}/trigger-destinations`. */
+/** Destinations that incoming triggers should be forwarded to. Limited to 3 entries. Set the initial destination with `triggerDestination` during creation. Replace the complete set with `PATCH /v1/connect/connectors/{connector}/trigger-destinations`. Computed routing environments are stored internally, not returned here. */
 export interface ConnectTriggerDestination {
   /** Git branch used to select a preview deployment. */
-  branch?: string;
+  branch?: string | undefined;
   /** Stable custom-environment ID to route this destination to. Mutually exclusive with `branch`; omitted destinations keep the legacy production behavior. */
-  customEnvironmentId?: string;
+  customEnvironmentId?: string | undefined;
   /** Route path that receives the forwarded trigger request. */
-  path?: string;
+  path?: string | undefined;
   /** Vercel project that receives matching trigger requests. */
   projectId: string;
 }
-/** Destinations that incoming triggers should be forwarded to. Limited to 3 entries. Set the initial destination with `triggerDestination` during creation. Replace the complete set with `PATCH /v1/connect/connectors/{connector}/trigger-destinations`. */
+/** Destinations that incoming triggers should be forwarded to. Limited to 3 entries. Set the initial destination with `triggerDestination` during creation. Replace the complete set with `PATCH /v1/connect/connectors/{connector}/trigger-destinations`. Computed routing environments are stored internally, not returned here. */
 export type ConnectConnectorCreateResultTriggerDestinationsList = Array<ConnectTriggerDestination>;
 /** Incoming trigger configuration. Only present when enabled. */
 export interface ConnectTriggerConfiguration {
@@ -770,7 +847,7 @@ export interface ConnectTriggerConfiguration {
 /** Connector implementation type. */
 export type ConnectConnectorCreateResultType =
   | "api-key"
-  | "aws-alpha"
+  | "aws-oidc"
   | "custom"
   | "discord"
   | "github"
@@ -784,7 +861,8 @@ export type ConnectConnectorCreateResultType =
   | "sendblue"
   | "slack"
   | "snowflake"
-  | "snowflake-wif";
+  | "snowflake-wif"
+  | "stripe-api-key";
 /** Principal kind. */
 export type ConnectConnectorCreateResultUpdatedByCase0Type = "user";
 /** Principal that most recently mutated the connector. Same shape as {@link createdBy} but tracks the most recent updater, not the original creator. At create time the two fields point at the same principal; they diverge on the first subsequent update. */
@@ -825,83 +903,92 @@ export type ConnectConnectorCreateResultUserTokensSupportedAuthorizationDetailsL
 export interface ConnectConnectorCreateResultUserTokens {
   /** Whether one user token can be used across installations. */
   crossInstallation: boolean;
+  isStaticCredential: boolean;
   /** User authorization is completed by the Connect consent screen submitting a credential instead of an OAuth redirect. */
-  manualCredentialInput?: boolean;
+  manualCredentialInput?: boolean | undefined;
   /** Known allowed user-level scopes. For Slack this is the user scope set configured on the app; for OAuth it is the connector's enabled `userAuthorization.scopes` configuration. */
-  scopes?: ConnectConnectorCreateResultUserTokensScopesList;
+  scopes?: ConnectConnectorCreateResultUserTokensScopesList | undefined;
   /** Supported OAuth authorization-detail type names. */
-  supportedAuthorizationDetails?: ConnectConnectorCreateResultUserTokensSupportedAuthorizationDetailsList;
+  supportedAuthorizationDetails?:
+    | ConnectConnectorCreateResultUserTokensSupportedAuthorizationDetailsList
+    | undefined;
   /** Whether callers can narrow user-token grants per request. */
   supportsRefinement: boolean;
   /** Whether callers can request resource-specific user tokens. */
-  supportsResources?: boolean;
+  supportsResources?: boolean | undefined;
 }
 /** Connector created by the request. */
 export interface ConnectConnectorCreateResult {
   /** Hex accent color (e.g., `#000000`) for branding. */
-  accentColor?: string;
+  accentColor?: string | undefined;
   /** App-token capabilities and known grants for the connector. */
-  appTokens?: ConnectConnectorCreateResultAppTokens;
+  appTokens?: ConnectConnectorCreateResultAppTokens | undefined;
   /** Hex background color (e.g., `#000000`) for branding. */
-  backgroundColor?: string;
+  backgroundColor?: string | undefined;
   /** Provider-side URL for viewing or managing the resource represented by the connector. The destination can be an app, account, phone line, or service instance, depending on the connector type. */
-  clientUrl?: string | null;
+  clientUrl?: string | null | undefined;
   /** The connection method this connector was created from, when the create request named one. */
-  connectionMethod?: string;
+  connectionMethod?: string | undefined;
   /** Creation time in epoch milliseconds. */
   createdAt: number;
   /** Principal that created the connector. */
-  createdBy?: ConnectConnectorCreateResultCreatedBy;
+  createdBy?: ConnectConnectorCreateResultCreatedBy | undefined;
   /** How the connector row was originally created. New create paths stamp this explicitly; older rows may omit it. */
-  creationMode?: ConnectConnectorCreateResultCreationMode;
+  creationMode?: ConnectConnectorCreateResultCreationMode | undefined;
   /** Installation used when a token request does not specify an installation. */
-  defaultInstallationId?: string;
+  defaultInstallationId?: string | undefined;
   /** Developer website for the connected service. */
-  devsite?: string;
+  devsite?: string | undefined;
   /** Human-readable connector name. */
   displayName: string;
   /** Developer documentation for the connected service. */
-  docsite?: string;
+  docsite?: string | undefined;
   /** Known events this connector subscribes to (e.g. Slack bot events, GitHub webhook events). Names are type-specific and validated by the managed-create flow when forwarded to the third-party service. */
-  events?: ConnectConnectorCreateResultEventsList;
+  events?: ConnectConnectorCreateResultEventsList | undefined;
+  /** Whether Connect has successfully delivered an MCP event for this connector. */
+  hasMcpEventDeliveries?: boolean | undefined;
   /** Connector branding icon. SHA-1 hash that resolves to the uploaded icon through the Vercel avatar service. Consumers render this with `https://vercel.com/api/www/avatar/{icon}`. */
-  icon?: string;
+  icon?: string | undefined;
   /** Stable `scl_` connector ID. Use this value directly in `{connector}`. */
   id: string;
   /** Whether the connector is known to have been edited since the app package it publishes to the provider was last built, so that package no longer matches it. Absent when it was not computed, or when the connector type publishes no such package. Derived on every read rather than marked at edit time, so reverting an edit clears it. Only reported by connector types that publish a package a user has to re-publish by hand -- Microsoft Teams today. */
-  knownStale?: boolean;
+  knownStale?: boolean | undefined;
   /** Managed connector metadata exposed without leaking the manager connector or installation identifiers. */
-  managed?: ConnectConnectorCreateResultManaged;
+  managed?: ConnectConnectorCreateResultManaged | undefined;
+  /** MCP Events dashboard visibility. Defaults to auto: show after the first successful delivery. */
+  mcpEventsUiVisibility?: ConnectConnectorCreateResultMcpEventsUiVisibility | undefined;
   /** Connector name within the owning team. */
   name: string;
   /** Redirect URI registered with the third-party service for this connector, if any. Used by `startAuthorization`/`startInstallation` to replay the exact URI back to the provider's token endpoint. Absent on connectors created before this field was introduced; those callers fall back to the `https://connect.vercel.com/callback` default. */
-  redirectUri?: string;
+  redirectUri?: string | undefined;
   /** Time when this connector started requiring reinstallation because an installation-affecting app-token grant changed. */
-  reinstallAt?: number;
+  reinstallAt?: number | undefined;
   /** Best-effort identifier of the third-party service this connector represents, independent of `type`. Examples: `'slack'`, `'mcp.linear.app'`, and `'auth.example.com'`. Always present in API responses. */
   service: string;
   /** Provider logo from the known-service registry, matched by `service`. Often an SVG data URL. Absent when the service is not in the registry. */
-  serviceIcon?: string;
+  serviceIcon?: string | undefined;
   /** Token subject types supported by the connector. */
   supportedSubjectTypes: ConnectConnectorCreateResultSupportedSubjectTypesList;
   /** Whether the connector icon can propagate to the provider. */
   supportsIcon: unknown;
   /** Whether the connector supports an installation flow. */
   supportsInstallation: boolean;
+  /** Whether this managed connector can disconnect from its manager. */
+  supportsManagedEjection?: boolean | undefined;
   /** Whether Connect can revoke tokens for this connector. */
   supportsRevocation: boolean;
   /** Whether this connector type supports trigger webhooks. Derived from the type definition; indicates that `triggers` and `triggerDestinations` may be meaningful for this connector. */
   supportsTriggers: boolean;
   /** Which of the service's products/surfaces this connector points at. */
-  target?: string;
-  /** Destinations that incoming triggers should be forwarded to. Limited to 3 entries. Set the initial destination with `triggerDestination` during creation. Replace the complete set with `PATCH /v1/connect/connectors/{connector}/trigger-destinations`. */
-  triggerDestinations?: ConnectConnectorCreateResultTriggerDestinationsList;
+  target?: string | undefined;
+  /** Destinations that incoming triggers should be forwarded to. Limited to 3 entries. Set the initial destination with `triggerDestination` during creation. Replace the complete set with `PATCH /v1/connect/connectors/{connector}/trigger-destinations`. Computed routing environments are stored internally, not returned here. */
+  triggerDestinations?: ConnectConnectorCreateResultTriggerDestinationsList | undefined;
   /** Incoming trigger configuration for the connector. */
-  triggers?: ConnectTriggerConfiguration;
+  triggers?: ConnectTriggerConfiguration | undefined;
   /** Connector implementation type. */
   type: ConnectConnectorCreateResultType;
   /** Icon identifier supplied by the connector type. */
-  typeIcon?: string;
+  typeIcon?: string | undefined;
   /** Human-readable name of the connector type. */
   typeName: string;
   /** Team-scoped UID. URL-encode this value before using it in `{connector}`. */
@@ -909,21 +996,23 @@ export interface ConnectConnectorCreateResult {
   /** Last update time in epoch milliseconds. */
   updatedAt: number;
   /** Principal that most recently updated the connector. */
-  updatedBy?: ConnectConnectorCreateResultUpdatedBy;
+  updatedBy?: ConnectConnectorCreateResultUpdatedBy | undefined;
   /** User-token capabilities and known grants for the connector. */
-  userTokens?: ConnectConnectorCreateResultUserTokens;
+  userTokens?: ConnectConnectorCreateResultUserTokens | undefined;
   /** Public website for the connected service. */
-  website?: string;
+  website?: string | undefined;
 }
 export type CreateConnectorAuthorizationRequestRequestSubjectCase0Type = "app";
 export interface CreateConnectorAuthorizationRequestRequestSubjectCase0 {
   type: CreateConnectorAuthorizationRequestRequestSubjectCase0Type;
+  [key: string]: unknown;
 }
 export type CreateConnectorAuthorizationRequestRequestSubjectCase1Type = "user";
 export interface CreateConnectorAuthorizationRequestRequestSubjectCase1 {
   type: CreateConnectorAuthorizationRequestRequestSubjectCase1Type;
-  id?: string;
-  issuer?: string;
+  id?: string | undefined;
+  issuer?: string | undefined;
+  [key: string]: unknown;
 }
 export type CreateConnectorAuthorizationRequestRequestSubjectCase2Type = "jwt-bearer";
 export type CreateConnectorAuthorizationRequestRequestSubjectCase2AdditionalClaimsMap = {
@@ -931,10 +1020,13 @@ export type CreateConnectorAuthorizationRequestRequestSubjectCase2AdditionalClai
 };
 export interface CreateConnectorAuthorizationRequestRequestSubjectCase2 {
   type: CreateConnectorAuthorizationRequestRequestSubjectCase2Type;
-  sub?: string;
-  iss?: string;
-  aud?: string;
-  additionalClaims?: CreateConnectorAuthorizationRequestRequestSubjectCase2AdditionalClaimsMap;
+  sub?: string | undefined;
+  iss?: string | undefined;
+  aud?: string | undefined;
+  additionalClaims?:
+    | CreateConnectorAuthorizationRequestRequestSubjectCase2AdditionalClaimsMap
+    | undefined;
+  [key: string]: unknown;
 }
 export type CreateConnectorAuthorizationRequestRequestSubjectCase3Type = "token";
 export interface CreateConnectorAuthorizationRequestRequestSubjectCase3 {
@@ -943,6 +1035,7 @@ export interface CreateConnectorAuthorizationRequestRequestSubjectCase3 {
 }
 export interface CreateConnectorAuthorizationRequestRequestSubjectCase4 {
   type: string;
+  [key: string]: unknown;
 }
 export type CreateConnectorAuthorizationRequestRequestSubject =
   | CreateConnectorAuthorizationRequestRequestSubjectCase0
@@ -954,7 +1047,8 @@ export type CreateConnectorAuthorizationRequestRequestAudienceList = Array<strin
 export type CreateConnectorAuthorizationRequestRequestScopesList = Array<string>;
 export type CreateConnectorAuthorizationRequestRequestResourcesList = Array<string>;
 export interface CreateConnectorAuthorizationRequestRequestAuthorizationDetailsItem {
-  type?: string;
+  type?: string | undefined;
+  [key: string]: unknown;
 }
 export type CreateConnectorAuthorizationRequestRequestAuthorizationDetailsList =
   Array<CreateConnectorAuthorizationRequestRequestAuthorizationDetailsItem>;
@@ -963,19 +1057,21 @@ export type CreateConnectorAuthorizationRequestRequestAdditionalParamsMap = {
 };
 export interface CreateConnectorAuthorizationRequestRequest {
   connector: string;
-  subject?: CreateConnectorAuthorizationRequestRequestSubject;
-  installationId?: string;
-  audience?: CreateConnectorAuthorizationRequestRequestAudienceList;
-  scopes?: CreateConnectorAuthorizationRequestRequestScopesList;
-  resources?: CreateConnectorAuthorizationRequestRequestResourcesList;
-  authorizationDetails?: CreateConnectorAuthorizationRequestRequestAuthorizationDetailsList;
-  validityBufferMs?: number;
-  returnUrl?: string;
-  webhook?: string;
-  prompt?: string;
-  deviceCode?: boolean;
-  expiresInMs?: number;
-  additionalParams?: CreateConnectorAuthorizationRequestRequestAdditionalParamsMap;
+  subject?: CreateConnectorAuthorizationRequestRequestSubject | undefined;
+  installationId?: string | undefined;
+  audience?: CreateConnectorAuthorizationRequestRequestAudienceList | undefined;
+  scopes?: CreateConnectorAuthorizationRequestRequestScopesList | undefined;
+  resources?: CreateConnectorAuthorizationRequestRequestResourcesList | undefined;
+  authorizationDetails?:
+    | CreateConnectorAuthorizationRequestRequestAuthorizationDetailsList
+    | undefined;
+  validityBufferMs?: number | undefined;
+  returnUrl?: string | undefined;
+  webhook?: string | undefined;
+  prompt?: string | undefined;
+  deviceCode?: boolean | undefined;
+  expiresInMs?: number | undefined;
+  additionalParams?: CreateConnectorAuthorizationRequestRequestAdditionalParamsMap | undefined;
 }
 export interface CreateConnectorAuthorizationRequestResponseConnector {
   /** Provider-facing display name when the connector type exposes one, falling back to the stored connector name. */
@@ -985,9 +1081,9 @@ export interface CreateConnectorAuthorizationRequestResponseConnector {
   /** The connector's own name: the operator-given client name, falling back to the client type's name for legacy rows without one. */
   name: string;
   /** Resolved service id when known (e.g. `salesforce`), following the `stored.service ?? typeDef.service ?? stored.type` convention. */
-  service?: string;
+  service?: string | undefined;
   /** Curated display name of the resolved service (e.g. "Salesforce"), present when the service is a known service. Suited for end-user surfaces like "Sign in with {serviceName}". */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Client type (e.g. `oauth`, `salesforce`). */
   type: string;
   /** Client uid (e.g. `salesforce/my-org`). */
@@ -995,7 +1091,7 @@ export interface CreateConnectorAuthorizationRequestResponseConnector {
 }
 export interface CreateConnectorAuthorizationRequestResponse {
   connector: CreateConnectorAuthorizationRequestResponseConnector;
-  deviceCode?: string;
+  deviceCode?: string | undefined;
   expiresAt: number;
   request: string;
   url: string;
@@ -1005,9 +1101,9 @@ export interface DeleteConnectorRequest {
   /** Stable connector ID or URL-encoded team-scoped UID. Examples: `scl_abc123` or `slack%2Fmy-bot`. */
   connector: string;
   /** The team ID that scopes the request. Do not send it with slug. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The team slug that scopes the request. Do not send it with teamId. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteConnectorResponse {}
 export interface DeleteConnectorProjectConnectionRequest {
@@ -1016,18 +1112,25 @@ export interface DeleteConnectorProjectConnectionRequest {
   /** Vercel project ID. */
   projectId: string;
   /** The team ID that scopes the request. Do not send it with slug. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The team slug that scopes the request. Do not send it with teamId. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteConnectorProjectConnectionResponse {}
-export interface GetConnectorRequest {
-  /** Stable connector ID or URL-encoded team-scoped UID. Examples: `scl_abc123` or `slack%2Fmy-bot`. */
+export interface DisconnectConnectorProjectEnvironmentRequest {
   connector: string;
-  /** The team ID that scopes the request. Do not send it with slug. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  teamId?: string;
-  /** The team slug that scopes the request. Do not send it with teamId. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  slug?: string;
+  projectId: string;
+  /** A built-in environment name or the stable env_* ID of a custom environment. */
+  environment: string;
+  slug?: string | undefined;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+}
+export interface DisconnectConnectorProjectEnvironmentResponse {}
+export interface EjectManagedConnectorRequest {
+  /** Stable connector ID or URL-encoded team-scoped UID. */
+  connector: string;
+  slug?: string | undefined;
 }
 /** Known allowed app-level scopes. For Slack this is the bot scope set configured on the app; for OAuth it is the connector's enabled `clientCredentials.scopes` configuration. */
 export type ConnectConnectorAppTokensScopesList = Array<string>;
@@ -1037,18 +1140,21 @@ export type ConnectConnectorAppTokensSupportedAuthorizationDetailsList = Array<s
 export interface ConnectConnectorAppTokens {
   /** Whether one app token can be used across installations. */
   crossInstallation: boolean;
+  isStaticCredential: boolean;
   /** Link to the page on the service where this connector's app-level permissions are declared and granted, when the service has one and it differs from `clientUrl`. */
-  permissionsUrl?: string;
+  permissionsUrl?: string | undefined;
   /** True when changing app token grants requires reinstalling the app, so tokens cannot be partitioned independently by requester environment. */
-  requiresReinstallation?: boolean;
+  requiresReinstallation?: boolean | undefined;
   /** Known allowed app-level scopes. For Slack this is the bot scope set configured on the app; for OAuth it is the connector's enabled `clientCredentials.scopes` configuration. */
-  scopes?: ConnectConnectorAppTokensScopesList;
+  scopes?: ConnectConnectorAppTokensScopesList | undefined;
   /** Supported OAuth authorization-detail type names. */
-  supportedAuthorizationDetails?: ConnectConnectorAppTokensSupportedAuthorizationDetailsList;
+  supportedAuthorizationDetails?:
+    | ConnectConnectorAppTokensSupportedAuthorizationDetailsList
+    | undefined;
   /** Whether callers can narrow app-token grants per request. */
   supportsRefinement: boolean;
   /** Whether callers can request resource-specific app tokens. */
-  supportsResources?: boolean;
+  supportsResources?: boolean | undefined;
 }
 /** Principal kind. */
 export type ConnectConnectorCreatedByCase0Type = "user";
@@ -1088,14 +1194,16 @@ export type ConnectConnectorCreationMode = "managed" | "manual";
 export type ConnectConnectorEventsList = Array<string>;
 /** Managed connector metadata exposed without leaking the manager connector or installation identifiers. */
 export type ConnectConnectorManaged = ConnectConnectorCreateResultManaged;
+/** MCP Events dashboard visibility. Defaults to auto: show after the first successful delivery. */
+export type ConnectConnectorMcpEventsUiVisibility = "auto" | "hide" | "show";
 /** Token subject types supported by the connector. */
 export type ConnectConnectorSupportedSubjectTypesList = Array<string>;
-/** Destinations that incoming triggers should be forwarded to. Limited to 3 entries. Set the initial destination with `triggerDestination` during creation. Replace the complete set with `PATCH /v1/connect/connectors/{connector}/trigger-destinations`. */
+/** Destinations that incoming triggers should be forwarded to. Limited to 3 entries. Set the initial destination with `triggerDestination` during creation. Replace the complete set with `PATCH /v1/connect/connectors/{connector}/trigger-destinations`. Computed routing environments are stored internally, not returned here. */
 export type ConnectConnectorTriggerDestinationsList = Array<ConnectTriggerDestination>;
 /** Connector implementation type. */
 export type ConnectConnectorType =
   | "api-key"
-  | "aws-alpha"
+  | "aws-oidc"
   | "custom"
   | "discord"
   | "github"
@@ -1109,7 +1217,8 @@ export type ConnectConnectorType =
   | "sendblue"
   | "slack"
   | "snowflake"
-  | "snowflake-wif";
+  | "snowflake-wif"
+  | "stripe-api-key";
 /** Principal kind. */
 export type ConnectConnectorUpdatedByCase0Type = "user";
 /** Principal that most recently mutated the connector. Same shape as {@link createdBy} but tracks the most recent updater, not the original creator. At create time the two fields point at the same principal; they diverge on the first subsequent update. */
@@ -1150,83 +1259,92 @@ export type ConnectConnectorUserTokensSupportedAuthorizationDetailsList = Array<
 export interface ConnectConnectorUserTokens {
   /** Whether one user token can be used across installations. */
   crossInstallation: boolean;
+  isStaticCredential: boolean;
   /** User authorization is completed by the Connect consent screen submitting a credential instead of an OAuth redirect. */
-  manualCredentialInput?: boolean;
+  manualCredentialInput?: boolean | undefined;
   /** Known allowed user-level scopes. For Slack this is the user scope set configured on the app; for OAuth it is the connector's enabled `userAuthorization.scopes` configuration. */
-  scopes?: ConnectConnectorUserTokensScopesList;
+  scopes?: ConnectConnectorUserTokensScopesList | undefined;
   /** Supported OAuth authorization-detail type names. */
-  supportedAuthorizationDetails?: ConnectConnectorUserTokensSupportedAuthorizationDetailsList;
+  supportedAuthorizationDetails?:
+    | ConnectConnectorUserTokensSupportedAuthorizationDetailsList
+    | undefined;
   /** Whether callers can narrow user-token grants per request. */
   supportsRefinement: boolean;
   /** Whether callers can request resource-specific user tokens. */
-  supportsResources?: boolean;
+  supportsResources?: boolean | undefined;
 }
 /** A connector that defines how Vercel accesses an external service. */
 export interface ConnectConnector {
   /** Hex accent color (e.g., `#000000`) for branding. */
-  accentColor?: string;
+  accentColor?: string | undefined;
   /** App-token capabilities and known grants for the connector. */
-  appTokens?: ConnectConnectorAppTokens;
+  appTokens?: ConnectConnectorAppTokens | undefined;
   /** Hex background color (e.g., `#000000`) for branding. */
-  backgroundColor?: string;
+  backgroundColor?: string | undefined;
   /** Provider-side URL for viewing or managing the resource represented by the connector. The destination can be an app, account, phone line, or service instance, depending on the connector type. */
-  clientUrl?: string | null;
+  clientUrl?: string | null | undefined;
   /** The connection method this connector was created from, when the create request named one. */
-  connectionMethod?: string;
+  connectionMethod?: string | undefined;
   /** Creation time in epoch milliseconds. */
   createdAt: number;
   /** Principal that created the connector. */
-  createdBy?: ConnectConnectorCreatedBy;
+  createdBy?: ConnectConnectorCreatedBy | undefined;
   /** How the connector row was originally created. New create paths stamp this explicitly; older rows may omit it. */
-  creationMode?: ConnectConnectorCreationMode;
+  creationMode?: ConnectConnectorCreationMode | undefined;
   /** Installation used when a token request does not specify an installation. */
-  defaultInstallationId?: string;
+  defaultInstallationId?: string | undefined;
   /** Developer website for the connected service. */
-  devsite?: string;
+  devsite?: string | undefined;
   /** Human-readable connector name. */
   displayName: string;
   /** Developer documentation for the connected service. */
-  docsite?: string;
+  docsite?: string | undefined;
   /** Known events this connector subscribes to (e.g. Slack bot events, GitHub webhook events). Names are type-specific and validated by the managed-create flow when forwarded to the third-party service. */
-  events?: ConnectConnectorEventsList;
+  events?: ConnectConnectorEventsList | undefined;
+  /** Whether Connect has successfully delivered an MCP event for this connector. */
+  hasMcpEventDeliveries?: boolean | undefined;
   /** Connector branding icon. SHA-1 hash that resolves to the uploaded icon through the Vercel avatar service. Consumers render this with `https://vercel.com/api/www/avatar/{icon}`. */
-  icon?: string;
+  icon?: string | undefined;
   /** Stable `scl_` connector ID. Use this value directly in `{connector}`. */
   id: string;
   /** Whether the connector is known to have been edited since the app package it publishes to the provider was last built, so that package no longer matches it. Absent when it was not computed, or when the connector type publishes no such package. Derived on every read rather than marked at edit time, so reverting an edit clears it. Only reported by connector types that publish a package a user has to re-publish by hand -- Microsoft Teams today. */
-  knownStale?: boolean;
+  knownStale?: boolean | undefined;
   /** Managed connector metadata exposed without leaking the manager connector or installation identifiers. */
-  managed?: ConnectConnectorCreateResultManaged;
+  managed?: ConnectConnectorCreateResultManaged | undefined;
+  /** MCP Events dashboard visibility. Defaults to auto: show after the first successful delivery. */
+  mcpEventsUiVisibility?: ConnectConnectorMcpEventsUiVisibility | undefined;
   /** Connector name within the owning team. */
   name: string;
   /** Redirect URI registered with the third-party service for this connector, if any. Used by `startAuthorization`/`startInstallation` to replay the exact URI back to the provider's token endpoint. Absent on connectors created before this field was introduced; those callers fall back to the `https://connect.vercel.com/callback` default. */
-  redirectUri?: string;
+  redirectUri?: string | undefined;
   /** Time when this connector started requiring reinstallation because an installation-affecting app-token grant changed. */
-  reinstallAt?: number;
+  reinstallAt?: number | undefined;
   /** Best-effort identifier of the third-party service this connector represents, independent of `type`. Examples: `'slack'`, `'mcp.linear.app'`, and `'auth.example.com'`. Always present in API responses. */
   service: string;
   /** Provider logo from the known-service registry, matched by `service`. Often an SVG data URL. Absent when the service is not in the registry. */
-  serviceIcon?: string;
+  serviceIcon?: string | undefined;
   /** Token subject types supported by the connector. */
   supportedSubjectTypes: ConnectConnectorSupportedSubjectTypesList;
   /** Whether the connector icon can propagate to the provider. */
   supportsIcon: unknown;
   /** Whether the connector supports an installation flow. */
   supportsInstallation: boolean;
+  /** Whether this managed connector can disconnect from its manager. */
+  supportsManagedEjection?: boolean | undefined;
   /** Whether Connect can revoke tokens for this connector. */
   supportsRevocation: boolean;
   /** Whether this connector type supports trigger webhooks. Derived from the type definition; indicates that `triggers` and `triggerDestinations` may be meaningful for this connector. */
   supportsTriggers: boolean;
   /** Which of the service's products/surfaces this connector points at. */
-  target?: string;
-  /** Destinations that incoming triggers should be forwarded to. Limited to 3 entries. Set the initial destination with `triggerDestination` during creation. Replace the complete set with `PATCH /v1/connect/connectors/{connector}/trigger-destinations`. */
-  triggerDestinations?: ConnectConnectorTriggerDestinationsList;
+  target?: string | undefined;
+  /** Destinations that incoming triggers should be forwarded to. Limited to 3 entries. Set the initial destination with `triggerDestination` during creation. Replace the complete set with `PATCH /v1/connect/connectors/{connector}/trigger-destinations`. Computed routing environments are stored internally, not returned here. */
+  triggerDestinations?: ConnectConnectorTriggerDestinationsList | undefined;
   /** Incoming trigger configuration for the connector. */
-  triggers?: ConnectTriggerConfiguration;
+  triggers?: ConnectTriggerConfiguration | undefined;
   /** Connector implementation type. */
   type: ConnectConnectorType;
   /** Icon identifier supplied by the connector type. */
-  typeIcon?: string;
+  typeIcon?: string | undefined;
   /** Human-readable name of the connector type. */
   typeName: string;
   /** Team-scoped UID. URL-encode this value before using it in `{connector}`. */
@@ -1234,11 +1352,19 @@ export interface ConnectConnector {
   /** Last update time in epoch milliseconds. */
   updatedAt: number;
   /** Principal that most recently updated the connector. */
-  updatedBy?: ConnectConnectorUpdatedBy;
+  updatedBy?: ConnectConnectorUpdatedBy | undefined;
   /** User-token capabilities and known grants for the connector. */
-  userTokens?: ConnectConnectorUserTokens;
+  userTokens?: ConnectConnectorUserTokens | undefined;
   /** Public website for the connected service. */
-  website?: string;
+  website?: string | undefined;
+}
+export interface GetConnectorRequest {
+  /** Stable connector ID or URL-encoded owner-scoped UID. Examples: `scl_abc123` or `slack%2Fmy-bot`. */
+  connector: string;
+  /** The team ID that scopes the request. Do not send it with slug. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
+  teamId?: string | undefined;
+  /** The team slug that scopes the request. Do not send it with teamId. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
+  slug?: string | undefined;
 }
 export interface GetConnectorProjectConnectionRequest {
   /** Stable connector ID or URL-encoded team-scoped UID. Examples: `scl_abc123` or `slack%2Fmy-bot`. */
@@ -1246,9 +1372,9 @@ export interface GetConnectorProjectConnectionRequest {
   /** Vercel project ID. */
   projectId: string;
   /** The team ID that scopes the request. Do not send it with slug. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The team slug that scopes the request. Do not send it with teamId. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ConnectProjectConnectionEnabledEnvironmentsItemCase1 =
   | "development"
@@ -1273,7 +1399,7 @@ export type ConnectProjectConnectionProjectCustomEnvironmentsList =
 /** Vercel project connected to the connector. */
 export interface ConnectProjectConnectionProject {
   /** Custom environments available on the project. This list can include environments where the connector is not enabled. */
-  customEnvironments?: ConnectProjectConnectionProjectCustomEnvironmentsList;
+  customEnvironments?: ConnectProjectConnectionProjectCustomEnvironmentsList | undefined;
   /** Same Vercel project ID as the connection's top-level `projectId`. */
   id: string;
   /** Current Vercel project name. */
@@ -1295,12 +1421,14 @@ export interface ConnectProjectConnection {
 export type GetConnectorTokenRequestSubjectCase0Type = "app";
 export interface GetConnectorTokenRequestSubjectCase0 {
   type: GetConnectorTokenRequestSubjectCase0Type;
+  [key: string]: unknown;
 }
 export type GetConnectorTokenRequestSubjectCase1Type = "user";
 export interface GetConnectorTokenRequestSubjectCase1 {
   type: GetConnectorTokenRequestSubjectCase1Type;
-  id?: string;
-  issuer?: string;
+  id?: string | undefined;
+  issuer?: string | undefined;
+  [key: string]: unknown;
 }
 export type GetConnectorTokenRequestSubjectCase2Type = "jwt-bearer";
 export type GetConnectorTokenRequestSubjectCase2AdditionalClaimsMap = {
@@ -1308,10 +1436,11 @@ export type GetConnectorTokenRequestSubjectCase2AdditionalClaimsMap = {
 };
 export interface GetConnectorTokenRequestSubjectCase2 {
   type: GetConnectorTokenRequestSubjectCase2Type;
-  sub?: string;
-  iss?: string;
-  aud?: string;
-  additionalClaims?: GetConnectorTokenRequestSubjectCase2AdditionalClaimsMap;
+  sub?: string | undefined;
+  iss?: string | undefined;
+  aud?: string | undefined;
+  additionalClaims?: GetConnectorTokenRequestSubjectCase2AdditionalClaimsMap | undefined;
+  [key: string]: unknown;
 }
 export type GetConnectorTokenRequestSubjectCase3Type = "token";
 export interface GetConnectorTokenRequestSubjectCase3 {
@@ -1335,18 +1464,19 @@ export type GetConnectorTokenRequestAuthorizationDetailsList =
   Array<CreateConnectorAuthorizationRequestRequestAuthorizationDetailsItem>;
 export interface GetConnectorTokenRequest {
   connector: string;
-  subject?: GetConnectorTokenRequestSubject;
-  installationId?: string;
-  audience?: GetConnectorTokenRequestAudienceList;
-  scopes?: GetConnectorTokenRequestScopesList;
-  resources?: GetConnectorTokenRequestResourcesList;
-  authorizationDetails?: GetConnectorTokenRequestAuthorizationDetailsList;
-  validityBufferMs?: number;
+  subject?: GetConnectorTokenRequestSubject | undefined;
+  installationId?: string | undefined;
+  audience?: GetConnectorTokenRequestAudienceList | undefined;
+  scopes?: GetConnectorTokenRequestScopesList | undefined;
+  resources?: GetConnectorTokenRequestResourcesList | undefined;
+  authorizationDetails?: GetConnectorTokenRequestAuthorizationDetailsList | undefined;
+  validityBufferMs?: number | undefined;
 }
 /** Claims extracted from the provider's tokens per the connector's `ForwardedClaims` allow-list. Currently sourced from the OIDC id_token only. */
 export type GetConnectorTokenResponseClaimsMap = { [key: string]: unknown | undefined };
 export interface GetConnectorTokenResponseConnector {
   id: string;
+  service?: string | undefined;
   type: string;
   uid: string;
 }
@@ -1354,33 +1484,33 @@ export interface GetConnectorTokenResponseConnector {
 export type GetConnectorTokenResponseMetadataMap = { [key: string]: unknown | undefined };
 export interface GetConnectorTokenResponse {
   /** Stable id correlating all tokens (including refreshes) back to the original authorization. */
-  authorizationId?: string;
+  authorizationId?: string | undefined;
   /** Claims extracted from the provider's tokens per the connector's `ForwardedClaims` allow-list. Currently sourced from the OIDC id_token only. */
-  claims?: GetConnectorTokenResponseClaimsMap;
+  claims?: GetConnectorTokenResponseClaimsMap | undefined;
   connector: GetConnectorTokenResponseConnector;
   expiresAt: number;
-  externalSubject?: string;
-  installationId?: string;
+  externalSubject?: string | undefined;
+  installationId?: string | undefined;
   /** Driver-specific metadata (e.g., botUserId for Slack). */
-  metadata?: GetConnectorTokenResponseMetadataMap;
-  name?: string;
-  tenantId?: string;
+  metadata?: GetConnectorTokenResponseMetadataMap | undefined;
+  name?: string | undefined;
+  tenantId?: string | undefined;
   token: string;
   /** Stable id that groups all tokens with the same parameters across refreshes. */
-  tokenGroupId?: string;
+  tokenGroupId?: string | undefined;
   tokenId: string;
 }
 export interface ListConnectorProjectConnectionsRequest {
   /** Stable connector ID or URL-encoded team-scoped UID. Examples: `scl_abc123` or `slack%2Fmy-bot`. */
   connector: string;
   /** Maximum number of project connections to return. Defaults to 50. */
-  limit?: number;
+  limit?: number | undefined;
   /** Cursor from `pagination.next` on the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The team ID that scopes the request. Do not send it with slug. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The team slug that scopes the request. Do not send it with teamId. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** Cursor for the next page. */
 export interface ConnectPagination {
@@ -1400,23 +1530,23 @@ export interface ConnectConnectorProjectConnectionList {
 export type ListConnectorsRequestSort = "name" | "createdAt" | "updatedAt";
 export interface ListConnectorsRequest {
   /** Maximum number of connectors to return. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** Cursor from `pagination.next` on the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Return only connectors connected to this project. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Search connector names, UIDs, and services. */
-  search?: string;
+  search?: string | undefined;
   /** Comma-separated connector types: `slack`, `discord`, `github`, `linear`, `linq`, `salesforce`, `sendblue`, `snowflake`, `snowflake-wif`, `microsoft-entra`, `api-key`, `photon`, `oauth`, or `custom`. */
-  type?: string;
+  type?: string | undefined;
   /** Comma-separated provider or service identifiers. */
-  service?: string;
+  service?: string | undefined;
   /** Sort by name in ascending order, or by creation or update time in descending order. */
-  sort?: ListConnectorsRequestSort | (string & {});
+  sort?: ListConnectorsRequestSort | (string & {}) | undefined;
   /** The team ID that scopes the request. Do not send it with slug. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The team slug that scopes the request. Do not send it with teamId. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** Connectors in this page. */
 export type ConnectConnectorListConnectorsList = Array<ConnectConnector>;
@@ -1431,13 +1561,13 @@ export interface ListProjectConnectorConnectionsRequest {
   /** Vercel project ID. */
   projectId: string;
   /** Maximum number of connector connections to return. Defaults to 50. */
-  limit?: number;
+  limit?: number | undefined;
   /** Cursor from `pagination.next` on the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The team ID that scopes the request. Do not send it with slug. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The team slug that scopes the request. Do not send it with teamId. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** Connector connections in this page. */
 export type ConnectProjectConnectorConnectionListConnectorsList = Array<ConnectProjectConnection>;
@@ -1452,7 +1582,7 @@ export interface ConnectTriggerDestinationInputCase0 {
   /** Project that receives matching trigger requests. */
   projectId: string;
   /** Route path on the linked project that receives forwarded trigger requests. */
-  path?: string;
+  path?: string | undefined;
 }
 export interface ConnectTriggerDestinationInputCase1 {
   /** Project that receives matching trigger requests. */
@@ -1460,7 +1590,7 @@ export interface ConnectTriggerDestinationInputCase1 {
   /** Git branch used to select a preview deployment. */
   branch: string;
   /** Route path on the linked project that receives forwarded trigger requests. */
-  path?: string;
+  path?: string | undefined;
 }
 export interface ConnectTriggerDestinationInputCase2 {
   /** Project that receives matching trigger requests. */
@@ -1468,7 +1598,7 @@ export interface ConnectTriggerDestinationInputCase2 {
   /** Stable custom environment ID that belongs to the destination project. */
   customEnvironmentId: string;
   /** Route path on the linked project that receives forwarded trigger requests. */
-  path?: string;
+  path?: string | undefined;
 }
 /** A destination in the complete replacement set. Each destination targets the default deployment, a branch, or a custom environment. */
 export type ConnectTriggerDestinationInput =
@@ -1482,16 +1612,24 @@ export interface ReplaceConnectorTriggerDestinationsRequest {
   /** Stable connector ID or URL-encoded team-scoped UID. Examples: `scl_abc123` or `slack%2Fmy-bot`. */
   connector: string;
   /** The team ID that scopes the request. Do not send it with slug. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The team slug that scopes the request. Do not send it with teamId. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  slug?: string;
+  slug?: string | undefined;
   /** Complete replacement set of trigger destinations. An empty array removes all destinations. Connector get and list responses expose the saved set as triggerDestinations. */
   destinations: ReplaceConnectorTriggerDestinationsRequestDestinationsList;
 }
-/** Trigger configuration, validated and encrypted by the trigger driver. An empty object applies driver defaults. */
-export type UpdateConnectorRequestTriggerDataMap = { [key: string]: unknown | undefined };
+/** Plaintext verification inputs, validated by the trigger driver and encrypted into stored triggerData. An empty object makes no changes. */
+export type UpdateConnectorRequestTriggerVerificationInputMap = {
+  [key: string]: unknown | undefined;
+};
+/** Additional registration inputs, validated by the trigger driver. Requires triggers: true. Shared verification credentials are read from triggerData. */
+export type UpdateConnectorRequestTriggerRegistrationInputMap = {
+  [key: string]: unknown | undefined;
+};
 /** Default trigger events for this connector. */
 export type UpdateConnectorRequestEventsList = Array<string>;
+/** MCP Events dashboard visibility. Auto (the default) shows the UI after the first successful delivery. Show and hide persist regardless of future deliveries. This does not enable or disable event delivery. */
+export type UpdateConnectorRequestMcpEventsUiVisibility = "auto" | "show" | "hide";
 /** Intended key use: signing or encryption. */
 export type ConnectConnectorUpdateDataCase0ServerConfigJwksKeysItemUse = "sig" | "enc";
 /** Operations permitted for this key. */
@@ -1500,13 +1638,14 @@ export interface ConnectConnectorUpdateDataCase0ServerConfigJwksKeysItem {
   /** JSON Web Key type. */
   kty: string;
   /** JSON Web Key identifier. */
-  kid?: string;
+  kid?: string | undefined;
   /** Intended key use: signing or encryption. */
-  use?: ConnectConnectorUpdateDataCase0ServerConfigJwksKeysItemUse | (string & {});
+  use?: ConnectConnectorUpdateDataCase0ServerConfigJwksKeysItemUse | (string & {}) | undefined;
   /** Operations permitted for this key. */
-  key_ops?: ConnectConnectorUpdateDataCase0ServerConfigJwksKeysItemKeyOpsList;
+  key_ops?: ConnectConnectorUpdateDataCase0ServerConfigJwksKeysItemKeyOpsList | undefined;
   /** Algorithm intended for this key. */
-  alg?: string;
+  alg?: string | undefined;
+  [key: string]: unknown;
 }
 /** JSON Web Keys published by the authorization server. */
 export type ConnectConnectorUpdateDataCase0ServerConfigJwksKeysList =
@@ -1515,6 +1654,7 @@ export type ConnectConnectorUpdateDataCase0ServerConfigJwksKeysList =
 export interface ConnectConnectorUpdateDataCase0ServerConfigJwks {
   /** JSON Web Keys published by the authorization server. */
   keys: ConnectConnectorUpdateDataCase0ServerConfigJwksKeysList;
+  [key: string]: unknown;
 }
 /** OAuth response types supported by the server. */
 export type ConnectConnectorUpdateDataCase0ServerConfigResponseTypesSupportedList = Array<string>;
@@ -1562,79 +1702,110 @@ export type ConnectConnectorUpdateDataCase0ServerConfigAuthorizationDetailsTypes
 /** Authorization server metadata. Values override discovered metadata. Empty known string fields remove their stored overrides. */
 export interface ConnectConnectorUpdateDataCase0ServerConfig {
   /** Authorization server issuer URL. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** OAuth authorization endpoint URL. */
-  authorization_endpoint?: string;
+  authorization_endpoint?: string | undefined;
   /** OAuth token endpoint URL. */
-  token_endpoint?: string;
+  token_endpoint?: string | undefined;
   /** OpenID Connect UserInfo endpoint URL. */
-  userinfo_endpoint?: string;
+  userinfo_endpoint?: string | undefined;
   /** URL of the authorization server JSON Web Key Set. */
-  jwks_uri?: string;
+  jwks_uri?: string | undefined;
   /** Inline authorization server JSON Web Key Set. */
-  jwks?: ConnectConnectorUpdateDataCase0ServerConfigJwks;
+  jwks?: ConnectConnectorUpdateDataCase0ServerConfigJwks | undefined;
   /** OAuth token revocation endpoint URL. */
-  revocation_endpoint?: string;
+  revocation_endpoint?: string | undefined;
   /** OAuth token introspection endpoint URL. */
-  introspection_endpoint?: string;
+  introspection_endpoint?: string | undefined;
   /** OpenID Connect session termination endpoint URL. */
-  end_session_endpoint?: string;
+  end_session_endpoint?: string | undefined;
   /** OAuth device authorization endpoint URL. */
-  device_authorization_endpoint?: string;
+  device_authorization_endpoint?: string | undefined;
   /** OAuth dynamic client registration endpoint URL. */
-  registration_endpoint?: string;
+  registration_endpoint?: string | undefined;
   /** OAuth response types supported by the server. */
-  response_types_supported?: ConnectConnectorUpdateDataCase0ServerConfigResponseTypesSupportedList;
+  response_types_supported?:
+    | ConnectConnectorUpdateDataCase0ServerConfigResponseTypesSupportedList
+    | undefined;
   /** Token endpoint client authentication methods supported by the server. */
-  token_endpoint_auth_methods_supported?: ConnectConnectorUpdateDataCase0ServerConfigTokenEndpointAuthMethodsSupportedList;
+  token_endpoint_auth_methods_supported?:
+    | ConnectConnectorUpdateDataCase0ServerConfigTokenEndpointAuthMethodsSupportedList
+    | undefined;
   /** Signing algorithms supported for token endpoint authentication. */
-  token_endpoint_auth_signing_alg_values_supported?: ConnectConnectorUpdateDataCase0ServerConfigTokenEndpointAuthSigningAlgValuesSupportedList;
+  token_endpoint_auth_signing_alg_values_supported?:
+    | ConnectConnectorUpdateDataCase0ServerConfigTokenEndpointAuthSigningAlgValuesSupportedList
+    | undefined;
   /** OAuth scopes supported by the server. */
-  scopes_supported?: ConnectConnectorUpdateDataCase0ServerConfigScopesSupportedList;
+  scopes_supported?: ConnectConnectorUpdateDataCase0ServerConfigScopesSupportedList | undefined;
   /** OAuth grant types supported by the server. */
-  grant_types_supported?: ConnectConnectorUpdateDataCase0ServerConfigGrantTypesSupportedList;
+  grant_types_supported?:
+    | ConnectConnectorUpdateDataCase0ServerConfigGrantTypesSupportedList
+    | undefined;
   /** Supported authorization grant profiles. urn:ietf:params:oauth:grant-profile:id-jag advertises XAA resource support. */
-  authorization_grant_profiles_supported?: ConnectConnectorUpdateDataCase0ServerConfigAuthorizationGrantProfilesSupportedList;
+  authorization_grant_profiles_supported?:
+    | ConnectConnectorUpdateDataCase0ServerConfigAuthorizationGrantProfilesSupportedList
+    | undefined;
   /** Token types supported for identity chaining. urn:ietf:params:oauth:token-type:id-jag advertises XAA IdP support. */
-  identity_chaining_requested_token_types_supported?: ConnectConnectorUpdateDataCase0ServerConfigIdentityChainingRequestedTokenTypesSupportedList;
+  identity_chaining_requested_token_types_supported?:
+    | ConnectConnectorUpdateDataCase0ServerConfigIdentityChainingRequestedTokenTypesSupportedList
+    | undefined;
   /** OAuth response modes supported by the server. */
-  response_modes_supported?: ConnectConnectorUpdateDataCase0ServerConfigResponseModesSupportedList;
+  response_modes_supported?:
+    | ConnectConnectorUpdateDataCase0ServerConfigResponseModesSupportedList
+    | undefined;
   /** OpenID Connect subject identifier types supported by the server. */
-  subject_types_supported?: ConnectConnectorUpdateDataCase0ServerConfigSubjectTypesSupportedList;
+  subject_types_supported?:
+    | ConnectConnectorUpdateDataCase0ServerConfigSubjectTypesSupportedList
+    | undefined;
   /** Signing algorithms supported for ID tokens. */
-  id_token_signing_alg_values_supported?: ConnectConnectorUpdateDataCase0ServerConfigIdTokenSigningAlgValuesSupportedList;
+  id_token_signing_alg_values_supported?:
+    | ConnectConnectorUpdateDataCase0ServerConfigIdTokenSigningAlgValuesSupportedList
+    | undefined;
   /** Key management algorithms supported for encrypted ID tokens. */
-  id_token_encryption_alg_values_supported?: ConnectConnectorUpdateDataCase0ServerConfigIdTokenEncryptionAlgValuesSupportedList;
+  id_token_encryption_alg_values_supported?:
+    | ConnectConnectorUpdateDataCase0ServerConfigIdTokenEncryptionAlgValuesSupportedList
+    | undefined;
   /** Content encryption algorithms supported for encrypted ID tokens. */
-  id_token_encryption_enc_values_supported?: ConnectConnectorUpdateDataCase0ServerConfigIdTokenEncryptionEncValuesSupportedList;
+  id_token_encryption_enc_values_supported?:
+    | ConnectConnectorUpdateDataCase0ServerConfigIdTokenEncryptionEncValuesSupportedList
+    | undefined;
   /** OpenID Connect claim value types supported by the server. */
-  claim_types_supported?: ConnectConnectorUpdateDataCase0ServerConfigClaimTypesSupportedList;
+  claim_types_supported?:
+    | ConnectConnectorUpdateDataCase0ServerConfigClaimTypesSupportedList
+    | undefined;
   /** Claims that the authorization server can return. */
-  claims_supported?: ConnectConnectorUpdateDataCase0ServerConfigClaimsSupportedList;
+  claims_supported?: ConnectConnectorUpdateDataCase0ServerConfigClaimsSupportedList | undefined;
   /** PKCE code challenge methods supported by the server. */
-  code_challenge_methods_supported?: ConnectConnectorUpdateDataCase0ServerConfigCodeChallengeMethodsSupportedList;
+  code_challenge_methods_supported?:
+    | ConnectConnectorUpdateDataCase0ServerConfigCodeChallengeMethodsSupportedList
+    | undefined;
   /** Authorization prompt values supported by the server. */
-  prompt_values_supported?: ConnectConnectorUpdateDataCase0ServerConfigPromptValuesSupportedList;
+  prompt_values_supported?:
+    | ConnectConnectorUpdateDataCase0ServerConfigPromptValuesSupportedList
+    | undefined;
   /** Whether authorization requests can use the claims parameter. */
-  claims_parameter_supported?: boolean;
+  claims_parameter_supported?: boolean | undefined;
   /** Whether authorization requests can use signed request objects. */
-  request_parameter_supported?: boolean;
+  request_parameter_supported?: boolean | undefined;
   /** Whether authorization requests can use request_uri. */
-  request_uri_parameter_supported?: boolean;
+  request_uri_parameter_supported?: boolean | undefined;
   /** Whether request_uri values must be registered in advance. */
-  require_request_uri_registration?: boolean;
+  require_request_uri_registration?: boolean | undefined;
   /** Authorization server documentation URL. */
-  service_documentation?: string;
+  service_documentation?: string | undefined;
   /** Authorization server privacy policy URL. */
-  op_policy_uri?: string;
+  op_policy_uri?: string | undefined;
   /** Authorization server terms of service URL. */
-  op_tos_uri?: string;
+  op_tos_uri?: string | undefined;
   /** Authorization server logo URL. */
-  logo_uri?: string;
+  logo_uri?: string | undefined;
   /** Whether the server supports OAuth client ID metadata documents. */
-  client_id_metadata_document_supported?: boolean;
+  client_id_metadata_document_supported?: boolean | undefined;
   /** OAuth authorization-detail types supported by the server. */
-  authorization_details_types_supported?: ConnectConnectorUpdateDataCase0ServerConfigAuthorizationDetailsTypesSupportedList;
+  authorization_details_types_supported?:
+    | ConnectConnectorUpdateDataCase0ServerConfigAuthorizationDetailsTypesSupportedList
+    | undefined;
+  [key: string]: unknown;
 }
 /** Default scopes to request when token params specify scopes: [\"*\"]. */
 export type ConnectConnectorUpdateDataCase0UserAuthorizationScopesList = Array<string>;
@@ -1643,7 +1814,7 @@ export interface ConnectConnectorUpdateDataCase0UserAuthorization {
   /** Whether this OAuth grant is enabled. */
   enabled: boolean;
   /** Default scopes to request when token params specify scopes: [\"*\"]. */
-  scopes?: ConnectConnectorUpdateDataCase0UserAuthorizationScopesList;
+  scopes?: ConnectConnectorUpdateDataCase0UserAuthorizationScopesList | undefined;
 }
 /** Refresh token settings. */
 export type ConnectConnectorUpdateDataCase0RefreshTokens =
@@ -1655,14 +1826,14 @@ export interface ConnectConnectorUpdateDataCase0ClientCredentials {
   /** Whether this OAuth grant is enabled. */
   enabled: boolean;
   /** Default scopes to request when token params specify scopes: [\"*\"]. */
-  scopes?: ConnectConnectorUpdateDataCase0ClientCredentialsScopesList;
+  scopes?: ConnectConnectorUpdateDataCase0ClientCredentialsScopesList | undefined;
 }
 /** ID token claim names that Connect can expose. */
 export type ConnectConnectorUpdateDataCase0ForwardedClaimsIdTokenList = Array<string>;
 /** Allow-list of extra claims to propagate, keyed by source (idToken). Only claims named here and present in that source are exposed. */
 export interface ConnectConnectorUpdateDataCase0ForwardedClaims {
   /** ID token claim names that Connect can expose. */
-  idToken?: ConnectConnectorUpdateDataCase0ForwardedClaimsIdTokenList;
+  idToken?: ConnectConnectorUpdateDataCase0ForwardedClaimsIdTokenList | undefined;
 }
 /** Extra query parameters added to authorization URLs. */
 export type ConnectConnectorUpdateDataCase0AuthorizationUrlParamsMap = {
@@ -1677,21 +1848,21 @@ export type ConnectConnectorUpdateDataCase0JwtBearerAdditionalClaimsMap = {
 /** JWT bearer grant settings. */
 export interface ConnectConnectorUpdateDataCase0JwtBearer {
   /** Whether JWT bearer grants are enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Default scopes to request when token params specify scopes: [\"*\"]. */
-  scopes?: ConnectConnectorUpdateDataCase0JwtBearerScopesList;
+  scopes?: ConnectConnectorUpdateDataCase0JwtBearerScopesList | undefined;
   /** Default JWT subject claim. */
-  sub?: string;
+  sub?: string | undefined;
   /** Default JWT issuer claim. */
-  iss?: string;
+  iss?: string | undefined;
   /** Default JWT audience claim. */
-  aud?: string;
+  aud?: string | undefined;
   /** Additional claims included in generated JWT assertions. */
-  additionalClaims?: ConnectConnectorUpdateDataCase0JwtBearerAdditionalClaimsMap;
+  additionalClaims?: ConnectConnectorUpdateDataCase0JwtBearerAdditionalClaimsMap | undefined;
   /** JWT lifetime in seconds. */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Whether JWT bearer requests also use client credentials. */
-  useClientCredentials?: boolean;
+  useClientCredentials?: boolean | undefined;
 }
 /** Additional claims included in the client assertion. */
 export type ConnectConnectorUpdateDataCase0ClientAssertionClaimsMap = {
@@ -1700,51 +1871,51 @@ export type ConnectConnectorUpdateDataCase0ClientAssertionClaimsMap = {
 /** `private_key_jwt` client assertion settings. */
 export interface ConnectConnectorUpdateDataCase0ClientAssertion {
   /** OAuth client assertion type. Defaults to urn:ietf:params:oauth:client-assertion-type:jwt-bearer. An empty string clears the configured type. */
-  type?: string;
+  type?: string | undefined;
   /** Client assertion lifetime in seconds. */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Additional claims included in the client assertion. */
-  claims?: ConnectConnectorUpdateDataCase0ClientAssertionClaimsMap;
+  claims?: ConnectConnectorUpdateDataCase0ClientAssertionClaimsMap | undefined;
 }
 export interface ConnectConnectorUpdateDataCase0 {
   /** Authorization server base URL used for discovery. */
-  serverUrl?: string;
+  serverUrl?: string | undefined;
   /** Authorization server metadata. Values override discovered metadata. Empty known string fields remove their stored overrides. */
-  serverConfig?: ConnectConnectorUpdateDataCase0ServerConfig;
+  serverConfig?: ConnectConnectorUpdateDataCase0ServerConfig | undefined;
   /** OAuth client ID. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** OAuth client name. */
-  clientName?: string;
+  clientName?: string | undefined;
   /** OAuth client secret. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** OAuth token endpoint authentication method. Common values are client_secret_post, client_secret_basic, none, and private_key_jwt. If omitted, Vercel selects a supported method from serverConfig and otherwise uses client_secret_post. */
-  tokenEndpointAuthMethod?: string;
+  tokenEndpointAuthMethod?: string | undefined;
   /** OAuth authorization response type. Defaults to code. Other provider-supported values are accepted. An empty string clears the configured type. */
-  responseType?: string;
+  responseType?: string | undefined;
   /** Whether user authorization must use PKCE. */
-  pkceRequired?: boolean;
+  pkceRequired?: boolean | undefined;
   /** PKCE code challenge method. Supported values are S256 and plain. Vercel prefers S256 when the provider supports it. An empty string clears the configured method. */
-  codeChallengeMethod?: string;
+  codeChallengeMethod?: string | undefined;
   /** User authorization grant settings. */
-  userAuthorization?: ConnectConnectorUpdateDataCase0UserAuthorization;
+  userAuthorization?: ConnectConnectorUpdateDataCase0UserAuthorization | undefined;
   /** Refresh token settings. */
-  refreshTokens?: ConnectConnectorCreateDataCase0RefreshTokens;
+  refreshTokens?: ConnectConnectorCreateDataCase0RefreshTokens | undefined;
   /** Client credentials grant settings. */
-  clientCredentials?: ConnectConnectorUpdateDataCase0ClientCredentials;
+  clientCredentials?: ConnectConnectorUpdateDataCase0ClientCredentials | undefined;
   /** Allow-list of extra claims to propagate, keyed by source (idToken). Only claims named here and present in that source are exposed. */
-  forwardedClaims?: ConnectConnectorUpdateDataCase0ForwardedClaims;
+  forwardedClaims?: ConnectConnectorUpdateDataCase0ForwardedClaims | undefined;
   /** Default audience used when a token request omits one. An empty string clears the default. */
-  defaultAudience?: string;
+  defaultAudience?: string | undefined;
   /** Default RFC 8707 resource sent on authorization and token requests when a token request omits one. An empty string clears the default. */
-  defaultResource?: string;
+  defaultResource?: string | undefined;
   /** Default token lifetime in seconds to use when the token response omits expires_in. */
-  defaultTokenExpiresIn?: number;
+  defaultTokenExpiresIn?: number | undefined;
   /** Extra query parameters added to authorization URLs. */
-  authorizationUrlParams?: ConnectConnectorUpdateDataCase0AuthorizationUrlParamsMap;
+  authorizationUrlParams?: ConnectConnectorUpdateDataCase0AuthorizationUrlParamsMap | undefined;
   /** JWT bearer grant settings. */
-  jwtBearer?: ConnectConnectorUpdateDataCase0JwtBearer;
+  jwtBearer?: ConnectConnectorUpdateDataCase0JwtBearer | undefined;
   /** `private_key_jwt` client assertion settings. */
-  clientAssertion?: ConnectConnectorUpdateDataCase0ClientAssertion;
+  clientAssertion?: ConnectConnectorUpdateDataCase0ClientAssertion | undefined;
 }
 /** Stored API key value IDs to delete. */
 export type ConnectConnectorUpdateDataCase1ToDeleteList = Array<string>;
@@ -1758,24 +1929,24 @@ export interface ConnectConnectorUpdateDataCase1ToUpdateItem {
   /** Stored API key value ID. */
   id: string;
   /** Replacement API key value. Use null to keep the stored value. */
-  value?: string;
+  value?: string | undefined;
   /** Replacement scope. Use null to remove the scope. */
-  scope?: string;
+  scope?: string | undefined;
   /** The timestamp when the API key value expires in milliseconds. */
-  expiresAt?: ConnectConnectorUpdateDataCase1ToUpdateItemExpiresAt;
+  expiresAt?: ConnectConnectorUpdateDataCase1ToUpdateItemExpiresAt | undefined;
 }
 /** Existing API key values to update. */
 export type ConnectConnectorUpdateDataCase1ToUpdateList =
   Array<ConnectConnectorUpdateDataCase1ToUpdateItem>;
 export interface ConnectConnectorUpdateDataCase1 {
   /** Stored API key value IDs to delete. */
-  toDelete?: ConnectConnectorUpdateDataCase1ToDeleteList;
+  toDelete?: ConnectConnectorUpdateDataCase1ToDeleteList | undefined;
   /** API key values to add. */
-  toAdd?: ConnectConnectorUpdateDataCase1ToAddList;
+  toAdd?: ConnectConnectorUpdateDataCase1ToAddList | undefined;
   /** Existing API key values to update. */
-  toUpdate?: ConnectConnectorUpdateDataCase1ToUpdateList;
+  toUpdate?: ConnectConnectorUpdateDataCase1ToUpdateList | undefined;
   /** Markdown instructions shown to each user on the authorization screen, explaining how to obtain the key they should paste. */
-  instructions?: string;
+  instructions?: string | undefined;
 }
 /** GitHub App owner type. */
 export type ConnectConnectorUpdateDataCase2OwnerType =
@@ -1792,29 +1963,29 @@ export interface ConnectConnectorUpdateDataCase2Owner {
   /** GitHub App owner login. */
   slug: string;
   /** GitHub App owner display name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Additional provider metadata stored with the connector. */
 export type ConnectConnectorUpdateDataCase2ExtrasMap = { [key: string]: unknown | undefined };
 export interface ConnectConnectorUpdateDataCase2 {
   /** GitHub App numeric ID. */
-  appId?: number;
+  appId?: number | undefined;
   /** GitHub App slug. */
-  appSlug?: string;
+  appSlug?: string | undefined;
   /** GitHub App display name. */
-  appName?: string;
+  appName?: string | undefined;
   /** GitHub App OAuth client ID. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** GitHub App owner. */
-  owner?: ConnectConnectorUpdateDataCase2Owner;
+  owner?: ConnectConnectorUpdateDataCase2Owner | undefined;
   /** GitHub App OAuth client secret. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** GitHub App private key in PEM format. */
-  privateKeyPem?: string;
+  privateKeyPem?: string | undefined;
   /** GitHub App webhook secret. */
-  webhookSecret?: string;
+  webhookSecret?: string | undefined;
   /** Additional provider metadata stored with the connector. */
-  extras?: ConnectConnectorUpdateDataCase2ExtrasMap;
+  extras?: ConnectConnectorUpdateDataCase2ExtrasMap | undefined;
 }
 /** OAuth scopes requested for Linear application tokens. */
 export type ConnectConnectorUpdateDataCase3AppScopesList = Array<string>;
@@ -1836,59 +2007,61 @@ export interface ConnectConnectorUpdateDataCase3Application {
   /** Linear OAuth application name. */
   name: string;
   /** Linear OAuth application description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Linear OAuth application developer name. */
-  developer?: string | null;
+  developer?: string | null | undefined;
   /** Linear OAuth application developer URL. */
-  developerUrl?: string | null;
+  developerUrl?: string | null | undefined;
   /** Linear OAuth application image URL. */
-  imageUrl?: string | null;
+  imageUrl?: string | null | undefined;
   /** Registered redirect URIs for the Linear OAuth application. */
-  redirectUris?: ConnectConnectorUpdateDataCase3ApplicationRedirectUrisList;
+  redirectUris?: ConnectConnectorUpdateDataCase3ApplicationRedirectUrisList | undefined;
   /** Linear OAuth application distribution mode. */
-  distribution?: string | null;
+  distribution?: string | null | undefined;
   /** Linear resource types delivered to the webhook. */
-  webhookResourceTypes?: ConnectConnectorUpdateDataCase3ApplicationWebhookResourceTypesList;
+  webhookResourceTypes?:
+    | ConnectConnectorUpdateDataCase3ApplicationWebhookResourceTypesList
+    | undefined;
   /** Linear webhook URL. */
-  webhookUrl?: string | null;
+  webhookUrl?: string | null | undefined;
   /** Whether the Linear webhook is enabled. */
-  webhookEnabled?: boolean;
+  webhookEnabled?: boolean | undefined;
   /** Linear OAuth application creation timestamp. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Linear OAuth application update timestamp. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Additional provider metadata stored with the connector. */
 export type ConnectConnectorUpdateDataCase3ExtrasMap = { [key: string]: unknown | undefined };
 export interface ConnectConnectorUpdateDataCase3 {
   /** Linear application ID. */
-  appId?: string;
+  appId?: string | undefined;
   /** Linear application name. */
-  appName?: string;
+  appName?: string | undefined;
   /** Linear OAuth client ID. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Linear OAuth client secret. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Linear webhook verification secret. */
-  webhookSecret?: string;
+  webhookSecret?: string | undefined;
   /** OAuth scopes requested for Linear application tokens. */
-  appScopes?: ConnectConnectorUpdateDataCase3AppScopesList;
+  appScopes?: ConnectConnectorUpdateDataCase3AppScopesList | undefined;
   /** OAuth scopes requested for Linear user tokens. */
-  userScopes?: ConnectConnectorUpdateDataCase3UserScopesList;
+  userScopes?: ConnectConnectorUpdateDataCase3UserScopesList | undefined;
   /** Linear organization that owns the OAuth application. */
-  ownerOrganization?: ConnectConnectorCreateDataCase3OwnerOrganization;
+  ownerOrganization?: ConnectConnectorCreateDataCase3OwnerOrganization | undefined;
   /** Linear OAuth application metadata. */
-  application?: ConnectConnectorUpdateDataCase3Application;
+  application?: ConnectConnectorUpdateDataCase3Application | undefined;
   /** Additional provider metadata stored with the connector. */
-  extras?: ConnectConnectorUpdateDataCase3ExtrasMap;
+  extras?: ConnectConnectorUpdateDataCase3ExtrasMap | undefined;
 }
 export interface ConnectConnectorUpdateDataCase4 {
   /** Salesforce connected app consumer key. */
-  consumerKey?: string;
+  consumerKey?: string | undefined;
   /** Salesforce connected app consumer secret. */
-  consumerSecret?: string;
+  consumerSecret?: string | undefined;
   /** Salesforce login host, such as login.salesforce.com. */
-  loginHost?: string;
+  loginHost?: string | undefined;
 }
 /** Slack workspace metadata. */
 export type ConnectConnectorUpdateDataCase5SlackTeam = ConnectConnectorCreateDataCase7SlackTeam;
@@ -1916,67 +2089,87 @@ export interface ConnectConnectorUpdateDataCase5ShortcutsItem {
 /** Global and message shortcuts configured for the Slack app. */
 export type ConnectConnectorUpdateDataCase5ShortcutsList =
   Array<ConnectConnectorUpdateDataCase5ShortcutsItem>;
+/** App Home settings for the managed Slack app. Updates preserve omitted settings. */
+export type ConnectConnectorUpdateDataCase5AppHome = ConnectConnectorCreateDataCase7AppHome;
+/** Entity types to preview. An empty array clears the configured types. */
+export type ConnectConnectorUpdateDataCase5RichPreviewsEntityTypesList = Array<string>;
+/** Work Object preview settings for the managed Slack app. Updates preserve omitted settings. */
+export interface ConnectConnectorUpdateDataCase5RichPreviews {
+  /** Enable Work Object previews. Defaults to false for new apps. */
+  isActive?: boolean | undefined;
+  /** Entity types to preview. An empty array clears the configured types. */
+  entityTypes?: ConnectConnectorUpdateDataCase5RichPreviewsEntityTypesList | undefined;
+}
+/** Code channel settings for the managed Slack app. Updates preserve omitted settings. */
+export type ConnectConnectorUpdateDataCase5CodeChannels =
+  ConnectConnectorCreateDataCase7CodeChannels;
 /** Additional provider metadata stored with the connector. */
 export type ConnectConnectorUpdateDataCase5ExtrasMap = { [key: string]: unknown | undefined };
 export interface ConnectConnectorUpdateDataCase5 {
   /** Slack app ID. */
-  appId?: string;
+  appId?: string | undefined;
   /** Slack app display name. */
-  appName?: string;
+  appName?: string | undefined;
   /** Slack app OAuth client ID. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Slack app OAuth client secret. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Slack workspace metadata. */
-  slackTeam?: ConnectConnectorCreateDataCase7SlackTeam;
+  slackTeam?: ConnectConnectorCreateDataCase7SlackTeam | undefined;
   /** Slack request signing secret. */
-  signingSecret?: string;
+  signingSecret?: string | undefined;
   /** Legacy Slack webhook verification token. */
-  verificationToken?: string;
+  verificationToken?: string | undefined;
   /** OAuth scopes requested for Slack bot tokens. */
-  botScopes?: ConnectConnectorUpdateDataCase5BotScopesList;
+  botScopes?: ConnectConnectorUpdateDataCase5BotScopesList | undefined;
   /** OAuth scopes requested for Slack user tokens. */
-  userScopes?: ConnectConnectorUpdateDataCase5UserScopesList;
+  userScopes?: ConnectConnectorUpdateDataCase5UserScopesList | undefined;
   /** Slash commands configured for the managed Slack app. */
-  slashCommands?: ConnectConnectorUpdateDataCase5SlashCommandsList;
+  slashCommands?: ConnectConnectorUpdateDataCase5SlashCommandsList | undefined;
   /** Global and message shortcuts configured for the Slack app. */
-  shortcuts?: ConnectConnectorUpdateDataCase5ShortcutsList;
+  shortcuts?: ConnectConnectorUpdateDataCase5ShortcutsList | undefined;
+  /** App Home settings for the managed Slack app. Updates preserve omitted settings. */
+  appHome?: ConnectConnectorCreateDataCase7AppHome | undefined;
+  /** Work Object preview settings for the managed Slack app. Updates preserve omitted settings. */
+  richPreviews?: ConnectConnectorUpdateDataCase5RichPreviews | undefined;
+  /** Code channel settings for the managed Slack app. Updates preserve omitted settings. */
+  codeChannels?: ConnectConnectorCreateDataCase7CodeChannels | undefined;
   /** Additional provider metadata stored with the connector. */
-  extras?: ConnectConnectorUpdateDataCase5ExtrasMap;
+  extras?: ConnectConnectorUpdateDataCase5ExtrasMap | undefined;
 }
 export interface ConnectConnectorUpdateDataCase6 {
   /** Snowflake account identifier. */
-  accountIdentifier?: string;
+  accountIdentifier?: string | undefined;
   /** Default Snowflake role for created sessions. */
-  defaultSessionRole?: string;
+  defaultSessionRole?: string | undefined;
 }
 export interface ConnectConnectorUpdateDataCase7 {
   /** Snowflake account identifier. */
-  accountIdentifier?: string;
+  accountIdentifier?: string | undefined;
 }
 export type ConnectConnectorUpdateDataCase8PhoneNumbersList = Array<string>;
 export interface ConnectConnectorUpdateDataCase8 {
   /** Linq partner API token for the shared line. */
-  apiToken?: string | Redacted.Redacted<string>;
-  phoneNumbers?: ConnectConnectorUpdateDataCase8PhoneNumbersList;
+  apiToken?: string | Redacted.Redacted<string> | undefined;
+  phoneNumbers?: ConnectConnectorUpdateDataCase8PhoneNumbersList | undefined;
 }
 /** E.164 Sendblue lines this connector sends and receives on. Used as the connector's display name, and the only lines its webhooks are registered for; an empty array clears them, which also removes the webhook subscription. */
 export type ConnectConnectorUpdateDataCase9PhoneNumbersList = Array<string>;
 export interface ConnectConnectorUpdateDataCase9 {
   /** Sendblue API key id (`sb-api-key-id`). */
-  apiKeyId?: string;
+  apiKeyId?: string | undefined;
   /** Sendblue API secret key (`sb-api-secret-key`). */
-  apiSecretKey?: string | Redacted.Redacted<string>;
+  apiSecretKey?: string | Redacted.Redacted<string> | undefined;
   /** E.164 Sendblue lines this connector sends and receives on. Used as the connector's display name, and the only lines its webhooks are registered for; an empty array clears them, which also removes the webhook subscription. */
-  phoneNumbers?: ConnectConnectorUpdateDataCase9PhoneNumbersList;
+  phoneNumbers?: ConnectConnectorUpdateDataCase9PhoneNumbersList | undefined;
 }
 export interface ConnectConnectorUpdateDataCase10 {
   /** Photon project secret. */
-  projectSecret?: string;
+  projectSecret?: string | undefined;
   /** Photon webhook verification secret. */
-  webhookSecret?: string;
+  webhookSecret?: string | undefined;
   /** Whether Connect should recreate the Photon webhook. */
-  repairWebhook?: boolean;
+  repairWebhook?: boolean | undefined;
 }
 export type ConnectConnectorUpdateDataCase11Map = { [key: string]: unknown | undefined };
 /** Provider configuration fields for the connector type. */
@@ -1997,25 +2190,29 @@ export interface UpdateConnectorRequest {
   /** Stable connector ID or URL-encoded team-scoped UID. Examples: `scl_abc123` or `slack%2Fmy-bot`. */
   connector: string;
   /** The team ID that scopes the request. Do not send it with slug. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The team slug that scopes the request. Do not send it with teamId. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  slug?: string;
+  slug?: string | undefined;
   /** Whether the triggers are enabled for this connector. */
-  triggers?: boolean;
-  /** Trigger configuration, validated and encrypted by the trigger driver. An empty object applies driver defaults. */
-  triggerData?: UpdateConnectorRequestTriggerDataMap;
+  triggers?: boolean | undefined;
+  /** Plaintext verification inputs, validated by the trigger driver and encrypted into stored triggerData. An empty object makes no changes. */
+  triggerVerificationInput?: UpdateConnectorRequestTriggerVerificationInputMap | undefined;
+  /** Additional registration inputs, validated by the trigger driver. Requires triggers: true. Shared verification credentials are read from triggerData. */
+  triggerRegistrationInput?: UpdateConnectorRequestTriggerRegistrationInputMap | undefined;
   /** Default trigger events for this connector. */
-  events?: UpdateConnectorRequestEventsList;
+  events?: UpdateConnectorRequestEventsList | undefined;
+  /** MCP Events dashboard visibility. Auto (the default) shows the UI after the first successful delivery. Show and hide persist regardless of future deliveries. This does not enable or disable event delivery. */
+  mcpEventsUiVisibility?: UpdateConnectorRequestMcpEventsUiVisibility | (string & {}) | undefined;
   /** Provider configuration fields to update. */
-  data?: ConnectConnectorUpdateData;
+  data?: ConnectConnectorUpdateData | undefined;
   /** SHA-1 digest of a PNG or JPEG icon that is at least 640 by 640 pixels. This field does not accept a URL or image bytes. First compute the digest and upload the raw image with [POST /v2/files](https://vercel.com/docs/rest-api/deployments/upload-deployment-files). Send `Content-Length` and the same 40-character digest in `x-vercel-digest`. Then set `icon` to that digest. ```js import { createHash } from 'node:crypto'; import { readFile } from 'node:fs/promises'; const VERCEL_TOKEN = process.env.VERCEL_TOKEN; const connectorId = 'scl_...'; const bytes = await readFile('icon.png'); const digest = createHash('sha1').update(bytes).digest('hex'); await fetch('https://api.vercel.com/v2/files', { method: 'POST', headers: { Authorization: `Bearer ${VERCEL_TOKEN}`, 'Content-Type': 'application/octet-stream', 'Content-Length': String(bytes.length), 'x-vercel-digest': digest, }, body: bytes, }); await fetch(`https://api.vercel.com/v2/connect/connectors/${connectorId}`, { method: 'PATCH', headers: { Authorization: `Bearer ${VERCEL_TOKEN}`, 'Content-Type': 'application/json', }, body: JSON.stringify({ icon: digest }), }); ``` */
-  icon?: string;
-  backgroundColor?: string;
-  accentColor?: string;
+  icon?: string | undefined;
+  backgroundColor?: string | undefined;
+  accentColor?: string | undefined;
   /** Full team-scoped UID, such as `slack/my-bot`. It cannot contain whitespace, `%`, `#`, control characters, or Vercel-owned namespaces. Changing it breaks callers that use the old UID. The stable connector ID does not change. */
-  uid?: string;
+  uid?: string | undefined;
   /** Display name for the connector. It is trimmed and cannot be empty or contain control characters. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The affected authorization scope. user means each affected user must authorize again. */
 export type ConnectReconsentScope = "user";
@@ -2031,11 +2228,11 @@ export type ConnectServiceSyncErrorVendorMap = { [key: string]: unknown | undefi
 /** Provider synchronization errors, when synchronization is required. */
 export interface ConnectServiceSyncError {
   /** Connector fields that caused the synchronization error. */
-  fields?: ConnectServiceSyncErrorFieldsList;
+  fields?: ConnectServiceSyncErrorFieldsList | undefined;
   /** Human-readable provider synchronization error. */
   message: string;
   /** Provider-specific error details that are safe to expose. */
-  vendor?: ConnectServiceSyncErrorVendorMap;
+  vendor?: ConnectServiceSyncErrorVendorMap | undefined;
 }
 /** Provider synchronization errors. Present when serviceSync.status is required. */
 export type ConnectServiceSyncErrorsList = Array<ConnectServiceSyncError>;
@@ -2044,7 +2241,7 @@ export type ConnectServiceSyncStatus = "done" | "required";
 /** Provider-side configuration synchronization result. */
 export interface ConnectServiceSync {
   /** Provider synchronization errors. Present when serviceSync.status is required. */
-  errors?: ConnectServiceSyncErrorsList;
+  errors?: ConnectServiceSyncErrorsList | undefined;
   /** done means the external service was updated. required means the Vercel update was saved, but provider-side configuration still needs attention. */
   status: ConnectServiceSyncStatus;
 }
@@ -2053,11 +2250,11 @@ export interface ConnectConnectorUpdateResult {
   /** Updated connector. */
   connector: ConnectConnector;
   /** Present when affected users must authorize the connector's new permissions. */
-  reconsentNeeded?: ConnectReconsent;
+  reconsentNeeded?: ConnectReconsent | undefined;
   /** When true, prompt a team owner or administrator to reinstall the connector before relying on the change. */
-  reinstallNeeded?: boolean;
+  reinstallNeeded?: boolean | undefined;
   /** Result of synchronizing the change with the external service. */
-  serviceSync?: ConnectServiceSync;
+  serviceSync?: ConnectServiceSync | undefined;
 }
 export type UpsertConnectorProjectConnectionRequestEnvironmentsItemCase0 =
   | "development"
@@ -2076,9 +2273,9 @@ export interface UpsertConnectorProjectConnectionRequest {
   /** Vercel project ID. */
   projectId: string;
   /** The team ID that scopes the request. Do not send it with slug. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The team slug that scopes the request. Do not send it with teamId. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
-  slug?: string;
+  slug?: string | undefined;
   /** One or more built-in environment names or stable custom environment IDs that belong to the project. Duplicate values are accepted and removed. */
   environments: UpsertConnectorProjectConnectionRequestEnvironmentsList;
 }
@@ -2096,8 +2293,8 @@ export const createConnector: API.OperationMethod<
   CreateConnectorError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(89, __c11, 1) as any as S.Schema<CreateConnectorRequest>,
-  output: __S(90, __c11, 2) as any as S.Schema<ConnectConnectorCreateResult>,
+  input: __S(113, __c14, 1) as any as S.Schema<CreateConnectorRequest>,
+  output: __S(114, __c14, 2) as any as S.Schema<ConnectConnectorCreateResult>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2119,8 +2316,8 @@ export const createConnectorAuthorizationRequest: API.OperationMethod<
   CreateConnectorAuthorizationRequestError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<CreateConnectorAuthorizationRequestRequest>,
-  output: __S(130, __c16, 2) as any as S.Schema<CreateConnectorAuthorizationRequestResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<CreateConnectorAuthorizationRequestRequest>,
+  output: __S(154, __c19, 2) as any as S.Schema<CreateConnectorAuthorizationRequestResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2142,8 +2339,8 @@ export const deleteConnector: API.OperationMethod<
   DeleteConnectorError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<DeleteConnectorRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<DeleteConnectorResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<DeleteConnectorRequest>,
+  output: __S(176, __c22, 0) as any as S.Schema<DeleteConnectorResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2156,6 +2353,7 @@ export type DeleteConnectorProjectConnectionError =
   | Forbidden
   | NotFound
   | Conflict
+  | UnprocessableEntity
   | VercelOpError;
 /** Disconnect a connector from a project Disconnect a connector from a project. */
 export const deleteConnectorProjectConnection: API.OperationMethod<
@@ -2164,13 +2362,59 @@ export const deleteConnectorProjectConnection: API.OperationMethod<
   DeleteConnectorProjectConnectionError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<DeleteConnectorProjectConnectionRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<DeleteConnectorProjectConnectionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  input: __S(184, __c23, 0) as any as S.Schema<DeleteConnectorProjectConnectionRequest>,
+  output: __S(176, __c22, 0) as any as S.Schema<DeleteConnectorProjectConnectionResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteConnectorProjectConnection",
+}));
+
+export type DisconnectConnectorProjectEnvironmentError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | VercelOpError;
+/** Disconnect a connector from a project environment Remove a connector's access and event destinations for one project environment. Other environments, the connector, and its provider installations are preserved. Preview disconnect removes destinations for every preview branch in the project. Disconnecting the last environment also releases the project-local UID. Safe to retry. */
+export const disconnectConnectorProjectEnvironment: API.OperationMethod<
+  DisconnectConnectorProjectEnvironmentRequest,
+  DisconnectConnectorProjectEnvironmentResponse,
+  DisconnectConnectorProjectEnvironmentError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(192, __c24, 0) as any as S.Schema<DisconnectConnectorProjectEnvironmentRequest>,
+  output: __S(176, __c22, 0) as any as S.Schema<DisconnectConnectorProjectEnvironmentResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisconnectConnectorProjectEnvironment",
+}));
+
+export type EjectManagedConnectorError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | VercelOpError;
+/** Eject a managed connector Disconnect a managed connector from its provider-side manager. */
+export const ejectManagedConnector: API.OperationMethod<
+  EjectManagedConnectorRequest,
+  ConnectConnector,
+  EjectManagedConnectorError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<EjectManagedConnectorRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<ConnectConnector>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EjectManagedConnector",
 }));
 
 export type GetConnectorError =
@@ -2187,8 +2431,8 @@ export const getConnector: API.OperationMethod<
   GetConnectorError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetConnectorRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<ConnectConnector>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetConnectorRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<ConnectConnector>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2209,8 +2453,8 @@ export const getConnectorProjectConnection: API.OperationMethod<
   GetConnectorProjectConnectionError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetConnectorProjectConnectionRequest>,
-  output: __S(12, __c1, 4) as any as S.Schema<ConnectProjectConnection>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetConnectorProjectConnectionRequest>,
+  output: __S(36, __c4, 4) as any as S.Schema<ConnectProjectConnection>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2232,8 +2476,8 @@ export const getConnectorToken: API.OperationMethod<
   GetConnectorTokenError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetConnectorTokenRequest>,
-  output: __S(18, __c2, 2) as any as S.Schema<GetConnectorTokenResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetConnectorTokenRequest>,
+  output: __S(42, __c5, 2) as any as S.Schema<GetConnectorTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2254,8 +2498,8 @@ export const listConnectorProjectConnections: API.OperationMethod<
   ListConnectorProjectConnectionsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ListConnectorProjectConnectionsRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<ConnectConnectorProjectConnectionList>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListConnectorProjectConnectionsRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<ConnectConnectorProjectConnectionList>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2277,8 +2521,8 @@ export const listConnectors: API.OperationMethod<
   ListConnectorsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListConnectorsRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<ConnectConnectorList>,
+  input: __S(72, __c9, 0) as any as S.Schema<ListConnectorsRequest>,
+  output: __S(74, __c9, 2) as any as S.Schema<ConnectConnectorList>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2298,8 +2542,8 @@ export const listProjectConnectorConnections: API.OperationMethod<
   ListProjectConnectorConnectionsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ListProjectConnectorConnectionsRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<ConnectProjectConnectorConnectionList>,
+  input: __S(80, __c10, 0) as any as S.Schema<ListProjectConnectorConnectionsRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<ConnectProjectConnectorConnectionList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2321,8 +2565,8 @@ export const replaceConnectorTriggerDestinations: API.OperationMethod<
   ReplaceConnectorTriggerDestinationsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(65, __c8, 1) as any as S.Schema<ReplaceConnectorTriggerDestinationsRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<ConnectConnector>,
+  input: __S(89, __c11, 1) as any as S.Schema<ReplaceConnectorTriggerDestinationsRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<ConnectConnector>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2344,8 +2588,8 @@ export const updateConnector: API.OperationMethod<
   UpdateConnectorError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<UpdateConnectorRequest>,
-  output: __S(77, __c9, 5) as any as S.Schema<ConnectConnectorUpdateResult>,
+  input: __S(96, __c12, 0) as any as S.Schema<UpdateConnectorRequest>,
+  output: __S(101, __c12, 5) as any as S.Schema<ConnectConnectorUpdateResult>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2358,6 +2602,7 @@ export type UpsertConnectorProjectConnectionError =
   | Forbidden
   | NotFound
   | Conflict
+  | UnprocessableEntity
   | VercelOpError;
 /** Create or update a connector project connection Connect a connector to a project, or replace the environments on an existing project connection. */
 export const upsertConnectorProjectConnection: API.OperationMethod<
@@ -2366,9 +2611,9 @@ export const upsertConnectorProjectConnection: API.OperationMethod<
   UpsertConnectorProjectConnectionError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(81, __c10, 1) as any as S.Schema<UpsertConnectorProjectConnectionRequest>,
-  output: __S(12, __c1, 4) as any as S.Schema<ConnectProjectConnection>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  input: __S(105, __c13, 1) as any as S.Schema<UpsertConnectorProjectConnectionRequest>,
+  output: __S(36, __c4, 4) as any as S.Schema<ConnectProjectConnection>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2377,6 +2622,85 @@ export const upsertConnectorProjectConnection: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector: S.String.pipe(T.Label()),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/connect/connectors/{connector}/managed/eject",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "EjectManagedConnectorRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accentColor: S.optional(S.String),
+          appTokens: S.optional(__S(121, __c15, 1)),
+          backgroundColor: S.optional(S.String),
+          clientUrl: S.optional(S.NullOr(S.String)),
+          connectionMethod: S.optional(S.String),
+          createdAt: S.Number,
+          createdBy: S.optional(S.Unknown),
+          creationMode: S.optional(S.String),
+          defaultInstallationId: S.optional(S.String),
+          devsite: S.optional(S.String),
+          displayName: S.String,
+          docsite: S.optional(S.String),
+          events: S.optional(__S(144, __c18, 0)),
+          hasMcpEventDeliveries: S.optional(S.Boolean),
+          icon: S.optional(S.String),
+          id: S.String,
+          knownStale: S.optional(S.Boolean),
+          managed: S.optional(__S(122, __c15, 2)),
+          mcpEventsUiVisibility: S.optional(S.String),
+          name: S.String,
+          redirectUri: S.optional(S.String),
+          reinstallAt: S.optional(S.Number),
+          service: S.String,
+          serviceIcon: S.optional(S.String),
+          supportedSubjectTypes: __S(144, __c18, 0),
+          supportsIcon: S.Unknown,
+          supportsInstallation: S.Boolean,
+          supportsManagedEjection: S.optional(S.Boolean),
+          supportsRevocation: S.Boolean,
+          supportsTriggers: S.Boolean,
+          target: S.optional(S.String),
+          triggerDestinations: S.optional(__S(124, __c15, 4)),
+          triggers: S.optional(__S(120, __c15, 0)),
+          type: S.String,
+          typeIcon: S.optional(S.String),
+          typeName: S.String,
+          uid: S.String,
+          updatedAt: S.Number,
+          updatedBy: S.optional(S.Unknown),
+          userTokens: S.optional(__S(125, __c15, 5)),
+          website: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectConnector" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector: S.String.pipe(T.Label()),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/connect/connectors/{connector}", code: 200 })),
+      ).annotate({ identifier: "GetConnectorRequest" });
+  }
+}
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2395,7 +2719,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetConnectorProjectConnectionRequest" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -2407,11 +2731,11 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "ConnectProjectConnectionProjectCustomEnvironmentsItem" });
     case 2:
-      return S.Array(__S(9, __c1, 1));
+      return S.Array(__S(33, __c4, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          customEnvironments: S.optional(__S(10, __c1, 2)),
+          customEnvironments: S.optional(__S(34, __c4, 2)),
           id: S.String,
           name: S.String,
         }),
@@ -2421,14 +2745,14 @@ function __c1(j: number): any {
         S.Struct({
           connectorId: S.String,
           createdAt: S.Number,
-          enabledEnvironments: __S(8, __c1, 0),
-          project: __S(11, __c1, 3),
+          enabledEnvironments: __S(32, __c4, 0),
+          project: __S(35, __c4, 3),
           updatedAt: S.Number,
         }),
       ).annotate({ identifier: "ConnectProjectConnection" });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2436,10 +2760,10 @@ function __c2(j: number): any {
           connector: S.String.pipe(T.Label()),
           subject: S.optional(S.Unknown),
           installationId: S.optional(S.String),
-          audience: S.optional(__S(112, __c14, 0)),
-          scopes: S.optional(__S(112, __c14, 0)),
-          resources: S.optional(__S(112, __c14, 0)),
-          authorizationDetails: S.optional(__S(137, __c17, 1)),
+          audience: S.optional(__S(144, __c18, 0)),
+          scopes: S.optional(__S(144, __c18, 0)),
+          resources: S.optional(__S(144, __c18, 0)),
+          authorizationDetails: S.optional(__S(161, __c20, 1)),
           validityBufferMs: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/v1/connect/token/{connector}", code: 200 })),
       ).annotate({ identifier: "GetConnectorTokenRequest" });
@@ -2447,6 +2771,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
+          service: S.optional(S.String),
           type: S.String,
           uid: S.String,
         }),
@@ -2455,12 +2780,12 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           authorizationId: S.optional(S.String),
-          claims: S.optional(__S(96, __c12, 0)),
-          connector: __S(17, __c2, 1),
+          claims: S.optional(__S(128, __c16, 0)),
+          connector: __S(41, __c5, 1),
           expiresAt: S.Number,
           externalSubject: S.optional(S.String),
           installationId: S.optional(S.String),
-          metadata: S.optional(__S(96, __c12, 0)),
+          metadata: S.optional(__S(128, __c16, 0)),
           name: S.optional(S.String),
           tenantId: S.optional(S.String),
           token: S.String,
@@ -2470,7 +2795,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetConnectorTokenResponse" });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2487,13 +2812,13 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          pagination: __S(32, __c4, 0),
-          projects: __S(40, __c5, 0),
+          pagination: __S(56, __c7, 0),
+          projects: __S(64, __c8, 0),
         }),
       ).annotate({ identifier: "ConnectConnectorProjectConnectionList" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2503,13 +2828,13 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ConnectPagination" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(12, __c1, 4));
+      return S.Array(__S(36, __c4, 4));
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2526,17 +2851,17 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/connect/connectors", code: 200 })),
       ).annotate({ identifier: "ListConnectorsRequest" });
     case 1:
-      return S.Array(__S(176, __c22, 0));
+      return S.Array(__S(8, __c1, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          connectors: __S(49, __c6, 1),
-          pagination: __S(32, __c4, 0),
+          connectors: __S(73, __c9, 1),
+          pagination: __S(56, __c7, 0),
         }),
       ).annotate({ identifier: "ConnectConnectorList" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2553,13 +2878,13 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          connectors: __S(40, __c5, 0),
-          pagination: __S(32, __c4, 0),
+          connectors: __S(64, __c8, 0),
+          pagination: __S(56, __c7, 0),
         }),
       ).annotate({ identifier: "ConnectProjectConnectorConnectionList" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -2569,7 +2894,7 @@ function __c8(j: number): any {
           connector: S.String.pipe(T.Label()),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
-          destinations: __S(64, __c8, 0),
+          destinations: __S(88, __c11, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2580,7 +2905,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ReplaceConnectorTriggerDestinationsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2589,8 +2914,10 @@ function __c9(j: number): any {
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           triggers: S.optional(S.Boolean),
-          triggerData: S.optional(__S(96, __c12, 0)),
-          events: S.optional(__S(112, __c14, 0)),
+          triggerVerificationInput: S.optional(__S(128, __c16, 0)),
+          triggerRegistrationInput: S.optional(__S(128, __c16, 0)),
+          events: S.optional(__S(144, __c18, 0)),
+          mcpEventsUiVisibility: S.optional(S.String),
           data: S.optional(S.Unknown),
           icon: S.optional(S.String),
           backgroundColor: S.optional(S.String),
@@ -2608,32 +2935,32 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(__S(112, __c14, 0)),
+          fields: S.optional(__S(144, __c18, 0)),
           message: S.String,
-          vendor: S.optional(__S(96, __c12, 0)),
+          vendor: S.optional(__S(128, __c16, 0)),
         }),
       ).annotate({ identifier: "ConnectServiceSyncError" });
     case 3:
-      return S.Array(__S(74, __c9, 2));
+      return S.Array(__S(98, __c12, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(75, __c9, 3)),
+          errors: S.optional(__S(99, __c12, 3)),
           status: S.String,
         }),
       ).annotate({ identifier: "ConnectServiceSync" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          connector: __S(176, __c22, 0),
-          reconsentNeeded: S.optional(__S(73, __c9, 1)),
+          connector: __S(8, __c1, 0),
+          reconsentNeeded: S.optional(__S(97, __c12, 1)),
           reinstallNeeded: S.optional(S.Boolean),
-          serviceSync: S.optional(__S(76, __c9, 4)),
+          serviceSync: S.optional(__S(100, __c12, 4)),
         }),
       ).annotate({ identifier: "ConnectConnectorUpdateResult" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -2644,7 +2971,7 @@ function __c10(j: number): any {
           projectId: S.String.pipe(T.Label()),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
-          environments: __S(80, __c10, 0),
+          environments: __S(104, __c13, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2655,7 +2982,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "UpsertConnectorProjectConnectionRequest" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -2671,17 +2998,18 @@ function __c11(j: number): any {
           type: S.optional(S.String),
           service: S.optional(S.String),
           connectionMethod: S.optional(S.String),
-          params: S.optional(__S(104, __c13, 0)),
+          params: S.optional(__S(136, __c17, 0)),
           target: S.optional(S.String),
           uid: S.optional(S.String),
           name: S.optional(S.String),
           projectId: S.optional(S.String),
-          environments: S.optional(__S(88, __c11, 0)),
+          environments: S.optional(__S(112, __c14, 0)),
           triggers: S.optional(S.Boolean),
           triggerType: S.optional(S.String),
-          triggerData: S.optional(__S(96, __c12, 0)),
+          triggerVerificationInput: S.optional(__S(128, __c16, 0)),
+          triggerRegistrationInput: S.optional(__S(128, __c16, 0)),
           triggerDestination: S.optional(S.Unknown),
-          events: S.optional(__S(112, __c14, 0)),
+          events: S.optional(__S(144, __c18, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/connect/connectors", code: 200 })),
       ).annotate({ identifier: "CreateConnectorRequest" });
     case 2:
@@ -2699,19 +3027,22 @@ function __c11(j: number): any {
           devsite: S.optional(S.String),
           displayName: S.String,
           docsite: S.optional(S.String),
-          events: S.optional(__S(112, __c14, 0)),
+          events: S.optional(__S(144, __c18, 0)),
+          hasMcpEventDeliveries: S.optional(S.Boolean),
           icon: S.optional(S.String),
           id: S.String,
           knownStale: S.optional(S.Boolean),
           managed: S.optional(__S(122, __c15, 2)),
+          mcpEventsUiVisibility: S.optional(S.String),
           name: S.String,
           redirectUri: S.optional(S.String),
           reinstallAt: S.optional(S.Number),
           service: S.String,
           serviceIcon: S.optional(S.String),
-          supportedSubjectTypes: __S(112, __c14, 0),
+          supportedSubjectTypes: __S(144, __c18, 0),
           supportsIcon: S.Unknown,
           supportsInstallation: S.Boolean,
+          supportsManagedEjection: S.optional(S.Boolean),
           supportsRevocation: S.Boolean,
           supportsTriggers: S.Boolean,
           target: S.optional(S.String),
@@ -2729,24 +3060,6 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ConnectConnectorCreateResult" });
   }
 }
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
 function __c15(j: number): any {
   switch (j) {
     case 0:
@@ -2759,10 +3072,11 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           crossInstallation: S.Boolean,
+          isStaticCredential: S.Boolean,
           permissionsUrl: S.optional(S.String),
           requiresReinstallation: S.optional(S.Boolean),
-          scopes: S.optional(__S(112, __c14, 0)),
-          supportedAuthorizationDetails: S.optional(__S(112, __c14, 0)),
+          scopes: S.optional(__S(144, __c18, 0)),
+          supportedAuthorizationDetails: S.optional(__S(144, __c18, 0)),
           supportsRefinement: S.Boolean,
           supportsResources: S.optional(S.Boolean),
         }),
@@ -2788,9 +3102,10 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           crossInstallation: S.Boolean,
+          isStaticCredential: S.Boolean,
           manualCredentialInput: S.optional(S.Boolean),
-          scopes: S.optional(__S(112, __c14, 0)),
-          supportedAuthorizationDetails: S.optional(__S(112, __c14, 0)),
+          scopes: S.optional(__S(144, __c18, 0)),
+          supportedAuthorizationDetails: S.optional(__S(144, __c18, 0)),
           supportsRefinement: S.Boolean,
           supportsResources: S.optional(S.Boolean),
         }),
@@ -2800,22 +3115,40 @@ function __c15(j: number): any {
 function __c16(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           connector: S.String.pipe(T.Label()),
           subject: S.optional(S.Unknown),
           installationId: S.optional(S.String),
-          audience: S.optional(__S(112, __c14, 0)),
-          scopes: S.optional(__S(112, __c14, 0)),
-          resources: S.optional(__S(112, __c14, 0)),
-          authorizationDetails: S.optional(__S(137, __c17, 1)),
+          audience: S.optional(__S(144, __c18, 0)),
+          scopes: S.optional(__S(144, __c18, 0)),
+          resources: S.optional(__S(144, __c18, 0)),
+          authorizationDetails: S.optional(__S(161, __c20, 1)),
           validityBufferMs: S.optional(S.Number),
           returnUrl: S.optional(S.String),
           webhook: S.optional(S.String),
           prompt: S.optional(S.String),
           deviceCode: S.optional(S.Boolean),
           expiresInMs: S.optional(S.Number),
-          additionalParams: S.optional(__S(104, __c13, 0)),
+          additionalParams: S.optional(__S(136, __c17, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/connect/authorize/{connector}", code: 200 })),
       ).annotate({ identifier: "CreateConnectorAuthorizationRequestRequest" });
     case 1:
@@ -2833,7 +3166,7 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          connector: __S(129, __c16, 1),
+          connector: __S(153, __c19, 1),
           deviceCode: S.optional(S.String),
           expiresAt: S.Number,
           request: S.String,
@@ -2843,21 +3176,24 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreateConnectorAuthorizationRequestResponse" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            type: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({
         identifier: "CreateConnectorAuthorizationRequestRequestAuthorizationDetailsItem",
       });
     case 1:
-      return S.Array(__S(136, __c17, 0));
+      return S.Array(__S(160, __c20, 0));
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2869,13 +3205,13 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeleteConnectorRequest" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteConnectorResponse" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2894,63 +3230,24 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeleteConnectorProjectConnectionRequest" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           connector: S.String.pipe(T.Label()),
-          teamId: S.optional(S.String.pipe(T.Query())),
+          projectId: S.String.pipe(T.Label()),
+          environment: S.String.pipe(T.Label()),
           slug: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/connect/connectors/{connector}", code: 200 })),
-      ).annotate({ identifier: "GetConnectorRequest" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accentColor: S.optional(S.String),
-          appTokens: S.optional(__S(121, __c15, 1)),
-          backgroundColor: S.optional(S.String),
-          clientUrl: S.optional(S.NullOr(S.String)),
-          connectionMethod: S.optional(S.String),
-          createdAt: S.Number,
-          createdBy: S.optional(S.Unknown),
-          creationMode: S.optional(S.String),
-          defaultInstallationId: S.optional(S.String),
-          devsite: S.optional(S.String),
-          displayName: S.String,
-          docsite: S.optional(S.String),
-          events: S.optional(__S(112, __c14, 0)),
-          icon: S.optional(S.String),
-          id: S.String,
-          knownStale: S.optional(S.Boolean),
-          managed: S.optional(__S(122, __c15, 2)),
-          name: S.String,
-          redirectUri: S.optional(S.String),
-          reinstallAt: S.optional(S.Number),
-          service: S.String,
-          serviceIcon: S.optional(S.String),
-          supportedSubjectTypes: __S(112, __c14, 0),
-          supportsIcon: S.Unknown,
-          supportsInstallation: S.Boolean,
-          supportsRevocation: S.Boolean,
-          supportsTriggers: S.Boolean,
-          target: S.optional(S.String),
-          triggerDestinations: S.optional(__S(124, __c15, 4)),
-          triggers: S.optional(__S(120, __c15, 0)),
-          type: S.String,
-          typeIcon: S.optional(S.String),
-          typeName: S.String,
-          uid: S.String,
-          updatedAt: S.Number,
-          updatedBy: S.optional(S.Unknown),
-          userTokens: S.optional(__S(125, __c15, 5)),
-          website: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConnectConnector" });
+          teamId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/v1/connect/connectors/{connector}/projects/{projectId}/environments/{environment}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DisconnectConnectorProjectEnvironmentRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

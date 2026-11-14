@@ -1,0 +1,10 @@
+{
+  "description": "Mark the search monitor's webhook signing secret sensitive. The spec documents `webhookSecret` as \"The secret used to verify webhook signatures. This is only returned once at creation time. Store it securely.\" but types it as a plain string.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.exa.api#CreateSearchMonitorResponse/members/webhookSecret/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

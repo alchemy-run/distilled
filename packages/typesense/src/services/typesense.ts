@@ -59,11 +59,11 @@ export interface CompactDbRequest {}
 export type CreateAnalyticsEventRequestDataDocIdsList = Array<string>;
 /** Event payload */
 export interface CreateAnalyticsEventRequestData {
-  user_id?: string;
-  doc_id?: string;
-  doc_ids?: CreateAnalyticsEventRequestDataDocIdsList;
-  q?: string;
-  analytics_tag?: string;
+  user_id?: string | undefined;
+  doc_id?: string | undefined;
+  doc_ids?: CreateAnalyticsEventRequestDataDocIdsList | undefined;
+  q?: string | undefined;
+  analytics_tag?: string | undefined;
 }
 export interface CreateAnalyticsEventRequest {
   /** Name of the analytics rule this event corresponds to */
@@ -79,21 +79,21 @@ export interface AnalyticsEventCreateResponse {
 export type AnalyticsRuleType = "popular_queries" | "nohits_queries" | "counter" | "log";
 export type AnalyticsRuleCreateParamsMetaFieldsList = Array<string>;
 export interface AnalyticsRuleCreateParams {
-  destination_collection?: string;
-  limit?: number;
-  capture_search_requests?: boolean;
-  meta_fields?: AnalyticsRuleCreateParamsMetaFieldsList;
-  expand_query?: boolean;
-  counter_field?: string;
-  weight?: number;
+  destination_collection?: string | undefined;
+  limit?: number | undefined;
+  capture_search_requests?: boolean | undefined;
+  meta_fields?: AnalyticsRuleCreateParamsMetaFieldsList | undefined;
+  expand_query?: boolean | undefined;
+  counter_field?: string | undefined;
+  weight?: number | undefined;
 }
 export interface AnalyticsRuleCreate {
   name: string;
   type: AnalyticsRuleType | (string & {});
   collection: string;
   event_type: string;
-  rule_tag?: string;
-  params?: AnalyticsRuleCreateParams;
+  rule_tag?: string | undefined;
+  params?: AnalyticsRuleCreateParams | undefined;
 }
 export type CreateAnalyticsRuleRequestBodyCase1List = Array<AnalyticsRuleCreate>;
 export type CreateAnalyticsRuleRequestBody =
@@ -104,24 +104,24 @@ export interface CreateAnalyticsRuleRequest {
 }
 export type AnalyticsRuleParamsMetaFieldsList = Array<string>;
 export interface AnalyticsRuleParams {
-  destination_collection?: string;
-  limit?: number;
-  capture_search_requests?: boolean;
-  meta_fields?: AnalyticsRuleParamsMetaFieldsList;
-  expand_query?: boolean;
-  counter_field?: string;
-  weight?: number;
+  destination_collection?: string | undefined;
+  limit?: number | undefined;
+  capture_search_requests?: boolean | undefined;
+  meta_fields?: AnalyticsRuleParamsMetaFieldsList | undefined;
+  expand_query?: boolean | undefined;
+  counter_field?: string | undefined;
+  weight?: number | undefined;
 }
 export interface AnalyticsRule {
   name: string;
   type: AnalyticsRuleType;
   collection: string;
   event_type: string;
-  rule_tag?: string;
-  params?: AnalyticsRuleParams;
+  rule_tag?: string | undefined;
+  params?: AnalyticsRuleParams | undefined;
 }
 export interface CreateAnalyticsRuleResponseBodyCase1ItemCase1 {
-  error?: string;
+  error?: string | undefined;
 }
 export type CreateAnalyticsRuleResponseBodyCase1Item =
   | AnalyticsRule
@@ -139,15 +139,15 @@ export type FieldSymbolsToIndexList = Array<string>;
 export type FieldEmbedFromList = Array<string>;
 export interface FieldEmbedModelConfig {
   model_name: string;
-  api_key?: string | import("effect/Redacted").Redacted<string>;
-  url?: string;
-  access_token?: string | import("effect/Redacted").Redacted<string>;
-  refresh_token?: string | import("effect/Redacted").Redacted<string>;
-  client_id?: string;
-  client_secret?: string | import("effect/Redacted").Redacted<string>;
-  project_id?: string;
-  indexing_prefix?: string;
-  query_prefix?: string;
+  api_key?: string | import("effect/Redacted").Redacted<string> | undefined;
+  url?: string | undefined;
+  access_token?: string | import("effect/Redacted").Redacted<string> | undefined;
+  refresh_token?: string | import("effect/Redacted").Redacted<string> | undefined;
+  client_id?: string | undefined;
+  client_secret?: string | import("effect/Redacted").Redacted<string> | undefined;
+  project_id?: string | undefined;
+  indexing_prefix?: string | undefined;
+  query_prefix?: string | undefined;
 }
 export interface FieldEmbed {
   from: FieldEmbedFromList;
@@ -156,33 +156,33 @@ export interface FieldEmbed {
 export interface Field {
   name: string;
   type: string;
-  optional?: boolean;
-  facet?: boolean;
-  index?: boolean;
-  locale?: string;
-  sort?: boolean;
-  infix?: boolean;
+  optional?: boolean | undefined;
+  facet?: boolean | undefined;
+  index?: boolean | undefined;
+  locale?: string | undefined;
+  sort?: boolean | undefined;
+  infix?: boolean | undefined;
   /** Name of a field in another collection that should be linked to this collection so that it can be joined during query. */
-  reference?: string;
+  reference?: string | undefined;
   /** Allow documents to be indexed successfully even when the referenced document doesn't exist yet. */
-  async_reference?: boolean;
-  num_dim?: number;
-  drop?: boolean;
+  async_reference?: boolean | undefined;
+  num_dim?: number | undefined;
+  drop?: boolean | undefined;
   /** When set to false, the field value will not be stored on disk. Default: true. */
-  store?: boolean;
+  store?: boolean | undefined;
   /** The distance metric to be used for vector search. Default: `cosine`. You can also use `ip` for inner product. */
-  vec_dist?: string;
+  vec_dist?: string | undefined;
   /** Enables an index optimized for range filtering on numerical fields (e.g. rating:>3.5). Default: false. */
-  range_index?: boolean;
+  range_index?: boolean | undefined;
   /** Values are stemmed before indexing in-memory. Default: false. */
-  stem?: boolean;
+  stem?: boolean | undefined;
   /** Name of the stemming dictionary to use for this field */
-  stem_dictionary?: string;
+  stem_dictionary?: string | undefined;
   /** List of symbols or special characters to be used for splitting the text into individual words in addition to space and new-line characters. */
-  token_separators?: FieldTokenSeparatorsList;
+  token_separators?: FieldTokenSeparatorsList | undefined;
   /** List of symbols or special characters to be indexed. */
-  symbols_to_index?: FieldSymbolsToIndexList;
-  embed?: FieldEmbed;
+  symbols_to_index?: FieldSymbolsToIndexList | undefined;
+  embed?: FieldEmbed | undefined;
 }
 /** A list of fields for querying, filtering and faceting */
 export type CreateCollectionRequestFieldsList = Array<Field>;
@@ -194,7 +194,7 @@ export type CreateCollectionRequestSynonymSetsList = Array<string>;
 export type CreateCollectionRequestSymbolsToIndexList = Array<string>;
 /** Configuration for the voice query model */
 export interface VoiceQueryModelCollectionConfig {
-  model_name?: string;
+  model_name?: string | undefined;
 }
 export interface CreateCollectionRequest {
   /** Name of the collection */
@@ -202,18 +202,18 @@ export interface CreateCollectionRequest {
   /** A list of fields for querying, filtering and faceting */
   fields: CreateCollectionRequestFieldsList;
   /** The name of an int32 / float field that determines the order in which the search results are ranked when a sort_by clause is not provided during searching. This field must indicate some kind of popularity. */
-  default_sorting_field?: string;
+  default_sorting_field?: string | undefined;
   /** List of symbols or special characters to be used for splitting the text into individual words in addition to space and new-line characters. */
-  token_separators?: CreateCollectionRequestTokenSeparatorsList;
+  token_separators?: CreateCollectionRequestTokenSeparatorsList | undefined;
   /** List of synonym set names to associate with this collection */
-  synonym_sets?: CreateCollectionRequestSynonymSetsList;
+  synonym_sets?: CreateCollectionRequestSynonymSetsList | undefined;
   /** Enables experimental support at a collection level for nested object or object array fields. This field is only available if the Typesense server is version `0.24.0.rcn34` or later. */
-  enable_nested_fields?: boolean;
+  enable_nested_fields?: boolean | undefined;
   /** List of symbols or special characters to be indexed. */
-  symbols_to_index?: CreateCollectionRequestSymbolsToIndexList;
-  voice_query_model?: VoiceQueryModelCollectionConfig;
+  symbols_to_index?: CreateCollectionRequestSymbolsToIndexList | undefined;
+  voice_query_model?: VoiceQueryModelCollectionConfig | undefined;
   /** Optional details about the collection, e.g., when it was created, who created it etc. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 /** A list of fields for querying, filtering and faceting */
 export type CreateCollectionResponseFieldsList = Array<Field>;
@@ -229,18 +229,18 @@ export interface CreateCollectionResponse {
   /** A list of fields for querying, filtering and faceting */
   fields: CreateCollectionResponseFieldsList;
   /** The name of an int32 / float field that determines the order in which the search results are ranked when a sort_by clause is not provided during searching. This field must indicate some kind of popularity. */
-  default_sorting_field?: string;
+  default_sorting_field?: string | undefined;
   /** List of symbols or special characters to be used for splitting the text into individual words in addition to space and new-line characters. */
-  token_separators?: CreateCollectionResponseTokenSeparatorsList;
+  token_separators?: CreateCollectionResponseTokenSeparatorsList | undefined;
   /** List of synonym set names to associate with this collection */
-  synonym_sets?: CreateCollectionResponseSynonymSetsList;
+  synonym_sets?: CreateCollectionResponseSynonymSetsList | undefined;
   /** Enables experimental support at a collection level for nested object or object array fields. This field is only available if the Typesense server is version `0.24.0.rcn34` or later. */
-  enable_nested_fields?: boolean;
+  enable_nested_fields?: boolean | undefined;
   /** List of symbols or special characters to be indexed. */
-  symbols_to_index?: CreateCollectionResponseSymbolsToIndexList;
-  voice_query_model?: VoiceQueryModelCollectionConfig;
+  symbols_to_index?: CreateCollectionResponseSymbolsToIndexList | undefined;
+  voice_query_model?: VoiceQueryModelCollectionConfig | undefined;
   /** Optional details about the collection, e.g., when it was created, who created it etc. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** Number of documents in the collection */
   num_documents: number;
   /** Timestamp of when the collection was created (Unix epoch in seconds) */
@@ -248,23 +248,23 @@ export interface CreateCollectionResponse {
 }
 export interface CreateConversationModelRequest {
   /** An explicit id for the model, otherwise the API will return a response with an auto-generated conversation model id. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the LLM model offered by OpenAI, Cloudflare or vLLM */
   model_name: string;
   /** The LLM service's API Key */
-  api_key?: string | import("effect/Redacted").Redacted<string>;
+  api_key?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Typesense collection that stores the historical conversations */
   history_collection: string;
   /** LLM service's account ID (only applicable for Cloudflare) */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The system prompt that contains special instructions to the LLM */
-  system_prompt?: string;
+  system_prompt?: string | undefined;
   /** Time interval in seconds after which the messages would be deleted. Default: 86400 (24 hours) */
-  ttl?: number;
+  ttl?: number | undefined;
   /** The maximum number of bytes to send to the LLM in every API call. Consult the LLM's documentation on the number of bytes supported in the context window. */
   max_bytes: number;
   /** URL of vLLM service */
-  vllm_url?: string;
+  vllm_url?: string | undefined;
 }
 export interface CreateConversationModelResponse {
   /** An explicit id for the model, otherwise the API will return a response with an auto-generated conversation model id. */
@@ -272,127 +272,127 @@ export interface CreateConversationModelResponse {
   /** Name of the LLM model offered by OpenAI, Cloudflare or vLLM */
   model_name: string;
   /** The LLM service's API Key */
-  api_key?: string | import("effect/Redacted").Redacted<string>;
+  api_key?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Typesense collection that stores the historical conversations */
   history_collection: string;
   /** LLM service's account ID (only applicable for Cloudflare) */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The system prompt that contains special instructions to the LLM */
-  system_prompt?: string;
+  system_prompt?: string | undefined;
   /** Time interval in seconds after which the messages would be deleted. Default: 86400 (24 hours) */
-  ttl?: number;
+  ttl?: number | undefined;
   /** The maximum number of bytes to send to the LLM in every API call. Consult the LLM's documentation on the number of bytes supported in the context window. */
   max_bytes: number;
   /** URL of vLLM service */
-  vllm_url?: string;
+  vllm_url?: string | undefined;
 }
 export type CreateKeyRequestActionsList = Array<string>;
 export type CreateKeyRequestCollectionsList = Array<string>;
 export interface CreateKeyRequest {
-  value?: string;
+  value?: string | undefined;
   description: string;
   actions: CreateKeyRequestActionsList;
   collections: CreateKeyRequestCollectionsList;
-  expires_at?: number;
+  expires_at?: number | undefined;
 }
 export type CreateKeyResponseActionsList = Array<string>;
 export type CreateKeyResponseCollectionsList = Array<string>;
 export interface CreateKeyResponse {
-  value?: string;
+  value?: string | undefined;
   description: string;
   actions: CreateKeyResponseActionsList;
   collections: CreateKeyResponseCollectionsList;
-  expires_at?: number;
-  id?: number;
-  value_prefix?: string;
+  expires_at?: number | undefined;
+  id?: number | undefined;
+  value_prefix?: string | undefined;
 }
 /** Stop sequences for the NL model (Google-specific) */
 export type CreateNLSearchModelRequestStopSequencesList = Array<string>;
 export interface CreateNLSearchModelRequest {
   /** Name of the NL model to use */
-  model_name?: string;
+  model_name?: string | undefined;
   /** API key for the NL model service */
-  api_key?: string | import("effect/Redacted").Redacted<string>;
+  api_key?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Custom API URL for the NL model service */
-  api_url?: string;
+  api_url?: string | undefined;
   /** Maximum number of bytes to process */
-  max_bytes?: number;
+  max_bytes?: number | undefined;
   /** Temperature parameter for the NL model */
-  temperature?: number;
+  temperature?: number | undefined;
   /** System prompt for the NL model */
-  system_prompt?: string;
+  system_prompt?: string | undefined;
   /** Top-p parameter for the NL model (Google-specific) */
-  top_p?: number;
+  top_p?: number | undefined;
   /** Top-k parameter for the NL model (Google-specific) */
-  top_k?: number;
+  top_k?: number | undefined;
   /** Stop sequences for the NL model (Google-specific) */
-  stop_sequences?: CreateNLSearchModelRequestStopSequencesList;
+  stop_sequences?: CreateNLSearchModelRequestStopSequencesList | undefined;
   /** API version for the NL model service */
-  api_version?: string;
+  api_version?: string | undefined;
   /** Project ID for GCP Vertex AI */
-  project_id?: string;
+  project_id?: string | undefined;
   /** Access token for GCP Vertex AI */
-  access_token?: string | import("effect/Redacted").Redacted<string>;
+  access_token?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Refresh token for GCP Vertex AI */
-  refresh_token?: string | import("effect/Redacted").Redacted<string>;
+  refresh_token?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Client ID for GCP Vertex AI */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Client secret for GCP Vertex AI */
-  client_secret?: string | import("effect/Redacted").Redacted<string>;
+  client_secret?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Region for GCP Vertex AI */
-  region?: string;
+  region?: string | undefined;
   /** Maximum output tokens for GCP Vertex AI */
-  max_output_tokens?: number;
+  max_output_tokens?: number | undefined;
   /** Account ID for Cloudflare-specific models */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Optional ID for the NL search model */
-  id?: string;
+  id?: string | undefined;
 }
 /** Stop sequences for the NL model (Google-specific) */
 export type CreateNLSearchModelResponseStopSequencesList = Array<string>;
 export interface CreateNLSearchModelResponse {
   /** Name of the NL model to use */
-  model_name?: string;
+  model_name?: string | undefined;
   /** API key for the NL model service */
-  api_key?: string | import("effect/Redacted").Redacted<string>;
+  api_key?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Custom API URL for the NL model service */
-  api_url?: string;
+  api_url?: string | undefined;
   /** Maximum number of bytes to process */
-  max_bytes?: number;
+  max_bytes?: number | undefined;
   /** Temperature parameter for the NL model */
-  temperature?: number;
+  temperature?: number | undefined;
   /** System prompt for the NL model */
-  system_prompt?: string;
+  system_prompt?: string | undefined;
   /** Top-p parameter for the NL model (Google-specific) */
-  top_p?: number;
+  top_p?: number | undefined;
   /** Top-k parameter for the NL model (Google-specific) */
-  top_k?: number;
+  top_k?: number | undefined;
   /** Stop sequences for the NL model (Google-specific) */
-  stop_sequences?: CreateNLSearchModelResponseStopSequencesList;
+  stop_sequences?: CreateNLSearchModelResponseStopSequencesList | undefined;
   /** API version for the NL model service */
-  api_version?: string;
+  api_version?: string | undefined;
   /** Project ID for GCP Vertex AI */
-  project_id?: string;
+  project_id?: string | undefined;
   /** Access token for GCP Vertex AI */
-  access_token?: string | import("effect/Redacted").Redacted<string>;
+  access_token?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Refresh token for GCP Vertex AI */
-  refresh_token?: string | import("effect/Redacted").Redacted<string>;
+  refresh_token?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Client ID for GCP Vertex AI */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Client secret for GCP Vertex AI */
-  client_secret?: string | import("effect/Redacted").Redacted<string>;
+  client_secret?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Region for GCP Vertex AI */
-  region?: string;
+  region?: string | undefined;
   /** Maximum output tokens for GCP Vertex AI */
-  max_output_tokens?: number;
+  max_output_tokens?: number | undefined;
   /** Account ID for Cloudflare-specific models */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Optional ID for the NL search model */
   id: string;
 }
 export interface DebugRequest {}
 export interface DebugResponse {
-  version?: string;
+  version?: string | undefined;
 }
 export interface DeleteAliasRequest {
   /** The name of the alias to delete */
@@ -410,21 +410,21 @@ export interface DeleteAnalyticsRuleRequest {
 }
 export type DeleteAnalyticsRuleResponseParamsMetaFieldsList = Array<string>;
 export interface DeleteAnalyticsRuleResponseParams {
-  destination_collection?: string;
-  limit?: number;
-  capture_search_requests?: boolean;
-  meta_fields?: DeleteAnalyticsRuleResponseParamsMetaFieldsList;
-  expand_query?: boolean;
-  counter_field?: string;
-  weight?: number;
+  destination_collection?: string | undefined;
+  limit?: number | undefined;
+  capture_search_requests?: boolean | undefined;
+  meta_fields?: DeleteAnalyticsRuleResponseParamsMetaFieldsList | undefined;
+  expand_query?: boolean | undefined;
+  counter_field?: string | undefined;
+  weight?: number | undefined;
 }
 export interface DeleteAnalyticsRuleResponse {
   name: string;
   type: AnalyticsRuleType;
   collection: string;
   event_type: string;
-  rule_tag?: string;
-  params?: DeleteAnalyticsRuleResponseParams;
+  rule_tag?: string | undefined;
+  params?: DeleteAnalyticsRuleResponseParams | undefined;
 }
 export interface DeleteCollectionRequest {
   /** The name of the collection to delete */
@@ -444,18 +444,18 @@ export interface DeleteCollectionResponse {
   /** A list of fields for querying, filtering and faceting */
   fields: DeleteCollectionResponseFieldsList;
   /** The name of an int32 / float field that determines the order in which the search results are ranked when a sort_by clause is not provided during searching. This field must indicate some kind of popularity. */
-  default_sorting_field?: string;
+  default_sorting_field?: string | undefined;
   /** List of symbols or special characters to be used for splitting the text into individual words in addition to space and new-line characters. */
-  token_separators?: DeleteCollectionResponseTokenSeparatorsList;
+  token_separators?: DeleteCollectionResponseTokenSeparatorsList | undefined;
   /** List of synonym set names to associate with this collection */
-  synonym_sets?: DeleteCollectionResponseSynonymSetsList;
+  synonym_sets?: DeleteCollectionResponseSynonymSetsList | undefined;
   /** Enables experimental support at a collection level for nested object or object array fields. This field is only available if the Typesense server is version `0.24.0.rcn34` or later. */
-  enable_nested_fields?: boolean;
+  enable_nested_fields?: boolean | undefined;
   /** List of symbols or special characters to be indexed. */
-  symbols_to_index?: DeleteCollectionResponseSymbolsToIndexList;
-  voice_query_model?: VoiceQueryModelCollectionConfig;
+  symbols_to_index?: DeleteCollectionResponseSymbolsToIndexList | undefined;
+  voice_query_model?: VoiceQueryModelCollectionConfig | undefined;
   /** Optional details about the collection, e.g., when it was created, who created it etc. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** Number of documents in the collection */
   num_documents: number;
   /** Timestamp of when the collection was created (Unix epoch in seconds) */
@@ -471,19 +471,19 @@ export interface DeleteConversationModelResponse {
   /** Name of the LLM model offered by OpenAI, Cloudflare or vLLM */
   model_name: string;
   /** The LLM service's API Key */
-  api_key?: string | import("effect/Redacted").Redacted<string>;
+  api_key?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Typesense collection that stores the historical conversations */
   history_collection: string;
   /** LLM service's account ID (only applicable for Cloudflare) */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The system prompt that contains special instructions to the LLM */
-  system_prompt?: string;
+  system_prompt?: string | undefined;
   /** Time interval in seconds after which the messages would be deleted. Default: 86400 (24 hours) */
-  ttl?: number;
+  ttl?: number | undefined;
   /** The maximum number of bytes to send to the LLM in every API call. Consult the LLM's documentation on the number of bytes supported in the context window. */
   max_bytes: number;
   /** URL of vLLM service */
-  vllm_url?: string;
+  vllm_url?: string | undefined;
 }
 export interface DeleteCurationSetRequest {
   /** The name of the curation set to delete */
@@ -513,15 +513,15 @@ export type DeleteDocumentResponse = unknown;
 export interface DeleteDocumentsRequestDeleteDocumentsParameters {
   filter_by: string;
   /** Batch size parameter controls the number of documents that should be deleted at a time. A larger value will speed up deletions, but will impact performance of other operations running on the server. */
-  batch_size?: number;
-  ignore_not_found?: boolean;
+  batch_size?: number | undefined;
+  ignore_not_found?: boolean | undefined;
   /** When true, removes all documents from the collection while preserving the collection and its schema. */
-  truncate?: boolean;
+  truncate?: boolean | undefined;
 }
 export interface DeleteDocumentsRequest {
   /** The name of the collection to delete documents from */
   collectionName: string;
-  deleteDocumentsParameters?: DeleteDocumentsRequestDeleteDocumentsParameters;
+  deleteDocumentsParameters?: DeleteDocumentsRequestDeleteDocumentsParameters | undefined;
 }
 export interface DeleteDocumentsResponse {
   num_deleted: number;
@@ -576,16 +576,16 @@ export interface SynonymItemDeleteSchema {
 }
 export interface ExportDocumentsRequestExportDocumentsParameters {
   /** Filter conditions for refining your search results. Separate multiple conditions with &&. */
-  filter_by?: string;
+  filter_by?: string | undefined;
   /** List of fields from the document to include in the search result */
-  include_fields?: string;
+  include_fields?: string | undefined;
   /** List of fields from the document to exclude in the search result */
-  exclude_fields?: string;
+  exclude_fields?: string | undefined;
 }
 export interface ExportDocumentsRequest {
   /** The name of the collection */
   collectionName: string;
-  exportDocumentsParameters?: ExportDocumentsRequestExportDocumentsParameters;
+  exportDocumentsParameters?: ExportDocumentsRequestExportDocumentsParameters | undefined;
 }
 export interface ExportDocumentsResponse {}
 export interface FlushAnalyticsRequest {}
@@ -605,19 +605,19 @@ export interface ConversationModelSchema {
   /** Name of the LLM model offered by OpenAI, Cloudflare or vLLM */
   model_name: string;
   /** The LLM service's API Key */
-  api_key?: string | import("effect/Redacted").Redacted<string>;
+  api_key?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Typesense collection that stores the historical conversations */
   history_collection: string;
   /** LLM service's account ID (only applicable for Cloudflare) */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The system prompt that contains special instructions to the LLM */
-  system_prompt?: string;
+  system_prompt?: string | undefined;
   /** Time interval in seconds after which the messages would be deleted. Default: 86400 (24 hours) */
-  ttl?: number;
+  ttl?: number | undefined;
   /** The maximum number of bytes to send to the LLM in every API call. Consult the LLM's documentation on the number of bytes supported in the context window. */
   max_bytes: number;
   /** URL of vLLM service */
-  vllm_url?: string;
+  vllm_url?: string | undefined;
 }
 export type GetAllConversationModelsResponseBodyList = Array<ConversationModelSchema>;
 export type GetAllConversationModelsResponse = GetAllConversationModelsResponseBodyList;
@@ -626,41 +626,41 @@ export interface GetAllNLSearchModelsRequest {}
 export type NLSearchModelSchemaStopSequencesList = Array<string>;
 export interface NLSearchModelSchema {
   /** Name of the NL model to use */
-  model_name?: string;
+  model_name?: string | undefined;
   /** API key for the NL model service */
-  api_key?: string | import("effect/Redacted").Redacted<string>;
+  api_key?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Custom API URL for the NL model service */
-  api_url?: string;
+  api_url?: string | undefined;
   /** Maximum number of bytes to process */
-  max_bytes?: number;
+  max_bytes?: number | undefined;
   /** Temperature parameter for the NL model */
-  temperature?: number;
+  temperature?: number | undefined;
   /** System prompt for the NL model */
-  system_prompt?: string;
+  system_prompt?: string | undefined;
   /** Top-p parameter for the NL model (Google-specific) */
-  top_p?: number;
+  top_p?: number | undefined;
   /** Top-k parameter for the NL model (Google-specific) */
-  top_k?: number;
+  top_k?: number | undefined;
   /** Stop sequences for the NL model (Google-specific) */
-  stop_sequences?: NLSearchModelSchemaStopSequencesList;
+  stop_sequences?: NLSearchModelSchemaStopSequencesList | undefined;
   /** API version for the NL model service */
-  api_version?: string;
+  api_version?: string | undefined;
   /** Project ID for GCP Vertex AI */
-  project_id?: string;
+  project_id?: string | undefined;
   /** Access token for GCP Vertex AI */
-  access_token?: string | import("effect/Redacted").Redacted<string>;
+  access_token?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Refresh token for GCP Vertex AI */
-  refresh_token?: string | import("effect/Redacted").Redacted<string>;
+  refresh_token?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Client ID for GCP Vertex AI */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Client secret for GCP Vertex AI */
-  client_secret?: string | import("effect/Redacted").Redacted<string>;
+  client_secret?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Region for GCP Vertex AI */
-  region?: string;
+  region?: string | undefined;
   /** Maximum output tokens for GCP Vertex AI */
-  max_output_tokens?: number;
+  max_output_tokens?: number | undefined;
   /** Account ID for Cloudflare-specific models */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Optional ID for the NL search model */
   id: string;
 }
@@ -671,326 +671,326 @@ export interface GetAllPresetsRequest {}
 export type DropTokensMode = "right_to_left" | "left_to_right" | "both_sides:3";
 export interface SearchParameters {
   /** The query text to search for in the collection. Use * as the search string to return all documents. This is typically useful when used in conjunction with filter_by. */
-  q?: string;
+  q?: string | undefined;
   /** A list of `string` fields that should be queried against. Multiple fields are separated with a comma. */
-  query_by?: string;
+  query_by?: string | undefined;
   /** Controls whether Typesense should validate if the fields exist in the schema. When set to false, Typesense will not throw an error if a field is missing. This is useful for programmatic grouping where not all fields may exist. */
-  validate_field_names?: boolean;
+  validate_field_names?: boolean | undefined;
   /** Whether to use natural language processing to parse the query. */
-  nl_query?: boolean;
+  nl_query?: boolean | undefined;
   /** The ID of the natural language model to use. */
-  nl_model_id?: string;
+  nl_model_id?: string | undefined;
   /** The relative weight to give each `query_by` field when ranking results. This can be used to boost fields in priority, when looking for matches. Multiple fields are separated with a comma. */
-  query_by_weights?: string;
+  query_by_weights?: string | undefined;
   /** In a multi-field matching context, this parameter determines how the representative text match score of a record is calculated. Possible values are max_score (default) or max_weight. */
-  text_match_type?: string;
+  text_match_type?: string | undefined;
   /** Boolean field to indicate that the last word in the query should be treated as a prefix, and not as a whole word. This is used for building autocomplete and instant search interfaces. Defaults to true. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** If infix index is enabled for this field, infix searching can be done on a per-field basis by sending a comma separated string parameter called infix to the search query. This parameter can have 3 values; `off` infix search is disabled, which is default `always` infix search is performed along with regular search `fallback` infix search is performed if regular search does not produce results */
-  infix?: string;
+  infix?: string | undefined;
   /** There are also 2 parameters that allow you to control the extent of infix searching max_extra_prefix and max_extra_suffix which specify the maximum number of symbols before or after the query that can be present in the token. For example query "K2100" has 2 extra symbols in "6PK2100". By default, any number of prefixes/suffixes can be present for a match. */
-  max_extra_prefix?: number;
+  max_extra_prefix?: number | undefined;
   /** There are also 2 parameters that allow you to control the extent of infix searching max_extra_prefix and max_extra_suffix which specify the maximum number of symbols before or after the query that can be present in the token. For example query "K2100" has 2 extra symbols in "6PK2100". By default, any number of prefixes/suffixes can be present for a match. */
-  max_extra_suffix?: number;
+  max_extra_suffix?: number | undefined;
   /** Filter conditions for refining your open api validator search results. Separate multiple conditions with &&. */
-  filter_by?: string;
+  filter_by?: string | undefined;
   /** Applies the filtering operation incrementally / lazily. Set this to true when you are potentially filtering on large values but the tokens in the query are expected to match very few documents. Default: false */
-  enable_lazy_filter?: boolean;
+  enable_lazy_filter?: boolean | undefined;
   /** Controls the number of similar words that Typesense considers during fuzzy search on filter_by values. Useful for controlling prefix matches like company_name:Acm*. */
-  max_filter_by_candidates?: number;
+  max_filter_by_candidates?: number | undefined;
   /** A list of numerical fields and their corresponding sort orders that will be used for ordering your results. Up to 3 sort fields can be specified. The text similarity score is exposed as a special `_text_match` field that you can use in the list of sorting fields. If no `sort_by` parameter is specified, results are sorted by `_text_match:desc,default_sorting_field:desc` */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** A list of fields that will be used for faceting your results on. Separate multiple fields with a comma. */
-  facet_by?: string;
+  facet_by?: string | undefined;
   /** Maximum number of facet values to be returned. */
-  max_facet_values?: number;
+  max_facet_values?: number | undefined;
   /** Facet values that are returned can now be filtered via this parameter. The matching facet text is also highlighted. For example, when faceting by `category`, you can set `facet_query=category:shoe` to return only facet values that contain the prefix "shoe". */
-  facet_query?: string;
+  facet_query?: string | undefined;
   /** Controls the fuzziness of the facet query filter. Default: 2. */
-  facet_query_num_typos?: number;
+  facet_query_num_typos?: number | undefined;
   /** The number of typographical errors (1 or 2) that would be tolerated. Default: 2 */
-  num_typos?: string;
+  num_typos?: string | undefined;
   /** Results from this specific page number would be fetched. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results to fetch per page. Default: 10 */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Number of hits to fetch. Can be used as an alternative to the per_page parameter. Default: 10. */
-  limit?: number;
+  limit?: number | undefined;
   /** Identifies the starting point to return hits from a result set. Can be used as an alternative to the page parameter. */
-  offset?: number;
+  offset?: number | undefined;
   /** You can aggregate search results into groups or buckets by specify one or more `group_by` fields. Separate multiple fields with a comma. To group on a particular field, it must be a faceted field. */
-  group_by?: string;
+  group_by?: string | undefined;
   /** Maximum number of hits to be returned for every group. If the `group_limit` is set as `K` then only the top K hits in each group are returned in the response. Default: 3 */
-  group_limit?: number;
+  group_limit?: number | undefined;
   /** Setting this parameter to true will place all documents that have a null value in the group_by field, into a single group. Setting this parameter to false, will cause each document with a null value in the group_by field to not be grouped with other documents. Default: true */
-  group_missing_values?: boolean;
+  group_missing_values?: boolean | undefined;
   /** Overrides the behavior of group_by queries where found value is an approximation. When group_max_candidates is passed, found will be accurate up until its value. */
-  group_max_candidates?: number;
+  group_max_candidates?: number | undefined;
   /** List of fields from the document to include in the search result */
-  include_fields?: string;
+  include_fields?: string | undefined;
   /** List of fields from the document to exclude in the search result */
-  exclude_fields?: string;
+  exclude_fields?: string | undefined;
   /** List of fields which should be highlighted fully without snippeting */
-  highlight_full_fields?: string;
+  highlight_full_fields?: string | undefined;
   /** The number of tokens that should surround the highlighted text on each side. Default: 4 */
-  highlight_affix_num_tokens?: number;
+  highlight_affix_num_tokens?: number | undefined;
   /** The start tag used for the highlighted snippets. Default: `<mark>` */
-  highlight_start_tag?: string;
+  highlight_start_tag?: string | undefined;
   /** The end tag used for the highlighted snippets. Default: `</mark>` */
-  highlight_end_tag?: string;
+  highlight_end_tag?: string | undefined;
   /** Flag for enabling/disabling the deprecated, old highlight structure in the response. Default: true */
-  enable_highlight_v1?: boolean;
+  enable_highlight_v1?: boolean | undefined;
   /** Flag for enabling/disabling analytics aggregation for specific search queries (for e.g. those originating from a test script). */
-  enable_analytics?: boolean;
+  enable_analytics?: boolean | undefined;
   /** Field values under this length will be fully highlighted, instead of showing a snippet of relevant portion. Default: 30 */
-  snippet_threshold?: number;
+  snippet_threshold?: number | undefined;
   /** List of synonym set names to associate with this search query */
-  synonym_sets?: string;
+  synonym_sets?: string | undefined;
   /** If the number of results found for a specific query is less than this number, Typesense will attempt to drop the tokens in the query until enough results are found. Tokens that have the least individual hits are dropped first. Set to 0 to disable. Default: 10 */
-  drop_tokens_threshold?: number;
-  drop_tokens_mode?: DropTokensMode | (string & {});
+  drop_tokens_threshold?: number | undefined;
+  drop_tokens_mode?: DropTokensMode | (string & {}) | undefined;
   /** If the number of results found for a specific query is less than this number, Typesense will attempt to look for tokens with more typos until enough results are found. Default: 100 */
-  typo_tokens_threshold?: number;
+  typo_tokens_threshold?: number | undefined;
   /** Set this parameter to false to disable typos on alphanumerical query tokens. Default: true. */
-  enable_typos_for_alpha_numerical_tokens?: boolean;
+  enable_typos_for_alpha_numerical_tokens?: boolean | undefined;
   /** Whether the filter_by condition of the search query should be applicable to curated results (curation definitions, pinned hits, hidden hits, etc.). Default: false */
-  filter_curated_hits?: boolean;
+  filter_curated_hits?: boolean | undefined;
   /** If you have some synonyms defined but want to disable all of them for a particular search query, set enable_synonyms to false. Default: true */
-  enable_synonyms?: boolean;
+  enable_synonyms?: boolean | undefined;
   /** Allow synonym resolution on word prefixes in the query. Default: false */
-  synonym_prefix?: boolean;
+  synonym_prefix?: boolean | undefined;
   /** When set to true, search results that matched via synonyms will be demoted in ranking, appearing below results that have a direct match. Default: false */
-  demote_synonym_match?: boolean;
+  demote_synonym_match?: boolean | undefined;
   /** Allow synonym resolution on typo-corrected words in the query. Default: 0 */
-  synonym_num_typos?: number;
+  synonym_num_typos?: number | undefined;
   /** A list of records to unconditionally include in the search results at specific positions. An example use case would be to feature or promote certain items on the top of search results. A list of `record_id:hit_position`. Eg: to include a record with ID 123 at Position 1 and another record with ID 456 at Position 5, you'd specify `123:1,456:5`. You could also use the Curation feature to override search results based on rules. Curations are applied first, followed by `pinned_hits` and finally `hidden_hits`. */
-  pinned_hits?: string;
+  pinned_hits?: string | undefined;
   /** A list of records to unconditionally hide from search results. A list of `record_id`s to hide. Eg: to hide records with IDs 123 and 456, you'd specify `123,456`. You could also use the Curation feature to override search results based on rules. Curations are applied first, followed by `pinned_hits` and finally `hidden_hits`. */
-  hidden_hits?: string;
+  hidden_hits?: string | undefined;
   /** Comma separated list of tags to trigger the curations rules that match the tags. */
-  curation_tags?: string;
+  curation_tags?: string | undefined;
   /** A list of custom fields that must be highlighted even if you don't query for them */
-  highlight_fields?: string;
+  highlight_fields?: string | undefined;
   /** When true, computes both text match and vector distance scores for all matches in hybrid search. Documents found only through keyword search will get a vector distance score, and documents found only through vector search will get a text match score. */
-  rerank_hybrid_matches?: boolean;
+  rerank_hybrid_matches?: boolean | undefined;
   /** Treat space as typo: search for q=basket ball if q=basketball is not found or vice-versa. Splitting/joining of tokens will only be attempted if the original query produces no results. To always trigger this behavior, set value to `always``. To disable, set value to `off`. Default is `fallback`. */
-  split_join_tokens?: string;
+  split_join_tokens?: string | undefined;
   /** You can index content from any logographic language into Typesense if you are able to segment / split the text into space-separated words yourself before indexing and querying. Set this parameter to true to do the same */
-  pre_segmented_query?: boolean;
+  pre_segmented_query?: boolean | undefined;
   /** Search using a bunch of search parameters by setting this parameter to the name of the existing Preset. */
-  preset?: string;
+  preset?: string | undefined;
   /** If you have some curation sets defined but want to disable all of them during query time, you can do that by setting this parameter to false */
-  enable_curations?: boolean;
+  enable_curations?: boolean | undefined;
   /** Set this parameter to true to ensure that an exact match is ranked above the others */
-  prioritize_exact_match?: boolean;
+  prioritize_exact_match?: boolean | undefined;
   /** Control the number of words that Typesense considers for typo and prefix searching. */
-  max_candidates?: number;
+  max_candidates?: number | undefined;
   /** Make Typesense prioritize documents where the query words appear earlier in the text. */
-  prioritize_token_position?: boolean;
+  prioritize_token_position?: boolean | undefined;
   /** Make Typesense prioritize documents where the query words appear in more number of fields. */
-  prioritize_num_matching_fields?: boolean;
+  prioritize_num_matching_fields?: boolean | undefined;
   /** Make Typesense disable typos for numerical tokens. */
-  enable_typos_for_numerical_tokens?: boolean;
+  enable_typos_for_numerical_tokens?: boolean | undefined;
   /** Setting this to true will make Typesense consider all prefixes and typo corrections of the words in the query without stopping early when enough results are found (drop_tokens_threshold and typo_tokens_threshold configurations are ignored). */
-  exhaustive_search?: boolean;
+  exhaustive_search?: boolean | undefined;
   /** Typesense will attempt to return results early if the cutoff time has elapsed. This is not a strict guarantee and facet computation is not bound by this parameter. */
-  search_cutoff_ms?: number;
+  search_cutoff_ms?: number | undefined;
   /** Maximum number of hits that can be fetched from the collection. page * per_page should be less than this number for the search request to return results. */
-  limit_hits?: number;
+  limit_hits?: number | undefined;
   /** Enable server side caching of search query results. By default, caching is disabled. */
-  use_cache?: boolean;
+  use_cache?: boolean | undefined;
   /** The duration (in seconds) that determines how long the search query is cached. This value can be set on a per-query basis. Default: 60. */
-  cache_ttl?: number;
+  cache_ttl?: number | undefined;
   /** Minimum word length for 1-typo correction to be applied. The value of num_typos is still treated as the maximum allowed typos. */
-  min_len_1typo?: number;
+  min_len_1typo?: number | undefined;
   /** Minimum word length for 2-typo correction to be applied. The value of num_typos is still treated as the maximum allowed typos. */
-  min_len_2typo?: number;
+  min_len_2typo?: number | undefined;
   /** Vector query expression for fetching documents "closest" to a given query/document vector. */
-  vector_query?: string;
+  vector_query?: string | undefined;
   /** Timeout (in milliseconds) for fetching remote embeddings. */
-  remote_embedding_timeout_ms?: number;
+  remote_embedding_timeout_ms?: number | undefined;
   /** Number of times to retry fetching remote embeddings. */
-  remote_embedding_num_tries?: number;
+  remote_embedding_num_tries?: number | undefined;
   /** Choose the underlying faceting strategy used. Comma separated string of allows values: exhaustive, top_values or automatic (default). */
-  facet_strategy?: string;
+  facet_strategy?: string | undefined;
   /** Name of the stopwords set to apply for this search, the keywords present in the set will be removed from the search query. */
-  stopwords?: string;
+  stopwords?: string | undefined;
   /** Comma separated string of nested facet fields whose parent object should be returned in facet response. */
-  facet_return_parent?: string;
+  facet_return_parent?: string | undefined;
   /** Percentage of hits that will be used to estimate facet counts. Default: 100. */
-  facet_sample_percent?: number;
+  facet_sample_percent?: number | undefined;
   /** Minimum number of hits above which the facet counts are sampled. Default: 0. */
-  facet_sample_threshold?: number;
+  facet_sample_threshold?: number | undefined;
   /** Controls how steeply facet_sample_percent falls as the collection grows. facet_sample_threshold should be non-zero for facet_sample_slope to be effective. Default: 0. */
-  facet_sample_slope?: number;
+  facet_sample_slope?: number | undefined;
   /** The base64 encoded audio file in 16 khz 16-bit WAV format. */
-  voice_query?: string;
+  voice_query?: string | undefined;
   /** Enable conversational search. */
-  conversation?: boolean;
+  conversation?: boolean | undefined;
   /** The Id of Conversation Model to be used. */
-  conversation_model_id?: string;
+  conversation_model_id?: string | undefined;
   /** The Id of a previous conversation to continue, this tells Typesense to include prior context when communicating with the LLM. */
-  conversation_id?: string;
+  conversation_id?: string | undefined;
 }
 export interface MultiSearchCollectionParameters {
   /** The query text to search for in the collection. Use * as the search string to return all documents. This is typically useful when used in conjunction with filter_by. */
-  q?: string;
+  q?: string | undefined;
   /** A list of `string` fields that should be queried against. Multiple fields are separated with a comma. */
-  query_by?: string;
+  query_by?: string | undefined;
   /** The relative weight to give each `query_by` field when ranking results. This can be used to boost fields in priority, when looking for matches. Multiple fields are separated with a comma. */
-  query_by_weights?: string;
+  query_by_weights?: string | undefined;
   /** In a multi-field matching context, this parameter determines how the representative text match score of a record is calculated. Possible values are max_score (default) or max_weight. */
-  text_match_type?: string;
+  text_match_type?: string | undefined;
   /** Boolean field to indicate that the last word in the query should be treated as a prefix, and not as a whole word. This is used for building autocomplete and instant search interfaces. Defaults to true. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** If infix index is enabled for this field, infix searching can be done on a per-field basis by sending a comma separated string parameter called infix to the search query. This parameter can have 3 values; `off` infix search is disabled, which is default `always` infix search is performed along with regular search `fallback` infix search is performed if regular search does not produce results */
-  infix?: string;
+  infix?: string | undefined;
   /** There are also 2 parameters that allow you to control the extent of infix searching max_extra_prefix and max_extra_suffix which specify the maximum number of symbols before or after the query that can be present in the token. For example query "K2100" has 2 extra symbols in "6PK2100". By default, any number of prefixes/suffixes can be present for a match. */
-  max_extra_prefix?: number;
+  max_extra_prefix?: number | undefined;
   /** There are also 2 parameters that allow you to control the extent of infix searching max_extra_prefix and max_extra_suffix which specify the maximum number of symbols before or after the query that can be present in the token. For example query "K2100" has 2 extra symbols in "6PK2100". By default, any number of prefixes/suffixes can be present for a match. */
-  max_extra_suffix?: number;
+  max_extra_suffix?: number | undefined;
   /** Filter conditions for refining youropen api validator search results. Separate multiple conditions with &&. */
-  filter_by?: string;
+  filter_by?: string | undefined;
   /** Applies the filtering operation incrementally / lazily. Set this to true when you are potentially filtering on large values but the tokens in the query are expected to match very few documents. Default: false */
-  enable_lazy_filter?: boolean;
+  enable_lazy_filter?: boolean | undefined;
   /** Controls the number of similar words that Typesense considers during fuzzy search on filter_by values. Useful for controlling prefix matches like company_name:Acm*. */
-  max_filter_by_candidates?: number;
+  max_filter_by_candidates?: number | undefined;
   /** A list of numerical fields and their corresponding sort orders that will be used for ordering your results. Up to 3 sort fields can be specified. The text similarity score is exposed as a special `_text_match` field that you can use in the list of sorting fields. If no `sort_by` parameter is specified, results are sorted by `_text_match:desc,default_sorting_field:desc` */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** A list of fields that will be used for faceting your results on. Separate multiple fields with a comma. */
-  facet_by?: string;
+  facet_by?: string | undefined;
   /** Maximum number of facet values to be returned. */
-  max_facet_values?: number;
+  max_facet_values?: number | undefined;
   /** Facet values that are returned can now be filtered via this parameter. The matching facet text is also highlighted. For example, when faceting by `category`, you can set `facet_query=category:shoe` to return only facet values that contain the prefix "shoe". */
-  facet_query?: string;
+  facet_query?: string | undefined;
   /** Controls the fuzziness of the facet query filter. Default: 2. */
-  facet_query_num_typos?: number;
+  facet_query_num_typos?: number | undefined;
   /** The number of typographical errors (1 or 2) that would be tolerated. Default: 2 */
-  num_typos?: string;
+  num_typos?: string | undefined;
   /** Results from this specific page number would be fetched. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results to fetch per page. Default: 10 */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Number of hits to fetch. Can be used as an alternative to the per_page parameter. Default: 10. */
-  limit?: number;
+  limit?: number | undefined;
   /** Identifies the starting point to return hits from a result set. Can be used as an alternative to the page parameter. */
-  offset?: number;
+  offset?: number | undefined;
   /** You can aggregate search results into groups or buckets by specify one or more `group_by` fields. Separate multiple fields with a comma. To group on a particular field, it must be a faceted field. */
-  group_by?: string;
+  group_by?: string | undefined;
   /** Maximum number of hits to be returned for every group. If the `group_limit` is set as `K` then only the top K hits in each group are returned in the response. Default: 3 */
-  group_limit?: number;
+  group_limit?: number | undefined;
   /** Setting this parameter to true will place all documents that have a null value in the group_by field, into a single group. Setting this parameter to false, will cause each document with a null value in the group_by field to not be grouped with other documents. Default: true */
-  group_missing_values?: boolean;
+  group_missing_values?: boolean | undefined;
   /** Overrides the behavior of group_by queries where found value is an approximation. When group_max_candidates is passed, found will be accurate up until its value. */
-  group_max_candidates?: number;
+  group_max_candidates?: number | undefined;
   /** List of fields from the document to include in the search result */
-  include_fields?: string;
+  include_fields?: string | undefined;
   /** List of fields from the document to exclude in the search result */
-  exclude_fields?: string;
+  exclude_fields?: string | undefined;
   /** List of fields which should be highlighted fully without snippeting */
-  highlight_full_fields?: string;
+  highlight_full_fields?: string | undefined;
   /** The number of tokens that should surround the highlighted text on each side. Default: 4 */
-  highlight_affix_num_tokens?: number;
+  highlight_affix_num_tokens?: number | undefined;
   /** The start tag used for the highlighted snippets. Default: `<mark>` */
-  highlight_start_tag?: string;
+  highlight_start_tag?: string | undefined;
   /** The end tag used for the highlighted snippets. Default: `</mark>` */
-  highlight_end_tag?: string;
+  highlight_end_tag?: string | undefined;
   /** Field values under this length will be fully highlighted, instead of showing a snippet of relevant portion. Default: 30 */
-  snippet_threshold?: number;
+  snippet_threshold?: number | undefined;
   /** If the number of results found for a specific query is less than this number, Typesense will attempt to drop the tokens in the query until enough results are found. Tokens that have the least individual hits are dropped first. Set to 0 to disable. Default: 10 */
-  drop_tokens_threshold?: number;
-  drop_tokens_mode?: DropTokensMode | (string & {});
+  drop_tokens_threshold?: number | undefined;
+  drop_tokens_mode?: DropTokensMode | (string & {}) | undefined;
   /** If the number of results found for a specific query is less than this number, Typesense will attempt to look for tokens with more typos until enough results are found. Default: 100 */
-  typo_tokens_threshold?: number;
+  typo_tokens_threshold?: number | undefined;
   /** Set this parameter to false to disable typos on alphanumerical query tokens. Default: true. */
-  enable_typos_for_alpha_numerical_tokens?: boolean;
+  enable_typos_for_alpha_numerical_tokens?: boolean | undefined;
   /** Whether the filter_by condition of the search query should be applicable to curated results (curation definitions, pinned hits, hidden hits, etc.). Default: false */
-  filter_curated_hits?: boolean;
+  filter_curated_hits?: boolean | undefined;
   /** If you have some synonyms defined but want to disable all of them for a particular search query, set enable_synonyms to false. Default: true */
-  enable_synonyms?: boolean;
+  enable_synonyms?: boolean | undefined;
   /** Flag for enabling/disabling analytics aggregation for specific search queries (for e.g. those originating from a test script). */
-  enable_analytics?: boolean;
+  enable_analytics?: boolean | undefined;
   /** Allow synonym resolution on word prefixes in the query. Default: false */
-  synonym_prefix?: boolean;
+  synonym_prefix?: boolean | undefined;
   /** When set to true, search results that matched via synonyms will be demoted in ranking, appearing below results that have a direct match. Default: false */
-  demote_synonym_match?: boolean;
+  demote_synonym_match?: boolean | undefined;
   /** Allow synonym resolution on typo-corrected words in the query. Default: 0 */
-  synonym_num_typos?: number;
+  synonym_num_typos?: number | undefined;
   /** A list of records to unconditionally include in the search results at specific positions. An example use case would be to feature or promote certain items on the top of search results. A list of `record_id:hit_position`. Eg: to include a record with ID 123 at Position 1 and another record with ID 456 at Position 5, you'd specify `123:1,456:5`. You could also use the Curation feature to override search results based on rules. Curations are applied first, followed by `pinned_hits` and finally `hidden_hits`. */
-  pinned_hits?: string;
+  pinned_hits?: string | undefined;
   /** A list of records to unconditionally hide from search results. A list of `record_id`s to hide. Eg: to hide records with IDs 123 and 456, you'd specify `123,456`. You could also use the Curation feature to override search results based on rules. Curations are applied first, followed by `pinned_hits` and finally `hidden_hits`. */
-  hidden_hits?: string;
+  hidden_hits?: string | undefined;
   /** Comma separated list of tags to trigger the curations rules that match the tags. */
-  curation_tags?: string;
+  curation_tags?: string | undefined;
   /** A list of custom fields that must be highlighted even if you don't query for them */
-  highlight_fields?: string;
+  highlight_fields?: string | undefined;
   /** When true, computes both text match and vector distance scores for all matches in hybrid search. Documents found only through keyword search will get a vector distance score, and documents found only through vector search will get a text match score. */
-  rerank_hybrid_matches?: boolean;
+  rerank_hybrid_matches?: boolean | undefined;
   /** You can index content from any logographic language into Typesense if you are able to segment / split the text into space-separated words yourself before indexing and querying. Set this parameter to true to do the same */
-  pre_segmented_query?: boolean;
+  pre_segmented_query?: boolean | undefined;
   /** Search using a bunch of search parameters by setting this parameter to the name of the existing Preset. */
-  preset?: string;
+  preset?: string | undefined;
   /** If you have some curation sets defined but want to disable all of them during query time, you can do that by setting this parameter to false */
-  enable_curations?: boolean;
+  enable_curations?: boolean | undefined;
   /** Set this parameter to true to ensure that an exact match is ranked above the others */
-  prioritize_exact_match?: boolean;
+  prioritize_exact_match?: boolean | undefined;
   /** Make Typesense prioritize documents where the query words appear earlier in the text. */
-  prioritize_token_position?: boolean;
+  prioritize_token_position?: boolean | undefined;
   /** Make Typesense prioritize documents where the query words appear in more number of fields. */
-  prioritize_num_matching_fields?: boolean;
+  prioritize_num_matching_fields?: boolean | undefined;
   /** Make Typesense disable typos for numerical tokens. */
-  enable_typos_for_numerical_tokens?: boolean;
+  enable_typos_for_numerical_tokens?: boolean | undefined;
   /** Setting this to true will make Typesense consider all prefixes and typo corrections of the words in the query without stopping early when enough results are found (drop_tokens_threshold and typo_tokens_threshold configurations are ignored). */
-  exhaustive_search?: boolean;
+  exhaustive_search?: boolean | undefined;
   /** Typesense will attempt to return results early if the cutoff time has elapsed. This is not a strict guarantee and facet computation is not bound by this parameter. */
-  search_cutoff_ms?: number;
+  search_cutoff_ms?: number | undefined;
   /** Maximum number of hits that can be fetched from the collection. page * per_page should be less than this number for the search request to return results. */
-  limit_hits?: number;
+  limit_hits?: number | undefined;
   /** Enable server side caching of search query results. By default, caching is disabled. */
-  use_cache?: boolean;
+  use_cache?: boolean | undefined;
   /** The duration (in seconds) that determines how long the search query is cached. This value can be set on a per-query basis. Default: 60. */
-  cache_ttl?: number;
+  cache_ttl?: number | undefined;
   /** Minimum word length for 1-typo correction to be applied. The value of num_typos is still treated as the maximum allowed typos. */
-  min_len_1typo?: number;
+  min_len_1typo?: number | undefined;
   /** Minimum word length for 2-typo correction to be applied. The value of num_typos is still treated as the maximum allowed typos. */
-  min_len_2typo?: number;
+  min_len_2typo?: number | undefined;
   /** Vector query expression for fetching documents "closest" to a given query/document vector. */
-  vector_query?: string;
+  vector_query?: string | undefined;
   /** Timeout (in milliseconds) for fetching remote embeddings. */
-  remote_embedding_timeout_ms?: number;
+  remote_embedding_timeout_ms?: number | undefined;
   /** Number of times to retry fetching remote embeddings. */
-  remote_embedding_num_tries?: number;
+  remote_embedding_num_tries?: number | undefined;
   /** Choose the underlying faceting strategy used. Comma separated string of allows values: exhaustive, top_values or automatic (default). */
-  facet_strategy?: string;
+  facet_strategy?: string | undefined;
   /** Name of the stopwords set to apply for this search, the keywords present in the set will be removed from the search query. */
-  stopwords?: string;
+  stopwords?: string | undefined;
   /** Comma separated string of nested facet fields whose parent object should be returned in facet response. */
-  facet_return_parent?: string;
+  facet_return_parent?: string | undefined;
   /** Percentage of hits that will be used to estimate facet counts. Default: 100. */
-  facet_sample_percent?: number;
+  facet_sample_percent?: number | undefined;
   /** Minimum number of hits above which the facet counts are sampled. Default: 0. */
-  facet_sample_threshold?: number;
+  facet_sample_threshold?: number | undefined;
   /** Controls how steeply facet_sample_percent falls as the collection grows. facet_sample_threshold should be non-zero for facet_sample_slope to be effective. Default: 0. */
-  facet_sample_slope?: number;
+  facet_sample_slope?: number | undefined;
   /** The base64 encoded audio file in 16 khz 16-bit WAV format. */
-  voice_query?: string;
+  voice_query?: string | undefined;
   /** Enable conversational search. */
-  conversation?: boolean;
+  conversation?: boolean | undefined;
   /** The Id of Conversation Model to be used. */
-  conversation_model_id?: string;
+  conversation_model_id?: string | undefined;
   /** The Id of a previous conversation to continue, this tells Typesense to include prior context when communicating with the LLM. */
-  conversation_id?: string;
+  conversation_id?: string | undefined;
   /** Controls whether Typesense should validate if the fields exist in the schema. When set to false, Typesense will not throw an error if a field is missing. This is useful for programmatic grouping where not all fields may exist. */
-  validate_field_names?: boolean;
+  validate_field_names?: boolean | undefined;
   /** The collection to search in. */
-  collection?: string;
+  collection?: string | undefined;
   /** A separate search API key for each search within a multi_search request */
-  x_typesense_api_key?: string;
+  x_typesense_api_key?: string | undefined;
 }
 export type MultiSearchSearchesParameterSearchesList = Array<MultiSearchCollectionParameters>;
 export interface MultiSearchSearchesParameter {
   /** When true, merges the search results from each search query into a single ordered set of hits. */
-  union?: boolean;
+  union?: boolean | undefined;
   searches: MultiSearchSearchesParameterSearchesList;
 }
 export type PresetSchemaValue = SearchParameters | MultiSearchSearchesParameter;
@@ -1011,14 +1011,14 @@ export interface GetAnalyticsEventsRequest {
 }
 export type AnalyticsEventsResponseEventsItemDocIdsList = Array<string>;
 export interface AnalyticsEventsResponseEventsItem {
-  name?: string;
-  event_type?: string;
-  collection?: string;
-  timestamp?: number;
-  user_id?: string;
-  doc_id?: string;
-  doc_ids?: AnalyticsEventsResponseEventsItemDocIdsList;
-  query?: string;
+  name?: string | undefined;
+  event_type?: string | undefined;
+  collection?: string | undefined;
+  timestamp?: number | undefined;
+  user_id?: string | undefined;
+  doc_id?: string | undefined;
+  doc_ids?: AnalyticsEventsResponseEventsItemDocIdsList | undefined;
+  query?: string | undefined;
 }
 export type AnalyticsEventsResponseEventsList = Array<AnalyticsEventsResponseEventsItem>;
 export interface AnalyticsEventsResponse {
@@ -1030,53 +1030,53 @@ export interface GetAnalyticsRuleRequest {
 }
 export type GetAnalyticsRuleResponseParamsMetaFieldsList = Array<string>;
 export interface GetAnalyticsRuleResponseParams {
-  destination_collection?: string;
-  limit?: number;
-  capture_search_requests?: boolean;
-  meta_fields?: GetAnalyticsRuleResponseParamsMetaFieldsList;
-  expand_query?: boolean;
-  counter_field?: string;
-  weight?: number;
+  destination_collection?: string | undefined;
+  limit?: number | undefined;
+  capture_search_requests?: boolean | undefined;
+  meta_fields?: GetAnalyticsRuleResponseParamsMetaFieldsList | undefined;
+  expand_query?: boolean | undefined;
+  counter_field?: string | undefined;
+  weight?: number | undefined;
 }
 export interface GetAnalyticsRuleResponse {
   name: string;
   type: AnalyticsRuleType;
   collection: string;
   event_type: string;
-  rule_tag?: string;
-  params?: GetAnalyticsRuleResponseParams;
+  rule_tag?: string | undefined;
+  params?: GetAnalyticsRuleResponseParams | undefined;
 }
 export interface GetAnalyticsRulesRequest {
   /** Filter rules by rule_tag */
-  rule_tag?: string;
+  rule_tag?: string | undefined;
 }
 export type GetAnalyticsRulesResponseBodyList = Array<AnalyticsRule>;
 export type GetAnalyticsRulesResponse = GetAnalyticsRulesResponseBodyList;
 export interface GetAnalyticsStatusRequest {}
 export interface AnalyticsStatus {
-  popular_prefix_queries?: number;
-  nohits_prefix_queries?: number;
-  log_prefix_queries?: number;
-  query_log_events?: number;
-  query_counter_events?: number;
-  doc_log_events?: number;
-  doc_counter_events?: number;
+  popular_prefix_queries?: number | undefined;
+  nohits_prefix_queries?: number | undefined;
+  log_prefix_queries?: number | undefined;
+  query_log_events?: number | undefined;
+  query_counter_events?: number | undefined;
+  doc_log_events?: number | undefined;
+  doc_counter_events?: number | undefined;
 }
 export interface GetAPIStatsRequest {}
 export interface APIStatsResponse {
-  delete_latency_ms?: number;
-  delete_requests_per_second?: number;
-  import_latency_ms?: number;
-  import_requests_per_second?: number;
-  latency_ms?: unknown;
-  overloaded_requests_per_second?: number;
-  pending_write_batches?: number;
-  requests_per_second?: unknown;
-  search_latency_ms?: number;
-  search_requests_per_second?: number;
-  total_requests_per_second?: number;
-  write_latency_ms?: number;
-  write_requests_per_second?: number;
+  delete_latency_ms?: number | undefined;
+  delete_requests_per_second?: number | undefined;
+  import_latency_ms?: number | undefined;
+  import_requests_per_second?: number | undefined;
+  latency_ms?: unknown | undefined;
+  overloaded_requests_per_second?: number | undefined;
+  pending_write_batches?: number | undefined;
+  requests_per_second?: unknown | undefined;
+  search_latency_ms?: number | undefined;
+  search_requests_per_second?: number | undefined;
+  total_requests_per_second?: number | undefined;
+  write_latency_ms?: number | undefined;
+  write_requests_per_second?: number | undefined;
 }
 export interface GetCollectionRequest {
   /** The name of the collection to retrieve */
@@ -1096,18 +1096,18 @@ export interface GetCollectionResponse {
   /** A list of fields for querying, filtering and faceting */
   fields: GetCollectionResponseFieldsList;
   /** The name of an int32 / float field that determines the order in which the search results are ranked when a sort_by clause is not provided during searching. This field must indicate some kind of popularity. */
-  default_sorting_field?: string;
+  default_sorting_field?: string | undefined;
   /** List of symbols or special characters to be used for splitting the text into individual words in addition to space and new-line characters. */
-  token_separators?: GetCollectionResponseTokenSeparatorsList;
+  token_separators?: GetCollectionResponseTokenSeparatorsList | undefined;
   /** List of synonym set names to associate with this collection */
-  synonym_sets?: GetCollectionResponseSynonymSetsList;
+  synonym_sets?: GetCollectionResponseSynonymSetsList | undefined;
   /** Enables experimental support at a collection level for nested object or object array fields. This field is only available if the Typesense server is version `0.24.0.rcn34` or later. */
-  enable_nested_fields?: boolean;
+  enable_nested_fields?: boolean | undefined;
   /** List of symbols or special characters to be indexed. */
-  symbols_to_index?: GetCollectionResponseSymbolsToIndexList;
-  voice_query_model?: VoiceQueryModelCollectionConfig;
+  symbols_to_index?: GetCollectionResponseSymbolsToIndexList | undefined;
+  voice_query_model?: VoiceQueryModelCollectionConfig | undefined;
   /** Optional details about the collection, e.g., when it was created, who created it etc. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** Number of documents in the collection */
   num_documents: number;
   /** Timestamp of when the collection was created (Unix epoch in seconds) */
@@ -1115,14 +1115,14 @@ export interface GetCollectionResponse {
 }
 export interface GetCollectionsRequestGetCollectionsParameters {
   /** Comma-separated list of fields from the collection to exclude from the response */
-  exclude_fields?: string;
+  exclude_fields?: string | undefined;
   /** Number of collections to fetch. Default: returns all collections. */
-  limit?: number;
+  limit?: number | undefined;
   /** Identifies the starting point to return collections when paginating. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface GetCollectionsRequest {
-  getCollectionsParameters?: GetCollectionsRequestGetCollectionsParameters;
+  getCollectionsParameters?: GetCollectionsRequestGetCollectionsParameters | undefined;
 }
 /** A list of fields for querying, filtering and faceting */
 export type CollectionResponseFieldsList = Array<Field>;
@@ -1138,18 +1138,18 @@ export interface CollectionResponse {
   /** A list of fields for querying, filtering and faceting */
   fields: CollectionResponseFieldsList;
   /** The name of an int32 / float field that determines the order in which the search results are ranked when a sort_by clause is not provided during searching. This field must indicate some kind of popularity. */
-  default_sorting_field?: string;
+  default_sorting_field?: string | undefined;
   /** List of symbols or special characters to be used for splitting the text into individual words in addition to space and new-line characters. */
-  token_separators?: CollectionResponseTokenSeparatorsList;
+  token_separators?: CollectionResponseTokenSeparatorsList | undefined;
   /** List of synonym set names to associate with this collection */
-  synonym_sets?: CollectionResponseSynonymSetsList;
+  synonym_sets?: CollectionResponseSynonymSetsList | undefined;
   /** Enables experimental support at a collection level for nested object or object array fields. This field is only available if the Typesense server is version `0.24.0.rcn34` or later. */
-  enable_nested_fields?: boolean;
+  enable_nested_fields?: boolean | undefined;
   /** List of symbols or special characters to be indexed. */
-  symbols_to_index?: CollectionResponseSymbolsToIndexList;
-  voice_query_model?: VoiceQueryModelCollectionConfig;
+  symbols_to_index?: CollectionResponseSymbolsToIndexList | undefined;
+  voice_query_model?: VoiceQueryModelCollectionConfig | undefined;
   /** Optional details about the collection, e.g., when it was created, who created it etc. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** Number of documents in the collection */
   num_documents: number;
   /** Timestamp of when the collection was created (Unix epoch in seconds) */
@@ -1167,19 +1167,19 @@ export interface GetConversationModelResponse {
   /** Name of the LLM model offered by OpenAI, Cloudflare or vLLM */
   model_name: string;
   /** The LLM service's API Key */
-  api_key?: string | import("effect/Redacted").Redacted<string>;
+  api_key?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Typesense collection that stores the historical conversations */
   history_collection: string;
   /** LLM service's account ID (only applicable for Cloudflare) */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The system prompt that contains special instructions to the LLM */
-  system_prompt?: string;
+  system_prompt?: string | undefined;
   /** Time interval in seconds after which the messages would be deleted. Default: 86400 (24 hours) */
-  ttl?: number;
+  ttl?: number | undefined;
   /** The maximum number of bytes to send to the LLM in every API call. Consult the LLM's documentation on the number of bytes supported in the context window. */
   max_bytes: number;
   /** URL of vLLM service */
-  vllm_url?: string;
+  vllm_url?: string | undefined;
 }
 export interface GetCurationSetRequest {
   /** The name of the curation set to retrieve */
@@ -1191,13 +1191,13 @@ export type CurationRuleTagsList = Array<string>;
 export type CurationRuleMatch = "exact" | "contains";
 export interface CurationRule {
   /** List of tag values to associate with this curation rule. */
-  tags?: CurationRuleTagsList;
+  tags?: CurationRuleTagsList | undefined;
   /** Indicates what search queries should be curated */
-  query?: string;
+  query?: string | undefined;
   /** Indicates whether the match on the query term should be `exact` or `contains`. If we want to match all queries that contained the word `apple`, we will use the `contains` match instead. */
-  match?: CurationRuleMatch | (string & {});
+  match?: CurationRuleMatch | (string & {}) | undefined;
   /** Indicates that the curation should apply when the filter_by parameter in a search query exactly matches the string specified here (including backticks, spaces, brackets, etc). */
-  filter_by?: string;
+  filter_by?: string | undefined;
 }
 export interface CurationInclude {
   /** document id that should be included */
@@ -1216,29 +1216,29 @@ export type CurationItemCreateSchemaExcludesList = Array<CurationExclude>;
 export interface CurationItemCreateSchema {
   rule: CurationRule;
   /** List of document `id`s that should be included in the search results with their corresponding `position`s. */
-  includes?: CurationItemCreateSchemaIncludesList;
+  includes?: CurationItemCreateSchemaIncludesList | undefined;
   /** List of document `id`s that should be excluded from the search results. */
-  excludes?: CurationItemCreateSchemaExcludesList;
+  excludes?: CurationItemCreateSchemaExcludesList | undefined;
   /** A filter by clause that is applied to any search query that matches the curation rule. */
-  filter_by?: string;
+  filter_by?: string | undefined;
   /** Indicates whether search query tokens that exist in the curation's rule should be removed from the search query. */
-  remove_matched_tokens?: boolean;
+  remove_matched_tokens?: boolean | undefined;
   /** Return a custom JSON object in the Search API response, when this rule is triggered. This can can be used to display a pre-defined message (eg: a promotion banner) on the front-end when a particular rule is triggered. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** A sort by clause that is applied to any search query that matches the curation rule. */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** Replaces the current search query with this value, when the search query matches the curation rule. */
-  replace_query?: string;
+  replace_query?: string | undefined;
   /** When set to true, the filter conditions of the query is applied to the curated records as well. Default: false. */
-  filter_curated_hits?: boolean;
+  filter_curated_hits?: boolean | undefined;
   /** A Unix timestamp that indicates the date/time from which the curation will be active. You can use this to create rules that start applying from a future point in time. */
-  effective_from_ts?: number;
+  effective_from_ts?: number | undefined;
   /** A Unix timestamp that indicates the date/time until which the curation will be active. You can use this to create rules that stop applying after a period of time. */
-  effective_to_ts?: number;
+  effective_to_ts?: number | undefined;
   /** When set to true, curation processing will stop at the first matching rule. When set to false curation processing will continue and multiple curation actions will be triggered in sequence. Curations are processed in the lexical sort order of their id field. */
-  stop_processing?: boolean;
+  stop_processing?: boolean | undefined;
   /** ID of the curation item */
-  id?: string;
+  id?: string | undefined;
 }
 /** Array of curation items */
 export type GetCurationSetResponseItemsList = Array<CurationItemCreateSchema>;
@@ -1246,7 +1246,7 @@ export interface GetCurationSetResponse {
   /** Array of curation items */
   items: GetCurationSetResponseItemsList;
   /** Optional description for the curation set */
-  description?: string;
+  description?: string | undefined;
   name: string;
 }
 export interface GetCurationSetItemRequest {
@@ -1262,27 +1262,27 @@ export type GetCurationSetItemResponseExcludesList = Array<CurationExclude>;
 export interface GetCurationSetItemResponse {
   rule: CurationRule;
   /** List of document `id`s that should be included in the search results with their corresponding `position`s. */
-  includes?: GetCurationSetItemResponseIncludesList;
+  includes?: GetCurationSetItemResponseIncludesList | undefined;
   /** List of document `id`s that should be excluded from the search results. */
-  excludes?: GetCurationSetItemResponseExcludesList;
+  excludes?: GetCurationSetItemResponseExcludesList | undefined;
   /** A filter by clause that is applied to any search query that matches the curation rule. */
-  filter_by?: string;
+  filter_by?: string | undefined;
   /** Indicates whether search query tokens that exist in the curation's rule should be removed from the search query. */
-  remove_matched_tokens?: boolean;
+  remove_matched_tokens?: boolean | undefined;
   /** Return a custom JSON object in the Search API response, when this rule is triggered. This can can be used to display a pre-defined message (eg: a promotion banner) on the front-end when a particular rule is triggered. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** A sort by clause that is applied to any search query that matches the curation rule. */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** Replaces the current search query with this value, when the search query matches the curation rule. */
-  replace_query?: string;
+  replace_query?: string | undefined;
   /** When set to true, the filter conditions of the query is applied to the curated records as well. Default: false. */
-  filter_curated_hits?: boolean;
+  filter_curated_hits?: boolean | undefined;
   /** A Unix timestamp that indicates the date/time from which the curation will be active. You can use this to create rules that start applying from a future point in time. */
-  effective_from_ts?: number;
+  effective_from_ts?: number | undefined;
   /** A Unix timestamp that indicates the date/time until which the curation will be active. You can use this to create rules that stop applying after a period of time. */
-  effective_to_ts?: number;
+  effective_to_ts?: number | undefined;
   /** When set to true, curation processing will stop at the first matching rule. When set to false curation processing will continue and multiple curation actions will be triggered in sequence. Curations are processed in the lexical sort order of their id field. */
-  stop_processing?: boolean;
+  stop_processing?: boolean | undefined;
   /** ID of the curation item */
   id: string;
 }
@@ -1297,27 +1297,27 @@ export type CurationItemSchemaExcludesList = Array<CurationExclude>;
 export interface CurationItemSchema {
   rule: CurationRule;
   /** List of document `id`s that should be included in the search results with their corresponding `position`s. */
-  includes?: CurationItemSchemaIncludesList;
+  includes?: CurationItemSchemaIncludesList | undefined;
   /** List of document `id`s that should be excluded from the search results. */
-  excludes?: CurationItemSchemaExcludesList;
+  excludes?: CurationItemSchemaExcludesList | undefined;
   /** A filter by clause that is applied to any search query that matches the curation rule. */
-  filter_by?: string;
+  filter_by?: string | undefined;
   /** Indicates whether search query tokens that exist in the curation's rule should be removed from the search query. */
-  remove_matched_tokens?: boolean;
+  remove_matched_tokens?: boolean | undefined;
   /** Return a custom JSON object in the Search API response, when this rule is triggered. This can can be used to display a pre-defined message (eg: a promotion banner) on the front-end when a particular rule is triggered. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** A sort by clause that is applied to any search query that matches the curation rule. */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** Replaces the current search query with this value, when the search query matches the curation rule. */
-  replace_query?: string;
+  replace_query?: string | undefined;
   /** When set to true, the filter conditions of the query is applied to the curated records as well. Default: false. */
-  filter_curated_hits?: boolean;
+  filter_curated_hits?: boolean | undefined;
   /** A Unix timestamp that indicates the date/time from which the curation will be active. You can use this to create rules that start applying from a future point in time. */
-  effective_from_ts?: number;
+  effective_from_ts?: number | undefined;
   /** A Unix timestamp that indicates the date/time until which the curation will be active. You can use this to create rules that stop applying after a period of time. */
-  effective_to_ts?: number;
+  effective_to_ts?: number | undefined;
   /** When set to true, curation processing will stop at the first matching rule. When set to false curation processing will continue and multiple curation actions will be triggered in sequence. Curations are processed in the lexical sort order of their id field. */
-  stop_processing?: boolean;
+  stop_processing?: boolean | undefined;
   /** ID of the curation item */
   id: string;
 }
@@ -1330,7 +1330,7 @@ export interface CurationSetSchema {
   /** Array of curation items */
   items: CurationSetSchemaItemsList;
   /** Optional description for the curation set */
-  description?: string;
+  description?: string | undefined;
   name: string;
 }
 export type GetCurationSetsResponseBodyList = Array<CurationSetSchema>;
@@ -1349,25 +1349,25 @@ export interface GetKeyRequest {
 export type GetKeyResponseActionsList = Array<string>;
 export type GetKeyResponseCollectionsList = Array<string>;
 export interface GetKeyResponse {
-  value?: string;
+  value?: string | undefined;
   description: string;
   actions: GetKeyResponseActionsList;
   collections: GetKeyResponseCollectionsList;
-  expires_at?: number;
-  id?: number;
-  value_prefix?: string;
+  expires_at?: number | undefined;
+  id?: number | undefined;
+  value_prefix?: string | undefined;
 }
 export interface GetKeysRequest {}
 export type ApiKeyActionsList = Array<string>;
 export type ApiKeyCollectionsList = Array<string>;
 export interface ApiKey {
-  value?: string;
+  value?: string | undefined;
   description: string;
   actions: ApiKeyActionsList;
   collections: ApiKeyCollectionsList;
-  expires_at?: number;
-  id?: number;
-  value_prefix?: string;
+  expires_at?: number | undefined;
+  id?: number | undefined;
+  value_prefix?: string | undefined;
 }
 export type ApiKeysResponseKeysList = Array<ApiKey>;
 export interface ApiKeysResponse {
@@ -1383,41 +1383,41 @@ export interface GetNLSearchModelRequest {
 export type GetNLSearchModelResponseStopSequencesList = Array<string>;
 export interface GetNLSearchModelResponse {
   /** Name of the NL model to use */
-  model_name?: string;
+  model_name?: string | undefined;
   /** API key for the NL model service */
-  api_key?: string | import("effect/Redacted").Redacted<string>;
+  api_key?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Custom API URL for the NL model service */
-  api_url?: string;
+  api_url?: string | undefined;
   /** Maximum number of bytes to process */
-  max_bytes?: number;
+  max_bytes?: number | undefined;
   /** Temperature parameter for the NL model */
-  temperature?: number;
+  temperature?: number | undefined;
   /** System prompt for the NL model */
-  system_prompt?: string;
+  system_prompt?: string | undefined;
   /** Top-p parameter for the NL model (Google-specific) */
-  top_p?: number;
+  top_p?: number | undefined;
   /** Top-k parameter for the NL model (Google-specific) */
-  top_k?: number;
+  top_k?: number | undefined;
   /** Stop sequences for the NL model (Google-specific) */
-  stop_sequences?: GetNLSearchModelResponseStopSequencesList;
+  stop_sequences?: GetNLSearchModelResponseStopSequencesList | undefined;
   /** API version for the NL model service */
-  api_version?: string;
+  api_version?: string | undefined;
   /** Project ID for GCP Vertex AI */
-  project_id?: string;
+  project_id?: string | undefined;
   /** Access token for GCP Vertex AI */
-  access_token?: string | import("effect/Redacted").Redacted<string>;
+  access_token?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Refresh token for GCP Vertex AI */
-  refresh_token?: string | import("effect/Redacted").Redacted<string>;
+  refresh_token?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Client ID for GCP Vertex AI */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Client secret for GCP Vertex AI */
-  client_secret?: string | import("effect/Redacted").Redacted<string>;
+  client_secret?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Region for GCP Vertex AI */
-  region?: string;
+  region?: string | undefined;
   /** Maximum output tokens for GCP Vertex AI */
-  max_output_tokens?: number;
+  max_output_tokens?: number | undefined;
   /** Account ID for Cloudflare-specific models */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Optional ID for the NL search model */
   id: string;
 }
@@ -1433,11 +1433,11 @@ export interface GetPresetResponse {
 export interface GetSchemaChangesRequest {}
 export interface SchemaChangeStatus {
   /** Name of the collection being modified */
-  collection?: string;
+  collection?: string | undefined;
   /** Number of documents that have been validated */
-  validated_docs?: number;
+  validated_docs?: number | undefined;
   /** Number of documents that have been altered */
-  altered_docs?: number;
+  altered_docs?: number | undefined;
 }
 export type GetSchemaChangesResponseBodyList = Array<SchemaChangeStatus>;
 export type GetSchemaChangesResponse = GetSchemaChangesResponseBodyList;
@@ -1467,7 +1467,7 @@ export type StopwordsSetSchemaStopwordsList = Array<string>;
 export interface StopwordsSetSchema {
   id: string;
   stopwords: StopwordsSetSchemaStopwordsList;
-  locale?: string;
+  locale?: string | undefined;
 }
 export interface StopwordsSetRetrieveSchema {
   stopwords: StopwordsSetSchema;
@@ -1491,11 +1491,11 @@ export interface SynonymItemSchema {
   /** Array of words that should be considered as synonyms */
   synonyms: SynonymItemSchemaSynonymsList;
   /** For 1-way synonyms, indicates the root word that words in the synonyms parameter map to */
-  root?: string;
+  root?: string | undefined;
   /** Locale for the synonym, leave blank to use the standard tokenizer */
-  locale?: string;
+  locale?: string | undefined;
   /** By default, special characters are dropped from synonyms. Use this attribute to specify which special characters should be indexed as is */
-  symbols_to_index?: SynonymItemSchemaSymbolsToIndexList;
+  symbols_to_index?: SynonymItemSchemaSymbolsToIndexList | undefined;
 }
 /** Array of synonym items */
 export type GetSynonymSetResponseItemsList = Array<SynonymItemSchema>;
@@ -1521,11 +1521,11 @@ export interface GetSynonymSetItemResponse {
   /** Array of words that should be considered as synonyms */
   synonyms: GetSynonymSetItemResponseSynonymsList;
   /** For 1-way synonyms, indicates the root word that words in the synonyms parameter map to */
-  root?: string;
+  root?: string | undefined;
   /** Locale for the synonym, leave blank to use the standard tokenizer */
-  locale?: string;
+  locale?: string | undefined;
   /** By default, special characters are dropped from synonyms. Use this attribute to specify which special characters should be indexed as is */
-  symbols_to_index?: GetSynonymSetItemResponseSymbolsToIndexList;
+  symbols_to_index?: GetSynonymSetItemResponseSymbolsToIndexList | undefined;
 }
 export interface GetSynonymSetItemsRequest {
   /** The name of the synonym set to retrieve items for */
@@ -1551,18 +1551,18 @@ export interface HealthStatus {
 export type IndexAction = "create" | "update" | "upsert" | "emplace";
 export type DirtyValues = "coerce_or_reject" | "coerce_or_drop" | "drop" | "reject";
 export interface ImportDocumentsRequestImportDocumentsParameters {
-  batch_size?: number;
+  batch_size?: number | undefined;
   /** Returning the id of the imported documents. If you want the import response to return the ingested document's id in the response, you can use the return_id parameter. */
-  return_id?: boolean;
-  remote_embedding_batch_size?: number;
-  return_doc?: boolean;
-  action?: IndexAction | (string & {});
-  dirty_values?: DirtyValues | (string & {});
+  return_id?: boolean | undefined;
+  remote_embedding_batch_size?: number | undefined;
+  return_doc?: boolean | undefined;
+  action?: IndexAction | (string & {}) | undefined;
+  dirty_values?: DirtyValues | (string & {}) | undefined;
 }
 export interface ImportDocumentsRequest {
   /** The name of the collection */
   collectionName: string;
-  importDocumentsParameters?: ImportDocumentsRequestImportDocumentsParameters;
+  importDocumentsParameters?: ImportDocumentsRequestImportDocumentsParameters | undefined;
 }
 export interface ImportDocumentsResponse {}
 export interface ImportStemmingDictionaryRequest {
@@ -1575,15 +1575,15 @@ export interface IndexDocumentRequest {
   /** The name of the collection to add the document to */
   collectionName: string;
   /** Additional action to perform */
-  action?: IndexAction | (string & {});
+  action?: IndexAction | (string & {}) | undefined;
   /** Dealing with Dirty Data */
-  dirty_values?: DirtyValues | (string & {});
+  dirty_values?: DirtyValues | (string & {}) | undefined;
 }
 export type IndexDocumentResponse = unknown;
 export interface ListStemmingDictionariesRequest {}
 export type ListStemmingDictionariesResponseDictionariesList = Array<string>;
 export interface ListStemmingDictionariesResponse {
-  dictionaries?: ListStemmingDictionariesResponseDictionariesList;
+  dictionaries?: ListStemmingDictionariesResponseDictionariesList | undefined;
 }
 export interface SearchCollectionRequest {
   /** The name of the collection to search for the document under */
@@ -1591,24 +1591,24 @@ export interface SearchCollectionRequest {
   searchParameters: SearchParameters;
 }
 export interface FacetCountsCountsItem {
-  count?: number;
-  highlighted?: string;
-  value?: string;
-  parent?: unknown;
+  count?: number | undefined;
+  highlighted?: string | undefined;
+  value?: string | undefined;
+  parent?: unknown | undefined;
 }
 export type FacetCountsCountsList = Array<FacetCountsCountsItem>;
 export interface FacetCountsStats {
-  max?: number;
-  min?: number;
-  sum?: number;
-  total_values?: number;
-  avg?: number;
+  max?: number | undefined;
+  min?: number | undefined;
+  sum?: number | undefined;
+  total_values?: number | undefined;
+  avg?: number | undefined;
 }
 export interface FacetCounts {
-  counts?: FacetCountsCountsList;
-  field_name?: string;
-  sampled?: boolean;
-  stats?: FacetCountsStats;
+  counts?: FacetCountsCountsList | undefined;
+  field_name?: string | undefined;
+  sampled?: boolean | undefined;
+  stats?: FacetCountsStats | undefined;
 }
 export type SearchResultFacetCountsList = Array<FacetCounts>;
 export type SearchGroupedHitGroupKeyList = Array<unknown>;
@@ -1620,18 +1620,18 @@ export type SearchHighlightValuesList = Array<string>;
 export type SearchHighlightIndicesList = Array<number>;
 export type SearchHighlightMatchedTokensList = Array<unknown>;
 export interface SearchHighlight {
-  field?: string;
+  field?: string | undefined;
   /** Present only for (non-array) string fields */
-  snippet?: string;
+  snippet?: string | undefined;
   /** Present only for (array) string[] fields */
-  snippets?: SearchHighlightSnippetsList;
+  snippets?: SearchHighlightSnippetsList | undefined;
   /** Full field value with highlighting, present only for (non-array) string fields */
-  value?: string;
+  value?: string | undefined;
   /** Full field value with highlighting, present only for (array) string[] fields */
-  values?: SearchHighlightValuesList;
+  values?: SearchHighlightValuesList | undefined;
   /** The indices property will be present only for string[] fields and will contain the corresponding indices of the snippets in the search field */
-  indices?: SearchHighlightIndicesList;
-  matched_tokens?: SearchHighlightMatchedTokensList;
+  indices?: SearchHighlightIndicesList | undefined;
+  matched_tokens?: SearchHighlightMatchedTokensList | undefined;
 }
 /** (Deprecated) Contains highlighted portions of the search fields */
 export type SearchResultHitHighlightsList = Array<SearchHighlight>;
@@ -1640,43 +1640,43 @@ export type SearchResultHitHighlightMap = { [key: string]: unknown | undefined }
 /** Can be any key-value pair */
 export type SearchResultHitDocumentMap = { [key: string]: unknown | undefined };
 export interface SearchResultHitTextMatchInfo {
-  best_field_score?: string;
-  best_field_weight?: number;
-  fields_matched?: number;
-  num_tokens_dropped?: number;
-  score?: string;
-  tokens_matched?: number;
-  typo_prefix_score?: number;
+  best_field_score?: string | undefined;
+  best_field_weight?: number | undefined;
+  fields_matched?: number | undefined;
+  num_tokens_dropped?: number | undefined;
+  score?: string | undefined;
+  tokens_matched?: number | undefined;
+  typo_prefix_score?: number | undefined;
 }
 /** Can be any key-value pair */
 export type SearchResultHitGeoDistanceMetersMap = { [key: string]: number | undefined };
 /** Information about hybrid search scoring */
 export interface SearchResultHitHybridSearchInfo {
   /** Combined score from rank fusion of text and vector search */
-  rank_fusion_score?: number;
+  rank_fusion_score?: number | undefined;
 }
 export interface SearchResultHit {
   /** (Deprecated) Contains highlighted portions of the search fields */
-  highlights?: SearchResultHitHighlightsList;
+  highlights?: SearchResultHitHighlightsList | undefined;
   /** Highlighted version of the matching document */
-  highlight?: SearchResultHitHighlightMap;
+  highlight?: SearchResultHitHighlightMap | undefined;
   /** Can be any key-value pair */
-  document?: SearchResultHitDocumentMap;
-  text_match?: number;
-  text_match_info?: SearchResultHitTextMatchInfo;
+  document?: SearchResultHitDocumentMap | undefined;
+  text_match?: number | undefined;
+  text_match_info?: SearchResultHitTextMatchInfo | undefined;
   /** Can be any key-value pair */
-  geo_distance_meters?: SearchResultHitGeoDistanceMetersMap;
+  geo_distance_meters?: SearchResultHitGeoDistanceMetersMap | undefined;
   /** Distance between the query vector and matching document's vector value */
-  vector_distance?: number;
+  vector_distance?: number | undefined;
   /** Information about hybrid search scoring */
-  hybrid_search_info?: SearchResultHitHybridSearchInfo;
+  hybrid_search_info?: SearchResultHitHybridSearchInfo | undefined;
   /** Returned only for union query response. Indicates the index of the query which this document matched to. */
-  search_index?: number;
+  search_index?: number | undefined;
 }
 /** The documents that matched the search query */
 export type SearchGroupedHitHitsList = Array<SearchResultHit>;
 export interface SearchGroupedHit {
-  found?: number;
+  found?: number | undefined;
   group_key: SearchGroupedHitGroupKeyList;
   /** The documents that matched the search query */
   hits: SearchGroupedHitHitsList;
@@ -1685,14 +1685,14 @@ export type SearchResultGroupedHitsList = Array<SearchGroupedHit>;
 /** The documents that matched the search query */
 export type SearchResultHitsList = Array<SearchResultHit>;
 export interface SearchRequestParamsVoiceQuery {
-  transcribed_query?: string;
+  transcribed_query?: string | undefined;
 }
 export interface SearchRequestParams {
   collection_name: string;
-  first_q?: string;
+  first_q?: string | undefined;
   q: string;
   per_page: number;
-  voice_query?: SearchRequestParamsVoiceQuery;
+  voice_query?: SearchRequestParamsVoiceQuery | undefined;
 }
 export type SearchResultConversationConversationHistoryList = Array<unknown>;
 export interface SearchResultConversation {
@@ -1706,185 +1706,185 @@ export type SearchResultUnionRequestParamsList = Array<SearchRequestParams>;
 /** Custom JSON object that can be returned in the search response */
 export type SearchResultMetadataMap = { [key: string]: unknown | undefined };
 export interface SearchResult {
-  facet_counts?: SearchResultFacetCountsList;
+  facet_counts?: SearchResultFacetCountsList | undefined;
   /** The number of documents found */
-  found?: number;
-  found_docs?: number;
+  found?: number | undefined;
+  found_docs?: number | undefined;
   /** The number of milliseconds the search took */
-  search_time_ms?: number;
+  search_time_ms?: number | undefined;
   /** The total number of documents in the collection */
-  out_of?: number;
+  out_of?: number | undefined;
   /** Whether the search was cut off */
-  search_cutoff?: boolean;
+  search_cutoff?: boolean | undefined;
   /** The search result page number */
-  page?: number;
-  grouped_hits?: SearchResultGroupedHitsList;
+  page?: number | undefined;
+  grouped_hits?: SearchResultGroupedHitsList | undefined;
   /** The documents that matched the search query */
-  hits?: SearchResultHitsList;
-  request_params?: SearchRequestParams;
-  conversation?: SearchResultConversation;
+  hits?: SearchResultHitsList | undefined;
+  request_params?: SearchRequestParams | undefined;
+  conversation?: SearchResultConversation | undefined;
   /** Returned only for union query response. */
-  union_request_params?: SearchResultUnionRequestParamsList;
+  union_request_params?: SearchResultUnionRequestParamsList | undefined;
   /** Custom JSON object that can be returned in the search response */
-  metadata?: SearchResultMetadataMap;
+  metadata?: SearchResultMetadataMap | undefined;
 }
 /** Parameters for the multi search API. */
 export interface MultiSearchParameters {
   /** The query text to search for in the collection. Use * as the search string to return all documents. This is typically useful when used in conjunction with filter_by. */
-  q?: string;
+  q?: string | undefined;
   /** A list of `string` fields that should be queried against. Multiple fields are separated with a comma. */
-  query_by?: string;
+  query_by?: string | undefined;
   /** The relative weight to give each `query_by` field when ranking results. This can be used to boost fields in priority, when looking for matches. Multiple fields are separated with a comma. */
-  query_by_weights?: string;
+  query_by_weights?: string | undefined;
   /** In a multi-field matching context, this parameter determines how the representative text match score of a record is calculated. Possible values are max_score (default) or max_weight. */
-  text_match_type?: string;
+  text_match_type?: string | undefined;
   /** Boolean field to indicate that the last word in the query should be treated as a prefix, and not as a whole word. This is used for building autocomplete and instant search interfaces. Defaults to true. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** If infix index is enabled for this field, infix searching can be done on a per-field basis by sending a comma separated string parameter called infix to the search query. This parameter can have 3 values; `off` infix search is disabled, which is default `always` infix search is performed along with regular search `fallback` infix search is performed if regular search does not produce results */
-  infix?: string;
+  infix?: string | undefined;
   /** There are also 2 parameters that allow you to control the extent of infix searching max_extra_prefix and max_extra_suffix which specify the maximum number of symbols before or after the query that can be present in the token. For example query "K2100" has 2 extra symbols in "6PK2100". By default, any number of prefixes/suffixes can be present for a match. */
-  max_extra_prefix?: number;
+  max_extra_prefix?: number | undefined;
   /** There are also 2 parameters that allow you to control the extent of infix searching max_extra_prefix and max_extra_suffix which specify the maximum number of symbols before or after the query that can be present in the token. For example query "K2100" has 2 extra symbols in "6PK2100". By default, any number of prefixes/suffixes can be present for a match. */
-  max_extra_suffix?: number;
+  max_extra_suffix?: number | undefined;
   /** Filter conditions for refining youropen api validator search results. Separate multiple conditions with &&. */
-  filter_by?: string;
+  filter_by?: string | undefined;
   /** Applies the filtering operation incrementally / lazily. Set this to true when you are potentially filtering on large values but the tokens in the query are expected to match very few documents. Default: false */
-  enable_lazy_filter?: boolean;
+  enable_lazy_filter?: boolean | undefined;
   /** Controls the number of similar words that Typesense considers during fuzzy search on filter_by values. Useful for controlling prefix matches like company_name:Acm*. */
-  max_filter_by_candidates?: number;
+  max_filter_by_candidates?: number | undefined;
   /** A list of numerical fields and their corresponding sort orders that will be used for ordering your results. Up to 3 sort fields can be specified. The text similarity score is exposed as a special `_text_match` field that you can use in the list of sorting fields. If no `sort_by` parameter is specified, results are sorted by `_text_match:desc,default_sorting_field:desc` */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** A list of fields that will be used for faceting your results on. Separate multiple fields with a comma. */
-  facet_by?: string;
+  facet_by?: string | undefined;
   /** Maximum number of facet values to be returned. */
-  max_facet_values?: number;
+  max_facet_values?: number | undefined;
   /** Facet values that are returned can now be filtered via this parameter. The matching facet text is also highlighted. For example, when faceting by `category`, you can set `facet_query=category:shoe` to return only facet values that contain the prefix "shoe". */
-  facet_query?: string;
+  facet_query?: string | undefined;
   /** Controls the fuzziness of the facet query filter. Default: 2. */
-  facet_query_num_typos?: number;
+  facet_query_num_typos?: number | undefined;
   /** The number of typographical errors (1 or 2) that would be tolerated. Default: 2 */
-  num_typos?: string;
+  num_typos?: string | undefined;
   /** Results from this specific page number would be fetched. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results to fetch per page. Default: 10 */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Number of hits to fetch. Can be used as an alternative to the per_page parameter. Default: 10. */
-  limit?: number;
+  limit?: number | undefined;
   /** Identifies the starting point to return hits from a result set. Can be used as an alternative to the page parameter. */
-  offset?: number;
+  offset?: number | undefined;
   /** You can aggregate search results into groups or buckets by specify one or more `group_by` fields. Separate multiple fields with a comma. To group on a particular field, it must be a faceted field. */
-  group_by?: string;
+  group_by?: string | undefined;
   /** Maximum number of hits to be returned for every group. If the `group_limit` is set as `K` then only the top K hits in each group are returned in the response. Default: 3 */
-  group_limit?: number;
+  group_limit?: number | undefined;
   /** Setting this parameter to true will place all documents that have a null value in the group_by field, into a single group. Setting this parameter to false, will cause each document with a null value in the group_by field to not be grouped with other documents. Default: true */
-  group_missing_values?: boolean;
+  group_missing_values?: boolean | undefined;
   /** Overrides the behavior of group_by queries where found value is an approximation. When group_max_candidates is passed, found will be accurate up until its value. */
-  group_max_candidates?: number;
+  group_max_candidates?: number | undefined;
   /** List of fields from the document to include in the search result */
-  include_fields?: string;
+  include_fields?: string | undefined;
   /** List of fields from the document to exclude in the search result */
-  exclude_fields?: string;
+  exclude_fields?: string | undefined;
   /** List of fields which should be highlighted fully without snippeting */
-  highlight_full_fields?: string;
+  highlight_full_fields?: string | undefined;
   /** The number of tokens that should surround the highlighted text on each side. Default: 4 */
-  highlight_affix_num_tokens?: number;
+  highlight_affix_num_tokens?: number | undefined;
   /** The start tag used for the highlighted snippets. Default: `<mark>` */
-  highlight_start_tag?: string;
+  highlight_start_tag?: string | undefined;
   /** The end tag used for the highlighted snippets. Default: `</mark>` */
-  highlight_end_tag?: string;
+  highlight_end_tag?: string | undefined;
   /** Field values under this length will be fully highlighted, instead of showing a snippet of relevant portion. Default: 30 */
-  snippet_threshold?: number;
+  snippet_threshold?: number | undefined;
   /** If the number of results found for a specific query is less than this number, Typesense will attempt to drop the tokens in the query until enough results are found. Tokens that have the least individual hits are dropped first. Set to 0 to disable. Default: 10 */
-  drop_tokens_threshold?: number;
-  drop_tokens_mode?: DropTokensMode | (string & {});
+  drop_tokens_threshold?: number | undefined;
+  drop_tokens_mode?: DropTokensMode | (string & {}) | undefined;
   /** If the number of results found for a specific query is less than this number, Typesense will attempt to look for tokens with more typos until enough results are found. Default: 100 */
-  typo_tokens_threshold?: number;
+  typo_tokens_threshold?: number | undefined;
   /** Set this parameter to false to disable typos on alphanumerical query tokens. Default: true. */
-  enable_typos_for_alpha_numerical_tokens?: boolean;
+  enable_typos_for_alpha_numerical_tokens?: boolean | undefined;
   /** Whether the filter_by condition of the search query should be applicable to curated results (curation definitions, pinned hits, hidden hits, etc.). Default: false */
-  filter_curated_hits?: boolean;
+  filter_curated_hits?: boolean | undefined;
   /** If you have some synonyms defined but want to disable all of them for a particular search query, set enable_synonyms to false. Default: true */
-  enable_synonyms?: boolean;
+  enable_synonyms?: boolean | undefined;
   /** Flag for enabling/disabling analytics aggregation for specific search queries (for e.g. those originating from a test script). */
-  enable_analytics?: boolean;
+  enable_analytics?: boolean | undefined;
   /** Allow synonym resolution on word prefixes in the query. Default: false */
-  synonym_prefix?: boolean;
+  synonym_prefix?: boolean | undefined;
   /** When set to true, search results that matched via synonyms will be demoted in ranking, appearing below results that have a direct match. Default: false */
-  demote_synonym_match?: boolean;
+  demote_synonym_match?: boolean | undefined;
   /** Allow synonym resolution on typo-corrected words in the query. Default: 0 */
-  synonym_num_typos?: number;
+  synonym_num_typos?: number | undefined;
   /** A list of records to unconditionally include in the search results at specific positions. An example use case would be to feature or promote certain items on the top of search results. A list of `record_id:hit_position`. Eg: to include a record with ID 123 at Position 1 and another record with ID 456 at Position 5, you'd specify `123:1,456:5`. You could also use the Curation feature to override search results based on rules. Curations are applied first, followed by `pinned_hits` and finally `hidden_hits`. */
-  pinned_hits?: string;
+  pinned_hits?: string | undefined;
   /** A list of records to unconditionally hide from search results. A list of `record_id`s to hide. Eg: to hide records with IDs 123 and 456, you'd specify `123,456`. You could also use the Curation feature to override search results based on rules. Curations are applied first, followed by `pinned_hits` and finally `hidden_hits`. */
-  hidden_hits?: string;
+  hidden_hits?: string | undefined;
   /** Comma separated list of tags to trigger the curations rules that match the tags. */
-  curation_tags?: string;
+  curation_tags?: string | undefined;
   /** A list of custom fields that must be highlighted even if you don't query for them */
-  highlight_fields?: string;
+  highlight_fields?: string | undefined;
   /** When true, computes both text match and vector distance scores for all matches in hybrid search. Documents found only through keyword search will get a vector distance score, and documents found only through vector search will get a text match score. */
-  rerank_hybrid_matches?: boolean;
+  rerank_hybrid_matches?: boolean | undefined;
   /** You can index content from any logographic language into Typesense if you are able to segment / split the text into space-separated words yourself before indexing and querying. Set this parameter to true to do the same */
-  pre_segmented_query?: boolean;
+  pre_segmented_query?: boolean | undefined;
   /** Search using a bunch of search parameters by setting this parameter to the name of the existing Preset. */
-  preset?: string;
+  preset?: string | undefined;
   /** If you have some curation sets defined but want to disable all of them during query time, you can do that by setting this parameter to false */
-  enable_curations?: boolean;
+  enable_curations?: boolean | undefined;
   /** Set this parameter to true to ensure that an exact match is ranked above the others */
-  prioritize_exact_match?: boolean;
+  prioritize_exact_match?: boolean | undefined;
   /** Make Typesense prioritize documents where the query words appear earlier in the text. */
-  prioritize_token_position?: boolean;
+  prioritize_token_position?: boolean | undefined;
   /** Make Typesense prioritize documents where the query words appear in more number of fields. */
-  prioritize_num_matching_fields?: boolean;
+  prioritize_num_matching_fields?: boolean | undefined;
   /** Make Typesense disable typos for numerical tokens. */
-  enable_typos_for_numerical_tokens?: boolean;
+  enable_typos_for_numerical_tokens?: boolean | undefined;
   /** Setting this to true will make Typesense consider all prefixes and typo corrections of the words in the query without stopping early when enough results are found (drop_tokens_threshold and typo_tokens_threshold configurations are ignored). */
-  exhaustive_search?: boolean;
+  exhaustive_search?: boolean | undefined;
   /** Typesense will attempt to return results early if the cutoff time has elapsed. This is not a strict guarantee and facet computation is not bound by this parameter. */
-  search_cutoff_ms?: number;
+  search_cutoff_ms?: number | undefined;
   /** Maximum number of hits that can be fetched from the collection. page * per_page should be less than this number for the search request to return results. */
-  limit_hits?: number;
+  limit_hits?: number | undefined;
   /** Enable server side caching of search query results. By default, caching is disabled. */
-  use_cache?: boolean;
+  use_cache?: boolean | undefined;
   /** The duration (in seconds) that determines how long the search query is cached. This value can be set on a per-query basis. Default: 60. */
-  cache_ttl?: number;
+  cache_ttl?: number | undefined;
   /** Minimum word length for 1-typo correction to be applied. The value of num_typos is still treated as the maximum allowed typos. */
-  min_len_1typo?: number;
+  min_len_1typo?: number | undefined;
   /** Minimum word length for 2-typo correction to be applied. The value of num_typos is still treated as the maximum allowed typos. */
-  min_len_2typo?: number;
+  min_len_2typo?: number | undefined;
   /** Vector query expression for fetching documents "closest" to a given query/document vector. */
-  vector_query?: string;
+  vector_query?: string | undefined;
   /** Timeout (in milliseconds) for fetching remote embeddings. */
-  remote_embedding_timeout_ms?: number;
+  remote_embedding_timeout_ms?: number | undefined;
   /** Number of times to retry fetching remote embeddings. */
-  remote_embedding_num_tries?: number;
+  remote_embedding_num_tries?: number | undefined;
   /** Choose the underlying faceting strategy used. Comma separated string of allows values: exhaustive, top_values or automatic (default). */
-  facet_strategy?: string;
+  facet_strategy?: string | undefined;
   /** Name of the stopwords set to apply for this search, the keywords present in the set will be removed from the search query. */
-  stopwords?: string;
+  stopwords?: string | undefined;
   /** Comma separated string of nested facet fields whose parent object should be returned in facet response. */
-  facet_return_parent?: string;
+  facet_return_parent?: string | undefined;
   /** Percentage of hits that will be used to estimate facet counts. Default: 100. */
-  facet_sample_percent?: number;
+  facet_sample_percent?: number | undefined;
   /** Minimum number of hits above which the facet counts are sampled. Default: 0. */
-  facet_sample_threshold?: number;
+  facet_sample_threshold?: number | undefined;
   /** Controls how steeply facet_sample_percent falls as the collection grows. facet_sample_threshold should be non-zero for facet_sample_slope to be effective. Default: 0. */
-  facet_sample_slope?: number;
+  facet_sample_slope?: number | undefined;
   /** The base64 encoded audio file in 16 khz 16-bit WAV format. */
-  voice_query?: string;
+  voice_query?: string | undefined;
   /** Enable conversational search. */
-  conversation?: boolean;
+  conversation?: boolean | undefined;
   /** The Id of Conversation Model to be used. */
-  conversation_model_id?: string;
+  conversation_model_id?: string | undefined;
   /** The Id of a previous conversation to continue, this tells Typesense to include prior context when communicating with the LLM. */
-  conversation_id?: string;
+  conversation_id?: string | undefined;
   /** Controls whether Typesense should validate if the fields exist in the schema. When set to false, Typesense will not throw an error if a field is missing. This is useful for programmatic grouping where not all fields may exist. */
-  validate_field_names?: boolean;
+  validate_field_names?: boolean | undefined;
 }
 export type SearchMultiRequestSearchesList = Array<MultiSearchCollectionParameters>;
 export interface SearchMultiRequest {
   multiSearchParameters: MultiSearchParameters;
   /** When true, merges the search results from each search query into a single ordered set of hits. */
-  union?: boolean;
+  union?: boolean | undefined;
   searches: SearchMultiRequestSearchesList;
 }
 export type MultiSearchResultItemFacetCountsList = Array<FacetCounts>;
@@ -1896,36 +1896,36 @@ export type MultiSearchResultItemUnionRequestParamsList = Array<SearchRequestPar
 /** Custom JSON object that can be returned in the search response */
 export type MultiSearchResultItemMetadataMap = { [key: string]: unknown | undefined };
 export interface MultiSearchResultItem {
-  facet_counts?: MultiSearchResultItemFacetCountsList;
+  facet_counts?: MultiSearchResultItemFacetCountsList | undefined;
   /** The number of documents found */
-  found?: number;
-  found_docs?: number;
+  found?: number | undefined;
+  found_docs?: number | undefined;
   /** The number of milliseconds the search took */
-  search_time_ms?: number;
+  search_time_ms?: number | undefined;
   /** The total number of documents in the collection */
-  out_of?: number;
+  out_of?: number | undefined;
   /** Whether the search was cut off */
-  search_cutoff?: boolean;
+  search_cutoff?: boolean | undefined;
   /** The search result page number */
-  page?: number;
-  grouped_hits?: MultiSearchResultItemGroupedHitsList;
+  page?: number | undefined;
+  grouped_hits?: MultiSearchResultItemGroupedHitsList | undefined;
   /** The documents that matched the search query */
-  hits?: MultiSearchResultItemHitsList;
-  request_params?: SearchRequestParams;
-  conversation?: SearchResultConversation;
+  hits?: MultiSearchResultItemHitsList | undefined;
+  request_params?: SearchRequestParams | undefined;
+  conversation?: SearchResultConversation | undefined;
   /** Returned only for union query response. */
-  union_request_params?: MultiSearchResultItemUnionRequestParamsList;
+  union_request_params?: MultiSearchResultItemUnionRequestParamsList | undefined;
   /** Custom JSON object that can be returned in the search response */
-  metadata?: MultiSearchResultItemMetadataMap;
+  metadata?: MultiSearchResultItemMetadataMap | undefined;
   /** HTTP error code */
-  code?: number;
+  code?: number | undefined;
   /** Error description */
-  error?: string;
+  error?: string | undefined;
 }
 export type MultiSearchResultResultsList = Array<MultiSearchResultItem>;
 export interface MultiSearchResult {
   results: MultiSearchResultResultsList;
-  conversation?: SearchResultConversation;
+  conversation?: SearchResultConversation | undefined;
 }
 export interface TakeSnapshotRequest {
   /** The directory on the server where the snapshot should be saved. */
@@ -1942,11 +1942,11 @@ export interface UpdateCollectionRequest {
   /** The name of the collection to update */
   collectionName: string;
   /** A list of fields for querying, filtering and faceting */
-  fields?: UpdateCollectionRequestFieldsList;
+  fields?: UpdateCollectionRequestFieldsList | undefined;
   /** List of synonym set names to associate with this collection */
-  synonym_sets?: UpdateCollectionRequestSynonymSetsList;
+  synonym_sets?: UpdateCollectionRequestSynonymSetsList | undefined;
   /** Optional details about the collection, e.g., when it was created, who created it etc. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 /** A list of fields for querying, filtering and faceting */
 export type CollectionUpdateSchemaFieldsList = Array<Field>;
@@ -1954,33 +1954,33 @@ export type CollectionUpdateSchemaFieldsList = Array<Field>;
 export type CollectionUpdateSchemaSynonymSetsList = Array<string>;
 export interface CollectionUpdateSchema {
   /** A list of fields for querying, filtering and faceting */
-  fields?: CollectionUpdateSchemaFieldsList;
+  fields?: CollectionUpdateSchemaFieldsList | undefined;
   /** List of synonym set names to associate with this collection */
-  synonym_sets?: CollectionUpdateSchemaSynonymSetsList;
+  synonym_sets?: CollectionUpdateSchemaSynonymSetsList | undefined;
   /** Optional details about the collection, e.g., when it was created, who created it etc. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export interface UpdateConversationModelRequest {
   /** The id of the conversation model to update */
   modelId: string;
   /** An explicit id for the model, otherwise the API will return a response with an auto-generated conversation model id. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the LLM model offered by OpenAI, Cloudflare or vLLM */
-  model_name?: string;
+  model_name?: string | undefined;
   /** The LLM service's API Key */
-  api_key?: string | import("effect/Redacted").Redacted<string>;
+  api_key?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Typesense collection that stores the historical conversations */
-  history_collection?: string;
+  history_collection?: string | undefined;
   /** LLM service's account ID (only applicable for Cloudflare) */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The system prompt that contains special instructions to the LLM */
-  system_prompt?: string;
+  system_prompt?: string | undefined;
   /** Time interval in seconds after which the messages would be deleted. Default: 86400 (24 hours) */
-  ttl?: number;
+  ttl?: number | undefined;
   /** The maximum number of bytes to send to the LLM in every API call. Consult the LLM's documentation on the number of bytes supported in the context window. */
-  max_bytes?: number;
+  max_bytes?: number | undefined;
   /** URL of vLLM service */
-  vllm_url?: string;
+  vllm_url?: string | undefined;
 }
 export interface UpdateConversationModelResponse {
   /** An explicit id for the model, otherwise the API will return a response with an auto-generated conversation model id. */
@@ -1988,19 +1988,19 @@ export interface UpdateConversationModelResponse {
   /** Name of the LLM model offered by OpenAI, Cloudflare or vLLM */
   model_name: string;
   /** The LLM service's API Key */
-  api_key?: string | import("effect/Redacted").Redacted<string>;
+  api_key?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Typesense collection that stores the historical conversations */
   history_collection: string;
   /** LLM service's account ID (only applicable for Cloudflare) */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The system prompt that contains special instructions to the LLM */
-  system_prompt?: string;
+  system_prompt?: string | undefined;
   /** Time interval in seconds after which the messages would be deleted. Default: 86400 (24 hours) */
-  ttl?: number;
+  ttl?: number | undefined;
   /** The maximum number of bytes to send to the LLM in every API call. Consult the LLM's documentation on the number of bytes supported in the context window. */
   max_bytes: number;
   /** URL of vLLM service */
-  vllm_url?: string;
+  vllm_url?: string | undefined;
 }
 export interface UpdateDocumentRequest {
   /** The name of the collection to search for the document under */
@@ -2008,16 +2008,16 @@ export interface UpdateDocumentRequest {
   /** The Document ID */
   documentId: string;
   /** Dealing with Dirty Data */
-  dirty_values?: DirtyValues | (string & {});
+  dirty_values?: DirtyValues | (string & {}) | undefined;
 }
 export type UpdateDocumentResponse = unknown;
 export interface UpdateDocumentsRequestUpdateDocumentsParameters {
-  filter_by?: string;
+  filter_by?: string | undefined;
 }
 export interface UpdateDocumentsRequest {
   /** The name of the collection to update documents in */
   collectionName: string;
-  updateDocumentsParameters?: UpdateDocumentsRequestUpdateDocumentsParameters;
+  updateDocumentsParameters?: UpdateDocumentsRequestUpdateDocumentsParameters | undefined;
 }
 export interface UpdateDocumentsResponse {
   /** The number of documents that have been updated */
@@ -2029,83 +2029,83 @@ export interface UpdateNLSearchModelRequest {
   /** The ID of the NL search model to update */
   modelId: string;
   /** Name of the NL model to use */
-  model_name?: string;
+  model_name?: string | undefined;
   /** API key for the NL model service */
-  api_key?: string | import("effect/Redacted").Redacted<string>;
+  api_key?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Custom API URL for the NL model service */
-  api_url?: string;
+  api_url?: string | undefined;
   /** Maximum number of bytes to process */
-  max_bytes?: number;
+  max_bytes?: number | undefined;
   /** Temperature parameter for the NL model */
-  temperature?: number;
+  temperature?: number | undefined;
   /** System prompt for the NL model */
-  system_prompt?: string;
+  system_prompt?: string | undefined;
   /** Top-p parameter for the NL model (Google-specific) */
-  top_p?: number;
+  top_p?: number | undefined;
   /** Top-k parameter for the NL model (Google-specific) */
-  top_k?: number;
+  top_k?: number | undefined;
   /** Stop sequences for the NL model (Google-specific) */
-  stop_sequences?: UpdateNLSearchModelRequestStopSequencesList;
+  stop_sequences?: UpdateNLSearchModelRequestStopSequencesList | undefined;
   /** API version for the NL model service */
-  api_version?: string;
+  api_version?: string | undefined;
   /** Project ID for GCP Vertex AI */
-  project_id?: string;
+  project_id?: string | undefined;
   /** Access token for GCP Vertex AI */
-  access_token?: string | import("effect/Redacted").Redacted<string>;
+  access_token?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Refresh token for GCP Vertex AI */
-  refresh_token?: string | import("effect/Redacted").Redacted<string>;
+  refresh_token?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Client ID for GCP Vertex AI */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Client secret for GCP Vertex AI */
-  client_secret?: string | import("effect/Redacted").Redacted<string>;
+  client_secret?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Region for GCP Vertex AI */
-  region?: string;
+  region?: string | undefined;
   /** Maximum output tokens for GCP Vertex AI */
-  max_output_tokens?: number;
+  max_output_tokens?: number | undefined;
   /** Account ID for Cloudflare-specific models */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Optional ID for the NL search model */
-  id?: string;
+  id?: string | undefined;
 }
 /** Stop sequences for the NL model (Google-specific) */
 export type UpdateNLSearchModelResponseStopSequencesList = Array<string>;
 export interface UpdateNLSearchModelResponse {
   /** Name of the NL model to use */
-  model_name?: string;
+  model_name?: string | undefined;
   /** API key for the NL model service */
-  api_key?: string | import("effect/Redacted").Redacted<string>;
+  api_key?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Custom API URL for the NL model service */
-  api_url?: string;
+  api_url?: string | undefined;
   /** Maximum number of bytes to process */
-  max_bytes?: number;
+  max_bytes?: number | undefined;
   /** Temperature parameter for the NL model */
-  temperature?: number;
+  temperature?: number | undefined;
   /** System prompt for the NL model */
-  system_prompt?: string;
+  system_prompt?: string | undefined;
   /** Top-p parameter for the NL model (Google-specific) */
-  top_p?: number;
+  top_p?: number | undefined;
   /** Top-k parameter for the NL model (Google-specific) */
-  top_k?: number;
+  top_k?: number | undefined;
   /** Stop sequences for the NL model (Google-specific) */
-  stop_sequences?: UpdateNLSearchModelResponseStopSequencesList;
+  stop_sequences?: UpdateNLSearchModelResponseStopSequencesList | undefined;
   /** API version for the NL model service */
-  api_version?: string;
+  api_version?: string | undefined;
   /** Project ID for GCP Vertex AI */
-  project_id?: string;
+  project_id?: string | undefined;
   /** Access token for GCP Vertex AI */
-  access_token?: string | import("effect/Redacted").Redacted<string>;
+  access_token?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Refresh token for GCP Vertex AI */
-  refresh_token?: string | import("effect/Redacted").Redacted<string>;
+  refresh_token?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Client ID for GCP Vertex AI */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Client secret for GCP Vertex AI */
-  client_secret?: string | import("effect/Redacted").Redacted<string>;
+  client_secret?: string | import("effect/Redacted").Redacted<string> | undefined;
   /** Region for GCP Vertex AI */
-  region?: string;
+  region?: string | undefined;
   /** Maximum output tokens for GCP Vertex AI */
-  max_output_tokens?: number;
+  max_output_tokens?: number | undefined;
   /** Account ID for Cloudflare-specific models */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Optional ID for the NL search model */
   id: string;
 }
@@ -2117,38 +2117,38 @@ export interface UpsertAliasRequest {
 }
 export type UpsertAnalyticsRuleRequestParamsMetaFieldsList = Array<string>;
 export interface UpsertAnalyticsRuleRequestParams {
-  destination_collection?: string;
-  limit?: number;
-  capture_search_requests?: boolean;
-  meta_fields?: UpsertAnalyticsRuleRequestParamsMetaFieldsList;
-  expand_query?: boolean;
-  counter_field?: string;
-  weight?: number;
+  destination_collection?: string | undefined;
+  limit?: number | undefined;
+  capture_search_requests?: boolean | undefined;
+  meta_fields?: UpsertAnalyticsRuleRequestParamsMetaFieldsList | undefined;
+  expand_query?: boolean | undefined;
+  counter_field?: string | undefined;
+  weight?: number | undefined;
 }
 export interface UpsertAnalyticsRuleRequest {
   /** The name of the analytics rule to upsert */
   ruleName: string;
-  name?: string;
-  rule_tag?: string;
-  params?: UpsertAnalyticsRuleRequestParams;
+  name?: string | undefined;
+  rule_tag?: string | undefined;
+  params?: UpsertAnalyticsRuleRequestParams | undefined;
 }
 export type UpsertAnalyticsRuleResponseParamsMetaFieldsList = Array<string>;
 export interface UpsertAnalyticsRuleResponseParams {
-  destination_collection?: string;
-  limit?: number;
-  capture_search_requests?: boolean;
-  meta_fields?: UpsertAnalyticsRuleResponseParamsMetaFieldsList;
-  expand_query?: boolean;
-  counter_field?: string;
-  weight?: number;
+  destination_collection?: string | undefined;
+  limit?: number | undefined;
+  capture_search_requests?: boolean | undefined;
+  meta_fields?: UpsertAnalyticsRuleResponseParamsMetaFieldsList | undefined;
+  expand_query?: boolean | undefined;
+  counter_field?: string | undefined;
+  weight?: number | undefined;
 }
 export interface UpsertAnalyticsRuleResponse {
   name: string;
   type: AnalyticsRuleType;
   collection: string;
   event_type: string;
-  rule_tag?: string;
-  params?: UpsertAnalyticsRuleResponseParams;
+  rule_tag?: string | undefined;
+  params?: UpsertAnalyticsRuleResponseParams | undefined;
 }
 /** Array of curation items */
 export type UpsertCurationSetRequestItemsList = Array<CurationItemCreateSchema>;
@@ -2158,7 +2158,7 @@ export interface UpsertCurationSetRequest {
   /** Array of curation items */
   items: UpsertCurationSetRequestItemsList;
   /** Optional description for the curation set */
-  description?: string;
+  description?: string | undefined;
 }
 /** Array of curation items */
 export type UpsertCurationSetResponseItemsList = Array<CurationItemCreateSchema>;
@@ -2166,7 +2166,7 @@ export interface UpsertCurationSetResponse {
   /** Array of curation items */
   items: UpsertCurationSetResponseItemsList;
   /** Optional description for the curation set */
-  description?: string;
+  description?: string | undefined;
   name: string;
 }
 /** List of document `id`s that should be included in the search results with their corresponding `position`s. */
@@ -2180,29 +2180,29 @@ export interface UpsertCurationSetItemRequest {
   itemId: string;
   rule: CurationRule;
   /** List of document `id`s that should be included in the search results with their corresponding `position`s. */
-  includes?: UpsertCurationSetItemRequestIncludesList;
+  includes?: UpsertCurationSetItemRequestIncludesList | undefined;
   /** List of document `id`s that should be excluded from the search results. */
-  excludes?: UpsertCurationSetItemRequestExcludesList;
+  excludes?: UpsertCurationSetItemRequestExcludesList | undefined;
   /** A filter by clause that is applied to any search query that matches the curation rule. */
-  filter_by?: string;
+  filter_by?: string | undefined;
   /** Indicates whether search query tokens that exist in the curation's rule should be removed from the search query. */
-  remove_matched_tokens?: boolean;
+  remove_matched_tokens?: boolean | undefined;
   /** Return a custom JSON object in the Search API response, when this rule is triggered. This can can be used to display a pre-defined message (eg: a promotion banner) on the front-end when a particular rule is triggered. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** A sort by clause that is applied to any search query that matches the curation rule. */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** Replaces the current search query with this value, when the search query matches the curation rule. */
-  replace_query?: string;
+  replace_query?: string | undefined;
   /** When set to true, the filter conditions of the query is applied to the curated records as well. Default: false. */
-  filter_curated_hits?: boolean;
+  filter_curated_hits?: boolean | undefined;
   /** A Unix timestamp that indicates the date/time from which the curation will be active. You can use this to create rules that start applying from a future point in time. */
-  effective_from_ts?: number;
+  effective_from_ts?: number | undefined;
   /** A Unix timestamp that indicates the date/time until which the curation will be active. You can use this to create rules that stop applying after a period of time. */
-  effective_to_ts?: number;
+  effective_to_ts?: number | undefined;
   /** When set to true, curation processing will stop at the first matching rule. When set to false curation processing will continue and multiple curation actions will be triggered in sequence. Curations are processed in the lexical sort order of their id field. */
-  stop_processing?: boolean;
+  stop_processing?: boolean | undefined;
   /** ID of the curation item */
-  id?: string;
+  id?: string | undefined;
 }
 /** List of document `id`s that should be included in the search results with their corresponding `position`s. */
 export type UpsertCurationSetItemResponseIncludesList = Array<CurationInclude>;
@@ -2211,27 +2211,27 @@ export type UpsertCurationSetItemResponseExcludesList = Array<CurationExclude>;
 export interface UpsertCurationSetItemResponse {
   rule: CurationRule;
   /** List of document `id`s that should be included in the search results with their corresponding `position`s. */
-  includes?: UpsertCurationSetItemResponseIncludesList;
+  includes?: UpsertCurationSetItemResponseIncludesList | undefined;
   /** List of document `id`s that should be excluded from the search results. */
-  excludes?: UpsertCurationSetItemResponseExcludesList;
+  excludes?: UpsertCurationSetItemResponseExcludesList | undefined;
   /** A filter by clause that is applied to any search query that matches the curation rule. */
-  filter_by?: string;
+  filter_by?: string | undefined;
   /** Indicates whether search query tokens that exist in the curation's rule should be removed from the search query. */
-  remove_matched_tokens?: boolean;
+  remove_matched_tokens?: boolean | undefined;
   /** Return a custom JSON object in the Search API response, when this rule is triggered. This can can be used to display a pre-defined message (eg: a promotion banner) on the front-end when a particular rule is triggered. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** A sort by clause that is applied to any search query that matches the curation rule. */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** Replaces the current search query with this value, when the search query matches the curation rule. */
-  replace_query?: string;
+  replace_query?: string | undefined;
   /** When set to true, the filter conditions of the query is applied to the curated records as well. Default: false. */
-  filter_curated_hits?: boolean;
+  filter_curated_hits?: boolean | undefined;
   /** A Unix timestamp that indicates the date/time from which the curation will be active. You can use this to create rules that start applying from a future point in time. */
-  effective_from_ts?: number;
+  effective_from_ts?: number | undefined;
   /** A Unix timestamp that indicates the date/time until which the curation will be active. You can use this to create rules that stop applying after a period of time. */
-  effective_to_ts?: number;
+  effective_to_ts?: number | undefined;
   /** When set to true, curation processing will stop at the first matching rule. When set to false curation processing will continue and multiple curation actions will be triggered in sequence. Curations are processed in the lexical sort order of their id field. */
-  stop_processing?: boolean;
+  stop_processing?: boolean | undefined;
   /** ID of the curation item */
   id: string;
 }
@@ -2251,7 +2251,7 @@ export interface UpsertStopwordsSetRequest {
   /** The ID of the stopwords set to upsert. */
   setId: string;
   stopwords: UpsertStopwordsSetRequestStopwordsList;
-  locale?: string;
+  locale?: string | undefined;
 }
 /** Array of synonym items */
 export type UpsertSynonymSetRequestItemsList = Array<SynonymItemSchema>;
@@ -2281,11 +2281,11 @@ export interface UpsertSynonymSetItemRequest {
   /** Array of words that should be considered as synonyms */
   synonyms: UpsertSynonymSetItemRequestSynonymsList;
   /** For 1-way synonyms, indicates the root word that words in the synonyms parameter map to */
-  root?: string;
+  root?: string | undefined;
   /** Locale for the synonym, leave blank to use the standard tokenizer */
-  locale?: string;
+  locale?: string | undefined;
   /** By default, special characters are dropped from synonyms. Use this attribute to specify which special characters should be indexed as is */
-  symbols_to_index?: UpsertSynonymSetItemRequestSymbolsToIndexList;
+  symbols_to_index?: UpsertSynonymSetItemRequestSymbolsToIndexList | undefined;
 }
 /** Array of words that should be considered as synonyms */
 export type UpsertSynonymSetItemResponseSynonymsList = Array<string>;
@@ -2297,11 +2297,11 @@ export interface UpsertSynonymSetItemResponse {
   /** Array of words that should be considered as synonyms */
   synonyms: UpsertSynonymSetItemResponseSynonymsList;
   /** For 1-way synonyms, indicates the root word that words in the synonyms parameter map to */
-  root?: string;
+  root?: string | undefined;
   /** Locale for the synonym, leave blank to use the standard tokenizer */
-  locale?: string;
+  locale?: string | undefined;
   /** By default, special characters are dropped from synonyms. Use this attribute to specify which special characters should be indexed as is */
-  symbols_to_index?: UpsertSynonymSetItemResponseSymbolsToIndexList;
+  symbols_to_index?: UpsertSynonymSetItemResponseSymbolsToIndexList | undefined;
 }
 export interface VoteRequest {}
 export type ClearCacheError = TypesenseOpError;

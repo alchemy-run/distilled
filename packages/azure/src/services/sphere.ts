@@ -56,11 +56,11 @@ export interface CatalogsCreateOrUpdateRequest {
   /** Name of catalog */
   catalogName: string;
   /** Resource tags. */
-  tags?: CatalogsCreateOrUpdateRequestTagsMap;
+  tags?: CatalogsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CatalogPropertiesInput;
+  properties?: CatalogPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -69,17 +69,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CatalogsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -95,27 +95,27 @@ export type ProvisioningState =
 /** Catalog properties */
 export interface CatalogProperties {
   /** The Azure Sphere tenant ID associated with the catalog. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface CatalogsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CatalogsCreateOrUpdateResponseTagsMap;
+  tags?: CatalogsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CatalogProperties;
+  properties?: CatalogProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Device identifiers of the devices to be claimed. */
 export type ClaimDeviceGroupDevicesRequestDeviceIdentifiersList = Array<string>;
@@ -135,9 +135,9 @@ export interface ClaimDeviceGroupDevicesRequest {
 }
 export interface ClaimDeviceGroupDevicesResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCatalogRequest {
   /** The ID of the target subscription. */
@@ -149,9 +149,9 @@ export interface DeleteCatalogRequest {
 }
 export interface DeleteCatalogResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDeploymentRequest {
   /** The ID of the target subscription. */
@@ -169,9 +169,9 @@ export interface DeleteDeploymentRequest {
 }
 export interface DeleteDeploymentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDeviceRequest {
   /** The ID of the target subscription. */
@@ -189,9 +189,9 @@ export interface DeleteDeviceRequest {
 }
 export interface DeleteDeviceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDeviceGroupRequest {
   /** The ID of the target subscription. */
@@ -207,9 +207,9 @@ export interface DeleteDeviceGroupRequest {
 }
 export interface DeleteDeviceGroupResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteImageRequest {
   /** The ID of the target subscription. */
@@ -223,9 +223,9 @@ export interface DeleteImageRequest {
 }
 export interface DeleteImageResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteProductRequest {
   /** The ID of the target subscription. */
@@ -239,34 +239,34 @@ export interface DeleteProductRequest {
 }
 export interface DeleteProductResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Regional data boundary values. */
 export type RegionalDataBoundary = "None" | "EU";
 /** The properties of image */
 export interface ImagePropertiesInput {
   /** Image as a UTF-8 encoded base 64 string on image create. This field contains the image URI on image reads. */
-  image?: string;
+  image?: string | undefined;
   /** Image ID */
-  imageId?: string;
+  imageId?: string | undefined;
   /** Regional data boundary for an image */
-  regionalDataBoundary?: RegionalDataBoundary | (string & {});
+  regionalDataBoundary?: RegionalDataBoundary | (string & {}) | undefined;
 }
 /** An image resource belonging to a catalog resource. */
 export interface ImageInput {
   /** The resource-specific properties for this resource. */
-  properties?: ImagePropertiesInput;
+  properties?: ImagePropertiesInput | undefined;
 }
 /** Images deployed */
 export type DeploymentPropertiesInputDeployedImagesList = Array<ImageInput>;
 /** The properties of deployment */
 export interface DeploymentPropertiesInput {
   /** Deployment ID */
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   /** Images deployed */
-  deployedImages?: DeploymentPropertiesInputDeployedImagesList;
+  deployedImages?: DeploymentPropertiesInputDeployedImagesList | undefined;
 }
 export interface DeploymentsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -282,7 +282,7 @@ export interface DeploymentsCreateOrUpdateRequest {
   /** Deployment name. Use .default for deployment creation and to get the current deployment for the associated device group. */
   deploymentName: string;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentPropertiesInput;
+  properties?: DeploymentPropertiesInput | undefined;
 }
 /** Image type values. */
 export type ImageType =
@@ -313,63 +313,63 @@ export type ImageType =
 /** The properties of image */
 export interface ImageProperties {
   /** Image as a UTF-8 encoded base 64 string on image create. This field contains the image URI on image reads. */
-  image?: string;
+  image?: string | undefined;
   /** Image ID */
-  imageId?: string;
+  imageId?: string | undefined;
   /** Image name */
-  imageName?: string;
+  imageName?: string | undefined;
   /** Regional data boundary for an image */
-  regionalDataBoundary?: RegionalDataBoundary;
+  regionalDataBoundary?: RegionalDataBoundary | undefined;
   /** Location the image */
-  uri?: string;
+  uri?: string | undefined;
   /** The image description. */
-  description?: string;
+  description?: string | undefined;
   /** The image component id. */
-  componentId?: string;
+  componentId?: string | undefined;
   /** The image type. */
-  imageType?: ImageType;
+  imageType?: ImageType | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** An image resource belonging to a catalog resource. */
 export interface Image {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ImageProperties;
+  properties?: ImageProperties | undefined;
 }
 /** Images deployed */
 export type DeploymentPropertiesDeployedImagesList = Array<Image>;
 /** The properties of deployment */
 export interface DeploymentProperties {
   /** Deployment ID */
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   /** Images deployed */
-  deployedImages?: DeploymentPropertiesDeployedImagesList;
+  deployedImages?: DeploymentPropertiesDeployedImagesList | undefined;
   /** Deployment date UTC */
-  deploymentDateUtc?: string;
+  deploymentDateUtc?: string | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface DeploymentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentProperties;
+  properties?: DeploymentProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeviceGroupsCountDevicesRequest {
   /** The ID of the target subscription. */
@@ -396,15 +396,15 @@ export type AllowCrashDumpCollection = "Enabled" | "Disabled";
 /** The properties of deviceGroup */
 export interface DeviceGroupPropertiesInput {
   /** Description of the device group. */
-  description?: string;
+  description?: string | undefined;
   /** Operating system feed type of the device group. */
-  osFeedType?: OSFeedType | (string & {});
+  osFeedType?: OSFeedType | (string & {}) | undefined;
   /** Update policy of the device group. */
-  updatePolicy?: UpdatePolicy | (string & {});
+  updatePolicy?: UpdatePolicy | (string & {}) | undefined;
   /** Flag to define if the user allows for crash dump collection. */
-  allowCrashDumpsCollection?: AllowCrashDumpCollection | (string & {});
+  allowCrashDumpsCollection?: AllowCrashDumpCollection | (string & {}) | undefined;
   /** Regional data boundary for the device group. */
-  regionalDataBoundary?: RegionalDataBoundary | (string & {});
+  regionalDataBoundary?: RegionalDataBoundary | (string & {}) | undefined;
 }
 export interface DeviceGroupsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -418,43 +418,43 @@ export interface DeviceGroupsCreateOrUpdateRequest {
   /** Name of device group. */
   deviceGroupName: string;
   /** The resource-specific properties for this resource. */
-  properties?: DeviceGroupPropertiesInput;
+  properties?: DeviceGroupPropertiesInput | undefined;
 }
 /** The properties of deviceGroup */
 export interface DeviceGroupProperties {
   /** Description of the device group. */
-  description?: string;
+  description?: string | undefined;
   /** Operating system feed type of the device group. */
-  osFeedType?: OSFeedType;
+  osFeedType?: OSFeedType | undefined;
   /** Update policy of the device group. */
-  updatePolicy?: UpdatePolicy;
+  updatePolicy?: UpdatePolicy | undefined;
   /** Flag to define if the user allows for crash dump collection. */
-  allowCrashDumpsCollection?: AllowCrashDumpCollection;
+  allowCrashDumpsCollection?: AllowCrashDumpCollection | undefined;
   /** Regional data boundary for the device group. */
-  regionalDataBoundary?: RegionalDataBoundary;
+  regionalDataBoundary?: RegionalDataBoundary | undefined;
   /** Deployment status for the device group. */
-  hasDeployment?: boolean;
+  hasDeployment?: boolean | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface DeviceGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeviceGroupProperties;
+  properties?: DeviceGroupProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The properties of device */
 export interface DevicePropertiesInput {
   /** Device ID */
-  deviceId?: string;
+  deviceId?: string | undefined;
 }
 export interface DevicesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -470,38 +470,38 @@ export interface DevicesCreateOrUpdateRequest {
   /** Device name */
   deviceName: string;
   /** The resource-specific properties for this resource. */
-  properties?: DevicePropertiesInput;
+  properties?: DevicePropertiesInput | undefined;
 }
 /** The properties of device */
 export interface DeviceProperties {
   /** Device ID */
-  deviceId?: string;
+  deviceId?: string | undefined;
   /** SKU of the chip */
-  chipSku?: string;
+  chipSku?: string | undefined;
   /** OS version available for installation when update requested */
-  lastAvailableOsVersion?: string;
+  lastAvailableOsVersion?: string | undefined;
   /** OS version running on device when update requested */
-  lastInstalledOsVersion?: string;
+  lastInstalledOsVersion?: string | undefined;
   /** Time when update requested and new OS version available */
-  lastOsUpdateUtc?: string;
+  lastOsUpdateUtc?: string | undefined;
   /** Time when update was last requested */
-  lastUpdateRequestUtc?: string;
+  lastUpdateRequestUtc?: string | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface DevicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeviceProperties;
+  properties?: DeviceProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Capability image type */
 export type CapabilityType = "ApplicationDevelopment" | "FieldServicing";
@@ -528,11 +528,11 @@ export interface GenerateDeviceCapabilityImageRequest {
 /** Signed device capability image response */
 export interface SignedCapabilityImageResponse {
   /** The signed device capability image as a UTF-8 encoded base 64 string. */
-  image?: string;
+  image?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GenerateProductDefaultDeviceGroupsRequest {
   /** The ID of the target subscription. */
@@ -544,18 +544,18 @@ export interface GenerateProductDefaultDeviceGroupsRequest {
   /** Name of product. */
   productName: string;
 }
-/** An device group resource belonging to a product resource. */
+/** A device group resource belonging to a product resource. */
 export interface DeviceGroup {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeviceGroupProperties;
+  properties?: DeviceGroupProperties | undefined;
 }
 /** The DeviceGroup items on this page */
 export type DeviceGroupListResultValueList = Array<DeviceGroup>;
@@ -564,7 +564,7 @@ export interface DeviceGroupListResult {
   /** The DeviceGroup items on this page */
   value: DeviceGroupListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface GetCatalogRequest {
   /** The ID of the target subscription. */
@@ -578,19 +578,19 @@ export interface GetCatalogRequest {
 export type GetCatalogResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCatalogResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetCatalogResponseTagsMap;
+  tags?: GetCatalogResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CatalogProperties;
+  properties?: CatalogProperties | undefined;
 }
 export interface GetCertificateRequest {
   /** The ID of the target subscription. */
@@ -607,31 +607,31 @@ export type CertificateStatus = "Active" | "Inactive" | "Expired" | "Revoked";
 /** The properties of certificate */
 export interface CertificateProperties {
   /** The certificate as a UTF-8 encoded base 64 string. */
-  certificate?: string;
+  certificate?: string | undefined;
   /** The certificate status. */
-  status?: CertificateStatus;
+  status?: CertificateStatus | undefined;
   /** The certificate subject. */
-  subject?: string;
+  subject?: string | undefined;
   /** The certificate thumbprint. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** The certificate expiry date. */
-  expiryUtc?: string;
+  expiryUtc?: string | undefined;
   /** The certificate not before date. */
-  notBeforeUtc?: string;
+  notBeforeUtc?: string | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetCertificateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
 }
 export interface GetCertificateCertChainRequest {
   /** The ID of the target subscription. */
@@ -646,7 +646,7 @@ export interface GetCertificateCertChainRequest {
 /** The certificate chain response. */
 export interface CertificateChainResponse {
   /** The certificate chain. */
-  certificateChain?: string;
+  certificateChain?: string | undefined;
 }
 export interface GetCertificateProofOfPossessionNonceRequest {
   /** The ID of the target subscription. */
@@ -662,19 +662,19 @@ export interface GetCertificateProofOfPossessionNonceRequest {
 }
 export interface GetCertificateProofOfPossessionNonceResponse {
   /** The certificate as a UTF-8 encoded base 64 string. */
-  certificate?: string;
+  certificate?: string | undefined;
   /** The certificate status. */
-  status?: CertificateStatus;
+  status?: CertificateStatus | undefined;
   /** The certificate subject. */
-  subject?: string;
+  subject?: string | undefined;
   /** The certificate thumbprint. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** The certificate expiry date. */
-  expiryUtc?: string;
+  expiryUtc?: string | undefined;
   /** The certificate not before date. */
-  notBeforeUtc?: string;
+  notBeforeUtc?: string | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetDeploymentRequest {
   /** The ID of the target subscription. */
@@ -692,15 +692,15 @@ export interface GetDeploymentRequest {
 }
 export interface GetDeploymentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentProperties;
+  properties?: DeploymentProperties | undefined;
 }
 export interface GetDeviceRequest {
   /** The ID of the target subscription. */
@@ -718,15 +718,15 @@ export interface GetDeviceRequest {
 }
 export interface GetDeviceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeviceProperties;
+  properties?: DeviceProperties | undefined;
 }
 export interface GetDeviceGroupRequest {
   /** The ID of the target subscription. */
@@ -742,15 +742,15 @@ export interface GetDeviceGroupRequest {
 }
 export interface GetDeviceGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeviceGroupProperties;
+  properties?: DeviceGroupProperties | undefined;
 }
 export interface GetImageRequest {
   /** The ID of the target subscription. */
@@ -764,15 +764,15 @@ export interface GetImageRequest {
 }
 export interface GetImageResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ImageProperties;
+  properties?: ImageProperties | undefined;
 }
 export interface GetProductRequest {
   /** The ID of the target subscription. */
@@ -787,21 +787,21 @@ export interface GetProductRequest {
 /** The properties of product */
 export interface ProductProperties {
   /** Description of the product */
-  description?: string;
+  description?: string | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
 }
 export interface GetProductResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ProductProperties;
+  properties?: ProductProperties | undefined;
 }
 export interface ImagesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -813,21 +813,21 @@ export interface ImagesCreateOrUpdateRequest {
   /** Image name. Use an image GUID for GA versions of the API. */
   imageName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ImagePropertiesInput;
+  properties?: ImagePropertiesInput | undefined;
 }
 export interface ImagesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ImageProperties;
+  properties?: ImageProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListCatalogByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -840,19 +840,19 @@ export type CatalogTagsMap = { [key: string]: string | undefined };
 /** An Azure Sphere catalog */
 export interface Catalog {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CatalogTagsMap;
+  tags?: CatalogTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CatalogProperties;
+  properties?: CatalogProperties | undefined;
 }
 /** The Catalog items on this page */
 export type CatalogListResultValueList = Array<Catalog>;
@@ -861,7 +861,7 @@ export interface CatalogListResult {
   /** The Catalog items on this page */
   value: CatalogListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCatalogBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -875,26 +875,26 @@ export interface ListCatalogDeploymentsRequest {
   /** Name of catalog */
   catalogName: string;
   /** Filter the result list using the given expression */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of result items to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The number of result items to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** The maximum number of result items per page. */
-  _maxpagesize?: number;
+  _maxpagesize?: number | undefined;
 }
-/** An deployment resource belonging to a device group resource. */
+/** A deployment resource belonging to a device group resource. */
 export interface Deployment {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentProperties;
+  properties?: DeploymentProperties | undefined;
 }
 /** The Deployment items on this page */
 export type DeploymentListResultValueList = Array<Deployment>;
@@ -903,7 +903,7 @@ export interface DeploymentListResult {
   /** The Deployment items on this page */
   value: DeploymentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCatalogDeviceGroupsRequest {
   /** The ID of the target subscription. */
@@ -913,15 +913,15 @@ export interface ListCatalogDeviceGroupsRequest {
   /** Name of catalog */
   catalogName: string;
   /** Filter the result list using the given expression */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of result items to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The number of result items to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** The maximum number of result items per page. */
-  _maxpagesize?: number;
+  _maxpagesize?: number | undefined;
   /** Device Group name. */
-  deviceGroupName?: string;
+  deviceGroupName?: string | undefined;
 }
 export interface ListCatalogDeviceInsightsRequest {
   /** The ID of the target subscription. */
@@ -931,13 +931,13 @@ export interface ListCatalogDeviceInsightsRequest {
   /** Name of catalog */
   catalogName: string;
   /** Filter the result list using the given expression */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of result items to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The number of result items to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** The maximum number of result items per page. */
-  _maxpagesize?: number;
+  _maxpagesize?: number | undefined;
 }
 /** Device insight report. */
 export interface DeviceInsight {
@@ -965,7 +965,7 @@ export interface PagedDeviceInsight {
   /** The DeviceInsight items on this page */
   value: PagedDeviceInsightValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCatalogDevicesRequest {
   /** The ID of the target subscription. */
@@ -975,26 +975,26 @@ export interface ListCatalogDevicesRequest {
   /** Name of catalog */
   catalogName: string;
   /** Filter the result list using the given expression */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of result items to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The number of result items to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** The maximum number of result items per page. */
-  _maxpagesize?: number;
+  _maxpagesize?: number | undefined;
 }
-/** An device resource belonging to a device group resource. */
+/** A device resource belonging to a device group resource. */
 export interface Device {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeviceProperties;
+  properties?: DeviceProperties | undefined;
 }
 /** The Device items on this page */
 export type DeviceListResultValueList = Array<Device>;
@@ -1003,7 +1003,7 @@ export interface DeviceListResult {
   /** The Device items on this page */
   value: DeviceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCertificateByCatalogRequest {
   /** The ID of the target subscription. */
@@ -1013,26 +1013,26 @@ export interface ListCertificateByCatalogRequest {
   /** Name of catalog */
   catalogName: string;
   /** Filter the result list using the given expression */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of result items to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The number of result items to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** The maximum number of result items per page. */
-  _maxpagesize?: number;
+  _maxpagesize?: number | undefined;
 }
-/** An certificate resource belonging to a catalog resource. */
+/** A certificate resource belonging to a catalog resource. */
 export interface Certificate {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
 }
 /** The Certificate items on this page */
 export type CertificateListResultValueList = Array<Certificate>;
@@ -1041,7 +1041,7 @@ export interface CertificateListResult {
   /** The Certificate items on this page */
   value: CertificateListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentByDeviceGroupRequest {
   /** The ID of the target subscription. */
@@ -1055,13 +1055,13 @@ export interface ListDeploymentByDeviceGroupRequest {
   /** Name of device group. */
   deviceGroupName: string;
   /** Filter the result list using the given expression */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of result items to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The number of result items to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** The maximum number of result items per page. */
-  _maxpagesize?: number;
+  _maxpagesize?: number | undefined;
 }
 export interface ListDeviceByDeviceGroupRequest {
   /** The ID of the target subscription. */
@@ -1085,13 +1085,13 @@ export interface ListDeviceGroupByProductRequest {
   /** Name of product. */
   productName: string;
   /** Filter the result list using the given expression */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of result items to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The number of result items to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** The maximum number of result items per page. */
-  _maxpagesize?: number;
+  _maxpagesize?: number | undefined;
 }
 export interface ListImageByCatalogRequest {
   /** The ID of the target subscription. */
@@ -1101,13 +1101,13 @@ export interface ListImageByCatalogRequest {
   /** Name of catalog */
   catalogName: string;
   /** Filter the result list using the given expression */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of result items to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The number of result items to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** The maximum number of result items per page. */
-  _maxpagesize?: number;
+  _maxpagesize?: number | undefined;
 }
 /** The Image items on this page */
 export type ImageListResultValueList = Array<Image>;
@@ -1116,19 +1116,19 @@ export interface ImageListResult {
   /** The Image items on this page */
   value: ImageListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1137,23 +1137,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProductByCatalogRequest {
   /** The ID of the target subscription. */
@@ -1163,18 +1163,18 @@ export interface ListProductByCatalogRequest {
   /** Name of catalog */
   catalogName: string;
 }
-/** An product resource belonging to a catalog resource. */
+/** A product resource belonging to a catalog resource. */
 export interface Product {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ProductProperties;
+  properties?: ProductProperties | undefined;
 }
 /** The Product items on this page */
 export type ProductListResultValueList = Array<Product>;
@@ -1183,7 +1183,7 @@ export interface ProductListResult {
   /** The Product items on this page */
   value: ProductListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ProductsCountDevicesRequest {
   /** The ID of the target subscription. */
@@ -1209,21 +1209,21 @@ export interface ProductsCreateOrUpdateRequest {
   /** Name of product. */
   productName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ProductProperties;
+  properties?: ProductProperties | undefined;
 }
 export interface ProductsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ProductProperties;
+  properties?: ProductProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateCatalogRequestTagsMap = { [key: string]: string | undefined };
@@ -1235,30 +1235,30 @@ export interface UpdateCatalogRequest {
   /** Name of catalog */
   catalogName: string;
   /** Resource tags. */
-  tags?: UpdateCatalogRequestTagsMap;
+  tags?: UpdateCatalogRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateCatalogResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateCatalogResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateCatalogResponseTagsMap;
+  tags?: UpdateCatalogResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CatalogProperties;
+  properties?: CatalogProperties | undefined;
 }
 /** The updatable properties of the Device. */
 export interface DeviceUpdateProperties {
   /** Device group id */
-  deviceGroupId?: string;
+  deviceGroupId?: string | undefined;
 }
 export interface UpdateDeviceRequest {
   /** The ID of the target subscription. */
@@ -1274,23 +1274,23 @@ export interface UpdateDeviceRequest {
   /** Device name */
   deviceName: string;
   /** The updatable properties of the Device. */
-  properties?: DeviceUpdateProperties;
+  properties?: DeviceUpdateProperties | undefined;
 }
 export interface UpdateDeviceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeviceProperties;
+  properties?: DeviceProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The updatable properties of the DeviceGroup. */
 export type DeviceGroupUpdateProperties = DeviceGroupPropertiesInput;
@@ -1306,28 +1306,28 @@ export interface UpdateDeviceGroupRequest {
   /** Name of device group. */
   deviceGroupName: string;
   /** The updatable properties of the DeviceGroup. */
-  properties?: DeviceGroupPropertiesInput;
+  properties?: DeviceGroupPropertiesInput | undefined;
 }
 export interface UpdateDeviceGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeviceGroupProperties;
+  properties?: DeviceGroupProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The updatable properties of the Product. */
 export interface ProductUpdateProperties {
   /** Description of the product */
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateProductRequest {
   /** The ID of the target subscription. */
@@ -1339,23 +1339,23 @@ export interface UpdateProductRequest {
   /** Name of product. */
   productName: string;
   /** The updatable properties of the Product. */
-  properties?: ProductUpdateProperties;
+  properties?: ProductUpdateProperties | undefined;
 }
 export interface UpdateProductResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ProductProperties;
+  properties?: ProductProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UploadCatalogImageRequest {
   /** The ID of the target subscription. */
@@ -1365,13 +1365,13 @@ export interface UploadCatalogImageRequest {
   /** Name of catalog */
   catalogName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ImagePropertiesInput;
+  properties?: ImagePropertiesInput | undefined;
 }
 export interface UploadCatalogImageResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CatalogsCountDevicesError = AzureOpError;
 /** Counts devices in catalog. */

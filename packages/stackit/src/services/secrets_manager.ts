@@ -73,12 +73,12 @@ export interface CreateApproleRequest {
   /** The Secrets Manager instance UUID. */
   instanceId: string;
   /** A user chosen description to differentiate between multiple approles. */
-  description?: string;
-  secret_id_num_uses?: number;
+  description?: string | undefined;
+  secret_id_num_uses?: number | undefined;
   /** Token TTL in time.Duration format (eg 15m for 15 minutes, 1h for 1 hour). */
-  secret_id_ttl?: string;
+  secret_id_ttl?: string | undefined;
   /** Is true if the approle has write access to the secrets engine. Is false for a read-only approle. */
-  write?: boolean;
+  write?: boolean | undefined;
 }
 export interface Approle {
   /** A user chosen description to differentiate between multiple approles. */
@@ -99,14 +99,14 @@ export interface CreateApproleSecretIdRequest {
   /** The approle with permissions on the Secrets Manager instance. */
   roleId: string;
   /** A user chosen description to differentiate between multiple approle secrets. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface ApproleSecret {
   /** A user chosen description to differentiate between multiple approle secrets. */
   description: string;
   num_uses: number;
   /** Identifier used for authentication, returned only at creation */
-  secret_id?: string;
+  secret_id?: string | undefined;
   /** Token TTL in time.Duration format (eg 15m for 15 minutes, 1h for 1 hour). */
   ttl: string;
   /** Accessor used for handling secrets */
@@ -126,7 +126,7 @@ export interface KmsKeyPayload {
 export interface CreateInstanceRequest {
   /** The STACKIT portal project UUID the Secrets Manager instance is part of. */
   projectId: string;
-  kmsKey?: KmsKeyPayload;
+  kmsKey?: KmsKeyPayload | undefined;
   /** A user chosen name to distinguish multiple secrets manager instances. */
   name: string;
 }
@@ -134,12 +134,12 @@ export interface Instance {
   /** The API endpoint for connecting to the secrets engine. */
   apiUrl: string;
   /** The date and time the creation of the Secrets Manager instance was finished. */
-  creationFinishedDate?: string;
+  creationFinishedDate?: string | undefined;
   /** The date and time the creation of the Secrets Manager instance was triggered. */
   creationStartDate: string;
   /** A auto generated unique id which identifies the secrets manager instances. */
   id: string;
-  kmsKey?: KmsKeyPayload;
+  kmsKey?: KmsKeyPayload | undefined;
   /** A user chosen name to distinguish multiple secrets manager instances. */
   name: string;
   /** The number of secrets currently stored inside of the instance. This value will be updated once per hour. */
@@ -148,8 +148,8 @@ export interface Instance {
   secretsEngine: string;
   /** The current state of the Secrets Manager instance. */
   state: string;
-  updateFinishedDate?: string;
-  updateStartDate?: string;
+  updateFinishedDate?: string | undefined;
+  updateStartDate?: string | undefined;
 }
 export interface CreateUserRequest {
   /** The STACKIT portal project UUID the Secrets Manager instance is part of. */
@@ -329,7 +329,7 @@ export interface UpdateACLsRequest {
   projectId: string;
   /** The Secrets Manager instance UUID. */
   instanceId: string;
-  cidrs?: UpdateACLsRequestCidrsList;
+  cidrs?: UpdateACLsRequestCidrsList | undefined;
 }
 export interface UpdateACLsResponse {}
 export interface UpdateApproleRequest {
@@ -340,12 +340,12 @@ export interface UpdateApproleRequest {
   /** The approle with permissions on the Secrets Manager instance. */
   roleId: string;
   /** A user chosen description to differentiate between multiple approles. */
-  description?: string;
-  secret_id_num_uses?: number;
+  description?: string | undefined;
+  secret_id_num_uses?: number | undefined;
   /** Token TTL in time.Duration format (eg 15m for 15 minutes, 1h for 1 hour). */
-  secret_id_ttl?: string;
+  secret_id_ttl?: string | undefined;
   /** Is true if the approle has write access to the secrets engine. Is false for a read-only approle. */
-  write?: boolean;
+  write?: boolean | undefined;
 }
 export interface UpdateApproleSecretIdRequest {
   /** The STACKIT portal project UUID the Secrets Manager instance is part of. */
@@ -357,14 +357,14 @@ export interface UpdateApproleSecretIdRequest {
   /** The version of the secret id. */
   secretIdVersion: number;
   /** A user chosen description to differentiate between multiple approle secrets. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateInstanceRequest {
   /** The STACKIT portal project UUID the Secrets Manager instance is part of. */
   projectId: string;
   /** The Secrets Manager instance UUID. */
   instanceId: string;
-  kmsKey?: KmsKeyPayload;
+  kmsKey?: KmsKeyPayload | undefined;
   /** A user chosen name to distinguish multiple secrets manager instances. */
   name: string;
 }
@@ -377,9 +377,9 @@ export interface UpdateUserRequest {
   /** The user UUID with permissions on the Secrets Manager instance. */
   userId: string;
   /** A user chosen description to differentiate between multiple users. */
-  description?: string;
+  description?: string | undefined;
   /** Is true if the user has write access to the secrets engine. Is false for a read-only user. */
-  write?: boolean;
+  write?: boolean | undefined;
 }
 export interface UpdateUserResponse {}
 export type CreateACLError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -782,7 +782,7 @@ export const updateApproleSecretId: API.OperationMethod<
   span: "UpdateApproleSecretId",
 }));
 
-export type UpdateInstanceError = BadRequest | NotFound | StackitOpError;
+export type UpdateInstanceError = BadRequest | NotFound | Conflict | StackitOpError;
 /** Updates the given Secrets Manager instance. */
 export const updateInstance: API.OperationMethod<
   UpdateInstanceRequest,
@@ -792,7 +792,7 @@ export const updateInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<UpdateInstanceRequest>,
   output: __S(124, __c31, 0) as any as S.Schema<UpdateInstanceResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

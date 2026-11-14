@@ -89,187 +89,53 @@ export interface ActivateProjectsJobTriggersRequest {
   /** Required. Resource name of the trigger to activate, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
   /** Request body */
-  body?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
+  body?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
 }
-export type GooglePrivacyDlpV2SensitivityScoreScoreEnum =
-  | "SENSITIVITY_SCORE_UNSPECIFIED"
-  | "SENSITIVITY_LOW"
-  | "SENSITIVITY_UNKNOWN"
-  | "SENSITIVITY_MODERATE"
-  | "SENSITIVITY_HIGH";
-/** Score is calculated from of all elements in the data profile. A higher level means the data is more sensitive. */
-export interface GooglePrivacyDlpV2SensitivityScore {
-  /** The sensitivity score applied to the resource. */
-  score?: GooglePrivacyDlpV2SensitivityScoreScoreEnum | (string & {});
+export type GooglePrivacyDlpV2ErrorExtraInfoEnum =
+  | "ERROR_INFO_UNSPECIFIED"
+  | "IMAGE_SCAN_UNAVAILABLE_IN_REGION"
+  | "FILE_STORE_CLUSTER_UNSUPPORTED";
+export type StringList = Array<string>;
+export type DocumentMap = { [key: string]: unknown | undefined };
+export type DocumentMapList = Array<DocumentMap>;
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface GoogleRpcStatus {
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
-/** Type of information detected by the API. */
-export interface GooglePrivacyDlpV2InfoType {
-  /** Name of the information type. Either a name of your choosing when creating a CustomInfoType, or one of the names listed at https://docs.cloud.google.com/sensitive-data-protection/docs/infotypes-reference when specifying a built-in type. When sending Cloud DLP results to Data Catalog, infoType names should conform to the pattern `[A-Za-z0-9$_-]{1,64}`. */
-  name?: string;
-  /** Optional custom sensitivity for this InfoType. This only applies to data profiling. */
-  sensitivityScore?: GooglePrivacyDlpV2SensitivityScore;
-  /** Optional version name for this InfoType. */
-  version?: string;
+/** Details information about an error encountered during job execution or the results of an unsuccessful activation of the JobTrigger. */
+export interface GooglePrivacyDlpV2Error {
+  /** Additional information about the error. */
+  extraInfo?: GooglePrivacyDlpV2ErrorExtraInfoEnum | (string & {}) | undefined;
+  /** The times the error occurred. List includes the oldest timestamp and the last 9 timestamps. */
+  timestamps?: StringList | undefined;
+  /** Detailed error codes and messages. */
+  details?: GoogleRpcStatus | undefined;
 }
-/** General identifier of a data field in a storage service. */
-export interface GooglePrivacyDlpV2FieldId {
-  /** Name describing the field. */
-  name?: string;
-}
-/** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
-export interface GoogleProtobufEmpty {}
-/** A column with a semantic tag attached. */
-export interface GooglePrivacyDlpV2TaggedField {
-  /** A column can be tagged with a InfoType to use the relevant public dataset as a statistical model of population, if available. We currently support US ZIP codes, region codes, ages and genders. To programmatically obtain the list of supported InfoTypes, use ListInfoTypes with the supported_by=RISK_ANALYSIS filter. */
-  infoType?: GooglePrivacyDlpV2InfoType;
-  /** Required. Identifies the column. */
-  field?: GooglePrivacyDlpV2FieldId;
-  /** A column can be tagged with a custom tag. In this case, the user must indicate an auxiliary table that contains statistical information on the possible values of this column. */
-  customTag?: string;
-  /** If no semantic tag is indicated, we infer the statistical model from the distribution of values in the input data */
-  inferred?: GoogleProtobufEmpty;
-}
-export type GooglePrivacyDlpV2TaggedFieldList = Array<GooglePrivacyDlpV2TaggedField>;
+export type GooglePrivacyDlpV2ErrorList = Array<GooglePrivacyDlpV2Error>;
 /** Message defining the location of a BigQuery table. A table is uniquely identified by its project_id, dataset_id, and table_name. Within a query a table is often referenced with a string in the format of: `:.` or `..`. */
 export interface GooglePrivacyDlpV2BigQueryTable {
-  /** Name of the table. */
-  tableId?: string;
-  /** The Google Cloud project ID of the project containing the table. If omitted, project ID is inferred from the API call. */
-  projectId?: string;
   /** Dataset ID of the table. */
-  datasetId?: string;
-}
-/** A quasi-identifier column has a custom_tag, used to know which column in the data corresponds to which column in the statistical model. */
-export interface GooglePrivacyDlpV2QuasiIdField {
-  /** Identifies the column. */
-  field?: GooglePrivacyDlpV2FieldId;
-  /** A auxiliary field. */
-  customTag?: string;
-}
-export type GooglePrivacyDlpV2QuasiIdFieldList = Array<GooglePrivacyDlpV2QuasiIdField>;
-/** An auxiliary table contains statistical information on the relative frequency of different quasi-identifiers values. It has one or several quasi-identifiers columns, and one column that indicates the relative frequency of each quasi-identifier tuple. If a tuple is present in the data but not in the auxiliary table, the corresponding relative frequency is assumed to be zero (and thus, the tuple is highly reidentifiable). */
-export interface GooglePrivacyDlpV2AuxiliaryTable {
-  /** Required. The relative frequency column must contain a floating-point number between 0 and 1 (inclusive). Null values are assumed to be zero. */
-  relativeFrequency?: GooglePrivacyDlpV2FieldId;
-  /** Required. Auxiliary table location. */
-  table?: GooglePrivacyDlpV2BigQueryTable;
-  /** Required. Quasi-identifier columns. */
-  quasiIds?: GooglePrivacyDlpV2QuasiIdFieldList;
-}
-export type GooglePrivacyDlpV2AuxiliaryTableList = Array<GooglePrivacyDlpV2AuxiliaryTable>;
-/** Reidentifiability metric. This corresponds to a risk model similar to what is called "journalist risk" in the literature, except the attack dataset is statistically modeled instead of being perfectly known. This can be done using publicly available data (like the US Census), or using a custom statistical model (indicated as one or several BigQuery tables), or by extrapolating from the distribution of values in the input dataset. */
-export interface GooglePrivacyDlpV2KMapEstimationConfig {
-  /** Required. Fields considered to be quasi-identifiers. No two columns can have the same tag. */
-  quasiIds?: GooglePrivacyDlpV2TaggedFieldList;
-  /** Several auxiliary tables can be used in the analysis. Each custom_tag used to tag a quasi-identifiers column must appear in exactly one column of one auxiliary table. */
-  auxiliaryTables?: GooglePrivacyDlpV2AuxiliaryTableList;
-  /** ISO 3166-1 alpha-2 region code to use in the statistical modeling. Set if no column is tagged with a region-specific InfoType (like US_ZIP_5) or a region code. */
-  regionCode?: string;
-}
-export type GooglePrivacyDlpV2FieldIdList = Array<GooglePrivacyDlpV2FieldId>;
-/** l-diversity metric, used for analysis of reidentification risk. */
-export interface GooglePrivacyDlpV2LDiversityConfig {
-  /** Sensitive field for computing the l-value. */
-  sensitiveAttribute?: GooglePrivacyDlpV2FieldId;
-  /** Set of quasi-identifiers indicating how equivalence classes are defined for the l-diversity computation. When multiple fields are specified, they are considered a single composite key. */
-  quasiIds?: GooglePrivacyDlpV2FieldIdList;
-}
-/** An entity in a dataset is a field or set of fields that correspond to a single person. For example, in medical records the `EntityId` might be a patient identifier, or for financial records it might be an account identifier. This message is used when generalizations or analysis must take into account that multiple rows correspond to the same entity. */
-export interface GooglePrivacyDlpV2EntityId {
-  /** Composite key indicating which field contains the entity identifier. */
-  field?: GooglePrivacyDlpV2FieldId;
-}
-/** k-anonymity metric, used for analysis of reidentification risk. */
-export interface GooglePrivacyDlpV2KAnonymityConfig {
-  /** Message indicating that multiple rows might be associated to a single individual. If the same entity_id is associated to multiple quasi-identifier tuples over distinct rows, we consider the entire collection of tuples as the composite quasi-identifier. This collection is a multiset: the order in which the different tuples appear in the dataset is ignored, but their frequency is taken into account. Important note: a maximum of 1000 rows can be associated to a single entity ID. If more rows are associated with the same entity ID, some might be ignored. */
-  entityId?: GooglePrivacyDlpV2EntityId;
-  /** Set of fields to compute k-anonymity over. When multiple fields are specified, they are considered a single composite key. Structs and repeated data types are not supported; however, nested fields are supported so long as they are not structs themselves or nested within a repeated field. */
-  quasiIds?: GooglePrivacyDlpV2FieldIdList;
-}
-/** Compute numerical stats over an individual column, including number of distinct values and value count distribution. */
-export interface GooglePrivacyDlpV2CategoricalStatsConfig {
-  /** Field to compute categorical stats on. All column types are supported except for arrays and structs. However, it may be more informative to use NumericalStats when the field type is supported, depending on the data. */
-  field?: GooglePrivacyDlpV2FieldId;
-}
-/** Compute numerical stats over an individual column, including min, max, and quantiles. */
-export interface GooglePrivacyDlpV2NumericalStatsConfig {
-  /** Field to compute numerical stats on. Supported types are integer, float, date, datetime, timestamp, time. */
-  field?: GooglePrivacyDlpV2FieldId;
-}
-/** A column with a semantic tag attached. */
-export interface GooglePrivacyDlpV2QuasiId {
-  /** Required. Identifies the column. */
-  field?: GooglePrivacyDlpV2FieldId;
-  /** A column can be tagged with a custom tag. In this case, the user must indicate an auxiliary table that contains statistical information on the possible values of this column. */
-  customTag?: string;
-  /** If no semantic tag is indicated, we infer the statistical model from the distribution of values in the input data */
-  inferred?: GoogleProtobufEmpty;
-  /** A column can be tagged with a InfoType to use the relevant public dataset as a statistical model of population, if available. We currently support US ZIP codes, region codes, ages and genders. To programmatically obtain the list of supported InfoTypes, use ListInfoTypes with the supported_by=RISK_ANALYSIS filter. */
-  infoType?: GooglePrivacyDlpV2InfoType;
-}
-export type GooglePrivacyDlpV2QuasiIdList = Array<GooglePrivacyDlpV2QuasiId>;
-/** A quasi-identifier column has a custom_tag, used to know which column in the data corresponds to which column in the statistical model. */
-export interface GooglePrivacyDlpV2QuasiIdentifierField {
-  /** Identifies the column. */
-  field?: GooglePrivacyDlpV2FieldId;
-  /** A column can be tagged with a custom tag. In this case, the user must indicate an auxiliary table that contains statistical information on the possible values of this column. */
-  customTag?: string;
-}
-export type GooglePrivacyDlpV2QuasiIdentifierFieldList =
-  Array<GooglePrivacyDlpV2QuasiIdentifierField>;
-/** An auxiliary table containing statistical information on the relative frequency of different quasi-identifiers values. It has one or several quasi-identifiers columns, and one column that indicates the relative frequency of each quasi-identifier tuple. If a tuple is present in the data but not in the auxiliary table, the corresponding relative frequency is assumed to be zero (and thus, the tuple is highly reidentifiable). */
-export interface GooglePrivacyDlpV2StatisticalTable {
-  /** Required. Auxiliary table location. */
-  table?: GooglePrivacyDlpV2BigQueryTable;
-  /** Required. The relative frequency column must contain a floating-point number between 0 and 1 (inclusive). Null values are assumed to be zero. */
-  relativeFrequency?: GooglePrivacyDlpV2FieldId;
-  /** Required. Quasi-identifier columns. */
-  quasiIds?: GooglePrivacyDlpV2QuasiIdentifierFieldList;
-}
-export type GooglePrivacyDlpV2StatisticalTableList = Array<GooglePrivacyDlpV2StatisticalTable>;
-/** U+03B4-presence metric, used to estimate how likely it is for an attacker to figure out that one given individual appears in a de-identified dataset. Similarly to the k-map metric, we cannot compute U+03B4-presence exactly without knowing the attack dataset, so we use a statistical model instead. */
-export interface GooglePrivacyDlpV2DeltaPresenceEstimationConfig {
-  /** Required. Fields considered to be quasi-identifiers. No two fields can have the same tag. */
-  quasiIds?: GooglePrivacyDlpV2QuasiIdList;
-  /** ISO 3166-1 alpha-2 region code to use in the statistical modeling. Set if no column is tagged with a region-specific InfoType (like US_ZIP_5) or a region code. */
-  regionCode?: string;
-  /** Several auxiliary tables can be used in the analysis. Each custom_tag used to tag a quasi-identifiers field must appear in exactly one field of one auxiliary table. */
-  auxiliaryTables?: GooglePrivacyDlpV2StatisticalTableList;
-}
-/** Privacy metric to compute for reidentification risk analysis. */
-export interface GooglePrivacyDlpV2PrivacyMetric {
-  /** k-map */
-  kMapEstimationConfig?: GooglePrivacyDlpV2KMapEstimationConfig;
-  /** l-diversity */
-  lDiversityConfig?: GooglePrivacyDlpV2LDiversityConfig;
-  /** K-anonymity */
-  kAnonymityConfig?: GooglePrivacyDlpV2KAnonymityConfig;
-  /** Categorical stats */
-  categoricalStatsConfig?: GooglePrivacyDlpV2CategoricalStatsConfig;
-  /** Numerical stats */
-  numericalStatsConfig?: GooglePrivacyDlpV2NumericalStatsConfig;
-  /** delta-presence */
-  deltaPresenceEstimationConfig?: GooglePrivacyDlpV2DeltaPresenceEstimationConfig;
+  datasetId?: string | undefined;
+  /** The Google Cloud project ID of the project containing the table. If omitted, project ID is inferred from the API call. */
+  projectId?: string | undefined;
+  /** Name of the table. */
+  tableId?: string | undefined;
 }
 /** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
 export interface GoogleTypeTimeOfDay {
-  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number;
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
   /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number;
-}
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface GoogleTypeDate {
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  minutes?: number | undefined;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number | undefined;
+  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
+  nanos?: number | undefined;
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number | undefined;
 }
 export type GooglePrivacyDlpV2ValueDayOfWeekValueEnum =
   | "DAY_OF_WEEK_UNSPECIFIED"
@@ -280,100 +146,103 @@ export type GooglePrivacyDlpV2ValueDayOfWeekValueEnum =
   | "FRIDAY"
   | "SATURDAY"
   | "SUNDAY";
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface GoogleTypeDate {
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number | undefined;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number | undefined;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number | undefined;
+}
 /** Set of primitive values supported by the system. Note that for the purposes of inspection or transformation, the number of bytes considered to comprise a 'Value' is based on its representation as a UTF-8 encoded string. For example, if 'integer_value' is set to 123456789, the number of bytes would be counted as 9, even though an int64 only holds up to 8 bytes of data. */
 export interface GooglePrivacyDlpV2Value {
   /** time of day */
-  timeValue?: GoogleTypeTimeOfDay;
-  /** date */
-  dateValue?: GoogleTypeDate;
-  /** string */
-  stringValue?: string;
-  /** float */
-  floatValue?: number;
+  timeValue?: GoogleTypeTimeOfDay | undefined;
   /** integer */
-  integerValue?: string;
-  /** boolean */
-  booleanValue?: boolean;
-  /** timestamp */
-  timestampValue?: string;
+  integerValue?: string | undefined;
+  /** float */
+  floatValue?: number | undefined;
   /** day of week */
-  dayOfWeekValue?: GooglePrivacyDlpV2ValueDayOfWeekValueEnum | (string & {});
-}
-/** A value of a field, including its frequency. */
-export interface GooglePrivacyDlpV2ValueFrequency {
-  /** How many times the value is contained in the field. */
-  count?: string;
-  /** A value contained in the field in question. */
-  value?: GooglePrivacyDlpV2Value;
-}
-export type GooglePrivacyDlpV2ValueFrequencyList = Array<GooglePrivacyDlpV2ValueFrequency>;
-/** Histogram of value frequencies in the column. */
-export interface GooglePrivacyDlpV2CategoricalStatsHistogramBucket {
-  /** Total number of values in this bucket. */
-  bucketSize?: string;
-  /** Upper bound on the value frequency of the values in this bucket. */
-  valueFrequencyUpperBound?: string;
-  /** Total number of distinct values in this bucket. */
-  bucketValueCount?: string;
-  /** Sample of value frequencies in this bucket. The total number of values returned per bucket is capped at 20. */
-  bucketValues?: GooglePrivacyDlpV2ValueFrequencyList;
-  /** Lower bound on the value frequency of the values in this bucket. */
-  valueFrequencyLowerBound?: string;
-}
-export type GooglePrivacyDlpV2CategoricalStatsHistogramBucketList =
-  Array<GooglePrivacyDlpV2CategoricalStatsHistogramBucket>;
-/** Result of the categorical stats computation. */
-export interface GooglePrivacyDlpV2CategoricalStatsResult {
-  /** Histogram of value frequencies in the column. */
-  valueFrequencyHistogramBuckets?: GooglePrivacyDlpV2CategoricalStatsHistogramBucketList;
+  dayOfWeekValue?: GooglePrivacyDlpV2ValueDayOfWeekValueEnum | (string & {}) | undefined;
+  /** date */
+  dateValue?: GoogleTypeDate | undefined;
+  /** timestamp */
+  timestampValue?: string | undefined;
+  /** boolean */
+  booleanValue?: boolean | undefined;
+  /** string */
+  stringValue?: string | undefined;
 }
 export type GooglePrivacyDlpV2ValueList = Array<GooglePrivacyDlpV2Value>;
 /** A tuple of values for the quasi-identifier columns. */
 export interface GooglePrivacyDlpV2DeltaPresenceEstimationQuasiIdValues {
   /** The quasi-identifier values. */
-  quasiIdsValues?: GooglePrivacyDlpV2ValueList;
+  quasiIdsValues?: GooglePrivacyDlpV2ValueList | undefined;
   /** The estimated probability that a given individual sharing these quasi-identifier values is in the dataset. This value, typically called U+03B4, is the ratio between the number of records in the dataset with these quasi-identifier values, and the total number of individuals (inside *and* outside the dataset) with these quasi-identifier values. For example, if there are 15 individuals in the dataset who share the same quasi-identifier values, and an estimated 100 people in the entire population with these values, then U+03B4 is 0.15. */
-  estimatedProbability?: number;
+  estimatedProbability?: number | undefined;
 }
 export type GooglePrivacyDlpV2DeltaPresenceEstimationQuasiIdValuesList =
   Array<GooglePrivacyDlpV2DeltaPresenceEstimationQuasiIdValues>;
 /** A DeltaPresenceEstimationHistogramBucket message with the following values: min_probability: 0.1 max_probability: 0.2 frequency: 42 means that there are 42 records for which U+03B4 is in [0.1, 0.2). An important particular case is when min_probability = max_probability = 1: then, every individual who shares this quasi-identifier combination is in the dataset. */
 export interface GooglePrivacyDlpV2DeltaPresenceEstimationHistogramBucket {
-  /** Always greater than or equal to min_probability. */
-  maxProbability?: number;
   /** Number of records within these probability bounds. */
-  bucketSize?: string;
-  /** Between 0 and 1. */
-  minProbability?: number;
-  /** Total number of distinct quasi-identifier tuple values in this bucket. */
-  bucketValueCount?: string;
+  bucketSize?: string | undefined;
+  /** Always greater than or equal to min_probability. */
+  maxProbability?: number | undefined;
   /** Sample of quasi-identifier tuple values in this bucket. The total number of classes returned per bucket is capped at 20. */
-  bucketValues?: GooglePrivacyDlpV2DeltaPresenceEstimationQuasiIdValuesList;
+  bucketValues?: GooglePrivacyDlpV2DeltaPresenceEstimationQuasiIdValuesList | undefined;
+  /** Total number of distinct quasi-identifier tuple values in this bucket. */
+  bucketValueCount?: string | undefined;
+  /** Between 0 and 1. */
+  minProbability?: number | undefined;
 }
 export type GooglePrivacyDlpV2DeltaPresenceEstimationHistogramBucketList =
   Array<GooglePrivacyDlpV2DeltaPresenceEstimationHistogramBucket>;
 /** Result of the U+03B4-presence computation. Note that these results are an estimation, not exact values. */
 export interface GooglePrivacyDlpV2DeltaPresenceEstimationResult {
   /** The intervals [min_probability, max_probability) do not overlap. If a value doesn't correspond to any such interval, the associated frequency is zero. For example, the following records: {min_probability: 0, max_probability: 0.1, frequency: 17} {min_probability: 0.2, max_probability: 0.3, frequency: 42} {min_probability: 0.3, max_probability: 0.4, frequency: 99} mean that there are no record with an estimated probability in [0.1, 0.2) nor larger or equal to 0.4. */
-  deltaPresenceEstimationHistogram?: GooglePrivacyDlpV2DeltaPresenceEstimationHistogramBucketList;
+  deltaPresenceEstimationHistogram?:
+    | GooglePrivacyDlpV2DeltaPresenceEstimationHistogramBucketList
+    | undefined;
 }
-/** Enable Stackdriver metric dlp.googleapis.com/finding_count. This will publish a metric to stack driver on each infotype requested and how many findings were found for it. CustomDetectors will be bucketed as 'Custom' under the Stackdriver label 'info_type'. */
-export type GooglePrivacyDlpV2PublishToStackdriver = GooglePrivacyDlpV2ActivateJobTriggerRequest;
-/** Sends an email when the job completes. The email goes to IAM project owners and technical [Essential Contacts](https://docs.cloud.google.com/resource-manager/docs/managing-notification-contacts). */
-export type GooglePrivacyDlpV2JobNotificationEmails = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** The set of columns' values that share the same ldiversity value */
+export interface GooglePrivacyDlpV2KAnonymityEquivalenceClass {
+  /** Size of the equivalence class, for example number of rows with the above set of values. */
+  equivalenceClassSize?: string | undefined;
+  /** Set of values defining the equivalence class. One value per quasi-identifier column in the original KAnonymity metric message. The order is always the same as the original request. */
+  quasiIdsValues?: GooglePrivacyDlpV2ValueList | undefined;
+}
+export type GooglePrivacyDlpV2KAnonymityEquivalenceClassList =
+  Array<GooglePrivacyDlpV2KAnonymityEquivalenceClass>;
+/** Histogram of k-anonymity equivalence classes. */
+export interface GooglePrivacyDlpV2KAnonymityHistogramBucket {
+  /** Sample of equivalence classes in this bucket. The total number of classes returned per bucket is capped at 20. */
+  bucketValues?: GooglePrivacyDlpV2KAnonymityEquivalenceClassList | undefined;
+  /** Upper bound on the size of the equivalence classes in this bucket. */
+  equivalenceClassSizeUpperBound?: string | undefined;
+  /** Lower bound on the size of the equivalence classes in this bucket. */
+  equivalenceClassSizeLowerBound?: string | undefined;
+  /** Total number of equivalence classes in this bucket. */
+  bucketSize?: string | undefined;
+  /** Total number of distinct equivalence classes in this bucket. */
+  bucketValueCount?: string | undefined;
+}
+export type GooglePrivacyDlpV2KAnonymityHistogramBucketList =
+  Array<GooglePrivacyDlpV2KAnonymityHistogramBucket>;
+/** Result of the k-anonymity computation. */
+export interface GooglePrivacyDlpV2KAnonymityResult {
+  /** Histogram of k-anonymity equivalence classes. */
+  equivalenceClassHistogramBuckets?: GooglePrivacyDlpV2KAnonymityHistogramBucketList | undefined;
+}
 /** User specified templates and configs for how to deidentify structured, unstructures, and image files. User must provide either a unstructured deidentify template or at least one redact image config. */
 export interface GooglePrivacyDlpV2TransformationConfig {
-  /** De-identify template. If this template is specified, it will serve as the default de-identify template. This template cannot contain `record_transformations` since it can be used for unstructured content such as free-form text files. If this template is not set, a default `ReplaceWithInfoTypeConfig` will be used to de-identify unstructured content. */
-  deidentifyTemplate?: string;
-  /** Image redact template. If this template is specified, it will serve as the de-identify template for images. If this template is not set, all findings in the image will be redacted with a black box. */
-  imageRedactTemplate?: string;
   /** Structured de-identify template. If this template is specified, it will serve as the de-identify template for structured content such as delimited files and tables. If this template is not set but the `deidentify_template` is set, then `deidentify_template` will also apply to the structured content. If neither template is set, a default `ReplaceWithInfoTypeConfig` will be used to de-identify structured content. */
-  structuredDeidentifyTemplate?: string;
-}
-/** Config for storing transformation details. */
-export interface GooglePrivacyDlpV2TransformationDetailsStorageConfig {
-  /** The BigQuery table in which to store the output. This may be an existing table or in a new table in an existing dataset. If table_id is not set a new one will be generated for you with the following format: dlp_googleapis_transformation_details_yyyy_mm_dd_[dlp_job_id]. Pacific time zone will be used for generating the date details. */
-  table?: GooglePrivacyDlpV2BigQueryTable;
+  structuredDeidentifyTemplate?: string | undefined;
+  /** De-identify template. If this template is specified, it will serve as the default de-identify template. This template cannot contain `record_transformations` since it can be used for unstructured content such as free-form text files. If this template is not set, a default `ReplaceWithInfoTypeConfig` will be used to de-identify unstructured content. */
+  deidentifyTemplate?: string | undefined;
+  /** Image redact template. If this template is specified, it will serve as the de-identify template for images. If this template is not set, all findings in the image will be redacted with a black box. */
+  imageRedactTemplate?: string | undefined;
 }
 export type GooglePrivacyDlpV2DeidentifyFileTypesToTransformItemEnum =
   | "FILE_TYPE_UNSPECIFIED"
@@ -390,34 +259,35 @@ export type GooglePrivacyDlpV2DeidentifyFileTypesToTransformItemEnum =
 export type GooglePrivacyDlpV2DeidentifyFileTypesToTransformItemEnumList = Array<
   GooglePrivacyDlpV2DeidentifyFileTypesToTransformItemEnum | (string & {})
 >;
+/** Config for storing transformation details. */
+export interface GooglePrivacyDlpV2TransformationDetailsStorageConfig {
+  /** The BigQuery table in which to store the output. This may be an existing table or in a new table in an existing dataset. If table_id is not set a new one will be generated for you with the following format: dlp_googleapis_transformation_details_yyyy_mm_dd_[dlp_job_id]. Pacific time zone will be used for generating the date details. */
+  table?: GooglePrivacyDlpV2BigQueryTable | undefined;
+}
 /** Create a de-identified copy of a storage bucket. Only compatible with Cloud Storage buckets. A TransformationDetail will be created for each transformation. Compatible with: Inspection of Cloud Storage */
 export interface GooglePrivacyDlpV2Deidentify {
-  /** Required. User settable Cloud Storage bucket and folders to store de-identified files. This field must be set for Cloud Storage deidentification. The output Cloud Storage bucket must be different from the input bucket. De-identified files will overwrite files in the output path. Form of: gs://bucket/folder/ or gs://bucket */
-  cloudStorageOutput?: string;
   /** User specified deidentify templates and configs for structured, unstructured, and image files. */
-  transformationConfig?: GooglePrivacyDlpV2TransformationConfig;
-  /** Config for storing transformation details. This field specifies the configuration for storing detailed metadata about each transformation performed during a de-identification process. The metadata is stored separately from the de-identified content itself and provides a granular record of both successful transformations and any failures that occurred. Enabling this configuration is essential for users who need to access comprehensive information about the status, outcome, and specifics of each transformation. The details are captured in the TransformationDetails message for each operation. Key use cases: * **Auditing and compliance** * Provides a verifiable audit trail of de-identification activities, which is crucial for meeting regulatory requirements and internal data governance policies. * Logs what data was transformed, what transformations were applied, when they occurred, and their success status. This helps demonstrate accountability and due diligence in protecting sensitive data. * **Troubleshooting and debugging** * Offers detailed error messages and context if a transformation fails. This information is useful for diagnosing and resolving issues in the de-identification pipeline. * Helps pinpoint the exact location and nature of failures, speeding up the debugging process. * **Process verification and quality assurance** * Allows users to confirm that de-identification rules and transformations were applied correctly and consistently across the dataset as intended. * Helps in verifying the effectiveness of the chosen de-identification strategies. * **Data lineage and impact analysis** * Creates a record of how data elements were modified, contributing to data lineage. This is useful for understanding the provenance of de-identified data. * Aids in assessing the potential impact of de-identification choices on downstream analytical processes or data usability. * **Reporting and operational insights** * You can analyze the metadata stored in a queryable BigQuery table to generate reports on transformation success rates, common error types, processing volumes (e.g., transformedBytes), and the types of transformations applied. * These insights can inform optimization of de-identification configurations and resource planning. To take advantage of these benefits, set this configuration. The stored details include a description of the transformation, success or error codes, error messages, the number of bytes transformed, the location of the transformed content, and identifiers for the job and source data. */
-  transformationDetailsStorageConfig?: GooglePrivacyDlpV2TransformationDetailsStorageConfig;
+  transformationConfig?: GooglePrivacyDlpV2TransformationConfig | undefined;
   /** List of user-specified file type groups to transform. If specified, only the files with these file types are transformed. If empty, all supported files are transformed. Supported types may be automatically added over time. Any unsupported file types that are set in this field are excluded from de-identification. An error is recorded for each unsupported file in the TransformationDetails output table. Currently the only file types supported are: IMAGES, TEXT_FILES, CSV, TSV. */
-  fileTypesToTransform?: GooglePrivacyDlpV2DeidentifyFileTypesToTransformItemEnumList;
+  fileTypesToTransform?: GooglePrivacyDlpV2DeidentifyFileTypesToTransformItemEnumList | undefined;
+  /** Required. User settable Cloud Storage bucket and folders to store de-identified files. This field must be set for Cloud Storage deidentification. The output Cloud Storage bucket must be different from the input bucket. De-identified files will overwrite files in the output path. Form of: gs://bucket/folder/ or gs://bucket */
+  cloudStorageOutput?: string | undefined;
+  /** Config for storing transformation details. This field specifies the configuration for storing detailed metadata about each transformation performed during a de-identification process. The metadata is stored separately from the de-identified content itself and provides a granular record of both successful transformations and any failures that occurred. Enabling this configuration is essential for users who need to access comprehensive information about the status, outcome, and specifics of each transformation. The details are captured in the TransformationDetails message for each operation. Key use cases: * **Auditing and compliance** * Provides a verifiable audit trail of de-identification activities, which is crucial for meeting regulatory requirements and internal data governance policies. * Logs what data was transformed, what transformations were applied, when they occurred, and their success status. This helps demonstrate accountability and due diligence in protecting sensitive data. * **Troubleshooting and debugging** * Offers detailed error messages and context if a transformation fails. This information is useful for diagnosing and resolving issues in the de-identification pipeline. * Helps pinpoint the exact location and nature of failures, speeding up the debugging process. * **Process verification and quality assurance** * Allows users to confirm that de-identification rules and transformations were applied correctly and consistently across the dataset as intended. * Helps in verifying the effectiveness of the chosen de-identification strategies. * **Data lineage and impact analysis** * Creates a record of how data elements were modified, contributing to data lineage. This is useful for understanding the provenance of de-identified data. * Aids in assessing the potential impact of de-identification choices on downstream analytical processes or data usability. * **Reporting and operational insights** * You can analyze the metadata stored in a queryable BigQuery table to generate reports on transformation success rates, common error types, processing volumes (e.g., transformedBytes), and the types of transformations applied. * These insights can inform optimization of de-identification configurations and resource planning. To take advantage of these benefits, set this configuration. The stored details include a description of the transformation, success or error codes, error messages, the number of bytes transformed, the location of the transformed content, and identifiers for the job and source data. */
+  transformationDetailsStorageConfig?:
+    | GooglePrivacyDlpV2TransformationDetailsStorageConfig
+    | undefined;
 }
-/** Publish the result summary of a DlpJob to [Security Command Center](https://cloud.google.com/security-command-center). This action is available for only projects that belong to an organization. This action publishes the count of finding instances and their infoTypes. The summary of findings are persisted in Security Command Center and are governed by [service-specific policies for Security Command Center](https://cloud.google.com/terms/service-terms). Only a single instance of this action can be specified. Compatible with: Inspect */
-export type GooglePrivacyDlpV2PublishSummaryToCscc = GooglePrivacyDlpV2ActivateJobTriggerRequest;
 /** Publish findings of a DlpJob to Dataplex Universal Catalog as a `sensitive-data-protection-job-result` aspect. For more information, see [Send inspection results to Dataplex Universal Catalog as aspects](https://docs.cloud.google.com/sensitive-data-protection/docs/add-aspects-inspection-job). Aspects are stored in Dataplex Universal Catalog storage and are governed by service-specific policies for Dataplex Universal Catalog. For more information, see [Service Specific Terms](https://cloud.google.com/terms/service-terms). Only a single instance of this action can be specified. This action is allowed only if all resources being scanned are BigQuery tables. Compatible with: Inspect */
 export type GooglePrivacyDlpV2PublishFindingsToDataplexCatalog =
   GooglePrivacyDlpV2ActivateJobTriggerRequest;
-/** Publish a message into a given Pub/Sub topic when DlpJob has completed. The message contains a single field, `DlpJobName`, which is equal to the finished job's [`DlpJob.name`](https://docs.cloud.google.com/sensitive-data-protection/docs/reference/rest/v2/projects.dlpJobs#DlpJob). Compatible with: Inspect, Risk */
-export interface GooglePrivacyDlpV2PublishToPubSub {
-  /** Cloud Pub/Sub topic to send notifications to. The topic must have given publishing access rights to the DLP API service account executing the long running DlpJob sending the notifications. Format is projects/{project}/topics/{topic}. */
-  topic?: string;
-}
-/** Publish findings of a DlpJob to Data Catalog. In Data Catalog, tag templates are applied to the resource that Cloud DLP scanned. Data Catalog tag templates are stored in the same project and region where the BigQuery table exists. For Cloud DLP to create and apply the tag template, the Cloud DLP service agent must have the `roles/datacatalog.tagTemplateOwner` permission on the project. The tag template contains fields summarizing the results of the DlpJob. Any field values previously written by another DlpJob are deleted. InfoType naming patterns are strictly enforced when using this feature. Findings are persisted in Data Catalog storage and are governed by service-specific policies for Data Catalog. For more information, see [Service Specific Terms](https://cloud.google.com/terms/service-terms). Only a single instance of this action can be specified. This action is allowed only if all resources being scanned are BigQuery tables. Compatible with: Inspect */
-export type GooglePrivacyDlpV2PublishFindingsToCloudDataCatalog =
-  GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Publish the result summary of a DlpJob to [Security Command Center](https://cloud.google.com/security-command-center). This action is available for only projects that belong to an organization. This action publishes the count of finding instances and their infoTypes. The summary of findings are persisted in Security Command Center and are governed by [service-specific policies for Security Command Center](https://cloud.google.com/terms/service-terms). Only a single instance of this action can be specified. Compatible with: Inspect */
+export type GooglePrivacyDlpV2PublishSummaryToCscc = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Sends an email when the job completes. The email goes to IAM project owners and technical [Essential Contacts](https://docs.cloud.google.com/resource-manager/docs/managing-notification-contacts). */
+export type GooglePrivacyDlpV2JobNotificationEmails = GooglePrivacyDlpV2ActivateJobTriggerRequest;
 /** Message representing a single file or path in Cloud Storage. */
 export interface GooglePrivacyDlpV2CloudStoragePath {
   /** A URL representing a file or path (no wildcards) in Cloud Storage. Example: `gs://[BUCKET_NAME]/dictionary.txt` */
-  path?: string;
+  path?: string | undefined;
 }
 export type GooglePrivacyDlpV2OutputStorageConfigOutputSchemaEnum =
   | "OUTPUT_SCHEMA_UNSPECIFIED"
@@ -429,238 +299,358 @@ export type GooglePrivacyDlpV2OutputStorageConfigOutputSchemaEnum =
 /** Cloud repository for storing output. */
 export interface GooglePrivacyDlpV2OutputStorageConfig {
   /** Store findings in an existing Cloud Storage bucket. Files will be generated with the job ID and file part number as the filename and will contain findings in textproto format as SaveToGcsFindingsOutput. The filename will follow the naming convention `-`. Example: `my-job-id-2`. Supported for Inspect jobs. The bucket must not be the same as the bucket being inspected. If storing findings to Cloud Storage, the output schema field should not be set. If set, it will be ignored. */
-  storagePath?: GooglePrivacyDlpV2CloudStoragePath;
-  /** Schema used for writing the findings for Inspect jobs. This field is only used for Inspect and must be unspecified for Risk jobs. Columns are derived from the `Finding` object. If appending to an existing table, any columns from the predefined schema that are missing will be added. No columns in the existing table will be deleted. If unspecified, then all available columns will be used for a new table or an (existing) table with no schema, and no changes will be made to an existing table that has a schema. Only for use with external storage. */
-  outputSchema?: GooglePrivacyDlpV2OutputStorageConfigOutputSchemaEnum | (string & {});
+  storagePath?: GooglePrivacyDlpV2CloudStoragePath | undefined;
   /** Store findings in an existing table or a new table in an existing dataset. If table_id is not set a new one will be generated for you with the following format: dlp_googleapis_yyyy_mm_dd_[dlp_job_id]. Pacific time zone will be used for generating the date details. For Inspect, each column in an existing output table must have the same name, type, and mode of a field in the `Finding` object. For Risk, an existing output table should be the output of a previous Risk analysis job run on the same source table, with the same privacy metric and quasi-identifiers. Risk jobs that analyze the same table but compute a different privacy metric, or use different sets of quasi-identifiers, cannot store their results in the same table. */
-  table?: GooglePrivacyDlpV2BigQueryTable;
+  table?: GooglePrivacyDlpV2BigQueryTable | undefined;
+  /** Schema used for writing the findings for Inspect jobs. This field is only used for Inspect and must be unspecified for Risk jobs. Columns are derived from the `Finding` object. If appending to an existing table, any columns from the predefined schema that are missing will be added. No columns in the existing table will be deleted. If unspecified, then all available columns will be used for a new table or an (existing) table with no schema, and no changes will be made to an existing table that has a schema. Only for use with external storage. */
+  outputSchema?: GooglePrivacyDlpV2OutputStorageConfigOutputSchemaEnum | (string & {}) | undefined;
 }
 /** If set, the detailed findings will be persisted to the specified OutputStorageConfig. Only a single instance of this action can be specified. Compatible with: Inspect, Risk */
 export interface GooglePrivacyDlpV2SaveFindings {
   /** Location to store findings outside of DLP. */
-  outputConfig?: GooglePrivacyDlpV2OutputStorageConfig;
+  outputConfig?: GooglePrivacyDlpV2OutputStorageConfig | undefined;
+}
+/** Enable Stackdriver metric dlp.googleapis.com/finding_count. This will publish a metric to stack driver on each infotype requested and how many findings were found for it. CustomDetectors will be bucketed as 'Custom' under the Stackdriver label 'info_type'. */
+export type GooglePrivacyDlpV2PublishToStackdriver = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Publish findings of a DlpJob to Data Catalog. In Data Catalog, tag templates are applied to the resource that Cloud DLP scanned. Data Catalog tag templates are stored in the same project and region where the BigQuery table exists. For Cloud DLP to create and apply the tag template, the Cloud DLP service agent must have the `roles/datacatalog.tagTemplateOwner` permission on the project. The tag template contains fields summarizing the results of the DlpJob. Any field values previously written by another DlpJob are deleted. InfoType naming patterns are strictly enforced when using this feature. Findings are persisted in Data Catalog storage and are governed by service-specific policies for Data Catalog. For more information, see [Service Specific Terms](https://cloud.google.com/terms/service-terms). Only a single instance of this action can be specified. This action is allowed only if all resources being scanned are BigQuery tables. Compatible with: Inspect */
+export type GooglePrivacyDlpV2PublishFindingsToCloudDataCatalog =
+  GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Publish a message into a given Pub/Sub topic when DlpJob has completed. The message contains a single field, `DlpJobName`, which is equal to the finished job's [`DlpJob.name`](https://docs.cloud.google.com/sensitive-data-protection/docs/reference/rest/v2/projects.dlpJobs#DlpJob). Compatible with: Inspect, Risk */
+export interface GooglePrivacyDlpV2PublishToPubSub {
+  /** Cloud Pub/Sub topic to send notifications to. The topic must have given publishing access rights to the DLP API service account executing the long running DlpJob sending the notifications. Format is projects/{project}/topics/{topic}. */
+  topic?: string | undefined;
 }
 /** A task to execute on the completion of a job. See https://docs.cloud.google.com/sensitive-data-protection/docs/concepts-actions to learn more. */
 export interface GooglePrivacyDlpV2Action {
-  /** Enable Stackdriver metric dlp.googleapis.com/finding_count. */
-  publishToStackdriver?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-  /** Sends an email when the job completes. The email goes to IAM project owners and technical [Essential Contacts](https://docs.cloud.google.com/resource-manager/docs/managing-notification-contacts). */
-  jobNotificationEmails?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
   /** Create a de-identified copy of the input data. */
-  deidentify?: GooglePrivacyDlpV2Deidentify;
-  /** Publish summary to Cloud Security Command Center (Alpha). */
-  publishSummaryToCscc?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
+  deidentify?: GooglePrivacyDlpV2Deidentify | undefined;
   /** Publish findings as an aspect to Dataplex Universal Catalog. */
-  publishFindingsToDataplexCatalog?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-  /** Publish a notification to a Pub/Sub topic. */
-  pubSub?: GooglePrivacyDlpV2PublishToPubSub;
-  /** Deprecated because Data Catalog is being turned down. Use publish_findings_to_dataplex_catalog to publish findings to Dataplex Universal Catalog. */
-  publishFindingsToCloudDataCatalog?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
+  publishFindingsToDataplexCatalog?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** Publish summary to Cloud Security Command Center (Alpha). */
+  publishSummaryToCscc?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** Sends an email when the job completes. The email goes to IAM project owners and technical [Essential Contacts](https://docs.cloud.google.com/resource-manager/docs/managing-notification-contacts). */
+  jobNotificationEmails?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
   /** Save resulting findings in a provided location. */
-  saveFindings?: GooglePrivacyDlpV2SaveFindings;
+  saveFindings?: GooglePrivacyDlpV2SaveFindings | undefined;
+  /** Enable Stackdriver metric dlp.googleapis.com/finding_count. */
+  publishToStackdriver?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** Deprecated because Data Catalog is being turned down. Use publish_findings_to_dataplex_catalog to publish findings to Dataplex Universal Catalog. */
+  publishFindingsToCloudDataCatalog?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** Publish a notification to a Pub/Sub topic. */
+  pubSub?: GooglePrivacyDlpV2PublishToPubSub | undefined;
 }
 export type GooglePrivacyDlpV2ActionList = Array<GooglePrivacyDlpV2Action>;
+/** General identifier of a data field in a storage service. */
+export interface GooglePrivacyDlpV2FieldId {
+  /** Name describing the field. */
+  name?: string | undefined;
+}
+/** Compute numerical stats over an individual column, including number of distinct values and value count distribution. */
+export interface GooglePrivacyDlpV2CategoricalStatsConfig {
+  /** Field to compute categorical stats on. All column types are supported except for arrays and structs. However, it may be more informative to use NumericalStats when the field type is supported, depending on the data. */
+  field?: GooglePrivacyDlpV2FieldId | undefined;
+}
+export type GooglePrivacyDlpV2FieldIdList = Array<GooglePrivacyDlpV2FieldId>;
+/** An entity in a dataset is a field or set of fields that correspond to a single person. For example, in medical records the `EntityId` might be a patient identifier, or for financial records it might be an account identifier. This message is used when generalizations or analysis must take into account that multiple rows correspond to the same entity. */
+export interface GooglePrivacyDlpV2EntityId {
+  /** Composite key indicating which field contains the entity identifier. */
+  field?: GooglePrivacyDlpV2FieldId | undefined;
+}
+/** k-anonymity metric, used for analysis of reidentification risk. */
+export interface GooglePrivacyDlpV2KAnonymityConfig {
+  /** Set of fields to compute k-anonymity over. When multiple fields are specified, they are considered a single composite key. Structs and repeated data types are not supported; however, nested fields are supported so long as they are not structs themselves or nested within a repeated field. */
+  quasiIds?: GooglePrivacyDlpV2FieldIdList | undefined;
+  /** Message indicating that multiple rows might be associated to a single individual. If the same entity_id is associated to multiple quasi-identifier tuples over distinct rows, we consider the entire collection of tuples as the composite quasi-identifier. This collection is a multiset: the order in which the different tuples appear in the dataset is ignored, but their frequency is taken into account. Important note: a maximum of 1000 rows can be associated to a single entity ID. If more rows are associated with the same entity ID, some might be ignored. */
+  entityId?: GooglePrivacyDlpV2EntityId | undefined;
+}
+export type GooglePrivacyDlpV2SensitivityScoreScoreEnum =
+  | "SENSITIVITY_SCORE_UNSPECIFIED"
+  | "SENSITIVITY_LOW"
+  | "SENSITIVITY_UNKNOWN"
+  | "SENSITIVITY_MODERATE"
+  | "SENSITIVITY_HIGH";
+/** Score is calculated from of all elements in the data profile. A higher level means the data is more sensitive. */
+export interface GooglePrivacyDlpV2SensitivityScore {
+  /** The sensitivity score applied to the resource. */
+  score?: GooglePrivacyDlpV2SensitivityScoreScoreEnum | (string & {}) | undefined;
+}
+/** Type of information detected by the API. */
+export interface GooglePrivacyDlpV2InfoType {
+  /** Optional custom sensitivity for this InfoType. This only applies to data profiling. */
+  sensitivityScore?: GooglePrivacyDlpV2SensitivityScore | undefined;
+  /** Optional version name for this InfoType. */
+  version?: string | undefined;
+  /** Name of the information type. Either a name of your choosing when creating a CustomInfoType, or one of the names listed at https://docs.cloud.google.com/sensitive-data-protection/docs/infotypes-reference when specifying a built-in type. When sending Cloud DLP results to Data Catalog, infoType names should conform to the pattern `[A-Za-z0-9$_-]{1,64}`. */
+  name?: string | undefined;
+}
+/** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
+export interface GoogleProtobufEmpty {}
+/** A column with a semantic tag attached. */
+export interface GooglePrivacyDlpV2QuasiId {
+  /** A column can be tagged with a InfoType to use the relevant public dataset as a statistical model of population, if available. We currently support US ZIP codes, region codes, ages and genders. To programmatically obtain the list of supported InfoTypes, use ListInfoTypes with the supported_by=RISK_ANALYSIS filter. */
+  infoType?: GooglePrivacyDlpV2InfoType | undefined;
+  /** A column can be tagged with a custom tag. In this case, the user must indicate an auxiliary table that contains statistical information on the possible values of this column. */
+  customTag?: string | undefined;
+  /** Required. Identifies the column. */
+  field?: GooglePrivacyDlpV2FieldId | undefined;
+  /** If no semantic tag is indicated, we infer the statistical model from the distribution of values in the input data */
+  inferred?: GoogleProtobufEmpty | undefined;
+}
+export type GooglePrivacyDlpV2QuasiIdList = Array<GooglePrivacyDlpV2QuasiId>;
+/** A quasi-identifier column has a custom_tag, used to know which column in the data corresponds to which column in the statistical model. */
+export interface GooglePrivacyDlpV2QuasiIdentifierField {
+  /** Identifies the column. */
+  field?: GooglePrivacyDlpV2FieldId | undefined;
+  /** A column can be tagged with a custom tag. In this case, the user must indicate an auxiliary table that contains statistical information on the possible values of this column. */
+  customTag?: string | undefined;
+}
+export type GooglePrivacyDlpV2QuasiIdentifierFieldList =
+  Array<GooglePrivacyDlpV2QuasiIdentifierField>;
+/** An auxiliary table containing statistical information on the relative frequency of different quasi-identifiers values. It has one or several quasi-identifiers columns, and one column that indicates the relative frequency of each quasi-identifier tuple. If a tuple is present in the data but not in the auxiliary table, the corresponding relative frequency is assumed to be zero (and thus, the tuple is highly reidentifiable). */
+export interface GooglePrivacyDlpV2StatisticalTable {
+  /** Required. Quasi-identifier columns. */
+  quasiIds?: GooglePrivacyDlpV2QuasiIdentifierFieldList | undefined;
+  /** Required. The relative frequency column must contain a floating-point number between 0 and 1 (inclusive). Null values are assumed to be zero. */
+  relativeFrequency?: GooglePrivacyDlpV2FieldId | undefined;
+  /** Required. Auxiliary table location. */
+  table?: GooglePrivacyDlpV2BigQueryTable | undefined;
+}
+export type GooglePrivacyDlpV2StatisticalTableList = Array<GooglePrivacyDlpV2StatisticalTable>;
+/** U+03B4-presence metric, used to estimate how likely it is for an attacker to figure out that one given individual appears in a de-identified dataset. Similarly to the k-map metric, we cannot compute U+03B4-presence exactly without knowing the attack dataset, so we use a statistical model instead. */
+export interface GooglePrivacyDlpV2DeltaPresenceEstimationConfig {
+  /** ISO 3166-1 alpha-2 region code to use in the statistical modeling. Set if no column is tagged with a region-specific InfoType (like US_ZIP_5) or a region code. */
+  regionCode?: string | undefined;
+  /** Required. Fields considered to be quasi-identifiers. No two fields can have the same tag. */
+  quasiIds?: GooglePrivacyDlpV2QuasiIdList | undefined;
+  /** Several auxiliary tables can be used in the analysis. Each custom_tag used to tag a quasi-identifiers field must appear in exactly one field of one auxiliary table. */
+  auxiliaryTables?: GooglePrivacyDlpV2StatisticalTableList | undefined;
+}
+/** l-diversity metric, used for analysis of reidentification risk. */
+export interface GooglePrivacyDlpV2LDiversityConfig {
+  /** Set of quasi-identifiers indicating how equivalence classes are defined for the l-diversity computation. When multiple fields are specified, they are considered a single composite key. */
+  quasiIds?: GooglePrivacyDlpV2FieldIdList | undefined;
+  /** Sensitive field for computing the l-value. */
+  sensitiveAttribute?: GooglePrivacyDlpV2FieldId | undefined;
+}
+/** Compute numerical stats over an individual column, including min, max, and quantiles. */
+export interface GooglePrivacyDlpV2NumericalStatsConfig {
+  /** Field to compute numerical stats on. Supported types are integer, float, date, datetime, timestamp, time. */
+  field?: GooglePrivacyDlpV2FieldId | undefined;
+}
+/** A column with a semantic tag attached. */
+export interface GooglePrivacyDlpV2TaggedField {
+  /** A column can be tagged with a custom tag. In this case, the user must indicate an auxiliary table that contains statistical information on the possible values of this column. */
+  customTag?: string | undefined;
+  /** Required. Identifies the column. */
+  field?: GooglePrivacyDlpV2FieldId | undefined;
+  /** If no semantic tag is indicated, we infer the statistical model from the distribution of values in the input data */
+  inferred?: GoogleProtobufEmpty | undefined;
+  /** A column can be tagged with a InfoType to use the relevant public dataset as a statistical model of population, if available. We currently support US ZIP codes, region codes, ages and genders. To programmatically obtain the list of supported InfoTypes, use ListInfoTypes with the supported_by=RISK_ANALYSIS filter. */
+  infoType?: GooglePrivacyDlpV2InfoType | undefined;
+}
+export type GooglePrivacyDlpV2TaggedFieldList = Array<GooglePrivacyDlpV2TaggedField>;
+/** A quasi-identifier column has a custom_tag, used to know which column in the data corresponds to which column in the statistical model. */
+export interface GooglePrivacyDlpV2QuasiIdField {
+  /** Identifies the column. */
+  field?: GooglePrivacyDlpV2FieldId | undefined;
+  /** A auxiliary field. */
+  customTag?: string | undefined;
+}
+export type GooglePrivacyDlpV2QuasiIdFieldList = Array<GooglePrivacyDlpV2QuasiIdField>;
+/** An auxiliary table contains statistical information on the relative frequency of different quasi-identifiers values. It has one or several quasi-identifiers columns, and one column that indicates the relative frequency of each quasi-identifier tuple. If a tuple is present in the data but not in the auxiliary table, the corresponding relative frequency is assumed to be zero (and thus, the tuple is highly reidentifiable). */
+export interface GooglePrivacyDlpV2AuxiliaryTable {
+  /** Required. Quasi-identifier columns. */
+  quasiIds?: GooglePrivacyDlpV2QuasiIdFieldList | undefined;
+  /** Required. Auxiliary table location. */
+  table?: GooglePrivacyDlpV2BigQueryTable | undefined;
+  /** Required. The relative frequency column must contain a floating-point number between 0 and 1 (inclusive). Null values are assumed to be zero. */
+  relativeFrequency?: GooglePrivacyDlpV2FieldId | undefined;
+}
+export type GooglePrivacyDlpV2AuxiliaryTableList = Array<GooglePrivacyDlpV2AuxiliaryTable>;
+/** Reidentifiability metric. This corresponds to a risk model similar to what is called "journalist risk" in the literature, except the attack dataset is statistically modeled instead of being perfectly known. This can be done using publicly available data (like the US Census), or using a custom statistical model (indicated as one or several BigQuery tables), or by extrapolating from the distribution of values in the input dataset. */
+export interface GooglePrivacyDlpV2KMapEstimationConfig {
+  /** Required. Fields considered to be quasi-identifiers. No two columns can have the same tag. */
+  quasiIds?: GooglePrivacyDlpV2TaggedFieldList | undefined;
+  /** ISO 3166-1 alpha-2 region code to use in the statistical modeling. Set if no column is tagged with a region-specific InfoType (like US_ZIP_5) or a region code. */
+  regionCode?: string | undefined;
+  /** Several auxiliary tables can be used in the analysis. Each custom_tag used to tag a quasi-identifiers column must appear in exactly one column of one auxiliary table. */
+  auxiliaryTables?: GooglePrivacyDlpV2AuxiliaryTableList | undefined;
+}
+/** Privacy metric to compute for reidentification risk analysis. */
+export interface GooglePrivacyDlpV2PrivacyMetric {
+  /** Categorical stats */
+  categoricalStatsConfig?: GooglePrivacyDlpV2CategoricalStatsConfig | undefined;
+  /** K-anonymity */
+  kAnonymityConfig?: GooglePrivacyDlpV2KAnonymityConfig | undefined;
+  /** delta-presence */
+  deltaPresenceEstimationConfig?: GooglePrivacyDlpV2DeltaPresenceEstimationConfig | undefined;
+  /** l-diversity */
+  lDiversityConfig?: GooglePrivacyDlpV2LDiversityConfig | undefined;
+  /** Numerical stats */
+  numericalStatsConfig?: GooglePrivacyDlpV2NumericalStatsConfig | undefined;
+  /** k-map */
+  kMapEstimationConfig?: GooglePrivacyDlpV2KMapEstimationConfig | undefined;
+}
 /** Configuration for a risk analysis job. See https://docs.cloud.google.com/sensitive-data-protection/docs/concepts-risk-analysis to learn more. */
 export interface GooglePrivacyDlpV2RiskAnalysisJobConfig {
-  /** Input dataset to compute metrics over. */
-  sourceTable?: GooglePrivacyDlpV2BigQueryTable;
   /** Actions to execute at the completion of the job. Are executed in the order provided. */
-  actions?: GooglePrivacyDlpV2ActionList;
+  actions?: GooglePrivacyDlpV2ActionList | undefined;
   /** Privacy metric to compute. */
-  privacyMetric?: GooglePrivacyDlpV2PrivacyMetric;
+  privacyMetric?: GooglePrivacyDlpV2PrivacyMetric | undefined;
+  /** Input dataset to compute metrics over. */
+  sourceTable?: GooglePrivacyDlpV2BigQueryTable | undefined;
 }
 /** Risk analysis options. */
 export interface GooglePrivacyDlpV2RequestedRiskAnalysisOptions {
   /** The job config for the risk job. */
-  jobConfig?: GooglePrivacyDlpV2RiskAnalysisJobConfig;
+  jobConfig?: GooglePrivacyDlpV2RiskAnalysisJobConfig | undefined;
 }
-/** A tuple of values for the quasi-identifier columns. */
-export interface GooglePrivacyDlpV2KMapEstimationQuasiIdValues {
-  /** The quasi-identifier values. */
-  quasiIdsValues?: GooglePrivacyDlpV2ValueList;
-  /** The estimated anonymity for these quasi-identifier values. */
-  estimatedAnonymity?: string;
+/** A value of a field, including its frequency. */
+export interface GooglePrivacyDlpV2ValueFrequency {
+  /** A value contained in the field in question. */
+  value?: GooglePrivacyDlpV2Value | undefined;
+  /** How many times the value is contained in the field. */
+  count?: string | undefined;
 }
-export type GooglePrivacyDlpV2KMapEstimationQuasiIdValuesList =
-  Array<GooglePrivacyDlpV2KMapEstimationQuasiIdValues>;
-/** A KMapEstimationHistogramBucket message with the following values: min_anonymity: 3 max_anonymity: 5 frequency: 42 means that there are 42 records whose quasi-identifier values correspond to 3, 4 or 5 people in the overlying population. An important particular case is when min_anonymity = max_anonymity = 1: the frequency field then corresponds to the number of uniquely identifiable records. */
-export interface GooglePrivacyDlpV2KMapEstimationHistogramBucket {
-  /** Total number of distinct quasi-identifier tuple values in this bucket. */
-  bucketValueCount?: string;
-  /** Sample of quasi-identifier tuple values in this bucket. The total number of classes returned per bucket is capped at 20. */
-  bucketValues?: GooglePrivacyDlpV2KMapEstimationQuasiIdValuesList;
-  /** Number of records within these anonymity bounds. */
-  bucketSize?: string;
-  /** Always greater than or equal to min_anonymity. */
-  maxAnonymity?: string;
-  /** Always positive. */
-  minAnonymity?: string;
+export type GooglePrivacyDlpV2ValueFrequencyList = Array<GooglePrivacyDlpV2ValueFrequency>;
+/** Histogram of value frequencies in the column. */
+export interface GooglePrivacyDlpV2CategoricalStatsHistogramBucket {
+  /** Lower bound on the value frequency of the values in this bucket. */
+  valueFrequencyLowerBound?: string | undefined;
+  /** Total number of distinct values in this bucket. */
+  bucketValueCount?: string | undefined;
+  /** Total number of values in this bucket. */
+  bucketSize?: string | undefined;
+  /** Upper bound on the value frequency of the values in this bucket. */
+  valueFrequencyUpperBound?: string | undefined;
+  /** Sample of value frequencies in this bucket. The total number of values returned per bucket is capped at 20. */
+  bucketValues?: GooglePrivacyDlpV2ValueFrequencyList | undefined;
 }
-export type GooglePrivacyDlpV2KMapEstimationHistogramBucketList =
-  Array<GooglePrivacyDlpV2KMapEstimationHistogramBucket>;
-/** Result of the reidentifiability analysis. Note that these results are an estimation, not exact values. */
-export interface GooglePrivacyDlpV2KMapEstimationResult {
-  /** The intervals [min_anonymity, max_anonymity] do not overlap. If a value doesn't correspond to any such interval, the associated frequency is zero. For example, the following records: {min_anonymity: 1, max_anonymity: 1, frequency: 17} {min_anonymity: 2, max_anonymity: 3, frequency: 42} {min_anonymity: 5, max_anonymity: 10, frequency: 99} mean that there are no record with an estimated anonymity of 4, 5, or larger than 10. */
-  kMapEstimationHistogram?: GooglePrivacyDlpV2KMapEstimationHistogramBucketList;
-}
-/** Result of the numerical stats computation. */
-export interface GooglePrivacyDlpV2NumericalStatsResult {
-  /** Minimum value appearing in the column. */
-  minValue?: GooglePrivacyDlpV2Value;
-  /** List of 99 values that partition the set of field values into 100 equal sized buckets. */
-  quantileValues?: GooglePrivacyDlpV2ValueList;
-  /** Maximum value appearing in the column. */
-  maxValue?: GooglePrivacyDlpV2Value;
-}
-/** The set of columns' values that share the same ldiversity value */
-export interface GooglePrivacyDlpV2KAnonymityEquivalenceClass {
-  /** Size of the equivalence class, for example number of rows with the above set of values. */
-  equivalenceClassSize?: string;
-  /** Set of values defining the equivalence class. One value per quasi-identifier column in the original KAnonymity metric message. The order is always the same as the original request. */
-  quasiIdsValues?: GooglePrivacyDlpV2ValueList;
-}
-export type GooglePrivacyDlpV2KAnonymityEquivalenceClassList =
-  Array<GooglePrivacyDlpV2KAnonymityEquivalenceClass>;
-/** Histogram of k-anonymity equivalence classes. */
-export interface GooglePrivacyDlpV2KAnonymityHistogramBucket {
-  /** Total number of equivalence classes in this bucket. */
-  bucketSize?: string;
-  /** Lower bound on the size of the equivalence classes in this bucket. */
-  equivalenceClassSizeLowerBound?: string;
-  /** Sample of equivalence classes in this bucket. The total number of classes returned per bucket is capped at 20. */
-  bucketValues?: GooglePrivacyDlpV2KAnonymityEquivalenceClassList;
-  /** Upper bound on the size of the equivalence classes in this bucket. */
-  equivalenceClassSizeUpperBound?: string;
-  /** Total number of distinct equivalence classes in this bucket. */
-  bucketValueCount?: string;
-}
-export type GooglePrivacyDlpV2KAnonymityHistogramBucketList =
-  Array<GooglePrivacyDlpV2KAnonymityHistogramBucket>;
-/** Result of the k-anonymity computation. */
-export interface GooglePrivacyDlpV2KAnonymityResult {
-  /** Histogram of k-anonymity equivalence classes. */
-  equivalenceClassHistogramBuckets?: GooglePrivacyDlpV2KAnonymityHistogramBucketList;
+export type GooglePrivacyDlpV2CategoricalStatsHistogramBucketList =
+  Array<GooglePrivacyDlpV2CategoricalStatsHistogramBucket>;
+/** Result of the categorical stats computation. */
+export interface GooglePrivacyDlpV2CategoricalStatsResult {
+  /** Histogram of value frequencies in the column. */
+  valueFrequencyHistogramBuckets?:
+    | GooglePrivacyDlpV2CategoricalStatsHistogramBucketList
+    | undefined;
 }
 /** The set of columns' values that share the same ldiversity value. */
 export interface GooglePrivacyDlpV2LDiversityEquivalenceClass {
-  /** Quasi-identifier values defining the k-anonymity equivalence class. The order is always the same as the original request. */
-  quasiIdsValues?: GooglePrivacyDlpV2ValueList;
-  /** Estimated frequencies of top sensitive values. */
-  topSensitiveValues?: GooglePrivacyDlpV2ValueFrequencyList;
-  /** Size of the k-anonymity equivalence class. */
-  equivalenceClassSize?: string;
   /** Number of distinct sensitive values in this equivalence class. */
-  numDistinctSensitiveValues?: string;
+  numDistinctSensitiveValues?: string | undefined;
+  /** Quasi-identifier values defining the k-anonymity equivalence class. The order is always the same as the original request. */
+  quasiIdsValues?: GooglePrivacyDlpV2ValueList | undefined;
+  /** Size of the k-anonymity equivalence class. */
+  equivalenceClassSize?: string | undefined;
+  /** Estimated frequencies of top sensitive values. */
+  topSensitiveValues?: GooglePrivacyDlpV2ValueFrequencyList | undefined;
 }
 export type GooglePrivacyDlpV2LDiversityEquivalenceClassList =
   Array<GooglePrivacyDlpV2LDiversityEquivalenceClass>;
 /** Histogram of l-diversity equivalence class sensitive value frequencies. */
 export interface GooglePrivacyDlpV2LDiversityHistogramBucket {
-  /** Total number of distinct equivalence classes in this bucket. */
-  bucketValueCount?: string;
-  /** Total number of equivalence classes in this bucket. */
-  bucketSize?: string;
   /** Sample of equivalence classes in this bucket. The total number of classes returned per bucket is capped at 20. */
-  bucketValues?: GooglePrivacyDlpV2LDiversityEquivalenceClassList;
-  /** Lower bound on the sensitive value frequencies of the equivalence classes in this bucket. */
-  sensitiveValueFrequencyLowerBound?: string;
+  bucketValues?: GooglePrivacyDlpV2LDiversityEquivalenceClassList | undefined;
+  /** Total number of distinct equivalence classes in this bucket. */
+  bucketValueCount?: string | undefined;
   /** Upper bound on the sensitive value frequencies of the equivalence classes in this bucket. */
-  sensitiveValueFrequencyUpperBound?: string;
+  sensitiveValueFrequencyUpperBound?: string | undefined;
+  /** Total number of equivalence classes in this bucket. */
+  bucketSize?: string | undefined;
+  /** Lower bound on the sensitive value frequencies of the equivalence classes in this bucket. */
+  sensitiveValueFrequencyLowerBound?: string | undefined;
 }
 export type GooglePrivacyDlpV2LDiversityHistogramBucketList =
   Array<GooglePrivacyDlpV2LDiversityHistogramBucket>;
 /** Result of the l-diversity computation. */
 export interface GooglePrivacyDlpV2LDiversityResult {
   /** Histogram of l-diversity equivalence class sensitive value frequencies. */
-  sensitiveValueFrequencyHistogramBuckets?: GooglePrivacyDlpV2LDiversityHistogramBucketList;
+  sensitiveValueFrequencyHistogramBuckets?:
+    | GooglePrivacyDlpV2LDiversityHistogramBucketList
+    | undefined;
+}
+/** Result of the numerical stats computation. */
+export interface GooglePrivacyDlpV2NumericalStatsResult {
+  /** Maximum value appearing in the column. */
+  maxValue?: GooglePrivacyDlpV2Value | undefined;
+  /** List of 99 values that partition the set of field values into 100 equal sized buckets. */
+  quantileValues?: GooglePrivacyDlpV2ValueList | undefined;
+  /** Minimum value appearing in the column. */
+  minValue?: GooglePrivacyDlpV2Value | undefined;
+}
+/** A tuple of values for the quasi-identifier columns. */
+export interface GooglePrivacyDlpV2KMapEstimationQuasiIdValues {
+  /** The quasi-identifier values. */
+  quasiIdsValues?: GooglePrivacyDlpV2ValueList | undefined;
+  /** The estimated anonymity for these quasi-identifier values. */
+  estimatedAnonymity?: string | undefined;
+}
+export type GooglePrivacyDlpV2KMapEstimationQuasiIdValuesList =
+  Array<GooglePrivacyDlpV2KMapEstimationQuasiIdValues>;
+/** A KMapEstimationHistogramBucket message with the following values: min_anonymity: 3 max_anonymity: 5 frequency: 42 means that there are 42 records whose quasi-identifier values correspond to 3, 4 or 5 people in the overlying population. An important particular case is when min_anonymity = max_anonymity = 1: the frequency field then corresponds to the number of uniquely identifiable records. */
+export interface GooglePrivacyDlpV2KMapEstimationHistogramBucket {
+  /** Number of records within these anonymity bounds. */
+  bucketSize?: string | undefined;
+  /** Always greater than or equal to min_anonymity. */
+  maxAnonymity?: string | undefined;
+  /** Sample of quasi-identifier tuple values in this bucket. The total number of classes returned per bucket is capped at 20. */
+  bucketValues?: GooglePrivacyDlpV2KMapEstimationQuasiIdValuesList | undefined;
+  /** Always positive. */
+  minAnonymity?: string | undefined;
+  /** Total number of distinct quasi-identifier tuple values in this bucket. */
+  bucketValueCount?: string | undefined;
+}
+export type GooglePrivacyDlpV2KMapEstimationHistogramBucketList =
+  Array<GooglePrivacyDlpV2KMapEstimationHistogramBucket>;
+/** Result of the reidentifiability analysis. Note that these results are an estimation, not exact values. */
+export interface GooglePrivacyDlpV2KMapEstimationResult {
+  /** The intervals [min_anonymity, max_anonymity] do not overlap. If a value doesn't correspond to any such interval, the associated frequency is zero. For example, the following records: {min_anonymity: 1, max_anonymity: 1, frequency: 17} {min_anonymity: 2, max_anonymity: 3, frequency: 42} {min_anonymity: 5, max_anonymity: 10, frequency: 99} mean that there are no record with an estimated anonymity of 4, 5, or larger than 10. */
+  kMapEstimationHistogram?: GooglePrivacyDlpV2KMapEstimationHistogramBucketList | undefined;
 }
 /** Result of a risk analysis operation request. */
 export interface GooglePrivacyDlpV2AnalyzeDataSourceRiskDetails {
-  /** Privacy metric to compute. */
-  requestedPrivacyMetric?: GooglePrivacyDlpV2PrivacyMetric;
-  /** Output only. Categorical stats result */
-  categoricalStatsResult?: GooglePrivacyDlpV2CategoricalStatsResult;
-  /** Output only. Delta-presence result */
-  deltaPresenceEstimationResult?: GooglePrivacyDlpV2DeltaPresenceEstimationResult;
-  /** The configuration used for this job. */
-  requestedOptions?: GooglePrivacyDlpV2RequestedRiskAnalysisOptions;
-  /** Output only. K-map result */
-  kMapEstimationResult?: GooglePrivacyDlpV2KMapEstimationResult;
-  /** Output only. Numerical stats result */
-  numericalStatsResult?: GooglePrivacyDlpV2NumericalStatsResult;
-  /** Output only. K-anonymity result */
-  kAnonymityResult?: GooglePrivacyDlpV2KAnonymityResult;
-  /** Output only. L-divesity result */
-  lDiversityResult?: GooglePrivacyDlpV2LDiversityResult;
   /** Input dataset to compute metrics over. */
-  requestedSourceTable?: GooglePrivacyDlpV2BigQueryTable;
+  requestedSourceTable?: GooglePrivacyDlpV2BigQueryTable | undefined;
+  /** Output only. Delta-presence result */
+  deltaPresenceEstimationResult?: GooglePrivacyDlpV2DeltaPresenceEstimationResult | undefined;
+  /** Output only. K-anonymity result */
+  kAnonymityResult?: GooglePrivacyDlpV2KAnonymityResult | undefined;
+  /** The configuration used for this job. */
+  requestedOptions?: GooglePrivacyDlpV2RequestedRiskAnalysisOptions | undefined;
+  /** Output only. Categorical stats result */
+  categoricalStatsResult?: GooglePrivacyDlpV2CategoricalStatsResult | undefined;
+  /** Output only. L-divesity result */
+  lDiversityResult?: GooglePrivacyDlpV2LDiversityResult | undefined;
+  /** Output only. Numerical stats result */
+  numericalStatsResult?: GooglePrivacyDlpV2NumericalStatsResult | undefined;
+  /** Privacy metric to compute. */
+  requestedPrivacyMetric?: GooglePrivacyDlpV2PrivacyMetric | undefined;
+  /** Output only. K-map result */
+  kMapEstimationResult?: GooglePrivacyDlpV2KMapEstimationResult | undefined;
 }
-export type StringList = Array<string>;
-export type DocumentMap = { [key: string]: unknown | undefined };
-export type DocumentMapList = Array<DocumentMap>;
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface GoogleRpcStatus {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-}
-export type GooglePrivacyDlpV2ErrorExtraInfoEnum =
-  | "ERROR_INFO_UNSPECIFIED"
-  | "IMAGE_SCAN_UNAVAILABLE_IN_REGION"
-  | "FILE_STORE_CLUSTER_UNSUPPORTED";
-/** Details information about an error encountered during job execution or the results of an unsuccessful activation of the JobTrigger. */
-export interface GooglePrivacyDlpV2Error {
-  /** The times the error occurred. List includes the oldest timestamp and the last 9 timestamps. */
-  timestamps?: StringList;
-  /** Detailed error codes and messages. */
-  details?: GoogleRpcStatus;
-  /** Additional information about the error. */
-  extraInfo?: GooglePrivacyDlpV2ErrorExtraInfoEnum | (string & {});
-}
-export type GooglePrivacyDlpV2ErrorList = Array<GooglePrivacyDlpV2Error>;
+export type GooglePrivacyDlpV2DlpJobStateEnum =
+  | "JOB_STATE_UNSPECIFIED"
+  | "PENDING"
+  | "RUNNING"
+  | "DONE"
+  | "CANCELED"
+  | "FAILED"
+  | "ACTIVE";
 export type GooglePrivacyDlpV2DlpJobTypeEnum =
   | "DLP_JOB_TYPE_UNSPECIFIED"
   | "INSPECT_JOB"
   | "RISK_ANALYSIS_JOB";
-/** Include to use an existing data crypto key wrapped by KMS. The wrapped key must be a 128-, 192-, or 256-bit key. Authorization requires the following IAM permissions when sending a request to perform a crypto transformation using a KMS-wrapped crypto key: dlp.kms.encrypt For more information, see [Creating a wrapped key] (https://docs.cloud.google.com/sensitive-data-protection/docs/create-wrapped-key). Note: When you use Cloud KMS for cryptographic operations, [charges apply](https://cloud.google.com/kms/pricing). */
-export interface GooglePrivacyDlpV2KmsWrappedCryptoKey {
-  /** Required. The wrapped data crypto key. */
-  wrappedKey?: string;
-  /** Required. The resource name of the KMS CryptoKey to use for unwrapping. */
-  cryptoKeyName?: string;
+export type GooglePrivacyDlpV2InfoTypeList = Array<GooglePrivacyDlpV2InfoType>;
+/** Message defining a list of words or phrases to search for in the data. */
+export interface GooglePrivacyDlpV2WordList {
+  /** Words or phrases defining the dictionary. The dictionary must contain at least one phrase and every phrase must contain at least 2 characters that are letters or digits. [required] */
+  words?: StringList | undefined;
 }
-/** Use this to have a random data crypto key generated. It will be discarded after the request finishes. */
-export interface GooglePrivacyDlpV2TransientCryptoKey {
-  /** Required. Name of the key. This is an arbitrary string used to differentiate different keys. A unique key is generated per name: two separate `TransientCryptoKey` protos share the same generated key if their names are the same. When the data crypto key is generated, this name is not used in any way (repeating the api call will result in a different key being generated). */
-  name?: string;
-}
-/** Using raw keys is prone to security risks due to accidentally leaking the key. Choose another type of key if possible. */
-export interface GooglePrivacyDlpV2UnwrappedCryptoKey {
-  /** Required. A 128/192/256 bit key. */
-  key?: string;
-}
-/** This is a data encryption key (DEK) (as opposed to a key encryption key (KEK) stored by Cloud Key Management Service (Cloud KMS). When using Cloud KMS to wrap or unwrap a DEK, be sure to set an appropriate IAM policy on the KEK to ensure an attacker cannot unwrap the DEK. */
-export interface GooglePrivacyDlpV2CryptoKey {
-  /** Key wrapped using Cloud KMS */
-  kmsWrapped?: GooglePrivacyDlpV2KmsWrappedCryptoKey;
-  /** Transient crypto key */
-  transient?: GooglePrivacyDlpV2TransientCryptoKey;
-  /** Unwrapped crypto key */
-  unwrapped?: GooglePrivacyDlpV2UnwrappedCryptoKey;
-}
-/** Shifts dates by random number of days, with option to be consistent for the same context. See https://docs.cloud.google.com/sensitive-data-protection/docs/concepts-date-shifting to learn more. */
-export interface GooglePrivacyDlpV2DateShiftConfig {
-  /** Required. Range of shift in days. Actual shift will be selected at random within this range (inclusive ends). Negative means shift to earlier in time. Must not be more than 365250 days (1000 years) each direction. For example, 3 means shift date to at most 3 days into the future. */
-  upperBoundDays?: number;
-  /** Points to the field that contains the context, for example, an entity id. If set, must also set cryptoKey. If set, shift will be consistent for the given context. */
-  context?: GooglePrivacyDlpV2FieldId;
-  /** Required. For example, -5 means shift date to at most 5 days back in the past. */
-  lowerBoundDays?: number;
-  /** Causes the shift to be computed based on this key and the context. This results in the same shift for the same context and crypto_key. If set, must also set context. Can only be applied to table items. */
-  cryptoKey?: GooglePrivacyDlpV2CryptoKey;
+/** Replace each input value with a value randomly selected from the dictionary. */
+export interface GooglePrivacyDlpV2ReplaceDictionaryConfig {
+  /** A list of words to select from for random replacement. The [limits](https://docs.cloud.google.com/sensitive-data-protection/limits) page contains details about the size limits of dictionaries. */
+  wordList?: GooglePrivacyDlpV2WordList | undefined;
 }
 export type GooglePrivacyDlpV2TimePartConfigPartToExtractEnum =
   | "TIME_PART_UNSPECIFIED"
@@ -673,7 +663,109 @@ export type GooglePrivacyDlpV2TimePartConfigPartToExtractEnum =
 /** For use with `Date`, `Timestamp`, and `TimeOfDay`, extract or preserve a portion of the value. */
 export interface GooglePrivacyDlpV2TimePartConfig {
   /** The part of the time to keep. */
-  partToExtract?: GooglePrivacyDlpV2TimePartConfigPartToExtractEnum | (string & {});
+  partToExtract?: GooglePrivacyDlpV2TimePartConfigPartToExtractEnum | (string & {}) | undefined;
+}
+/** Buckets values based on fixed size ranges. The Bucketing transformation can provide all of this functionality, but requires more configuration. This message is provided as a convenience to the user for simple bucketing strategies. The transformed value will be a hyphenated string of {lower_bound}-{upper_bound}. For example, if lower_bound = 10 and upper_bound = 20, all values that are within this bucket will be replaced with "10-20". This can be used on data of type: double, long. If the bound Value type differs from the type of data being transformed, we will first attempt converting the type of the data to be transformed to match the type of the bound before comparing. See https://docs.cloud.google.com/sensitive-data-protection/docs/concepts-bucketing to learn more. */
+export interface GooglePrivacyDlpV2FixedSizeBucketingConfig {
+  /** Required. Lower bound value of buckets. All values less than `lower_bound` are grouped together into a single bucket; for example if `lower_bound` = 10, then all values less than 10 are replaced with the value "-10". */
+  lowerBound?: GooglePrivacyDlpV2Value | undefined;
+  /** Required. Size of each bucket (except for minimum and maximum buckets). So if `lower_bound` = 10, `upper_bound` = 89, and `bucket_size` = 10, then the following buckets would be used: -10, 10-20, 20-30, 30-40, 40-50, 50-60, 60-70, 70-80, 80-89, 89+. Precision up to 2 decimals works. */
+  bucketSize?: number | undefined;
+  /** Required. Upper bound value of buckets. All values greater than upper_bound are grouped together into a single bucket; for example if `upper_bound` = 89, then all values greater than 89 are replaced with the value "89+". */
+  upperBound?: GooglePrivacyDlpV2Value | undefined;
+}
+/** Replace each input value with a given `Value`. */
+export interface GooglePrivacyDlpV2ReplaceValueConfig {
+  /** Value to replace it with. */
+  newValue?: GooglePrivacyDlpV2Value | undefined;
+}
+/** Using raw keys is prone to security risks due to accidentally leaking the key. Choose another type of key if possible. */
+export interface GooglePrivacyDlpV2UnwrappedCryptoKey {
+  /** Required. A 128/192/256 bit key. */
+  key?: string | undefined;
+}
+/** Include to use an existing data crypto key wrapped by KMS. The wrapped key must be a 128-, 192-, or 256-bit key. Authorization requires the following IAM permissions when sending a request to perform a crypto transformation using a KMS-wrapped crypto key: dlp.kms.encrypt For more information, see [Creating a wrapped key] (https://docs.cloud.google.com/sensitive-data-protection/docs/create-wrapped-key). Note: When you use Cloud KMS for cryptographic operations, [charges apply](https://cloud.google.com/kms/pricing). */
+export interface GooglePrivacyDlpV2KmsWrappedCryptoKey {
+  /** Required. The resource name of the KMS CryptoKey to use for unwrapping. */
+  cryptoKeyName?: string | undefined;
+  /** Required. The wrapped data crypto key. */
+  wrappedKey?: string | undefined;
+}
+/** Use this to have a random data crypto key generated. It will be discarded after the request finishes. */
+export interface GooglePrivacyDlpV2TransientCryptoKey {
+  /** Required. Name of the key. This is an arbitrary string used to differentiate different keys. A unique key is generated per name: two separate `TransientCryptoKey` protos share the same generated key if their names are the same. When the data crypto key is generated, this name is not used in any way (repeating the api call will result in a different key being generated). */
+  name?: string | undefined;
+}
+/** This is a data encryption key (DEK) (as opposed to a key encryption key (KEK) stored by Cloud Key Management Service (Cloud KMS). When using Cloud KMS to wrap or unwrap a DEK, be sure to set an appropriate IAM policy on the KEK to ensure an attacker cannot unwrap the DEK. */
+export interface GooglePrivacyDlpV2CryptoKey {
+  /** Unwrapped crypto key */
+  unwrapped?: GooglePrivacyDlpV2UnwrappedCryptoKey | undefined;
+  /** Key wrapped using Cloud KMS */
+  kmsWrapped?: GooglePrivacyDlpV2KmsWrappedCryptoKey | undefined;
+  /** Transient crypto key */
+  transient?: GooglePrivacyDlpV2TransientCryptoKey | undefined;
+}
+/** Shifts dates by random number of days, with option to be consistent for the same context. See https://docs.cloud.google.com/sensitive-data-protection/docs/concepts-date-shifting to learn more. */
+export interface GooglePrivacyDlpV2DateShiftConfig {
+  /** Causes the shift to be computed based on this key and the context. This results in the same shift for the same context and crypto_key. If set, must also set context. Can only be applied to table items. */
+  cryptoKey?: GooglePrivacyDlpV2CryptoKey | undefined;
+  /** Points to the field that contains the context, for example, an entity id. If set, must also set cryptoKey. If set, shift will be consistent for the given context. */
+  context?: GooglePrivacyDlpV2FieldId | undefined;
+  /** Required. For example, -5 means shift date to at most 5 days back in the past. */
+  lowerBoundDays?: number | undefined;
+  /** Required. Range of shift in days. Actual shift will be selected at random within this range (inclusive ends). Negative means shift to earlier in time. Must not be more than 365250 days (1000 years) each direction. For example, 3 means shift date to at most 3 days into the future. */
+  upperBoundDays?: number | undefined;
+}
+/** Replace each matching finding with the name of the info_type. */
+export type GooglePrivacyDlpV2ReplaceWithInfoTypeConfig =
+  GooglePrivacyDlpV2ActivateJobTriggerRequest;
+export type GooglePrivacyDlpV2CryptoReplaceFfxFpeConfigCommonAlphabetEnum =
+  | "FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED"
+  | "NUMERIC"
+  | "HEXADECIMAL"
+  | "UPPER_CASE_ALPHA_NUMERIC"
+  | "ALPHA_NUMERIC";
+/** Replaces an identifier with a surrogate using Format Preserving Encryption (FPE) with the FFX mode of operation; however when used in the `ReidentifyContent` API method, it serves the opposite function by reversing the surrogate back into the original identifier. The identifier must be encoded as ASCII. For a given crypto key and context, the same identifier will be replaced with the same surrogate. Identifiers must be at least two characters long. In the case that the identifier is the empty string, it will be skipped. See https://docs.cloud.google.com/sensitive-data-protection/docs/pseudonymization to learn more. Note: We recommend using CryptoDeterministicConfig for all use cases which do not require preserving the input alphabet space and size, plus warrant referential integrity. FPE incurs significant latency costs. */
+export interface GooglePrivacyDlpV2CryptoReplaceFfxFpeConfig {
+  /** The custom infoType to annotate the surrogate with. This annotation will be applied to the surrogate by prefixing it with the name of the custom infoType followed by the number of characters comprising the surrogate. The following scheme defines the format: info_type_name(surrogate_character_count):surrogate For example, if the name of custom infoType is 'MY_TOKEN_INFO_TYPE' and the surrogate is 'abc', the full replacement value will be: 'MY_TOKEN_INFO_TYPE(3):abc' This annotation identifies the surrogate when inspecting content using the custom infoType [`SurrogateType`](https://docs.cloud.google.com/sensitive-data-protection/docs/reference/rest/v2/InspectConfig#surrogatetype). This facilitates reversal of the surrogate when it occurs in free text. In order for inspection to work properly, the name of this infoType must not occur naturally anywhere in your data; otherwise, inspection may find a surrogate that does not correspond to an actual identifier. Therefore, choose your custom infoType name carefully after considering what your data looks like. One way to select a name that has a high chance of yielding reliable detection is to include one or more unicode characters that are highly improbable to exist in your data. For example, assuming your data is entered from a regular ASCII keyboard, the symbol with the hex code point 29DD might be used like so: U+29DDMY_TOKEN_TYPE */
+  surrogateInfoType?: GooglePrivacyDlpV2InfoType | undefined;
+  /** The 'tweak', a context may be used for higher security since the same identifier in two different contexts won't be given the same surrogate. If the context is not set, a default tweak will be used. If the context is set but: 1. there is no record present when transforming a given value or 1. the field is not present when transforming a given value, a default tweak will be used. Note that case (1) is expected when an `InfoTypeTransformation` is applied to both structured and unstructured `ContentItem`s. Currently, the referenced field may be of value type integer or string. The tweak is constructed as a sequence of bytes in big endian byte order such that: - a 64 bit integer is encoded followed by a single byte of value 1 - a string is encoded in UTF-8 format followed by a single byte of value 2 */
+  context?: GooglePrivacyDlpV2FieldId | undefined;
+  /** Required. The key used by the encryption algorithm. */
+  cryptoKey?: GooglePrivacyDlpV2CryptoKey | undefined;
+  /** Common alphabets. */
+  commonAlphabet?:
+    | GooglePrivacyDlpV2CryptoReplaceFfxFpeConfigCommonAlphabetEnum
+    | (string & {})
+    | undefined;
+  /** The native way to select the alphabet. Must be in the range [2, 95]. */
+  radix?: number | undefined;
+  /** This is supported by mapping these to the alphanumeric characters that the FFX mode natively supports. This happens before/after encryption/decryption. Each character listed must appear only once. Number of characters must be in the range [2, 95]. This must be encoded as ASCII. The order of characters does not matter. The full list of allowed characters is: ``0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~`!@#$%^&*()_-+={[}]|\:;"'<,>.?/`` */
+  customAlphabet?: string | undefined;
+}
+/** Pseudonymization method that generates deterministic encryption for the given input. Outputs a base64 encoded representation of the encrypted output. Uses AES-SIV based on the RFC https://tools.ietf.org/html/rfc5297. */
+export interface GooglePrivacyDlpV2CryptoDeterministicConfig {
+  /** The key used by the encryption function. For deterministic encryption using AES-SIV, the provided key is internally expanded to 64 bytes prior to use. */
+  cryptoKey?: GooglePrivacyDlpV2CryptoKey | undefined;
+  /** A context may be used for higher security and maintaining referential integrity such that the same identifier in two different contexts will be given a distinct surrogate. The context is appended to plaintext value being encrypted. On decryption the provided context is validated against the value used during encryption. If a context was provided during encryption, same context must be provided during decryption as well. If the context is not set, plaintext would be used as is for encryption. If the context is set but: 1. there is no record present when transforming a given value or 2. the field is not present when transforming a given value, plaintext would be used as is for encryption. Note that case (1) is expected when an `InfoTypeTransformation` is applied to both structured and unstructured `ContentItem`s. */
+  context?: GooglePrivacyDlpV2FieldId | undefined;
+  /** The custom info type to annotate the surrogate with. This annotation will be applied to the surrogate by prefixing it with the name of the custom info type followed by the number of characters comprising the surrogate. The following scheme defines the format: {info type name}({surrogate character count}):{surrogate} For example, if the name of custom info type is 'MY_TOKEN_INFO_TYPE' and the surrogate is 'abc', the full replacement value will be: 'MY_TOKEN_INFO_TYPE(3):abc' This annotation identifies the surrogate when inspecting content using the custom info type 'Surrogate'. This facilitates reversal of the surrogate when it occurs in free text. Note: For record transformations where the entire cell in a table is being transformed, surrogates are not mandatory. Surrogates are used to denote the location of the token and are necessary for re-identification in free form text. In order for inspection to work properly, the name of this info type must not occur naturally anywhere in your data; otherwise, inspection may either - reverse a surrogate that does not correspond to an actual identifier - be unable to parse the surrogate and result in an error Therefore, choose your custom info type name carefully after considering what your data looks like. One way to select a name that has a high chance of yielding reliable detection is to include one or more unicode characters that are highly improbable to exist in your data. For example, assuming your data is entered from a regular ASCII keyboard, the symbol with the hex code point 29DD might be used like so: U+29DDMY_TOKEN_TYPE. */
+  surrogateInfoType?: GooglePrivacyDlpV2InfoType | undefined;
+}
+/** Bucket is represented as a range, along with replacement values. */
+export interface GooglePrivacyDlpV2Bucket {
+  /** Required. Replacement value for this bucket. */
+  replacementValue?: GooglePrivacyDlpV2Value | undefined;
+  /** Lower bound of the range, inclusive. Type should be the same as max if used. */
+  min?: GooglePrivacyDlpV2Value | undefined;
+  /** Upper bound of the range, exclusive; type must match min. */
+  max?: GooglePrivacyDlpV2Value | undefined;
+}
+export type GooglePrivacyDlpV2BucketList = Array<GooglePrivacyDlpV2Bucket>;
+/** Generalization function that buckets values based on ranges. The ranges and replacement values are dynamically provided by the user for custom behavior, such as 1-30 -> LOW, 31-65 -> MEDIUM, 66-100 -> HIGH. This can be used on data of type: number, long, string, timestamp. If the bound `Value` type differs from the type of data being transformed, we will first attempt converting the type of the data to be transformed to match the type of the bound before comparing. See https://docs.cloud.google.com/sensitive-data-protection/docs/concepts-bucketing to learn more. */
+export interface GooglePrivacyDlpV2BucketingConfig {
+  /** Set of buckets. Ranges must be non-overlapping. */
+  buckets?: GooglePrivacyDlpV2BucketList | undefined;
 }
 export type GooglePrivacyDlpV2CharsToIgnoreCommonCharactersToIgnoreEnum =
   | "COMMON_CHARS_TO_IGNORE_UNSPECIFIED"
@@ -684,156 +776,120 @@ export type GooglePrivacyDlpV2CharsToIgnoreCommonCharactersToIgnoreEnum =
   | "WHITESPACE";
 /** Characters to skip when doing deidentification of a value. These will be left alone and skipped. */
 export interface GooglePrivacyDlpV2CharsToIgnore {
-  /** Characters to not transform when masking. */
-  charactersToSkip?: string;
   /** Common characters to not transform when masking. Useful to avoid removing punctuation. */
   commonCharactersToIgnore?:
     | GooglePrivacyDlpV2CharsToIgnoreCommonCharactersToIgnoreEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
+  /** Characters to not transform when masking. */
+  charactersToSkip?: string | undefined;
 }
 export type GooglePrivacyDlpV2CharsToIgnoreList = Array<GooglePrivacyDlpV2CharsToIgnore>;
 /** Partially mask a string by replacing a given number of characters with a fixed character. Masking can start from the beginning or end of the string. This can be used on data of any type (numbers, longs, and so on) and when de-identifying structured data we'll attempt to preserve the original data's type. (This allows you to take a long like 123 and modify it to a string like **3. */
 export interface GooglePrivacyDlpV2CharacterMaskConfig {
   /** Character to use to mask the sensitive values--for example, `*` for an alphabetic string such as a name, or `0` for a numeric string such as ZIP code or credit card number. This string must have a length of 1. If not supplied, this value defaults to `*` for strings, and `0` for digits. */
-  maskingCharacter?: string;
-  /** When masking a string, items in this list will be skipped when replacing characters. For example, if the input string is `555-555-5555` and you instruct Cloud DLP to skip `-` and mask 5 characters with `*`, Cloud DLP returns `***-**5-5555`. */
-  charactersToIgnore?: GooglePrivacyDlpV2CharsToIgnoreList;
+  maskingCharacter?: string | undefined;
   /** Number of characters to mask. If not set, all matching chars will be masked. Skipped characters do not count towards this tally. If `number_to_mask` is negative, this denotes inverse masking. Cloud DLP masks all but a number of characters. For example, suppose you have the following values: - `masking_character` is `*` - `number_to_mask` is `-4` - `reverse_order` is `false` - `CharsToIgnore` includes `-` - Input string is `1234-5678-9012-3456` The resulting de-identified string is `****-****-****-3456`. Cloud DLP masks all but the last four characters. If `reverse_order` is `true`, all but the first four characters are masked as `1234-****-****-****`. */
-  numberToMask?: number;
+  numberToMask?: number | undefined;
   /** Mask characters in reverse order. For example, if `masking_character` is `0`, `number_to_mask` is `14`, and `reverse_order` is `false`, then the input string `1234-5678-9012-3456` is masked as `00000000000000-3456`. If `masking_character` is `*`, `number_to_mask` is `3`, and `reverse_order` is `true`, then the string `12345` is masked as `12***`. */
-  reverseOrder?: boolean;
+  reverseOrder?: boolean | undefined;
+  /** When masking a string, items in this list will be skipped when replacing characters. For example, if the input string is `555-555-5555` and you instruct Cloud DLP to skip `-` and mask 5 characters with `*`, Cloud DLP returns `***-**5-5555`. */
+  charactersToIgnore?: GooglePrivacyDlpV2CharsToIgnoreList | undefined;
 }
 /** Pseudonymization method that generates surrogates via cryptographic hashing. Uses SHA-256. The key size must be either 32 or 64 bytes. Outputs a base64 encoded representation of the hashed output (for example, L7k0BHmF1ha5U3NfGykjro4xWi1MPVQPjhMAZbSV9mM=). Currently, only string and integer values can be hashed. See https://docs.cloud.google.com/sensitive-data-protection/docs/pseudonymization to learn more. */
 export interface GooglePrivacyDlpV2CryptoHashConfig {
   /** The key used by the hash function. */
-  cryptoKey?: GooglePrivacyDlpV2CryptoKey;
-}
-/** Bucket is represented as a range, along with replacement values. */
-export interface GooglePrivacyDlpV2Bucket {
-  /** Lower bound of the range, inclusive. Type should be the same as max if used. */
-  min?: GooglePrivacyDlpV2Value;
-  /** Upper bound of the range, exclusive; type must match min. */
-  max?: GooglePrivacyDlpV2Value;
-  /** Required. Replacement value for this bucket. */
-  replacementValue?: GooglePrivacyDlpV2Value;
-}
-export type GooglePrivacyDlpV2BucketList = Array<GooglePrivacyDlpV2Bucket>;
-/** Generalization function that buckets values based on ranges. The ranges and replacement values are dynamically provided by the user for custom behavior, such as 1-30 -> LOW, 31-65 -> MEDIUM, 66-100 -> HIGH. This can be used on data of type: number, long, string, timestamp. If the bound `Value` type differs from the type of data being transformed, we will first attempt converting the type of the data to be transformed to match the type of the bound before comparing. See https://docs.cloud.google.com/sensitive-data-protection/docs/concepts-bucketing to learn more. */
-export interface GooglePrivacyDlpV2BucketingConfig {
-  /** Set of buckets. Ranges must be non-overlapping. */
-  buckets?: GooglePrivacyDlpV2BucketList;
-}
-/** Replace each input value with a given `Value`. */
-export interface GooglePrivacyDlpV2ReplaceValueConfig {
-  /** Value to replace it with. */
-  newValue?: GooglePrivacyDlpV2Value;
-}
-/** Buckets values based on fixed size ranges. The Bucketing transformation can provide all of this functionality, but requires more configuration. This message is provided as a convenience to the user for simple bucketing strategies. The transformed value will be a hyphenated string of {lower_bound}-{upper_bound}. For example, if lower_bound = 10 and upper_bound = 20, all values that are within this bucket will be replaced with "10-20". This can be used on data of type: double, long. If the bound Value type differs from the type of data being transformed, we will first attempt converting the type of the data to be transformed to match the type of the bound before comparing. See https://docs.cloud.google.com/sensitive-data-protection/docs/concepts-bucketing to learn more. */
-export interface GooglePrivacyDlpV2FixedSizeBucketingConfig {
-  /** Required. Upper bound value of buckets. All values greater than upper_bound are grouped together into a single bucket; for example if `upper_bound` = 89, then all values greater than 89 are replaced with the value "89+". */
-  upperBound?: GooglePrivacyDlpV2Value;
-  /** Required. Lower bound value of buckets. All values less than `lower_bound` are grouped together into a single bucket; for example if `lower_bound` = 10, then all values less than 10 are replaced with the value "-10". */
-  lowerBound?: GooglePrivacyDlpV2Value;
-  /** Required. Size of each bucket (except for minimum and maximum buckets). So if `lower_bound` = 10, `upper_bound` = 89, and `bucket_size` = 10, then the following buckets would be used: -10, 10-20, 20-30, 30-40, 40-50, 50-60, 60-70, 70-80, 80-89, 89+. Precision up to 2 decimals works. */
-  bucketSize?: number;
-}
-/** Message defining a list of words or phrases to search for in the data. */
-export interface GooglePrivacyDlpV2WordList {
-  /** Words or phrases defining the dictionary. The dictionary must contain at least one phrase and every phrase must contain at least 2 characters that are letters or digits. [required] */
-  words?: StringList;
-}
-/** Replace each input value with a value randomly selected from the dictionary. */
-export interface GooglePrivacyDlpV2ReplaceDictionaryConfig {
-  /** A list of words to select from for random replacement. The [limits](https://docs.cloud.google.com/sensitive-data-protection/limits) page contains details about the size limits of dictionaries. */
-  wordList?: GooglePrivacyDlpV2WordList;
+  cryptoKey?: GooglePrivacyDlpV2CryptoKey | undefined;
 }
 /** Redact a given value. For example, if used with an `InfoTypeTransformation` transforming PHONE_NUMBER, and input 'My phone number is 206-555-0123', the output would be 'My phone number is '. */
 export type GooglePrivacyDlpV2RedactConfig = GooglePrivacyDlpV2ActivateJobTriggerRequest;
-export type GooglePrivacyDlpV2CryptoReplaceFfxFpeConfigCommonAlphabetEnum =
-  | "FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED"
-  | "NUMERIC"
-  | "HEXADECIMAL"
-  | "UPPER_CASE_ALPHA_NUMERIC"
-  | "ALPHA_NUMERIC";
-/** Replaces an identifier with a surrogate using Format Preserving Encryption (FPE) with the FFX mode of operation; however when used in the `ReidentifyContent` API method, it serves the opposite function by reversing the surrogate back into the original identifier. The identifier must be encoded as ASCII. For a given crypto key and context, the same identifier will be replaced with the same surrogate. Identifiers must be at least two characters long. In the case that the identifier is the empty string, it will be skipped. See https://docs.cloud.google.com/sensitive-data-protection/docs/pseudonymization to learn more. Note: We recommend using CryptoDeterministicConfig for all use cases which do not require preserving the input alphabet space and size, plus warrant referential integrity. FPE incurs significant latency costs. */
-export interface GooglePrivacyDlpV2CryptoReplaceFfxFpeConfig {
-  /** This is supported by mapping these to the alphanumeric characters that the FFX mode natively supports. This happens before/after encryption/decryption. Each character listed must appear only once. Number of characters must be in the range [2, 95]. This must be encoded as ASCII. The order of characters does not matter. The full list of allowed characters is: ``0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~`!@#$%^&*()_-+={[}]|\:;"'<,>.?/`` */
-  customAlphabet?: string;
-  /** Required. The key used by the encryption algorithm. */
-  cryptoKey?: GooglePrivacyDlpV2CryptoKey;
-  /** Common alphabets. */
-  commonAlphabet?: GooglePrivacyDlpV2CryptoReplaceFfxFpeConfigCommonAlphabetEnum | (string & {});
-  /** The native way to select the alphabet. Must be in the range [2, 95]. */
-  radix?: number;
-  /** The custom infoType to annotate the surrogate with. This annotation will be applied to the surrogate by prefixing it with the name of the custom infoType followed by the number of characters comprising the surrogate. The following scheme defines the format: info_type_name(surrogate_character_count):surrogate For example, if the name of custom infoType is 'MY_TOKEN_INFO_TYPE' and the surrogate is 'abc', the full replacement value will be: 'MY_TOKEN_INFO_TYPE(3):abc' This annotation identifies the surrogate when inspecting content using the custom infoType [`SurrogateType`](https://docs.cloud.google.com/sensitive-data-protection/docs/reference/rest/v2/InspectConfig#surrogatetype). This facilitates reversal of the surrogate when it occurs in free text. In order for inspection to work properly, the name of this infoType must not occur naturally anywhere in your data; otherwise, inspection may find a surrogate that does not correspond to an actual identifier. Therefore, choose your custom infoType name carefully after considering what your data looks like. One way to select a name that has a high chance of yielding reliable detection is to include one or more unicode characters that are highly improbable to exist in your data. For example, assuming your data is entered from a regular ASCII keyboard, the symbol with the hex code point 29DD might be used like so: U+29DDMY_TOKEN_TYPE */
-  surrogateInfoType?: GooglePrivacyDlpV2InfoType;
-  /** The 'tweak', a context may be used for higher security since the same identifier in two different contexts won't be given the same surrogate. If the context is not set, a default tweak will be used. If the context is set but: 1. there is no record present when transforming a given value or 1. the field is not present when transforming a given value, a default tweak will be used. Note that case (1) is expected when an `InfoTypeTransformation` is applied to both structured and unstructured `ContentItem`s. Currently, the referenced field may be of value type integer or string. The tweak is constructed as a sequence of bytes in big endian byte order such that: - a 64 bit integer is encoded followed by a single byte of value 1 - a string is encoded in UTF-8 format followed by a single byte of value 2 */
-  context?: GooglePrivacyDlpV2FieldId;
-}
-/** Replace each matching finding with the name of the info_type. */
-export type GooglePrivacyDlpV2ReplaceWithInfoTypeConfig =
-  GooglePrivacyDlpV2ActivateJobTriggerRequest;
-/** Pseudonymization method that generates deterministic encryption for the given input. Outputs a base64 encoded representation of the encrypted output. Uses AES-SIV based on the RFC https://tools.ietf.org/html/rfc5297. */
-export interface GooglePrivacyDlpV2CryptoDeterministicConfig {
-  /** A context may be used for higher security and maintaining referential integrity such that the same identifier in two different contexts will be given a distinct surrogate. The context is appended to plaintext value being encrypted. On decryption the provided context is validated against the value used during encryption. If a context was provided during encryption, same context must be provided during decryption as well. If the context is not set, plaintext would be used as is for encryption. If the context is set but: 1. there is no record present when transforming a given value or 2. the field is not present when transforming a given value, plaintext would be used as is for encryption. Note that case (1) is expected when an `InfoTypeTransformation` is applied to both structured and unstructured `ContentItem`s. */
-  context?: GooglePrivacyDlpV2FieldId;
-  /** The key used by the encryption function. For deterministic encryption using AES-SIV, the provided key is internally expanded to 64 bytes prior to use. */
-  cryptoKey?: GooglePrivacyDlpV2CryptoKey;
-  /** The custom info type to annotate the surrogate with. This annotation will be applied to the surrogate by prefixing it with the name of the custom info type followed by the number of characters comprising the surrogate. The following scheme defines the format: {info type name}({surrogate character count}):{surrogate} For example, if the name of custom info type is 'MY_TOKEN_INFO_TYPE' and the surrogate is 'abc', the full replacement value will be: 'MY_TOKEN_INFO_TYPE(3):abc' This annotation identifies the surrogate when inspecting content using the custom info type 'Surrogate'. This facilitates reversal of the surrogate when it occurs in free text. Note: For record transformations where the entire cell in a table is being transformed, surrogates are not mandatory. Surrogates are used to denote the location of the token and are necessary for re-identification in free form text. In order for inspection to work properly, the name of this info type must not occur naturally anywhere in your data; otherwise, inspection may either - reverse a surrogate that does not correspond to an actual identifier - be unable to parse the surrogate and result in an error Therefore, choose your custom info type name carefully after considering what your data looks like. One way to select a name that has a high chance of yielding reliable detection is to include one or more unicode characters that are highly improbable to exist in your data. For example, assuming your data is entered from a regular ASCII keyboard, the symbol with the hex code point 29DD might be used like so: U+29DDMY_TOKEN_TYPE. */
-  surrogateInfoType?: GooglePrivacyDlpV2InfoType;
-}
 /** A rule for transforming a value. */
 export interface GooglePrivacyDlpV2PrimitiveTransformation {
-  /** Date Shift */
-  dateShiftConfig?: GooglePrivacyDlpV2DateShiftConfig;
-  /** Time extraction */
-  timePartConfig?: GooglePrivacyDlpV2TimePartConfig;
-  /** Mask */
-  characterMaskConfig?: GooglePrivacyDlpV2CharacterMaskConfig;
-  /** Crypto */
-  cryptoHashConfig?: GooglePrivacyDlpV2CryptoHashConfig;
-  /** Bucketing */
-  bucketingConfig?: GooglePrivacyDlpV2BucketingConfig;
-  /** Replace with a specified value. */
-  replaceConfig?: GooglePrivacyDlpV2ReplaceValueConfig;
-  /** Fixed size bucketing */
-  fixedSizeBucketingConfig?: GooglePrivacyDlpV2FixedSizeBucketingConfig;
   /** Replace with a value randomly drawn (with replacement) from a dictionary. */
-  replaceDictionaryConfig?: GooglePrivacyDlpV2ReplaceDictionaryConfig;
-  /** Redact */
-  redactConfig?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-  /** Ffx-Fpe. Strongly discouraged, consider using CryptoDeterministicConfig instead. Fpe is computationally expensive incurring latency costs. */
-  cryptoReplaceFfxFpeConfig?: GooglePrivacyDlpV2CryptoReplaceFfxFpeConfig;
+  replaceDictionaryConfig?: GooglePrivacyDlpV2ReplaceDictionaryConfig | undefined;
+  /** Time extraction */
+  timePartConfig?: GooglePrivacyDlpV2TimePartConfig | undefined;
+  /** Fixed size bucketing */
+  fixedSizeBucketingConfig?: GooglePrivacyDlpV2FixedSizeBucketingConfig | undefined;
+  /** Replace with a specified value. */
+  replaceConfig?: GooglePrivacyDlpV2ReplaceValueConfig | undefined;
+  /** Date Shift */
+  dateShiftConfig?: GooglePrivacyDlpV2DateShiftConfig | undefined;
   /** Replace with infotype */
-  replaceWithInfoTypeConfig?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
+  replaceWithInfoTypeConfig?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** Ffx-Fpe. Strongly discouraged, consider using CryptoDeterministicConfig instead. Fpe is computationally expensive incurring latency costs. */
+  cryptoReplaceFfxFpeConfig?: GooglePrivacyDlpV2CryptoReplaceFfxFpeConfig | undefined;
   /** Deterministic Crypto */
-  cryptoDeterministicConfig?: GooglePrivacyDlpV2CryptoDeterministicConfig;
+  cryptoDeterministicConfig?: GooglePrivacyDlpV2CryptoDeterministicConfig | undefined;
+  /** Bucketing */
+  bucketingConfig?: GooglePrivacyDlpV2BucketingConfig | undefined;
+  /** Mask */
+  characterMaskConfig?: GooglePrivacyDlpV2CharacterMaskConfig | undefined;
+  /** Crypto */
+  cryptoHashConfig?: GooglePrivacyDlpV2CryptoHashConfig | undefined;
+  /** Redact */
+  redactConfig?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
 }
-export type GooglePrivacyDlpV2InfoTypeList = Array<GooglePrivacyDlpV2InfoType>;
 /** A transformation to apply to text that is identified as a specific info_type. */
 export interface GooglePrivacyDlpV2InfoTypeTransformation {
-  /** Required. Primitive transformation to apply to the infoType. */
-  primitiveTransformation?: GooglePrivacyDlpV2PrimitiveTransformation;
   /** InfoTypes to apply the transformation to. An empty list will cause this transformation to apply to all findings that correspond to infoTypes that were requested in `InspectConfig`. */
-  infoTypes?: GooglePrivacyDlpV2InfoTypeList;
+  infoTypes?: GooglePrivacyDlpV2InfoTypeList | undefined;
+  /** Required. Primitive transformation to apply to the infoType. */
+  primitiveTransformation?: GooglePrivacyDlpV2PrimitiveTransformation | undefined;
 }
 export type GooglePrivacyDlpV2InfoTypeTransformationList =
   Array<GooglePrivacyDlpV2InfoTypeTransformation>;
 /** A type of transformation that will scan unstructured text and apply various `PrimitiveTransformation`s to each finding, where the transformation is applied to only values that were identified as a specific info_type. */
 export interface GooglePrivacyDlpV2InfoTypeTransformations {
   /** Required. Transformation for each infoType. Cannot specify more than one for a given infoType. */
-  transformations?: GooglePrivacyDlpV2InfoTypeTransformationList;
+  transformations?: GooglePrivacyDlpV2InfoTypeTransformationList | undefined;
 }
-/** Skips the data without modifying it if the requested transformation would cause an error. For example, if a `DateShift` transformation were applied an an IP address, this mode would leave the IP address unchanged in the response. */
-export type GooglePrivacyDlpV2LeaveUntransformed = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Apply transformation to all findings. */
+export type GooglePrivacyDlpV2AllInfoTypes = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Apply to all text. */
+export type GooglePrivacyDlpV2AllText = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Apply transformation to the selected info_types. */
+export interface GooglePrivacyDlpV2SelectedInfoTypes {
+  /** Required. InfoTypes to apply the transformation to. Required. Provided InfoType must be unique within the ImageTransformations message. */
+  infoTypes?: GooglePrivacyDlpV2InfoTypeList | undefined;
+}
+/** Represents a color in the RGB color space. */
+export interface GooglePrivacyDlpV2Color {
+  /** The amount of blue in the color as a value in the interval [0, 1]. */
+  blue?: number | undefined;
+  /** The amount of green in the color as a value in the interval [0, 1]. */
+  green?: number | undefined;
+  /** The amount of red in the color as a value in the interval [0, 1]. */
+  red?: number | undefined;
+}
+/** Configuration for determining how redaction of images should occur. */
+export interface GooglePrivacyDlpV2ImageTransformation {
+  /** Apply transformation to all findings not specified in other ImageTransformation's selected_info_types. Only one instance is allowed within the ImageTransformations message. */
+  allInfoTypes?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** Apply transformation to all text that doesn't match an infoType. Only one instance is allowed within the ImageTransformations message. */
+  allText?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** Apply transformation to the selected info_types. */
+  selectedInfoTypes?: GooglePrivacyDlpV2SelectedInfoTypes | undefined;
+  /** The color to use when redacting content from an image. If not specified, the default is black. */
+  redactionColor?: GooglePrivacyDlpV2Color | undefined;
+}
+export type GooglePrivacyDlpV2ImageTransformationList =
+  Array<GooglePrivacyDlpV2ImageTransformation>;
+/** A type of transformation that is applied over images. */
+export interface GooglePrivacyDlpV2ImageTransformations {
+  /** List of transforms to make. */
+  transforms?: GooglePrivacyDlpV2ImageTransformationList | undefined;
+}
 /** Throw an error and fail the request when a transformation error occurs. */
 export type GooglePrivacyDlpV2ThrowError = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Skips the data without modifying it if the requested transformation would cause an error. For example, if a `DateShift` transformation were applied an an IP address, this mode would leave the IP address unchanged in the response. */
+export type GooglePrivacyDlpV2LeaveUntransformed = GooglePrivacyDlpV2ActivateJobTriggerRequest;
 /** How to handle transformation errors during de-identification. A transformation error occurs when the requested transformation is incompatible with the data. For example, trying to de-identify an IP address using a `DateShift` transformation would result in a transformation error, since date info cannot be extracted from an IP address. Information about any incompatible transformations, and how they were handled, is returned in the response as part of the `TransformationOverviews`. */
 export interface GooglePrivacyDlpV2TransformationErrorHandling {
-  /** Ignore errors */
-  leaveUntransformed?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
   /** Throw an error */
-  throwError?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
+  throwError?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** Ignore errors */
+  leaveUntransformed?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
 }
 export type GooglePrivacyDlpV2ConditionOperatorEnum =
   | "RELATIONAL_OPERATOR_UNSPECIFIED"
@@ -846,18 +902,18 @@ export type GooglePrivacyDlpV2ConditionOperatorEnum =
   | "EXISTS";
 /** The field type of `value` and `field` do not need to match to be considered equal, but not all comparisons are possible. EQUAL_TO and NOT_EQUAL_TO attempt to compare even with incompatible types, but all other comparisons are invalid with incompatible types. A `value` of type: - `string` can be compared against all other types - `boolean` can only be compared against other booleans - `integer` can be compared against doubles or a string if the string value can be parsed as an integer. - `double` can be compared against integers or a string if the string can be parsed as a double. - `Timestamp` can be compared against strings in RFC 3339 date string format. - `TimeOfDay` can be compared against timestamps and strings in the format of 'HH:mm:ss'. If we fail to compare do to type mismatch, a warning will be given and the condition will evaluate to false. */
 export interface GooglePrivacyDlpV2Condition {
-  /** Value to compare against. [Mandatory, except for `EXISTS` tests.] */
-  value?: GooglePrivacyDlpV2Value;
-  /** Required. Operator used to compare the field or infoType to the value. */
-  operator?: GooglePrivacyDlpV2ConditionOperatorEnum | (string & {});
   /** Required. Field within the record this condition is evaluated against. */
-  field?: GooglePrivacyDlpV2FieldId;
+  field?: GooglePrivacyDlpV2FieldId | undefined;
+  /** Required. Operator used to compare the field or infoType to the value. */
+  operator?: GooglePrivacyDlpV2ConditionOperatorEnum | (string & {}) | undefined;
+  /** Value to compare against. [Mandatory, except for `EXISTS` tests.] */
+  value?: GooglePrivacyDlpV2Value | undefined;
 }
 export type GooglePrivacyDlpV2ConditionList = Array<GooglePrivacyDlpV2Condition>;
 /** A collection of conditions. */
 export interface GooglePrivacyDlpV2Conditions {
   /** A collection of conditions. */
-  conditions?: GooglePrivacyDlpV2ConditionList;
+  conditions?: GooglePrivacyDlpV2ConditionList | undefined;
 }
 export type GooglePrivacyDlpV2ExpressionsLogicalOperatorEnum =
   | "LOGICAL_OPERATOR_UNSPECIFIED"
@@ -865,210 +921,136 @@ export type GooglePrivacyDlpV2ExpressionsLogicalOperatorEnum =
 /** An expression, consisting of an operator and conditions. */
 export interface GooglePrivacyDlpV2Expressions {
   /** Conditions to apply to the expression. */
-  conditions?: GooglePrivacyDlpV2Conditions;
+  conditions?: GooglePrivacyDlpV2Conditions | undefined;
   /** The operator to apply to the result of conditions. Default and currently only supported value is `AND`. */
-  logicalOperator?: GooglePrivacyDlpV2ExpressionsLogicalOperatorEnum | (string & {});
+  logicalOperator?: GooglePrivacyDlpV2ExpressionsLogicalOperatorEnum | (string & {}) | undefined;
 }
 /** A condition for determining whether a transformation should be applied to a field. */
 export interface GooglePrivacyDlpV2RecordCondition {
   /** An expression. */
-  expressions?: GooglePrivacyDlpV2Expressions;
+  expressions?: GooglePrivacyDlpV2Expressions | undefined;
 }
 /** Configuration to suppress records whose suppression conditions evaluate to true. */
 export interface GooglePrivacyDlpV2RecordSuppression {
   /** A condition that when it evaluates to true will result in the record being evaluated to be suppressed from the transformed content. */
-  condition?: GooglePrivacyDlpV2RecordCondition;
+  condition?: GooglePrivacyDlpV2RecordCondition | undefined;
 }
 export type GooglePrivacyDlpV2RecordSuppressionList = Array<GooglePrivacyDlpV2RecordSuppression>;
 /** The transformation to apply to the field. */
 export interface GooglePrivacyDlpV2FieldTransformation {
-  /** Apply the transformation to the entire field. */
-  primitiveTransformation?: GooglePrivacyDlpV2PrimitiveTransformation;
   /** Required. Input field(s) to apply the transformation to. When you have columns that reference their position within a list, omit the index from the FieldId. FieldId name matching ignores the index. For example, instead of "contact.nums[0].type", use "contact.nums.type". */
-  fields?: GooglePrivacyDlpV2FieldIdList;
-  /** Treat the contents of the field as free text, and selectively transform content that matches an `InfoType`. */
-  infoTypeTransformations?: GooglePrivacyDlpV2InfoTypeTransformations;
+  fields?: GooglePrivacyDlpV2FieldIdList | undefined;
   /** Only apply the transformation if the condition evaluates to true for the given `RecordCondition`. The conditions are allowed to reference fields that are not used in the actual transformation. Example Use Cases: - Apply a different bucket transformation to an age column if the zip code column for the same record is within a specific range. - Redact a field if the date of birth field is greater than 85. */
-  condition?: GooglePrivacyDlpV2RecordCondition;
+  condition?: GooglePrivacyDlpV2RecordCondition | undefined;
+  /** Apply the transformation to the entire field. */
+  primitiveTransformation?: GooglePrivacyDlpV2PrimitiveTransformation | undefined;
+  /** Treat the contents of the field as free text, and selectively transform content that matches an `InfoType`. */
+  infoTypeTransformations?: GooglePrivacyDlpV2InfoTypeTransformations | undefined;
 }
 export type GooglePrivacyDlpV2FieldTransformationList =
   Array<GooglePrivacyDlpV2FieldTransformation>;
 /** A type of transformation that is applied over structured data such as a table. */
 export interface GooglePrivacyDlpV2RecordTransformations {
   /** Configuration defining which records get suppressed entirely. Records that match any suppression rule are omitted from the output. */
-  recordSuppressions?: GooglePrivacyDlpV2RecordSuppressionList;
+  recordSuppressions?: GooglePrivacyDlpV2RecordSuppressionList | undefined;
   /** Transform the record by applying various field transformations. */
-  fieldTransformations?: GooglePrivacyDlpV2FieldTransformationList;
-}
-/** Apply to all text. */
-export type GooglePrivacyDlpV2AllText = GooglePrivacyDlpV2ActivateJobTriggerRequest;
-/** Apply transformation to all findings. */
-export type GooglePrivacyDlpV2AllInfoTypes = GooglePrivacyDlpV2ActivateJobTriggerRequest;
-/** Represents a color in the RGB color space. */
-export interface GooglePrivacyDlpV2Color {
-  /** The amount of red in the color as a value in the interval [0, 1]. */
-  red?: number;
-  /** The amount of green in the color as a value in the interval [0, 1]. */
-  green?: number;
-  /** The amount of blue in the color as a value in the interval [0, 1]. */
-  blue?: number;
-}
-/** Apply transformation to the selected info_types. */
-export interface GooglePrivacyDlpV2SelectedInfoTypes {
-  /** Required. InfoTypes to apply the transformation to. Required. Provided InfoType must be unique within the ImageTransformations message. */
-  infoTypes?: GooglePrivacyDlpV2InfoTypeList;
-}
-/** Configuration for determining how redaction of images should occur. */
-export interface GooglePrivacyDlpV2ImageTransformation {
-  /** Apply transformation to all text that doesn't match an infoType. Only one instance is allowed within the ImageTransformations message. */
-  allText?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-  /** Apply transformation to all findings not specified in other ImageTransformation's selected_info_types. Only one instance is allowed within the ImageTransformations message. */
-  allInfoTypes?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-  /** The color to use when redacting content from an image. If not specified, the default is black. */
-  redactionColor?: GooglePrivacyDlpV2Color;
-  /** Apply transformation to the selected info_types. */
-  selectedInfoTypes?: GooglePrivacyDlpV2SelectedInfoTypes;
-}
-export type GooglePrivacyDlpV2ImageTransformationList =
-  Array<GooglePrivacyDlpV2ImageTransformation>;
-/** A type of transformation that is applied over images. */
-export interface GooglePrivacyDlpV2ImageTransformations {
-  /** List of transforms to make. */
-  transforms?: GooglePrivacyDlpV2ImageTransformationList;
+  fieldTransformations?: GooglePrivacyDlpV2FieldTransformationList | undefined;
 }
 /** The configuration that controls how the data will change. */
 export interface GooglePrivacyDlpV2DeidentifyConfig {
   /** Treat the dataset as free-form text and apply the same free text transformation everywhere. */
-  infoTypeTransformations?: GooglePrivacyDlpV2InfoTypeTransformations;
-  /** Mode for handling transformation errors. If left unspecified, the default mode is `TransformationErrorHandling.ThrowError`. */
-  transformationErrorHandling?: GooglePrivacyDlpV2TransformationErrorHandling;
-  /** Treat the dataset as structured. Transformations can be applied to specific locations within structured datasets, such as transforming a column within a table. */
-  recordTransformations?: GooglePrivacyDlpV2RecordTransformations;
+  infoTypeTransformations?: GooglePrivacyDlpV2InfoTypeTransformations | undefined;
   /** Treat the dataset as an image and redact. */
-  imageTransformations?: GooglePrivacyDlpV2ImageTransformations;
+  imageTransformations?: GooglePrivacyDlpV2ImageTransformations | undefined;
+  /** Mode for handling transformation errors. If left unspecified, the default mode is `TransformationErrorHandling.ThrowError`. */
+  transformationErrorHandling?: GooglePrivacyDlpV2TransformationErrorHandling | undefined;
+  /** Treat the dataset as structured. Transformations can be applied to specific locations within structured datasets, such as transforming a column within a table. */
+  recordTransformations?: GooglePrivacyDlpV2RecordTransformations | undefined;
 }
 /** DeidentifyTemplates contains instructions on how to de-identify content. See https://docs.cloud.google.com/sensitive-data-protection/docs/concepts-templates to learn more. */
 export interface GooglePrivacyDlpV2DeidentifyTemplate {
-  /** Output only. The last update timestamp of an inspectTemplate. */
-  updateTime?: string;
-  /** Display name (max 256 chars). */
-  displayName?: string;
-  /** The core content of the template. */
-  deidentifyConfig?: GooglePrivacyDlpV2DeidentifyConfig;
-  /** Output only. The creation timestamp of an inspectTemplate. */
-  createTime?: string;
-  /** Short description (max 256 chars). */
-  description?: string;
   /** Output only. The template name. The template will have one of the following formats: `projects/PROJECT_ID/deidentifyTemplates/TEMPLATE_ID` OR `organizations/ORGANIZATION_ID/deidentifyTemplates/TEMPLATE_ID` */
-  name?: string;
+  name?: string | undefined;
+  /** Output only. The last update timestamp of an inspectTemplate. */
+  updateTime?: string | undefined;
+  /** The core content of the template. */
+  deidentifyConfig?: GooglePrivacyDlpV2DeidentifyConfig | undefined;
+  /** Display name (max 256 chars). */
+  displayName?: string | undefined;
+  /** Output only. The creation timestamp of an inspectTemplate. */
+  createTime?: string | undefined;
+  /** Short description (max 256 chars). */
+  description?: string | undefined;
 }
 /** De-identification options. */
 export interface GooglePrivacyDlpV2RequestedDeidentifyOptions {
-  /** Snapshot of the state of the structured `DeidentifyTemplate` from the `Deidentify` action at the time this job was run. */
-  snapshotStructuredDeidentifyTemplate?: GooglePrivacyDlpV2DeidentifyTemplate;
   /** Snapshot of the state of the `DeidentifyTemplate` from the Deidentify action at the time this job was run. */
-  snapshotDeidentifyTemplate?: GooglePrivacyDlpV2DeidentifyTemplate;
+  snapshotDeidentifyTemplate?: GooglePrivacyDlpV2DeidentifyTemplate | undefined;
   /** Snapshot of the state of the image transformation `DeidentifyTemplate` from the `Deidentify` action at the time this job was run. */
-  snapshotImageRedactTemplate?: GooglePrivacyDlpV2DeidentifyTemplate;
+  snapshotImageRedactTemplate?: GooglePrivacyDlpV2DeidentifyTemplate | undefined;
+  /** Snapshot of the state of the structured `DeidentifyTemplate` from the `Deidentify` action at the time this job was run. */
+  snapshotStructuredDeidentifyTemplate?: GooglePrivacyDlpV2DeidentifyTemplate | undefined;
 }
 /** Summary of what was modified during a transformation. */
 export interface GooglePrivacyDlpV2DeidentifyDataSourceStats {
   /** Number of successfully applied transformations. */
-  transformationCount?: string;
-  /** Number of errors encountered while trying to apply transformations. */
-  transformationErrorCount?: string;
+  transformationCount?: string | undefined;
   /** Total size in bytes that were transformed in some way. */
-  transformedBytes?: string;
+  transformedBytes?: string | undefined;
+  /** Number of errors encountered while trying to apply transformations. */
+  transformationErrorCount?: string | undefined;
 }
 /** The results of a Deidentify action from an inspect job. */
 export interface GooglePrivacyDlpV2DeidentifyDataSourceDetails {
   /** De-identification config used for the request. */
-  requestedOptions?: GooglePrivacyDlpV2RequestedDeidentifyOptions;
+  requestedOptions?: GooglePrivacyDlpV2RequestedDeidentifyOptions | undefined;
   /** Stats about the de-identification operation. */
-  deidentifyStats?: GooglePrivacyDlpV2DeidentifyDataSourceStats;
+  deidentifyStats?: GooglePrivacyDlpV2DeidentifyDataSourceStats | undefined;
 }
 /** The results of an Action. */
 export interface GooglePrivacyDlpV2ActionDetails {
   /** Outcome of a de-identification action. */
-  deidentifyDetails?: GooglePrivacyDlpV2DeidentifyDataSourceDetails;
+  deidentifyDetails?: GooglePrivacyDlpV2DeidentifyDataSourceDetails | undefined;
 }
 export type GooglePrivacyDlpV2ActionDetailsList = Array<GooglePrivacyDlpV2ActionDetails>;
-/** Statistics regarding a specific InfoType. */
-export interface GooglePrivacyDlpV2InfoTypeStats {
-  /** The type of finding this stat is for. */
-  infoType?: GooglePrivacyDlpV2InfoType;
-  /** Number of findings for this infoType. */
-  count?: string;
-}
-export type GooglePrivacyDlpV2InfoTypeStatsList = Array<GooglePrivacyDlpV2InfoTypeStats>;
-/** Statistics related to processing hybrid inspect requests. */
-export interface GooglePrivacyDlpV2HybridInspectStatistics {
-  /** The number of hybrid inspection requests aborted because the job ran out of quota or was ended before they could be processed. */
-  abortedCount?: string;
-  /** The number of hybrid inspection requests processed within this job. */
-  processedCount?: string;
-  /** The number of hybrid requests currently being processed. Only populated when called via method `getDlpJob`. A burst of traffic may cause hybrid inspect requests to be enqueued. Processing will take place as quickly as possible, but resource limitations may impact how long a request is enqueued for. */
-  pendingCount?: string;
-}
-/** All Result fields are updated while the job is processing. */
-export interface GooglePrivacyDlpV2Result {
-  /** Statistics of how many instances of each info type were found during inspect job. */
-  infoTypeStats?: GooglePrivacyDlpV2InfoTypeStatsList;
-  /** Number of rows scanned after sampling and time filtering (applicable for row based stores such as BigQuery). */
-  numRowsProcessed?: string;
-  /** Estimate of the number of bytes to process. */
-  totalEstimatedBytes?: string;
-  /** Total size in bytes that were processed. */
-  processedBytes?: string;
-  /** Statistics related to the processing of hybrid inspect. */
-  hybridStats?: GooglePrivacyDlpV2HybridInspectStatistics;
-}
 /** Max findings configuration per infoType, per content item or long running DlpJob. */
 export interface GooglePrivacyDlpV2InfoTypeLimit {
-  /** Max findings limit for the given infoType. */
-  maxFindings?: number;
   /** Type of information the findings limit applies to. Only one limit per info_type should be provided. If InfoTypeLimit does not have an info_type, the DLP API applies the limit against all info_types that are found but not specified in another InfoTypeLimit. */
-  infoType?: GooglePrivacyDlpV2InfoType;
+  infoType?: GooglePrivacyDlpV2InfoType | undefined;
+  /** Max findings limit for the given infoType. */
+  maxFindings?: number | undefined;
 }
 export type GooglePrivacyDlpV2InfoTypeLimitList = Array<GooglePrivacyDlpV2InfoTypeLimit>;
 /** Configuration to control the number of findings returned for inspection. This is not used for de-identification or data profiling. When redacting sensitive data from images, finding limits don't apply. They can cause unexpected or inconsistent results, where only some data is redacted. Don't include finding limits in RedactImage requests. Otherwise, Cloud DLP returns an error. */
 export interface GooglePrivacyDlpV2FindingLimits {
-  /** Max number of findings that are returned per request or job. If you set this field in an InspectContentRequest, the resulting maximum value is the value that you set or 3,000, whichever is lower. This value isn't a hard limit. If an inspection reaches this limit, the inspection ends gradually, not abruptly. Therefore, the actual number of findings that Cloud DLP returns can be multiple times higher than this value. */
-  maxFindingsPerRequest?: number;
-  /** Configuration of findings limit given for specified infoTypes. */
-  maxFindingsPerInfoType?: GooglePrivacyDlpV2InfoTypeLimitList;
   /** Max number of findings that are returned for each item scanned. When set within an InspectContentRequest, this field is ignored. This value isn't a hard limit. If the number of findings for an item reaches this limit, the inspection of that item ends gradually, not abruptly. Therefore, the actual number of findings that Cloud DLP returns for the item can be multiple times higher than this value. */
-  maxFindingsPerItem?: number;
+  maxFindingsPerItem?: number | undefined;
+  /** Configuration of findings limit given for specified infoTypes. */
+  maxFindingsPerInfoType?: GooglePrivacyDlpV2InfoTypeLimitList | undefined;
+  /** Max number of findings that are returned per request or job. If you set this field in an InspectContentRequest, the resulting maximum value is the value that you set or 3,000, whichever is lower. This value isn't a hard limit. If an inspection reaches this limit, the inspection ends gradually, not abruptly. Therefore, the actual number of findings that Cloud DLP returns can be multiple times higher than this value. */
+  maxFindingsPerRequest?: number | undefined;
 }
-export type GooglePrivacyDlpV2InfoTypeLikelihoodMinLikelihoodEnum =
-  | "LIKELIHOOD_UNSPECIFIED"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-/** Configuration for setting a minimum likelihood per infotype. Used to customize the minimum likelihood level for specific infotypes in the request. For example, use this if you want to lower the precision for PERSON_NAME without lowering the precision for the other infotypes in the request. */
-export interface GooglePrivacyDlpV2InfoTypeLikelihood {
-  /** Only returns findings equal to or above this threshold. This field is required or else the configuration fails. */
-  minLikelihood?: GooglePrivacyDlpV2InfoTypeLikelihoodMinLikelihoodEnum | (string & {});
-  /** Type of information the likelihood threshold applies to. Only one likelihood per info_type should be provided. If InfoTypeLikelihood does not have an info_type, the configuration fails. */
-  infoType?: GooglePrivacyDlpV2InfoType;
-}
-export type GooglePrivacyDlpV2InfoTypeLikelihoodList = Array<GooglePrivacyDlpV2InfoTypeLikelihood>;
-/** Message for specifying a window around a finding to apply a detection rule. */
-export interface GooglePrivacyDlpV2Proximity {
-  /** Number of characters after the finding to consider. */
-  windowAfter?: number;
-  /** Number of characters before the finding to consider. For tabular data, if you want to modify the likelihood of an entire column of findngs, set this to 1. For more information, see [Hotword example: Set the match likelihood of a table column] (https://docs.cloud.google.com/sensitive-data-protection/docs/creating-custom-infotypes-likelihood#match-column-values). */
-  windowBefore?: number;
+/** A reference to a StoredInfoType to use with scanning. */
+export interface GooglePrivacyDlpV2StoredType {
+  /** Resource name of the requested `StoredInfoType`, for example `organizations/433245324/storedInfoTypes/432452342` or `projects/project-id/storedInfoTypes/432452342`. */
+  name?: string | undefined;
+  /** Timestamp indicating when the version of the `StoredInfoType` used for inspection was created. Output-only field, populated by the system. */
+  createTime?: string | undefined;
 }
 export type IntegerList = Array<number>;
 /** Message defining a custom regular expression. */
 export interface GooglePrivacyDlpV2Regex {
-  /** The index of the submatch to extract as findings. When not specified, the entire match is returned. No more than 3 may be included. */
-  groupIndexes?: IntegerList;
   /** Pattern defining the regular expression. Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub. */
-  pattern?: string;
+  pattern?: string | undefined;
+  /** The index of the submatch to extract as findings. When not specified, the entire match is returned. No more than 3 may be included. */
+  groupIndexes?: IntegerList | undefined;
+}
+/** Message for specifying a window around a finding to apply a detection rule. */
+export interface GooglePrivacyDlpV2Proximity {
+  /** Number of characters before the finding to consider. For tabular data, if you want to modify the likelihood of an entire column of findngs, set this to 1. For more information, see [Hotword example: Set the match likelihood of a table column] (https://docs.cloud.google.com/sensitive-data-protection/docs/creating-custom-infotypes-likelihood#match-column-values). */
+  windowBefore?: number | undefined;
+  /** Number of characters after the finding to consider. */
+  windowAfter?: number | undefined;
 }
 export type GooglePrivacyDlpV2LikelihoodAdjustmentFixedLikelihoodEnum =
   | "LIKELIHOOD_UNSPECIFIED"
@@ -1079,19 +1061,129 @@ export type GooglePrivacyDlpV2LikelihoodAdjustmentFixedLikelihoodEnum =
   | "VERY_LIKELY";
 /** Message for specifying an adjustment to the likelihood of a finding as part of a detection rule. */
 export interface GooglePrivacyDlpV2LikelihoodAdjustment {
-  /** Increase or decrease the likelihood by the specified number of levels. For example, if a finding would be `POSSIBLE` without the detection rule and `relative_likelihood` is 1, then it is upgraded to `LIKELY`, while a value of -1 would downgrade it to `UNLIKELY`. Likelihood may never drop below `VERY_UNLIKELY` or exceed `VERY_LIKELY`, so applying an adjustment of 1 followed by an adjustment of -1 when base likelihood is `VERY_LIKELY` will result in a final likelihood of `LIKELY`. */
-  relativeLikelihood?: number;
   /** Set the likelihood of a finding to a fixed value. */
-  fixedLikelihood?: GooglePrivacyDlpV2LikelihoodAdjustmentFixedLikelihoodEnum | (string & {});
+  fixedLikelihood?:
+    | GooglePrivacyDlpV2LikelihoodAdjustmentFixedLikelihoodEnum
+    | (string & {})
+    | undefined;
+  /** Increase or decrease the likelihood by the specified number of levels. For example, if a finding would be `POSSIBLE` without the detection rule and `relative_likelihood` is 1, then it is upgraded to `LIKELY`, while a value of -1 would downgrade it to `UNLIKELY`. Likelihood may never drop below `VERY_UNLIKELY` or exceed `VERY_LIKELY`, so applying an adjustment of 1 followed by an adjustment of -1 when base likelihood is `VERY_LIKELY` will result in a final likelihood of `LIKELY`. */
+  relativeLikelihood?: number | undefined;
 }
 /** The rule that adjusts the likelihood of findings within a certain proximity of hotwords. */
 export interface GooglePrivacyDlpV2HotwordRule {
   /** Range of characters within which the entire hotword must reside. The total length of the window cannot exceed 1000 characters. The finding itself will be included in the window, so that hotwords can be used to match substrings of the finding itself. Suppose you want Cloud DLP to promote the likelihood of the phone number regex "\(\d{3}\) \d{3}-\d{4}" if the area code is known to be the area code of a company's office. In this case, use the hotword regex "\(xxx\)", where "xxx" is the area code in question. For tabular data, if you want to modify the likelihood of an entire column of findngs, see [Hotword example: Set the match likelihood of a table column] (https://docs.cloud.google.com/sensitive-data-protection/docs/creating-custom-infotypes-likelihood#match-column-values). */
-  proximity?: GooglePrivacyDlpV2Proximity;
-  /** Regular expression pattern defining what qualifies as a hotword. */
-  hotwordRegex?: GooglePrivacyDlpV2Regex;
+  proximity?: GooglePrivacyDlpV2Proximity | undefined;
   /** Likelihood adjustment to apply to all matching findings. */
-  likelihoodAdjustment?: GooglePrivacyDlpV2LikelihoodAdjustment;
+  likelihoodAdjustment?: GooglePrivacyDlpV2LikelihoodAdjustment | undefined;
+  /** Regular expression pattern defining what qualifies as a hotword. */
+  hotwordRegex?: GooglePrivacyDlpV2Regex | undefined;
+}
+/** Deprecated; use `InspectionRuleSet` instead. Rule for modifying a `CustomInfoType` to alter behavior under certain circumstances, depending on the specific details of the rule. Not supported for the `surrogate_type` custom infoType. */
+export interface GooglePrivacyDlpV2DetectionRule {
+  /** Hotword-based detection rule. */
+  hotwordRule?: GooglePrivacyDlpV2HotwordRule | undefined;
+}
+export type GooglePrivacyDlpV2DetectionRuleList = Array<GooglePrivacyDlpV2DetectionRule>;
+/** Sensitivity labels published by Microsoft. */
+export interface GooglePrivacyDlpV2SensitivityLabel {
+  /** The GUID of the sensitivity label. */
+  guid?: string | undefined;
+}
+/** The field values of the Google Drive label to match. */
+export interface GooglePrivacyDlpV2LabelField {
+  /** The identifier of the Label Field. */
+  id?: string | undefined;
+  /** The value of the Label Field to match. */
+  value?: string | undefined;
+}
+export type GooglePrivacyDlpV2LabelFieldList = Array<GooglePrivacyDlpV2LabelField>;
+/** Google Drive labels published by Google. */
+export interface GooglePrivacyDlpV2GoogleDriveLabel {
+  /** The [label ID](https://developers.google.com/workspace/drive/labels/guides/overview) of the Google Drive label. */
+  labelId?: string | undefined;
+  /** The field values of the Google Drive label to match. */
+  labelFieldsToMatch?: GooglePrivacyDlpV2LabelFieldList | undefined;
+}
+/** Configuration for a custom infoType that detects file labels. */
+export interface GooglePrivacyDlpV2FileLabelInfoType {
+  /** Sensitivity labels published by Microsoft. */
+  sensitivityLabel?: GooglePrivacyDlpV2SensitivityLabel | undefined;
+  /** Google Drive labels published by Google. */
+  googleDriveLabel?: GooglePrivacyDlpV2GoogleDriveLabel | undefined;
+}
+export type GooglePrivacyDlpV2CustomInfoTypeLikelihoodEnum =
+  | "LIKELIHOOD_UNSPECIFIED"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+/** Configuration for a custom infoType that detects key-value pairs in the metadata matching the specified regular expressions. */
+export interface GooglePrivacyDlpV2MetadataKeyValueExpression {
+  /** The regular expression for the value. Value should be non-empty. */
+  valueRegex?: string | undefined;
+  /** The regular expression for the key. Key should be non-empty. */
+  keyRegex?: string | undefined;
+}
+/** Custom information type based on a dictionary of words or phrases. This can be used to match sensitive information specific to the data, such as a list of employee IDs or job titles. Dictionary words are case-insensitive and all characters other than letters and digits in the unicode [Basic Multilingual Plane](https://en.wikipedia.org/wiki/Plane_%28Unicode%29#Basic_Multilingual_Plane) will be replaced with whitespace when scanning for matches, so the dictionary phrase "Sam Johnson" will match all three phrases "sam johnson", "Sam, Johnson", and "Sam (Johnson)". Additionally, the characters surrounding any match must be of a different type than the adjacent characters within the word, so letters must be next to non-letters and digits next to non-digits. For example, the dictionary word "jen" will match the first three letters of the text "jen123" but will return no matches for "jennifer". Dictionary words containing a large number of characters that are not letters or digits may result in unexpected findings because such characters are treated as whitespace. The [limits](https://docs.cloud.google.com/sensitive-data-protection/limits) page contains details about the size limits of dictionaries. For dictionaries that do not fit within these constraints, consider using `LargeCustomDictionaryConfig` in the `StoredInfoType` API. */
+export interface GooglePrivacyDlpV2Dictionary {
+  /** Newline-delimited file of words in Cloud Storage. Only a single file is accepted. */
+  cloudStoragePath?: GooglePrivacyDlpV2CloudStoragePath | undefined;
+  /** List of words or phrases to search for. */
+  wordList?: GooglePrivacyDlpV2WordList | undefined;
+}
+export type GooglePrivacyDlpV2CustomInfoTypeExclusionTypeEnum =
+  | "EXCLUSION_TYPE_UNSPECIFIED"
+  | "EXCLUSION_TYPE_EXCLUDE";
+/** Message for detecting output from deidentification transformations such as [`CryptoReplaceFfxFpeConfig`](https://docs.cloud.google.com/sensitive-data-protection/docs/reference/rest/v2/organizations.deidentifyTemplates#cryptoreplaceffxfpeconfig). These types of transformations are those that perform pseudonymization, thereby producing a "surrogate" as output. This should be used in conjunction with a field on the transformation such as `surrogate_info_type`. This CustomInfoType does not support the use of `detection_rules`. */
+export type GooglePrivacyDlpV2SurrogateType = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Custom information type provided by the user. Used to find domain-specific sensitive information configurable to the data in question. */
+export interface GooglePrivacyDlpV2CustomInfoType {
+  /** Loads an existing `StoredInfoType` resource. */
+  storedType?: GooglePrivacyDlpV2StoredType | undefined;
+  /** Sensitivity for this CustomInfoType. If this CustomInfoType extends an existing InfoType, the sensitivity here will take precedence over that of the original InfoType. If unset for a CustomInfoType, it will default to HIGH. This only applies to data profiling. */
+  sensitivityScore?: GooglePrivacyDlpV2SensitivityScore | undefined;
+  /** Regular expression based CustomInfoType. */
+  regex?: GooglePrivacyDlpV2Regex | undefined;
+  /** Set of detection rules to apply to all findings of this CustomInfoType. Rules are applied in the order that they are specified. Only supported for the `dictionary`, `regex`, and `stored_type` CustomInfoTypes. */
+  detectionRules?: GooglePrivacyDlpV2DetectionRuleList | undefined;
+  /** File label to detect. */
+  fileLabelInfoType?: GooglePrivacyDlpV2FileLabelInfoType | undefined;
+  /** Likelihood to return for this CustomInfoType. This base value can be altered by a detection rule if the finding meets the criteria specified by the rule. Defaults to `VERY_LIKELY` if not specified. */
+  likelihood?: GooglePrivacyDlpV2CustomInfoTypeLikelihoodEnum | (string & {}) | undefined;
+  /** CustomInfoType can either be a new infoType, or an extension of built-in infoType, when the name matches one of existing infoTypes and that infoType is specified in `InspectContent.info_types` field. Specifying the latter adds findings to the one detected by the system. If built-in info type is not specified in `InspectContent.info_types` list then the name is treated as a custom info type. */
+  infoType?: GooglePrivacyDlpV2InfoType | undefined;
+  /** Key-value pair to detect in the metadata. */
+  metadataKeyValueExpression?: GooglePrivacyDlpV2MetadataKeyValueExpression | undefined;
+  /** A list of phrases to detect as a CustomInfoType. */
+  dictionary?: GooglePrivacyDlpV2Dictionary | undefined;
+  /** If set to EXCLUSION_TYPE_EXCLUDE this infoType will not cause a finding to be returned. It still can be used for rules matching. Only supported for the `dictionary`, `regex`, and `stored_type` CustomInfoTypes. */
+  exclusionType?: GooglePrivacyDlpV2CustomInfoTypeExclusionTypeEnum | (string & {}) | undefined;
+  /** Message for detecting output from deidentification transformations that support reversing. */
+  surrogateType?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+}
+export type GooglePrivacyDlpV2CustomInfoTypeList = Array<GooglePrivacyDlpV2CustomInfoType>;
+/** Defines a condition for overlapping bounding boxes. */
+export type GooglePrivacyDlpV2Overlap = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Defines a condition where one bounding box encloses another. */
+export type GooglePrivacyDlpV2Encloses = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Defines a condition where one bounding box is fully inside another. */
+export type GooglePrivacyDlpV2FullyInside = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Specifies the relationship between bounding boxes for image findings. */
+export interface GooglePrivacyDlpV2ImageContainmentType {
+  /** The context finding's bounding box and the target finding's bounding box must have a non-zero intersection. */
+  overlaps?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** The context finding's bounding box must fully contain the target finding's bounding box. */
+  encloses?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** The context finding's bounding box must be fully inside the target finding's bounding box. */
+  fullyInside?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+}
+/** The rule to exclude image findings based on spatial relationships with other image findings. For example, exclude an image finding if it overlaps with another image finding. This rule is silently ignored if the content being inspected is not an image. */
+export interface GooglePrivacyDlpV2ExcludeByImageFindings {
+  /** Specifies the required spatial relationship between the bounding boxes of the target finding and the context infoType findings. */
+  imageContainmentType?: GooglePrivacyDlpV2ImageContainmentType | undefined;
+  /** A list of image-supported infoTypes--excluding [document infoTypes](https://docs.cloud.google.com/sensitive-data-protection/docs/infotypes-reference#documents)--to be used as context for the exclusion rule. A finding is excluded if its bounding box has the specified spatial relationship (defined by `image_containment_type`) with a finding of an infoType in this list. For example, if `InspectionRuleSet.info_types` includes `OBJECT_TYPE/PERSON` and this `exclusion_rule` specifies `info_types` as `OBJECT_TYPE/PERSON/PASSPORT` with `image_containment_type` set to `encloses`, then `OBJECT_TYPE/PERSON` findings will be excluded if they are fully contained within the bounding box of an `OBJECT_TYPE/PERSON/PASSPORT` finding. */
+  infoTypes?: GooglePrivacyDlpV2InfoTypeList | undefined;
 }
 export type GooglePrivacyDlpV2ExclusionRuleMatchingTypeEnum =
   | "MATCHING_TYPE_UNSPECIFIED"
@@ -1099,61 +1191,60 @@ export type GooglePrivacyDlpV2ExclusionRuleMatchingTypeEnum =
   | "MATCHING_TYPE_PARTIAL_MATCH"
   | "MATCHING_TYPE_INVERSE_MATCH"
   | "MATCHING_TYPE_RULE_SPECIFIC";
-/** Defines a condition where one bounding box encloses another. */
-export type GooglePrivacyDlpV2Encloses = GooglePrivacyDlpV2ActivateJobTriggerRequest;
-/** Defines a condition where one bounding box is fully inside another. */
-export type GooglePrivacyDlpV2FullyInside = GooglePrivacyDlpV2ActivateJobTriggerRequest;
-/** Defines a condition for overlapping bounding boxes. */
-export type GooglePrivacyDlpV2Overlap = GooglePrivacyDlpV2ActivateJobTriggerRequest;
-/** Specifies the relationship between bounding boxes for image findings. */
-export interface GooglePrivacyDlpV2ImageContainmentType {
-  /** The context finding's bounding box must fully contain the target finding's bounding box. */
-  encloses?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-  /** The context finding's bounding box must be fully inside the target finding's bounding box. */
-  fullyInside?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-  /** The context finding's bounding box and the target finding's bounding box must have a non-zero intersection. */
-  overlaps?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-}
-/** The rule to exclude image findings based on spatial relationships with other image findings. For example, exclude an image finding if it overlaps with another image finding. This rule is silently ignored if the content being inspected is not an image. */
-export interface GooglePrivacyDlpV2ExcludeByImageFindings {
-  /** A list of image-supported infoTypes--excluding [document infoTypes](https://docs.cloud.google.com/sensitive-data-protection/docs/infotypes-reference#documents)--to be used as context for the exclusion rule. A finding is excluded if its bounding box has the specified spatial relationship (defined by `image_containment_type`) with a finding of an infoType in this list. For example, if `InspectionRuleSet.info_types` includes `OBJECT_TYPE/PERSON` and this `exclusion_rule` specifies `info_types` as `OBJECT_TYPE/PERSON/PASSPORT` with `image_containment_type` set to `encloses`, then `OBJECT_TYPE/PERSON` findings will be excluded if they are fully contained within the bounding box of an `OBJECT_TYPE/PERSON/PASSPORT` finding. */
-  infoTypes?: GooglePrivacyDlpV2InfoTypeList;
-  /** Specifies the required spatial relationship between the bounding boxes of the target finding and the context infoType findings. */
-  imageContainmentType?: GooglePrivacyDlpV2ImageContainmentType;
-}
 /** List of excluded infoTypes. */
 export interface GooglePrivacyDlpV2ExcludeInfoTypes {
   /** InfoType list in ExclusionRule rule drops a finding when it overlaps or contained within with a finding of an infoType from this list. For example, for `InspectionRuleSet.info_types` containing "PHONE_NUMBER"` and `exclusion_rule` containing `exclude_info_types.info_types` with "EMAIL_ADDRESS" the phone number findings are dropped if they overlap with EMAIL_ADDRESS finding. That leads to "555-222-2222@example.org" to generate only a single finding, namely email address. */
-  infoTypes?: GooglePrivacyDlpV2InfoTypeList;
+  infoTypes?: GooglePrivacyDlpV2InfoTypeList | undefined;
 }
 /** The rule to exclude findings based on a hotword. For record inspection of tables, column names are considered hotwords. An example of this is to exclude a finding if it belongs to a BigQuery column that matches a specific pattern. */
 export interface GooglePrivacyDlpV2ExcludeByHotword {
   /** Range of characters within which the entire hotword must reside. The total length of the window cannot exceed 1000 characters. The windowBefore property in proximity should be set to 1 if the hotword needs to be included in a column header. */
-  proximity?: GooglePrivacyDlpV2Proximity;
+  proximity?: GooglePrivacyDlpV2Proximity | undefined;
   /** Regular expression pattern defining what qualifies as a hotword. */
-  hotwordRegex?: GooglePrivacyDlpV2Regex;
-}
-/** Custom information type based on a dictionary of words or phrases. This can be used to match sensitive information specific to the data, such as a list of employee IDs or job titles. Dictionary words are case-insensitive and all characters other than letters and digits in the unicode [Basic Multilingual Plane](https://en.wikipedia.org/wiki/Plane_%28Unicode%29#Basic_Multilingual_Plane) will be replaced with whitespace when scanning for matches, so the dictionary phrase "Sam Johnson" will match all three phrases "sam johnson", "Sam, Johnson", and "Sam (Johnson)". Additionally, the characters surrounding any match must be of a different type than the adjacent characters within the word, so letters must be next to non-letters and digits next to non-digits. For example, the dictionary word "jen" will match the first three letters of the text "jen123" but will return no matches for "jennifer". Dictionary words containing a large number of characters that are not letters or digits may result in unexpected findings because such characters are treated as whitespace. The [limits](https://docs.cloud.google.com/sensitive-data-protection/limits) page contains details about the size limits of dictionaries. For dictionaries that do not fit within these constraints, consider using `LargeCustomDictionaryConfig` in the `StoredInfoType` API. */
-export interface GooglePrivacyDlpV2Dictionary {
-  /** Newline-delimited file of words in Cloud Storage. Only a single file is accepted. */
-  cloudStoragePath?: GooglePrivacyDlpV2CloudStoragePath;
-  /** List of words or phrases to search for. */
-  wordList?: GooglePrivacyDlpV2WordList;
+  hotwordRegex?: GooglePrivacyDlpV2Regex | undefined;
 }
 /** The rule that specifies conditions when findings of infoTypes specified in `InspectionRuleSet` are removed from results. */
 export interface GooglePrivacyDlpV2ExclusionRule {
-  /** How the rule is applied, see MatchingType documentation for details. */
-  matchingType?: GooglePrivacyDlpV2ExclusionRuleMatchingTypeEnum | (string & {});
-  /** Exclude findings based on image containment rules. For example, exclude an image finding if it overlaps with another image finding. */
-  excludeByImageFindings?: GooglePrivacyDlpV2ExcludeByImageFindings;
-  /** Set of infoTypes for which findings would affect this rule. */
-  excludeInfoTypes?: GooglePrivacyDlpV2ExcludeInfoTypes;
-  /** Drop if the hotword rule is contained in the proximate context. For tabular data, the context includes the column name. */
-  excludeByHotword?: GooglePrivacyDlpV2ExcludeByHotword;
   /** Dictionary which defines the rule. */
-  dictionary?: GooglePrivacyDlpV2Dictionary;
+  dictionary?: GooglePrivacyDlpV2Dictionary | undefined;
+  /** Exclude findings based on image containment rules. For example, exclude an image finding if it overlaps with another image finding. */
+  excludeByImageFindings?: GooglePrivacyDlpV2ExcludeByImageFindings | undefined;
+  /** How the rule is applied, see MatchingType documentation for details. */
+  matchingType?: GooglePrivacyDlpV2ExclusionRuleMatchingTypeEnum | (string & {}) | undefined;
+  /** Set of infoTypes for which findings would affect this rule. */
+  excludeInfoTypes?: GooglePrivacyDlpV2ExcludeInfoTypes | undefined;
+  /** Drop if the hotword rule is contained in the proximate context. For tabular data, the context includes the column name. */
+  excludeByHotword?: GooglePrivacyDlpV2ExcludeByHotword | undefined;
   /** Regular expression which defines the rule. */
-  regex?: GooglePrivacyDlpV2Regex;
+  regex?: GooglePrivacyDlpV2Regex | undefined;
+}
+export type GooglePrivacyDlpV2AdjustByMatchingInfoTypesMinLikelihoodEnum =
+  | "LIKELIHOOD_UNSPECIFIED"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+export type GooglePrivacyDlpV2AdjustByMatchingInfoTypesMatchingTypeEnum =
+  | "MATCHING_TYPE_UNSPECIFIED"
+  | "MATCHING_TYPE_FULL_MATCH"
+  | "MATCHING_TYPE_PARTIAL_MATCH"
+  | "MATCHING_TYPE_INVERSE_MATCH"
+  | "MATCHING_TYPE_RULE_SPECIFIC";
+/** AdjustmentRule condition for matching infoTypes. */
+export interface GooglePrivacyDlpV2AdjustByMatchingInfoTypes {
+  /** Required. Minimum likelihood of the `adjust_by_matching_info_types.info_types` finding. If the likelihood is lower than this value, Sensitive Data Protection doesn't adjust the likelihood of the `InspectionRuleSet.info_types` finding. */
+  minLikelihood?:
+    | GooglePrivacyDlpV2AdjustByMatchingInfoTypesMinLikelihoodEnum
+    | (string & {})
+    | undefined;
+  /** How the adjustment rule is applied. Only `MATCHING_TYPE_PARTIAL_MATCH` is supported: - Partial match: adjusts the findings of infoTypes specified in the inspection rule when they have a nonempty intersection with a finding of an infoType specified in this adjustment rule. */
+  matchingType?:
+    | GooglePrivacyDlpV2AdjustByMatchingInfoTypesMatchingTypeEnum
+    | (string & {})
+    | undefined;
+  /** Sensitive Data Protection adjusts the likelihood of a finding if that finding also matches one of these infoTypes. For example, you can create a rule to adjust the likelihood of a `PHONE_NUMBER` finding if the string is found within a document that is classified as `DOCUMENT_TYPE/HR/RESUME`. To configure this, set `PHONE_NUMBER` in `InspectionRuleSet.info_types`. Add an `adjustment_rule` with an `adjust_by_matching_info_types.info_types` that contains `DOCUMENT_TYPE/HR/RESUME`. In this case, the likelihood of the `PHONE_NUMBER` finding is adjusted, but the likelihood of the `DOCUMENT_TYPE/HR/RESUME` finding is not. */
+  infoTypes?: GooglePrivacyDlpV2InfoTypeList | undefined;
 }
 export type GooglePrivacyDlpV2AdjustByImageFindingsMinLikelihoodEnum =
   | "LIKELIHOOD_UNSPECIFIED"
@@ -1164,154 +1255,58 @@ export type GooglePrivacyDlpV2AdjustByImageFindingsMinLikelihoodEnum =
   | "VERY_LIKELY";
 /** AdjustmentRule condition for image findings. This rule is silently ignored if the content being inspected is not an image. */
 export interface GooglePrivacyDlpV2AdjustByImageFindings {
-  /** Required. Minimum likelihood of the `adjust_by_image_findings.info_types` finding. If the likelihood is lower than this value, Sensitive Data Protection doesn't adjust the likelihood of the `InspectionRuleSet.info_types` finding. */
-  minLikelihood?: GooglePrivacyDlpV2AdjustByImageFindingsMinLikelihoodEnum | (string & {});
-  /** A list of image-supported infoTypes--excluding [document infoTypes](https://docs.cloud.google.com/sensitive-data-protection/docs/infotypes-reference#documents)--to be used as context for the adjustment rule. Sensitive Data Protection adjusts the likelihood of an image finding if its bounding box has the specified spatial relationship (defined by `image_containment_type`) with a finding of an infoType in this list. For example, you can create a rule to adjust the likelihood of a `US_PASSPORT` finding if it is enclosed by a finding of `OBJECT_TYPE/PERSON/PASSPORT`. To configure this, set `US_PASSPORT` in `InspectionRuleSet.info_types`. Add an `adjustment_rule` with an `adjust_by_image_findings.info_types` that contains `OBJECT_TYPE/PERSON/PASSPORT` and `image_containment_type` set to `encloses`. In this case, the likelihood of the `US_PASSPORT` finding is adjusted, but the likelihood of the `OBJECT_TYPE/PERSON/PASSPORT` finding is not. */
-  infoTypes?: GooglePrivacyDlpV2InfoTypeList;
   /** Specifies the required spatial relationship between the bounding boxes of the target finding and the context infoType findings. */
-  imageContainmentType?: GooglePrivacyDlpV2ImageContainmentType;
-}
-export type GooglePrivacyDlpV2AdjustByMatchingInfoTypesMatchingTypeEnum =
-  | "MATCHING_TYPE_UNSPECIFIED"
-  | "MATCHING_TYPE_FULL_MATCH"
-  | "MATCHING_TYPE_PARTIAL_MATCH"
-  | "MATCHING_TYPE_INVERSE_MATCH"
-  | "MATCHING_TYPE_RULE_SPECIFIC";
-export type GooglePrivacyDlpV2AdjustByMatchingInfoTypesMinLikelihoodEnum =
-  | "LIKELIHOOD_UNSPECIFIED"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-/** AdjustmentRule condition for matching infoTypes. */
-export interface GooglePrivacyDlpV2AdjustByMatchingInfoTypes {
-  /** Sensitive Data Protection adjusts the likelihood of a finding if that finding also matches one of these infoTypes. For example, you can create a rule to adjust the likelihood of a `PHONE_NUMBER` finding if the string is found within a document that is classified as `DOCUMENT_TYPE/HR/RESUME`. To configure this, set `PHONE_NUMBER` in `InspectionRuleSet.info_types`. Add an `adjustment_rule` with an `adjust_by_matching_info_types.info_types` that contains `DOCUMENT_TYPE/HR/RESUME`. In this case, the likelihood of the `PHONE_NUMBER` finding is adjusted, but the likelihood of the `DOCUMENT_TYPE/HR/RESUME` finding is not. */
-  infoTypes?: GooglePrivacyDlpV2InfoTypeList;
-  /** How the adjustment rule is applied. Only `MATCHING_TYPE_PARTIAL_MATCH` is supported: - Partial match: adjusts the findings of infoTypes specified in the inspection rule when they have a nonempty intersection with a finding of an infoType specified in this adjustment rule. */
-  matchingType?: GooglePrivacyDlpV2AdjustByMatchingInfoTypesMatchingTypeEnum | (string & {});
-  /** Required. Minimum likelihood of the `adjust_by_matching_info_types.info_types` finding. If the likelihood is lower than this value, Sensitive Data Protection doesn't adjust the likelihood of the `InspectionRuleSet.info_types` finding. */
-  minLikelihood?: GooglePrivacyDlpV2AdjustByMatchingInfoTypesMinLikelihoodEnum | (string & {});
+  imageContainmentType?: GooglePrivacyDlpV2ImageContainmentType | undefined;
+  /** A list of image-supported infoTypes--excluding [document infoTypes](https://docs.cloud.google.com/sensitive-data-protection/docs/infotypes-reference#documents)--to be used as context for the adjustment rule. Sensitive Data Protection adjusts the likelihood of an image finding if its bounding box has the specified spatial relationship (defined by `image_containment_type`) with a finding of an infoType in this list. For example, you can create a rule to adjust the likelihood of a `US_PASSPORT` finding if it is enclosed by a finding of `OBJECT_TYPE/PERSON/PASSPORT`. To configure this, set `US_PASSPORT` in `InspectionRuleSet.info_types`. Add an `adjustment_rule` with an `adjust_by_image_findings.info_types` that contains `OBJECT_TYPE/PERSON/PASSPORT` and `image_containment_type` set to `encloses`. In this case, the likelihood of the `US_PASSPORT` finding is adjusted, but the likelihood of the `OBJECT_TYPE/PERSON/PASSPORT` finding is not. */
+  infoTypes?: GooglePrivacyDlpV2InfoTypeList | undefined;
+  /** Required. Minimum likelihood of the `adjust_by_image_findings.info_types` finding. If the likelihood is lower than this value, Sensitive Data Protection doesn't adjust the likelihood of the `InspectionRuleSet.info_types` finding. */
+  minLikelihood?:
+    | GooglePrivacyDlpV2AdjustByImageFindingsMinLikelihoodEnum
+    | (string & {})
+    | undefined;
 }
 /** Rule that specifies conditions when a certain infoType's finding details should be adjusted. */
 export interface GooglePrivacyDlpV2AdjustmentRule {
   /** Likelihood adjustment to apply to the infoType. */
-  likelihoodAdjustment?: GooglePrivacyDlpV2LikelihoodAdjustment;
-  /** AdjustmentRule condition for image findings. */
-  adjustByImageFindings?: GooglePrivacyDlpV2AdjustByImageFindings;
+  likelihoodAdjustment?: GooglePrivacyDlpV2LikelihoodAdjustment | undefined;
   /** Set of infoTypes for which findings would affect this rule. */
-  adjustByMatchingInfoTypes?: GooglePrivacyDlpV2AdjustByMatchingInfoTypes;
+  adjustByMatchingInfoTypes?: GooglePrivacyDlpV2AdjustByMatchingInfoTypes | undefined;
+  /** AdjustmentRule condition for image findings. */
+  adjustByImageFindings?: GooglePrivacyDlpV2AdjustByImageFindings | undefined;
 }
 /** A single inspection rule to be applied to infoTypes, specified in `InspectionRuleSet`. */
 export interface GooglePrivacyDlpV2InspectionRule {
   /** Hotword-based detection rule. */
-  hotwordRule?: GooglePrivacyDlpV2HotwordRule;
+  hotwordRule?: GooglePrivacyDlpV2HotwordRule | undefined;
   /** Exclusion rule. */
-  exclusionRule?: GooglePrivacyDlpV2ExclusionRule;
+  exclusionRule?: GooglePrivacyDlpV2ExclusionRule | undefined;
   /** Adjustment rule. */
-  adjustmentRule?: GooglePrivacyDlpV2AdjustmentRule;
+  adjustmentRule?: GooglePrivacyDlpV2AdjustmentRule | undefined;
 }
 export type GooglePrivacyDlpV2InspectionRuleList = Array<GooglePrivacyDlpV2InspectionRule>;
 /** Rule set for modifying a set of infoTypes to alter behavior under certain circumstances, depending on the specific details of the rules within the set. */
 export interface GooglePrivacyDlpV2InspectionRuleSet {
-  /** Set of rules to be applied to infoTypes. The rules are applied in order. */
-  rules?: GooglePrivacyDlpV2InspectionRuleList;
   /** List of infoTypes this rule set is applied to. */
-  infoTypes?: GooglePrivacyDlpV2InfoTypeList;
+  infoTypes?: GooglePrivacyDlpV2InfoTypeList | undefined;
+  /** Set of rules to be applied to infoTypes. The rules are applied in order. */
+  rules?: GooglePrivacyDlpV2InspectionRuleList | undefined;
 }
 export type GooglePrivacyDlpV2InspectionRuleSetList = Array<GooglePrivacyDlpV2InspectionRuleSet>;
-export type GooglePrivacyDlpV2InspectConfigContentOptionsItemEnum =
-  | "CONTENT_UNSPECIFIED"
-  | "CONTENT_TEXT"
-  | "CONTENT_IMAGE";
-export type GooglePrivacyDlpV2InspectConfigContentOptionsItemEnumList = Array<
-  GooglePrivacyDlpV2InspectConfigContentOptionsItemEnum | (string & {})
->;
-/** Message for detecting output from deidentification transformations such as [`CryptoReplaceFfxFpeConfig`](https://docs.cloud.google.com/sensitive-data-protection/docs/reference/rest/v2/organizations.deidentifyTemplates#cryptoreplaceffxfpeconfig). These types of transformations are those that perform pseudonymization, thereby producing a "surrogate" as output. This should be used in conjunction with a field on the transformation such as `surrogate_info_type`. This CustomInfoType does not support the use of `detection_rules`. */
-export type GooglePrivacyDlpV2SurrogateType = GooglePrivacyDlpV2ActivateJobTriggerRequest;
-export type GooglePrivacyDlpV2CustomInfoTypeLikelihoodEnum =
+export type GooglePrivacyDlpV2InfoTypeLikelihoodMinLikelihoodEnum =
   | "LIKELIHOOD_UNSPECIFIED"
   | "VERY_UNLIKELY"
   | "UNLIKELY"
   | "POSSIBLE"
   | "LIKELY"
   | "VERY_LIKELY";
-/** Deprecated; use `InspectionRuleSet` instead. Rule for modifying a `CustomInfoType` to alter behavior under certain circumstances, depending on the specific details of the rule. Not supported for the `surrogate_type` custom infoType. */
-export interface GooglePrivacyDlpV2DetectionRule {
-  /** Hotword-based detection rule. */
-  hotwordRule?: GooglePrivacyDlpV2HotwordRule;
+/** Configuration for setting a minimum likelihood per infotype. Used to customize the minimum likelihood level for specific infotypes in the request. For example, use this if you want to lower the precision for PERSON_NAME without lowering the precision for the other infotypes in the request. */
+export interface GooglePrivacyDlpV2InfoTypeLikelihood {
+  /** Only returns findings equal to or above this threshold. This field is required or else the configuration fails. */
+  minLikelihood?: GooglePrivacyDlpV2InfoTypeLikelihoodMinLikelihoodEnum | (string & {}) | undefined;
+  /** Type of information the likelihood threshold applies to. Only one likelihood per info_type should be provided. If InfoTypeLikelihood does not have an info_type, the configuration fails. */
+  infoType?: GooglePrivacyDlpV2InfoType | undefined;
 }
-export type GooglePrivacyDlpV2DetectionRuleList = Array<GooglePrivacyDlpV2DetectionRule>;
-/** The field values of the Google Drive label to match. */
-export interface GooglePrivacyDlpV2LabelField {
-  /** The value of the Label Field to match. */
-  value?: string;
-  /** The identifier of the Label Field. */
-  id?: string;
-}
-export type GooglePrivacyDlpV2LabelFieldList = Array<GooglePrivacyDlpV2LabelField>;
-/** Google Drive labels published by Google. */
-export interface GooglePrivacyDlpV2GoogleDriveLabel {
-  /** The field values of the Google Drive label to match. */
-  labelFieldsToMatch?: GooglePrivacyDlpV2LabelFieldList;
-  /** The [label ID](https://developers.google.com/workspace/drive/labels/guides/overview) of the Google Drive label. */
-  labelId?: string;
-}
-/** Sensitivity labels published by Microsoft. */
-export interface GooglePrivacyDlpV2SensitivityLabel {
-  /** The GUID of the sensitivity label. */
-  guid?: string;
-}
-/** Configuration for a custom infoType that detects file labels. */
-export interface GooglePrivacyDlpV2FileLabelInfoType {
-  /** Google Drive labels published by Google. */
-  googleDriveLabel?: GooglePrivacyDlpV2GoogleDriveLabel;
-  /** Sensitivity labels published by Microsoft. */
-  sensitivityLabel?: GooglePrivacyDlpV2SensitivityLabel;
-}
-/** Configuration for a custom infoType that detects key-value pairs in the metadata matching the specified regular expressions. */
-export interface GooglePrivacyDlpV2MetadataKeyValueExpression {
-  /** The regular expression for the value. Value should be non-empty. */
-  valueRegex?: string;
-  /** The regular expression for the key. Key should be non-empty. */
-  keyRegex?: string;
-}
-/** A reference to a StoredInfoType to use with scanning. */
-export interface GooglePrivacyDlpV2StoredType {
-  /** Resource name of the requested `StoredInfoType`, for example `organizations/433245324/storedInfoTypes/432452342` or `projects/project-id/storedInfoTypes/432452342`. */
-  name?: string;
-  /** Timestamp indicating when the version of the `StoredInfoType` used for inspection was created. Output-only field, populated by the system. */
-  createTime?: string;
-}
-export type GooglePrivacyDlpV2CustomInfoTypeExclusionTypeEnum =
-  | "EXCLUSION_TYPE_UNSPECIFIED"
-  | "EXCLUSION_TYPE_EXCLUDE";
-/** Custom information type provided by the user. Used to find domain-specific sensitive information configurable to the data in question. */
-export interface GooglePrivacyDlpV2CustomInfoType {
-  /** Message for detecting output from deidentification transformations that support reversing. */
-  surrogateType?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-  /** CustomInfoType can either be a new infoType, or an extension of built-in infoType, when the name matches one of existing infoTypes and that infoType is specified in `InspectContent.info_types` field. Specifying the latter adds findings to the one detected by the system. If built-in info type is not specified in `InspectContent.info_types` list then the name is treated as a custom info type. */
-  infoType?: GooglePrivacyDlpV2InfoType;
-  /** Likelihood to return for this CustomInfoType. This base value can be altered by a detection rule if the finding meets the criteria specified by the rule. Defaults to `VERY_LIKELY` if not specified. */
-  likelihood?: GooglePrivacyDlpV2CustomInfoTypeLikelihoodEnum | (string & {});
-  /** Set of detection rules to apply to all findings of this CustomInfoType. Rules are applied in the order that they are specified. Only supported for the `dictionary`, `regex`, and `stored_type` CustomInfoTypes. */
-  detectionRules?: GooglePrivacyDlpV2DetectionRuleList;
-  /** File label to detect. */
-  fileLabelInfoType?: GooglePrivacyDlpV2FileLabelInfoType;
-  /** Key-value pair to detect in the metadata. */
-  metadataKeyValueExpression?: GooglePrivacyDlpV2MetadataKeyValueExpression;
-  /** Loads an existing `StoredInfoType` resource. */
-  storedType?: GooglePrivacyDlpV2StoredType;
-  /** If set to EXCLUSION_TYPE_EXCLUDE this infoType will not cause a finding to be returned. It still can be used for rules matching. Only supported for the `dictionary`, `regex`, and `stored_type` CustomInfoTypes. */
-  exclusionType?: GooglePrivacyDlpV2CustomInfoTypeExclusionTypeEnum | (string & {});
-  /** Sensitivity for this CustomInfoType. If this CustomInfoType extends an existing InfoType, the sensitivity here will take precedence over that of the original InfoType. If unset for a CustomInfoType, it will default to HIGH. This only applies to data profiling. */
-  sensitivityScore?: GooglePrivacyDlpV2SensitivityScore;
-  /** A list of phrases to detect as a CustomInfoType. */
-  dictionary?: GooglePrivacyDlpV2Dictionary;
-  /** Regular expression based CustomInfoType. */
-  regex?: GooglePrivacyDlpV2Regex;
-}
-export type GooglePrivacyDlpV2CustomInfoTypeList = Array<GooglePrivacyDlpV2CustomInfoType>;
+export type GooglePrivacyDlpV2InfoTypeLikelihoodList = Array<GooglePrivacyDlpV2InfoTypeLikelihood>;
 export type GooglePrivacyDlpV2InspectConfigMinLikelihoodEnum =
   | "LIKELIHOOD_UNSPECIFIED"
   | "VERY_UNLIKELY"
@@ -1319,71 +1314,114 @@ export type GooglePrivacyDlpV2InspectConfigMinLikelihoodEnum =
   | "POSSIBLE"
   | "LIKELY"
   | "VERY_LIKELY";
+export type GooglePrivacyDlpV2InspectConfigContentOptionsItemEnum =
+  | "CONTENT_UNSPECIFIED"
+  | "CONTENT_TEXT"
+  | "CONTENT_IMAGE";
+export type GooglePrivacyDlpV2InspectConfigContentOptionsItemEnumList = Array<
+  GooglePrivacyDlpV2InspectConfigContentOptionsItemEnum | (string & {})
+>;
 /** Configuration description of the scanning process. When used with redactContent only info_types and min_likelihood are currently used. */
 export interface GooglePrivacyDlpV2InspectConfig {
   /** Configuration to control the number of findings returned. This is not used for data profiling. When redacting sensitive data from images, finding limits don't apply. They can cause unexpected or inconsistent results, where only some data is redacted. Don't include finding limits in RedactImage requests. Otherwise, Cloud DLP returns an error. When set within an InspectJobConfig, the specified maximum values aren't hard limits. If an inspection job reaches these limits, the job ends gradually, not abruptly. Therefore, the actual number of findings that Cloud DLP returns can be multiple times higher than these maximum values. */
-  limits?: GooglePrivacyDlpV2FindingLimits;
-  /** When true, excludes type information of the findings. This is not used for data profiling. */
-  excludeInfoTypes?: boolean;
-  /** Restricts what info_types to look for. The values must correspond to InfoType values returned by ListInfoTypes or listed at https://docs.cloud.google.com/sensitive-data-protection/docs/infotypes-reference. When no InfoTypes or CustomInfoTypes are specified in a request, the system may automatically choose a default list of detectors to run, which may change over time. If you need precise control and predictability as to what detectors are run you should specify specific InfoTypes listed in the reference, otherwise a default list will be used, which may change over time. */
-  infoTypes?: GooglePrivacyDlpV2InfoTypeList;
-  /** Minimum likelihood per infotype. For each infotype, a user can specify a minimum likelihood. The system only returns a finding if its likelihood is above this threshold. If this field is not set, the system uses the InspectConfig min_likelihood. */
-  minLikelihoodPerInfoType?: GooglePrivacyDlpV2InfoTypeLikelihoodList;
-  /** Set of rules to apply to the findings for this InspectConfig. Exclusion rules, contained in the set are executed in the end, other rules are executed in the order they are specified for each info type. Not supported for the `metadata_key_value_expression` CustomInfoType. */
-  ruleSet?: GooglePrivacyDlpV2InspectionRuleSetList;
-  /** Deprecated and unused. */
-  contentOptions?: GooglePrivacyDlpV2InspectConfigContentOptionsItemEnumList;
-  /** When true, a contextual quote from the data that triggered a finding is included in the response; see Finding.quote. This is not used for data profiling. */
-  includeQuote?: boolean;
+  limits?: GooglePrivacyDlpV2FindingLimits | undefined;
   /** CustomInfoTypes provided by the user. See https://docs.cloud.google.com/sensitive-data-protection/docs/creating-custom-infotypes to learn more. */
-  customInfoTypes?: GooglePrivacyDlpV2CustomInfoTypeList;
+  customInfoTypes?: GooglePrivacyDlpV2CustomInfoTypeList | undefined;
+  /** Set of rules to apply to the findings for this InspectConfig. Exclusion rules, contained in the set are executed in the end, other rules are executed in the order they are specified for each info type. Not supported for the `metadata_key_value_expression` CustomInfoType. */
+  ruleSet?: GooglePrivacyDlpV2InspectionRuleSetList | undefined;
+  /** Restricts what info_types to look for. The values must correspond to InfoType values returned by ListInfoTypes or listed at https://docs.cloud.google.com/sensitive-data-protection/docs/infotypes-reference. When no InfoTypes or CustomInfoTypes are specified in a request, the system may automatically choose a default list of detectors to run, which may change over time. If you need precise control and predictability as to what detectors are run you should specify specific InfoTypes listed in the reference, otherwise a default list will be used, which may change over time. */
+  infoTypes?: GooglePrivacyDlpV2InfoTypeList | undefined;
+  /** Minimum likelihood per infotype. For each infotype, a user can specify a minimum likelihood. The system only returns a finding if its likelihood is above this threshold. If this field is not set, the system uses the InspectConfig min_likelihood. */
+  minLikelihoodPerInfoType?: GooglePrivacyDlpV2InfoTypeLikelihoodList | undefined;
   /** Only returns findings equal to or above this threshold. The default is POSSIBLE. In general, the highest likelihood setting yields the fewest findings in results and the lowest chance of a false positive. For more information, see [Match likelihood](https://docs.cloud.google.com/sensitive-data-protection/docs/likelihood). */
-  minLikelihood?: GooglePrivacyDlpV2InspectConfigMinLikelihoodEnum | (string & {});
+  minLikelihood?: GooglePrivacyDlpV2InspectConfigMinLikelihoodEnum | (string & {}) | undefined;
+  /** When true, a contextual quote from the data that triggered a finding is included in the response; see Finding.quote. This is not used for data profiling. */
+  includeQuote?: boolean | undefined;
+  /** Deprecated and unused. */
+  contentOptions?: GooglePrivacyDlpV2InspectConfigContentOptionsItemEnumList | undefined;
+  /** When true, excludes type information of the findings. This is not used for data profiling. */
+  excludeInfoTypes?: boolean | undefined;
 }
-export type GooglePrivacyDlpV2BigQueryOptionsSampleMethodEnum =
-  | "SAMPLE_METHOD_UNSPECIFIED"
-  | "TOP"
-  | "RANDOM_START";
-/** Options defining BigQuery table and row identifiers. */
-export interface GooglePrivacyDlpV2BigQueryOptions {
-  /** References to fields excluded from scanning. This allows you to skip inspection of entire columns which you know have no findings. When inspecting a table, we recommend that you inspect all columns. Otherwise, findings might be affected because hints from excluded columns will not be used. */
-  excludedFields?: GooglePrivacyDlpV2FieldIdList;
-  /** How to sample the data. */
-  sampleMethod?: GooglePrivacyDlpV2BigQueryOptionsSampleMethodEnum | (string & {});
-  /** Complete BigQuery table reference. */
-  tableReference?: GooglePrivacyDlpV2BigQueryTable;
-  /** Table fields that may uniquely identify a row within the table. When `actions.saveFindings.outputConfig.table` is specified, the values of columns specified here are available in the output table under `location.content_locations.record_location.record_key.id_values`. Nested fields such as `person.birthdate.year` are allowed. */
-  identifyingFields?: GooglePrivacyDlpV2FieldIdList;
-  /** Max number of rows to scan. If the table has more rows than this value, the rest of the rows are omitted. If not set, or if set to 0, all rows will be scanned. Only one of rows_limit and rows_limit_percent can be specified. Cannot be used in conjunction with TimespanConfig. */
-  rowsLimit?: string;
-  /** Max percentage of rows to scan. The rest are omitted. The number of rows scanned is rounded down. Must be between 0 and 100, inclusively. Both 0 and 100 means no limit. Defaults to 0. Only one of rows_limit and rows_limit_percent can be specified. Cannot be used in conjunction with TimespanConfig. Caution: A [known issue](https://docs.cloud.google.com/sensitive-data-protection/docs/known-issues#bq-sampling) is causing the `rowsLimitPercent` field to behave unexpectedly. We recommend using `rowsLimit` instead. */
-  rowsLimitPercent?: number;
-  /** Limit scanning only to these fields. When inspecting a table, we recommend that you inspect all columns. Otherwise, findings might be affected because hints from excluded columns will not be used. */
-  includedFields?: GooglePrivacyDlpV2FieldIdList;
+/** The inspectTemplate contains a configuration (set of types of sensitive data to be detected) to be used anywhere you otherwise would normally specify InspectConfig. See https://docs.cloud.google.com/sensitive-data-protection/docs/concepts-templates to learn more. */
+export interface GooglePrivacyDlpV2InspectTemplate {
+  /** Optional. Enables the use of [limited-availability built-in infoTypes](https://docs.cloud.google.com/sensitive-data-protection/docs/infotypes-reference#limited-availability-infotypes) in inspect_config. These infoTypes are supported only in specific regions and can cause scanning errors if used elsewhere. */
+  allowLimitedAvailabilityInfoTypes?: boolean | undefined;
+  /** Output only. The template name. The template will have one of the following formats: `projects/PROJECT_ID/inspectTemplates/TEMPLATE_ID` OR `organizations/ORGANIZATION_ID/inspectTemplates/TEMPLATE_ID`; */
+  name?: string | undefined;
+  /** Short description (max 256 chars). */
+  description?: string | undefined;
+  /** Output only. The last update timestamp of an inspectTemplate. */
+  updateTime?: string | undefined;
+  /** The core content of the template. Configuration of the scanning process. */
+  inspectConfig?: GooglePrivacyDlpV2InspectConfig | undefined;
+  /** Output only. The creation timestamp of an inspectTemplate. */
+  createTime?: string | undefined;
+  /** Display name (max 256 chars). */
+  displayName?: string | undefined;
+}
+/** Configuration of the timespan of the items to include in scanning. Currently only supported when inspecting Cloud Storage and BigQuery. */
+export interface GooglePrivacyDlpV2TimespanConfig {
+  /** When the job is started by a JobTrigger we will automatically figure out a valid start_time to avoid scanning files that have not been modified since the last time the JobTrigger executed. This will be based on the time of the execution of the last run of the JobTrigger or the timespan end_time used in the last run of the JobTrigger. **For BigQuery** Inspect jobs triggered by automatic population will scan data that is at least three hours old when the job starts. This is because streaming buffer rows are not read during inspection and reading up to the current timestamp will result in skipped rows. See the [known issue](https://docs.cloud.google.com/sensitive-data-protection/docs/known-issues#recently-streamed-data) related to this operation. */
+  enableAutoPopulationOfTimespanConfig?: boolean | undefined;
+  /** Exclude files, tables, or rows newer than this value. If not set, no upper time limit is applied. */
+  endTime?: string | undefined;
+  /** Exclude files, tables, or rows older than this value. If not set, no lower time limit is applied. */
+  startTime?: string | undefined;
+  /** Specification of the field containing the timestamp of scanned items. Used for data sources like Datastore and BigQuery. **For BigQuery** If this value is not specified and the table was modified between the given start and end times, the entire table will be scanned. If this value is specified, then rows are filtered based on the given start and end times. Rows with a `NULL` value in the provided BigQuery column are skipped. Valid data types of the provided BigQuery column are: `INTEGER`, `DATE`, `TIMESTAMP`, and `DATETIME`. If your BigQuery table is [partitioned at ingestion time](https://docs.cloud.google.com/bigquery/docs/partitioned-tables#ingestion_time), you can use any of the following pseudo-columns as your timestamp field. When used with Cloud DLP, these pseudo-column names are case sensitive. - `_PARTITIONTIME` - `_PARTITIONDATE` - `_PARTITION_LOAD_TIME` **For Datastore** If this value is specified, then entities are filtered based on the given start and end times. If an entity does not contain the provided timestamp property or contains empty or invalid values, then it is included. Valid data types of the provided timestamp property are: `TIMESTAMP`. See the [known issue](https://docs.cloud.google.com/sensitive-data-protection/docs/known-issues#bq-timespan) related to this operation. */
+  timestampField?: GooglePrivacyDlpV2FieldId | undefined;
+}
+export type StringMap = { [key: string]: string | undefined };
+/** Instructions regarding the table content being inspected. */
+export interface GooglePrivacyDlpV2TableOptions {
+  /** The columns that are the primary keys for table objects included in ContentItem. A copy of this cell's value will stored alongside alongside each finding so that the finding can be traced to the specific row it came from. No more than 3 may be provided. */
+  identifyingFields?: GooglePrivacyDlpV2FieldIdList | undefined;
+}
+/** Configuration to control jobs where the content being inspected is outside of Google Cloud Platform. */
+export interface GooglePrivacyDlpV2HybridOptions {
+  /** A short description of where the data is coming from. Will be stored once in the job. 256 max length. */
+  description?: string | undefined;
+  /** To organize findings, these labels will be added to each finding. Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?`. Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. No more than 10 labels can be associated with a given finding. Examples: * `"environment" : "production"` * `"pipeline" : "etl"` */
+  labels?: StringMap | undefined;
+  /** If the container is a table, additional information to make findings meaningful such as the columns that are primary keys. */
+  tableOptions?: GooglePrivacyDlpV2TableOptions | undefined;
+  /** These are labels that each inspection request must include within their 'finding_labels' map. Request may contain others, but any missing one of these will be rejected. Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?`. No more than 10 keys can be required. */
+  requiredFindingLabelKeys?: StringList | undefined;
 }
 /** Datastore partition ID. A partition ID identifies a grouping of entities. The grouping is always by project and namespace, however the namespace ID may be empty. A partition ID contains several dimensions: project ID and namespace ID. */
 export interface GooglePrivacyDlpV2PartitionId {
   /** If not empty, the ID of the namespace to which the entities belong. */
-  namespaceId?: string;
+  namespaceId?: string | undefined;
   /** The ID of the project to which the entities belong. */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 /** A representation of a Datastore kind. */
 export interface GooglePrivacyDlpV2KindExpression {
   /** The name of the kind. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Options defining a data set within Google Cloud Datastore. */
 export interface GooglePrivacyDlpV2DatastoreOptions {
   /** A partition ID identifies a grouping of entities. The grouping is always by project and namespace, however the namespace ID may be empty. */
-  partitionId?: GooglePrivacyDlpV2PartitionId;
+  partitionId?: GooglePrivacyDlpV2PartitionId | undefined;
   /** The kind to process. */
-  kind?: GooglePrivacyDlpV2KindExpression;
+  kind?: GooglePrivacyDlpV2KindExpression | undefined;
 }
-export type GooglePrivacyDlpV2CloudStorageOptionsSampleMethodEnum =
-  | "SAMPLE_METHOD_UNSPECIFIED"
-  | "TOP"
-  | "RANDOM_START";
+/** Message representing a set of files in a Cloud Storage bucket. Regular expressions are used to allow fine-grained control over which files in the bucket to include. Included files are those that match at least one item in `include_regex` and do not match any items in `exclude_regex`. Note that a file that matches items from both lists will _not_ be included. For a match to occur, the entire file path (i.e., everything in the url after the bucket name) must match the regular expression. For example, given the input `{bucket_name: "mybucket", include_regex: ["directory1/.*"], exclude_regex: ["directory1/excluded.*"]}`: * `gs://mybucket/directory1/myfile` will be included * `gs://mybucket/directory1/directory2/myfile` will be included (`.*` matches across `/`) * `gs://mybucket/directory0/directory1/myfile` will _not_ be included (the full path doesn't match any items in `include_regex`) * `gs://mybucket/directory1/excludedfile` will _not_ be included (the path matches an item in `exclude_regex`) If `include_regex` is left empty, it will match all files by default (this is equivalent to setting `include_regex: [".*"]`). Some other common use cases: * `{bucket_name: "mybucket", exclude_regex: [".*\.pdf"]}` will include all files in `mybucket` except for .pdf files * `{bucket_name: "mybucket", include_regex: ["directory/[^/]+"]}` will include all files directly under `gs://mybucket/directory/`, without matching across `/` */
+export interface GooglePrivacyDlpV2CloudStorageRegexFileSet {
+  /** A list of regular expressions matching file paths to exclude. All files in the bucket that match at least one of these regular expressions will be excluded from the scan. Regular expressions use RE2 [syntax](https://github.com/google/re2/wiki/Syntax); a guide can be found under the google/re2 repository on GitHub. */
+  excludeRegex?: StringList | undefined;
+  /** The name of a Cloud Storage bucket. Required. */
+  bucketName?: string | undefined;
+  /** A list of regular expressions matching file paths to include. All files in the bucket that match at least one of these regular expressions will be included in the set of files, except for those that also match an item in `exclude_regex`. Leaving this field empty will match all files by default (this is equivalent to including `.*` in the list). Regular expressions use RE2 [syntax](https://github.com/google/re2/wiki/Syntax); a guide can be found under the google/re2 repository on GitHub. */
+  includeRegex?: StringList | undefined;
+}
+/** Set of files to scan. */
+export interface GooglePrivacyDlpV2FileSet {
+  /** The Cloud Storage url of the file(s) to scan, in the format `gs:///`. Trailing wildcard in the path is allowed. If the url ends in a trailing slash, the bucket or directory represented by the url will be scanned non-recursively (content in sub-directories will not be scanned). This means that `gs://mybucket/` is equivalent to `gs://mybucket/*`, and `gs://mybucket/directory/` is equivalent to `gs://mybucket/directory/*`. Exactly one of `url` or `regex_file_set` must be set. */
+  url?: string | undefined;
+  /** The regex-filtered set of files to scan. Exactly one of `url` or `regex_file_set` must be set. */
+  regexFileSet?: GooglePrivacyDlpV2CloudStorageRegexFileSet | undefined;
+}
 export type GooglePrivacyDlpV2CloudStorageOptionsFileTypesItemEnum =
   | "FILE_TYPE_UNSPECIFIED"
   | "BINARY_FILE"
@@ -1399,160 +1437,146 @@ export type GooglePrivacyDlpV2CloudStorageOptionsFileTypesItemEnum =
 export type GooglePrivacyDlpV2CloudStorageOptionsFileTypesItemEnumList = Array<
   GooglePrivacyDlpV2CloudStorageOptionsFileTypesItemEnum | (string & {})
 >;
-/** Message representing a set of files in a Cloud Storage bucket. Regular expressions are used to allow fine-grained control over which files in the bucket to include. Included files are those that match at least one item in `include_regex` and do not match any items in `exclude_regex`. Note that a file that matches items from both lists will _not_ be included. For a match to occur, the entire file path (i.e., everything in the url after the bucket name) must match the regular expression. For example, given the input `{bucket_name: "mybucket", include_regex: ["directory1/.*"], exclude_regex: ["directory1/excluded.*"]}`: * `gs://mybucket/directory1/myfile` will be included * `gs://mybucket/directory1/directory2/myfile` will be included (`.*` matches across `/`) * `gs://mybucket/directory0/directory1/myfile` will _not_ be included (the full path doesn't match any items in `include_regex`) * `gs://mybucket/directory1/excludedfile` will _not_ be included (the path matches an item in `exclude_regex`) If `include_regex` is left empty, it will match all files by default (this is equivalent to setting `include_regex: [".*"]`). Some other common use cases: * `{bucket_name: "mybucket", exclude_regex: [".*\.pdf"]}` will include all files in `mybucket` except for .pdf files * `{bucket_name: "mybucket", include_regex: ["directory/[^/]+"]}` will include all files directly under `gs://mybucket/directory/`, without matching across `/` */
-export interface GooglePrivacyDlpV2CloudStorageRegexFileSet {
-  /** The name of a Cloud Storage bucket. Required. */
-  bucketName?: string;
-  /** A list of regular expressions matching file paths to include. All files in the bucket that match at least one of these regular expressions will be included in the set of files, except for those that also match an item in `exclude_regex`. Leaving this field empty will match all files by default (this is equivalent to including `.*` in the list). Regular expressions use RE2 [syntax](https://github.com/google/re2/wiki/Syntax); a guide can be found under the google/re2 repository on GitHub. */
-  includeRegex?: StringList;
-  /** A list of regular expressions matching file paths to exclude. All files in the bucket that match at least one of these regular expressions will be excluded from the scan. Regular expressions use RE2 [syntax](https://github.com/google/re2/wiki/Syntax); a guide can be found under the google/re2 repository on GitHub. */
-  excludeRegex?: StringList;
-}
-/** Set of files to scan. */
-export interface GooglePrivacyDlpV2FileSet {
-  /** The regex-filtered set of files to scan. Exactly one of `url` or `regex_file_set` must be set. */
-  regexFileSet?: GooglePrivacyDlpV2CloudStorageRegexFileSet;
-  /** The Cloud Storage url of the file(s) to scan, in the format `gs:///`. Trailing wildcard in the path is allowed. If the url ends in a trailing slash, the bucket or directory represented by the url will be scanned non-recursively (content in sub-directories will not be scanned). This means that `gs://mybucket/` is equivalent to `gs://mybucket/*`, and `gs://mybucket/directory/` is equivalent to `gs://mybucket/directory/*`. Exactly one of `url` or `regex_file_set` must be set. */
-  url?: string;
-}
+export type GooglePrivacyDlpV2CloudStorageOptionsSampleMethodEnum =
+  | "SAMPLE_METHOD_UNSPECIFIED"
+  | "TOP"
+  | "RANDOM_START";
 /** Options defining a file or a set of files within a Cloud Storage bucket. */
 export interface GooglePrivacyDlpV2CloudStorageOptions {
-  /** How to sample the data. */
-  sampleMethod?: GooglePrivacyDlpV2CloudStorageOptionsSampleMethodEnum | (string & {});
-  /** List of file type groups to include in the scan. If empty, all files are scanned and available data format processors are applied. In addition, the binary content of the selected files is always scanned as well. Images are scanned only as binary if the specified region does not support image inspection and no file_types were specified. Image inspection is restricted to 'global', 'us', 'asia', and 'europe'. */
-  fileTypes?: GooglePrivacyDlpV2CloudStorageOptionsFileTypesItemEnumList;
   /** The set of one or more files to scan. */
-  fileSet?: GooglePrivacyDlpV2FileSet;
-  /** Limits the number of files to scan to this percentage of the input FileSet. Number of files scanned is rounded down. Must be between 0 and 100, inclusively. Both 0 and 100 means no limit. Defaults to 0. */
-  filesLimitPercent?: number;
-  /** Max number of bytes to scan from a file. If a scanned file's size is bigger than this value then the rest of the bytes are omitted. Only one of `bytes_limit_per_file` and `bytes_limit_per_file_percent` can be specified. This field can't be set if de-identification is requested. For certain file types, setting this field has no effect. For more information, see [Limits on bytes scanned per file](https://docs.cloud.google.com/sensitive-data-protection/docs/supported-file-types#max-byte-size-per-file). */
-  bytesLimitPerFile?: string;
+  fileSet?: GooglePrivacyDlpV2FileSet | undefined;
   /** Max percentage of bytes to scan from a file. The rest are omitted. The number of bytes scanned is rounded down. Must be between 0 and 100, inclusively. Both 0 and 100 means no limit. Defaults to 0. Only one of bytes_limit_per_file and bytes_limit_per_file_percent can be specified. This field can't be set if de-identification is requested. For certain file types, setting this field has no effect. For more information, see [Limits on bytes scanned per file](https://docs.cloud.google.com/sensitive-data-protection/docs/supported-file-types#max-byte-size-per-file). */
-  bytesLimitPerFilePercent?: number;
+  bytesLimitPerFilePercent?: number | undefined;
+  /** Limits the number of files to scan to this percentage of the input FileSet. Number of files scanned is rounded down. Must be between 0 and 100, inclusively. Both 0 and 100 means no limit. Defaults to 0. */
+  filesLimitPercent?: number | undefined;
+  /** List of file type groups to include in the scan. If empty, all files are scanned and available data format processors are applied. In addition, the binary content of the selected files is always scanned as well. Images are scanned only as binary if the specified region does not support image inspection and no file_types were specified. Image inspection is restricted to 'global', 'us', 'asia', and 'europe'. */
+  fileTypes?: GooglePrivacyDlpV2CloudStorageOptionsFileTypesItemEnumList | undefined;
+  /** How to sample the data. */
+  sampleMethod?: GooglePrivacyDlpV2CloudStorageOptionsSampleMethodEnum | (string & {}) | undefined;
+  /** Max number of bytes to scan from a file. If a scanned file's size is bigger than this value then the rest of the bytes are omitted. Only one of `bytes_limit_per_file` and `bytes_limit_per_file_percent` can be specified. This field can't be set if de-identification is requested. For certain file types, setting this field has no effect. For more information, see [Limits on bytes scanned per file](https://docs.cloud.google.com/sensitive-data-protection/docs/supported-file-types#max-byte-size-per-file). */
+  bytesLimitPerFile?: string | undefined;
 }
-/** Instructions regarding the table content being inspected. */
-export interface GooglePrivacyDlpV2TableOptions {
-  /** The columns that are the primary keys for table objects included in ContentItem. A copy of this cell's value will stored alongside alongside each finding so that the finding can be traced to the specific row it came from. No more than 3 may be provided. */
-  identifyingFields?: GooglePrivacyDlpV2FieldIdList;
-}
-export type StringMap = { [key: string]: string | undefined };
-/** Configuration to control jobs where the content being inspected is outside of Google Cloud Platform. */
-export interface GooglePrivacyDlpV2HybridOptions {
-  /** A short description of where the data is coming from. Will be stored once in the job. 256 max length. */
-  description?: string;
-  /** If the container is a table, additional information to make findings meaningful such as the columns that are primary keys. */
-  tableOptions?: GooglePrivacyDlpV2TableOptions;
-  /** These are labels that each inspection request must include within their 'finding_labels' map. Request may contain others, but any missing one of these will be rejected. Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?`. No more than 10 keys can be required. */
-  requiredFindingLabelKeys?: StringList;
-  /** To organize findings, these labels will be added to each finding. Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?`. Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. No more than 10 labels can be associated with a given finding. Examples: * `"environment" : "production"` * `"pipeline" : "etl"` */
-  labels?: StringMap;
-}
-/** Configuration of the timespan of the items to include in scanning. Currently only supported when inspecting Cloud Storage and BigQuery. */
-export interface GooglePrivacyDlpV2TimespanConfig {
-  /** Specification of the field containing the timestamp of scanned items. Used for data sources like Datastore and BigQuery. **For BigQuery** If this value is not specified and the table was modified between the given start and end times, the entire table will be scanned. If this value is specified, then rows are filtered based on the given start and end times. Rows with a `NULL` value in the provided BigQuery column are skipped. Valid data types of the provided BigQuery column are: `INTEGER`, `DATE`, `TIMESTAMP`, and `DATETIME`. If your BigQuery table is [partitioned at ingestion time](https://docs.cloud.google.com/bigquery/docs/partitioned-tables#ingestion_time), you can use any of the following pseudo-columns as your timestamp field. When used with Cloud DLP, these pseudo-column names are case sensitive. - `_PARTITIONTIME` - `_PARTITIONDATE` - `_PARTITION_LOAD_TIME` **For Datastore** If this value is specified, then entities are filtered based on the given start and end times. If an entity does not contain the provided timestamp property or contains empty or invalid values, then it is included. Valid data types of the provided timestamp property are: `TIMESTAMP`. See the [known issue](https://docs.cloud.google.com/sensitive-data-protection/docs/known-issues#bq-timespan) related to this operation. */
-  timestampField?: GooglePrivacyDlpV2FieldId;
-  /** Exclude files, tables, or rows newer than this value. If not set, no upper time limit is applied. */
-  endTime?: string;
-  /** Exclude files, tables, or rows older than this value. If not set, no lower time limit is applied. */
-  startTime?: string;
-  /** When the job is started by a JobTrigger we will automatically figure out a valid start_time to avoid scanning files that have not been modified since the last time the JobTrigger executed. This will be based on the time of the execution of the last run of the JobTrigger or the timespan end_time used in the last run of the JobTrigger. **For BigQuery** Inspect jobs triggered by automatic population will scan data that is at least three hours old when the job starts. This is because streaming buffer rows are not read during inspection and reading up to the current timestamp will result in skipped rows. See the [known issue](https://docs.cloud.google.com/sensitive-data-protection/docs/known-issues#recently-streamed-data) related to this operation. */
-  enableAutoPopulationOfTimespanConfig?: boolean;
+export type GooglePrivacyDlpV2BigQueryOptionsSampleMethodEnum =
+  | "SAMPLE_METHOD_UNSPECIFIED"
+  | "TOP"
+  | "RANDOM_START";
+/** Options defining BigQuery table and row identifiers. */
+export interface GooglePrivacyDlpV2BigQueryOptions {
+  /** Max number of rows to scan. If the table has more rows than this value, the rest of the rows are omitted. If not set, or if set to 0, all rows will be scanned. Only one of rows_limit and rows_limit_percent can be specified. Cannot be used in conjunction with TimespanConfig. */
+  rowsLimit?: string | undefined;
+  /** How to sample the data. */
+  sampleMethod?: GooglePrivacyDlpV2BigQueryOptionsSampleMethodEnum | (string & {}) | undefined;
+  /** Table fields that may uniquely identify a row within the table. When `actions.saveFindings.outputConfig.table` is specified, the values of columns specified here are available in the output table under `location.content_locations.record_location.record_key.id_values`. Nested fields such as `person.birthdate.year` are allowed. */
+  identifyingFields?: GooglePrivacyDlpV2FieldIdList | undefined;
+  /** Limit scanning only to these fields. When inspecting a table, we recommend that you inspect all columns. Otherwise, findings might be affected because hints from excluded columns will not be used. */
+  includedFields?: GooglePrivacyDlpV2FieldIdList | undefined;
+  /** Complete BigQuery table reference. */
+  tableReference?: GooglePrivacyDlpV2BigQueryTable | undefined;
+  /** Max percentage of rows to scan. The rest are omitted. The number of rows scanned is rounded down. Must be between 0 and 100, inclusively. Both 0 and 100 means no limit. Defaults to 0. Only one of rows_limit and rows_limit_percent can be specified. Cannot be used in conjunction with TimespanConfig. Caution: A [known issue](https://docs.cloud.google.com/sensitive-data-protection/docs/known-issues#bq-sampling) is causing the `rowsLimitPercent` field to behave unexpectedly. We recommend using `rowsLimit` instead. */
+  rowsLimitPercent?: number | undefined;
+  /** References to fields excluded from scanning. This allows you to skip inspection of entire columns which you know have no findings. When inspecting a table, we recommend that you inspect all columns. Otherwise, findings might be affected because hints from excluded columns will not be used. */
+  excludedFields?: GooglePrivacyDlpV2FieldIdList | undefined;
 }
 /** Shared message indicating Cloud storage type. */
 export interface GooglePrivacyDlpV2StorageConfig {
-  /** BigQuery options. */
-  bigQueryOptions?: GooglePrivacyDlpV2BigQueryOptions;
-  /** Google Cloud Datastore options. */
-  datastoreOptions?: GooglePrivacyDlpV2DatastoreOptions;
-  /** Cloud Storage options. */
-  cloudStorageOptions?: GooglePrivacyDlpV2CloudStorageOptions;
-  /** Hybrid inspection options. */
-  hybridOptions?: GooglePrivacyDlpV2HybridOptions;
   /** Configuration of the timespan of the items to include in scanning. */
-  timespanConfig?: GooglePrivacyDlpV2TimespanConfig;
+  timespanConfig?: GooglePrivacyDlpV2TimespanConfig | undefined;
+  /** Hybrid inspection options. */
+  hybridOptions?: GooglePrivacyDlpV2HybridOptions | undefined;
+  /** Google Cloud Datastore options. */
+  datastoreOptions?: GooglePrivacyDlpV2DatastoreOptions | undefined;
+  /** Cloud Storage options. */
+  cloudStorageOptions?: GooglePrivacyDlpV2CloudStorageOptions | undefined;
+  /** BigQuery options. */
+  bigQueryOptions?: GooglePrivacyDlpV2BigQueryOptions | undefined;
 }
 /** Controls what and how to inspect for findings. */
 export interface GooglePrivacyDlpV2InspectJobConfig {
-  /** Actions to execute at the completion of the job. */
-  actions?: GooglePrivacyDlpV2ActionList;
-  /** How and what to scan for. */
-  inspectConfig?: GooglePrivacyDlpV2InspectConfig;
-  /** The data to scan. */
-  storageConfig?: GooglePrivacyDlpV2StorageConfig;
   /** If provided, will be used as the default for all values in InspectConfig. `inspect_config` will be merged into the values persisted as part of the template. */
-  inspectTemplateName?: string;
-}
-/** The inspectTemplate contains a configuration (set of types of sensitive data to be detected) to be used anywhere you otherwise would normally specify InspectConfig. See https://docs.cloud.google.com/sensitive-data-protection/docs/concepts-templates to learn more. */
-export interface GooglePrivacyDlpV2InspectTemplate {
-  /** Output only. The creation timestamp of an inspectTemplate. */
-  createTime?: string;
-  /** Output only. The last update timestamp of an inspectTemplate. */
-  updateTime?: string;
-  /** Optional. Enables the use of [limited-availability built-in infoTypes](https://docs.cloud.google.com/sensitive-data-protection/docs/infotypes-reference#limited-availability-infotypes) in inspect_config. These infoTypes are supported only in specific regions and can cause scanning errors if used elsewhere. */
-  allowLimitedAvailabilityInfoTypes?: boolean;
-  /** Display name (max 256 chars). */
-  displayName?: string;
-  /** Output only. The template name. The template will have one of the following formats: `projects/PROJECT_ID/inspectTemplates/TEMPLATE_ID` OR `organizations/ORGANIZATION_ID/inspectTemplates/TEMPLATE_ID`; */
-  name?: string;
-  /** Short description (max 256 chars). */
-  description?: string;
-  /** The core content of the template. Configuration of the scanning process. */
-  inspectConfig?: GooglePrivacyDlpV2InspectConfig;
+  inspectTemplateName?: string | undefined;
+  /** Actions to execute at the completion of the job. */
+  actions?: GooglePrivacyDlpV2ActionList | undefined;
+  /** The data to scan. */
+  storageConfig?: GooglePrivacyDlpV2StorageConfig | undefined;
+  /** How and what to scan for. */
+  inspectConfig?: GooglePrivacyDlpV2InspectConfig | undefined;
 }
 /** Snapshot of the inspection configuration. */
 export interface GooglePrivacyDlpV2RequestedOptions {
-  /** Inspect config. */
-  jobConfig?: GooglePrivacyDlpV2InspectJobConfig;
   /** Output only. If run with an InspectTemplate, a snapshot of its state at the time of this run. */
-  snapshotInspectTemplate?: GooglePrivacyDlpV2InspectTemplate;
+  snapshotInspectTemplate?: GooglePrivacyDlpV2InspectTemplate | undefined;
+  /** Inspect config. */
+  jobConfig?: GooglePrivacyDlpV2InspectJobConfig | undefined;
+}
+/** Statistics related to processing hybrid inspect requests. */
+export interface GooglePrivacyDlpV2HybridInspectStatistics {
+  /** The number of hybrid inspection requests processed within this job. */
+  processedCount?: string | undefined;
+  /** The number of hybrid inspection requests aborted because the job ran out of quota or was ended before they could be processed. */
+  abortedCount?: string | undefined;
+  /** The number of hybrid requests currently being processed. Only populated when called via method `getDlpJob`. A burst of traffic may cause hybrid inspect requests to be enqueued. Processing will take place as quickly as possible, but resource limitations may impact how long a request is enqueued for. */
+  pendingCount?: string | undefined;
+}
+/** Statistics regarding a specific InfoType. */
+export interface GooglePrivacyDlpV2InfoTypeStats {
+  /** The type of finding this stat is for. */
+  infoType?: GooglePrivacyDlpV2InfoType | undefined;
+  /** Number of findings for this infoType. */
+  count?: string | undefined;
+}
+export type GooglePrivacyDlpV2InfoTypeStatsList = Array<GooglePrivacyDlpV2InfoTypeStats>;
+/** All Result fields are updated while the job is processing. */
+export interface GooglePrivacyDlpV2Result {
+  /** Number of rows scanned after sampling and time filtering (applicable for row based stores such as BigQuery). */
+  numRowsProcessed?: string | undefined;
+  /** Statistics related to the processing of hybrid inspect. */
+  hybridStats?: GooglePrivacyDlpV2HybridInspectStatistics | undefined;
+  /** Statistics of how many instances of each info type were found during inspect job. */
+  infoTypeStats?: GooglePrivacyDlpV2InfoTypeStatsList | undefined;
+  /** Estimate of the number of bytes to process. */
+  totalEstimatedBytes?: string | undefined;
+  /** Total size in bytes that were processed. */
+  processedBytes?: string | undefined;
 }
 /** The results of an inspect DataSource job. */
 export interface GooglePrivacyDlpV2InspectDataSourceDetails {
-  /** Output only. A summary of the outcome of this inspection job. */
-  result?: GooglePrivacyDlpV2Result;
   /** The configuration used for this job. */
-  requestedOptions?: GooglePrivacyDlpV2RequestedOptions;
+  requestedOptions?: GooglePrivacyDlpV2RequestedOptions | undefined;
+  /** Output only. A summary of the outcome of this inspection job. */
+  result?: GooglePrivacyDlpV2Result | undefined;
 }
-export type GooglePrivacyDlpV2DlpJobStateEnum =
-  | "JOB_STATE_UNSPECIFIED"
-  | "PENDING"
-  | "RUNNING"
-  | "DONE"
-  | "CANCELED"
-  | "FAILED"
-  | "ACTIVE";
 /** Combines all of the information about a DLP job. */
 export interface GooglePrivacyDlpV2DlpJob {
-  /** Output only. If created by a job trigger, the resource name of the trigger that instantiated the job. */
-  jobTriggerName?: string;
-  /** Output only. Time when the job was last modified by the system. */
-  lastModified?: string;
-  /** Results from analyzing risk of a data source. */
-  riskDetails?: GooglePrivacyDlpV2AnalyzeDataSourceRiskDetails;
   /** Output only. A stream of errors encountered running the job. */
-  errors?: GooglePrivacyDlpV2ErrorList;
-  /** Output only. The server-assigned name. */
-  name?: string;
-  /** Output only. Time when the job finished. */
-  endTime?: string;
-  /** The type of job. */
-  type?: GooglePrivacyDlpV2DlpJobTypeEnum;
-  /** Output only. Time when the job started. */
-  startTime?: string;
-  /** Output only. Events that should occur after the job has completed. */
-  actionDetails?: GooglePrivacyDlpV2ActionDetailsList;
-  /** Output only. Time when the job was created. */
-  createTime?: string;
-  /** Results from inspecting a data source. */
-  inspectDetails?: GooglePrivacyDlpV2InspectDataSourceDetails;
+  errors?: GooglePrivacyDlpV2ErrorList | undefined;
+  /** Output only. If created by a job trigger, the resource name of the trigger that instantiated the job. */
+  jobTriggerName?: string | undefined;
+  /** Results from analyzing risk of a data source. */
+  riskDetails?: GooglePrivacyDlpV2AnalyzeDataSourceRiskDetails | undefined;
+  /** Output only. Time when the job was last modified by the system. */
+  lastModified?: string | undefined;
   /** Output only. State of a job. */
-  state?: GooglePrivacyDlpV2DlpJobStateEnum;
+  state?: GooglePrivacyDlpV2DlpJobStateEnum | undefined;
+  /** Output only. The server-assigned name. */
+  name?: string | undefined;
+  /** Output only. Time when the job finished. */
+  endTime?: string | undefined;
+  /** The type of job. */
+  type?: GooglePrivacyDlpV2DlpJobTypeEnum | undefined;
+  /** Output only. Time when the job started. */
+  startTime?: string | undefined;
+  /** Output only. Events that should occur after the job has completed. */
+  actionDetails?: GooglePrivacyDlpV2ActionDetailsList | undefined;
+  /** Results from inspecting a data source. */
+  inspectDetails?: GooglePrivacyDlpV2InspectDataSourceDetails | undefined;
+  /** Output only. Time when the job was created. */
+  createTime?: string | undefined;
 }
 export interface ActivateProjectsLocationsJobTriggersRequest {
   /** Required. Resource name of the trigger to activate, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
   /** Request body */
-  body?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
+  body?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
 }
 /** The request message for canceling a DLP job. */
 export type GooglePrivacyDlpV2CancelDlpJobRequest = GooglePrivacyDlpV2ActivateJobTriggerRequest;
@@ -1560,328 +1584,168 @@ export interface CancelProjectsDlpJobsRequest {
   /** Required. The name of the DlpJob resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
+  body?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
 }
 export interface CancelProjectsLocationsDlpJobsRequest {
   /** Required. The name of the DlpJob resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
+  body?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
 }
 /** Request message for CreateDeidentifyTemplate. */
 export interface GooglePrivacyDlpV2CreateDeidentifyTemplateRequest {
-  /** The template id can contain uppercase and lowercase letters, numbers, and hyphens; that is, it must match the regular expression: `[a-zA-Z\d-_]+`. The maximum length is 100 characters. Can be empty to allow the system to generate one. */
-  templateId?: string;
   /** Required. The DeidentifyTemplate to create. */
-  deidentifyTemplate?: GooglePrivacyDlpV2DeidentifyTemplate;
+  deidentifyTemplate?: GooglePrivacyDlpV2DeidentifyTemplate | undefined;
+  /** The template id can contain uppercase and lowercase letters, numbers, and hyphens; that is, it must match the regular expression: `[a-zA-Z\d-_]+`. The maximum length is 100 characters. Can be empty to allow the system to generate one. */
+  templateId?: string | undefined;
   /** Deprecated. This field has no effect. */
-  locationId?: string;
+  locationId?: string | undefined;
 }
-export interface CreateOrganizationsDeidentifyTemplatesRequest {
+export interface CreateOrganizationsDeidentifyTemplatesRequest extends GooglePrivacyDlpV2CreateDeidentifyTemplateRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateDeidentifyTemplateRequest;
 }
 /** Request message for CreateInspectTemplate. */
 export interface GooglePrivacyDlpV2CreateInspectTemplateRequest {
   /** Deprecated. This field has no effect. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Required. The InspectTemplate to create. */
-  inspectTemplate?: GooglePrivacyDlpV2InspectTemplate;
+  inspectTemplate?: GooglePrivacyDlpV2InspectTemplate | undefined;
   /** The template id can contain uppercase and lowercase letters, numbers, and hyphens; that is, it must match the regular expression: `[a-zA-Z\d-_]+`. The maximum length is 100 characters. Can be empty to allow the system to generate one. */
-  templateId?: string;
+  templateId?: string | undefined;
 }
-export interface CreateOrganizationsInspectTemplatesRequest {
+export interface CreateOrganizationsInspectTemplatesRequest extends GooglePrivacyDlpV2CreateInspectTemplateRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateInspectTemplateRequest;
+}
+/** A credential consisting of a username and password, where the password is stored in a Secret Manager resource. Note: Secret Manager [charges apply](https://cloud.google.com/secret-manager/pricing). */
+export interface GooglePrivacyDlpV2SecretManagerCredential {
+  /** Required. The username. */
+  username?: string | undefined;
+  /** Required. The name of the Secret Manager resource that stores the password, in the form `projects/project-id/secrets/secret-name/versions/version`. */
+  passwordSecretVersionName?: string | undefined;
+}
+/** Use IAM authentication to connect. This requires the Cloud SQL IAM feature to be enabled on the instance, which is not the default for Cloud SQL. See https://docs.cloud.google.com/sql/docs/postgres/authentication and https://docs.cloud.google.com/sql/docs/mysql/authentication. */
+export type GooglePrivacyDlpV2CloudSqlIamCredential = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+export type GooglePrivacyDlpV2CloudSqlPropertiesDatabaseEngineEnum =
+  | "DATABASE_ENGINE_UNKNOWN"
+  | "DATABASE_ENGINE_MYSQL"
+  | "DATABASE_ENGINE_POSTGRES";
+/** Cloud SQL connection properties. */
+export interface GooglePrivacyDlpV2CloudSqlProperties {
+  /** A username and password stored in Secret Manager. */
+  usernamePassword?: GooglePrivacyDlpV2SecretManagerCredential | undefined;
+  /** Required. The DLP API will limit its connections to max_connections. Must be 2 or greater. */
+  maxConnections?: number | undefined;
+  /** Built-in IAM authentication (must be configured in Cloud SQL). */
+  cloudSqlIam?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** Required. The database engine used by the Cloud SQL instance that this connection configures. */
+  databaseEngine?:
+    | GooglePrivacyDlpV2CloudSqlPropertiesDatabaseEngineEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Immutable. The Cloud SQL instance for which the connection is defined. Only one connection per instance is allowed. This can only be set at creation time, and cannot be updated. It is an error to use a connection_name from different project or region than the one that holds the connection. For example, a Connection resource for Cloud SQL connection_name `project-id:us-central1:sql-instance` must be created under the parent `projects/project-id/locations/us-central1` */
+  connectionName?: string | undefined;
 }
 export type GooglePrivacyDlpV2ConnectionStateEnum =
   | "CONNECTION_STATE_UNSPECIFIED"
   | "MISSING_CREDENTIALS"
   | "AVAILABLE"
   | "ERROR";
-export type GooglePrivacyDlpV2CloudSqlPropertiesDatabaseEngineEnum =
-  | "DATABASE_ENGINE_UNKNOWN"
-  | "DATABASE_ENGINE_MYSQL"
-  | "DATABASE_ENGINE_POSTGRES";
-/** A credential consisting of a username and password, where the password is stored in a Secret Manager resource. Note: Secret Manager [charges apply](https://cloud.google.com/secret-manager/pricing). */
-export interface GooglePrivacyDlpV2SecretManagerCredential {
-  /** Required. The username. */
-  username?: string;
-  /** Required. The name of the Secret Manager resource that stores the password, in the form `projects/project-id/secrets/secret-name/versions/version`. */
-  passwordSecretVersionName?: string;
-}
-/** Use IAM authentication to connect. This requires the Cloud SQL IAM feature to be enabled on the instance, which is not the default for Cloud SQL. See https://docs.cloud.google.com/sql/docs/postgres/authentication and https://docs.cloud.google.com/sql/docs/mysql/authentication. */
-export type GooglePrivacyDlpV2CloudSqlIamCredential = GooglePrivacyDlpV2ActivateJobTriggerRequest;
-/** Cloud SQL connection properties. */
-export interface GooglePrivacyDlpV2CloudSqlProperties {
-  /** Required. The database engine used by the Cloud SQL instance that this connection configures. */
-  databaseEngine?: GooglePrivacyDlpV2CloudSqlPropertiesDatabaseEngineEnum | (string & {});
-  /** A username and password stored in Secret Manager. */
-  usernamePassword?: GooglePrivacyDlpV2SecretManagerCredential;
-  /** Optional. Immutable. The Cloud SQL instance for which the connection is defined. Only one connection per instance is allowed. This can only be set at creation time, and cannot be updated. It is an error to use a connection_name from different project or region than the one that holds the connection. For example, a Connection resource for Cloud SQL connection_name `project-id:us-central1:sql-instance` must be created under the parent `projects/project-id/locations/us-central1` */
-  connectionName?: string;
-  /** Required. The DLP API will limit its connections to max_connections. Must be 2 or greater. */
-  maxConnections?: number;
-  /** Built-in IAM authentication (must be configured in Cloud SQL). */
-  cloudSqlIam?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-}
 /** A data connection to allow the DLP API to profile data in locations that require additional configuration. */
 export interface GooglePrivacyDlpV2Connection {
-  /** Output only. Name of the connection: `projects/{project}/locations/{location}/connections/{name}`. */
-  name?: string;
-  /** Required. The connection's state in its lifecycle. */
-  state?: GooglePrivacyDlpV2ConnectionStateEnum | (string & {});
-  /** Connect to a Cloud SQL instance. */
-  cloudSql?: GooglePrivacyDlpV2CloudSqlProperties;
   /** Output only. Set if status == ERROR, to provide additional details. Will store the last 10 errors sorted with the most recent first. */
-  errors?: GooglePrivacyDlpV2ErrorList;
+  errors?: GooglePrivacyDlpV2ErrorList | undefined;
+  /** Output only. Name of the connection: `projects/{project}/locations/{location}/connections/{name}`. */
+  name?: string | undefined;
+  /** Connect to a Cloud SQL instance. */
+  cloudSql?: GooglePrivacyDlpV2CloudSqlProperties | undefined;
+  /** Required. The connection's state in its lifecycle. */
+  state?: GooglePrivacyDlpV2ConnectionStateEnum | (string & {}) | undefined;
 }
 /** Request message for CreateConnection. */
 export interface GooglePrivacyDlpV2CreateConnectionRequest {
   /** Required. The connection resource. */
-  connection?: GooglePrivacyDlpV2Connection;
+  connection?: GooglePrivacyDlpV2Connection | undefined;
 }
-export interface CreateOrganizationsLocationsConnectionsRequest {
+export interface CreateOrganizationsLocationsConnectionsRequest extends GooglePrivacyDlpV2CreateConnectionRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization): + Projects scope: `projects/{project_id}/locations/{location_id}` + Organizations scope: `organizations/{org_id}/locations/{location_id}` */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateConnectionRequest;
 }
-export interface CreateOrganizationsLocationsDeidentifyTemplatesRequest {
+export interface CreateOrganizationsLocationsDeidentifyTemplatesRequest extends GooglePrivacyDlpV2CreateDeidentifyTemplateRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateDeidentifyTemplateRequest;
 }
-/** The AWS starting location for discovery. */
-export interface GooglePrivacyDlpV2AwsDiscoveryStartingLocation {
-  /** All AWS assets stored in Asset Inventory that didn't match other AWS discovery configs. */
-  allAssetInventoryAssets?: boolean;
-  /** The AWS account ID that this discovery config applies to. Within an AWS organization, you can find the AWS account ID inside an AWS account ARN. Example: arn:{partition}:organizations::{management_account_id}:account/{org_id}/{account_id} */
-  accountId?: string;
+/** Processing occurs in a multi-region that contains the current region if available. */
+export type GooglePrivacyDlpV2MultiRegionProcessing = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Processing occurs in the global region. */
+export type GooglePrivacyDlpV2GlobalProcessing = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Configure image processing to fall back to any of the following processing options if image processing is unavailable in the original request location. */
+export interface GooglePrivacyDlpV2ImageFallbackLocation {
+  /** Processing occurs in a multi-region that contains the current region if available. */
+  multiRegionProcessing?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** Processing occurs in the global region. */
+  globalProcessing?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
 }
-/** The other cloud starting location for discovery. */
-export interface GooglePrivacyDlpV2OtherCloudDiscoveryStartingLocation {
-  /** The AWS starting location for discovery. */
-  awsLocation?: GooglePrivacyDlpV2AwsDiscoveryStartingLocation;
+/** Configure document processing to fall back to any of the following processing options if document processing is unavailable in the original request location. */
+export type GooglePrivacyDlpV2DocumentFallbackLocation = GooglePrivacyDlpV2ImageFallbackLocation;
+/** Configure processing location for discovery and inspection. For example, image OCR is only provided in limited regions but configuring ProcessingLocation will redirect OCR to a location where OCR is provided. */
+export interface GooglePrivacyDlpV2ProcessingLocation {
+  /** Image processing falls back using this configuration. */
+  imageFallbackLocation?: GooglePrivacyDlpV2ImageFallbackLocation | undefined;
+  /** Document processing falls back using this configuration. */
+  documentFallbackLocation?: GooglePrivacyDlpV2ImageFallbackLocation | undefined;
 }
-/** The location to begin a discovery scan. Denotes an organization ID or folder ID within an organization. */
-export interface GooglePrivacyDlpV2DiscoveryStartingLocation {
-  /** The ID of the folder within an organization to be scanned. */
-  folderId?: string;
-  /** The ID of an organization to scan. */
-  organizationId?: string;
-}
-/** Project and scan location information. Only set when the parent is an org. */
-export interface GooglePrivacyDlpV2OrgConfig {
-  /** The data to scan: folder, org, or project */
-  location?: GooglePrivacyDlpV2DiscoveryStartingLocation;
-  /** The project that will run the scan. The DLP service account that exists within this project must have access to all resources that are profiled, and the DLP API must be enabled. */
-  projectId?: string;
-}
-export type GooglePrivacyDlpV2DiscoveryConfigStatusEnum =
-  | "STATUS_UNSPECIFIED"
-  | "RUNNING"
-  | "PAUSED";
-/** A value of a tag. */
-export interface GooglePrivacyDlpV2TagValue {
-  /** The namespaced name for the tag value to attach to resources. Must be in the format `{parent_id}/{tag_key_short_name}/{short_name}`, for example, "123456/environment/prod" for an organization parent, or "my-project/environment/prod" for a project parent. */
-  namespacedValue?: string;
-}
-/** The tag to attach to profiles matching the condition. At most one `TagCondition` can be specified per sensitivity level. */
-export interface GooglePrivacyDlpV2TagCondition {
-  /** The tag value to attach to resources. */
-  tag?: GooglePrivacyDlpV2TagValue;
-  /** Conditions attaching the tag to a resource on its profile having this sensitivity score. */
-  sensitivityScore?: GooglePrivacyDlpV2SensitivityScore;
-}
-export type GooglePrivacyDlpV2TagConditionList = Array<GooglePrivacyDlpV2TagCondition>;
-export type GooglePrivacyDlpV2TagResourcesProfileGenerationsToTagItemEnum =
-  | "PROFILE_GENERATION_UNSPECIFIED"
-  | "PROFILE_GENERATION_NEW"
-  | "PROFILE_GENERATION_UPDATE";
-export type GooglePrivacyDlpV2TagResourcesProfileGenerationsToTagItemEnumList = Array<
-  GooglePrivacyDlpV2TagResourcesProfileGenerationsToTagItemEnum | (string & {})
->;
-/** If set, attaches the [tags] (https://docs.cloud.google.com/resource-manager/docs/tags/tags-overview) provided to profiled resources. Tags support [access control](https://docs.cloud.google.com/iam/docs/tags-access-control). You can conditionally grant or deny access to a resource based on whether the resource has a specific tag. */
-export interface GooglePrivacyDlpV2TagResources {
-  /** Whether applying a tag to a resource should lower the risk of the profile for that resource. For example, in conjunction with an [IAM deny policy](https://docs.cloud.google.com/iam/docs/deny-overview), you can deny all principals a permission if a tag value is present, mitigating the risk of the resource. This also lowers the data risk of resources at the lower levels of the resource hierarchy. For example, reducing the data risk of a table data profile also reduces the data risk of the constituent column data profiles. */
-  lowerDataRiskToLow?: boolean;
-  /** The tags to associate with different conditions. */
-  tagConditions?: GooglePrivacyDlpV2TagConditionList;
-  /** The profile generations for which the tag should be attached to resources. If you attach a tag to only new profiles, then if the sensitivity score of a profile subsequently changes, its tag doesn't change. By default, this field includes only new profiles. To include both new and updated profiles for tagging, this field should explicitly include both `PROFILE_GENERATION_NEW` and `PROFILE_GENERATION_UPDATE`. */
-  profileGenerationsToTag?: GooglePrivacyDlpV2TagResourcesProfileGenerationsToTagItemEnumList;
-}
-/** Message expressing intention to publish to Google Security Operations. */
-export type GooglePrivacyDlpV2PublishToChronicle = GooglePrivacyDlpV2ActivateJobTriggerRequest;
-/** Create Dataplex Universal Catalog aspects for profiled resources with the aspect type Sensitive Data Protection Profile. To learn more about aspects, see https://docs.cloud.google.com/sensitive-data-protection/docs/add-aspects. */
-export interface GooglePrivacyDlpV2PublishToDataplexCatalog {
-  /** Whether creating a Dataplex Universal Catalog aspect for a profiled resource should lower the risk of the profile for that resource. This also lowers the data risk of resources at the lower levels of the resource hierarchy. For example, reducing the data risk of a table data profile also reduces the data risk of the constituent column data profiles. */
-  lowerDataRiskToLow?: boolean;
-}
-/** If set, a summary finding will be created or updated in Security Command Center for each profile. */
-export type GooglePrivacyDlpV2PublishToSecurityCommandCenter =
+/** Discovery target for credentials and secrets in cloud resource metadata. This target does not include any filtering or frequency controls. Cloud DLP will scan cloud resource metadata for secrets daily. No inspect template should be included in the discovery config for a security benchmarks scan. Instead, the built-in list of secrets and credentials infoTypes will be used (see https://docs.cloud.google.com/sensitive-data-protection/docs/infotypes-reference#credentials_and_secrets). Credentials and secrets discovered will be reported as vulnerabilities to Security Command Center. */
+export type GooglePrivacyDlpV2SecretsDiscoveryTarget = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Match database resources not covered by any other filter. */
+export type GooglePrivacyDlpV2AllOtherDatabaseResources =
   GooglePrivacyDlpV2ActivateJobTriggerRequest;
-export type GooglePrivacyDlpV2PubSubNotificationEventEnum =
-  | "EVENT_TYPE_UNSPECIFIED"
-  | "NEW_PROFILE"
-  | "CHANGED_PROFILE"
-  | "SCORE_INCREASED"
-  | "ERROR_CHANGED";
-export type GooglePrivacyDlpV2PubSubConditionMinimumSensitivityScoreEnum =
-  | "PROFILE_SCORE_BUCKET_UNSPECIFIED"
-  | "HIGH"
-  | "MEDIUM_OR_HIGH";
-export type GooglePrivacyDlpV2PubSubConditionMinimumRiskScoreEnum =
-  | "PROFILE_SCORE_BUCKET_UNSPECIFIED"
-  | "HIGH"
-  | "MEDIUM_OR_HIGH";
-/** A condition consisting of a value. */
-export interface GooglePrivacyDlpV2PubSubCondition {
-  /** The minimum sensitivity level that triggers the condition. */
-  minimumSensitivityScore?:
-    | GooglePrivacyDlpV2PubSubConditionMinimumSensitivityScoreEnum
-    | (string & {});
-  /** The minimum data risk score that triggers the condition. */
-  minimumRiskScore?: GooglePrivacyDlpV2PubSubConditionMinimumRiskScoreEnum | (string & {});
+/** A pattern to match against one or more database resources. At least one pattern must be specified. Regular expressions use RE2 [syntax](https://github.com/google/re2/wiki/Syntax); a guide can be found under the google/re2 repository on GitHub. */
+export interface GooglePrivacyDlpV2DatabaseResourceRegex {
+  /** Regex to test the database resource's name against. An example of a database resource name is a table's name. Other database resource names like view names could be included in the future. If empty, all database resources match. */
+  databaseResourceNameRegex?: string | undefined;
+  /** Regex to test the instance name against. If empty, all instances match. */
+  instanceRegex?: string | undefined;
+  /** For organizations, if unset, will match all projects. Has no effect for configurations created within a project. */
+  projectIdRegex?: string | undefined;
+  /** Regex to test the database name against. If empty, all databases match. */
+  databaseRegex?: string | undefined;
 }
-export type GooglePrivacyDlpV2PubSubConditionList = Array<GooglePrivacyDlpV2PubSubCondition>;
-export type GooglePrivacyDlpV2PubSubExpressionsLogicalOperatorEnum =
-  | "LOGICAL_OPERATOR_UNSPECIFIED"
-  | "OR"
-  | "AND";
-/** An expression, consisting of an operator and conditions. */
-export interface GooglePrivacyDlpV2PubSubExpressions {
-  /** Conditions to apply to the expression. */
-  conditions?: GooglePrivacyDlpV2PubSubConditionList;
-  /** The operator to apply to the collection of conditions. */
-  logicalOperator?: GooglePrivacyDlpV2PubSubExpressionsLogicalOperatorEnum | (string & {});
+export type GooglePrivacyDlpV2DatabaseResourceRegexList =
+  Array<GooglePrivacyDlpV2DatabaseResourceRegex>;
+/** A collection of regular expressions to determine what database resources to match against. */
+export interface GooglePrivacyDlpV2DatabaseResourceRegexes {
+  /** A group of regular expression patterns to match against one or more database resources. Maximum of 100 entries. The sum of all regular expression's length can't exceed 10 KiB. */
+  patterns?: GooglePrivacyDlpV2DatabaseResourceRegexList | undefined;
 }
-/** A condition for determining whether a Pub/Sub should be triggered. */
-export interface GooglePrivacyDlpV2DataProfilePubSubCondition {
-  /** An expression. */
-  expressions?: GooglePrivacyDlpV2PubSubExpressions;
+/** Match database resources using regex filters. Examples of database resources are tables, views, and stored procedures. */
+export interface GooglePrivacyDlpV2DatabaseResourceCollection {
+  /** A collection of regular expressions to match a database resource against. */
+  includeRegexes?: GooglePrivacyDlpV2DatabaseResourceRegexes | undefined;
 }
-export type GooglePrivacyDlpV2PubSubNotificationDetailOfMessageEnum =
-  | "DETAIL_LEVEL_UNSPECIFIED"
-  | "TABLE_PROFILE"
-  | "RESOURCE_NAME"
-  | "FILE_STORE_PROFILE";
-/** Send a Pub/Sub message into the given Pub/Sub topic to connect other systems to data profile generation. The message payload data will be the byte serialization of `DataProfilePubSubMessage`. */
-export interface GooglePrivacyDlpV2PubSubNotification {
-  /** Cloud Pub/Sub topic to send notifications to. Format is projects/{project}/topics/{topic}. */
-  topic?: string;
-  /** The type of event that triggers a Pub/Sub. At most one `PubSubNotification` per EventType is permitted. */
-  event?: GooglePrivacyDlpV2PubSubNotificationEventEnum | (string & {});
-  /** Conditions (e.g., data risk or sensitivity level) for triggering a Pub/Sub. */
-  pubsubCondition?: GooglePrivacyDlpV2DataProfilePubSubCondition;
-  /** How much data to include in the Pub/Sub message. If the user wishes to limit the size of the message, they can use resource_name and fetch the profile fields they wish to. Per table profile (not per column). */
-  detailOfMessage?: GooglePrivacyDlpV2PubSubNotificationDetailOfMessageEnum | (string & {});
+/** Identifies a single database resource, like a table within a database. */
+export interface GooglePrivacyDlpV2DatabaseResourceReference {
+  /** Required. If within a project-level config, then this must match the config's project ID. */
+  projectId?: string | undefined;
+  /** Required. Name of a database within the instance. */
+  database?: string | undefined;
+  /** Required. Name of a database resource, for example, a table within the database. */
+  databaseResource?: string | undefined;
+  /** Required. The instance where this resource is located. For example: Cloud SQL instance ID. */
+  instance?: string | undefined;
 }
-/** If set, the detailed data profiles will be persisted to the location of your choice whenever updated. */
-export interface GooglePrivacyDlpV2Export {
-  /** Store sample data profile findings in an existing table or a new table in an existing dataset. Each regeneration will result in new rows in BigQuery. Data is inserted using [streaming insert](https://cloud.google.com/blog/products/bigquery/life-of-a-bigquery-streaming-insert) and so data may be in the buffer for a period of time after the profile has finished. */
-  sampleFindingsTable?: GooglePrivacyDlpV2BigQueryTable;
-  /** Store all profiles to BigQuery. * The system will create a new dataset and table for you if none are are provided. The dataset will be named `sensitive_data_protection_discovery` and table will be named `discovery_profiles`. This table will be placed in the same project as the container project running the scan. After the first profile is generated and the dataset and table are created, the discovery scan configuration will be updated with the dataset and table names. * See [Analyze data profiles stored in BigQuery](https://docs.cloud.google.com/sensitive-data-protection/docs/analyze-data-profiles). * See [Sample queries for your BigQuery table](https://docs.cloud.google.com/sensitive-data-protection/docs/analyze-data-profiles#sample_sql_queries). * Data is inserted using [streaming insert](https://cloud.google.com/blog/products/bigquery/life-of-a-bigquery-streaming-insert) and so data may be in the buffer for a period of time after the profile has finished. * The Pub/Sub notification is sent before the streaming buffer is guaranteed to be written, so data may not be instantly visible to queries by the time your topic receives the Pub/Sub notification. * The best practice is to use the same table for an entire organization so that you can take advantage of the [provided Data Studio reports](https://docs.cloud.google.com/sensitive-data-protection/docs/analyze-data-profiles#use_a_premade_report). If you use VPC Service Controls to define security perimeters, then you must use a separate table for each boundary. */
-  profileTable?: GooglePrivacyDlpV2BigQueryTable;
+/** Determines what tables will have profiles generated within an organization or project. Includes the ability to filter by regular expression patterns on project ID, location, instance, database, and database resource name. */
+export interface GooglePrivacyDlpV2DiscoveryCloudSqlFilter {
+  /** Catch-all. This should always be the last target in the list because anything above it will apply first. Should only appear once in a configuration. If none is specified, a default one will be added automatically. */
+  others?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** A specific set of database resources for this filter to apply to. */
+  collection?: GooglePrivacyDlpV2DatabaseResourceCollection | undefined;
+  /** The database resource to scan. Targets including this can only include one target (the target with this database resource reference). */
+  databaseResourceReference?: GooglePrivacyDlpV2DatabaseResourceReference | undefined;
 }
-/** A task to execute when a data profile has been generated. */
-export interface GooglePrivacyDlpV2DataProfileAction {
-  /** Tags the profiled resources with the specified tag values. */
-  tagResources?: GooglePrivacyDlpV2TagResources;
-  /** Publishes generated data profiles to Google Security Operations. For more information, see [Use Sensitive Data Protection data in context-aware analytics](https://docs.cloud.google.com/chronicle/docs/detection/usecase-dlp-high-risk-user-download). */
-  publishToChronicle?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-  /** Publishes a portion of each profile to Dataplex Universal Catalog with the aspect type Sensitive Data Protection Profile. */
-  publishToDataplexCatalog?: GooglePrivacyDlpV2PublishToDataplexCatalog;
-  /** Publishes findings to Security Command Center for each data profile. */
-  publishToScc?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-  /** Publish a message into the Pub/Sub topic. */
-  pubSubNotification?: GooglePrivacyDlpV2PubSubNotification;
-  /** Export data profiles into a provided location. */
-  exportData?: GooglePrivacyDlpV2Export;
-}
-export type GooglePrivacyDlpV2DataProfileActionList = Array<GooglePrivacyDlpV2DataProfileAction>;
-export type GooglePrivacyDlpV2DiscoveryBigQueryConditionsTypeCollectionEnum =
-  | "BIG_QUERY_COLLECTION_UNSPECIFIED"
-  | "BIG_QUERY_COLLECTION_ALL_TYPES"
-  | "BIG_QUERY_COLLECTION_ONLY_SUPPORTED_TYPES";
-/** There is an OR relationship between these attributes. They are used to determine if a table should be scanned or not in Discovery. */
-export interface GooglePrivacyDlpV2OrConditions {
-  /** Minimum age a table must have before Cloud DLP can profile it. Value must be 1 hour or greater. */
-  minAge?: string;
-  /** Minimum number of rows that should be present before Cloud DLP profiles a table */
-  minRowCount?: number;
-}
-export type GooglePrivacyDlpV2BigQueryTableTypesTypesItemEnum =
-  | "BIG_QUERY_TABLE_TYPE_UNSPECIFIED"
-  | "BIG_QUERY_TABLE_TYPE_TABLE"
-  | "BIG_QUERY_TABLE_TYPE_EXTERNAL_BIG_LAKE"
-  | "BIG_QUERY_TABLE_TYPE_SNAPSHOT";
-export type GooglePrivacyDlpV2BigQueryTableTypesTypesItemEnumList = Array<
-  GooglePrivacyDlpV2BigQueryTableTypesTypesItemEnum | (string & {})
->;
-/** The types of BigQuery tables supported by Cloud DLP. */
-export interface GooglePrivacyDlpV2BigQueryTableTypes {
-  /** A set of BigQuery table types. */
-  types?: GooglePrivacyDlpV2BigQueryTableTypesTypesItemEnumList;
-}
-/** Requirements that must be true before a table is scanned in discovery for the first time. There is an AND relationship between the top-level attributes. Additionally, minimum conditions with an OR relationship that must be met before Cloud DLP scans a table can be set (like a minimum row count or a minimum table age). */
-export interface GooglePrivacyDlpV2DiscoveryBigQueryConditions {
-  /** BigQuery table must have been created after this date. Used to avoid backfilling. */
-  createdAfter?: string;
-  /** Restrict discovery to categories of table types. */
-  typeCollection?: GooglePrivacyDlpV2DiscoveryBigQueryConditionsTypeCollectionEnum | (string & {});
-  /** At least one of the conditions must be true for a table to be scanned. */
-  orConditions?: GooglePrivacyDlpV2OrConditions;
-  /** Restrict discovery to specific table types. */
-  types?: GooglePrivacyDlpV2BigQueryTableTypes;
-}
-export type GooglePrivacyDlpV2DiscoveryTableModifiedCadenceFrequencyEnum =
-  | "UPDATE_FREQUENCY_UNSPECIFIED"
-  | "UPDATE_FREQUENCY_NEVER"
-  | "UPDATE_FREQUENCY_DAILY"
-  | "UPDATE_FREQUENCY_MONTHLY";
-export type GooglePrivacyDlpV2DiscoveryTableModifiedCadenceTypesItemEnum =
-  | "TABLE_MODIFICATION_UNSPECIFIED"
-  | "TABLE_MODIFIED_TIMESTAMP";
-export type GooglePrivacyDlpV2DiscoveryTableModifiedCadenceTypesItemEnumList = Array<
-  GooglePrivacyDlpV2DiscoveryTableModifiedCadenceTypesItemEnum | (string & {})
->;
-/** The cadence at which to update data profiles when a table is modified. */
-export interface GooglePrivacyDlpV2DiscoveryTableModifiedCadence {
-  /** How frequently data profiles can be updated when tables are modified. Defaults to never. */
-  frequency?: GooglePrivacyDlpV2DiscoveryTableModifiedCadenceFrequencyEnum | (string & {});
-  /** The type of events to consider when deciding if the table has been modified and should have the profile updated. Defaults to MODIFIED_TIMESTAMP. */
-  types?: GooglePrivacyDlpV2DiscoveryTableModifiedCadenceTypesItemEnumList;
-}
-export type GooglePrivacyDlpV2DiscoveryGenerationCadenceRefreshFrequencyEnum =
-  | "UPDATE_FREQUENCY_UNSPECIFIED"
-  | "UPDATE_FREQUENCY_NEVER"
-  | "UPDATE_FREQUENCY_DAILY"
-  | "UPDATE_FREQUENCY_MONTHLY";
-export type GooglePrivacyDlpV2DiscoverySchemaModifiedCadenceFrequencyEnum =
-  | "UPDATE_FREQUENCY_UNSPECIFIED"
-  | "UPDATE_FREQUENCY_NEVER"
-  | "UPDATE_FREQUENCY_DAILY"
-  | "UPDATE_FREQUENCY_MONTHLY";
-export type GooglePrivacyDlpV2DiscoverySchemaModifiedCadenceTypesItemEnum =
-  | "SCHEMA_MODIFICATION_UNSPECIFIED"
-  | "SCHEMA_NEW_COLUMNS"
-  | "SCHEMA_REMOVED_COLUMNS";
-export type GooglePrivacyDlpV2DiscoverySchemaModifiedCadenceTypesItemEnumList = Array<
-  GooglePrivacyDlpV2DiscoverySchemaModifiedCadenceTypesItemEnum | (string & {})
->;
-/** The cadence at which to update data profiles when a schema is modified. */
-export interface GooglePrivacyDlpV2DiscoverySchemaModifiedCadence {
-  /** How frequently profiles may be updated when schemas are modified. Defaults to monthly. */
-  frequency?: GooglePrivacyDlpV2DiscoverySchemaModifiedCadenceFrequencyEnum | (string & {});
-  /** The type of events to consider when deciding if the table's schema has been modified and should have the profile updated. Defaults to NEW_COLUMNS. */
-  types?: GooglePrivacyDlpV2DiscoverySchemaModifiedCadenceTypesItemEnumList;
-}
+/** Do not profile the tables. */
+export type GooglePrivacyDlpV2Disabled = GooglePrivacyDlpV2ActivateJobTriggerRequest;
 export type GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadenceFrequencyEnum =
   | "UPDATE_FREQUENCY_UNSPECIFIED"
   | "UPDATE_FREQUENCY_NEVER"
@@ -1892,194 +1756,14 @@ export interface GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence {
   /** How frequently data profiles can be updated when the template is modified. Defaults to never. */
   frequency?:
     | GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadenceFrequencyEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
-/** What must take place for a profile to be updated and how frequently it should occur. New tables are scanned as quickly as possible depending on system capacity. */
-export interface GooglePrivacyDlpV2DiscoveryGenerationCadence {
-  /** Governs when to update data profiles when a table is modified. */
-  tableModifiedCadence?: GooglePrivacyDlpV2DiscoveryTableModifiedCadence;
-  /** Frequency at which profiles should be updated, regardless of whether the underlying resource has changed. Defaults to never. */
-  refreshFrequency?:
-    | GooglePrivacyDlpV2DiscoveryGenerationCadenceRefreshFrequencyEnum
-    | (string & {});
-  /** Governs when to update data profiles when a schema is modified. */
-  schemaModifiedCadence?: GooglePrivacyDlpV2DiscoverySchemaModifiedCadence;
-  /** Governs when to update data profiles when the inspection rules defined by the `InspectTemplate` change. If not set, changing the template will not cause a data profile to update. */
-  inspectTemplateModifiedCadence?: GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence;
-}
-/** Catch-all for all other tables not specified by other filters. Should always be last, except for single-table configurations, which will only have a TableReference target. */
-export type GooglePrivacyDlpV2AllOtherBigQueryTables = GooglePrivacyDlpV2ActivateJobTriggerRequest;
-/** Message defining the location of a BigQuery table with the projectId inferred from the parent project. */
-export interface GooglePrivacyDlpV2TableReference {
-  /** Dataset ID of the table. */
-  datasetId?: string;
-  /** The Google Cloud project ID of the project containing the table. If omitted, the project ID is inferred from the parent project. This field is required if the parent resource is an organization. */
-  projectId?: string;
-  /** Name of the table. */
-  tableId?: string;
-}
-/** A pattern to match against one or more tables, datasets, or projects that contain BigQuery tables. At least one pattern must be specified. Regular expressions use RE2 [syntax](https://github.com/google/re2/wiki/Syntax); a guide can be found under the google/re2 repository on GitHub. */
-export interface GooglePrivacyDlpV2BigQueryRegex {
-  /** If unset, this property matches all datasets. */
-  datasetIdRegex?: string;
-  /** If unset, this property matches all tables. */
-  tableIdRegex?: string;
-  /** For organizations, if unset, will match all projects. Has no effect for data profile configurations created within a project. */
-  projectIdRegex?: string;
-}
-export type GooglePrivacyDlpV2BigQueryRegexList = Array<GooglePrivacyDlpV2BigQueryRegex>;
-/** A collection of regular expressions to determine what tables to match against. */
-export interface GooglePrivacyDlpV2BigQueryRegexes {
-  /** A single BigQuery regular expression pattern to match against one or more tables, datasets, or projects that contain BigQuery tables. */
-  patterns?: GooglePrivacyDlpV2BigQueryRegexList;
-}
-/** Specifies a collection of BigQuery tables. Used for Discovery. */
-export interface GooglePrivacyDlpV2BigQueryTableCollection {
-  /** A collection of regular expressions to match a BigQuery table against. */
-  includeRegexes?: GooglePrivacyDlpV2BigQueryRegexes;
-}
-/** Determines what tables will have profiles generated within an organization or project. Includes the ability to filter by regular expression patterns on project ID, dataset ID, and table ID. */
-export interface GooglePrivacyDlpV2DiscoveryBigQueryFilter {
-  /** Catch-all. This should always be the last filter in the list because anything above it will apply first. Should only appear once in a configuration. If none is specified, a default one will be added automatically. */
-  otherTables?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-  /** The table to scan. Discovery configurations including this can only include one DiscoveryTarget (the DiscoveryTarget with this TableReference). */
-  tableReference?: GooglePrivacyDlpV2TableReference;
-  /** A specific set of tables for this filter to apply to. A table collection must be specified in only one filter per config. If a table id or dataset is empty, Cloud DLP assumes all tables in that collection must be profiled. Must specify a project ID. */
-  tables?: GooglePrivacyDlpV2BigQueryTableCollection;
-}
-/** Do not profile the tables. */
-export type GooglePrivacyDlpV2Disabled = GooglePrivacyDlpV2ActivateJobTriggerRequest;
-/** Target used to match against for discovery with BigQuery tables */
-export interface GooglePrivacyDlpV2BigQueryDiscoveryTarget {
-  /** In addition to matching the filter, these conditions must be true before a profile is generated. */
-  conditions?: GooglePrivacyDlpV2DiscoveryBigQueryConditions;
-  /** How often and when to update profiles. New tables that match both the filter and conditions are scanned as quickly as possible depending on system capacity. */
-  cadence?: GooglePrivacyDlpV2DiscoveryGenerationCadence;
-  /** Required. The tables the discovery cadence applies to. The first target with a matching filter will be the one to apply to a table. */
-  filter?: GooglePrivacyDlpV2DiscoveryBigQueryFilter;
-  /** Tables that match this filter will not have profiles created. */
-  disabled?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-}
-/** Match discovery resources not covered by any other filter. */
-export type GooglePrivacyDlpV2AllOtherResources = GooglePrivacyDlpV2ActivateJobTriggerRequest;
-/** AWS account regex. */
-export interface GooglePrivacyDlpV2AwsAccountRegex {
-  /** Optional. Regex to test the AWS account ID against. If empty, all accounts match. */
-  accountIdRegex?: string;
-}
-/** Amazon S3 bucket regex. */
-export interface GooglePrivacyDlpV2AmazonS3BucketRegex {
-  /** The AWS account regex. */
-  awsAccountRegex?: GooglePrivacyDlpV2AwsAccountRegex;
-  /** Optional. Regex to test the bucket name against. If empty, all buckets match. */
-  bucketNameRegex?: string;
-}
-/** A pattern to match against one or more resources. At least one pattern must be specified. Regular expressions use RE2 [syntax](https://github.com/google/re2/wiki/Syntax); a guide can be found under the google/re2 repository on GitHub. */
-export interface GooglePrivacyDlpV2OtherCloudResourceRegex {
-  /** Regex for Amazon S3 buckets. */
-  amazonS3BucketRegex?: GooglePrivacyDlpV2AmazonS3BucketRegex;
-}
-export type GooglePrivacyDlpV2OtherCloudResourceRegexList =
-  Array<GooglePrivacyDlpV2OtherCloudResourceRegex>;
-/** A collection of regular expressions to determine what resources to match against. */
-export interface GooglePrivacyDlpV2OtherCloudResourceRegexes {
-  /** A group of regular expression patterns to match against one or more resources. Maximum of 100 entries. The sum of all regular expression's length can't exceed 10 KiB. */
-  patterns?: GooglePrivacyDlpV2OtherCloudResourceRegexList;
-}
-/** Match resources using regex filters. */
-export interface GooglePrivacyDlpV2OtherCloudResourceCollection {
-  /** A collection of regular expressions to match a resource against. */
-  includeRegexes?: GooglePrivacyDlpV2OtherCloudResourceRegexes;
-}
-/** AWS account. */
-export interface GooglePrivacyDlpV2AwsAccount {
-  /** Required. AWS account ID. */
-  accountId?: string;
-}
-/** Amazon S3 bucket. */
-export interface GooglePrivacyDlpV2AmazonS3Bucket {
-  /** The AWS account. */
-  awsAccount?: GooglePrivacyDlpV2AwsAccount;
-  /** Required. The bucket name. */
-  bucketName?: string;
-}
-/** Identifies a single resource, like a single Amazon S3 bucket. */
-export interface GooglePrivacyDlpV2OtherCloudSingleResourceReference {
-  /** Amazon S3 bucket. */
-  amazonS3Bucket?: GooglePrivacyDlpV2AmazonS3Bucket;
-}
-/** Determines which resources from the other cloud will have profiles generated. Includes the ability to filter by resource names. */
-export interface GooglePrivacyDlpV2DiscoveryOtherCloudFilter {
-  /** Optional. Catch-all. This should always be the last target in the list because anything above it will apply first. Should only appear once in a configuration. If none is specified, a default one will be added automatically. */
-  others?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-  /** A collection of resources for this filter to apply to. */
-  collection?: GooglePrivacyDlpV2OtherCloudResourceCollection;
-  /** The resource to scan. Configs using this filter can only have one target (the target with this single resource reference). */
-  singleResource?: GooglePrivacyDlpV2OtherCloudSingleResourceReference;
-}
-export type GooglePrivacyDlpV2DiscoveryOtherCloudGenerationCadenceRefreshFrequencyEnum =
+export type GooglePrivacyDlpV2SchemaModifiedCadenceFrequencyEnum =
   | "UPDATE_FREQUENCY_UNSPECIFIED"
   | "UPDATE_FREQUENCY_NEVER"
   | "UPDATE_FREQUENCY_DAILY"
   | "UPDATE_FREQUENCY_MONTHLY";
-/** How often existing resources should have their profiles refreshed. New resources are scanned as quickly as possible depending on system capacity. */
-export interface GooglePrivacyDlpV2DiscoveryOtherCloudGenerationCadence {
-  /** Optional. Frequency to update profiles regardless of whether the underlying resource has changes. Defaults to never. */
-  refreshFrequency?:
-    | GooglePrivacyDlpV2DiscoveryOtherCloudGenerationCadenceRefreshFrequencyEnum
-    | (string & {});
-  /** Optional. Governs when to update data profiles when the inspection rules defined by the `InspectTemplate` change. If not set, changing the template will not cause a data profile to update. */
-  inspectTemplateModifiedCadence?: GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence;
-}
-export type GooglePrivacyDlpV2AmazonS3BucketConditionsBucketTypesItemEnum =
-  | "TYPE_UNSPECIFIED"
-  | "TYPE_ALL_SUPPORTED"
-  | "TYPE_GENERAL_PURPOSE";
-export type GooglePrivacyDlpV2AmazonS3BucketConditionsBucketTypesItemEnumList = Array<
-  GooglePrivacyDlpV2AmazonS3BucketConditionsBucketTypesItemEnum | (string & {})
->;
-export type GooglePrivacyDlpV2AmazonS3BucketConditionsObjectStorageClassesItemEnum =
-  | "UNSPECIFIED"
-  | "ALL_SUPPORTED_CLASSES"
-  | "STANDARD"
-  | "STANDARD_INFREQUENT_ACCESS"
-  | "GLACIER_INSTANT_RETRIEVAL"
-  | "INTELLIGENT_TIERING";
-export type GooglePrivacyDlpV2AmazonS3BucketConditionsObjectStorageClassesItemEnumList = Array<
-  GooglePrivacyDlpV2AmazonS3BucketConditionsObjectStorageClassesItemEnum | (string & {})
->;
-/** Amazon S3 bucket conditions. */
-export interface GooglePrivacyDlpV2AmazonS3BucketConditions {
-  /** Optional. Bucket types that should be profiled. Optional. Defaults to TYPE_ALL_SUPPORTED if unspecified. */
-  bucketTypes?: GooglePrivacyDlpV2AmazonS3BucketConditionsBucketTypesItemEnumList;
-  /** Optional. Object classes that should be profiled. Optional. Defaults to ALL_SUPPORTED_CLASSES if unspecified. */
-  objectStorageClasses?: GooglePrivacyDlpV2AmazonS3BucketConditionsObjectStorageClassesItemEnumList;
-}
-/** Requirements that must be true before a resource is profiled for the first time. */
-export interface GooglePrivacyDlpV2DiscoveryOtherCloudConditions {
-  /** Amazon S3 bucket conditions. */
-  amazonS3BucketConditions?: GooglePrivacyDlpV2AmazonS3BucketConditions;
-  /** Minimum age a resource must be before Cloud DLP can profile it. Value must be 1 hour or greater. */
-  minAge?: string;
-}
-/** Message used to identify the type of resource being profiled. */
-export interface GooglePrivacyDlpV2DataSourceType {
-  /** A string that identifies the type of resource being profiled. Current values: * google/bigquery/table * google/project * google/sql/table * google/gcs/bucket */
-  dataSource?: string;
-}
-/** Target used to match against for discovery of resources from other clouds. An [AWS connector in Security Command Center (Enterprise](https://docs.cloud.google.com/security-command-center/docs/connect-scc-to-aws) is required to use this feature. */
-export interface GooglePrivacyDlpV2OtherCloudDiscoveryTarget {
-  /** Required. The resources that the discovery cadence applies to. The first target with a matching filter will be the one to apply to a resource. */
-  filter?: GooglePrivacyDlpV2DiscoveryOtherCloudFilter;
-  /** How often and when to update data profiles. New resources that match both the filter and conditions are scanned as quickly as possible depending on system capacity. */
-  generationCadence?: GooglePrivacyDlpV2DiscoveryOtherCloudGenerationCadence;
-  /** Optional. In addition to matching the filter, these conditions must be true before a profile is generated. */
-  conditions?: GooglePrivacyDlpV2DiscoveryOtherCloudConditions;
-  /** Disable profiling for resources that match this filter. */
-  disabled?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-  /** Required. The type of data profiles generated by this discovery target. Supported values are: * aws/s3/bucket */
-  dataSourceType?: GooglePrivacyDlpV2DataSourceType;
-}
 export type GooglePrivacyDlpV2SchemaModifiedCadenceTypesItemEnum =
   | "SQL_SCHEMA_MODIFICATION_UNSPECIFIED"
   | "NEW_COLUMNS"
@@ -2087,17 +1771,12 @@ export type GooglePrivacyDlpV2SchemaModifiedCadenceTypesItemEnum =
 export type GooglePrivacyDlpV2SchemaModifiedCadenceTypesItemEnumList = Array<
   GooglePrivacyDlpV2SchemaModifiedCadenceTypesItemEnum | (string & {})
 >;
-export type GooglePrivacyDlpV2SchemaModifiedCadenceFrequencyEnum =
-  | "UPDATE_FREQUENCY_UNSPECIFIED"
-  | "UPDATE_FREQUENCY_NEVER"
-  | "UPDATE_FREQUENCY_DAILY"
-  | "UPDATE_FREQUENCY_MONTHLY";
 /** How frequently to modify the profile when the table's schema is modified. */
 export interface GooglePrivacyDlpV2SchemaModifiedCadence {
-  /** The types of schema modifications to consider. Defaults to NEW_COLUMNS. */
-  types?: GooglePrivacyDlpV2SchemaModifiedCadenceTypesItemEnumList;
   /** Frequency to regenerate data profiles when the schema is modified. Defaults to monthly. */
-  frequency?: GooglePrivacyDlpV2SchemaModifiedCadenceFrequencyEnum | (string & {});
+  frequency?: GooglePrivacyDlpV2SchemaModifiedCadenceFrequencyEnum | (string & {}) | undefined;
+  /** The types of schema modifications to consider. Defaults to NEW_COLUMNS. */
+  types?: GooglePrivacyDlpV2SchemaModifiedCadenceTypesItemEnumList | undefined;
 }
 export type GooglePrivacyDlpV2DiscoveryCloudSqlGenerationCadenceRefreshFrequencyEnum =
   | "UPDATE_FREQUENCY_UNSPECIFIED"
@@ -2106,60 +1785,17 @@ export type GooglePrivacyDlpV2DiscoveryCloudSqlGenerationCadenceRefreshFrequency
   | "UPDATE_FREQUENCY_MONTHLY";
 /** How often existing tables should have their profiles refreshed. New tables are scanned as quickly as possible depending on system capacity. */
 export interface GooglePrivacyDlpV2DiscoveryCloudSqlGenerationCadence {
-  /** When to reprofile if the schema has changed. */
-  schemaModifiedCadence?: GooglePrivacyDlpV2SchemaModifiedCadence;
   /** Governs when to update data profiles when the inspection rules defined by the `InspectTemplate` change. If not set, changing the template will not cause a data profile to update. */
-  inspectTemplateModifiedCadence?: GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence;
+  inspectTemplateModifiedCadence?:
+    | GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence
+    | undefined;
+  /** When to reprofile if the schema has changed. */
+  schemaModifiedCadence?: GooglePrivacyDlpV2SchemaModifiedCadence | undefined;
   /** Data changes (non-schema changes) in Cloud SQL tables can't trigger reprofiling. If you set this field, profiles are refreshed at this frequency regardless of whether the underlying tables have changed. Defaults to never. */
   refreshFrequency?:
     | GooglePrivacyDlpV2DiscoveryCloudSqlGenerationCadenceRefreshFrequencyEnum
-    | (string & {});
-}
-/** Identifies a single database resource, like a table within a database. */
-export interface GooglePrivacyDlpV2DatabaseResourceReference {
-  /** Required. Name of a database resource, for example, a table within the database. */
-  databaseResource?: string;
-  /** Required. If within a project-level config, then this must match the config's project ID. */
-  projectId?: string;
-  /** Required. Name of a database within the instance. */
-  database?: string;
-  /** Required. The instance where this resource is located. For example: Cloud SQL instance ID. */
-  instance?: string;
-}
-/** Match database resources not covered by any other filter. */
-export type GooglePrivacyDlpV2AllOtherDatabaseResources =
-  GooglePrivacyDlpV2ActivateJobTriggerRequest;
-/** A pattern to match against one or more database resources. At least one pattern must be specified. Regular expressions use RE2 [syntax](https://github.com/google/re2/wiki/Syntax); a guide can be found under the google/re2 repository on GitHub. */
-export interface GooglePrivacyDlpV2DatabaseResourceRegex {
-  /** Regex to test the database name against. If empty, all databases match. */
-  databaseRegex?: string;
-  /** For organizations, if unset, will match all projects. Has no effect for configurations created within a project. */
-  projectIdRegex?: string;
-  /** Regex to test the instance name against. If empty, all instances match. */
-  instanceRegex?: string;
-  /** Regex to test the database resource's name against. An example of a database resource name is a table's name. Other database resource names like view names could be included in the future. If empty, all database resources match. */
-  databaseResourceNameRegex?: string;
-}
-export type GooglePrivacyDlpV2DatabaseResourceRegexList =
-  Array<GooglePrivacyDlpV2DatabaseResourceRegex>;
-/** A collection of regular expressions to determine what database resources to match against. */
-export interface GooglePrivacyDlpV2DatabaseResourceRegexes {
-  /** A group of regular expression patterns to match against one or more database resources. Maximum of 100 entries. The sum of all regular expression's length can't exceed 10 KiB. */
-  patterns?: GooglePrivacyDlpV2DatabaseResourceRegexList;
-}
-/** Match database resources using regex filters. Examples of database resources are tables, views, and stored procedures. */
-export interface GooglePrivacyDlpV2DatabaseResourceCollection {
-  /** A collection of regular expressions to match a database resource against. */
-  includeRegexes?: GooglePrivacyDlpV2DatabaseResourceRegexes;
-}
-/** Determines what tables will have profiles generated within an organization or project. Includes the ability to filter by regular expression patterns on project ID, location, instance, database, and database resource name. */
-export interface GooglePrivacyDlpV2DiscoveryCloudSqlFilter {
-  /** The database resource to scan. Targets including this can only include one target (the target with this database resource reference). */
-  databaseResourceReference?: GooglePrivacyDlpV2DatabaseResourceReference;
-  /** Catch-all. This should always be the last target in the list because anything above it will apply first. Should only appear once in a configuration. If none is specified, a default one will be added automatically. */
-  others?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-  /** A specific set of database resources for this filter to apply to. */
-  collection?: GooglePrivacyDlpV2DatabaseResourceCollection;
+    | (string & {})
+    | undefined;
 }
 export type GooglePrivacyDlpV2DiscoveryCloudSqlConditionsDatabaseEnginesItemEnum =
   | "DATABASE_ENGINE_UNSPECIFIED"
@@ -2179,20 +1815,22 @@ export type GooglePrivacyDlpV2DiscoveryCloudSqlConditionsTypesItemEnumList = Arr
 /** Requirements that must be true before a table is profiled for the first time. */
 export interface GooglePrivacyDlpV2DiscoveryCloudSqlConditions {
   /** Optional. Database engines that should be profiled. Optional. Defaults to ALL_SUPPORTED_DATABASE_ENGINES if unspecified. */
-  databaseEngines?: GooglePrivacyDlpV2DiscoveryCloudSqlConditionsDatabaseEnginesItemEnumList;
+  databaseEngines?:
+    | GooglePrivacyDlpV2DiscoveryCloudSqlConditionsDatabaseEnginesItemEnumList
+    | undefined;
   /** Data profiles will only be generated for the database resource types specified in this field. If not specified, defaults to [DATABASE_RESOURCE_TYPE_ALL_SUPPORTED_TYPES]. */
-  types?: GooglePrivacyDlpV2DiscoveryCloudSqlConditionsTypesItemEnumList;
+  types?: GooglePrivacyDlpV2DiscoveryCloudSqlConditionsTypesItemEnumList | undefined;
 }
 /** Target used to match against for discovery with Cloud SQL tables. */
 export interface GooglePrivacyDlpV2CloudSqlDiscoveryTarget {
-  /** Disable profiling for database resources that match this filter. */
-  disabled?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-  /** How often and when to update profiles. New tables that match both the filter and conditions are scanned as quickly as possible depending on system capacity. */
-  generationCadence?: GooglePrivacyDlpV2DiscoveryCloudSqlGenerationCadence;
   /** Required. The tables the discovery cadence applies to. The first target with a matching filter will be the one to apply to a table. */
-  filter?: GooglePrivacyDlpV2DiscoveryCloudSqlFilter;
+  filter?: GooglePrivacyDlpV2DiscoveryCloudSqlFilter | undefined;
+  /** Disable profiling for database resources that match this filter. */
+  disabled?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** How often and when to update profiles. New tables that match both the filter and conditions are scanned as quickly as possible depending on system capacity. */
+  generationCadence?: GooglePrivacyDlpV2DiscoveryCloudSqlGenerationCadence | undefined;
   /** In addition to matching the filter, these conditions must be true before a profile is generated. */
-  conditions?: GooglePrivacyDlpV2DiscoveryCloudSqlConditions;
+  conditions?: GooglePrivacyDlpV2DiscoveryCloudSqlConditions | undefined;
 }
 export type GooglePrivacyDlpV2DiscoveryCloudStorageGenerationCadenceRefreshFrequencyEnum =
   | "UPDATE_FREQUENCY_UNSPECIFIED"
@@ -2201,66 +1839,71 @@ export type GooglePrivacyDlpV2DiscoveryCloudStorageGenerationCadenceRefreshFrequ
   | "UPDATE_FREQUENCY_MONTHLY";
 /** How often existing buckets should have their profiles refreshed. New buckets are scanned as quickly as possible depending on system capacity. */
 export interface GooglePrivacyDlpV2DiscoveryCloudStorageGenerationCadence {
+  /** Optional. Governs when to update data profiles when the inspection rules defined by the `InspectTemplate` change. If not set, changing the template will not cause a data profile to update. */
+  inspectTemplateModifiedCadence?:
+    | GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence
+    | undefined;
   /** Optional. Data changes in Cloud Storage can't trigger reprofiling. If you set this field, profiles are refreshed at this frequency regardless of whether the underlying buckets have changed. Defaults to never. */
   refreshFrequency?:
     | GooglePrivacyDlpV2DiscoveryCloudStorageGenerationCadenceRefreshFrequencyEnum
-    | (string & {});
-  /** Optional. Governs when to update data profiles when the inspection rules defined by the `InspectTemplate` change. If not set, changing the template will not cause a data profile to update. */
-  inspectTemplateModifiedCadence?: GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence;
+    | (string & {})
+    | undefined;
 }
 /** A single tag to filter against. */
 export interface GooglePrivacyDlpV2TagFilter {
   /** The namespaced name for the tag value. Must be in the format `{parent_id}/{tag_key_short_name}/{short_name}`, for example, "123456/environment/prod" for an organization parent, or "my-project/environment/prod" for a project parent. */
-  namespacedTagValue?: string;
+  namespacedTagValue?: string | undefined;
   /** The namespaced name for the tag key. Must be in the format `{parent_id}/{tag_key_short_name}`, for example, "123456/sensitive" for an organization parent, or "my-project/sensitive" for a project parent. */
-  namespacedTagKey?: string;
+  namespacedTagKey?: string | undefined;
 }
 export type GooglePrivacyDlpV2TagFilterList = Array<GooglePrivacyDlpV2TagFilter>;
 /** Tags to match against for filtering. */
 export interface GooglePrivacyDlpV2TagFilters {
   /** Required. A resource must match ALL of the specified tag filters to be included in the collection. */
-  tagFilters?: GooglePrivacyDlpV2TagFilterList;
+  tagFilters?: GooglePrivacyDlpV2TagFilterList | undefined;
 }
 /** A pattern to match against one or more file stores. At least one pattern must be specified. Regular expressions use RE2 [syntax](https://github.com/google/re2/wiki/Syntax); a guide can be found under the google/re2 repository on GitHub. */
 export interface GooglePrivacyDlpV2CloudStorageRegex {
   /** Optional. For organizations, if unset, will match all projects. */
-  projectIdRegex?: string;
+  projectIdRegex?: string | undefined;
   /** Optional. Regex to test the bucket name against. If empty, all buckets match. Example: "marketing2021" or "(marketing)\d{4}" will both match the bucket gs://marketing2021 */
-  bucketNameRegex?: string;
+  bucketNameRegex?: string | undefined;
 }
 /** A pattern to match against one or more file stores. */
 export interface GooglePrivacyDlpV2FileStoreRegex {
   /** Optional. Regex for Cloud Storage. */
-  cloudStorageRegex?: GooglePrivacyDlpV2CloudStorageRegex;
+  cloudStorageRegex?: GooglePrivacyDlpV2CloudStorageRegex | undefined;
 }
 export type GooglePrivacyDlpV2FileStoreRegexList = Array<GooglePrivacyDlpV2FileStoreRegex>;
 /** A collection of regular expressions to determine what file store to match against. */
 export interface GooglePrivacyDlpV2FileStoreRegexes {
   /** Required. The group of regular expression patterns to match against one or more file stores. Maximum of 100 entries. The sum of all regular expression's length can't exceed 10 KiB. */
-  patterns?: GooglePrivacyDlpV2FileStoreRegexList;
+  patterns?: GooglePrivacyDlpV2FileStoreRegexList | undefined;
 }
 /** Match file stores (e.g. buckets) using filters. */
 export interface GooglePrivacyDlpV2FileStoreCollection {
   /** Optional. To be included in the collection, a resource must meet all of the following requirements: - If tag filters are provided, match all provided tag filters. - If one or more patterns are specified, match at least one pattern. For a resource to match the tag filters, the resource must have all of the provided tags attached. Tags refer to Resource Manager tags bound to the resource or its ancestors. For more information, see [Manage schedules](https://docs.cloud.google.com/sensitive-data-protection/docs/profile-project-cloud-storage#manage-schedules). */
-  includeTags?: GooglePrivacyDlpV2TagFilters;
+  includeTags?: GooglePrivacyDlpV2TagFilters | undefined;
   /** Optional. A collection of regular expressions to match a file store against. */
-  includeRegexes?: GooglePrivacyDlpV2FileStoreRegexes;
+  includeRegexes?: GooglePrivacyDlpV2FileStoreRegexes | undefined;
 }
+/** Match discovery resources not covered by any other filter. */
+export type GooglePrivacyDlpV2AllOtherResources = GooglePrivacyDlpV2ActivateJobTriggerRequest;
 /** Identifies a single Cloud Storage bucket. */
 export interface GooglePrivacyDlpV2CloudStorageResourceReference {
-  /** Required. The bucket to scan. */
-  bucketName?: string;
   /** Required. If within a project-level config, then this must match the config's project id. */
-  projectId?: string;
+  projectId?: string | undefined;
+  /** Required. The bucket to scan. */
+  bucketName?: string | undefined;
 }
 /** Determines which buckets will have profiles generated within an organization or project. Includes the ability to filter by regular expression patterns on project ID and bucket name. */
 export interface GooglePrivacyDlpV2DiscoveryCloudStorageFilter {
-  /** Optional. Catch-all. This should always be the last target in the list because anything above it will apply first. Should only appear once in a configuration. If none is specified, a default one will be added automatically. */
-  others?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
   /** Optional. A specific set of buckets for this filter to apply to. */
-  collection?: GooglePrivacyDlpV2FileStoreCollection;
+  collection?: GooglePrivacyDlpV2FileStoreCollection | undefined;
+  /** Optional. Catch-all. This should always be the last target in the list because anything above it will apply first. Should only appear once in a configuration. If none is specified, a default one will be added automatically. */
+  others?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
   /** Optional. The bucket to scan. Targets including this can only include one target (the target with this bucket). This enables profiling the contents of a single bucket, while the other options allow for easy profiling of many bucets within a project or an organization. */
-  cloudStorageResourceReference?: GooglePrivacyDlpV2CloudStorageResourceReference;
+  cloudStorageResourceReference?: GooglePrivacyDlpV2CloudStorageResourceReference | undefined;
 }
 export type GooglePrivacyDlpV2DiscoveryCloudStorageConditionsIncludedBucketAttributesItemEnum =
   | "CLOUD_STORAGE_BUCKET_ATTRIBUTE_UNSPECIFIED"
@@ -2290,36 +1933,33 @@ export type GooglePrivacyDlpV2DiscoveryCloudStorageConditionsIncludedObjectAttri
 /** Requirements that must be true before a Cloud Storage bucket or object is scanned in discovery for the first time. There is an AND relationship between the top-level attributes. */
 export interface GooglePrivacyDlpV2DiscoveryCloudStorageConditions {
   /** Required. Only objects with the specified attributes will be scanned. Defaults to [ALL_SUPPORTED_BUCKETS] if unset. */
-  includedBucketAttributes?: GooglePrivacyDlpV2DiscoveryCloudStorageConditionsIncludedBucketAttributesItemEnumList;
+  includedBucketAttributes?:
+    | GooglePrivacyDlpV2DiscoveryCloudStorageConditionsIncludedBucketAttributesItemEnumList
+    | undefined;
   /** Required. Only objects with the specified attributes will be scanned. If an object has one of the specified attributes but is inside an excluded bucket, it will not be scanned. Defaults to [ALL_SUPPORTED_OBJECTS]. A profile will be created even if no objects match the included_object_attributes. */
-  includedObjectAttributes?: GooglePrivacyDlpV2DiscoveryCloudStorageConditionsIncludedObjectAttributesItemEnumList;
+  includedObjectAttributes?:
+    | GooglePrivacyDlpV2DiscoveryCloudStorageConditionsIncludedObjectAttributesItemEnumList
+    | undefined;
 }
 /** Requirements that must be true before a file store is scanned in discovery for the first time. There is an AND relationship between the top-level attributes. */
 export interface GooglePrivacyDlpV2DiscoveryFileStoreConditions {
-  /** Optional. File store must have been created after this date. Used to avoid backfilling. */
-  createdAfter?: string;
   /** Optional. Minimum age a file store must have. If set, the value must be 1 hour or greater. */
-  minAge?: string;
+  minAge?: string | undefined;
+  /** Optional. File store must have been created after this date. Used to avoid backfilling. */
+  createdAfter?: string | undefined;
   /** Optional. Cloud Storage conditions. */
-  cloudStorageConditions?: GooglePrivacyDlpV2DiscoveryCloudStorageConditions;
+  cloudStorageConditions?: GooglePrivacyDlpV2DiscoveryCloudStorageConditions | undefined;
 }
 /** Target used to match against for discovery with Cloud Storage buckets. */
 export interface GooglePrivacyDlpV2CloudStorageDiscoveryTarget {
-  /** Optional. Disable profiling for buckets that match this filter. */
-  disabled?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
   /** Optional. How often and when to update profiles. New buckets that match both the filter and conditions are scanned as quickly as possible depending on system capacity. */
-  generationCadence?: GooglePrivacyDlpV2DiscoveryCloudStorageGenerationCadence;
+  generationCadence?: GooglePrivacyDlpV2DiscoveryCloudStorageGenerationCadence | undefined;
   /** Required. The buckets the generation_cadence applies to. The first target with a matching filter will be the one to apply to a bucket. */
-  filter?: GooglePrivacyDlpV2DiscoveryCloudStorageFilter;
+  filter?: GooglePrivacyDlpV2DiscoveryCloudStorageFilter | undefined;
   /** Optional. In addition to matching the filter, these conditions must be true before a profile is generated. */
-  conditions?: GooglePrivacyDlpV2DiscoveryFileStoreConditions;
-}
-/** Requirements that must be true before a dataset is profiled for the first time. */
-export interface GooglePrivacyDlpV2DiscoveryVertexDatasetConditions {
-  /** Minimum age a Vertex AI dataset must have. If set, the value must be 1 hour or greater. */
-  minAge?: string;
-  /** Vertex AI dataset must have been created after this date. Used to avoid backfilling. */
-  createdAfter?: string;
+  conditions?: GooglePrivacyDlpV2DiscoveryFileStoreConditions | undefined;
+  /** Optional. Disable profiling for buckets that match this filter. */
+  disabled?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
 }
 export type GooglePrivacyDlpV2DiscoveryVertexDatasetGenerationCadenceRefreshFrequencyEnum =
   | "UPDATE_FREQUENCY_UNSPECIFIED"
@@ -2328,144 +1968,559 @@ export type GooglePrivacyDlpV2DiscoveryVertexDatasetGenerationCadenceRefreshFreq
   | "UPDATE_FREQUENCY_MONTHLY";
 /** How often existing datasets should have their profiles refreshed. New datasets are scanned as quickly as possible depending on system capacity. */
 export interface GooglePrivacyDlpV2DiscoveryVertexDatasetGenerationCadence {
+  /** Governs when to update data profiles when the inspection rules defined by the `InspectTemplate` change. If not set, changing the template will not cause a data profile to be updated. */
+  inspectTemplateModifiedCadence?:
+    | GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence
+    | undefined;
   /** If you set this field, profiles are refreshed at this frequency regardless of whether the underlying datasets have changed. Defaults to never. */
   refreshFrequency?:
     | GooglePrivacyDlpV2DiscoveryVertexDatasetGenerationCadenceRefreshFrequencyEnum
-    | (string & {});
-  /** Governs when to update data profiles when the inspection rules defined by the `InspectTemplate` change. If not set, changing the template will not cause a data profile to be updated. */
-  inspectTemplateModifiedCadence?: GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence;
+    | (string & {})
+    | undefined;
 }
 /** A pattern to match against one or more dataset resources. */
 export interface GooglePrivacyDlpV2VertexDatasetRegex {
   /** For organizations, if unset, will match all projects. Has no effect for configurations created within a project. */
-  projectIdRegex?: string;
+  projectIdRegex?: string | undefined;
 }
 export type GooglePrivacyDlpV2VertexDatasetRegexList = Array<GooglePrivacyDlpV2VertexDatasetRegex>;
 /** A collection of regular expressions to determine what datasets to match against. */
 export interface GooglePrivacyDlpV2VertexDatasetRegexes {
   /** Required. The group of regular expression patterns to match against one or more datasets. Maximum of 100 entries. The sum of the lengths of all regular expressions can't exceed 10 KiB. */
-  patterns?: GooglePrivacyDlpV2VertexDatasetRegexList;
+  patterns?: GooglePrivacyDlpV2VertexDatasetRegexList | undefined;
 }
 /** Match dataset resources using regex filters. */
 export interface GooglePrivacyDlpV2VertexDatasetCollection {
   /** The regex used to filter dataset resources. */
-  vertexDatasetRegexes?: GooglePrivacyDlpV2VertexDatasetRegexes;
+  vertexDatasetRegexes?: GooglePrivacyDlpV2VertexDatasetRegexes | undefined;
 }
 /** Identifies a single Vertex AI resource. Only datasets are supported. */
 export interface GooglePrivacyDlpV2VertexDatasetResourceReference {
   /** Required. The name of the Vertex AI resource. If set within a project-level configuration, the specified resource must be within the project. Examples: * `projects/{project}/locations/{location}/datasets/{dataset}` */
-  datasetResourceName?: string;
+  datasetResourceName?: string | undefined;
 }
 /** Determines what datasets will have profiles generated within an organization or project. Includes the ability to filter by regular expression patterns on project ID or dataset regex. */
 export interface GooglePrivacyDlpV2DiscoveryVertexDatasetFilter {
   /** A specific set of Vertex AI datasets for this filter to apply to. */
-  collection?: GooglePrivacyDlpV2VertexDatasetCollection;
-  /** The dataset resource to scan. Targets including this can only include one target (the target with this dataset resource reference). */
-  vertexDatasetResourceReference?: GooglePrivacyDlpV2VertexDatasetResourceReference;
+  collection?: GooglePrivacyDlpV2VertexDatasetCollection | undefined;
   /** Catch-all. This should always be the last target in the list because anything above it will apply first. Should only appear once in a configuration. If none is specified, a default one will be added automatically. */
-  others?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
+  others?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** The dataset resource to scan. Targets including this can only include one target (the target with this dataset resource reference). */
+  vertexDatasetResourceReference?: GooglePrivacyDlpV2VertexDatasetResourceReference | undefined;
+}
+/** Requirements that must be true before a dataset is profiled for the first time. */
+export interface GooglePrivacyDlpV2DiscoveryVertexDatasetConditions {
+  /** Vertex AI dataset must have been created after this date. Used to avoid backfilling. */
+  createdAfter?: string | undefined;
+  /** Minimum age a Vertex AI dataset must have. If set, the value must be 1 hour or greater. */
+  minAge?: string | undefined;
 }
 /** Target used to match against for discovery with Vertex AI datasets. */
 export interface GooglePrivacyDlpV2VertexDatasetDiscoveryTarget {
-  /** In addition to matching the filter, these conditions must be true before a profile is generated. */
-  conditions?: GooglePrivacyDlpV2DiscoveryVertexDatasetConditions;
   /** How often and when to update profiles. New datasets that match both the filter and conditions are scanned as quickly as possible depending on system capacity. */
-  generationCadence?: GooglePrivacyDlpV2DiscoveryVertexDatasetGenerationCadence;
-  /** Required. The datasets the discovery cadence applies to. The first target with a matching filter will be the one to apply to a dataset. */
-  filter?: GooglePrivacyDlpV2DiscoveryVertexDatasetFilter;
+  generationCadence?: GooglePrivacyDlpV2DiscoveryVertexDatasetGenerationCadence | undefined;
   /** Disable profiling for datasets that match this filter. */
-  disabled?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
+  disabled?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** Required. The datasets the discovery cadence applies to. The first target with a matching filter will be the one to apply to a dataset. */
+  filter?: GooglePrivacyDlpV2DiscoveryVertexDatasetFilter | undefined;
+  /** In addition to matching the filter, these conditions must be true before a profile is generated. */
+  conditions?: GooglePrivacyDlpV2DiscoveryVertexDatasetConditions | undefined;
 }
-/** Discovery target for credentials and secrets in cloud resource metadata. This target does not include any filtering or frequency controls. Cloud DLP will scan cloud resource metadata for secrets daily. No inspect template should be included in the discovery config for a security benchmarks scan. Instead, the built-in list of secrets and credentials infoTypes will be used (see https://docs.cloud.google.com/sensitive-data-protection/docs/infotypes-reference#credentials_and_secrets). Credentials and secrets discovered will be reported as vulnerabilities to Security Command Center. */
-export type GooglePrivacyDlpV2SecretsDiscoveryTarget = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** AWS account. */
+export interface GooglePrivacyDlpV2AwsAccount {
+  /** Required. AWS account ID. */
+  accountId?: string | undefined;
+}
+/** Amazon S3 bucket. */
+export interface GooglePrivacyDlpV2AmazonS3Bucket {
+  /** Required. The bucket name. */
+  bucketName?: string | undefined;
+  /** The AWS account. */
+  awsAccount?: GooglePrivacyDlpV2AwsAccount | undefined;
+}
+/** Identifies a single resource, like a single Amazon S3 bucket. */
+export interface GooglePrivacyDlpV2OtherCloudSingleResourceReference {
+  /** Amazon S3 bucket. */
+  amazonS3Bucket?: GooglePrivacyDlpV2AmazonS3Bucket | undefined;
+}
+/** AWS account regex. */
+export interface GooglePrivacyDlpV2AwsAccountRegex {
+  /** Optional. Regex to test the AWS account ID against. If empty, all accounts match. */
+  accountIdRegex?: string | undefined;
+}
+/** Amazon S3 bucket regex. */
+export interface GooglePrivacyDlpV2AmazonS3BucketRegex {
+  /** The AWS account regex. */
+  awsAccountRegex?: GooglePrivacyDlpV2AwsAccountRegex | undefined;
+  /** Optional. Regex to test the bucket name against. If empty, all buckets match. */
+  bucketNameRegex?: string | undefined;
+}
+/** A pattern to match against one or more resources. At least one pattern must be specified. Regular expressions use RE2 [syntax](https://github.com/google/re2/wiki/Syntax); a guide can be found under the google/re2 repository on GitHub. */
+export interface GooglePrivacyDlpV2OtherCloudResourceRegex {
+  /** Regex for Amazon S3 buckets. */
+  amazonS3BucketRegex?: GooglePrivacyDlpV2AmazonS3BucketRegex | undefined;
+}
+export type GooglePrivacyDlpV2OtherCloudResourceRegexList =
+  Array<GooglePrivacyDlpV2OtherCloudResourceRegex>;
+/** A collection of regular expressions to determine what resources to match against. */
+export interface GooglePrivacyDlpV2OtherCloudResourceRegexes {
+  /** A group of regular expression patterns to match against one or more resources. Maximum of 100 entries. The sum of all regular expression's length can't exceed 10 KiB. */
+  patterns?: GooglePrivacyDlpV2OtherCloudResourceRegexList | undefined;
+}
+/** Match resources using regex filters. */
+export interface GooglePrivacyDlpV2OtherCloudResourceCollection {
+  /** A collection of regular expressions to match a resource against. */
+  includeRegexes?: GooglePrivacyDlpV2OtherCloudResourceRegexes | undefined;
+}
+/** Determines which resources from the other cloud will have profiles generated. Includes the ability to filter by resource names. */
+export interface GooglePrivacyDlpV2DiscoveryOtherCloudFilter {
+  /** The resource to scan. Configs using this filter can only have one target (the target with this single resource reference). */
+  singleResource?: GooglePrivacyDlpV2OtherCloudSingleResourceReference | undefined;
+  /** Optional. Catch-all. This should always be the last target in the list because anything above it will apply first. Should only appear once in a configuration. If none is specified, a default one will be added automatically. */
+  others?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** A collection of resources for this filter to apply to. */
+  collection?: GooglePrivacyDlpV2OtherCloudResourceCollection | undefined;
+}
+/** Message used to identify the type of resource being profiled. */
+export interface GooglePrivacyDlpV2DataSourceType {
+  /** A string that identifies the type of resource being profiled. Current values: * google/bigquery/table * google/project * google/sql/table * google/gcs/bucket */
+  dataSource?: string | undefined;
+}
+export type GooglePrivacyDlpV2DiscoveryOtherCloudGenerationCadenceRefreshFrequencyEnum =
+  | "UPDATE_FREQUENCY_UNSPECIFIED"
+  | "UPDATE_FREQUENCY_NEVER"
+  | "UPDATE_FREQUENCY_DAILY"
+  | "UPDATE_FREQUENCY_MONTHLY";
+/** How often existing resources should have their profiles refreshed. New resources are scanned as quickly as possible depending on system capacity. */
+export interface GooglePrivacyDlpV2DiscoveryOtherCloudGenerationCadence {
+  /** Optional. Governs when to update data profiles when the inspection rules defined by the `InspectTemplate` change. If not set, changing the template will not cause a data profile to update. */
+  inspectTemplateModifiedCadence?:
+    | GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence
+    | undefined;
+  /** Optional. Frequency to update profiles regardless of whether the underlying resource has changes. Defaults to never. */
+  refreshFrequency?:
+    | GooglePrivacyDlpV2DiscoveryOtherCloudGenerationCadenceRefreshFrequencyEnum
+    | (string & {})
+    | undefined;
+}
+export type GooglePrivacyDlpV2AmazonS3BucketConditionsBucketTypesItemEnum =
+  | "TYPE_UNSPECIFIED"
+  | "TYPE_ALL_SUPPORTED"
+  | "TYPE_GENERAL_PURPOSE";
+export type GooglePrivacyDlpV2AmazonS3BucketConditionsBucketTypesItemEnumList = Array<
+  GooglePrivacyDlpV2AmazonS3BucketConditionsBucketTypesItemEnum | (string & {})
+>;
+export type GooglePrivacyDlpV2AmazonS3BucketConditionsObjectStorageClassesItemEnum =
+  | "UNSPECIFIED"
+  | "ALL_SUPPORTED_CLASSES"
+  | "STANDARD"
+  | "STANDARD_INFREQUENT_ACCESS"
+  | "GLACIER_INSTANT_RETRIEVAL"
+  | "INTELLIGENT_TIERING";
+export type GooglePrivacyDlpV2AmazonS3BucketConditionsObjectStorageClassesItemEnumList = Array<
+  GooglePrivacyDlpV2AmazonS3BucketConditionsObjectStorageClassesItemEnum | (string & {})
+>;
+/** Amazon S3 bucket conditions. */
+export interface GooglePrivacyDlpV2AmazonS3BucketConditions {
+  /** Optional. Bucket types that should be profiled. Optional. Defaults to TYPE_ALL_SUPPORTED if unspecified. */
+  bucketTypes?: GooglePrivacyDlpV2AmazonS3BucketConditionsBucketTypesItemEnumList | undefined;
+  /** Optional. Object classes that should be profiled. Optional. Defaults to ALL_SUPPORTED_CLASSES if unspecified. */
+  objectStorageClasses?:
+    | GooglePrivacyDlpV2AmazonS3BucketConditionsObjectStorageClassesItemEnumList
+    | undefined;
+}
+/** Requirements that must be true before a resource is profiled for the first time. */
+export interface GooglePrivacyDlpV2DiscoveryOtherCloudConditions {
+  /** Amazon S3 bucket conditions. */
+  amazonS3BucketConditions?: GooglePrivacyDlpV2AmazonS3BucketConditions | undefined;
+  /** Minimum age a resource must be before Cloud DLP can profile it. Value must be 1 hour or greater. */
+  minAge?: string | undefined;
+}
+/** Target used to match against for discovery of resources from other clouds. An [AWS connector in Security Command Center (Enterprise](https://docs.cloud.google.com/security-command-center/docs/connect-scc-to-aws) is required to use this feature. */
+export interface GooglePrivacyDlpV2OtherCloudDiscoveryTarget {
+  /** Required. The resources that the discovery cadence applies to. The first target with a matching filter will be the one to apply to a resource. */
+  filter?: GooglePrivacyDlpV2DiscoveryOtherCloudFilter | undefined;
+  /** Required. The type of data profiles generated by this discovery target. Supported values are: * aws/s3/bucket */
+  dataSourceType?: GooglePrivacyDlpV2DataSourceType | undefined;
+  /** How often and when to update data profiles. New resources that match both the filter and conditions are scanned as quickly as possible depending on system capacity. */
+  generationCadence?: GooglePrivacyDlpV2DiscoveryOtherCloudGenerationCadence | undefined;
+  /** Disable profiling for resources that match this filter. */
+  disabled?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** Optional. In addition to matching the filter, these conditions must be true before a profile is generated. */
+  conditions?: GooglePrivacyDlpV2DiscoveryOtherCloudConditions | undefined;
+}
+export type GooglePrivacyDlpV2DiscoveryGenerationCadenceRefreshFrequencyEnum =
+  | "UPDATE_FREQUENCY_UNSPECIFIED"
+  | "UPDATE_FREQUENCY_NEVER"
+  | "UPDATE_FREQUENCY_DAILY"
+  | "UPDATE_FREQUENCY_MONTHLY";
+export type GooglePrivacyDlpV2DiscoverySchemaModifiedCadenceFrequencyEnum =
+  | "UPDATE_FREQUENCY_UNSPECIFIED"
+  | "UPDATE_FREQUENCY_NEVER"
+  | "UPDATE_FREQUENCY_DAILY"
+  | "UPDATE_FREQUENCY_MONTHLY";
+export type GooglePrivacyDlpV2DiscoverySchemaModifiedCadenceTypesItemEnum =
+  | "SCHEMA_MODIFICATION_UNSPECIFIED"
+  | "SCHEMA_NEW_COLUMNS"
+  | "SCHEMA_REMOVED_COLUMNS";
+export type GooglePrivacyDlpV2DiscoverySchemaModifiedCadenceTypesItemEnumList = Array<
+  GooglePrivacyDlpV2DiscoverySchemaModifiedCadenceTypesItemEnum | (string & {})
+>;
+/** The cadence at which to update data profiles when a schema is modified. */
+export interface GooglePrivacyDlpV2DiscoverySchemaModifiedCadence {
+  /** How frequently profiles may be updated when schemas are modified. Defaults to monthly. */
+  frequency?:
+    | GooglePrivacyDlpV2DiscoverySchemaModifiedCadenceFrequencyEnum
+    | (string & {})
+    | undefined;
+  /** The type of events to consider when deciding if the table's schema has been modified and should have the profile updated. Defaults to NEW_COLUMNS. */
+  types?: GooglePrivacyDlpV2DiscoverySchemaModifiedCadenceTypesItemEnumList | undefined;
+}
+export type GooglePrivacyDlpV2DiscoveryTableModifiedCadenceTypesItemEnum =
+  | "TABLE_MODIFICATION_UNSPECIFIED"
+  | "TABLE_MODIFIED_TIMESTAMP";
+export type GooglePrivacyDlpV2DiscoveryTableModifiedCadenceTypesItemEnumList = Array<
+  GooglePrivacyDlpV2DiscoveryTableModifiedCadenceTypesItemEnum | (string & {})
+>;
+export type GooglePrivacyDlpV2DiscoveryTableModifiedCadenceFrequencyEnum =
+  | "UPDATE_FREQUENCY_UNSPECIFIED"
+  | "UPDATE_FREQUENCY_NEVER"
+  | "UPDATE_FREQUENCY_DAILY"
+  | "UPDATE_FREQUENCY_MONTHLY";
+/** The cadence at which to update data profiles when a table is modified. */
+export interface GooglePrivacyDlpV2DiscoveryTableModifiedCadence {
+  /** The type of events to consider when deciding if the table has been modified and should have the profile updated. Defaults to MODIFIED_TIMESTAMP. */
+  types?: GooglePrivacyDlpV2DiscoveryTableModifiedCadenceTypesItemEnumList | undefined;
+  /** How frequently data profiles can be updated when tables are modified. Defaults to never. */
+  frequency?:
+    | GooglePrivacyDlpV2DiscoveryTableModifiedCadenceFrequencyEnum
+    | (string & {})
+    | undefined;
+}
+/** What must take place for a profile to be updated and how frequently it should occur. New tables are scanned as quickly as possible depending on system capacity. */
+export interface GooglePrivacyDlpV2DiscoveryGenerationCadence {
+  /** Frequency at which profiles should be updated, regardless of whether the underlying resource has changed. Defaults to never. */
+  refreshFrequency?:
+    | GooglePrivacyDlpV2DiscoveryGenerationCadenceRefreshFrequencyEnum
+    | (string & {})
+    | undefined;
+  /** Governs when to update data profiles when a schema is modified. */
+  schemaModifiedCadence?: GooglePrivacyDlpV2DiscoverySchemaModifiedCadence | undefined;
+  /** Governs when to update data profiles when the inspection rules defined by the `InspectTemplate` change. If not set, changing the template will not cause a data profile to update. */
+  inspectTemplateModifiedCadence?:
+    | GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence
+    | undefined;
+  /** Governs when to update data profiles when a table is modified. */
+  tableModifiedCadence?: GooglePrivacyDlpV2DiscoveryTableModifiedCadence | undefined;
+}
+/** Catch-all for all other tables not specified by other filters. Should always be last, except for single-table configurations, which will only have a TableReference target. */
+export type GooglePrivacyDlpV2AllOtherBigQueryTables = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Message defining the location of a BigQuery table with the projectId inferred from the parent project. */
+export interface GooglePrivacyDlpV2TableReference {
+  /** The Google Cloud project ID of the project containing the table. If omitted, the project ID is inferred from the parent project. This field is required if the parent resource is an organization. */
+  projectId?: string | undefined;
+  /** Name of the table. */
+  tableId?: string | undefined;
+  /** Dataset ID of the table. */
+  datasetId?: string | undefined;
+}
+/** A pattern to match against one or more tables, datasets, or projects that contain BigQuery tables. At least one pattern must be specified. Regular expressions use RE2 [syntax](https://github.com/google/re2/wiki/Syntax); a guide can be found under the google/re2 repository on GitHub. */
+export interface GooglePrivacyDlpV2BigQueryRegex {
+  /** For organizations, if unset, will match all projects. Has no effect for data profile configurations created within a project. */
+  projectIdRegex?: string | undefined;
+  /** If unset, this property matches all tables. */
+  tableIdRegex?: string | undefined;
+  /** If unset, this property matches all datasets. */
+  datasetIdRegex?: string | undefined;
+}
+export type GooglePrivacyDlpV2BigQueryRegexList = Array<GooglePrivacyDlpV2BigQueryRegex>;
+/** A collection of regular expressions to determine what tables to match against. */
+export interface GooglePrivacyDlpV2BigQueryRegexes {
+  /** A single BigQuery regular expression pattern to match against one or more tables, datasets, or projects that contain BigQuery tables. */
+  patterns?: GooglePrivacyDlpV2BigQueryRegexList | undefined;
+}
+/** Specifies a collection of BigQuery tables. Used for Discovery. */
+export interface GooglePrivacyDlpV2BigQueryTableCollection {
+  /** A collection of regular expressions to match a BigQuery table against. */
+  includeRegexes?: GooglePrivacyDlpV2BigQueryRegexes | undefined;
+}
+/** Determines what tables will have profiles generated within an organization or project. Includes the ability to filter by regular expression patterns on project ID, dataset ID, and table ID. */
+export interface GooglePrivacyDlpV2DiscoveryBigQueryFilter {
+  /** Catch-all. This should always be the last filter in the list because anything above it will apply first. Should only appear once in a configuration. If none is specified, a default one will be added automatically. */
+  otherTables?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** The table to scan. Discovery configurations including this can only include one DiscoveryTarget (the DiscoveryTarget with this TableReference). */
+  tableReference?: GooglePrivacyDlpV2TableReference | undefined;
+  /** A specific set of tables for this filter to apply to. A table collection must be specified in only one filter per config. If a table id or dataset is empty, Cloud DLP assumes all tables in that collection must be profiled. Must specify a project ID. */
+  tables?: GooglePrivacyDlpV2BigQueryTableCollection | undefined;
+}
+/** There is an OR relationship between these attributes. They are used to determine if a table should be scanned or not in Discovery. */
+export interface GooglePrivacyDlpV2OrConditions {
+  /** Minimum number of rows that should be present before Cloud DLP profiles a table */
+  minRowCount?: number | undefined;
+  /** Minimum age a table must have before Cloud DLP can profile it. Value must be 1 hour or greater. */
+  minAge?: string | undefined;
+}
+export type GooglePrivacyDlpV2BigQueryTableTypesTypesItemEnum =
+  | "BIG_QUERY_TABLE_TYPE_UNSPECIFIED"
+  | "BIG_QUERY_TABLE_TYPE_TABLE"
+  | "BIG_QUERY_TABLE_TYPE_EXTERNAL_BIG_LAKE"
+  | "BIG_QUERY_TABLE_TYPE_SNAPSHOT";
+export type GooglePrivacyDlpV2BigQueryTableTypesTypesItemEnumList = Array<
+  GooglePrivacyDlpV2BigQueryTableTypesTypesItemEnum | (string & {})
+>;
+/** The types of BigQuery tables supported by Cloud DLP. */
+export interface GooglePrivacyDlpV2BigQueryTableTypes {
+  /** A set of BigQuery table types. */
+  types?: GooglePrivacyDlpV2BigQueryTableTypesTypesItemEnumList | undefined;
+}
+export type GooglePrivacyDlpV2DiscoveryBigQueryConditionsTypeCollectionEnum =
+  | "BIG_QUERY_COLLECTION_UNSPECIFIED"
+  | "BIG_QUERY_COLLECTION_ALL_TYPES"
+  | "BIG_QUERY_COLLECTION_ONLY_SUPPORTED_TYPES";
+/** Requirements that must be true before a table is scanned in discovery for the first time. There is an AND relationship between the top-level attributes. Additionally, minimum conditions with an OR relationship that must be met before Cloud DLP scans a table can be set (like a minimum row count or a minimum table age). */
+export interface GooglePrivacyDlpV2DiscoveryBigQueryConditions {
+  /** BigQuery table must have been created after this date. Used to avoid backfilling. */
+  createdAfter?: string | undefined;
+  /** At least one of the conditions must be true for a table to be scanned. */
+  orConditions?: GooglePrivacyDlpV2OrConditions | undefined;
+  /** Restrict discovery to specific table types. */
+  types?: GooglePrivacyDlpV2BigQueryTableTypes | undefined;
+  /** Restrict discovery to categories of table types. */
+  typeCollection?:
+    | GooglePrivacyDlpV2DiscoveryBigQueryConditionsTypeCollectionEnum
+    | (string & {})
+    | undefined;
+}
+/** Target used to match against for discovery with BigQuery tables */
+export interface GooglePrivacyDlpV2BigQueryDiscoveryTarget {
+  /** Tables that match this filter will not have profiles created. */
+  disabled?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** How often and when to update profiles. New tables that match both the filter and conditions are scanned as quickly as possible depending on system capacity. */
+  cadence?: GooglePrivacyDlpV2DiscoveryGenerationCadence | undefined;
+  /** Required. The tables the discovery cadence applies to. The first target with a matching filter will be the one to apply to a table. */
+  filter?: GooglePrivacyDlpV2DiscoveryBigQueryFilter | undefined;
+  /** In addition to matching the filter, these conditions must be true before a profile is generated. */
+  conditions?: GooglePrivacyDlpV2DiscoveryBigQueryConditions | undefined;
+}
 /** Target used to match against for Discovery. */
 export interface GooglePrivacyDlpV2DiscoveryTarget {
-  /** BigQuery target for Discovery. The first target to match a table will be the one applied. */
-  bigQueryTarget?: GooglePrivacyDlpV2BigQueryDiscoveryTarget;
-  /** Other clouds target for discovery. The first target to match a resource will be the one applied. */
-  otherCloudTarget?: GooglePrivacyDlpV2OtherCloudDiscoveryTarget;
-  /** Cloud SQL target for Discovery. The first target to match a table will be the one applied. */
-  cloudSqlTarget?: GooglePrivacyDlpV2CloudSqlDiscoveryTarget;
-  /** Cloud Storage target for Discovery. The first target to match a table will be the one applied. */
-  cloudStorageTarget?: GooglePrivacyDlpV2CloudStorageDiscoveryTarget;
-  /** Vertex AI dataset target for Discovery. The first target to match a dataset will be the one applied. Note that discovery for Vertex AI can incur Cloud Storage Class B operation charges for storage.objects.get operations and retrieval fees. For more information, see [Cloud Storage pricing](https://cloud.google.com/storage/pricing#price-tables). Note that discovery for Vertex AI dataset will not be able to scan images unless DiscoveryConfig.processing_location.image_fallback_location has multi_region_processing or global_processing configured. */
-  vertexDatasetTarget?: GooglePrivacyDlpV2VertexDatasetDiscoveryTarget;
   /** Discovery target that looks for credentials and secrets stored in cloud resource metadata and reports them as vulnerabilities to Security Command Center. Only one target of this type is allowed. */
-  secretsTarget?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
+  secretsTarget?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** Cloud SQL target for Discovery. The first target to match a table will be the one applied. */
+  cloudSqlTarget?: GooglePrivacyDlpV2CloudSqlDiscoveryTarget | undefined;
+  /** Cloud Storage target for Discovery. The first target to match a table will be the one applied. */
+  cloudStorageTarget?: GooglePrivacyDlpV2CloudStorageDiscoveryTarget | undefined;
+  /** Vertex AI dataset target for Discovery. The first target to match a dataset will be the one applied. Note that discovery for Vertex AI can incur Cloud Storage Class B operation charges for storage.objects.get operations and retrieval fees. For more information, see [Cloud Storage pricing](https://cloud.google.com/storage/pricing#price-tables). Note that discovery for Vertex AI dataset will not be able to scan images unless DiscoveryConfig.processing_location.image_fallback_location has multi_region_processing or global_processing configured. */
+  vertexDatasetTarget?: GooglePrivacyDlpV2VertexDatasetDiscoveryTarget | undefined;
+  /** Other clouds target for discovery. The first target to match a resource will be the one applied. */
+  otherCloudTarget?: GooglePrivacyDlpV2OtherCloudDiscoveryTarget | undefined;
+  /** BigQuery target for Discovery. The first target to match a table will be the one applied. */
+  bigQueryTarget?: GooglePrivacyDlpV2BigQueryDiscoveryTarget | undefined;
 }
 export type GooglePrivacyDlpV2DiscoveryTargetList = Array<GooglePrivacyDlpV2DiscoveryTarget>;
-/** Processing occurs in the global region. */
-export type GooglePrivacyDlpV2GlobalProcessing = GooglePrivacyDlpV2ActivateJobTriggerRequest;
-/** Processing occurs in a multi-region that contains the current region if available. */
-export type GooglePrivacyDlpV2MultiRegionProcessing = GooglePrivacyDlpV2ActivateJobTriggerRequest;
-/** Configure document processing to fall back to any of the following processing options if document processing is unavailable in the original request location. */
-export interface GooglePrivacyDlpV2DocumentFallbackLocation {
-  /** Processing occurs in the global region. */
-  globalProcessing?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-  /** Processing occurs in a multi-region that contains the current region if available. */
-  multiRegionProcessing?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Message expressing intention to publish to Google Security Operations. */
+export type GooglePrivacyDlpV2PublishToChronicle = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Create Dataplex Universal Catalog aspects for profiled resources with the aspect type Sensitive Data Protection Profile. To learn more about aspects, see https://docs.cloud.google.com/sensitive-data-protection/docs/add-aspects. */
+export interface GooglePrivacyDlpV2PublishToDataplexCatalog {
+  /** Whether creating a Dataplex Universal Catalog aspect for a profiled resource should lower the risk of the profile for that resource. This also lowers the data risk of resources at the lower levels of the resource hierarchy. For example, reducing the data risk of a table data profile also reduces the data risk of the constituent column data profiles. */
+  lowerDataRiskToLow?: boolean | undefined;
 }
-/** Configure image processing to fall back to any of the following processing options if image processing is unavailable in the original request location. */
-export interface GooglePrivacyDlpV2ImageFallbackLocation {
-  /** Processing occurs in a multi-region that contains the current region if available. */
-  multiRegionProcessing?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-  /** Processing occurs in the global region. */
-  globalProcessing?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
+export type GooglePrivacyDlpV2PubSubNotificationEventEnum =
+  | "EVENT_TYPE_UNSPECIFIED"
+  | "NEW_PROFILE"
+  | "CHANGED_PROFILE"
+  | "SCORE_INCREASED"
+  | "ERROR_CHANGED";
+export type GooglePrivacyDlpV2PubSubConditionMinimumRiskScoreEnum =
+  | "PROFILE_SCORE_BUCKET_UNSPECIFIED"
+  | "HIGH"
+  | "MEDIUM_OR_HIGH";
+export type GooglePrivacyDlpV2PubSubConditionMinimumSensitivityScoreEnum =
+  | "PROFILE_SCORE_BUCKET_UNSPECIFIED"
+  | "HIGH"
+  | "MEDIUM_OR_HIGH";
+/** A condition consisting of a value. */
+export interface GooglePrivacyDlpV2PubSubCondition {
+  /** The minimum data risk score that triggers the condition. */
+  minimumRiskScore?:
+    | GooglePrivacyDlpV2PubSubConditionMinimumRiskScoreEnum
+    | (string & {})
+    | undefined;
+  /** The minimum sensitivity level that triggers the condition. */
+  minimumSensitivityScore?:
+    | GooglePrivacyDlpV2PubSubConditionMinimumSensitivityScoreEnum
+    | (string & {})
+    | undefined;
 }
-/** Configure processing location for discovery and inspection. For example, image OCR is only provided in limited regions but configuring ProcessingLocation will redirect OCR to a location where OCR is provided. */
-export interface GooglePrivacyDlpV2ProcessingLocation {
-  /** Document processing falls back using this configuration. */
-  documentFallbackLocation?: GooglePrivacyDlpV2DocumentFallbackLocation;
-  /** Image processing falls back using this configuration. */
-  imageFallbackLocation?: GooglePrivacyDlpV2ImageFallbackLocation;
+export type GooglePrivacyDlpV2PubSubConditionList = Array<GooglePrivacyDlpV2PubSubCondition>;
+export type GooglePrivacyDlpV2PubSubExpressionsLogicalOperatorEnum =
+  | "LOGICAL_OPERATOR_UNSPECIFIED"
+  | "OR"
+  | "AND";
+/** An expression, consisting of an operator and conditions. */
+export interface GooglePrivacyDlpV2PubSubExpressions {
+  /** Conditions to apply to the expression. */
+  conditions?: GooglePrivacyDlpV2PubSubConditionList | undefined;
+  /** The operator to apply to the collection of conditions. */
+  logicalOperator?:
+    | GooglePrivacyDlpV2PubSubExpressionsLogicalOperatorEnum
+    | (string & {})
+    | undefined;
+}
+/** A condition for determining whether a Pub/Sub should be triggered. */
+export interface GooglePrivacyDlpV2DataProfilePubSubCondition {
+  /** An expression. */
+  expressions?: GooglePrivacyDlpV2PubSubExpressions | undefined;
+}
+export type GooglePrivacyDlpV2PubSubNotificationDetailOfMessageEnum =
+  | "DETAIL_LEVEL_UNSPECIFIED"
+  | "TABLE_PROFILE"
+  | "RESOURCE_NAME"
+  | "FILE_STORE_PROFILE";
+/** Send a Pub/Sub message into the given Pub/Sub topic to connect other systems to data profile generation. The message payload data will be the byte serialization of `DataProfilePubSubMessage`. */
+export interface GooglePrivacyDlpV2PubSubNotification {
+  /** The type of event that triggers a Pub/Sub. At most one `PubSubNotification` per EventType is permitted. */
+  event?: GooglePrivacyDlpV2PubSubNotificationEventEnum | (string & {}) | undefined;
+  /** Cloud Pub/Sub topic to send notifications to. Format is projects/{project}/topics/{topic}. */
+  topic?: string | undefined;
+  /** Conditions (e.g., data risk or sensitivity level) for triggering a Pub/Sub. */
+  pubsubCondition?: GooglePrivacyDlpV2DataProfilePubSubCondition | undefined;
+  /** How much data to include in the Pub/Sub message. If the user wishes to limit the size of the message, they can use resource_name and fetch the profile fields they wish to. Per table profile (not per column). */
+  detailOfMessage?:
+    | GooglePrivacyDlpV2PubSubNotificationDetailOfMessageEnum
+    | (string & {})
+    | undefined;
+}
+/** If set, a summary finding will be created or updated in Security Command Center for each profile. */
+export type GooglePrivacyDlpV2PublishToSecurityCommandCenter =
+  GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** If set, the detailed data profiles will be persisted to the location of your choice whenever updated. */
+export interface GooglePrivacyDlpV2Export {
+  /** Store all profiles to BigQuery. * The system will create a new dataset and table for you if none are are provided. The dataset will be named `sensitive_data_protection_discovery` and table will be named `discovery_profiles`. This table will be placed in the same project as the container project running the scan. After the first profile is generated and the dataset and table are created, the discovery scan configuration will be updated with the dataset and table names. * See [Analyze data profiles stored in BigQuery](https://docs.cloud.google.com/sensitive-data-protection/docs/analyze-data-profiles). * See [Sample queries for your BigQuery table](https://docs.cloud.google.com/sensitive-data-protection/docs/analyze-data-profiles#sample_sql_queries). * Data is inserted using [streaming insert](https://cloud.google.com/blog/products/bigquery/life-of-a-bigquery-streaming-insert) and so data may be in the buffer for a period of time after the profile has finished. * The Pub/Sub notification is sent before the streaming buffer is guaranteed to be written, so data may not be instantly visible to queries by the time your topic receives the Pub/Sub notification. * The best practice is to use the same table for an entire organization so that you can take advantage of the [provided Data Studio reports](https://docs.cloud.google.com/sensitive-data-protection/docs/analyze-data-profiles#use_a_premade_report). If you use VPC Service Controls to define security perimeters, then you must use a separate table for each boundary. */
+  profileTable?: GooglePrivacyDlpV2BigQueryTable | undefined;
+  /** Store sample data profile findings in an existing table or a new table in an existing dataset. Each regeneration will result in new rows in BigQuery. Data is inserted using [streaming insert](https://cloud.google.com/blog/products/bigquery/life-of-a-bigquery-streaming-insert) and so data may be in the buffer for a period of time after the profile has finished. */
+  sampleFindingsTable?: GooglePrivacyDlpV2BigQueryTable | undefined;
+}
+export type GooglePrivacyDlpV2TagResourcesProfileGenerationsToTagItemEnum =
+  | "PROFILE_GENERATION_UNSPECIFIED"
+  | "PROFILE_GENERATION_NEW"
+  | "PROFILE_GENERATION_UPDATE";
+export type GooglePrivacyDlpV2TagResourcesProfileGenerationsToTagItemEnumList = Array<
+  GooglePrivacyDlpV2TagResourcesProfileGenerationsToTagItemEnum | (string & {})
+>;
+/** A value of a tag. */
+export interface GooglePrivacyDlpV2TagValue {
+  /** The namespaced name for the tag value to attach to resources. Must be in the format `{parent_id}/{tag_key_short_name}/{short_name}`, for example, "123456/environment/prod" for an organization parent, or "my-project/environment/prod" for a project parent. */
+  namespacedValue?: string | undefined;
+}
+/** The tag to attach to profiles matching the condition. At most one `TagCondition` can be specified per sensitivity level. */
+export interface GooglePrivacyDlpV2TagCondition {
+  /** The tag value to attach to resources. */
+  tag?: GooglePrivacyDlpV2TagValue | undefined;
+  /** Conditions attaching the tag to a resource on its profile having this sensitivity score. */
+  sensitivityScore?: GooglePrivacyDlpV2SensitivityScore | undefined;
+}
+export type GooglePrivacyDlpV2TagConditionList = Array<GooglePrivacyDlpV2TagCondition>;
+/** If set, attaches the [tags] (https://docs.cloud.google.com/resource-manager/docs/tags/tags-overview) provided to profiled resources. Tags support [access control](https://docs.cloud.google.com/iam/docs/tags-access-control). You can conditionally grant or deny access to a resource based on whether the resource has a specific tag. */
+export interface GooglePrivacyDlpV2TagResources {
+  /** Whether applying a tag to a resource should lower the risk of the profile for that resource. For example, in conjunction with an [IAM deny policy](https://docs.cloud.google.com/iam/docs/deny-overview), you can deny all principals a permission if a tag value is present, mitigating the risk of the resource. This also lowers the data risk of resources at the lower levels of the resource hierarchy. For example, reducing the data risk of a table data profile also reduces the data risk of the constituent column data profiles. */
+  lowerDataRiskToLow?: boolean | undefined;
+  /** The profile generations for which the tag should be attached to resources. If you attach a tag to only new profiles, then if the sensitivity score of a profile subsequently changes, its tag doesn't change. By default, this field includes only new profiles. To include both new and updated profiles for tagging, this field should explicitly include both `PROFILE_GENERATION_NEW` and `PROFILE_GENERATION_UPDATE`. */
+  profileGenerationsToTag?:
+    | GooglePrivacyDlpV2TagResourcesProfileGenerationsToTagItemEnumList
+    | undefined;
+  /** The tags to associate with different conditions. */
+  tagConditions?: GooglePrivacyDlpV2TagConditionList | undefined;
+}
+/** A task to execute when a data profile has been generated. */
+export interface GooglePrivacyDlpV2DataProfileAction {
+  /** Publishes generated data profiles to Google Security Operations. For more information, see [Use Sensitive Data Protection data in context-aware analytics](https://docs.cloud.google.com/chronicle/docs/detection/usecase-dlp-high-risk-user-download). */
+  publishToChronicle?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** Publishes a portion of each profile to Dataplex Universal Catalog with the aspect type Sensitive Data Protection Profile. */
+  publishToDataplexCatalog?: GooglePrivacyDlpV2PublishToDataplexCatalog | undefined;
+  /** Publish a message into the Pub/Sub topic. */
+  pubSubNotification?: GooglePrivacyDlpV2PubSubNotification | undefined;
+  /** Publishes findings to Security Command Center for each data profile. */
+  publishToScc?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+  /** Export data profiles into a provided location. */
+  exportData?: GooglePrivacyDlpV2Export | undefined;
+  /** Tags the profiled resources with the specified tag values. */
+  tagResources?: GooglePrivacyDlpV2TagResources | undefined;
+}
+export type GooglePrivacyDlpV2DataProfileActionList = Array<GooglePrivacyDlpV2DataProfileAction>;
+/** The location to begin a discovery scan. Denotes an organization ID or folder ID within an organization. */
+export interface GooglePrivacyDlpV2DiscoveryStartingLocation {
+  /** The ID of the folder within an organization to be scanned. */
+  folderId?: string | undefined;
+  /** The ID of an organization to scan. */
+  organizationId?: string | undefined;
+}
+/** Project and scan location information. Only set when the parent is an org. */
+export interface GooglePrivacyDlpV2OrgConfig {
+  /** The project that will run the scan. The DLP service account that exists within this project must have access to all resources that are profiled, and the DLP API must be enabled. */
+  projectId?: string | undefined;
+  /** The data to scan: folder, org, or project */
+  location?: GooglePrivacyDlpV2DiscoveryStartingLocation | undefined;
+}
+export type GooglePrivacyDlpV2DiscoveryConfigStatusEnum =
+  | "STATUS_UNSPECIFIED"
+  | "RUNNING"
+  | "PAUSED";
+/** The AWS starting location for discovery. */
+export interface GooglePrivacyDlpV2AwsDiscoveryStartingLocation {
+  /** All AWS assets stored in Asset Inventory that didn't match other AWS discovery configs. */
+  allAssetInventoryAssets?: boolean | undefined;
+  /** The AWS account ID that this discovery config applies to. Within an AWS organization, you can find the AWS account ID inside an AWS account ARN. Example: arn:{partition}:organizations::{management_account_id}:account/{org_id}/{account_id} */
+  accountId?: string | undefined;
+}
+/** The other cloud starting location for discovery. */
+export interface GooglePrivacyDlpV2OtherCloudDiscoveryStartingLocation {
+  /** The AWS starting location for discovery. */
+  awsLocation?: GooglePrivacyDlpV2AwsDiscoveryStartingLocation | undefined;
 }
 /** Configuration for discovery to scan resources for profile generation. Only one discovery configuration may exist per organization, folder, or project. The generated data profiles are retained according to the [data retention policy] (https://docs.cloud.google.com/sensitive-data-protection/docs/data-profiles#retention). */
 export interface GooglePrivacyDlpV2DiscoveryConfig {
-  /** Output only. A stream of errors encountered when the config was activated. Repeated errors may result in the config automatically being paused. Output only field. Will return the last 100 errors. Whenever the config is modified this list will be cleared. */
-  errors?: GooglePrivacyDlpV2ErrorList;
-  /** Must be set only when scanning other clouds. */
-  otherCloudStartingLocation?: GooglePrivacyDlpV2OtherCloudDiscoveryStartingLocation;
-  /** Only set when the parent is an org. */
-  orgConfig?: GooglePrivacyDlpV2OrgConfig;
-  /** Detection logic for profile generation. Not all template features are used by Discovery. FindingLimits, include_quote and exclude_info_types have no impact on Discovery. Multiple templates may be provided if there is data in multiple regions. At most one template must be specified per-region (including "global"). Each region is scanned using the applicable template. If no region-specific template is specified, but a "global" template is specified, it will be copied to that region and used instead. If no global or region-specific template is provided for a region with data, that region's data will not be scanned. For more information, see https://docs.cloud.google.com/sensitive-data-protection/docs/data-profiles#data-residency. */
-  inspectTemplates?: StringList;
-  /** Output only. The last update timestamp of a DiscoveryConfig. */
-  updateTime?: string;
-  /** Required. A status for this configuration. */
-  status?: GooglePrivacyDlpV2DiscoveryConfigStatusEnum | (string & {});
-  /** Actions to execute at the completion of scanning. */
-  actions?: GooglePrivacyDlpV2DataProfileActionList;
-  /** Target to match against for determining what to scan and how frequently. */
-  targets?: GooglePrivacyDlpV2DiscoveryTargetList;
   /** Output only. The creation timestamp of a DiscoveryConfig. */
-  createTime?: string;
-  /** Optional. Processing location configuration. Vertex AI dataset scanning will set processing_location.image_fallback_type to MultiRegionProcessing by default. */
-  processingLocation?: GooglePrivacyDlpV2ProcessingLocation;
+  createTime?: string | undefined;
   /** Display name (max 100 chars) */
-  displayName?: string;
-  /** Output only. The timestamp of the last time this config was executed. */
-  lastRunTime?: string;
+  displayName?: string | undefined;
+  /** Output only. A stream of errors encountered when the config was activated. Repeated errors may result in the config automatically being paused. Output only field. Will return the last 100 errors. Whenever the config is modified this list will be cleared. */
+  errors?: GooglePrivacyDlpV2ErrorList | undefined;
+  /** Output only. The last update timestamp of a DiscoveryConfig. */
+  updateTime?: string | undefined;
   /** Output only. Unique resource name for the DiscoveryConfig, assigned by the service when the DiscoveryConfig is created, for example `projects/dlp-test-project/locations/global/discoveryConfigs/53234423`. */
-  name?: string;
+  name?: string | undefined;
+  /** Optional. Processing location configuration. Vertex AI dataset scanning will set processing_location.image_fallback_type to MultiRegionProcessing by default. */
+  processingLocation?: GooglePrivacyDlpV2ProcessingLocation | undefined;
+  /** Target to match against for determining what to scan and how frequently. */
+  targets?: GooglePrivacyDlpV2DiscoveryTargetList | undefined;
+  /** Output only. The timestamp of the last time this config was executed. */
+  lastRunTime?: string | undefined;
+  /** Actions to execute at the completion of scanning. */
+  actions?: GooglePrivacyDlpV2DataProfileActionList | undefined;
+  /** Detection logic for profile generation. Not all template features are used by Discovery. FindingLimits, include_quote and exclude_info_types have no impact on Discovery. Multiple templates may be provided if there is data in multiple regions. At most one template must be specified per-region (including "global"). Each region is scanned using the applicable template. If no region-specific template is specified, but a "global" template is specified, it will be copied to that region and used instead. If no global or region-specific template is provided for a region with data, that region's data will not be scanned. For more information, see https://docs.cloud.google.com/sensitive-data-protection/docs/data-profiles#data-residency. */
+  inspectTemplates?: StringList | undefined;
+  /** Only set when the parent is an org. */
+  orgConfig?: GooglePrivacyDlpV2OrgConfig | undefined;
+  /** Required. A status for this configuration. */
+  status?: GooglePrivacyDlpV2DiscoveryConfigStatusEnum | (string & {}) | undefined;
+  /** Must be set only when scanning other clouds. */
+  otherCloudStartingLocation?: GooglePrivacyDlpV2OtherCloudDiscoveryStartingLocation | undefined;
 }
 /** Request message for CreateDiscoveryConfig. */
 export interface GooglePrivacyDlpV2CreateDiscoveryConfigRequest {
-  /** Required. The DiscoveryConfig to create. */
-  discoveryConfig?: GooglePrivacyDlpV2DiscoveryConfig;
   /** The config ID can contain uppercase and lowercase letters, numbers, and hyphens; that is, it must match the regular expression: `[a-zA-Z\d-_]+`. The maximum length is 100 characters. Can be empty to allow the system to generate one. */
-  configId?: string;
+  configId?: string | undefined;
+  /** Required. The DiscoveryConfig to create. */
+  discoveryConfig?: GooglePrivacyDlpV2DiscoveryConfig | undefined;
 }
-export interface CreateOrganizationsLocationsDiscoveryConfigsRequest {
+export interface CreateOrganizationsLocationsDiscoveryConfigsRequest extends GooglePrivacyDlpV2CreateDiscoveryConfigRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization): + Projects scope: `projects/{project_id}/locations/{location_id}` + Organizations scope: `organizations/{org_id}/locations/{location_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateDiscoveryConfigRequest;
 }
-export interface CreateOrganizationsLocationsInspectTemplatesRequest {
+export interface CreateOrganizationsLocationsInspectTemplatesRequest extends GooglePrivacyDlpV2CreateInspectTemplateRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateInspectTemplateRequest;
 }
 export type GooglePrivacyDlpV2JobTriggerStatusEnum =
   | "STATUS_UNSPECIFIED"
@@ -2475,114 +2530,100 @@ export type GooglePrivacyDlpV2JobTriggerStatusEnum =
 /** Schedule for inspect job triggers. */
 export interface GooglePrivacyDlpV2Schedule {
   /** With this option a job is started on a regular periodic basis. For example: every day (86400 seconds). A scheduled start time will be skipped if the previous execution has not ended when its scheduled time occurs. This value must be set to a time duration greater than or equal to 1 day and can be no longer than 60 days. */
-  recurrencePeriodDuration?: string;
+  recurrencePeriodDuration?: string | undefined;
 }
 /** Job trigger option for hybrid jobs. Jobs must be manually created and finished. */
 export type GooglePrivacyDlpV2Manual = GooglePrivacyDlpV2ActivateJobTriggerRequest;
 /** What event needs to occur for a new job to be started. */
 export interface GooglePrivacyDlpV2Trigger {
   /** Create a job on a repeating basis based on the elapse of time. */
-  schedule?: GooglePrivacyDlpV2Schedule;
+  schedule?: GooglePrivacyDlpV2Schedule | undefined;
   /** For use with hybrid jobs. Jobs must be manually created and finished. */
-  manual?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
+  manual?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
 }
 export type GooglePrivacyDlpV2TriggerList = Array<GooglePrivacyDlpV2Trigger>;
 /** Contains a configuration to make API calls on a repeating basis. See https://docs.cloud.google.com/sensitive-data-protection/docs/concepts-job-triggers to learn more. */
 export interface GooglePrivacyDlpV2JobTrigger {
-  /** User provided description (max 256 chars) */
-  description?: string;
-  /** Output only. Unique resource name for the triggeredJob, assigned by the service when the triggeredJob is created, for example `projects/dlp-test-project/jobTriggers/53234423`. */
-  name?: string;
-  /** For inspect jobs, a snapshot of the configuration. */
-  inspectJob?: GooglePrivacyDlpV2InspectJobConfig;
-  /** Required. A status for this trigger. */
-  status?: GooglePrivacyDlpV2JobTriggerStatusEnum | (string & {});
-  /** Display name (max 100 chars) */
-  displayName?: string;
-  /** Output only. The timestamp of the last time this trigger executed. */
-  lastRunTime?: string;
   /** Output only. The last update timestamp of a triggeredJob. */
-  updateTime?: string;
-  /** Output only. A stream of errors encountered when the trigger was activated. Repeated errors may result in the JobTrigger automatically being paused. Will return the last 100 errors. Whenever the JobTrigger is modified this list will be cleared. */
-  errors?: GooglePrivacyDlpV2ErrorList;
-  /** A list of triggers which will be OR'ed together. Only one in the list needs to trigger for a job to be started. The list may contain only a single Schedule trigger and must have at least one object. */
-  triggers?: GooglePrivacyDlpV2TriggerList;
+  updateTime?: string | undefined;
+  /** For inspect jobs, a snapshot of the configuration. */
+  inspectJob?: GooglePrivacyDlpV2InspectJobConfig | undefined;
+  /** Required. A status for this trigger. */
+  status?: GooglePrivacyDlpV2JobTriggerStatusEnum | (string & {}) | undefined;
+  /** Output only. Unique resource name for the triggeredJob, assigned by the service when the triggeredJob is created, for example `projects/dlp-test-project/jobTriggers/53234423`. */
+  name?: string | undefined;
   /** Output only. The creation timestamp of a triggeredJob. */
-  createTime?: string;
+  createTime?: string | undefined;
+  /** Output only. The timestamp of the last time this trigger executed. */
+  lastRunTime?: string | undefined;
+  /** Display name (max 100 chars) */
+  displayName?: string | undefined;
+  /** Output only. A stream of errors encountered when the trigger was activated. Repeated errors may result in the JobTrigger automatically being paused. Will return the last 100 errors. Whenever the JobTrigger is modified this list will be cleared. */
+  errors?: GooglePrivacyDlpV2ErrorList | undefined;
+  /** User provided description (max 256 chars) */
+  description?: string | undefined;
+  /** A list of triggers which will be OR'ed together. Only one in the list needs to trigger for a job to be started. The list may contain only a single Schedule trigger and must have at least one object. */
+  triggers?: GooglePrivacyDlpV2TriggerList | undefined;
 }
 /** Request message for CreateJobTrigger. */
 export interface GooglePrivacyDlpV2CreateJobTriggerRequest {
-  /** Deprecated. This field has no effect. */
-  locationId?: string;
   /** Required. The JobTrigger to create. */
-  jobTrigger?: GooglePrivacyDlpV2JobTrigger;
+  jobTrigger?: GooglePrivacyDlpV2JobTrigger | undefined;
   /** The trigger id can contain uppercase and lowercase letters, numbers, and hyphens; that is, it must match the regular expression: `[a-zA-Z\d-_]+`. The maximum length is 100 characters. Can be empty to allow the system to generate one. */
-  triggerId?: string;
+  triggerId?: string | undefined;
+  /** Deprecated. This field has no effect. */
+  locationId?: string | undefined;
 }
-export interface CreateOrganizationsLocationsJobTriggersRequest {
+export interface CreateOrganizationsLocationsJobTriggersRequest extends GooglePrivacyDlpV2CreateJobTriggerRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateJobTriggerRequest;
-}
-/** Message defining a field of a BigQuery table. */
-export interface GooglePrivacyDlpV2BigQueryField {
-  /** Source table of the field. */
-  table?: GooglePrivacyDlpV2BigQueryTable;
-  /** Designated field in the BigQuery table. */
-  field?: GooglePrivacyDlpV2FieldId;
 }
 /** Message representing a set of files in Cloud Storage. */
 export interface GooglePrivacyDlpV2CloudStorageFileSet {
   /** The url, in the format `gs:///`. Trailing wildcard in the path is allowed. */
-  url?: string;
+  url?: string | undefined;
+}
+/** Message defining a field of a BigQuery table. */
+export interface GooglePrivacyDlpV2BigQueryField {
+  /** Source table of the field. */
+  table?: GooglePrivacyDlpV2BigQueryTable | undefined;
+  /** Designated field in the BigQuery table. */
+  field?: GooglePrivacyDlpV2FieldId | undefined;
 }
 /** Configuration for a custom dictionary created from a data source of any size up to the maximum size defined in the [limits](https://docs.cloud.google.com/sensitive-data-protection/limits) page. The artifacts of dictionary creation are stored in the specified Cloud Storage location. Consider using `CustomInfoType.Dictionary` for smaller dictionaries that satisfy the size requirements. */
 export interface GooglePrivacyDlpV2LargeCustomDictionaryConfig {
-  /** Location to store dictionary artifacts in Cloud Storage. These files will only be accessible by project owners and the DLP API. If any of these artifacts are modified, the dictionary is considered invalid and can no longer be used. */
-  outputPath?: GooglePrivacyDlpV2CloudStoragePath;
-  /** Field in a BigQuery table where each cell represents a dictionary phrase. */
-  bigQueryField?: GooglePrivacyDlpV2BigQueryField;
   /** Set of files containing newline-delimited lists of dictionary phrases. */
-  cloudStorageFileSet?: GooglePrivacyDlpV2CloudStorageFileSet;
+  cloudStorageFileSet?: GooglePrivacyDlpV2CloudStorageFileSet | undefined;
+  /** Location to store dictionary artifacts in Cloud Storage. These files will only be accessible by project owners and the DLP API. If any of these artifacts are modified, the dictionary is considered invalid and can no longer be used. */
+  outputPath?: GooglePrivacyDlpV2CloudStoragePath | undefined;
+  /** Field in a BigQuery table where each cell represents a dictionary phrase. */
+  bigQueryField?: GooglePrivacyDlpV2BigQueryField | undefined;
 }
 /** Configuration for stored infoTypes. All fields and subfield are provided by the user. For more information, see https://docs.cloud.google.com/sensitive-data-protection/docs/creating-custom-infotypes. */
 export interface GooglePrivacyDlpV2StoredInfoTypeConfig {
-  /** Store dictionary-based CustomInfoType. */
-  dictionary?: GooglePrivacyDlpV2Dictionary;
-  /** Description of the StoredInfoType (max 256 characters). */
-  description?: string;
   /** Display name of the StoredInfoType (max 256 characters). */
-  displayName?: string;
-  /** Store regular expression-based StoredInfoType. */
-  regex?: GooglePrivacyDlpV2Regex;
+  displayName?: string | undefined;
   /** StoredInfoType where findings are defined by a dictionary of phrases. */
-  largeCustomDictionary?: GooglePrivacyDlpV2LargeCustomDictionaryConfig;
+  largeCustomDictionary?: GooglePrivacyDlpV2LargeCustomDictionaryConfig | undefined;
+  /** Store regular expression-based StoredInfoType. */
+  regex?: GooglePrivacyDlpV2Regex | undefined;
+  /** Store dictionary-based CustomInfoType. */
+  dictionary?: GooglePrivacyDlpV2Dictionary | undefined;
+  /** Description of the StoredInfoType (max 256 characters). */
+  description?: string | undefined;
 }
 /** Request message for CreateStoredInfoType. */
 export interface GooglePrivacyDlpV2CreateStoredInfoTypeRequest {
-  /** Required. Configuration of the storedInfoType to create. */
-  config?: GooglePrivacyDlpV2StoredInfoTypeConfig;
-  /** The storedInfoType ID can contain uppercase and lowercase letters, numbers, and hyphens; that is, it must match the regular expression: `[a-zA-Z\d-_]+`. The maximum length is 100 characters. Can be empty to allow the system to generate one. */
-  storedInfoTypeId?: string;
   /** Deprecated. This field has no effect. */
-  locationId?: string;
+  locationId?: string | undefined;
+  /** The storedInfoType ID can contain uppercase and lowercase letters, numbers, and hyphens; that is, it must match the regular expression: `[a-zA-Z\d-_]+`. The maximum length is 100 characters. Can be empty to allow the system to generate one. */
+  storedInfoTypeId?: string | undefined;
+  /** Required. Configuration of the storedInfoType to create. */
+  config?: GooglePrivacyDlpV2StoredInfoTypeConfig | undefined;
 }
-export interface CreateOrganizationsLocationsStoredInfoTypesRequest {
+export interface CreateOrganizationsLocationsStoredInfoTypesRequest extends GooglePrivacyDlpV2CreateStoredInfoTypeRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateStoredInfoTypeRequest;
-}
-/** Summary statistics of a custom dictionary. */
-export interface GooglePrivacyDlpV2LargeCustomDictionaryStats {
-  /** Approximate number of distinct phrases in the dictionary. */
-  approxNumPhrases?: string;
-}
-/** Statistics for a StoredInfoType. */
-export interface GooglePrivacyDlpV2StoredInfoTypeStats {
-  /** StoredInfoType where findings are defined by a dictionary of phrases. */
-  largeCustomDictionary?: GooglePrivacyDlpV2LargeCustomDictionaryStats;
 }
 export type GooglePrivacyDlpV2StoredInfoTypeVersionStateEnum =
   | "STORED_INFO_TYPE_STATE_UNSPECIFIED"
@@ -2590,76 +2631,74 @@ export type GooglePrivacyDlpV2StoredInfoTypeVersionStateEnum =
   | "READY"
   | "FAILED"
   | "INVALID";
+/** Summary statistics of a custom dictionary. */
+export interface GooglePrivacyDlpV2LargeCustomDictionaryStats {
+  /** Approximate number of distinct phrases in the dictionary. */
+  approxNumPhrases?: string | undefined;
+}
+/** Statistics for a StoredInfoType. */
+export interface GooglePrivacyDlpV2StoredInfoTypeStats {
+  /** StoredInfoType where findings are defined by a dictionary of phrases. */
+  largeCustomDictionary?: GooglePrivacyDlpV2LargeCustomDictionaryStats | undefined;
+}
 /** Version of a StoredInfoType, including the configuration used to build it, create timestamp, and current state. */
 export interface GooglePrivacyDlpV2StoredInfoTypeVersion {
-  /** Output only. Statistics about this storedInfoType version. */
-  stats?: GooglePrivacyDlpV2StoredInfoTypeStats;
-  /** Output only. Stored info type version state. Read-only, updated by the system during dictionary creation. */
-  state?: GooglePrivacyDlpV2StoredInfoTypeVersionStateEnum;
-  /** Output only. Create timestamp of the version. Read-only, determined by the system when the version is created. */
-  createTime?: string;
-  /** StoredInfoType configuration. */
-  config?: GooglePrivacyDlpV2StoredInfoTypeConfig;
   /** Output only. Errors that occurred when creating this storedInfoType version, or anomalies detected in the storedInfoType data that render it unusable. Only the five most recent errors will be displayed, with the most recent error appearing first. For example, some of the data for stored custom dictionaries is put in the user's Cloud Storage bucket, and if this data is modified or deleted by the user or another system, the dictionary becomes invalid. If any errors occur, fix the problem indicated by the error message and use the UpdateStoredInfoType API method to create another version of the storedInfoType to continue using it, reusing the same `config` if it was not the source of the error. */
-  errors?: GooglePrivacyDlpV2ErrorList;
+  errors?: GooglePrivacyDlpV2ErrorList | undefined;
+  /** Output only. Stored info type version state. Read-only, updated by the system during dictionary creation. */
+  state?: GooglePrivacyDlpV2StoredInfoTypeVersionStateEnum | undefined;
+  /** StoredInfoType configuration. */
+  config?: GooglePrivacyDlpV2StoredInfoTypeConfig | undefined;
+  /** Output only. Create timestamp of the version. Read-only, determined by the system when the version is created. */
+  createTime?: string | undefined;
+  /** Output only. Statistics about this storedInfoType version. */
+  stats?: GooglePrivacyDlpV2StoredInfoTypeStats | undefined;
 }
 export type GooglePrivacyDlpV2StoredInfoTypeVersionList =
   Array<GooglePrivacyDlpV2StoredInfoTypeVersion>;
 /** StoredInfoType resource message that contains information about the current version and any pending updates. */
 export interface GooglePrivacyDlpV2StoredInfoType {
-  /** Current version of the stored info type. */
-  currentVersion?: GooglePrivacyDlpV2StoredInfoTypeVersion;
   /** Pending versions of the stored info type. Empty if no versions are pending. */
-  pendingVersions?: GooglePrivacyDlpV2StoredInfoTypeVersionList;
+  pendingVersions?: GooglePrivacyDlpV2StoredInfoTypeVersionList | undefined;
+  /** Current version of the stored info type. */
+  currentVersion?: GooglePrivacyDlpV2StoredInfoTypeVersion | undefined;
   /** Output only. Resource name. */
-  name?: string;
+  name?: string | undefined;
 }
-export interface CreateOrganizationsStoredInfoTypesRequest {
+export interface CreateOrganizationsStoredInfoTypesRequest extends GooglePrivacyDlpV2CreateStoredInfoTypeRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateStoredInfoTypeRequest;
 }
-export interface CreateProjectsDeidentifyTemplatesRequest {
+export interface CreateProjectsDeidentifyTemplatesRequest extends GooglePrivacyDlpV2CreateDeidentifyTemplateRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateDeidentifyTemplateRequest;
 }
 /** Request message for CreateDlpJobRequest. Used to initiate long running jobs such as calculating risk metrics or inspecting Google Cloud Storage. */
 export interface GooglePrivacyDlpV2CreateDlpJobRequest {
   /** A risk analysis job calculates re-identification risk metrics for a BigQuery table. */
-  riskJob?: GooglePrivacyDlpV2RiskAnalysisJobConfig;
-  /** Deprecated. This field has no effect. */
-  locationId?: string;
-  /** The job id can contain uppercase and lowercase letters, numbers, and hyphens; that is, it must match the regular expression: `[a-zA-Z\d-_]+`. The maximum length is 100 characters. Can be empty to allow the system to generate one. */
-  jobId?: string;
+  riskJob?: GooglePrivacyDlpV2RiskAnalysisJobConfig | undefined;
   /** An inspection job scans a storage repository for InfoTypes. */
-  inspectJob?: GooglePrivacyDlpV2InspectJobConfig;
+  inspectJob?: GooglePrivacyDlpV2InspectJobConfig | undefined;
+  /** Deprecated. This field has no effect. */
+  locationId?: string | undefined;
+  /** The job id can contain uppercase and lowercase letters, numbers, and hyphens; that is, it must match the regular expression: `[a-zA-Z\d-_]+`. The maximum length is 100 characters. Can be empty to allow the system to generate one. */
+  jobId?: string | undefined;
 }
-export interface CreateProjectsDlpJobsRequest {
+export interface CreateProjectsDlpJobsRequest extends GooglePrivacyDlpV2CreateDlpJobRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateDlpJobRequest;
 }
-export interface CreateProjectsInspectTemplatesRequest {
+export interface CreateProjectsInspectTemplatesRequest extends GooglePrivacyDlpV2CreateInspectTemplateRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateInspectTemplateRequest;
 }
-export interface CreateProjectsJobTriggersRequest {
+export interface CreateProjectsJobTriggersRequest extends GooglePrivacyDlpV2CreateJobTriggerRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateJobTriggerRequest;
 }
-export interface CreateProjectsLocationsConnectionsRequest {
+export interface CreateProjectsLocationsConnectionsRequest extends GooglePrivacyDlpV2CreateConnectionRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization): + Projects scope: `projects/{project_id}/locations/{location_id}` + Organizations scope: `organizations/{org_id}/locations/{location_id}` */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateConnectionRequest;
 }
 export type GooglePrivacyDlpV2PolicyActionReturnVerdictEnum =
   | "CONTENT_POLICY_VERDICT_UNSPECIFIED"
@@ -2668,204 +2707,116 @@ export type GooglePrivacyDlpV2PolicyActionReturnVerdictEnum =
 /** A possible action to take when applying a content policy. */
 export interface GooglePrivacyDlpV2PolicyAction {
   /** Optional. If set, the verdict will be returned to the user. */
-  returnVerdict?: GooglePrivacyDlpV2PolicyActionReturnVerdictEnum | (string & {});
+  returnVerdict?: GooglePrivacyDlpV2PolicyActionReturnVerdictEnum | (string & {}) | undefined;
 }
-/** Info types to match. */
-export interface GooglePrivacyDlpV2InfoTypes {
-  /** Required. A list of info types to match. */
-  infoTypeNames?: StringList;
-}
-/** A info type based condition. */
-export interface GooglePrivacyDlpV2InfoTypeCondition {
-  /** Optional. The minimum total number of findings of all matching info types required for this condition to evaluate to true. Defaults to 1 if unset. */
-  minCount?: string;
-  /** match any of these info types. */
-  infoTypes?: GooglePrivacyDlpV2InfoTypes;
-  /** match any info types. */
-  anyInfoType?: GoogleProtobufEmpty;
-}
-/** A condition that must match for this rule to apply. */
-export interface GooglePrivacyDlpV2PolicyCondition {
-  /** A condition based on info types. */
-  infoTypeCondition?: GooglePrivacyDlpV2InfoTypeCondition;
-}
-export type GooglePrivacyDlpV2PolicyConditionList = Array<GooglePrivacyDlpV2PolicyCondition>;
-/** A single policy rule. The first rule to match from the list above controls the result. */
-export interface GooglePrivacyDlpV2PolicyRule {
-  /** Required. Action to take if this rule applies. */
-  action?: GooglePrivacyDlpV2PolicyAction;
-  /** Optional. Conditions that must match for this rule to apply. All conditions must match (`AND`). For `OR` conditions, use multiple rules. */
-  conditions?: GooglePrivacyDlpV2PolicyConditionList;
-}
-export type GooglePrivacyDlpV2PolicyRuleList = Array<GooglePrivacyDlpV2PolicyRule>;
 /** Configuration for logging content policy actions to BigQuery. */
 export interface GooglePrivacyDlpV2LogToBigQuery {
-  /** Required. The ID of the project containing the BigQuery table to write to. */
-  projectId?: string;
-  /** Required. The ID of the dataset containing the BigQuery table to write to. */
-  datasetId?: string;
   /** Required. The ID of the BigQuery table to write to. */
-  tableId?: string;
+  tableId?: string | undefined;
+  /** Required. The ID of the project containing the BigQuery table to write to. */
+  projectId?: string | undefined;
+  /** Required. The ID of the dataset containing the BigQuery table to write to. */
+  datasetId?: string | undefined;
 }
 /** A single logging configuration. */
 export interface GooglePrivacyDlpV2LoggingConfig {
   /** Optional. Log the actions taken to a BigQuery table. */
-  logToBigQuery?: GooglePrivacyDlpV2LogToBigQuery;
+  logToBigQuery?: GooglePrivacyDlpV2LogToBigQuery | undefined;
 }
 export type GooglePrivacyDlpV2LoggingConfigList = Array<GooglePrivacyDlpV2LoggingConfig>;
+/** Info types to match. */
+export interface GooglePrivacyDlpV2InfoTypes {
+  /** Required. A list of info types to match. */
+  infoTypeNames?: StringList | undefined;
+}
+/** A info type based condition. */
+export interface GooglePrivacyDlpV2InfoTypeCondition {
+  /** Optional. The minimum total number of findings of all matching info types required for this condition to evaluate to true. Defaults to 1 if unset. */
+  minCount?: string | undefined;
+  /** match any of these info types. */
+  infoTypes?: GooglePrivacyDlpV2InfoTypes | undefined;
+  /** match any info types. */
+  anyInfoType?: GoogleProtobufEmpty | undefined;
+}
+/** A condition that must match for this rule to apply. */
+export interface GooglePrivacyDlpV2PolicyCondition {
+  /** A condition based on info types. */
+  infoTypeCondition?: GooglePrivacyDlpV2InfoTypeCondition | undefined;
+}
+export type GooglePrivacyDlpV2PolicyConditionList = Array<GooglePrivacyDlpV2PolicyCondition>;
+/** A single policy rule. The first rule to match from the list above controls the result. */
+export interface GooglePrivacyDlpV2PolicyRule {
+  /** Optional. Conditions that must match for this rule to apply. All conditions must match (`AND`). For `OR` conditions, use multiple rules. */
+  conditions?: GooglePrivacyDlpV2PolicyConditionList | undefined;
+  /** Required. Action to take if this rule applies. */
+  action?: GooglePrivacyDlpV2PolicyAction | undefined;
+}
+export type GooglePrivacyDlpV2PolicyRuleList = Array<GooglePrivacyDlpV2PolicyRule>;
 /** A policy to apply to content based on its inspection findings. */
 export interface GooglePrivacyDlpV2ContentPolicy {
-  /** Optional. Action to take if the content is a supported file type and size but fails to be scanned, for example because the file is encrypted or corrupted. */
-  failedToScanSupportedFileType?: GooglePrivacyDlpV2PolicyAction;
-  /** Output only. The creation timestamp of a contentPolicy; output-only field. */
-  createTime?: string;
-  /** Output only. Resource name of the policy. */
-  name?: string;
-  /** Output only. The last update timestamp of a contentPolicy; output-only field. */
-  updateTime?: string;
-  /** Output only. A stream of errors encountered when the policy was applied. Output only field. Will return the last 100 errors. Whenever the policy is modified this list will be cleared. */
-  errors?: GooglePrivacyDlpV2ErrorList;
-  /** Optional. InspectConfig to use to produce findings. */
-  inspectConfig?: GooglePrivacyDlpV2InspectConfig;
   /** Action to take if the content is scanned and no rules match. Defaults to returning an ALLOW verdict if not set. */
-  defaultAction?: GooglePrivacyDlpV2PolicyAction;
-  /** Optional. Action to take if the content is a supported file type but is too large to be scanned. */
-  inputTooLarge?: GooglePrivacyDlpV2PolicyAction;
-  /** Required. Policies to apply, based on the findings returned by inspection. The first rule to match applies. */
-  rules?: GooglePrivacyDlpV2PolicyRuleList;
+  defaultAction?: GooglePrivacyDlpV2PolicyAction | undefined;
+  /** Output only. A stream of errors encountered when the policy was applied. Output only field. Will return the last 100 errors. Whenever the policy is modified this list will be cleared. */
+  errors?: GooglePrivacyDlpV2ErrorList | undefined;
+  /** Optional. Action to take if the content is a supported file type and size but fails to be scanned, for example because the file is encrypted or corrupted. */
+  failedToScanSupportedFileType?: GooglePrivacyDlpV2PolicyAction | undefined;
+  /** Output only. Resource name of the policy. */
+  name?: string | undefined;
   /** Optional. Log the actions taken by the content policy to external systems. */
-  loggingConfigs?: GooglePrivacyDlpV2LoggingConfigList;
+  loggingConfigs?: GooglePrivacyDlpV2LoggingConfigList | undefined;
+  /** Output only. The creation timestamp of a contentPolicy; output-only field. */
+  createTime?: string | undefined;
   /** Optional. Action to take if the content is an unsupported file type. */
-  unsupportedFileType?: GooglePrivacyDlpV2PolicyAction;
+  unsupportedFileType?: GooglePrivacyDlpV2PolicyAction | undefined;
+  /** Optional. Action to take if the content is a supported file type but is too large to be scanned. */
+  inputTooLarge?: GooglePrivacyDlpV2PolicyAction | undefined;
+  /** Required. Policies to apply, based on the findings returned by inspection. The first rule to match applies. */
+  rules?: GooglePrivacyDlpV2PolicyRuleList | undefined;
+  /** Optional. InspectConfig to use to produce findings. */
+  inspectConfig?: GooglePrivacyDlpV2InspectConfig | undefined;
   /** Optional. Display name (max 63 chars) */
-  displayName?: string;
+  displayName?: string | undefined;
+  /** Output only. The last update timestamp of a contentPolicy; output-only field. */
+  updateTime?: string | undefined;
 }
 /** Request message for CreateContentPolicy. */
 export interface GooglePrivacyDlpV2CreateContentPolicyRequest {
-  /** Required. The content_policy resource. */
-  contentPolicy?: GooglePrivacyDlpV2ContentPolicy;
   /** Optional. The content policy ID can contain uppercase and lowercase letters, numbers, and hyphens; that is, it must match the regular expression: `[a-zA-Z\d-_]+`. The maximum length is 100 characters. If empty, the system will generate a random id. */
-  contentPolicyId?: string;
+  contentPolicyId?: string | undefined;
+  /** Required. The content_policy resource. */
+  contentPolicy?: GooglePrivacyDlpV2ContentPolicy | undefined;
 }
-export interface CreateProjectsLocationsContentPoliciesRequest {
+export interface CreateProjectsLocationsContentPoliciesRequest extends GooglePrivacyDlpV2CreateContentPolicyRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project): + Projects scope: `projects/{project_id}/locations/{location_id}` */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateContentPolicyRequest;
 }
-export interface CreateProjectsLocationsDeidentifyTemplatesRequest {
+export interface CreateProjectsLocationsDeidentifyTemplatesRequest extends GooglePrivacyDlpV2CreateDeidentifyTemplateRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateDeidentifyTemplateRequest;
 }
-export interface CreateProjectsLocationsDiscoveryConfigsRequest {
+export interface CreateProjectsLocationsDiscoveryConfigsRequest extends GooglePrivacyDlpV2CreateDiscoveryConfigRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization): + Projects scope: `projects/{project_id}/locations/{location_id}` + Organizations scope: `organizations/{org_id}/locations/{location_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateDiscoveryConfigRequest;
 }
-export interface CreateProjectsLocationsDlpJobsRequest {
+export interface CreateProjectsLocationsDlpJobsRequest extends GooglePrivacyDlpV2CreateDlpJobRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateDlpJobRequest;
 }
-export interface CreateProjectsLocationsInspectTemplatesRequest {
+export interface CreateProjectsLocationsInspectTemplatesRequest extends GooglePrivacyDlpV2CreateInspectTemplateRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateInspectTemplateRequest;
 }
-export interface CreateProjectsLocationsJobTriggersRequest {
+export interface CreateProjectsLocationsJobTriggersRequest extends GooglePrivacyDlpV2CreateJobTriggerRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateJobTriggerRequest;
 }
-export interface CreateProjectsLocationsStoredInfoTypesRequest {
+export interface CreateProjectsLocationsStoredInfoTypesRequest extends GooglePrivacyDlpV2CreateStoredInfoTypeRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateStoredInfoTypeRequest;
 }
-export interface CreateProjectsStoredInfoTypesRequest {
+export interface CreateProjectsStoredInfoTypesRequest extends GooglePrivacyDlpV2CreateStoredInfoTypeRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateStoredInfoTypeRequest;
-}
-export type GooglePrivacyDlpV2ConversationMessageMessageTypeEnum =
-  | "MESSAGE_TYPE_UNSPECIFIED"
-  | "CONTENT"
-  | "CONTEXT";
-/** A part of a conversation message. */
-export interface GooglePrivacyDlpV2MessagePart {
-  /** String content for text-based messages. */
-  text?: string;
-}
-export type GooglePrivacyDlpV2MessagePartList = Array<GooglePrivacyDlpV2MessagePart>;
-/** Single message in a conversation. */
-export interface GooglePrivacyDlpV2ConversationMessage {
-  /** Optional. The identifier of the participant, for example 'test-user' or 'gemini'. The participant ID can contain lowercase letters, numbers, and hyphens; that is, it must match the regular expression: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. The maximum length is 63 characters. */
-  participantId?: string;
-  /** The type of message. */
-  messageType?: GooglePrivacyDlpV2ConversationMessageMessageTypeEnum | (string & {});
-  /** Optional. The parts of the message. Restricted to being at most a single text item. Only one of `content` and `message_parts` can be set. */
-  messageParts?: GooglePrivacyDlpV2MessagePartList;
-  /** Deprecated: Use `message_parts` instead. The contents of this message. Only one of `content` and `message_parts` can be set. */
-  content?: string;
-}
-export type GooglePrivacyDlpV2ConversationMessageList =
-  Array<GooglePrivacyDlpV2ConversationMessage>;
-/** Complete conversation or slice of a conversation. It is assumed that all included messages are contiguous and ordered in chronological order. */
-export interface GooglePrivacyDlpV2Conversation {
-  /** Messages exchanged within this conversation. The maximum number of messages allowed is 50k. The order of the messages is assumed to be chronological and will be used to index findings in the response. */
-  messages?: GooglePrivacyDlpV2ConversationMessageList;
-}
-/** A key-value pair in the Metadata. */
-export interface GooglePrivacyDlpV2KeyValueMetadataProperty {
-  /** The value of the property. */
-  value?: string;
-  /** The key of the property. */
-  key?: string;
-}
-export type GooglePrivacyDlpV2KeyValueMetadataPropertyList =
-  Array<GooglePrivacyDlpV2KeyValueMetadataProperty>;
-/** The field values of the Google Drive label */
-export interface GooglePrivacyDlpV2LabelFieldMetadata {
-  /** The identifier of the Label Field. */
-  id?: string;
-  /** The value of the Label Field. */
-  value?: GooglePrivacyDlpV2Value;
-}
-export type GooglePrivacyDlpV2LabelFieldMetadataList = Array<GooglePrivacyDlpV2LabelFieldMetadata>;
-/** Google Drive labels published by Google. */
-export interface GooglePrivacyDlpV2GoogleDriveLabelMetadata {
-  /** The [label ID](https://developers.google.com/workspace/drive/labels/guides/overview) of the Google Drive label. */
-  labelId?: string;
-  /** The field values of the Google Drive label */
-  labelFields?: GooglePrivacyDlpV2LabelFieldMetadataList;
-}
-/** Sensitivity labels published by Microsoft. */
-export interface GooglePrivacyDlpV2SensitivityLabelMetadata {
-  /** Required. The GUID of the sensitivity label. */
-  guid?: string;
-}
-/** Represents a file label. */
-export interface GooglePrivacyDlpV2FileLabel {
-  /** Google Drive labels published by Google. */
-  googleDriveLabel?: GooglePrivacyDlpV2GoogleDriveLabelMetadata;
-  /** Sensitivity labels published by Microsoft. */
-  sensitivityLabel?: GooglePrivacyDlpV2SensitivityLabelMetadata;
-}
-export type GooglePrivacyDlpV2FileLabelList = Array<GooglePrivacyDlpV2FileLabel>;
-/** Metadata on content to be scanned. */
-export interface GooglePrivacyDlpV2ContentMetadata {
-  /** User provided key-value pairs of content metadata. */
-  properties?: GooglePrivacyDlpV2KeyValueMetadataPropertyList;
-  /** Optional. The file labels associated with the content. */
-  fileLabels?: GooglePrivacyDlpV2FileLabelList;
 }
 export type GooglePrivacyDlpV2ByteContentItemTypeEnum =
   | "BYTES_TYPE_UNSPECIFIED"
@@ -2885,72 +2836,143 @@ export type GooglePrivacyDlpV2ByteContentItemTypeEnum =
   | "AUDIO"
   | "VIDEO"
   | "EXECUTABLE"
-  | "AI_MODEL";
+  | "AI_MODEL"
+  | "IMAGE_TIFF";
 /** Container for bytes to inspect or redact. */
 export interface GooglePrivacyDlpV2ByteContentItem {
-  /** The type of data stored in the bytes string. Default will be TEXT_UTF8. */
-  type?: GooglePrivacyDlpV2ByteContentItemTypeEnum | (string & {});
   /** Content data to inspect or redact. */
-  data?: string;
+  data?: string | undefined;
+  /** The type of data stored in the bytes string. Default will be TEXT_UTF8. */
+  type?: GooglePrivacyDlpV2ByteContentItemTypeEnum | (string & {}) | undefined;
+}
+/** Represents a batch of string values to inspect or redact. */
+export interface GooglePrivacyDlpV2StringValueBatch {
+  /** Optional. Represents string data to inspect or redact. */
+  values?: StringList | undefined;
+}
+/** Represents a batch of content to inspect or redact. */
+export interface GooglePrivacyDlpV2BatchContentItem {
+  /** Optional. Represents a batch of string values to inspect or redact. */
+  stringValueBatch?: GooglePrivacyDlpV2StringValueBatch | undefined;
+}
+/** A part of a conversation message. */
+export interface GooglePrivacyDlpV2MessagePart {
+  /** String content for text-based messages. */
+  text?: string | undefined;
+}
+export type GooglePrivacyDlpV2MessagePartList = Array<GooglePrivacyDlpV2MessagePart>;
+export type GooglePrivacyDlpV2ConversationMessageMessageTypeEnum =
+  | "MESSAGE_TYPE_UNSPECIFIED"
+  | "CONTENT"
+  | "CONTEXT";
+/** Single message in a conversation. */
+export interface GooglePrivacyDlpV2ConversationMessage {
+  /** Deprecated: Use `message_parts` instead. The contents of this message. Only one of `content` and `message_parts` can be set. */
+  content?: string | undefined;
+  /** Optional. The parts of the message. Restricted to being at most a single text item. Only one of `content` and `message_parts` can be set. */
+  messageParts?: GooglePrivacyDlpV2MessagePartList | undefined;
+  /** Optional. The identifier of the participant, for example 'test-user' or 'gemini'. The participant ID can contain lowercase letters, numbers, and hyphens; that is, it must match the regular expression: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. The maximum length is 63 characters. */
+  participantId?: string | undefined;
+  /** The type of message. */
+  messageType?: GooglePrivacyDlpV2ConversationMessageMessageTypeEnum | (string & {}) | undefined;
+}
+export type GooglePrivacyDlpV2ConversationMessageList =
+  Array<GooglePrivacyDlpV2ConversationMessage>;
+/** Complete conversation or slice of a conversation. It is assumed that all included messages are contiguous and ordered in chronological order. */
+export interface GooglePrivacyDlpV2Conversation {
+  /** Messages exchanged within this conversation. The maximum number of messages allowed is 50k. The order of the messages is assumed to be chronological and will be used to index findings in the response. */
+  messages?: GooglePrivacyDlpV2ConversationMessageList | undefined;
+}
+/** Sensitivity labels published by Microsoft. */
+export interface GooglePrivacyDlpV2SensitivityLabelMetadata {
+  /** Required. The GUID of the sensitivity label. */
+  guid?: string | undefined;
+}
+/** The field values of the Google Drive label */
+export interface GooglePrivacyDlpV2LabelFieldMetadata {
+  /** The value of the Label Field. */
+  value?: GooglePrivacyDlpV2Value | undefined;
+  /** The identifier of the Label Field. */
+  id?: string | undefined;
+}
+export type GooglePrivacyDlpV2LabelFieldMetadataList = Array<GooglePrivacyDlpV2LabelFieldMetadata>;
+/** Google Drive labels published by Google. */
+export interface GooglePrivacyDlpV2GoogleDriveLabelMetadata {
+  /** The field values of the Google Drive label */
+  labelFields?: GooglePrivacyDlpV2LabelFieldMetadataList | undefined;
+  /** The [label ID](https://developers.google.com/workspace/drive/labels/guides/overview) of the Google Drive label. */
+  labelId?: string | undefined;
+}
+/** Represents a file label. */
+export interface GooglePrivacyDlpV2FileLabel {
+  /** Sensitivity labels published by Microsoft. */
+  sensitivityLabel?: GooglePrivacyDlpV2SensitivityLabelMetadata | undefined;
+  /** Google Drive labels published by Google. */
+  googleDriveLabel?: GooglePrivacyDlpV2GoogleDriveLabelMetadata | undefined;
+}
+export type GooglePrivacyDlpV2FileLabelList = Array<GooglePrivacyDlpV2FileLabel>;
+/** A key-value pair in the Metadata. */
+export interface GooglePrivacyDlpV2KeyValueMetadataProperty {
+  /** The value of the property. */
+  value?: string | undefined;
+  /** The key of the property. */
+  key?: string | undefined;
+}
+export type GooglePrivacyDlpV2KeyValueMetadataPropertyList =
+  Array<GooglePrivacyDlpV2KeyValueMetadataProperty>;
+/** Metadata on content to be scanned. */
+export interface GooglePrivacyDlpV2ContentMetadata {
+  /** Optional. The file labels associated with the content. */
+  fileLabels?: GooglePrivacyDlpV2FileLabelList | undefined;
+  /** User provided key-value pairs of content metadata. */
+  properties?: GooglePrivacyDlpV2KeyValueMetadataPropertyList | undefined;
 }
 /** Values of the row. */
 export interface GooglePrivacyDlpV2Row {
   /** Individual cells. */
-  values?: GooglePrivacyDlpV2ValueList;
+  values?: GooglePrivacyDlpV2ValueList | undefined;
 }
 export type GooglePrivacyDlpV2RowList = Array<GooglePrivacyDlpV2Row>;
 /** Structured content to inspect. Up to 50,000 `Value`s per request allowed. See https://docs.cloud.google.com/sensitive-data-protection/docs/inspecting-structured-text#inspecting_a_table to learn more. */
 export interface GooglePrivacyDlpV2Table {
   /** Headers of the table. */
-  headers?: GooglePrivacyDlpV2FieldIdList;
+  headers?: GooglePrivacyDlpV2FieldIdList | undefined;
   /** Rows of the table. */
-  rows?: GooglePrivacyDlpV2RowList;
-}
-/** Represents a batch of string values to inspect or redact. */
-export interface GooglePrivacyDlpV2StringValueBatch {
-  /** Optional. Represents string data to inspect or redact. */
-  values?: StringList;
-}
-/** Represents a batch of content to inspect or redact. */
-export interface GooglePrivacyDlpV2BatchContentItem {
-  /** Optional. Represents a batch of string values to inspect or redact. */
-  stringValueBatch?: GooglePrivacyDlpV2StringValueBatch;
+  rows?: GooglePrivacyDlpV2RowList | undefined;
 }
 /** Type of content to inspect. */
 export interface GooglePrivacyDlpV2ContentItem {
-  /** Represents a conversation (either complete or a slice). It is assumed that all included messages are contiguous and ordered in chronological order. */
-  conversation?: GooglePrivacyDlpV2Conversation;
-  /** User provided metadata for the content. */
-  contentMetadata?: GooglePrivacyDlpV2ContentMetadata;
-  /** Content data to inspect or redact. Replaces `type` and `data`. */
-  byteItem?: GooglePrivacyDlpV2ByteContentItem;
-  /** Structured content for inspection. See https://docs.cloud.google.com/sensitive-data-protection/docs/inspecting-text#inspecting_a_table to learn more. */
-  table?: GooglePrivacyDlpV2Table;
   /** String data to inspect or redact. */
-  value?: string;
+  value?: string | undefined;
+  /** Content data to inspect or redact. Replaces `type` and `data`. */
+  byteItem?: GooglePrivacyDlpV2ByteContentItem | undefined;
   /** Represents a batch of items to inspect. */
-  batchContentItem?: GooglePrivacyDlpV2BatchContentItem;
+  batchContentItem?: GooglePrivacyDlpV2BatchContentItem | undefined;
+  /** Represents a conversation (either complete or a slice). It is assumed that all included messages are contiguous and ordered in chronological order. */
+  conversation?: GooglePrivacyDlpV2Conversation | undefined;
+  /** User provided metadata for the content. */
+  contentMetadata?: GooglePrivacyDlpV2ContentMetadata | undefined;
+  /** Structured content for inspection. See https://docs.cloud.google.com/sensitive-data-protection/docs/inspecting-text#inspecting_a_table to learn more. */
+  table?: GooglePrivacyDlpV2Table | undefined;
 }
 /** Request to de-identify a ContentItem. */
 export interface GooglePrivacyDlpV2DeidentifyContentRequest {
   /** Template to use. Any configuration directly specified in inspect_config will override those set in the template. Singular fields that are set in this request will replace their corresponding fields in the template. Repeated fields are appended. Singular sub-messages and groups are recursively merged. */
-  inspectTemplateName?: string;
+  inspectTemplateName?: string | undefined;
   /** Configuration for the de-identification of the content item. Items specified here will override the template referenced by the deidentify_template_name argument. */
-  deidentifyConfig?: GooglePrivacyDlpV2DeidentifyConfig;
-  /** Template to use. Any configuration directly specified in deidentify_config will override those set in the template. Singular fields that are set in this request will replace their corresponding fields in the template. Repeated fields are appended. Singular sub-messages and groups are recursively merged. */
-  deidentifyTemplateName?: string;
+  deidentifyConfig?: GooglePrivacyDlpV2DeidentifyConfig | undefined;
   /** Deprecated. This field has no effect. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** The item to de-identify. Will be treated as text. This value must be of type Table if your deidentify_config is a RecordTransformations object. */
-  item?: GooglePrivacyDlpV2ContentItem;
+  item?: GooglePrivacyDlpV2ContentItem | undefined;
+  /** Template to use. Any configuration directly specified in deidentify_config will override those set in the template. Singular fields that are set in this request will replace their corresponding fields in the template. Repeated fields are appended. Singular sub-messages and groups are recursively merged. */
+  deidentifyTemplateName?: string | undefined;
   /** Configuration for the inspector. Items specified here will override the template referenced by the inspect_template_name argument. */
-  inspectConfig?: GooglePrivacyDlpV2InspectConfig;
+  inspectConfig?: GooglePrivacyDlpV2InspectConfig | undefined;
 }
-export interface DeidentifyProjectsContentRequest {
+export interface DeidentifyProjectsContentRequest extends GooglePrivacyDlpV2DeidentifyContentRequest {
   /** Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2DeidentifyContentRequest;
 }
 export type GooglePrivacyDlpV2SummaryResultCodeEnum =
   | "TRANSFORMATION_RESULT_CODE_UNSPECIFIED"
@@ -2959,51 +2981,49 @@ export type GooglePrivacyDlpV2SummaryResultCodeEnum =
 /** A collection that informs the user the number of times a particular `TransformationResultCode` and error details occurred. */
 export interface GooglePrivacyDlpV2SummaryResult {
   /** A place for warnings or errors to show up if a transformation didn't work as expected. */
-  details?: string;
-  /** Outcome of the transformation. */
-  code?: GooglePrivacyDlpV2SummaryResultCodeEnum;
+  details?: string | undefined;
   /** Number of transformations counted by this result. */
-  count?: string;
+  count?: string | undefined;
+  /** Outcome of the transformation. */
+  code?: GooglePrivacyDlpV2SummaryResultCodeEnum | undefined;
 }
 export type GooglePrivacyDlpV2SummaryResultList = Array<GooglePrivacyDlpV2SummaryResult>;
 /** Summary of a single transformation. Only one of 'transformation', 'field_transformation', or 'record_suppress' will be set. */
 export interface GooglePrivacyDlpV2TransformationSummary {
-  /** The field transformation that was applied. If multiple field transformations are requested for a single field, this list will contain all of them; otherwise, only one is supplied. */
-  fieldTransformations?: GooglePrivacyDlpV2FieldTransformationList;
-  /** Total size in bytes that were transformed in some way. */
-  transformedBytes?: string;
-  /** Set if the transformation was limited to a specific InfoType. */
-  infoType?: GooglePrivacyDlpV2InfoType;
   /** The specific suppression option these stats apply to. */
-  recordSuppress?: GooglePrivacyDlpV2RecordSuppression;
-  /** The specific transformation these stats apply to. */
-  transformation?: GooglePrivacyDlpV2PrimitiveTransformation;
-  /** Collection of all transformations that took place or had an error. */
-  results?: GooglePrivacyDlpV2SummaryResultList;
+  recordSuppress?: GooglePrivacyDlpV2RecordSuppression | undefined;
+  /** Total size in bytes that were transformed in some way. */
+  transformedBytes?: string | undefined;
+  /** The field transformation that was applied. If multiple field transformations are requested for a single field, this list will contain all of them; otherwise, only one is supplied. */
+  fieldTransformations?: GooglePrivacyDlpV2FieldTransformationList | undefined;
   /** Set if the transformation was limited to a specific FieldId. */
-  field?: GooglePrivacyDlpV2FieldId;
+  field?: GooglePrivacyDlpV2FieldId | undefined;
+  /** Set if the transformation was limited to a specific InfoType. */
+  infoType?: GooglePrivacyDlpV2InfoType | undefined;
+  /** The specific transformation these stats apply to. */
+  transformation?: GooglePrivacyDlpV2PrimitiveTransformation | undefined;
+  /** Collection of all transformations that took place or had an error. */
+  results?: GooglePrivacyDlpV2SummaryResultList | undefined;
 }
 export type GooglePrivacyDlpV2TransformationSummaryList =
   Array<GooglePrivacyDlpV2TransformationSummary>;
 /** Overview of the modifications that occurred. */
 export interface GooglePrivacyDlpV2TransformationOverview {
   /** Total size in bytes that were transformed in some way. */
-  transformedBytes?: string;
+  transformedBytes?: string | undefined;
   /** Transformations applied to the dataset. */
-  transformationSummaries?: GooglePrivacyDlpV2TransformationSummaryList;
+  transformationSummaries?: GooglePrivacyDlpV2TransformationSummaryList | undefined;
 }
 /** Results of de-identifying a ContentItem. */
 export interface GooglePrivacyDlpV2DeidentifyContentResponse {
   /** The de-identified item. */
-  item?: GooglePrivacyDlpV2ContentItem;
+  item?: GooglePrivacyDlpV2ContentItem | undefined;
   /** An overview of the changes that were made on the `item`. */
-  overview?: GooglePrivacyDlpV2TransformationOverview;
+  overview?: GooglePrivacyDlpV2TransformationOverview | undefined;
 }
-export interface DeidentifyProjectsLocationsContentRequest {
+export interface DeidentifyProjectsLocationsContentRequest extends GooglePrivacyDlpV2DeidentifyContentRequest {
   /** Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2DeidentifyContentRequest;
 }
 export interface DeleteOrganizationsDeidentifyTemplatesRequest {
   /** Required. Resource name of the organization and deidentify template to be deleted, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
@@ -3115,7 +3135,7 @@ export interface FinishProjectsLocationsDlpJobsRequest {
   /** Required. The name of the DlpJob resource to be finished. */
   name: string;
   /** Request body */
-  body?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
+  body?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
 }
 export interface GetOrganizationsDeidentifyTemplatesRequest {
   /** Required. Resource name of the organization and deidentify template to be read, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
@@ -3129,17 +3149,31 @@ export interface GetOrganizationsLocationsColumnDataProfilesRequest {
   /** Required. Resource name, for example `organizations/12345/locations/us/columnDataProfiles/53234423`. */
   name: string;
 }
-export type GooglePrivacyDlpV2ColumnDataProfileEstimatedUniquenessScoreEnum =
-  | "UNIQUENESS_SCORE_LEVEL_UNSPECIFIED"
-  | "UNIQUENESS_SCORE_LOW"
-  | "UNIQUENESS_SCORE_MEDIUM"
-  | "UNIQUENESS_SCORE_HIGH";
-export type GooglePrivacyDlpV2ColumnDataProfileEstimatedNullPercentageEnum =
-  | "NULL_PERCENTAGE_LEVEL_UNSPECIFIED"
-  | "NULL_PERCENTAGE_VERY_LOW"
-  | "NULL_PERCENTAGE_LOW"
-  | "NULL_PERCENTAGE_MEDIUM"
-  | "NULL_PERCENTAGE_HIGH";
+/** Success or errors for the profile generation. */
+export interface GooglePrivacyDlpV2ProfileStatus {
+  /** Profiling status code and optional message. The `status.code` value is 0 (default value) for OK. */
+  status?: GoogleRpcStatus | undefined;
+  /** Time when the profile generation status was updated */
+  timestamp?: string | undefined;
+}
+/** Infotype details for other infoTypes found within a column. */
+export interface GooglePrivacyDlpV2OtherInfoTypeSummary {
+  /** Whether this infoType was excluded from sensitivity and risk analysis due to factors such as low prevalence (subject to change). */
+  excludedFromAnalysis?: boolean | undefined;
+  /** Approximate percentage of non-null rows that contained data detected by this infotype. */
+  estimatedPrevalence?: number | undefined;
+  /** The other infoType. */
+  infoType?: GooglePrivacyDlpV2InfoType | undefined;
+}
+export type GooglePrivacyDlpV2OtherInfoTypeSummaryList =
+  Array<GooglePrivacyDlpV2OtherInfoTypeSummary>;
+/** The infoType details for this column. */
+export interface GooglePrivacyDlpV2InfoTypeSummary {
+  /** Not populated for predicted infotypes. */
+  estimatedPrevalence?: number | undefined;
+  /** The infoType. */
+  infoType?: GooglePrivacyDlpV2InfoType | undefined;
+}
 export type GooglePrivacyDlpV2DataRiskLevelScoreEnum =
   | "RISK_SCORE_UNSPECIFIED"
   | "RISK_LOW"
@@ -3149,27 +3183,11 @@ export type GooglePrivacyDlpV2DataRiskLevelScoreEnum =
 /** Score is a summary of all elements in the data profile. A higher number means more risk. */
 export interface GooglePrivacyDlpV2DataRiskLevel {
   /** The score applied to the resource. */
-  score?: GooglePrivacyDlpV2DataRiskLevelScoreEnum;
+  score?: GooglePrivacyDlpV2DataRiskLevelScoreEnum | undefined;
 }
-/** Infotype details for other infoTypes found within a column. */
-export interface GooglePrivacyDlpV2OtherInfoTypeSummary {
-  /** The other infoType. */
-  infoType?: GooglePrivacyDlpV2InfoType;
-  /** Whether this infoType was excluded from sensitivity and risk analysis due to factors such as low prevalence (subject to change). */
-  excludedFromAnalysis?: boolean;
-  /** Approximate percentage of non-null rows that contained data detected by this infotype. */
-  estimatedPrevalence?: number;
-}
-export type GooglePrivacyDlpV2OtherInfoTypeSummaryList =
-  Array<GooglePrivacyDlpV2OtherInfoTypeSummary>;
-export type GooglePrivacyDlpV2ColumnDataProfileStateEnum = "STATE_UNSPECIFIED" | "RUNNING" | "DONE";
-/** The infoType details for this column. */
-export interface GooglePrivacyDlpV2InfoTypeSummary {
-  /** The infoType. */
-  infoType?: GooglePrivacyDlpV2InfoType;
-  /** Not populated for predicted infotypes. */
-  estimatedPrevalence?: number;
-}
+export type GooglePrivacyDlpV2ColumnDataProfilePolicyStateEnum =
+  | "COLUMN_POLICY_STATE_UNSPECIFIED"
+  | "COLUMN_POLICY_TAGGED";
 export type GooglePrivacyDlpV2ColumnDataProfileColumnTypeEnum =
   | "COLUMN_DATA_TYPE_UNSPECIFIED"
   | "TYPE_INT64"
@@ -3190,58 +3208,64 @@ export type GooglePrivacyDlpV2ColumnDataProfileColumnTypeEnum =
   | "TYPE_RANGE_DATE"
   | "TYPE_RANGE_DATETIME"
   | "TYPE_RANGE_TIMESTAMP";
-export type GooglePrivacyDlpV2ColumnDataProfilePolicyStateEnum =
-  | "COLUMN_POLICY_STATE_UNSPECIFIED"
-  | "COLUMN_POLICY_TAGGED";
-/** Success or errors for the profile generation. */
-export interface GooglePrivacyDlpV2ProfileStatus {
-  /** Profiling status code and optional message. The `status.code` value is 0 (default value) for OK. */
-  status?: GoogleRpcStatus;
-  /** Time when the profile generation status was updated */
-  timestamp?: string;
-}
+export type GooglePrivacyDlpV2ColumnDataProfileEstimatedUniquenessScoreEnum =
+  | "UNIQUENESS_SCORE_LEVEL_UNSPECIFIED"
+  | "UNIQUENESS_SCORE_LOW"
+  | "UNIQUENESS_SCORE_MEDIUM"
+  | "UNIQUENESS_SCORE_HIGH";
+export type GooglePrivacyDlpV2ColumnDataProfileEstimatedNullPercentageEnum =
+  | "NULL_PERCENTAGE_LEVEL_UNSPECIFIED"
+  | "NULL_PERCENTAGE_VERY_LOW"
+  | "NULL_PERCENTAGE_LOW"
+  | "NULL_PERCENTAGE_MEDIUM"
+  | "NULL_PERCENTAGE_HIGH";
+export type GooglePrivacyDlpV2ColumnDataProfileStateEnum = "STATE_UNSPECIFIED" | "RUNNING" | "DONE";
 /** The profile for a scanned column within a table. */
 export interface GooglePrivacyDlpV2ColumnDataProfile {
-  /** The likelihood that this column contains free-form text. A value close to 1 may indicate the column is likely to contain free-form or natural language text. Range in 0-1. */
-  freeTextScore?: number;
-  /** The resource name of the resource this column is within. */
-  tableFullResource?: string;
-  /** The name of the profile. */
-  name?: string;
-  /** Approximate uniqueness of the column. */
-  estimatedUniquenessScore?: GooglePrivacyDlpV2ColumnDataProfileEstimatedUniquenessScoreEnum;
-  /** The table ID. */
-  tableId?: string;
-  /** The name of the column. */
-  column?: string;
-  /** Approximate percentage of entries being null in the column. */
-  estimatedNullPercentage?: GooglePrivacyDlpV2ColumnDataProfileEstimatedNullPercentageEnum;
-  /** If supported, the location where the dataset's data is stored. See https://docs.cloud.google.com/bigquery/docs/locations for supported BigQuery locations. */
-  datasetLocation?: string;
-  /** The Google Cloud project ID that owns the profiled resource. */
-  datasetProjectId?: string;
-  /** The last time the profile was generated. */
-  profileLastGenerated?: string;
-  /** The BigQuery dataset ID, if the resource profiled is a BigQuery table. */
-  datasetId?: string;
-  /** The data risk level for this column. */
-  dataRiskLevel?: GooglePrivacyDlpV2DataRiskLevel;
-  /** Other types found within this column. List will be unordered. */
-  otherMatches?: GooglePrivacyDlpV2OtherInfoTypeSummaryList;
-  /** State of a profile. */
-  state?: GooglePrivacyDlpV2ColumnDataProfileStateEnum;
-  /** If it's been determined this column can be identified as a single type, this will be set. Otherwise the column either has unidentifiable content or mixed types. */
-  columnInfoType?: GooglePrivacyDlpV2InfoTypeSummary;
-  /** The data type of a given column. */
-  columnType?: GooglePrivacyDlpV2ColumnDataProfileColumnTypeEnum;
-  /** Indicates if a policy tag has been applied to the column. */
-  policyState?: GooglePrivacyDlpV2ColumnDataProfilePolicyStateEnum;
-  /** The resource name of the table data profile. */
-  tableDataProfile?: string;
   /** Success or error status from the most recent profile generation attempt. May be empty if the profile is still being generated. */
-  profileStatus?: GooglePrivacyDlpV2ProfileStatus;
+  profileStatus?: GooglePrivacyDlpV2ProfileStatus | undefined;
+  /** The resource name of the table data profile. */
+  tableDataProfile?: string | undefined;
+  /** Other types found within this column. List will be unordered. */
+  otherMatches?: GooglePrivacyDlpV2OtherInfoTypeSummaryList | undefined;
   /** The sensitivity of this column. */
-  sensitivityScore?: GooglePrivacyDlpV2SensitivityScore;
+  sensitivityScore?: GooglePrivacyDlpV2SensitivityScore | undefined;
+  /** The resource name of the resource this column is within. */
+  tableFullResource?: string | undefined;
+  /** The name of the profile. */
+  name?: string | undefined;
+  /** The last time the profile was generated. */
+  profileLastGenerated?: string | undefined;
+  /** If it's been determined this column can be identified as a single type, this will be set. Otherwise the column either has unidentifiable content or mixed types. */
+  columnInfoType?: GooglePrivacyDlpV2InfoTypeSummary | undefined;
+  /** The BigQuery dataset ID, if the resource profiled is a BigQuery table. */
+  datasetId?: string | undefined;
+  /** The likelihood that this column contains free-form text. A value close to 1 may indicate the column is likely to contain free-form or natural language text. Range in 0-1. */
+  freeTextScore?: number | undefined;
+  /** The data risk level for this column. */
+  dataRiskLevel?: GooglePrivacyDlpV2DataRiskLevel | undefined;
+  /** Indicates if a policy tag has been applied to the column. */
+  policyState?: GooglePrivacyDlpV2ColumnDataProfilePolicyStateEnum | undefined;
+  /** If supported, the location where the dataset's data is stored. See https://docs.cloud.google.com/bigquery/docs/locations for supported BigQuery locations. */
+  datasetLocation?: string | undefined;
+  /** The data type of a given column. */
+  columnType?: GooglePrivacyDlpV2ColumnDataProfileColumnTypeEnum | undefined;
+  /** Approximate uniqueness of the column. */
+  estimatedUniquenessScore?:
+    | GooglePrivacyDlpV2ColumnDataProfileEstimatedUniquenessScoreEnum
+    | undefined;
+  /** The name of the column. */
+  column?: string | undefined;
+  /** The table ID. */
+  tableId?: string | undefined;
+  /** The Google Cloud project ID that owns the profiled resource. */
+  datasetProjectId?: string | undefined;
+  /** Approximate percentage of entries being null in the column. */
+  estimatedNullPercentage?:
+    | GooglePrivacyDlpV2ColumnDataProfileEstimatedNullPercentageEnum
+    | undefined;
+  /** State of a profile. */
+  state?: GooglePrivacyDlpV2ColumnDataProfileStateEnum | undefined;
 }
 export interface GetOrganizationsLocationsConnectionsRequest {
   /** Required. Resource name in the format: `projects/{project}/locations/{location}/connections/{connection}`. */
@@ -3274,43 +3298,68 @@ export type GooglePrivacyDlpV2DomainCategoryEnum = "CATEGORY_UNSPECIFIED" | "AI"
 /** A domain represents a thematic category that a data profile can fall under. */
 export interface GooglePrivacyDlpV2Domain {
   /** The collection of signals that influenced selection of the category. */
-  signals?: GooglePrivacyDlpV2DomainSignalsItemEnumList;
+  signals?: GooglePrivacyDlpV2DomainSignalsItemEnumList | undefined;
   /** A domain category that this profile is related to. */
-  category?: GooglePrivacyDlpV2DomainCategoryEnum;
+  category?: GooglePrivacyDlpV2DomainCategoryEnum | undefined;
 }
 export type GooglePrivacyDlpV2DomainList = Array<GooglePrivacyDlpV2Domain>;
-export type GooglePrivacyDlpV2FileStoreDataProfileResourceVisibilityEnum =
-  | "RESOURCE_VISIBILITY_UNSPECIFIED"
-  | "RESOURCE_VISIBILITY_PUBLIC"
-  | "RESOURCE_VISIBILITY_INCONCLUSIVE"
-  | "RESOURCE_VISIBILITY_RESTRICTED";
-/** A tag associated with a resource. */
-export interface GooglePrivacyDlpV2Tag {
-  /** The namespaced name for the tag value to attach to Google Cloud resources. Must be in the format `{parent_id}/{tag_key_short_name}/{short_name}`, for example, "123456/environment/prod" for an organization parent, or "my-project/environment/prod" for a project parent. This is only set for Google Cloud resources. */
-  namespacedTagValue?: string;
-  /** The value of a tag key-value pair. For Google Cloud resources, this is the resource name of the value, for example, "tagValues/123456". */
-  value?: string;
-  /** The key of a tag key-value pair. For Google Cloud resources, this is the resource name of the key, for example, "tagKeys/123456". */
-  key?: string;
+/** Information regarding the discovered InfoType. */
+export interface GooglePrivacyDlpV2FileStoreInfoTypeSummary {
+  /** The InfoType seen. */
+  infoType?: GooglePrivacyDlpV2InfoType | undefined;
 }
-export type GooglePrivacyDlpV2TagList = Array<GooglePrivacyDlpV2Tag>;
+export type GooglePrivacyDlpV2FileStoreInfoTypeSummaryList =
+  Array<GooglePrivacyDlpV2FileStoreInfoTypeSummary>;
+export type GooglePrivacyDlpV2ValueMap = { [key: string]: GooglePrivacyDlpV2Value | undefined };
+/** A related resource. Examples: * The source BigQuery table for a Vertex AI dataset. * The source Cloud Storage bucket for a Vertex AI dataset. */
+export interface GooglePrivacyDlpV2RelatedResource {
+  /** The full resource name of the related resource. */
+  fullResource?: string | undefined;
+}
+export type GooglePrivacyDlpV2RelatedResourceList = Array<GooglePrivacyDlpV2RelatedResource>;
 export type GooglePrivacyDlpV2FileStoreDataProfileStateEnum =
   | "STATE_UNSPECIFIED"
   | "RUNNING"
   | "DONE";
-/** Information regarding the discovered InfoType. */
-export interface GooglePrivacyDlpV2FileStoreInfoTypeSummary {
-  /** The InfoType seen. */
-  infoType?: GooglePrivacyDlpV2InfoType;
+/** The data that will be profiled. */
+export interface GooglePrivacyDlpV2DataProfileLocation {
+  /** The ID of the folder within an organization to scan. */
+  folderId?: string | undefined;
+  /** The ID of an organization to scan. */
+  organizationId?: string | undefined;
 }
-export type GooglePrivacyDlpV2FileStoreInfoTypeSummaryList =
-  Array<GooglePrivacyDlpV2FileStoreInfoTypeSummary>;
-/** A related resource. Examples: * The source BigQuery table for a Vertex AI dataset. * The source Cloud Storage bucket for a Vertex AI dataset. */
-export interface GooglePrivacyDlpV2RelatedResource {
-  /** The full resource name of the related resource. */
-  fullResource?: string;
+/** Configuration for setting up a job to scan resources for profile generation. Only one data profile configuration may exist per organization, folder, or project. The generated data profiles are retained according to the [data retention policy] (https://docs.cloud.google.com/sensitive-data-protection/docs/data-profiles#retention). */
+export interface GooglePrivacyDlpV2DataProfileJobConfig {
+  /** The project that will run the scan. The DLP service account that exists within this project must have access to all resources that are profiled, and the DLP API must be enabled. */
+  projectId?: string | undefined;
+  /** Must be set only when scanning other clouds. */
+  otherCloudStartingLocation?: GooglePrivacyDlpV2OtherCloudDiscoveryStartingLocation | undefined;
+  /** Actions to execute at the completion of the job. */
+  dataProfileActions?: GooglePrivacyDlpV2DataProfileActionList | undefined;
+  /** The data to scan. */
+  location?: GooglePrivacyDlpV2DataProfileLocation | undefined;
+  /** Detection logic for profile generation. Not all template features are used by profiles. FindingLimits, include_quote and exclude_info_types have no impact on data profiling. Multiple templates may be provided if there is data in multiple regions. At most one template must be specified per-region (including "global"). Each region is scanned using the applicable template. If no region-specific template is specified, but a "global" template is specified, it will be copied to that region and used instead. If no global or region-specific template is provided for a region with data, that region's data will not be scanned. For more information, see https://docs.cloud.google.com/sensitive-data-protection/docs/data-profiles#data-residency. */
+  inspectTemplates?: StringList | undefined;
 }
-export type GooglePrivacyDlpV2RelatedResourceList = Array<GooglePrivacyDlpV2RelatedResource>;
+/** Snapshot of the configurations used to generate the profile. */
+export interface GooglePrivacyDlpV2DataProfileConfigSnapshot {
+  /** Timestamp when the template was modified */
+  inspectTemplateModifiedTime?: string | undefined;
+  /** A copy of the configuration used to generate this profile. This is deprecated, and the DiscoveryConfig field is preferred moving forward. DataProfileJobConfig will still be written here for Discovery in BigQuery for backwards compatibility, but will not be updated with new fields, while DiscoveryConfig will. */
+  dataProfileJob?: GooglePrivacyDlpV2DataProfileJobConfig | undefined;
+  /** Name of the inspection template used to generate this profile */
+  inspectTemplateName?: string | undefined;
+  /** A copy of the inspection config used to generate this profile. This is a copy of the inspect_template specified in `DataProfileJobConfig`. */
+  inspectConfig?: GooglePrivacyDlpV2InspectConfig | undefined;
+  /** A copy of the configuration used to generate this profile. */
+  discoveryConfig?: GooglePrivacyDlpV2DiscoveryConfig | undefined;
+}
+/** Information regarding the discovered file extension. */
+export interface GooglePrivacyDlpV2FileExtensionInfo {
+  /** The file extension if set. (aka .pdf, .jpg, .txt) */
+  fileExtension?: string | undefined;
+}
+export type GooglePrivacyDlpV2FileExtensionInfoList = Array<GooglePrivacyDlpV2FileExtensionInfo>;
 export type GooglePrivacyDlpV2FileClusterTypeClusterEnum =
   | "CLUSTER_UNSPECIFIED"
   | "CLUSTER_UNKNOWN"
@@ -3326,124 +3375,99 @@ export type GooglePrivacyDlpV2FileClusterTypeClusterEnum =
 /** Message used to identify file cluster type being profiled. */
 export interface GooglePrivacyDlpV2FileClusterType {
   /** Cluster type. */
-  cluster?: GooglePrivacyDlpV2FileClusterTypeClusterEnum;
+  cluster?: GooglePrivacyDlpV2FileClusterTypeClusterEnum | undefined;
 }
-/** Information regarding the discovered file extension. */
-export interface GooglePrivacyDlpV2FileExtensionInfo {
-  /** The file extension if set. (aka .pdf, .jpg, .txt) */
-  fileExtension?: string;
-}
-export type GooglePrivacyDlpV2FileExtensionInfoList = Array<GooglePrivacyDlpV2FileExtensionInfo>;
 /** The file cluster summary. */
 export interface GooglePrivacyDlpV2FileClusterSummary {
   /** The sensitivity score of this cluster. The score will be SENSITIVITY_LOW if nothing has been scanned. */
-  sensitivityScore?: GooglePrivacyDlpV2SensitivityScore;
-  /** A list of errors detected while scanning this cluster. The list is truncated to 10 per cluster. */
-  errors?: GooglePrivacyDlpV2ErrorList;
-  /** InfoTypes detected in this cluster. */
-  fileStoreInfoTypeSummaries?: GooglePrivacyDlpV2FileStoreInfoTypeSummaryList;
-  /** The file cluster type. */
-  fileClusterType?: GooglePrivacyDlpV2FileClusterType;
-  /** A sample of file types scanned in this cluster. Empty if no files were scanned. File extensions can be derived from the file name or the file content. */
-  fileExtensionsScanned?: GooglePrivacyDlpV2FileExtensionInfoList;
+  sensitivityScore?: GooglePrivacyDlpV2SensitivityScore | undefined;
   /** True if no files exist in this cluster. If the file store had more files than could be listed, this will be false even if no files for this cluster were seen and file_extensions_seen is empty. */
-  noFilesExist?: boolean;
+  noFilesExist?: boolean | undefined;
   /** The data risk level of this cluster. RISK_LOW if nothing has been scanned. */
-  dataRiskLevel?: GooglePrivacyDlpV2DataRiskLevel;
+  dataRiskLevel?: GooglePrivacyDlpV2DataRiskLevel | undefined;
+  /** A sample of file types scanned in this cluster. Empty if no files were scanned. File extensions can be derived from the file name or the file content. */
+  fileExtensionsScanned?: GooglePrivacyDlpV2FileExtensionInfoList | undefined;
   /** A sample of file types seen in this cluster. Empty if no files were seen. File extensions can be derived from the file name or the file content. */
-  fileExtensionsSeen?: GooglePrivacyDlpV2FileExtensionInfoList;
+  fileExtensionsSeen?: GooglePrivacyDlpV2FileExtensionInfoList | undefined;
+  /** The file cluster type. */
+  fileClusterType?: GooglePrivacyDlpV2FileClusterType | undefined;
+  /** InfoTypes detected in this cluster. */
+  fileStoreInfoTypeSummaries?: GooglePrivacyDlpV2FileStoreInfoTypeSummaryList | undefined;
+  /** A list of errors detected while scanning this cluster. The list is truncated to 10 per cluster. */
+  errors?: GooglePrivacyDlpV2ErrorList | undefined;
 }
 export type GooglePrivacyDlpV2FileClusterSummaryList = Array<GooglePrivacyDlpV2FileClusterSummary>;
-/** The data that will be profiled. */
-export interface GooglePrivacyDlpV2DataProfileLocation {
-  /** The ID of an organization to scan. */
-  organizationId?: string;
-  /** The ID of the folder within an organization to scan. */
-  folderId?: string;
+export type GooglePrivacyDlpV2FileStoreDataProfileResourceVisibilityEnum =
+  | "RESOURCE_VISIBILITY_UNSPECIFIED"
+  | "RESOURCE_VISIBILITY_PUBLIC"
+  | "RESOURCE_VISIBILITY_INCONCLUSIVE"
+  | "RESOURCE_VISIBILITY_RESTRICTED";
+/** A tag associated with a resource. */
+export interface GooglePrivacyDlpV2Tag {
+  /** The namespaced name for the tag value to attach to Google Cloud resources. Must be in the format `{parent_id}/{tag_key_short_name}/{short_name}`, for example, "123456/environment/prod" for an organization parent, or "my-project/environment/prod" for a project parent. This is only set for Google Cloud resources. */
+  namespacedTagValue?: string | undefined;
+  /** The value of a tag key-value pair. For Google Cloud resources, this is the resource name of the value, for example, "tagValues/123456". */
+  value?: string | undefined;
+  /** The key of a tag key-value pair. For Google Cloud resources, this is the resource name of the key, for example, "tagKeys/123456". */
+  key?: string | undefined;
 }
-/** Configuration for setting up a job to scan resources for profile generation. Only one data profile configuration may exist per organization, folder, or project. The generated data profiles are retained according to the [data retention policy] (https://docs.cloud.google.com/sensitive-data-protection/docs/data-profiles#retention). */
-export interface GooglePrivacyDlpV2DataProfileJobConfig {
-  /** Must be set only when scanning other clouds. */
-  otherCloudStartingLocation?: GooglePrivacyDlpV2OtherCloudDiscoveryStartingLocation;
-  /** Detection logic for profile generation. Not all template features are used by profiles. FindingLimits, include_quote and exclude_info_types have no impact on data profiling. Multiple templates may be provided if there is data in multiple regions. At most one template must be specified per-region (including "global"). Each region is scanned using the applicable template. If no region-specific template is specified, but a "global" template is specified, it will be copied to that region and used instead. If no global or region-specific template is provided for a region with data, that region's data will not be scanned. For more information, see https://docs.cloud.google.com/sensitive-data-protection/docs/data-profiles#data-residency. */
-  inspectTemplates?: StringList;
-  /** The data to scan. */
-  location?: GooglePrivacyDlpV2DataProfileLocation;
-  /** Actions to execute at the completion of the job. */
-  dataProfileActions?: GooglePrivacyDlpV2DataProfileActionList;
-  /** The project that will run the scan. The DLP service account that exists within this project must have access to all resources that are profiled, and the DLP API must be enabled. */
-  projectId?: string;
-}
-/** Snapshot of the configurations used to generate the profile. */
-export interface GooglePrivacyDlpV2DataProfileConfigSnapshot {
-  /** Timestamp when the template was modified */
-  inspectTemplateModifiedTime?: string;
-  /** Name of the inspection template used to generate this profile */
-  inspectTemplateName?: string;
-  /** A copy of the configuration used to generate this profile. This is deprecated, and the DiscoveryConfig field is preferred moving forward. DataProfileJobConfig will still be written here for Discovery in BigQuery for backwards compatibility, but will not be updated with new fields, while DiscoveryConfig will. */
-  dataProfileJob?: GooglePrivacyDlpV2DataProfileJobConfig;
-  /** A copy of the inspection config used to generate this profile. This is a copy of the inspect_template specified in `DataProfileJobConfig`. */
-  inspectConfig?: GooglePrivacyDlpV2InspectConfig;
-  /** A copy of the configuration used to generate this profile. */
-  discoveryConfig?: GooglePrivacyDlpV2DiscoveryConfig;
-}
-export type GooglePrivacyDlpV2ValueMap = { [key: string]: GooglePrivacyDlpV2Value | undefined };
+export type GooglePrivacyDlpV2TagList = Array<GooglePrivacyDlpV2Tag>;
 /** The profile for a file store. * Cloud Storage: maps 1:1 with a bucket. * Amazon S3: maps 1:1 with a bucket. */
 export interface GooglePrivacyDlpV2FileStoreDataProfile {
-  /** The labels applied to the resource at the time the profile was generated. */
-  resourceLabels?: StringMap;
-  /** Domains associated with the profile. */
-  domains?: GooglePrivacyDlpV2DomainList;
-  /** The time the file store was first created. */
-  createTime?: string;
-  /** How broadly a resource has been shared. */
-  resourceVisibility?: GooglePrivacyDlpV2FileStoreDataProfileResourceVisibilityEnum;
-  /** The tags attached to the resource, including any tags attached during profiling. */
-  tags?: GooglePrivacyDlpV2TagList;
-  /** The resource name of the project data profile for this file store. */
-  projectDataProfile?: string;
-  /** The sensitivity score of this resource. */
-  sensitivityScore?: GooglePrivacyDlpV2SensitivityScore;
-  /** State of a profile. */
-  state?: GooglePrivacyDlpV2FileStoreDataProfileStateEnum;
-  /** InfoTypes detected in this file store. */
-  fileStoreInfoTypeSummaries?: GooglePrivacyDlpV2FileStoreInfoTypeSummaryList;
-  /** Resources related to this profile. */
-  relatedResources?: GooglePrivacyDlpV2RelatedResourceList;
-  /** The time the file store was last modified. */
-  lastModifiedTime?: string;
-  /** FileClusterSummary per each cluster. */
-  fileClusterSummaries?: GooglePrivacyDlpV2FileClusterSummaryList;
-  /** The name of the profile. */
-  name?: string;
-  /** The resource name of the resource profiled. https://cloud.google.com/apis/design/resource_names#full_resource_name Example format of an S3 bucket full resource name: `//cloudasset.googleapis.com/organizations/{org_id}/otherCloudConnections/aws/arn:aws:s3:::{bucket_name}` */
-  fullResource?: string;
-  /** The file store does not have any files. If the profiling operation failed, this is false. */
-  fileStoreIsEmpty?: boolean;
-  /** The Google Cloud project ID that owns the resource. For Amazon S3 buckets, this is the AWS Account Id. */
-  projectId?: string;
-  /** The BigQuery table to which the sample findings are written. */
-  sampleFindingsTable?: GooglePrivacyDlpV2BigQueryTable;
-  /** Success or error status from the most recent profile generation attempt. May be empty if the profile is still being generated. */
-  profileStatus?: GooglePrivacyDlpV2ProfileStatus;
-  /** The last time the profile was generated. */
-  profileLastGenerated?: string;
   /** For resources that have multiple storage locations, these are those regions. For Cloud Storage this is the list of regions chosen for dual-region storage. `file_store_location` will normally be the corresponding multi-region for the list of individual locations. The first region is always picked as the processing and storage location for the data profile. */
-  dataStorageLocations?: StringList;
-  /** The location type of the file store (region, dual-region, multi-region, etc). If dual-region, expect data_storage_locations to be populated. */
-  locationType?: string;
-  /** The file store path. * Cloud Storage: `gs://{bucket}` * Amazon S3: `s3://{bucket}` * Vertex AI dataset: `projects/{project_number}/locations/{location}/datasets/{dataset_id}` */
-  fileStorePath?: string;
-  /** The data risk level of this resource. */
-  dataRiskLevel?: GooglePrivacyDlpV2DataRiskLevel;
-  /** The snapshot of the configurations used to generate the profile. */
-  configSnapshot?: GooglePrivacyDlpV2DataProfileConfigSnapshot;
+  dataStorageLocations?: StringList | undefined;
+  /** Domains associated with the profile. */
+  domains?: GooglePrivacyDlpV2DomainList | undefined;
   /** The location of the file store. * Cloud Storage: https://docs.cloud.google.com/storage/docs/locations#available-locations * Amazon S3: https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints */
-  fileStoreLocation?: string;
-  /** The resource type that was profiled. */
-  dataSourceType?: GooglePrivacyDlpV2DataSourceType;
+  fileStoreLocation?: string | undefined;
+  /** InfoTypes detected in this file store. */
+  fileStoreInfoTypeSummaries?: GooglePrivacyDlpV2FileStoreInfoTypeSummaryList | undefined;
+  /** The file store does not have any files. If the profiling operation failed, this is false. */
+  fileStoreIsEmpty?: boolean | undefined;
+  /** The resource name of the project data profile for this file store. */
+  projectDataProfile?: string | undefined;
   /** Attributes of the resource being profiled. Currently used attributes: * customer_managed_encryption: boolean - true: the resource is encrypted with a customer-managed key. - false: the resource is encrypted with a provider-managed key. */
-  resourceAttributes?: GooglePrivacyDlpV2ValueMap;
+  resourceAttributes?: GooglePrivacyDlpV2ValueMap | undefined;
+  /** The labels applied to the resource at the time the profile was generated. */
+  resourceLabels?: StringMap | undefined;
+  /** The BigQuery table to which the sample findings are written. */
+  sampleFindingsTable?: GooglePrivacyDlpV2BigQueryTable | undefined;
+  /** Resources related to this profile. */
+  relatedResources?: GooglePrivacyDlpV2RelatedResourceList | undefined;
+  /** The time the file store was first created. */
+  createTime?: string | undefined;
+  /** The last time the profile was generated. */
+  profileLastGenerated?: string | undefined;
+  /** State of a profile. */
+  state?: GooglePrivacyDlpV2FileStoreDataProfileStateEnum | undefined;
+  /** The file store path. * Cloud Storage: `gs://{bucket}` * Amazon S3: `s3://{bucket}` * Vertex AI dataset: `projects/{project_number}/locations/{location}/datasets/{dataset_id}` */
+  fileStorePath?: string | undefined;
+  /** The location type of the file store (region, dual-region, multi-region, etc). If dual-region, expect data_storage_locations to be populated. */
+  locationType?: string | undefined;
+  /** The snapshot of the configurations used to generate the profile. */
+  configSnapshot?: GooglePrivacyDlpV2DataProfileConfigSnapshot | undefined;
+  /** Success or error status from the most recent profile generation attempt. May be empty if the profile is still being generated. */
+  profileStatus?: GooglePrivacyDlpV2ProfileStatus | undefined;
+  /** The resource type that was profiled. */
+  dataSourceType?: GooglePrivacyDlpV2DataSourceType | undefined;
+  /** The time the file store was last modified. */
+  lastModifiedTime?: string | undefined;
+  /** The name of the profile. */
+  name?: string | undefined;
+  /** FileClusterSummary per each cluster. */
+  fileClusterSummaries?: GooglePrivacyDlpV2FileClusterSummaryList | undefined;
+  /** The Google Cloud project ID that owns the resource. For Amazon S3 buckets, this is the AWS Account Id. */
+  projectId?: string | undefined;
+  /** How broadly a resource has been shared. */
+  resourceVisibility?: GooglePrivacyDlpV2FileStoreDataProfileResourceVisibilityEnum | undefined;
+  /** The data risk level of this resource. */
+  dataRiskLevel?: GooglePrivacyDlpV2DataRiskLevel | undefined;
+  /** The resource name of the resource profiled. https://cloud.google.com/apis/design/resource_names#full_resource_name Example format of an S3 bucket full resource name: `//cloudasset.googleapis.com/organizations/{org_id}/otherCloudConnections/aws/arn:aws:s3:::{bucket_name}` */
+  fullResource?: string | undefined;
+  /** The tags attached to the resource, including any tags attached during profiling. */
+  tags?: GooglePrivacyDlpV2TagList | undefined;
+  /** The sensitivity score of this resource. */
+  sensitivityScore?: GooglePrivacyDlpV2SensitivityScore | undefined;
 }
 export interface GetOrganizationsLocationsInspectTemplatesRequest {
   /** Required. Resource name of the organization and inspectTemplate to be read, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
@@ -3459,22 +3483,22 @@ export interface GetOrganizationsLocationsProjectDataProfilesRequest {
 }
 /** An aggregated profile for this project, based on the resources profiled within it. */
 export interface GooglePrivacyDlpV2ProjectDataProfile {
-  /** The last time the profile was generated. */
-  profileLastGenerated?: string;
-  /** The data risk level of this project. */
-  dataRiskLevel?: GooglePrivacyDlpV2DataRiskLevel;
-  /** Project ID or account that was profiled. */
-  projectId?: string;
   /** The number of file store data profiles generated for this project. */
-  fileStoreDataProfileCount?: string;
-  /** The resource name of the profile. */
-  name?: string;
+  fileStoreDataProfileCount?: string | undefined;
   /** The sensitivity score of this project. */
-  sensitivityScore?: GooglePrivacyDlpV2SensitivityScore;
-  /** Success or error status of the last attempt to profile the project. */
-  profileStatus?: GooglePrivacyDlpV2ProfileStatus;
+  sensitivityScore?: GooglePrivacyDlpV2SensitivityScore | undefined;
   /** The number of table data profiles generated for this project. */
-  tableDataProfileCount?: string;
+  tableDataProfileCount?: string | undefined;
+  /** The last time the profile was generated. */
+  profileLastGenerated?: string | undefined;
+  /** The resource name of the profile. */
+  name?: string | undefined;
+  /** The data risk level of this project. */
+  dataRiskLevel?: GooglePrivacyDlpV2DataRiskLevel | undefined;
+  /** Success or error status of the last attempt to profile the project. */
+  profileStatus?: GooglePrivacyDlpV2ProfileStatus | undefined;
+  /** Project ID or account that was profiled. */
+  projectId?: string | undefined;
 }
 export interface GetOrganizationsLocationsStoredInfoTypesRequest {
   /** Required. Resource name of the organization and storedInfoType to be read, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
@@ -3484,79 +3508,79 @@ export interface GetOrganizationsLocationsTableDataProfilesRequest {
   /** Required. Resource name, for example `organizations/12345/locations/us/tableDataProfiles/53234423`. */
   name: string;
 }
-export type GooglePrivacyDlpV2TableDataProfileStateEnum = "STATE_UNSPECIFIED" | "RUNNING" | "DONE";
-export type GooglePrivacyDlpV2InfoTypeSummaryList = Array<GooglePrivacyDlpV2InfoTypeSummary>;
 export type GooglePrivacyDlpV2TableDataProfileEncryptionStatusEnum =
   | "ENCRYPTION_STATUS_UNSPECIFIED"
   | "ENCRYPTION_GOOGLE_MANAGED"
   | "ENCRYPTION_CUSTOMER_MANAGED";
+export type GooglePrivacyDlpV2TableDataProfileStateEnum = "STATE_UNSPECIFIED" | "RUNNING" | "DONE";
 export type GooglePrivacyDlpV2TableDataProfileResourceVisibilityEnum =
   | "RESOURCE_VISIBILITY_UNSPECIFIED"
   | "RESOURCE_VISIBILITY_PUBLIC"
   | "RESOURCE_VISIBILITY_INCONCLUSIVE"
   | "RESOURCE_VISIBILITY_RESTRICTED";
+export type GooglePrivacyDlpV2InfoTypeSummaryList = Array<GooglePrivacyDlpV2InfoTypeSummary>;
 /** The profile for a scanned table. */
 export interface GooglePrivacyDlpV2TableDataProfile {
-  /** The BigQuery table to which the sample findings are written. */
-  sampleFindingsTable?: GooglePrivacyDlpV2BigQueryTable;
-  /** Domains associated with the profile. */
-  domains?: GooglePrivacyDlpV2DomainList;
-  /** Resources related to this profile. */
-  relatedResources?: GooglePrivacyDlpV2RelatedResourceList;
-  /** Optional. The time when this table expires. */
-  expirationTime?: string;
-  /** Number of rows in the table when the profile was generated. This will not be populated for BigLake tables. */
-  rowCount?: string;
-  /** The time when this table was last modified */
-  lastModifiedTime?: string;
-  /** The labels applied to the resource at the time the profile was generated. */
-  resourceLabels?: StringMap;
-  /** The name of the profile. */
-  name?: string;
-  /** The number of columns skipped in the table because of an error. */
-  failedColumnCount?: string;
-  /** The number of columns profiled in the table. */
-  scannedColumnCount?: string;
-  /** The tags attached to the table, including any tags attached during profiling. Because tags are attached to Cloud SQL instances rather than Cloud SQL tables, this field is empty for Cloud SQL table profiles. */
-  tags?: GooglePrivacyDlpV2TagList;
-  /** If the resource is BigQuery, the dataset ID. */
-  datasetId?: string;
-  /** The sensitivity score of this table. */
-  sensitivityScore?: GooglePrivacyDlpV2SensitivityScore;
-  /** Other infoTypes found in this table's data. */
-  otherInfoTypes?: GooglePrivacyDlpV2OtherInfoTypeSummaryList;
-  /** If supported, the location where the dataset's data is stored. See https://docs.cloud.google.com/bigquery/docs/locations for supported locations. */
-  datasetLocation?: string;
-  /** The data risk level of this table. */
-  dataRiskLevel?: GooglePrivacyDlpV2DataRiskLevel;
-  /** The time at which the table was created. */
-  createTime?: string;
-  /** The size of the table when the profile was generated. */
-  tableSizeBytes?: string;
-  /** The last time the profile was generated. */
-  profileLastGenerated?: string;
   /** The Google Cloud project ID that owns the resource. */
-  datasetProjectId?: string;
+  datasetProjectId?: string | undefined;
+  /** If supported, the location where the dataset's data is stored. See https://docs.cloud.google.com/bigquery/docs/locations for supported locations. */
+  datasetLocation?: string | undefined;
+  /** Other infoTypes found in this table's data. */
+  otherInfoTypes?: GooglePrivacyDlpV2OtherInfoTypeSummaryList | undefined;
+  /** The tags attached to the table, including any tags attached during profiling. Because tags are attached to Cloud SQL instances rather than Cloud SQL tables, this field is empty for Cloud SQL table profiles. */
+  tags?: GooglePrivacyDlpV2TagList | undefined;
+  /** The number of columns profiled in the table. */
+  scannedColumnCount?: string | undefined;
+  /** The BigQuery table to which the sample findings are written. */
+  sampleFindingsTable?: GooglePrivacyDlpV2BigQueryTable | undefined;
+  /** The name of the profile. */
+  name?: string | undefined;
   /** The resource name of the project data profile for this table. */
-  projectDataProfile?: string;
-  /** The resource type that was profiled. */
-  dataSourceType?: GooglePrivacyDlpV2DataSourceType;
-  /** State of a profile. This will always be set to DONE when the table data profile is written to another service like BigQuery or Pub/Sub. */
-  state?: GooglePrivacyDlpV2TableDataProfileStateEnum;
-  /** The infoTypes predicted from this table's data. */
-  predictedInfoTypes?: GooglePrivacyDlpV2InfoTypeSummaryList;
-  /** The table ID. */
-  tableId?: string;
-  /** The snapshot of the configurations used to generate the profile. */
-  configSnapshot?: GooglePrivacyDlpV2DataProfileConfigSnapshot;
+  projectDataProfile?: string | undefined;
   /** How the table is encrypted. */
-  encryptionStatus?: GooglePrivacyDlpV2TableDataProfileEncryptionStatusEnum;
+  encryptionStatus?: GooglePrivacyDlpV2TableDataProfileEncryptionStatusEnum | undefined;
+  /** The labels applied to the resource at the time the profile was generated. */
+  resourceLabels?: StringMap | undefined;
+  /** Resources related to this profile. */
+  relatedResources?: GooglePrivacyDlpV2RelatedResourceList | undefined;
+  /** The time when this table was last modified */
+  lastModifiedTime?: string | undefined;
+  /** Domains associated with the profile. */
+  domains?: GooglePrivacyDlpV2DomainList | undefined;
+  /** The time at which the table was created. */
+  createTime?: string | undefined;
+  /** State of a profile. This will always be set to DONE when the table data profile is written to another service like BigQuery or Pub/Sub. */
+  state?: GooglePrivacyDlpV2TableDataProfileStateEnum | undefined;
   /** How broadly a resource has been shared. */
-  resourceVisibility?: GooglePrivacyDlpV2TableDataProfileResourceVisibilityEnum;
+  resourceVisibility?: GooglePrivacyDlpV2TableDataProfileResourceVisibilityEnum | undefined;
+  /** The data risk level of this table. */
+  dataRiskLevel?: GooglePrivacyDlpV2DataRiskLevel | undefined;
+  /** The size of the table when the profile was generated. */
+  tableSizeBytes?: string | undefined;
+  /** Number of rows in the table when the profile was generated. This will not be populated for BigLake tables. */
+  rowCount?: string | undefined;
+  /** The snapshot of the configurations used to generate the profile. */
+  configSnapshot?: GooglePrivacyDlpV2DataProfileConfigSnapshot | undefined;
   /** The Cloud Asset Inventory resource that was profiled in order to generate this TableDataProfile. https://cloud.google.com/apis/design/resource_names#full_resource_name */
-  fullResource?: string;
+  fullResource?: string | undefined;
+  /** The resource type that was profiled. */
+  dataSourceType?: GooglePrivacyDlpV2DataSourceType | undefined;
+  /** The table ID. */
+  tableId?: string | undefined;
+  /** The number of columns skipped in the table because of an error. */
+  failedColumnCount?: string | undefined;
+  /** The infoTypes predicted from this table's data. */
+  predictedInfoTypes?: GooglePrivacyDlpV2InfoTypeSummaryList | undefined;
   /** Success or error status from the most recent profile generation attempt. May be empty if the profile is still being generated. */
-  profileStatus?: GooglePrivacyDlpV2ProfileStatus;
+  profileStatus?: GooglePrivacyDlpV2ProfileStatus | undefined;
+  /** Optional. The time when this table expires. */
+  expirationTime?: string | undefined;
+  /** The last time the profile was generated. */
+  profileLastGenerated?: string | undefined;
+  /** The sensitivity score of this table. */
+  sensitivityScore?: GooglePrivacyDlpV2SensitivityScore | undefined;
+  /** If the resource is BigQuery, the dataset ID. */
+  datasetId?: string | undefined;
 }
 export interface GetOrganizationsStoredInfoTypesRequest {
   /** Required. Resource name of the organization and storedInfoType to be read, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
@@ -3632,79 +3656,73 @@ export interface GetProjectsStoredInfoTypesRequest {
 }
 /** Represents a container that may contain DLP findings. Examples of a container include a file, table, or database record. */
 export interface GooglePrivacyDlpV2Container {
-  /** Findings container version, if available ("generation" for Cloud Storage). */
-  version?: string;
-  /** Container type, for example BigQuery or Cloud Storage. */
-  type?: string;
-  /** A string representation of the full container name. Examples: - BigQuery: 'Project:DataSetId.TableId' - Cloud Storage: 'gs://Bucket/folders/filename.txt' */
-  fullPath?: string;
   /** The root of the container. Examples: - For BigQuery table `project_id:dataset_id.table_id`, the root is `dataset_id` - For Cloud Storage file `gs://bucket/folder/filename.txt`, the root is `gs://bucket` */
-  rootPath?: string;
+  rootPath?: string | undefined;
+  /** Findings container version, if available ("generation" for Cloud Storage). */
+  version?: string | undefined;
+  /** A string representation of the full container name. Examples: - BigQuery: 'Project:DataSetId.TableId' - Cloud Storage: 'gs://Bucket/folders/filename.txt' */
+  fullPath?: string | undefined;
   /** The rest of the path after the root. Examples: - For BigQuery table `project_id:dataset_id.table_id`, the relative path is `table_id` - For Cloud Storage file `gs://bucket/folder/filename.txt`, the relative path is `folder/filename.txt` */
-  relativePath?: string;
+  relativePath?: string | undefined;
+  /** Container type, for example BigQuery or Cloud Storage. */
+  type?: string | undefined;
   /** Findings container modification timestamp, if applicable. For Cloud Storage, this field contains the last file modification timestamp. For a BigQuery table, this field contains the last_modified_time property. For Datastore, this field isn't populated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Project where the finding was found. Can be different from the project that owns the finding. */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 /** Populate to associate additional data with each finding. */
 export interface GooglePrivacyDlpV2HybridFindingDetails {
-  /** Labels to represent user provided metadata about the data being inspected. If configured by the job, some key values may be required. The labels associated with `Finding`'s produced by hybrid inspection. Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?`. Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. No more than 10 labels can be associated with a given finding. Examples: * `"environment" : "production"` * `"pipeline" : "etl"` */
-  labels?: StringMap;
-  /** If the container is a table, additional information to make findings meaningful such as the columns that are primary keys. If not known ahead of time, can also be set within each inspect hybrid call and the two will be merged. Note that identifying_fields will only be stored to BigQuery, and only if the BigQuery action has been included. */
-  tableOptions?: GooglePrivacyDlpV2TableOptions;
-  /** Offset of the row for tables. Populate if the row(s) being scanned are part of a bigger dataset and you want to keep track of their absolute position. */
-  rowOffset?: string;
-  /** Details about the container where the content being inspected is from. */
-  containerDetails?: GooglePrivacyDlpV2Container;
   /** Offset in bytes of the line, from the beginning of the file, where the finding is located. Populate if the item being scanned is only part of a bigger item, such as a shard of a file and you want to track the absolute position of the finding. */
-  fileOffset?: string;
+  fileOffset?: string | undefined;
+  /** Labels to represent user provided metadata about the data being inspected. If configured by the job, some key values may be required. The labels associated with `Finding`'s produced by hybrid inspection. Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?`. Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. No more than 10 labels can be associated with a given finding. Examples: * `"environment" : "production"` * `"pipeline" : "etl"` */
+  labels?: StringMap | undefined;
+  /** If the container is a table, additional information to make findings meaningful such as the columns that are primary keys. If not known ahead of time, can also be set within each inspect hybrid call and the two will be merged. Note that identifying_fields will only be stored to BigQuery, and only if the BigQuery action has been included. */
+  tableOptions?: GooglePrivacyDlpV2TableOptions | undefined;
+  /** Details about the container where the content being inspected is from. */
+  containerDetails?: GooglePrivacyDlpV2Container | undefined;
+  /** Offset of the row for tables. Populate if the row(s) being scanned are part of a bigger dataset and you want to keep track of their absolute position. */
+  rowOffset?: string | undefined;
 }
 /** An individual hybrid item to inspect. Will be stored temporarily during processing. */
 export interface GooglePrivacyDlpV2HybridContentItem {
-  /** The item to inspect. */
-  item?: GooglePrivacyDlpV2ContentItem;
   /** Supplementary information that will be added to each finding. */
-  findingDetails?: GooglePrivacyDlpV2HybridFindingDetails;
+  findingDetails?: GooglePrivacyDlpV2HybridFindingDetails | undefined;
+  /** The item to inspect. */
+  item?: GooglePrivacyDlpV2ContentItem | undefined;
 }
 /** Request to search for potentially sensitive info in a custom location. */
 export interface GooglePrivacyDlpV2HybridInspectDlpJobRequest {
   /** The item to inspect. */
-  hybridItem?: GooglePrivacyDlpV2HybridContentItem;
+  hybridItem?: GooglePrivacyDlpV2HybridContentItem | undefined;
 }
-export interface HybridInspectProjectsLocationsDlpJobsRequest {
+export interface HybridInspectProjectsLocationsDlpJobsRequest extends GooglePrivacyDlpV2HybridInspectDlpJobRequest {
   /** Required. Resource name of the job to execute a hybrid inspect on, for example `projects/dlp-test-project/dlpJob/53234423`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2HybridInspectDlpJobRequest;
 }
 /** Quota exceeded errors will be thrown once quota has been met. */
 export interface GooglePrivacyDlpV2HybridInspectResponse {}
 /** Request to search for potentially sensitive info in a custom location. */
 export type GooglePrivacyDlpV2HybridInspectJobTriggerRequest =
   GooglePrivacyDlpV2HybridInspectDlpJobRequest;
-export interface HybridInspectProjectsLocationsJobTriggersRequest {
+export interface HybridInspectProjectsLocationsJobTriggersRequest extends GooglePrivacyDlpV2HybridInspectDlpJobRequest {
   /** Required. Resource name of the trigger to execute a hybrid inspect on, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2HybridInspectDlpJobRequest;
 }
 /** Request to search for potentially sensitive info in a ContentItem. */
 export interface GooglePrivacyDlpV2InspectContentRequest {
   /** Deprecated. This field has no effect. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** The item to inspect. */
-  item?: GooglePrivacyDlpV2ContentItem;
+  item?: GooglePrivacyDlpV2ContentItem | undefined;
   /** Template to use. Any configuration directly specified in inspect_config will override those set in the template. Singular fields that are set in this request will replace their corresponding fields in the template. Repeated fields are appended. Singular sub-messages and groups are recursively merged. */
-  inspectTemplateName?: string;
+  inspectTemplateName?: string | undefined;
   /** Configuration for the inspector. What specified here will override the template referenced by the inspect_template_name argument. */
-  inspectConfig?: GooglePrivacyDlpV2InspectConfig;
+  inspectConfig?: GooglePrivacyDlpV2InspectConfig | undefined;
 }
-export interface InspectProjectsContentRequest {
+export interface InspectProjectsContentRequest extends GooglePrivacyDlpV2InspectContentRequest {
   /** Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2InspectContentRequest;
 }
 export type GooglePrivacyDlpV2FindingLikelihoodEnum =
   | "LIKELIHOOD_UNSPECIFIED"
@@ -3713,157 +3731,10 @@ export type GooglePrivacyDlpV2FindingLikelihoodEnum =
   | "POSSIBLE"
   | "LIKELY"
   | "VERY_LIKELY";
-/** Generic half-open interval [start, end) */
-export interface GooglePrivacyDlpV2Range {
-  /** Index of the last character of the range (exclusive). */
-  end?: string;
-  /** Index of the first character of the range (inclusive). */
-  start?: string;
-}
-/** Location of a finding within a document. */
-export interface GooglePrivacyDlpV2DocumentLocation {
-  /** Offset of the line, from the beginning of the file, where the finding is located. */
-  fileOffset?: string;
-}
-/** Location of a finding within a table. */
-export interface GooglePrivacyDlpV2TableLocation {
-  /** The zero-based index of the row where the finding is located. Only populated for resources that have a natural ordering, not BigQuery. In BigQuery, to identify the row a finding came from, populate BigQueryOptions.identifying_fields with your primary key column names and when you store the findings the value of those columns will be stored inside of Finding. */
-  rowIndex?: string;
-}
-/** A (kind, ID/name) pair used to construct a key path. If either name or ID is set, the element is complete. If neither is set, the element is incomplete. */
-export interface GooglePrivacyDlpV2PathElement {
-  /** The kind of the entity. A kind matching regex `__.*__` is reserved/read-only. A kind must not contain more than 1500 bytes when UTF-8 encoded. Cannot be `""`. */
-  kind?: string;
-  /** The name of the entity. A name matching regex `__.*__` is reserved/read-only. A name must not be more than 1500 bytes when UTF-8 encoded. Cannot be `""`. */
-  name?: string;
-  /** The auto-allocated ID of the entity. Never equal to zero. Values less than zero are discouraged and may not be supported in the future. */
-  id?: string;
-}
-export type GooglePrivacyDlpV2PathElementList = Array<GooglePrivacyDlpV2PathElement>;
-/** A unique identifier for a Datastore entity. If a key's partition ID or any of its path kinds or names are reserved/read-only, the key is reserved/read-only. A reserved/read-only key is forbidden in certain documented contexts. */
-export interface GooglePrivacyDlpV2Key {
-  /** The entity path. An entity path consists of one or more elements composed of a kind and a string or numerical identifier, which identify entities. The first element identifies a _root entity_, the second element identifies a _child_ of the root entity, the third element identifies a child of the second entity, and so forth. The entities identified by all prefixes of the path are called the element's _ancestors_. A path can never be empty, and a path can have at most 100 elements. */
-  path?: GooglePrivacyDlpV2PathElementList;
-  /** Entities are partitioned into subsets, currently identified by a project ID and namespace ID. Queries are scoped to a single partition. */
-  partitionId?: GooglePrivacyDlpV2PartitionId;
-}
-/** Record key for a finding in Cloud Datastore. */
-export interface GooglePrivacyDlpV2DatastoreKey {
-  /** Datastore entity key. */
-  entityKey?: GooglePrivacyDlpV2Key;
-}
-/** Row key for identifying a record in BigQuery table. */
-export interface GooglePrivacyDlpV2BigQueryKey {
-  /** Complete BigQuery table reference. */
-  tableReference?: GooglePrivacyDlpV2BigQueryTable;
-  /** Row number inferred at the time the table was scanned. This value is nondeterministic, cannot be queried, and may be null for inspection jobs. To locate findings within a table, specify `inspect_job.storage_config.big_query_options.identifying_fields` in `CreateDlpJobRequest`. */
-  rowNumber?: string;
-}
-/** Message for a unique key indicating a record that contains a finding. */
-export interface GooglePrivacyDlpV2RecordKey {
-  /** BigQuery key */
-  datastoreKey?: GooglePrivacyDlpV2DatastoreKey;
-  /** Datastore key */
-  bigQueryKey?: GooglePrivacyDlpV2BigQueryKey;
-  /** Values of identifying columns in the given row. Order of values matches the order of `identifying_fields` specified in the scanning request. */
-  idValues?: StringList;
-}
-/** Location of a finding within a row or record. */
-export interface GooglePrivacyDlpV2RecordLocation {
-  /** Location within a `ContentItem.Table`. */
-  tableLocation?: GooglePrivacyDlpV2TableLocation;
-  /** Field id of the field containing the finding. */
-  fieldId?: GooglePrivacyDlpV2FieldId;
-  /** Key of the finding. */
-  recordKey?: GooglePrivacyDlpV2RecordKey;
-}
-/** If set, indicates that the finding applies to all messages in the conversation. */
-export type GooglePrivacyDlpV2AllMessages = GooglePrivacyDlpV2ActivateJobTriggerRequest;
-/** Location within a conversation. */
-export interface GooglePrivacyDlpV2ConversationLocation {
-  /** If set, indicates that the finding applies to all messages in the conversation. */
-  allMessages?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
-  /** Matches an index of a message in the conversation provided in the request. */
-  messageIndex?: number;
-}
-/** Location within a batch of content. */
-export interface GooglePrivacyDlpV2BatchContentLocation {
-  /** Matches an index of a batch item in the batch provided in the request. */
-  itemIndex?: number;
-}
-/** Bounding box encompassing detected text within an image. Coordinates are in pixels and strictly within the image or frame bounds. */
-export interface GooglePrivacyDlpV2BoundingBox {
-  /** Width of the bounding box in pixels. */
-  width?: number;
-  /** Left coordinate of the bounding box. (0,0) is upper left. */
-  left?: number;
-  /** Top coordinate of the bounding box. (0,0) is upper left. */
-  top?: number;
-  /** Height of the bounding box in pixels. */
-  height?: number;
-}
-export type GooglePrivacyDlpV2BoundingBoxList = Array<GooglePrivacyDlpV2BoundingBox>;
-/** Location of the finding within an image. */
-export interface GooglePrivacyDlpV2ImageLocation {
-  /** Bounding boxes locating the pixels within the image containing the finding. */
-  boundingBoxes?: GooglePrivacyDlpV2BoundingBoxList;
-}
-export type GooglePrivacyDlpV2MetadataLocationTypeEnum =
-  | "METADATATYPE_UNSPECIFIED"
-  | "STORAGE_METADATA"
-  | "CONTENT_METADATA"
-  | "CLIENT_PROVIDED_METADATA";
-/** Storage metadata label to indicate which metadata entry contains findings. */
-export interface GooglePrivacyDlpV2StorageMetadataLabel {
-  /** Label name. */
-  key?: string;
-}
-/** The metadata key that contains a finding. */
-export interface GooglePrivacyDlpV2KeyValueMetadataLabel {
-  /** The metadata key. The format depends on the source of the metadata. Example: - `MSIP_Label_122709e3-8f6b-4860-985f-7f722a94f61e_Enabled` (a Microsoft Purview Information Protection key example) */
-  key?: string;
-}
-/** Metadata Location */
-export interface GooglePrivacyDlpV2MetadataLocation {
-  /** Type of metadata containing the finding. */
-  type?: GooglePrivacyDlpV2MetadataLocationTypeEnum;
-  /** Storage metadata. */
-  storageLabel?: GooglePrivacyDlpV2StorageMetadataLabel;
-  /** Metadata key that contains the finding. */
-  keyValueMetadataLabel?: GooglePrivacyDlpV2KeyValueMetadataLabel;
-}
-/** Precise location of the finding within a document, record, image, or metadata container. */
-export interface GooglePrivacyDlpV2ContentLocation {
-  /** Location data for document files. */
-  documentLocation?: GooglePrivacyDlpV2DocumentLocation;
-  /** Location within a row or record of a database table. */
-  recordLocation?: GooglePrivacyDlpV2RecordLocation;
-  /** Finding container version, if available ("generation" for Cloud Storage). */
-  containerVersion?: string;
-  /** Location within a conversation. */
-  conversationLocation?: GooglePrivacyDlpV2ConversationLocation;
-  /** Location within a batch of content. */
-  batchContentLocation?: GooglePrivacyDlpV2BatchContentLocation;
-  /** Location within an image's pixels. */
-  imageLocation?: GooglePrivacyDlpV2ImageLocation;
-  /** Finding container modification timestamp, if applicable. For Cloud Storage, this field contains the last file modification timestamp. For a BigQuery table, this field contains the last_modified_time property. For Datastore, this field isn't populated. */
-  containerTimestamp?: string;
-  /** Name of the container where the finding is located. The top level name is the source file name or table name. Names of some common storage containers are formatted as follows: * BigQuery tables: `{project_id}:{dataset_id}.{table_id}` * Cloud Storage files: `gs://{bucket}/{path}` * Datastore namespace: {namespace} Nested names could be absent if the embedded object has no string identifier (for example, an image contained within a document). */
-  containerName?: string;
-  /** Location within the metadata for inspected content. */
-  metadataLocation?: GooglePrivacyDlpV2MetadataLocation;
-}
-export type GooglePrivacyDlpV2ContentLocationList = Array<GooglePrivacyDlpV2ContentLocation>;
-/** Specifies the location of the finding. */
-export interface GooglePrivacyDlpV2Location {
-  /** Zero-based byte offsets delimiting the finding. These are relative to the finding's containing element. Note that when the content is not textual, this references the UTF-8 encoded textual representation of the content. Omitted if content is an image. */
-  byteRange?: GooglePrivacyDlpV2Range;
-  /** Unicode character offsets delimiting the finding. These are relative to the finding's containing element. Provided when the content is text. */
-  codepointRange?: GooglePrivacyDlpV2Range;
-  /** List of nested objects pointing to the precise location of the finding within the file or record. */
-  contentLocations?: GooglePrivacyDlpV2ContentLocationList;
-  /** Information about the container where this finding occurred, if available. */
-  container?: GooglePrivacyDlpV2Container;
+/** Time zone of the date time object. */
+export interface GooglePrivacyDlpV2TimeZone {
+  /** Set only if the offset can be determined. Positive for time ahead of UTC. E.g. For "UTC-9", this value is -540. */
+  offsetMinutes?: number | undefined;
 }
 export type GooglePrivacyDlpV2DateTimeDayOfWeekEnum =
   | "DAY_OF_WEEK_UNSPECIFIED"
@@ -3874,110 +3745,240 @@ export type GooglePrivacyDlpV2DateTimeDayOfWeekEnum =
   | "FRIDAY"
   | "SATURDAY"
   | "SUNDAY";
-/** Time zone of the date time object. */
-export interface GooglePrivacyDlpV2TimeZone {
-  /** Set only if the offset can be determined. Positive for time ahead of UTC. E.g. For "UTC-9", this value is -540. */
-  offsetMinutes?: number;
-}
 /** Message for a date time object. e.g. 2018-01-01, 5th August. */
 export interface GooglePrivacyDlpV2DateTime {
-  /** Time of day */
-  time?: GoogleTypeTimeOfDay;
-  /** Day of week */
-  dayOfWeek?: GooglePrivacyDlpV2DateTimeDayOfWeekEnum;
   /** One or more of the following must be set. Must be a valid date or time value. */
-  date?: GoogleTypeDate;
+  date?: GoogleTypeDate | undefined;
+  /** Time of day */
+  time?: GoogleTypeTimeOfDay | undefined;
   /** Time zone */
-  timeZone?: GooglePrivacyDlpV2TimeZone;
+  timeZone?: GooglePrivacyDlpV2TimeZone | undefined;
+  /** Day of week */
+  dayOfWeek?: GooglePrivacyDlpV2DateTimeDayOfWeekEnum | undefined;
 }
 /** Message for infoType-dependent details parsed from quote. */
 export interface GooglePrivacyDlpV2QuoteInfo {
   /** The date time indicated by the quote. */
-  dateTime?: GooglePrivacyDlpV2DateTime;
+  dateTime?: GooglePrivacyDlpV2DateTime | undefined;
+}
+/** Location of a finding within a document. */
+export interface GooglePrivacyDlpV2DocumentLocation {
+  /** Offset of the line, from the beginning of the file, where the finding is located. */
+  fileOffset?: string | undefined;
+}
+/** Bounding box encompassing detected text within an image. Coordinates are in pixels and strictly within the image or frame bounds. */
+export interface GooglePrivacyDlpV2BoundingBox {
+  /** Top coordinate of the bounding box. (0,0) is upper left. */
+  top?: number | undefined;
+  /** Left coordinate of the bounding box. (0,0) is upper left. */
+  left?: number | undefined;
+  /** Width of the bounding box in pixels. */
+  width?: number | undefined;
+  /** Height of the bounding box in pixels. */
+  height?: number | undefined;
+}
+export type GooglePrivacyDlpV2BoundingBoxList = Array<GooglePrivacyDlpV2BoundingBox>;
+/** Location of the finding within an image. */
+export interface GooglePrivacyDlpV2ImageLocation {
+  /** Bounding boxes locating the pixels within the image containing the finding. */
+  boundingBoxes?: GooglePrivacyDlpV2BoundingBoxList | undefined;
+  /** The 0-indexed page number or frame index for multi-page image formats. */
+  pageNumber?: number | undefined;
+}
+/** Location within a batch of content. */
+export interface GooglePrivacyDlpV2BatchContentLocation {
+  /** Matches an index of a batch item in the batch provided in the request. */
+  itemIndex?: number | undefined;
+}
+/** Row key for identifying a record in BigQuery table. */
+export interface GooglePrivacyDlpV2BigQueryKey {
+  /** Row number inferred at the time the table was scanned. This value is nondeterministic, cannot be queried, and may be null for inspection jobs. To locate findings within a table, specify `inspect_job.storage_config.big_query_options.identifying_fields` in `CreateDlpJobRequest`. */
+  rowNumber?: string | undefined;
+  /** Complete BigQuery table reference. */
+  tableReference?: GooglePrivacyDlpV2BigQueryTable | undefined;
+}
+/** A (kind, ID/name) pair used to construct a key path. If either name or ID is set, the element is complete. If neither is set, the element is incomplete. */
+export interface GooglePrivacyDlpV2PathElement {
+  /** The kind of the entity. A kind matching regex `__.*__` is reserved/read-only. A kind must not contain more than 1500 bytes when UTF-8 encoded. Cannot be `""`. */
+  kind?: string | undefined;
+  /** The auto-allocated ID of the entity. Never equal to zero. Values less than zero are discouraged and may not be supported in the future. */
+  id?: string | undefined;
+  /** The name of the entity. A name matching regex `__.*__` is reserved/read-only. A name must not be more than 1500 bytes when UTF-8 encoded. Cannot be `""`. */
+  name?: string | undefined;
+}
+export type GooglePrivacyDlpV2PathElementList = Array<GooglePrivacyDlpV2PathElement>;
+/** A unique identifier for a Datastore entity. If a key's partition ID or any of its path kinds or names are reserved/read-only, the key is reserved/read-only. A reserved/read-only key is forbidden in certain documented contexts. */
+export interface GooglePrivacyDlpV2Key {
+  /** The entity path. An entity path consists of one or more elements composed of a kind and a string or numerical identifier, which identify entities. The first element identifies a _root entity_, the second element identifies a _child_ of the root entity, the third element identifies a child of the second entity, and so forth. The entities identified by all prefixes of the path are called the element's _ancestors_. A path can never be empty, and a path can have at most 100 elements. */
+  path?: GooglePrivacyDlpV2PathElementList | undefined;
+  /** Entities are partitioned into subsets, currently identified by a project ID and namespace ID. Queries are scoped to a single partition. */
+  partitionId?: GooglePrivacyDlpV2PartitionId | undefined;
+}
+/** Record key for a finding in Cloud Datastore. */
+export interface GooglePrivacyDlpV2DatastoreKey {
+  /** Datastore entity key. */
+  entityKey?: GooglePrivacyDlpV2Key | undefined;
+}
+/** Message for a unique key indicating a record that contains a finding. */
+export interface GooglePrivacyDlpV2RecordKey {
+  /** Datastore key */
+  bigQueryKey?: GooglePrivacyDlpV2BigQueryKey | undefined;
+  /** BigQuery key */
+  datastoreKey?: GooglePrivacyDlpV2DatastoreKey | undefined;
+  /** Values of identifying columns in the given row. Order of values matches the order of `identifying_fields` specified in the scanning request. */
+  idValues?: StringList | undefined;
+}
+/** Location of a finding within a table. */
+export interface GooglePrivacyDlpV2TableLocation {
+  /** The zero-based index of the row where the finding is located. Only populated for resources that have a natural ordering, not BigQuery. In BigQuery, to identify the row a finding came from, populate BigQueryOptions.identifying_fields with your primary key column names and when you store the findings the value of those columns will be stored inside of Finding. */
+  rowIndex?: string | undefined;
+}
+/** Location of a finding within a row or record. */
+export interface GooglePrivacyDlpV2RecordLocation {
+  /** Key of the finding. */
+  recordKey?: GooglePrivacyDlpV2RecordKey | undefined;
+  /** Location within a `ContentItem.Table`. */
+  tableLocation?: GooglePrivacyDlpV2TableLocation | undefined;
+  /** Field id of the field containing the finding. */
+  fieldId?: GooglePrivacyDlpV2FieldId | undefined;
+}
+/** If set, indicates that the finding applies to all messages in the conversation. */
+export type GooglePrivacyDlpV2AllMessages = GooglePrivacyDlpV2ActivateJobTriggerRequest;
+/** Location within a conversation. */
+export interface GooglePrivacyDlpV2ConversationLocation {
+  /** Matches an index of a message in the conversation provided in the request. */
+  messageIndex?: number | undefined;
+  /** If set, indicates that the finding applies to all messages in the conversation. */
+  allMessages?: GooglePrivacyDlpV2ActivateJobTriggerRequest | undefined;
+}
+/** Storage metadata label to indicate which metadata entry contains findings. */
+export interface GooglePrivacyDlpV2StorageMetadataLabel {
+  /** Label name. */
+  key?: string | undefined;
+}
+export type GooglePrivacyDlpV2MetadataLocationTypeEnum =
+  | "METADATATYPE_UNSPECIFIED"
+  | "STORAGE_METADATA"
+  | "CONTENT_METADATA"
+  | "CLIENT_PROVIDED_METADATA";
+/** The metadata key that contains a finding. */
+export interface GooglePrivacyDlpV2KeyValueMetadataLabel {
+  /** The metadata key. The format depends on the source of the metadata. Example: - `MSIP_Label_122709e3-8f6b-4860-985f-7f722a94f61e_Enabled` (a Microsoft Purview Information Protection key example) */
+  key?: string | undefined;
+}
+/** Metadata Location */
+export interface GooglePrivacyDlpV2MetadataLocation {
+  /** Storage metadata. */
+  storageLabel?: GooglePrivacyDlpV2StorageMetadataLabel | undefined;
+  /** Type of metadata containing the finding. */
+  type?: GooglePrivacyDlpV2MetadataLocationTypeEnum | undefined;
+  /** Metadata key that contains the finding. */
+  keyValueMetadataLabel?: GooglePrivacyDlpV2KeyValueMetadataLabel | undefined;
+}
+/** Precise location of the finding within a document, record, image, or metadata container. */
+export interface GooglePrivacyDlpV2ContentLocation {
+  /** Location data for document files. */
+  documentLocation?: GooglePrivacyDlpV2DocumentLocation | undefined;
+  /** Location within an image's pixels. */
+  imageLocation?: GooglePrivacyDlpV2ImageLocation | undefined;
+  /** Finding container modification timestamp, if applicable. For Cloud Storage, this field contains the last file modification timestamp. For a BigQuery table, this field contains the last_modified_time property. For Datastore, this field isn't populated. */
+  containerTimestamp?: string | undefined;
+  /** Name of the container where the finding is located. The top level name is the source file name or table name. Names of some common storage containers are formatted as follows: * BigQuery tables: `{project_id}:{dataset_id}.{table_id}` * Cloud Storage files: `gs://{bucket}/{path}` * Datastore namespace: {namespace} Nested names could be absent if the embedded object has no string identifier (for example, an image contained within a document). */
+  containerName?: string | undefined;
+  /** Location within a batch of content. */
+  batchContentLocation?: GooglePrivacyDlpV2BatchContentLocation | undefined;
+  /** Location within a row or record of a database table. */
+  recordLocation?: GooglePrivacyDlpV2RecordLocation | undefined;
+  /** Location within a conversation. */
+  conversationLocation?: GooglePrivacyDlpV2ConversationLocation | undefined;
+  /** Finding container version, if available ("generation" for Cloud Storage). */
+  containerVersion?: string | undefined;
+  /** Location within the metadata for inspected content. */
+  metadataLocation?: GooglePrivacyDlpV2MetadataLocation | undefined;
+}
+export type GooglePrivacyDlpV2ContentLocationList = Array<GooglePrivacyDlpV2ContentLocation>;
+/** Generic half-open interval [start, end) */
+export interface GooglePrivacyDlpV2Range {
+  /** Index of the last character of the range (exclusive). */
+  end?: string | undefined;
+  /** Index of the first character of the range (inclusive). */
+  start?: string | undefined;
+}
+/** Specifies the location of the finding. */
+export interface GooglePrivacyDlpV2Location {
+  /** List of nested objects pointing to the precise location of the finding within the file or record. */
+  contentLocations?: GooglePrivacyDlpV2ContentLocationList | undefined;
+  /** Unicode character offsets delimiting the finding. These are relative to the finding's containing element. Provided when the content is text. */
+  codepointRange?: GooglePrivacyDlpV2Range | undefined;
+  /** Zero-based byte offsets delimiting the finding. These are relative to the finding's containing element. Note that when the content is not textual, this references the UTF-8 encoded textual representation of the content. Omitted if content is an image. */
+  byteRange?: GooglePrivacyDlpV2Range | undefined;
+  /** Information about the container where this finding occurred, if available. */
+  container?: GooglePrivacyDlpV2Container | undefined;
 }
 /** Represents a piece of potentially sensitive content. */
 export interface GooglePrivacyDlpV2Finding {
   /** Resource name in format projects/{project}/locations/{location}/findings/{finding} Populated only when viewing persisted findings. */
-  name?: string;
-  /** The type of content that might have been found. Provided if `excluded_types` is false. */
-  infoType?: GooglePrivacyDlpV2InfoType;
-  /** Confidence of how likely it is that the `info_type` is correct. */
-  likelihood?: GooglePrivacyDlpV2FindingLikelihoodEnum;
-  /** Timestamp when finding was detected. */
-  createTime?: string;
-  /** The labels associated with this `Finding`. Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?`. Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. No more than 10 labels can be associated with a given finding. Examples: * `"environment" : "production"` * `"pipeline" : "etl"` */
-  labels?: StringMap;
-  /** Where the content was found. */
-  location?: GooglePrivacyDlpV2Location;
+  name?: string | undefined;
   /** Time the job started that produced this finding. */
-  jobCreateTime?: string;
-  /** The unique finding id. */
-  findingId?: string;
+  jobCreateTime?: string | undefined;
+  /** Timestamp when finding was detected. */
+  createTime?: string | undefined;
+  /** Confidence of how likely it is that the `info_type` is correct. */
+  likelihood?: GooglePrivacyDlpV2FindingLikelihoodEnum | undefined;
   /** The content that was found. Even if the content is not textual, it may be converted to a textual representation here. Provided if `include_quote` is true and the finding is less than or equal to 4096 bytes long. If the finding exceeds 4096 bytes in length, the quote may be omitted. */
-  quote?: string;
+  quote?: string | undefined;
   /** The job that stored the finding. */
-  resourceName?: string;
-  /** The job that stored the finding. */
-  jobName?: string;
+  jobName?: string | undefined;
   /** Contains data parsed from quotes. Only populated if include_quote was set to true and a supported infoType was requested. Currently supported infoTypes: DATE, DATE_OF_BIRTH and TIME. */
-  quoteInfo?: GooglePrivacyDlpV2QuoteInfo;
+  quoteInfo?: GooglePrivacyDlpV2QuoteInfo | undefined;
+  /** The labels associated with this `Finding`. Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?`. Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. No more than 10 labels can be associated with a given finding. Examples: * `"environment" : "production"` * `"pipeline" : "etl"` */
+  labels?: StringMap | undefined;
+  /** The type of content that might have been found. Provided if `excluded_types` is false. */
+  infoType?: GooglePrivacyDlpV2InfoType | undefined;
+  /** Where the content was found. */
+  location?: GooglePrivacyDlpV2Location | undefined;
+  /** The job that stored the finding. */
+  resourceName?: string | undefined;
+  /** The unique finding id. */
+  findingId?: string | undefined;
   /** Job trigger name, if applicable, for this finding. */
-  triggerName?: string;
+  triggerName?: string | undefined;
 }
 export type GooglePrivacyDlpV2FindingList = Array<GooglePrivacyDlpV2Finding>;
 /** All the findings for a single scanned item. */
 export interface GooglePrivacyDlpV2InspectResult {
-  /** List of findings for an item. */
-  findings?: GooglePrivacyDlpV2FindingList;
   /** If true, then this item might have more findings than were returned, and the findings returned are an arbitrary subset of all findings. The findings list might be truncated because the input items were too large, or because the server reached the maximum amount of resources allowed for a single API call. For best results, divide the input into smaller batches. */
-  findingsTruncated?: boolean;
+  findingsTruncated?: boolean | undefined;
+  /** List of findings for an item. */
+  findings?: GooglePrivacyDlpV2FindingList | undefined;
 }
 /** Results of inspecting an item. */
 export interface GooglePrivacyDlpV2InspectContentResponse {
   /** The findings. */
-  result?: GooglePrivacyDlpV2InspectResult;
+  result?: GooglePrivacyDlpV2InspectResult | undefined;
 }
-export interface InspectProjectsLocationsContentRequest {
+export interface InspectProjectsLocationsContentRequest extends GooglePrivacyDlpV2InspectContentRequest {
   /** Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2InspectContentRequest;
 }
 export interface ListInfoTypesRequest {
   /** Deprecated. This field has no effect. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** filter to only return infoTypes supported by certain parts of the API. Defaults to supported_by=INSPECT. */
-  filter?: string;
+  filter?: string | undefined;
   /** BCP-47 language code for localized infoType friendly names. If omitted, or if localized strings are not available, en-US strings will be returned. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** The parent resource name. The format of this value is as follows: `locations/{location_id}` */
-  parent?: string;
+  parent?: string | undefined;
 }
-export type GooglePrivacyDlpV2InfoTypeDescriptionSupportedByItemEnum =
-  | "ENUM_TYPE_UNSPECIFIED"
-  | "INSPECT"
-  | "RISK_ANALYSIS";
-export type GooglePrivacyDlpV2InfoTypeDescriptionSupportedByItemEnumList =
-  Array<GooglePrivacyDlpV2InfoTypeDescriptionSupportedByItemEnum>;
 /** Details about each available version for an infotype. */
 export interface GooglePrivacyDlpV2VersionDescription {
   /** Description of the version. */
-  description?: string;
+  description?: string | undefined;
   /** Name of the version */
-  version?: string;
+  version?: string | undefined;
 }
 export type GooglePrivacyDlpV2VersionDescriptionList = Array<GooglePrivacyDlpV2VersionDescription>;
-export type GooglePrivacyDlpV2LocationSupportRegionalizationScopeEnum =
-  | "REGIONALIZATION_SCOPE_UNSPECIFIED"
-  | "REGIONAL"
-  | "ANY_LOCATION";
-/** Locations at which a feature can be used. */
-export interface GooglePrivacyDlpV2LocationSupport {
-  /** The current scope for location on this feature. This may expand over time. */
-  regionalizationScope?: GooglePrivacyDlpV2LocationSupportRegionalizationScopeEnum;
-  /** Specific locations where the feature may be used. Examples: us-central1, us, asia, global If scope is ANY_LOCATION, no regions will be listed. */
-  locations?: StringList;
-}
 export type GooglePrivacyDlpV2InfoTypeCategoryTypeCategoryEnum =
   | "TYPE_UNSPECIFIED"
   | "PII"
@@ -4050,863 +4051,832 @@ export type GooglePrivacyDlpV2InfoTypeCategoryIndustryCategoryEnum =
 /** Classification of infoTypes to organize them according to geographic location, industry, and data type. */
 export interface GooglePrivacyDlpV2InfoTypeCategory {
   /** The class of identifiers where this infoType belongs */
-  typeCategory?: GooglePrivacyDlpV2InfoTypeCategoryTypeCategoryEnum;
+  typeCategory?: GooglePrivacyDlpV2InfoTypeCategoryTypeCategoryEnum | undefined;
   /** The region or country that issued the ID or document represented by the infoType. */
-  locationCategory?: GooglePrivacyDlpV2InfoTypeCategoryLocationCategoryEnum;
+  locationCategory?: GooglePrivacyDlpV2InfoTypeCategoryLocationCategoryEnum | undefined;
   /** The group of relevant businesses where this infoType is commonly used */
-  industryCategory?: GooglePrivacyDlpV2InfoTypeCategoryIndustryCategoryEnum;
+  industryCategory?: GooglePrivacyDlpV2InfoTypeCategoryIndustryCategoryEnum | undefined;
 }
 export type GooglePrivacyDlpV2InfoTypeCategoryList = Array<GooglePrivacyDlpV2InfoTypeCategory>;
+export type GooglePrivacyDlpV2InfoTypeDescriptionSupportedByItemEnum =
+  | "ENUM_TYPE_UNSPECIFIED"
+  | "INSPECT"
+  | "RISK_ANALYSIS";
+export type GooglePrivacyDlpV2InfoTypeDescriptionSupportedByItemEnumList =
+  Array<GooglePrivacyDlpV2InfoTypeDescriptionSupportedByItemEnum>;
 export type GooglePrivacyDlpV2InfoTypeDescriptionLaunchStatusEnum =
   | "INFO_TYPE_LAUNCH_STATUS_UNSPECIFIED"
   | "GENERAL_AVAILABILITY"
   | "PUBLIC_PREVIEW"
   | "PRIVATE_PREVIEW";
+export type GooglePrivacyDlpV2LocationSupportRegionalizationScopeEnum =
+  | "REGIONALIZATION_SCOPE_UNSPECIFIED"
+  | "REGIONAL"
+  | "ANY_LOCATION";
+/** Locations at which a feature can be used. */
+export interface GooglePrivacyDlpV2LocationSupport {
+  /** Specific locations where the feature may be used. Examples: us-central1, us, asia, global If scope is ANY_LOCATION, no regions will be listed. */
+  locations?: StringList | undefined;
+  /** The current scope for location on this feature. This may expand over time. */
+  regionalizationScope?: GooglePrivacyDlpV2LocationSupportRegionalizationScopeEnum | undefined;
+}
 /** InfoType description. */
 export interface GooglePrivacyDlpV2InfoTypeDescription {
-  /** Which parts of the API supports this InfoType. */
-  supportedBy?: GooglePrivacyDlpV2InfoTypeDescriptionSupportedByItemEnumList;
-  /** A list of available versions for the infotype. */
-  versions?: GooglePrivacyDlpV2VersionDescriptionList;
-  /** Locations at which this feature can be used. May change over time. */
-  locationSupport?: GooglePrivacyDlpV2LocationSupport;
-  /** Description of the infotype. Translated when language is provided in the request. */
-  description?: string;
   /** A sample that is a true positive for this infoType. */
-  example?: string;
-  /** Internal name of the infoType. */
-  name?: string;
-  /** If this field is set, this infoType is a general infoType and these specific infoTypes are contained within it. General infoTypes are infoTypes that encompass multiple specific infoTypes. For example, the "GEOGRAPHIC_DATA" general infoType would have set for this field "LOCATION", "LOCATION_COORDINATES", and "STREET_ADDRESS". */
-  specificInfoTypes?: StringList;
+  example?: string | undefined;
   /** Human readable form of the infoType name. */
-  displayName?: string;
-  /** The default sensitivity of the infoType. */
-  sensitivityScore?: GooglePrivacyDlpV2SensitivityScore;
+  displayName?: string | undefined;
+  /** Description of the infotype. Translated when language is provided in the request. */
+  description?: string | undefined;
+  /** A list of available versions for the infotype. */
+  versions?: GooglePrivacyDlpV2VersionDescriptionList | undefined;
+  /** Internal name of the infoType. */
+  name?: string | undefined;
   /** The category of the infoType. */
-  categories?: GooglePrivacyDlpV2InfoTypeCategoryList;
+  categories?: GooglePrivacyDlpV2InfoTypeCategoryList | undefined;
+  /** If this field is set, this infoType is a general infoType and these specific infoTypes are contained within it. General infoTypes are infoTypes that encompass multiple specific infoTypes. For example, the "GEOGRAPHIC_DATA" general infoType would have set for this field "LOCATION", "LOCATION_COORDINATES", and "STREET_ADDRESS". */
+  specificInfoTypes?: StringList | undefined;
+  /** The default sensitivity of the infoType. */
+  sensitivityScore?: GooglePrivacyDlpV2SensitivityScore | undefined;
+  /** Which parts of the API supports this InfoType. */
+  supportedBy?: GooglePrivacyDlpV2InfoTypeDescriptionSupportedByItemEnumList | undefined;
   /** The launch status of the infoType. */
-  launchStatus?: GooglePrivacyDlpV2InfoTypeDescriptionLaunchStatusEnum;
+  launchStatus?: GooglePrivacyDlpV2InfoTypeDescriptionLaunchStatusEnum | undefined;
+  /** Locations at which this feature can be used. May change over time. */
+  locationSupport?: GooglePrivacyDlpV2LocationSupport | undefined;
 }
 export type GooglePrivacyDlpV2InfoTypeDescriptionList =
   Array<GooglePrivacyDlpV2InfoTypeDescription>;
 /** Response to the ListInfoTypes request. */
 export interface GooglePrivacyDlpV2ListInfoTypesResponse {
   /** Set of sensitive infoTypes. */
-  infoTypes?: GooglePrivacyDlpV2InfoTypeDescriptionList;
+  infoTypes?: GooglePrivacyDlpV2InfoTypeDescriptionList | undefined;
 }
 export interface ListLocationsInfoTypesRequest {
   /** filter to only return infoTypes supported by certain parts of the API. Defaults to supported_by=INSPECT. */
-  filter?: string;
-  /** Deprecated. This field has no effect. */
-  locationId?: string;
-  /** BCP-47 language code for localized infoType friendly names. If omitted, or if localized strings are not available, en-US strings will be returned. */
-  languageCode?: string;
+  filter?: string | undefined;
   /** The parent resource name. The format of this value is as follows: `locations/{location_id}` */
   parent: string;
+  /** BCP-47 language code for localized infoType friendly names. If omitted, or if localized strings are not available, en-US strings will be returned. */
+  languageCode?: string | undefined;
+  /** Deprecated. This field has no effect. */
+  locationId?: string | undefined;
 }
 export interface ListOrganizationsDeidentifyTemplatesRequest {
-  /** Page token to continue retrieval. Comes from the previous call to `ListDeidentifyTemplates`. */
-  pageToken?: string;
-  /** Deprecated. This field has no effect. */
-  locationId?: string;
-  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
-  pageSize?: number;
   /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `create_time`: corresponds to the time the template was created. - `update_time`: corresponds to the time the template was last updated. - `name`: corresponds to the template's name. - `display_name`: corresponds to the template's display name. */
-  orderBy?: string;
+  orderBy?: string | undefined;
+  /** Deprecated. This field has no effect. */
+  locationId?: string | undefined;
+  /** Page token to continue retrieval. Comes from the previous call to `ListDeidentifyTemplates`. */
+  pageToken?: string | undefined;
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
+  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
+  pageSize?: number | undefined;
 }
 export type GooglePrivacyDlpV2DeidentifyTemplateList = Array<GooglePrivacyDlpV2DeidentifyTemplate>;
 /** Response message for ListDeidentifyTemplates. */
 export interface GooglePrivacyDlpV2ListDeidentifyTemplatesResponse {
   /** List of deidentify templates, up to page_size in ListDeidentifyTemplatesRequest. */
-  deidentifyTemplates?: GooglePrivacyDlpV2DeidentifyTemplateList;
+  deidentifyTemplates?: GooglePrivacyDlpV2DeidentifyTemplateList | undefined;
   /** If the next page is available then the next page token to be used in the following ListDeidentifyTemplates request. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsInspectTemplatesRequest {
+  /** Page token to continue retrieval. Comes from the previous call to `ListInspectTemplates`. */
+  pageToken?: string | undefined;
+  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `create_time`: corresponds to the time the template was created. - `update_time`: corresponds to the time the template was last updated. - `name`: corresponds to the template's name. - `display_name`: corresponds to the template's display name. */
+  orderBy?: string | undefined;
+  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
+  pageSize?: number | undefined;
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
   /** Deprecated. This field has no effect. */
-  locationId?: string;
-  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `create_time`: corresponds to the time the template was created. - `update_time`: corresponds to the time the template was last updated. - `name`: corresponds to the template's name. - `display_name`: corresponds to the template's display name. */
-  orderBy?: string;
-  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
-  pageSize?: number;
-  /** Page token to continue retrieval. Comes from the previous call to `ListInspectTemplates`. */
-  pageToken?: string;
+  locationId?: string | undefined;
 }
 export type GooglePrivacyDlpV2InspectTemplateList = Array<GooglePrivacyDlpV2InspectTemplate>;
 /** Response message for ListInspectTemplates. */
 export interface GooglePrivacyDlpV2ListInspectTemplatesResponse {
   /** List of inspectTemplates, up to page_size in ListInspectTemplatesRequest. */
-  inspectTemplates?: GooglePrivacyDlpV2InspectTemplateList;
+  inspectTemplates?: GooglePrivacyDlpV2InspectTemplateList | undefined;
   /** If the next page is available then the next page token to be used in the following ListInspectTemplates request. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsColumnDataProfilesRequest {
-  /** Page token to continue retrieval. */
-  pageToken?: string;
-  /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields: - `table_data_profile_name`: The name of the related table data profile - `project_id`: The Google Cloud project ID (REQUIRED) - `dataset_id`: The BigQuery dataset ID (REQUIRED) - `table_id`: The BigQuery table ID (REQUIRED) - `field_id`: The ID of the BigQuery field - `info_type`: The infotype detected in the resource - `sensitivity_level`: HIGH|MEDIUM|LOW - `data_risk_level`: How much risk is associated with this data - `status_code`: An RPC status code as defined in https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto - `profile_last_generated`: Date and time the profile was last generated * The operator must be `=` for project_id, dataset_id, and table_id. Other filters also support `!=`. The `profile_last_generated` filter also supports `<` and `>`. The syntax is based on https://google.aip.dev/160. Examples: * project_id = 12345 AND status_code = 1 * project_id = 12345 AND sensitivity_level = HIGH * project_id = 12345 AND info_type = STREET_ADDRESS * profile_last_generated < "2025-01-01T00:00:00.000Z" The length of this field should be no more than 500 characters. */
-  filter?: string;
   /** Required. Resource name of the organization or project, for example `organizations/433245324/locations/europe` or `projects/project-id/locations/asia`. */
   parent: string;
+  /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields: - `table_data_profile_name`: The name of the related table data profile - `project_id`: The Google Cloud project ID (REQUIRED) - `dataset_id`: The BigQuery dataset ID (REQUIRED) - `table_id`: The BigQuery table ID (REQUIRED) - `field_id`: The ID of the BigQuery field - `info_type`: The infotype detected in the resource - `sensitivity_level`: HIGH|MEDIUM|LOW - `data_risk_level`: How much risk is associated with this data - `status_code`: An RPC status code as defined in https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto - `profile_last_generated`: Date and time the profile was last generated * The operator must be `=` for project_id, dataset_id, and table_id. Other filters also support `!=`. The `profile_last_generated` filter also supports `<` and `>`. The syntax is based on https://google.aip.dev/160. Examples: * project_id = 12345 AND status_code = 1 * project_id = 12345 AND sensitivity_level = HIGH * project_id = 12345 AND info_type = STREET_ADDRESS * profile_last_generated < "2025-01-01T00:00:00.000Z" The length of this field should be no more than 500 characters. */
+  filter?: string | undefined;
   /** Size of the page. This value can be limited by the server. If zero, server returns a page of max size 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Only one order field at a time is allowed. Examples: * `project_id asc` * `table_id` * `sensitivity_level desc` Supported fields are: - `project_id`: The Google Cloud project ID. - `dataset_id`: The ID of a BigQuery dataset. - `table_id`: The ID of a BigQuery table. - `sensitivity_level`: How sensitive the data in a column is, at most. - `data_risk_level`: How much risk is associated with this data. - `profile_last_generated`: When the profile was last updated in epoch seconds. */
-  orderBy?: string;
+  orderBy?: string | undefined;
+  /** Page token to continue retrieval. */
+  pageToken?: string | undefined;
 }
 export type GooglePrivacyDlpV2ColumnDataProfileList = Array<GooglePrivacyDlpV2ColumnDataProfile>;
 /** List of profiles generated for a given organization or project. */
 export interface GooglePrivacyDlpV2ListColumnDataProfilesResponse {
-  /** The next page token. */
-  nextPageToken?: string;
   /** List of data profiles. */
-  columnDataProfiles?: GooglePrivacyDlpV2ColumnDataProfileList;
+  columnDataProfiles?: GooglePrivacyDlpV2ColumnDataProfileList | undefined;
+  /** The next page token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsConnectionsRequest {
   /** Required. Resource name of the organization or project, for example, `organizations/433245324/locations/europe` or `projects/project-id/locations/asia`. */
   parent: string;
-  /** Optional. Page token from a previous page to return the next set of results. If set, all other request fields must match the original request. */
-  pageToken?: string;
   /** Optional. Number of results per page, max 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** Optional. Page token from a previous page to return the next set of results. If set, all other request fields must match the original request. */
+  pageToken?: string | undefined;
   /** Optional. Supported field/value: `state` - MISSING|AVAILABLE|ERROR The syntax is based on https://google.aip.dev/160. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type GooglePrivacyDlpV2ConnectionList = Array<GooglePrivacyDlpV2Connection>;
 /** Response message for ListConnections. */
 export interface GooglePrivacyDlpV2ListConnectionsResponse {
   /** Token to retrieve the next page of results. An empty value means there are no more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of connections. */
-  connections?: GooglePrivacyDlpV2ConnectionList;
+  connections?: GooglePrivacyDlpV2ConnectionList | undefined;
 }
 export interface ListOrganizationsLocationsDeidentifyTemplatesRequest {
-  /** Deprecated. This field has no effect. */
-  locationId?: string;
-  /** Page token to continue retrieval. Comes from the previous call to `ListDeidentifyTemplates`. */
-  pageToken?: string;
   /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `create_time`: corresponds to the time the template was created. - `update_time`: corresponds to the time the template was last updated. - `name`: corresponds to the template's name. - `display_name`: corresponds to the template's display name. */
-  orderBy?: string;
+  orderBy?: string | undefined;
+  /** Page token to continue retrieval. Comes from the previous call to `ListDeidentifyTemplates`. */
+  pageToken?: string | undefined;
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
+  /** Deprecated. This field has no effect. */
+  locationId?: string | undefined;
   /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListOrganizationsLocationsDiscoveryConfigsRequest {
-  /** Size of the page. This value can be limited by a server. */
-  pageSize?: number;
   /** Required. Parent resource name. The format of this value is as follows: `projects/{project_id}/locations/{location_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Comma-separated list of config fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `last_run_time`: corresponds to the last time the DiscoveryConfig ran. - `name`: corresponds to the DiscoveryConfig's name. - `status`: corresponds to DiscoveryConfig's status. */
-  orderBy?: string;
   /** Page token to continue retrieval. Comes from the previous call to ListDiscoveryConfigs. `order_by` field must not change for subsequent calls. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** Size of the page. This value can be limited by a server. */
+  pageSize?: number | undefined;
+  /** Comma-separated list of config fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `last_run_time`: corresponds to the last time the DiscoveryConfig ran. - `name`: corresponds to the DiscoveryConfig's name. - `status`: corresponds to DiscoveryConfig's status. */
+  orderBy?: string | undefined;
 }
 export type GooglePrivacyDlpV2DiscoveryConfigList = Array<GooglePrivacyDlpV2DiscoveryConfig>;
 /** Response message for ListDiscoveryConfigs. */
 export interface GooglePrivacyDlpV2ListDiscoveryConfigsResponse {
   /** List of configs, up to page_size in ListDiscoveryConfigsRequest. */
-  discoveryConfigs?: GooglePrivacyDlpV2DiscoveryConfigList;
+  discoveryConfigs?: GooglePrivacyDlpV2DiscoveryConfigList | undefined;
   /** If the next page is available then this value is the next page token to be used in the following ListDiscoveryConfigs request. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListOrganizationsLocationsDlpJobsTypeEnum =
   | "DLP_JOB_TYPE_UNSPECIFIED"
   | "INSPECT_JOB"
   | "RISK_ANALYSIS_JOB";
 export interface ListOrganizationsLocationsDlpJobsRequest {
-  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc, end_time asc, create_time desc` Supported fields are: - `create_time`: corresponds to the time the job was created. - `end_time`: corresponds to the time the job ended. - `name`: corresponds to the job's name. - `state`: corresponds to `state` */
-  orderBy?: string;
-  /** Deprecated. This field has no effect. */
-  locationId?: string;
+  /** The type of job. Defaults to `DlpJobType.INSPECT` */
+  type?: ListOrganizationsLocationsDlpJobsTypeEnum | (string & {}) | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc, end_time asc, create_time desc` Supported fields are: - `create_time`: corresponds to the time the job was created. - `end_time`: corresponds to the time the job ended. - `name`: corresponds to the job's name. - `state`: corresponds to `state` */
+  orderBy?: string | undefined;
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** The type of job. Defaults to `DlpJobType.INSPECT` */
-  type?: ListOrganizationsLocationsDlpJobsTypeEnum | (string & {});
-  /** The standard list page token. */
-  pageToken?: string;
   /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields/values for inspect jobs: - `state` - PENDING|RUNNING|CANCELED|FINISHED|FAILED - `inspected_storage` - DATASTORE|CLOUD_STORAGE|BIGQUERY - `trigger_name` - The name of the trigger that created the job. - 'end_time` - Corresponds to the time the job finished. - 'start_time` - Corresponds to the time the job finished. * Supported fields for risk analysis jobs: - `state` - RUNNING|CANCELED|FINISHED|FAILED - 'end_time` - Corresponds to the time the job finished. - 'start_time` - Corresponds to the time the job finished. * The operator must be `=` or `!=`. The syntax is based on https://google.aip.dev/160. Examples: * inspected_storage = cloud_storage AND state = done * inspected_storage = cloud_storage OR inspected_storage = bigquery * inspected_storage = cloud_storage AND (state = done OR state = canceled) * end_time > \"2017-12-12T00:00:00+00:00\" The length of this field should be no more than 500 characters. */
-  filter?: string;
+  filter?: string | undefined;
+  /** Deprecated. This field has no effect. */
+  locationId?: string | undefined;
 }
 export type GooglePrivacyDlpV2DlpJobList = Array<GooglePrivacyDlpV2DlpJob>;
 /** The response message for listing DLP jobs. */
 export interface GooglePrivacyDlpV2ListDlpJobsResponse {
   /** A list of DlpJobs that matches the specified filter in the request. */
-  jobs?: GooglePrivacyDlpV2DlpJobList;
+  jobs?: GooglePrivacyDlpV2DlpJobList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsFileStoreDataProfilesRequest {
   /** Optional. Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Only one order field at a time is allowed. Examples: * `project_id asc` * `name` * `sensitivity_level desc` Supported fields are: - `project_id`: The Google Cloud project ID. - `sensitivity_level`: How sensitive the data in a table is, at most. - `data_risk_level`: How much risk is associated with this data. - `profile_last_generated`: When the profile was last updated in epoch seconds. - `last_modified`: The last time the resource was modified. - `resource_visibility`: Visibility restriction for this resource. - `name`: The name of the profile. - `create_time`: The time the file store was first created. */
-  orderBy?: string;
-  /** Optional. Size of the page. This value can be limited by the server. If zero, server returns a page of max size 100. */
-  pageSize?: number;
+  orderBy?: string | undefined;
+  /** Optional. Page token to continue retrieval. */
+  pageToken?: string | undefined;
   /** Required. Resource name of the organization or project, for example `organizations/433245324/locations/europe` or `projects/project-id/locations/asia`. */
   parent: string;
-  /** Optional. Page token to continue retrieval. */
-  pageToken?: string;
   /** Optional. Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields: - `project_id`: The Google Cloud project ID - `account_id`: The AWS account ID - `file_store_path`: The path like "gs://bucket" - `data_source_type`: The profile's data source type, like "google/storage/bucket" - `data_storage_location`: The location where the file store's data is stored, like "us-central1" - `sensitivity_level`: HIGH|MODERATE|LOW - `data_risk_level`: HIGH|MODERATE|LOW - `resource_visibility`: PUBLIC|RESTRICTED - `status_code`: an RPC status code as defined in https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto - `profile_last_generated`: Date and time the profile was last generated * The operator must be `=` or `!=`. The `profile_last_generated` filter also supports `<` and `>`. The syntax is based on https://google.aip.dev/160. Examples: * `project_id = 12345 AND status_code = 1` * `project_id = 12345 AND sensitivity_level = HIGH` * `project_id = 12345 AND resource_visibility = PUBLIC` * `file_store_path = "gs://mybucket"` * `profile_last_generated < "2025-01-01T00:00:00.000Z"` The length of this field should be no more than 500 characters. */
-  filter?: string;
+  filter?: string | undefined;
+  /** Optional. Size of the page. This value can be limited by the server. If zero, server returns a page of max size 100. */
+  pageSize?: number | undefined;
 }
 export type GooglePrivacyDlpV2FileStoreDataProfileList =
   Array<GooglePrivacyDlpV2FileStoreDataProfile>;
 /** List of file store data profiles generated for a given organization or project. */
 export interface GooglePrivacyDlpV2ListFileStoreDataProfilesResponse {
   /** The next page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of data profiles. */
-  fileStoreDataProfiles?: GooglePrivacyDlpV2FileStoreDataProfileList;
+  fileStoreDataProfiles?: GooglePrivacyDlpV2FileStoreDataProfileList | undefined;
 }
 export interface ListOrganizationsLocationsInfoTypesRequest {
-  /** BCP-47 language code for localized infoType friendly names. If omitted, or if localized strings are not available, en-US strings will be returned. */
-  languageCode?: string;
   /** The parent resource name. The format of this value is as follows: `locations/{location_id}` */
   parent: string;
-  /** filter to only return infoTypes supported by certain parts of the API. Defaults to supported_by=INSPECT. */
-  filter?: string;
+  /** BCP-47 language code for localized infoType friendly names. If omitted, or if localized strings are not available, en-US strings will be returned. */
+  languageCode?: string | undefined;
   /** Deprecated. This field has no effect. */
-  locationId?: string;
+  locationId?: string | undefined;
+  /** filter to only return infoTypes supported by certain parts of the API. Defaults to supported_by=INSPECT. */
+  filter?: string | undefined;
 }
 export interface ListOrganizationsLocationsInspectTemplatesRequest {
-  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
-  pageSize?: number;
-  /** Deprecated. This field has no effect. */
-  locationId?: string;
   /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `create_time`: corresponds to the time the template was created. - `update_time`: corresponds to the time the template was last updated. - `name`: corresponds to the template's name. - `display_name`: corresponds to the template's display name. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
+  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
+  pageSize?: number | undefined;
   /** Page token to continue retrieval. Comes from the previous call to `ListInspectTemplates`. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** Deprecated. This field has no effect. */
+  locationId?: string | undefined;
 }
 export type ListOrganizationsLocationsJobTriggersTypeEnum =
   | "DLP_JOB_TYPE_UNSPECIFIED"
   | "INSPECT_JOB"
   | "RISK_ANALYSIS_JOB";
 export interface ListOrganizationsLocationsJobTriggersRequest {
-  /** Size of the page. This value can be limited by a server. */
-  pageSize?: number;
   /** The type of jobs. Will use `DlpJobType.INSPECT` if not set. */
-  type?: ListOrganizationsLocationsJobTriggersTypeEnum | (string & {});
-  /** Comma-separated list of triggeredJob fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `create_time`: corresponds to the time the JobTrigger was created. - `update_time`: corresponds to the time the JobTrigger was last updated. - `last_run_time`: corresponds to the last time the JobTrigger ran. - `name`: corresponds to the JobTrigger's name. - `display_name`: corresponds to the JobTrigger's display name. - `status`: corresponds to JobTrigger's status. */
-  orderBy?: string;
-  /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields/values for inspect triggers: - `status` - HEALTHY|PAUSED|CANCELLED - `inspected_storage` - DATASTORE|CLOUD_STORAGE|BIGQUERY - 'last_run_time` - RFC 3339 formatted timestamp, surrounded by quotation marks. Nanoseconds are ignored. - 'error_count' - Number of errors that have occurred while running. * The operator must be `=` or `!=` for status and inspected_storage. The syntax is based on https://google.aip.dev/160. Examples: * inspected_storage = cloud_storage AND status = HEALTHY * inspected_storage = cloud_storage OR inspected_storage = bigquery * inspected_storage = cloud_storage AND (state = PAUSED OR state = HEALTHY) * last_run_time > \"2017-12-12T00:00:00+00:00\" The length of this field should be no more than 500 characters. */
-  filter?: string;
+  type?: ListOrganizationsLocationsJobTriggersTypeEnum | (string & {}) | undefined;
   /** Deprecated. This field has no effect. */
-  locationId?: string;
+  locationId?: string | undefined;
+  /** Page token to continue retrieval. Comes from the previous call to ListJobTriggers. `order_by` field must not change for subsequent calls. */
+  pageToken?: string | undefined;
+  /** Comma-separated list of triggeredJob fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `create_time`: corresponds to the time the JobTrigger was created. - `update_time`: corresponds to the time the JobTrigger was last updated. - `last_run_time`: corresponds to the last time the JobTrigger ran. - `name`: corresponds to the JobTrigger's name. - `display_name`: corresponds to the JobTrigger's display name. - `status`: corresponds to JobTrigger's status. */
+  orderBy?: string | undefined;
+  /** Size of the page. This value can be limited by a server. */
+  pageSize?: number | undefined;
+  /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields/values for inspect triggers: - `status` - HEALTHY|PAUSED|CANCELLED - `inspected_storage` - DATASTORE|CLOUD_STORAGE|BIGQUERY - 'last_run_time` - RFC 3339 formatted timestamp, surrounded by quotation marks. Nanoseconds are ignored. - 'error_count' - Number of errors that have occurred while running. * The operator must be `=` or `!=` for status and inspected_storage. The syntax is based on https://google.aip.dev/160. Examples: * inspected_storage = cloud_storage AND status = HEALTHY * inspected_storage = cloud_storage OR inspected_storage = bigquery * inspected_storage = cloud_storage AND (state = PAUSED OR state = HEALTHY) * last_run_time > \"2017-12-12T00:00:00+00:00\" The length of this field should be no more than 500 characters. */
+  filter?: string | undefined;
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Page token to continue retrieval. Comes from the previous call to ListJobTriggers. `order_by` field must not change for subsequent calls. */
-  pageToken?: string;
 }
 export type GooglePrivacyDlpV2JobTriggerList = Array<GooglePrivacyDlpV2JobTrigger>;
 /** Response message for ListJobTriggers. */
 export interface GooglePrivacyDlpV2ListJobTriggersResponse {
-  /** If the next page is available then this value is the next page token to be used in the following ListJobTriggers request. */
-  nextPageToken?: string;
   /** List of triggeredJobs, up to page_size in ListJobTriggersRequest. */
-  jobTriggers?: GooglePrivacyDlpV2JobTriggerList;
+  jobTriggers?: GooglePrivacyDlpV2JobTriggerList | undefined;
+  /** If the next page is available then this value is the next page token to be used in the following ListJobTriggers request. */
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsProjectDataProfilesRequest {
   /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields: - `project_id`: the Google Cloud project ID - `sensitivity_level`: HIGH|MODERATE|LOW - `data_risk_level`: HIGH|MODERATE|LOW - `status_code`: an RPC status code as defined in https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto - `profile_last_generated`: Date and time the profile was last generated * The operator must be `=` or `!=`. The `profile_last_generated` filter also supports `<` and `>`. The syntax is based on https://google.aip.dev/160. Examples: * `project_id = 12345 AND status_code = 1` * `project_id = 12345 AND sensitivity_level = HIGH` * `profile_last_generated < "2025-01-01T00:00:00.000Z"` The length of this field should be no more than 500 characters. */
-  filter?: string;
-  /** Page token to continue retrieval. */
-  pageToken?: string;
+  filter?: string | undefined;
   /** Required. organizations/{org_id}/locations/{loc_id} */
   parent: string;
   /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Only one order field at a time is allowed. Examples: * `project_id` * `sensitivity_level desc` Supported fields: - `project_id`: Google Cloud project ID - `sensitivity_level`: How sensitive the data in a project is, at most - `data_risk_level`: How much risk is associated with this data - `profile_last_generated`: Date and time (in epoch seconds) the profile was last generated */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Size of the page. This value can be limited by the server. If zero, server returns a page of max size 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** Page token to continue retrieval. */
+  pageToken?: string | undefined;
 }
 export type GooglePrivacyDlpV2ProjectDataProfileList = Array<GooglePrivacyDlpV2ProjectDataProfile>;
 /** List of profiles generated for a given organization or project. */
 export interface GooglePrivacyDlpV2ListProjectDataProfilesResponse {
   /** The next page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of data profiles. */
-  projectDataProfiles?: GooglePrivacyDlpV2ProjectDataProfileList;
+  projectDataProfiles?: GooglePrivacyDlpV2ProjectDataProfileList | undefined;
 }
 export interface ListOrganizationsLocationsStoredInfoTypesRequest {
-  /** Deprecated. This field has no effect. */
-  locationId?: string;
   /** Page token to continue retrieval. Comes from the previous call to `ListStoredInfoTypes`. */
-  pageToken?: string;
-  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
-  pageSize?: number;
-  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc, display_name, create_time desc` Supported fields are: - `create_time`: corresponds to the time the most recent version of the resource was created. - `state`: corresponds to the state of the resource. - `name`: corresponds to resource name. - `display_name`: corresponds to info type's display name. */
-  orderBy?: string;
+  pageToken?: string | undefined;
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
+  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
+  pageSize?: number | undefined;
+  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc, display_name, create_time desc` Supported fields are: - `create_time`: corresponds to the time the most recent version of the resource was created. - `state`: corresponds to the state of the resource. - `name`: corresponds to resource name. - `display_name`: corresponds to info type's display name. */
+  orderBy?: string | undefined;
+  /** Deprecated. This field has no effect. */
+  locationId?: string | undefined;
 }
 export type GooglePrivacyDlpV2StoredInfoTypeList = Array<GooglePrivacyDlpV2StoredInfoType>;
 /** Response message for ListStoredInfoTypes. */
 export interface GooglePrivacyDlpV2ListStoredInfoTypesResponse {
   /** List of storedInfoTypes, up to page_size in ListStoredInfoTypesRequest. */
-  storedInfoTypes?: GooglePrivacyDlpV2StoredInfoTypeList;
+  storedInfoTypes?: GooglePrivacyDlpV2StoredInfoTypeList | undefined;
   /** If the next page is available then the next page token to be used in the following ListStoredInfoTypes request. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsTableDataProfilesRequest {
-  /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields: - `project_id`: The Google Cloud project ID - `dataset_id`: The BigQuery dataset ID - `table_id`: The ID of the BigQuery table - `sensitivity_level`: HIGH|MODERATE|LOW - `data_risk_level`: HIGH|MODERATE|LOW - `resource_visibility`: PUBLIC|RESTRICTED - `status_code`: an RPC status code as defined in https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto - `profile_last_generated`: Date and time the profile was last generated * The operator must be `=` or `!=`. The `profile_last_generated` filter also supports `<` and `>`. The syntax is based on https://google.aip.dev/160. Examples: * `project_id = 12345 AND status_code = 1` * `project_id = 12345 AND sensitivity_level = HIGH` * `project_id = 12345 AND resource_visibility = PUBLIC` * `profile_last_generated < "2025-01-01T00:00:00.000Z"` The length of this field should be no more than 500 characters. */
-  filter?: string;
   /** Size of the page. This value can be limited by the server. If zero, server returns a page of max size 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Only one order field at a time is allowed. Examples: * `project_id asc` * `table_id` * `sensitivity_level desc` Supported fields are: - `project_id`: The Google Cloud project ID. - `dataset_id`: The ID of a BigQuery dataset. - `table_id`: The ID of a BigQuery table. - `sensitivity_level`: How sensitive the data in a table is, at most. - `data_risk_level`: How much risk is associated with this data. - `profile_last_generated`: When the profile was last updated in epoch seconds. - `last_modified`: The last time the resource was modified. - `resource_visibility`: Visibility restriction for this resource. - `row_count`: Number of rows in this resource. */
-  orderBy?: string;
+  orderBy?: string | undefined;
+  /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields: - `project_id`: The Google Cloud project ID - `dataset_id`: The BigQuery dataset ID - `table_id`: The ID of the BigQuery table - `sensitivity_level`: HIGH|MODERATE|LOW - `data_risk_level`: HIGH|MODERATE|LOW - `resource_visibility`: PUBLIC|RESTRICTED - `status_code`: an RPC status code as defined in https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto - `profile_last_generated`: Date and time the profile was last generated * The operator must be `=` or `!=`. The `profile_last_generated` filter also supports `<` and `>`. The syntax is based on https://google.aip.dev/160. Examples: * `project_id = 12345 AND status_code = 1` * `project_id = 12345 AND sensitivity_level = HIGH` * `project_id = 12345 AND resource_visibility = PUBLIC` * `profile_last_generated < "2025-01-01T00:00:00.000Z"` The length of this field should be no more than 500 characters. */
+  filter?: string | undefined;
+  /** Page token to continue retrieval. */
+  pageToken?: string | undefined;
   /** Required. Resource name of the organization or project, for example `organizations/433245324/locations/europe` or `projects/project-id/locations/asia`. */
   parent: string;
-  /** Page token to continue retrieval. */
-  pageToken?: string;
 }
 export type GooglePrivacyDlpV2TableDataProfileList = Array<GooglePrivacyDlpV2TableDataProfile>;
 /** List of profiles generated for a given organization or project. */
 export interface GooglePrivacyDlpV2ListTableDataProfilesResponse {
-  /** List of data profiles. */
-  tableDataProfiles?: GooglePrivacyDlpV2TableDataProfileList;
   /** The next page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** List of data profiles. */
+  tableDataProfiles?: GooglePrivacyDlpV2TableDataProfileList | undefined;
 }
 export interface ListOrganizationsStoredInfoTypesRequest {
-  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc, display_name, create_time desc` Supported fields are: - `create_time`: corresponds to the time the most recent version of the resource was created. - `state`: corresponds to the state of the resource. - `name`: corresponds to resource name. - `display_name`: corresponds to info type's display name. */
-  orderBy?: string;
+  /** Page token to continue retrieval. Comes from the previous call to `ListStoredInfoTypes`. */
+  pageToken?: string | undefined;
+  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
+  pageSize?: number | undefined;
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Page token to continue retrieval. Comes from the previous call to `ListStoredInfoTypes`. */
-  pageToken?: string;
-  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
-  pageSize?: number;
   /** Deprecated. This field has no effect. */
-  locationId?: string;
+  locationId?: string | undefined;
+  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc, display_name, create_time desc` Supported fields are: - `create_time`: corresponds to the time the most recent version of the resource was created. - `state`: corresponds to the state of the resource. - `name`: corresponds to resource name. - `display_name`: corresponds to info type's display name. */
+  orderBy?: string | undefined;
 }
 export interface ListProjectsDeidentifyTemplatesRequest {
+  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `create_time`: corresponds to the time the template was created. - `update_time`: corresponds to the time the template was last updated. - `name`: corresponds to the template's name. - `display_name`: corresponds to the template's display name. */
+  orderBy?: string | undefined;
+  /** Page token to continue retrieval. Comes from the previous call to `ListDeidentifyTemplates`. */
+  pageToken?: string | undefined;
+  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
+  pageSize?: number | undefined;
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `create_time`: corresponds to the time the template was created. - `update_time`: corresponds to the time the template was last updated. - `name`: corresponds to the template's name. - `display_name`: corresponds to the template's display name. */
-  orderBy?: string;
   /** Deprecated. This field has no effect. */
-  locationId?: string;
-  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
-  pageSize?: number;
-  /** Page token to continue retrieval. Comes from the previous call to `ListDeidentifyTemplates`. */
-  pageToken?: string;
+  locationId?: string | undefined;
 }
 export type ListProjectsDlpJobsTypeEnum =
   | "DLP_JOB_TYPE_UNSPECIFIED"
   | "INSPECT_JOB"
   | "RISK_ANALYSIS_JOB";
 export interface ListProjectsDlpJobsRequest {
-  /** The type of job. Defaults to `DlpJobType.INSPECT` */
-  type?: ListProjectsDlpJobsTypeEnum | (string & {});
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** The type of job. Defaults to `DlpJobType.INSPECT` */
+  type?: ListProjectsDlpJobsTypeEnum | (string & {}) | undefined;
+  /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields/values for inspect jobs: - `state` - PENDING|RUNNING|CANCELED|FINISHED|FAILED - `inspected_storage` - DATASTORE|CLOUD_STORAGE|BIGQUERY - `trigger_name` - The name of the trigger that created the job. - 'end_time` - Corresponds to the time the job finished. - 'start_time` - Corresponds to the time the job finished. * Supported fields for risk analysis jobs: - `state` - RUNNING|CANCELED|FINISHED|FAILED - 'end_time` - Corresponds to the time the job finished. - 'start_time` - Corresponds to the time the job finished. * The operator must be `=` or `!=`. The syntax is based on https://google.aip.dev/160. Examples: * inspected_storage = cloud_storage AND state = done * inspected_storage = cloud_storage OR inspected_storage = bigquery * inspected_storage = cloud_storage AND (state = done OR state = canceled) * end_time > \"2017-12-12T00:00:00+00:00\" The length of this field should be no more than 500 characters. */
+  filter?: string | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
   /** Deprecated. This field has no effect. */
-  locationId?: string;
+  locationId?: string | undefined;
+  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc, end_time asc, create_time desc` Supported fields are: - `create_time`: corresponds to the time the job was created. - `end_time`: corresponds to the time the job ended. - `name`: corresponds to the job's name. - `state`: corresponds to `state` */
+  orderBy?: string | undefined;
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields/values for inspect jobs: - `state` - PENDING|RUNNING|CANCELED|FINISHED|FAILED - `inspected_storage` - DATASTORE|CLOUD_STORAGE|BIGQUERY - `trigger_name` - The name of the trigger that created the job. - 'end_time` - Corresponds to the time the job finished. - 'start_time` - Corresponds to the time the job finished. * Supported fields for risk analysis jobs: - `state` - RUNNING|CANCELED|FINISHED|FAILED - 'end_time` - Corresponds to the time the job finished. - 'start_time` - Corresponds to the time the job finished. * The operator must be `=` or `!=`. The syntax is based on https://google.aip.dev/160. Examples: * inspected_storage = cloud_storage AND state = done * inspected_storage = cloud_storage OR inspected_storage = bigquery * inspected_storage = cloud_storage AND (state = done OR state = canceled) * end_time > \"2017-12-12T00:00:00+00:00\" The length of this field should be no more than 500 characters. */
-  filter?: string;
-  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc, end_time asc, create_time desc` Supported fields are: - `create_time`: corresponds to the time the job was created. - `end_time`: corresponds to the time the job ended. - `name`: corresponds to the job's name. - `state`: corresponds to `state` */
-  orderBy?: string;
-  /** The standard list page size. */
-  pageSize?: number;
 }
 export interface ListProjectsInspectTemplatesRequest {
-  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
-  pageSize?: number;
-  /** Page token to continue retrieval. Comes from the previous call to `ListInspectTemplates`. */
-  pageToken?: string;
+  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `create_time`: corresponds to the time the template was created. - `update_time`: corresponds to the time the template was last updated. - `name`: corresponds to the template's name. - `display_name`: corresponds to the template's display name. */
+  orderBy?: string | undefined;
+  /** Deprecated. This field has no effect. */
+  locationId?: string | undefined;
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `create_time`: corresponds to the time the template was created. - `update_time`: corresponds to the time the template was last updated. - `name`: corresponds to the template's name. - `display_name`: corresponds to the template's display name. */
-  orderBy?: string;
-  /** Deprecated. This field has no effect. */
-  locationId?: string;
+  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
+  pageSize?: number | undefined;
+  /** Page token to continue retrieval. Comes from the previous call to `ListInspectTemplates`. */
+  pageToken?: string | undefined;
 }
 export type ListProjectsJobTriggersTypeEnum =
   | "DLP_JOB_TYPE_UNSPECIFIED"
   | "INSPECT_JOB"
   | "RISK_ANALYSIS_JOB";
 export interface ListProjectsJobTriggersRequest {
-  /** Size of the page. This value can be limited by a server. */
-  pageSize?: number;
-  /** Page token to continue retrieval. Comes from the previous call to ListJobTriggers. `order_by` field must not change for subsequent calls. */
-  pageToken?: string;
   /** Comma-separated list of triggeredJob fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `create_time`: corresponds to the time the JobTrigger was created. - `update_time`: corresponds to the time the JobTrigger was last updated. - `last_run_time`: corresponds to the last time the JobTrigger ran. - `name`: corresponds to the JobTrigger's name. - `display_name`: corresponds to the JobTrigger's display name. - `status`: corresponds to JobTrigger's status. */
-  orderBy?: string;
-  /** The type of jobs. Will use `DlpJobType.INSPECT` if not set. */
-  type?: ListProjectsJobTriggersTypeEnum | (string & {});
+  orderBy?: string | undefined;
+  /** Page token to continue retrieval. Comes from the previous call to ListJobTriggers. `order_by` field must not change for subsequent calls. */
+  pageToken?: string | undefined;
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
+  /** Size of the page. This value can be limited by a server. */
+  pageSize?: number | undefined;
   /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields/values for inspect triggers: - `status` - HEALTHY|PAUSED|CANCELLED - `inspected_storage` - DATASTORE|CLOUD_STORAGE|BIGQUERY - 'last_run_time` - RFC 3339 formatted timestamp, surrounded by quotation marks. Nanoseconds are ignored. - 'error_count' - Number of errors that have occurred while running. * The operator must be `=` or `!=` for status and inspected_storage. The syntax is based on https://google.aip.dev/160. Examples: * inspected_storage = cloud_storage AND status = HEALTHY * inspected_storage = cloud_storage OR inspected_storage = bigquery * inspected_storage = cloud_storage AND (state = PAUSED OR state = HEALTHY) * last_run_time > \"2017-12-12T00:00:00+00:00\" The length of this field should be no more than 500 characters. */
-  filter?: string;
+  filter?: string | undefined;
+  /** The type of jobs. Will use `DlpJobType.INSPECT` if not set. */
+  type?: ListProjectsJobTriggersTypeEnum | (string & {}) | undefined;
   /** Deprecated. This field has no effect. */
-  locationId?: string;
+  locationId?: string | undefined;
 }
 export interface ListProjectsLocationsColumnDataProfilesRequest {
-  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Only one order field at a time is allowed. Examples: * `project_id asc` * `table_id` * `sensitivity_level desc` Supported fields are: - `project_id`: The Google Cloud project ID. - `dataset_id`: The ID of a BigQuery dataset. - `table_id`: The ID of a BigQuery table. - `sensitivity_level`: How sensitive the data in a column is, at most. - `data_risk_level`: How much risk is associated with this data. - `profile_last_generated`: When the profile was last updated in epoch seconds. */
-  orderBy?: string;
-  /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields: - `table_data_profile_name`: The name of the related table data profile - `project_id`: The Google Cloud project ID (REQUIRED) - `dataset_id`: The BigQuery dataset ID (REQUIRED) - `table_id`: The BigQuery table ID (REQUIRED) - `field_id`: The ID of the BigQuery field - `info_type`: The infotype detected in the resource - `sensitivity_level`: HIGH|MEDIUM|LOW - `data_risk_level`: How much risk is associated with this data - `status_code`: An RPC status code as defined in https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto - `profile_last_generated`: Date and time the profile was last generated * The operator must be `=` for project_id, dataset_id, and table_id. Other filters also support `!=`. The `profile_last_generated` filter also supports `<` and `>`. The syntax is based on https://google.aip.dev/160. Examples: * project_id = 12345 AND status_code = 1 * project_id = 12345 AND sensitivity_level = HIGH * project_id = 12345 AND info_type = STREET_ADDRESS * profile_last_generated < "2025-01-01T00:00:00.000Z" The length of this field should be no more than 500 characters. */
-  filter?: string;
   /** Size of the page. This value can be limited by the server. If zero, server returns a page of max size 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Only one order field at a time is allowed. Examples: * `project_id asc` * `table_id` * `sensitivity_level desc` Supported fields are: - `project_id`: The Google Cloud project ID. - `dataset_id`: The ID of a BigQuery dataset. - `table_id`: The ID of a BigQuery table. - `sensitivity_level`: How sensitive the data in a column is, at most. - `data_risk_level`: How much risk is associated with this data. - `profile_last_generated`: When the profile was last updated in epoch seconds. */
+  orderBy?: string | undefined;
+  /** Page token to continue retrieval. */
+  pageToken?: string | undefined;
   /** Required. Resource name of the organization or project, for example `organizations/433245324/locations/europe` or `projects/project-id/locations/asia`. */
   parent: string;
-  /** Page token to continue retrieval. */
-  pageToken?: string;
+  /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields: - `table_data_profile_name`: The name of the related table data profile - `project_id`: The Google Cloud project ID (REQUIRED) - `dataset_id`: The BigQuery dataset ID (REQUIRED) - `table_id`: The BigQuery table ID (REQUIRED) - `field_id`: The ID of the BigQuery field - `info_type`: The infotype detected in the resource - `sensitivity_level`: HIGH|MEDIUM|LOW - `data_risk_level`: How much risk is associated with this data - `status_code`: An RPC status code as defined in https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto - `profile_last_generated`: Date and time the profile was last generated * The operator must be `=` for project_id, dataset_id, and table_id. Other filters also support `!=`. The `profile_last_generated` filter also supports `<` and `>`. The syntax is based on https://google.aip.dev/160. Examples: * project_id = 12345 AND status_code = 1 * project_id = 12345 AND sensitivity_level = HIGH * project_id = 12345 AND info_type = STREET_ADDRESS * profile_last_generated < "2025-01-01T00:00:00.000Z" The length of this field should be no more than 500 characters. */
+  filter?: string | undefined;
 }
 export interface ListProjectsLocationsConnectionsRequest {
-  /** Optional. Supported field/value: `state` - MISSING|AVAILABLE|ERROR The syntax is based on https://google.aip.dev/160. */
-  filter?: string;
-  /** Optional. Page token from a previous page to return the next set of results. If set, all other request fields must match the original request. */
-  pageToken?: string;
   /** Required. Resource name of the organization or project, for example, `organizations/433245324/locations/europe` or `projects/project-id/locations/asia`. */
   parent: string;
+  /** Optional. Page token from a previous page to return the next set of results. If set, all other request fields must match the original request. */
+  pageToken?: string | undefined;
   /** Optional. Number of results per page, max 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** Optional. Supported field/value: `state` - MISSING|AVAILABLE|ERROR The syntax is based on https://google.aip.dev/160. */
+  filter?: string | undefined;
 }
 export interface ListProjectsLocationsContentPoliciesRequest {
-  /** Optional. Number of results per page, max 1000. */
-  pageSize?: number;
-  /** Optional. Page token from a previous page to return the next set of results. If set, all other request fields must match the original request. */
-  pageToken?: string;
   /** Required. Resource name of the project, for example, `projects/project-id/locations/asia`. */
   parent: string;
+  /** Optional. Number of results per page, max 1000. */
+  pageSize?: number | undefined;
+  /** Optional. Page token from a previous page to return the next set of results. If set, all other request fields must match the original request. */
+  pageToken?: string | undefined;
 }
 export type GooglePrivacyDlpV2ContentPolicyList = Array<GooglePrivacyDlpV2ContentPolicy>;
 /** Response message for ListContentPolicies. */
 export interface GooglePrivacyDlpV2ListContentPoliciesResponse {
   /** List of content policies. */
-  contentPolicies?: GooglePrivacyDlpV2ContentPolicyList;
+  contentPolicies?: GooglePrivacyDlpV2ContentPolicyList | undefined;
   /** Token to retrieve the next page of results. An empty value means there are no more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDeidentifyTemplatesRequest {
   /** Page token to continue retrieval. Comes from the previous call to `ListDeidentifyTemplates`. */
-  pageToken?: string;
-  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
-  pageSize?: number;
+  pageToken?: string | undefined;
   /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `create_time`: corresponds to the time the template was created. - `update_time`: corresponds to the time the template was last updated. - `name`: corresponds to the template's name. - `display_name`: corresponds to the template's display name. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Deprecated. This field has no effect. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
+  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
+  pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsDiscoveryConfigsRequest {
+  /** Comma-separated list of config fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `last_run_time`: corresponds to the last time the DiscoveryConfig ran. - `name`: corresponds to the DiscoveryConfig's name. - `status`: corresponds to DiscoveryConfig's status. */
+  orderBy?: string | undefined;
   /** Required. Parent resource name. The format of this value is as follows: `projects/{project_id}/locations/{location_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Size of the page. This value can be limited by a server. */
-  pageSize?: number;
   /** Page token to continue retrieval. Comes from the previous call to ListDiscoveryConfigs. `order_by` field must not change for subsequent calls. */
-  pageToken?: string;
-  /** Comma-separated list of config fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `last_run_time`: corresponds to the last time the DiscoveryConfig ran. - `name`: corresponds to the DiscoveryConfig's name. - `status`: corresponds to DiscoveryConfig's status. */
-  orderBy?: string;
+  pageToken?: string | undefined;
+  /** Size of the page. This value can be limited by a server. */
+  pageSize?: number | undefined;
 }
 export type ListProjectsLocationsDlpJobsTypeEnum =
   | "DLP_JOB_TYPE_UNSPECIFIED"
   | "INSPECT_JOB"
   | "RISK_ANALYSIS_JOB";
 export interface ListProjectsLocationsDlpJobsRequest {
-  /** Deprecated. This field has no effect. */
-  locationId?: string;
-  /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields/values for inspect jobs: - `state` - PENDING|RUNNING|CANCELED|FINISHED|FAILED - `inspected_storage` - DATASTORE|CLOUD_STORAGE|BIGQUERY - `trigger_name` - The name of the trigger that created the job. - 'end_time` - Corresponds to the time the job finished. - 'start_time` - Corresponds to the time the job finished. * Supported fields for risk analysis jobs: - `state` - RUNNING|CANCELED|FINISHED|FAILED - 'end_time` - Corresponds to the time the job finished. - 'start_time` - Corresponds to the time the job finished. * The operator must be `=` or `!=`. The syntax is based on https://google.aip.dev/160. Examples: * inspected_storage = cloud_storage AND state = done * inspected_storage = cloud_storage OR inspected_storage = bigquery * inspected_storage = cloud_storage AND (state = done OR state = canceled) * end_time > \"2017-12-12T00:00:00+00:00\" The length of this field should be no more than 500 characters. */
-  filter?: string;
-  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc, end_time asc, create_time desc` Supported fields are: - `create_time`: corresponds to the time the job was created. - `end_time`: corresponds to the time the job ended. - `name`: corresponds to the job's name. - `state`: corresponds to `state` */
-  orderBy?: string;
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** The standard list page token. */
-  pageToken?: string;
-  /** The type of job. Defaults to `DlpJobType.INSPECT` */
-  type?: ListProjectsLocationsDlpJobsTypeEnum | (string & {});
+  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc, end_time asc, create_time desc` Supported fields are: - `create_time`: corresponds to the time the job was created. - `end_time`: corresponds to the time the job ended. - `name`: corresponds to the job's name. - `state`: corresponds to `state` */
+  orderBy?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields/values for inspect jobs: - `state` - PENDING|RUNNING|CANCELED|FINISHED|FAILED - `inspected_storage` - DATASTORE|CLOUD_STORAGE|BIGQUERY - `trigger_name` - The name of the trigger that created the job. - 'end_time` - Corresponds to the time the job finished. - 'start_time` - Corresponds to the time the job finished. * Supported fields for risk analysis jobs: - `state` - RUNNING|CANCELED|FINISHED|FAILED - 'end_time` - Corresponds to the time the job finished. - 'start_time` - Corresponds to the time the job finished. * The operator must be `=` or `!=`. The syntax is based on https://google.aip.dev/160. Examples: * inspected_storage = cloud_storage AND state = done * inspected_storage = cloud_storage OR inspected_storage = bigquery * inspected_storage = cloud_storage AND (state = done OR state = canceled) * end_time > \"2017-12-12T00:00:00+00:00\" The length of this field should be no more than 500 characters. */
+  filter?: string | undefined;
+  /** The type of job. Defaults to `DlpJobType.INSPECT` */
+  type?: ListProjectsLocationsDlpJobsTypeEnum | (string & {}) | undefined;
+  /** Deprecated. This field has no effect. */
+  locationId?: string | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsFileStoreDataProfilesRequest {
-  /** Optional. Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Only one order field at a time is allowed. Examples: * `project_id asc` * `name` * `sensitivity_level desc` Supported fields are: - `project_id`: The Google Cloud project ID. - `sensitivity_level`: How sensitive the data in a table is, at most. - `data_risk_level`: How much risk is associated with this data. - `profile_last_generated`: When the profile was last updated in epoch seconds. - `last_modified`: The last time the resource was modified. - `resource_visibility`: Visibility restriction for this resource. - `name`: The name of the profile. - `create_time`: The time the file store was first created. */
-  orderBy?: string;
   /** Required. Resource name of the organization or project, for example `organizations/433245324/locations/europe` or `projects/project-id/locations/asia`. */
   parent: string;
-  /** Optional. Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields: - `project_id`: The Google Cloud project ID - `account_id`: The AWS account ID - `file_store_path`: The path like "gs://bucket" - `data_source_type`: The profile's data source type, like "google/storage/bucket" - `data_storage_location`: The location where the file store's data is stored, like "us-central1" - `sensitivity_level`: HIGH|MODERATE|LOW - `data_risk_level`: HIGH|MODERATE|LOW - `resource_visibility`: PUBLIC|RESTRICTED - `status_code`: an RPC status code as defined in https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto - `profile_last_generated`: Date and time the profile was last generated * The operator must be `=` or `!=`. The `profile_last_generated` filter also supports `<` and `>`. The syntax is based on https://google.aip.dev/160. Examples: * `project_id = 12345 AND status_code = 1` * `project_id = 12345 AND sensitivity_level = HIGH` * `project_id = 12345 AND resource_visibility = PUBLIC` * `file_store_path = "gs://mybucket"` * `profile_last_generated < "2025-01-01T00:00:00.000Z"` The length of this field should be no more than 500 characters. */
-  filter?: string;
   /** Optional. Size of the page. This value can be limited by the server. If zero, server returns a page of max size 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Page token to continue retrieval. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** Optional. Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Only one order field at a time is allowed. Examples: * `project_id asc` * `name` * `sensitivity_level desc` Supported fields are: - `project_id`: The Google Cloud project ID. - `sensitivity_level`: How sensitive the data in a table is, at most. - `data_risk_level`: How much risk is associated with this data. - `profile_last_generated`: When the profile was last updated in epoch seconds. - `last_modified`: The last time the resource was modified. - `resource_visibility`: Visibility restriction for this resource. - `name`: The name of the profile. - `create_time`: The time the file store was first created. */
+  orderBy?: string | undefined;
+  /** Optional. Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields: - `project_id`: The Google Cloud project ID - `account_id`: The AWS account ID - `file_store_path`: The path like "gs://bucket" - `data_source_type`: The profile's data source type, like "google/storage/bucket" - `data_storage_location`: The location where the file store's data is stored, like "us-central1" - `sensitivity_level`: HIGH|MODERATE|LOW - `data_risk_level`: HIGH|MODERATE|LOW - `resource_visibility`: PUBLIC|RESTRICTED - `status_code`: an RPC status code as defined in https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto - `profile_last_generated`: Date and time the profile was last generated * The operator must be `=` or `!=`. The `profile_last_generated` filter also supports `<` and `>`. The syntax is based on https://google.aip.dev/160. Examples: * `project_id = 12345 AND status_code = 1` * `project_id = 12345 AND sensitivity_level = HIGH` * `project_id = 12345 AND resource_visibility = PUBLIC` * `file_store_path = "gs://mybucket"` * `profile_last_generated < "2025-01-01T00:00:00.000Z"` The length of this field should be no more than 500 characters. */
+  filter?: string | undefined;
 }
 export interface ListProjectsLocationsInfoTypesRequest {
+  /** BCP-47 language code for localized infoType friendly names. If omitted, or if localized strings are not available, en-US strings will be returned. */
+  languageCode?: string | undefined;
   /** The parent resource name. The format of this value is as follows: `locations/{location_id}` */
   parent: string;
   /** Deprecated. This field has no effect. */
-  locationId?: string;
-  /** BCP-47 language code for localized infoType friendly names. If omitted, or if localized strings are not available, en-US strings will be returned. */
-  languageCode?: string;
+  locationId?: string | undefined;
   /** filter to only return infoTypes supported by certain parts of the API. Defaults to supported_by=INSPECT. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export interface ListProjectsLocationsInspectTemplatesRequest {
-  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `create_time`: corresponds to the time the template was created. - `update_time`: corresponds to the time the template was last updated. - `name`: corresponds to the template's name. - `display_name`: corresponds to the template's display name. */
-  orderBy?: string;
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
-  pageSize?: number;
   /** Deprecated. This field has no effect. */
-  locationId?: string;
+  locationId?: string | undefined;
+  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
+  pageSize?: number | undefined;
+  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `create_time`: corresponds to the time the template was created. - `update_time`: corresponds to the time the template was last updated. - `name`: corresponds to the template's name. - `display_name`: corresponds to the template's display name. */
+  orderBy?: string | undefined;
   /** Page token to continue retrieval. Comes from the previous call to `ListInspectTemplates`. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ListProjectsLocationsJobTriggersTypeEnum =
   | "DLP_JOB_TYPE_UNSPECIFIED"
   | "INSPECT_JOB"
   | "RISK_ANALYSIS_JOB";
 export interface ListProjectsLocationsJobTriggersRequest {
-  /** The type of jobs. Will use `DlpJobType.INSPECT` if not set. */
-  type?: ListProjectsLocationsJobTriggersTypeEnum | (string & {});
-  /** Deprecated. This field has no effect. */
-  locationId?: string;
-  /** Size of the page. This value can be limited by a server. */
-  pageSize?: number;
-  /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields/values for inspect triggers: - `status` - HEALTHY|PAUSED|CANCELLED - `inspected_storage` - DATASTORE|CLOUD_STORAGE|BIGQUERY - 'last_run_time` - RFC 3339 formatted timestamp, surrounded by quotation marks. Nanoseconds are ignored. - 'error_count' - Number of errors that have occurred while running. * The operator must be `=` or `!=` for status and inspected_storage. The syntax is based on https://google.aip.dev/160. Examples: * inspected_storage = cloud_storage AND status = HEALTHY * inspected_storage = cloud_storage OR inspected_storage = bigquery * inspected_storage = cloud_storage AND (state = PAUSED OR state = HEALTHY) * last_run_time > \"2017-12-12T00:00:00+00:00\" The length of this field should be no more than 500 characters. */
-  filter?: string;
-  /** Page token to continue retrieval. Comes from the previous call to ListJobTriggers. `order_by` field must not change for subsequent calls. */
-  pageToken?: string;
   /** Comma-separated list of triggeredJob fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc,update_time, create_time desc` Supported fields are: - `create_time`: corresponds to the time the JobTrigger was created. - `update_time`: corresponds to the time the JobTrigger was last updated. - `last_run_time`: corresponds to the last time the JobTrigger ran. - `name`: corresponds to the JobTrigger's name. - `display_name`: corresponds to the JobTrigger's display name. - `status`: corresponds to JobTrigger's status. */
-  orderBy?: string;
+  orderBy?: string | undefined;
+  /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields/values for inspect triggers: - `status` - HEALTHY|PAUSED|CANCELLED - `inspected_storage` - DATASTORE|CLOUD_STORAGE|BIGQUERY - 'last_run_time` - RFC 3339 formatted timestamp, surrounded by quotation marks. Nanoseconds are ignored. - 'error_count' - Number of errors that have occurred while running. * The operator must be `=` or `!=` for status and inspected_storage. The syntax is based on https://google.aip.dev/160. Examples: * inspected_storage = cloud_storage AND status = HEALTHY * inspected_storage = cloud_storage OR inspected_storage = bigquery * inspected_storage = cloud_storage AND (state = PAUSED OR state = HEALTHY) * last_run_time > \"2017-12-12T00:00:00+00:00\" The length of this field should be no more than 500 characters. */
+  filter?: string | undefined;
+  /** Page token to continue retrieval. Comes from the previous call to ListJobTriggers. `order_by` field must not change for subsequent calls. */
+  pageToken?: string | undefined;
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
+  /** Size of the page. This value can be limited by a server. */
+  pageSize?: number | undefined;
+  /** The type of jobs. Will use `DlpJobType.INSPECT` if not set. */
+  type?: ListProjectsLocationsJobTriggersTypeEnum | (string & {}) | undefined;
+  /** Deprecated. This field has no effect. */
+  locationId?: string | undefined;
 }
 export interface ListProjectsLocationsProjectDataProfilesRequest {
-  /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields: - `project_id`: the Google Cloud project ID - `sensitivity_level`: HIGH|MODERATE|LOW - `data_risk_level`: HIGH|MODERATE|LOW - `status_code`: an RPC status code as defined in https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto - `profile_last_generated`: Date and time the profile was last generated * The operator must be `=` or `!=`. The `profile_last_generated` filter also supports `<` and `>`. The syntax is based on https://google.aip.dev/160. Examples: * `project_id = 12345 AND status_code = 1` * `project_id = 12345 AND sensitivity_level = HIGH` * `profile_last_generated < "2025-01-01T00:00:00.000Z"` The length of this field should be no more than 500 characters. */
-  filter?: string;
   /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Only one order field at a time is allowed. Examples: * `project_id` * `sensitivity_level desc` Supported fields: - `project_id`: Google Cloud project ID - `sensitivity_level`: How sensitive the data in a project is, at most - `data_risk_level`: How much risk is associated with this data - `profile_last_generated`: Date and time (in epoch seconds) the profile was last generated */
-  orderBy?: string;
+  orderBy?: string | undefined;
+  /** Page token to continue retrieval. */
+  pageToken?: string | undefined;
+  /** Size of the page. This value can be limited by the server. If zero, server returns a page of max size 100. */
+  pageSize?: number | undefined;
+  /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields: - `project_id`: the Google Cloud project ID - `sensitivity_level`: HIGH|MODERATE|LOW - `data_risk_level`: HIGH|MODERATE|LOW - `status_code`: an RPC status code as defined in https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto - `profile_last_generated`: Date and time the profile was last generated * The operator must be `=` or `!=`. The `profile_last_generated` filter also supports `<` and `>`. The syntax is based on https://google.aip.dev/160. Examples: * `project_id = 12345 AND status_code = 1` * `project_id = 12345 AND sensitivity_level = HIGH` * `profile_last_generated < "2025-01-01T00:00:00.000Z"` The length of this field should be no more than 500 characters. */
+  filter?: string | undefined;
   /** Required. organizations/{org_id}/locations/{loc_id} */
   parent: string;
-  /** Page token to continue retrieval. */
-  pageToken?: string;
-  /** Size of the page. This value can be limited by the server. If zero, server returns a page of max size 100. */
-  pageSize?: number;
 }
 export interface ListProjectsLocationsStoredInfoTypesRequest {
+  /** Deprecated. This field has no effect. */
+  locationId?: string | undefined;
+  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
+  pageSize?: number | undefined;
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
-  pageSize?: number;
-  /** Deprecated. This field has no effect. */
-  locationId?: string;
   /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc, display_name, create_time desc` Supported fields are: - `create_time`: corresponds to the time the most recent version of the resource was created. - `state`: corresponds to the state of the resource. - `name`: corresponds to resource name. - `display_name`: corresponds to info type's display name. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Page token to continue retrieval. Comes from the previous call to `ListStoredInfoTypes`. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsTableDataProfilesRequest {
-  /** Page token to continue retrieval. */
-  pageToken?: string;
-  /** Size of the page. This value can be limited by the server. If zero, server returns a page of max size 100. */
-  pageSize?: number;
-  /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields: - `project_id`: The Google Cloud project ID - `dataset_id`: The BigQuery dataset ID - `table_id`: The ID of the BigQuery table - `sensitivity_level`: HIGH|MODERATE|LOW - `data_risk_level`: HIGH|MODERATE|LOW - `resource_visibility`: PUBLIC|RESTRICTED - `status_code`: an RPC status code as defined in https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto - `profile_last_generated`: Date and time the profile was last generated * The operator must be `=` or `!=`. The `profile_last_generated` filter also supports `<` and `>`. The syntax is based on https://google.aip.dev/160. Examples: * `project_id = 12345 AND status_code = 1` * `project_id = 12345 AND sensitivity_level = HIGH` * `project_id = 12345 AND resource_visibility = PUBLIC` * `profile_last_generated < "2025-01-01T00:00:00.000Z"` The length of this field should be no more than 500 characters. */
-  filter?: string;
   /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Only one order field at a time is allowed. Examples: * `project_id asc` * `table_id` * `sensitivity_level desc` Supported fields are: - `project_id`: The Google Cloud project ID. - `dataset_id`: The ID of a BigQuery dataset. - `table_id`: The ID of a BigQuery table. - `sensitivity_level`: How sensitive the data in a table is, at most. - `data_risk_level`: How much risk is associated with this data. - `profile_last_generated`: When the profile was last updated in epoch seconds. - `last_modified`: The last time the resource was modified. - `resource_visibility`: Visibility restriction for this resource. - `row_count`: Number of rows in this resource. */
-  orderBy?: string;
+  orderBy?: string | undefined;
+  /** Allows filtering. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by `AND` or `OR` logical operators. A sequence of restrictions implicitly uses `AND`. * A restriction has the form of `{field} {operator} {value}`. * Supported fields: - `project_id`: The Google Cloud project ID - `dataset_id`: The BigQuery dataset ID - `table_id`: The ID of the BigQuery table - `sensitivity_level`: HIGH|MODERATE|LOW - `data_risk_level`: HIGH|MODERATE|LOW - `resource_visibility`: PUBLIC|RESTRICTED - `status_code`: an RPC status code as defined in https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto - `profile_last_generated`: Date and time the profile was last generated * The operator must be `=` or `!=`. The `profile_last_generated` filter also supports `<` and `>`. The syntax is based on https://google.aip.dev/160. Examples: * `project_id = 12345 AND status_code = 1` * `project_id = 12345 AND sensitivity_level = HIGH` * `project_id = 12345 AND resource_visibility = PUBLIC` * `profile_last_generated < "2025-01-01T00:00:00.000Z"` The length of this field should be no more than 500 characters. */
+  filter?: string | undefined;
+  /** Size of the page. This value can be limited by the server. If zero, server returns a page of max size 100. */
+  pageSize?: number | undefined;
   /** Required. Resource name of the organization or project, for example `organizations/433245324/locations/europe` or `projects/project-id/locations/asia`. */
   parent: string;
+  /** Page token to continue retrieval. */
+  pageToken?: string | undefined;
 }
 export interface ListProjectsStoredInfoTypesRequest {
-  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc, display_name, create_time desc` Supported fields are: - `create_time`: corresponds to the time the most recent version of the resource was created. - `state`: corresponds to the state of the resource. - `name`: corresponds to resource name. - `display_name`: corresponds to info type's display name. */
-  orderBy?: string;
-  /** Page token to continue retrieval. Comes from the previous call to `ListStoredInfoTypes`. */
-  pageToken?: string;
-  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
-  pageSize?: number;
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
   /** Deprecated. This field has no effect. */
-  locationId?: string;
+  locationId?: string | undefined;
+  /** Page token to continue retrieval. Comes from the previous call to `ListStoredInfoTypes`. */
+  pageToken?: string | undefined;
+  /** Comma-separated list of fields to order by, followed by `asc` or `desc` postfix. This list is case insensitive. The default sorting order is ascending. Redundant space characters are insignificant. Example: `name asc, display_name, create_time desc` Supported fields are: - `create_time`: corresponds to the time the most recent version of the resource was created. - `state`: corresponds to the state of the resource. - `name`: corresponds to resource name. - `display_name`: corresponds to info type's display name. */
+  orderBy?: string | undefined;
+  /** Size of the page. This value can be limited by the server. If zero server returns a page of max size 100. */
+  pageSize?: number | undefined;
 }
 /** Request message for UpdateDeidentifyTemplate. */
 export interface GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest {
-  /** New DeidentifyTemplate value. */
-  deidentifyTemplate?: GooglePrivacyDlpV2DeidentifyTemplate;
   /** Mask to control which fields get updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
+  /** New DeidentifyTemplate value. */
+  deidentifyTemplate?: GooglePrivacyDlpV2DeidentifyTemplate | undefined;
 }
-export interface PatchOrganizationsDeidentifyTemplatesRequest {
+export interface PatchOrganizationsDeidentifyTemplatesRequest extends GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest {
   /** Required. Resource name of organization and deidentify template to be updated, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest;
 }
 /** Request message for UpdateInspectTemplate. */
 export interface GooglePrivacyDlpV2UpdateInspectTemplateRequest {
   /** New InspectTemplate value. */
-  inspectTemplate?: GooglePrivacyDlpV2InspectTemplate;
+  inspectTemplate?: GooglePrivacyDlpV2InspectTemplate | undefined;
   /** Mask to control which fields get updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
-export interface PatchOrganizationsInspectTemplatesRequest {
+export interface PatchOrganizationsInspectTemplatesRequest extends GooglePrivacyDlpV2UpdateInspectTemplateRequest {
   /** Required. Resource name of organization and inspectTemplate to be updated, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateInspectTemplateRequest;
 }
 /** Request message for UpdateConnection. */
 export interface GooglePrivacyDlpV2UpdateConnectionRequest {
   /** Required. The connection with new values for the relevant fields. */
-  connection?: GooglePrivacyDlpV2Connection;
+  connection?: GooglePrivacyDlpV2Connection | undefined;
   /** Optional. Mask to control which fields get updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
-export interface PatchOrganizationsLocationsConnectionsRequest {
+export interface PatchOrganizationsLocationsConnectionsRequest extends GooglePrivacyDlpV2UpdateConnectionRequest {
   /** Required. Resource name in the format: `projects/{project}/locations/{location}/connections/{connection}`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateConnectionRequest;
 }
-export interface PatchOrganizationsLocationsDeidentifyTemplatesRequest {
+export interface PatchOrganizationsLocationsDeidentifyTemplatesRequest extends GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest {
   /** Required. Resource name of organization and deidentify template to be updated, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest;
 }
 /** Request message for UpdateDiscoveryConfig. */
 export interface GooglePrivacyDlpV2UpdateDiscoveryConfigRequest {
-  /** Required. New DiscoveryConfig value. */
-  discoveryConfig?: GooglePrivacyDlpV2DiscoveryConfig;
   /** Mask to control which fields get updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
+  /** Required. New DiscoveryConfig value. */
+  discoveryConfig?: GooglePrivacyDlpV2DiscoveryConfig | undefined;
 }
-export interface PatchOrganizationsLocationsDiscoveryConfigsRequest {
+export interface PatchOrganizationsLocationsDiscoveryConfigsRequest extends GooglePrivacyDlpV2UpdateDiscoveryConfigRequest {
   /** Required. Resource name of the project and the configuration, for example `projects/dlp-test-project/discoveryConfigs/53234423`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateDiscoveryConfigRequest;
 }
-export interface PatchOrganizationsLocationsInspectTemplatesRequest {
+export interface PatchOrganizationsLocationsInspectTemplatesRequest extends GooglePrivacyDlpV2UpdateInspectTemplateRequest {
   /** Required. Resource name of organization and inspectTemplate to be updated, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateInspectTemplateRequest;
 }
 /** Request message for UpdateJobTrigger. */
 export interface GooglePrivacyDlpV2UpdateJobTriggerRequest {
-  /** Mask to control which fields get updated. */
-  updateMask?: string;
   /** New JobTrigger value. */
-  jobTrigger?: GooglePrivacyDlpV2JobTrigger;
+  jobTrigger?: GooglePrivacyDlpV2JobTrigger | undefined;
+  /** Mask to control which fields get updated. */
+  updateMask?: string | undefined;
 }
-export interface PatchOrganizationsLocationsJobTriggersRequest {
+export interface PatchOrganizationsLocationsJobTriggersRequest extends GooglePrivacyDlpV2UpdateJobTriggerRequest {
   /** Required. Resource name of the project and the triggeredJob, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateJobTriggerRequest;
 }
 /** Request message for UpdateStoredInfoType. */
 export interface GooglePrivacyDlpV2UpdateStoredInfoTypeRequest {
   /** Mask to control which fields get updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Updated configuration for the storedInfoType. If not provided, a new version of the storedInfoType will be created with the existing configuration. */
-  config?: GooglePrivacyDlpV2StoredInfoTypeConfig;
+  config?: GooglePrivacyDlpV2StoredInfoTypeConfig | undefined;
 }
-export interface PatchOrganizationsLocationsStoredInfoTypesRequest {
+export interface PatchOrganizationsLocationsStoredInfoTypesRequest extends GooglePrivacyDlpV2UpdateStoredInfoTypeRequest {
   /** Required. Resource name of organization and storedInfoType to be updated, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateStoredInfoTypeRequest;
 }
-export interface PatchOrganizationsStoredInfoTypesRequest {
+export interface PatchOrganizationsStoredInfoTypesRequest extends GooglePrivacyDlpV2UpdateStoredInfoTypeRequest {
   /** Required. Resource name of organization and storedInfoType to be updated, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateStoredInfoTypeRequest;
 }
-export interface PatchProjectsDeidentifyTemplatesRequest {
+export interface PatchProjectsDeidentifyTemplatesRequest extends GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest {
   /** Required. Resource name of organization and deidentify template to be updated, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest;
 }
-export interface PatchProjectsInspectTemplatesRequest {
+export interface PatchProjectsInspectTemplatesRequest extends GooglePrivacyDlpV2UpdateInspectTemplateRequest {
   /** Required. Resource name of organization and inspectTemplate to be updated, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateInspectTemplateRequest;
 }
-export interface PatchProjectsJobTriggersRequest {
+export interface PatchProjectsJobTriggersRequest extends GooglePrivacyDlpV2UpdateJobTriggerRequest {
   /** Required. Resource name of the project and the triggeredJob, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateJobTriggerRequest;
 }
-export interface PatchProjectsLocationsConnectionsRequest {
+export interface PatchProjectsLocationsConnectionsRequest extends GooglePrivacyDlpV2UpdateConnectionRequest {
   /** Required. Resource name in the format: `projects/{project}/locations/{location}/connections/{connection}`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateConnectionRequest;
 }
 /** Request message for UpdateContentPolicy. */
 export interface GooglePrivacyDlpV2UpdateContentPolicyRequest {
-  /** Required. The content_policy with new values for the relevant fields. */
-  contentPolicy?: GooglePrivacyDlpV2ContentPolicy;
   /** Optional. Mask to control which fields get updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
+  /** Required. The content_policy with new values for the relevant fields. */
+  contentPolicy?: GooglePrivacyDlpV2ContentPolicy | undefined;
 }
-export interface PatchProjectsLocationsContentPoliciesRequest {
+export interface PatchProjectsLocationsContentPoliciesRequest extends GooglePrivacyDlpV2UpdateContentPolicyRequest {
   /** Required. Resource name in the format: `projects/{project}/locations/{location}/contentPolicies/{content_policy}`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateContentPolicyRequest;
 }
-export interface PatchProjectsLocationsDeidentifyTemplatesRequest {
+export interface PatchProjectsLocationsDeidentifyTemplatesRequest extends GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest {
   /** Required. Resource name of organization and deidentify template to be updated, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest;
 }
-export interface PatchProjectsLocationsDiscoveryConfigsRequest {
+export interface PatchProjectsLocationsDiscoveryConfigsRequest extends GooglePrivacyDlpV2UpdateDiscoveryConfigRequest {
   /** Required. Resource name of the project and the configuration, for example `projects/dlp-test-project/discoveryConfigs/53234423`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateDiscoveryConfigRequest;
 }
-export interface PatchProjectsLocationsInspectTemplatesRequest {
+export interface PatchProjectsLocationsInspectTemplatesRequest extends GooglePrivacyDlpV2UpdateInspectTemplateRequest {
   /** Required. Resource name of organization and inspectTemplate to be updated, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateInspectTemplateRequest;
 }
-export interface PatchProjectsLocationsJobTriggersRequest {
+export interface PatchProjectsLocationsJobTriggersRequest extends GooglePrivacyDlpV2UpdateJobTriggerRequest {
   /** Required. Resource name of the project and the triggeredJob, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateJobTriggerRequest;
 }
-export interface PatchProjectsLocationsStoredInfoTypesRequest {
+export interface PatchProjectsLocationsStoredInfoTypesRequest extends GooglePrivacyDlpV2UpdateStoredInfoTypeRequest {
   /** Required. Resource name of organization and storedInfoType to be updated, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateStoredInfoTypeRequest;
 }
-export interface PatchProjectsStoredInfoTypesRequest {
+export interface PatchProjectsStoredInfoTypesRequest extends GooglePrivacyDlpV2UpdateStoredInfoTypeRequest {
   /** Required. Resource name of organization and storedInfoType to be updated, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateStoredInfoTypeRequest;
 }
 /** Configuration for determining how redaction of images should occur. */
 export interface GooglePrivacyDlpV2ImageRedactionConfig {
-  /** If true, all text found in the image, regardless whether it matches an info_type, is redacted. Only one should be provided. */
-  redactAllText?: boolean;
-  /** Only one per info_type should be provided per request. If not specified, and redact_all_text is false, the DLP API will redact all text that it matches against all info_types that are found, but not specified in another ImageRedactionConfig. */
-  infoType?: GooglePrivacyDlpV2InfoType;
   /** The color to use when redacting content from an image. If not specified, the default is black. */
-  redactionColor?: GooglePrivacyDlpV2Color;
+  redactionColor?: GooglePrivacyDlpV2Color | undefined;
+  /** Only one per info_type should be provided per request. If not specified, and redact_all_text is false, the DLP API will redact all text that it matches against all info_types that are found, but not specified in another ImageRedactionConfig. */
+  infoType?: GooglePrivacyDlpV2InfoType | undefined;
+  /** If true, all text found in the image, regardless whether it matches an info_type, is redacted. Only one should be provided. */
+  redactAllText?: boolean | undefined;
 }
 export type GooglePrivacyDlpV2ImageRedactionConfigList =
   Array<GooglePrivacyDlpV2ImageRedactionConfig>;
 /** Request to search for potentially sensitive info in an image and redact it by covering it with a colored rectangle. */
 export interface GooglePrivacyDlpV2RedactImageRequest {
-  /** Whether the response should include findings along with the redacted image. */
-  includeFindings?: boolean;
-  /** The content must be PNG, JPEG, SVG or BMP. */
-  byteItem?: GooglePrivacyDlpV2ByteContentItem;
-  /** Configuration for the inspector. */
-  inspectConfig?: GooglePrivacyDlpV2InspectConfig;
-  /** Deprecated. This field has no effect. */
-  locationId?: string;
-  /** The full resource name of the inspection template to use. Settings in the main `inspect_config` field override the corresponding settings in this inspection template. The merge behavior is as follows: - Singular field: The main field's value replaces the value of the corresponding field in the template. - Repeated fields: The field values are appended to the list defined in the template. - Sub-messages and groups: The fields are recursively merged. */
-  inspectTemplate?: string;
   /** The full resource name of the de-identification template to use. Settings in the main `image_redaction_configs` field override the corresponding settings in this de-identification template. The request fails if the type of the template's deidentify_config is not image_transformations. */
-  deidentifyTemplate?: string;
+  deidentifyTemplate?: string | undefined;
+  /** Whether the response should include findings along with the redacted image. */
+  includeFindings?: boolean | undefined;
   /** The configuration for specifying what content to redact from images. */
-  imageRedactionConfigs?: GooglePrivacyDlpV2ImageRedactionConfigList;
+  imageRedactionConfigs?: GooglePrivacyDlpV2ImageRedactionConfigList | undefined;
+  /** The content must be PNG, JPEG, SVG or BMP. */
+  byteItem?: GooglePrivacyDlpV2ByteContentItem | undefined;
+  /** The full resource name of the inspection template to use. Settings in the main `inspect_config` field override the corresponding settings in this inspection template. The merge behavior is as follows: - Singular field: The main field's value replaces the value of the corresponding field in the template. - Repeated fields: The field values are appended to the list defined in the template. - Sub-messages and groups: The fields are recursively merged. */
+  inspectTemplate?: string | undefined;
+  /** Configuration for the inspector. */
+  inspectConfig?: GooglePrivacyDlpV2InspectConfig | undefined;
+  /** Deprecated. This field has no effect. */
+  locationId?: string | undefined;
 }
-export interface RedactProjectsImageRequest {
+export interface RedactProjectsImageRequest extends GooglePrivacyDlpV2RedactImageRequest {
   /** Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2RedactImageRequest;
 }
 /** Results of redacting an image. */
 export interface GooglePrivacyDlpV2RedactImageResponse {
-  /** The redacted image. The type will be the same as the original image. */
-  redactedImage?: string;
   /** If an image was being inspected and the InspectConfig's include_quote was set to true, then this field will include all text, if any, that was found in the image. */
-  extractedText?: string;
+  extractedText?: string | undefined;
+  /** The redacted image. The type will be the same as the original image. */
+  redactedImage?: string | undefined;
   /** The findings. Populated when include_findings in the request is true. */
-  inspectResult?: GooglePrivacyDlpV2InspectResult;
+  inspectResult?: GooglePrivacyDlpV2InspectResult | undefined;
 }
-export interface RedactProjectsLocationsImageRequest {
+export interface RedactProjectsLocationsImageRequest extends GooglePrivacyDlpV2RedactImageRequest {
   /** Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2RedactImageRequest;
 }
 /** Request to re-identify an item. */
 export interface GooglePrivacyDlpV2ReidentifyContentRequest {
-  /** Template to use. References an instance of `DeidentifyTemplate`. Any configuration directly specified in `reidentify_config` or `inspect_config` will override those set in the template. The `DeidentifyTemplate` used must include only reversible transformations. Singular fields that are set in this request will replace their corresponding fields in the template. Repeated fields are appended. Singular sub-messages and groups are recursively merged. */
-  reidentifyTemplateName?: string;
-  /** The item to re-identify. Will be treated as text. */
-  item?: GooglePrivacyDlpV2ContentItem;
-  /** Configuration for the re-identification of the content item. This field shares the same proto message type that is used for de-identification, however its usage here is for the reversal of the previous de-identification. Re-identification is performed by examining the transformations used to de-identify the items and executing the reverse. This requires that only reversible transformations be provided here. The reversible transformations are: - `CryptoDeterministicConfig` - `CryptoReplaceFfxFpeConfig` */
-  reidentifyConfig?: GooglePrivacyDlpV2DeidentifyConfig;
-  /** Template to use. Any configuration directly specified in `inspect_config` will override those set in the template. Singular fields that are set in this request will replace their corresponding fields in the template. Repeated fields are appended. Singular sub-messages and groups are recursively merged. */
-  inspectTemplateName?: string;
   /** Deprecated. This field has no effect. */
-  locationId?: string;
+  locationId?: string | undefined;
+  /** Template to use. References an instance of `DeidentifyTemplate`. Any configuration directly specified in `reidentify_config` or `inspect_config` will override those set in the template. The `DeidentifyTemplate` used must include only reversible transformations. Singular fields that are set in this request will replace their corresponding fields in the template. Repeated fields are appended. Singular sub-messages and groups are recursively merged. */
+  reidentifyTemplateName?: string | undefined;
+  /** Template to use. Any configuration directly specified in `inspect_config` will override those set in the template. Singular fields that are set in this request will replace their corresponding fields in the template. Repeated fields are appended. Singular sub-messages and groups are recursively merged. */
+  inspectTemplateName?: string | undefined;
+  /** The item to re-identify. Will be treated as text. */
+  item?: GooglePrivacyDlpV2ContentItem | undefined;
   /** Configuration for the inspector. */
-  inspectConfig?: GooglePrivacyDlpV2InspectConfig;
+  inspectConfig?: GooglePrivacyDlpV2InspectConfig | undefined;
+  /** Configuration for the re-identification of the content item. This field shares the same proto message type that is used for de-identification, however its usage here is for the reversal of the previous de-identification. Re-identification is performed by examining the transformations used to de-identify the items and executing the reverse. This requires that only reversible transformations be provided here. The reversible transformations are: - `CryptoDeterministicConfig` - `CryptoReplaceFfxFpeConfig` */
+  reidentifyConfig?: GooglePrivacyDlpV2DeidentifyConfig | undefined;
 }
-export interface ReidentifyProjectsContentRequest {
+export interface ReidentifyProjectsContentRequest extends GooglePrivacyDlpV2ReidentifyContentRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2ReidentifyContentRequest;
 }
 /** Results of re-identifying an item. */
 export interface GooglePrivacyDlpV2ReidentifyContentResponse {
   /** An overview of the changes that were made to the `item`. */
-  overview?: GooglePrivacyDlpV2TransformationOverview;
+  overview?: GooglePrivacyDlpV2TransformationOverview | undefined;
   /** The re-identified item. */
-  item?: GooglePrivacyDlpV2ContentItem;
+  item?: GooglePrivacyDlpV2ContentItem | undefined;
 }
-export interface ReidentifyProjectsLocationsContentRequest {
+export interface ReidentifyProjectsLocationsContentRequest extends GooglePrivacyDlpV2ReidentifyContentRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2ReidentifyContentRequest;
 }
 export interface SearchOrganizationsLocationsConnectionsRequest {
-  /** Optional. Number of results per page, max 1000. */
-  pageSize?: number;
-  /** Optional. Supported field/value: - `state` - MISSING|AVAILABLE|ERROR The syntax is based on https://google.aip.dev/160. */
-  filter?: string;
-  /** Optional. Page token from a previous page to return the next set of results. If set, all other request fields must match the original request. */
-  pageToken?: string;
   /** Required. Resource name of the organization or project with a wildcard location, for example, `organizations/433245324/locations/-` or `projects/project-id/locations/-`. */
   parent: string;
+  /** Optional. Number of results per page, max 1000. */
+  pageSize?: number | undefined;
+  /** Optional. Page token from a previous page to return the next set of results. If set, all other request fields must match the original request. */
+  pageToken?: string | undefined;
+  /** Optional. Supported field/value: - `state` - MISSING|AVAILABLE|ERROR The syntax is based on https://google.aip.dev/160. */
+  filter?: string | undefined;
 }
 /** Response message for SearchConnections. */
 export interface GooglePrivacyDlpV2SearchConnectionsResponse {
-  /** Token to retrieve the next page of results. An empty value means there are no more results. */
-  nextPageToken?: string;
   /** List of connections that match the search query. Note that only a subset of the fields will be populated, and only "name" is guaranteed to be set. For full details of a Connection, call GetConnection with the name. */
-  connections?: GooglePrivacyDlpV2ConnectionList;
+  connections?: GooglePrivacyDlpV2ConnectionList | undefined;
+  /** Token to retrieve the next page of results. An empty value means there are no more results. */
+  nextPageToken?: string | undefined;
 }
 export interface SearchProjectsLocationsConnectionsRequest {
   /** Optional. Page token from a previous page to return the next set of results. If set, all other request fields must match the original request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Resource name of the organization or project with a wildcard location, for example, `organizations/433245324/locations/-` or `projects/project-id/locations/-`. */
   parent: string;
-  /** Optional. Supported field/value: - `state` - MISSING|AVAILABLE|ERROR The syntax is based on https://google.aip.dev/160. */
-  filter?: string;
   /** Optional. Number of results per page, max 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** Optional. Supported field/value: - `state` - MISSING|AVAILABLE|ERROR The syntax is based on https://google.aip.dev/160. */
+  filter?: string | undefined;
 }
 export type ActivateProjectsJobTriggersError =
   | NotFound
@@ -4921,8 +4891,8 @@ export const activateProjectsJobTriggers: API.OperationMethod<
   ActivateProjectsJobTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<ActivateProjectsJobTriggersRequest>,
-  output: __S(4024, __c125, 24) as any as S.Schema<GooglePrivacyDlpV2DlpJob>,
+  input: __S(3712, __c116, 0) as any as S.Schema<ActivateProjectsJobTriggersRequest>,
+  output: __S(4056, __c126, 24) as any as S.Schema<GooglePrivacyDlpV2DlpJob>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4943,8 +4913,8 @@ export const activateProjectsLocationsJobTriggers: API.OperationMethod<
   ActivateProjectsLocationsJobTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<ActivateProjectsLocationsJobTriggersRequest>,
-  output: __S(4024, __c125, 24) as any as S.Schema<GooglePrivacyDlpV2DlpJob>,
+  input: __S(5024, __c157, 0) as any as S.Schema<ActivateProjectsLocationsJobTriggersRequest>,
+  output: __S(4056, __c126, 24) as any as S.Schema<GooglePrivacyDlpV2DlpJob>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4960,8 +4930,8 @@ export const cancelProjectsDlpJobs: API.OperationMethod<
   CancelProjectsDlpJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<CancelProjectsDlpJobsRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5376, __c168, 0) as any as S.Schema<CancelProjectsDlpJobsRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4982,8 +4952,8 @@ export const cancelProjectsLocationsDlpJobs: API.OperationMethod<
   CancelProjectsLocationsDlpJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<CancelProjectsLocationsDlpJobsRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5920, __c185, 0) as any as S.Schema<CancelProjectsLocationsDlpJobsRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5004,8 +4974,8 @@ export const createOrganizationsDeidentifyTemplates: API.OperationMethod<
   CreateOrganizationsDeidentifyTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<CreateOrganizationsDeidentifyTemplatesRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
+  input: __S(6304, __c197, 0) as any as S.Schema<CreateOrganizationsDeidentifyTemplatesRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5026,8 +4996,8 @@ export const createOrganizationsInspectTemplates: API.OperationMethod<
   CreateOrganizationsInspectTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<CreateOrganizationsInspectTemplatesRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
+  input: __S(6752, __c211, 0) as any as S.Schema<CreateOrganizationsInspectTemplatesRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5075,7 +5045,7 @@ export const createOrganizationsLocationsDeidentifyTemplates: API.OperationMetho
     __c20,
     0,
   ) as any as S.Schema<CreateOrganizationsLocationsDeidentifyTemplatesRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
+  output: __S(4352, __c136, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5097,7 +5067,7 @@ export const createOrganizationsLocationsDiscoveryConfigs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<CreateOrganizationsLocationsDiscoveryConfigsRequest>,
-  output: __S(1137, __c35, 17) as any as S.Schema<GooglePrivacyDlpV2DiscoveryConfig>,
+  output: __S(1136, __c35, 16) as any as S.Schema<GooglePrivacyDlpV2DiscoveryConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5123,7 +5093,7 @@ export const createOrganizationsLocationsInspectTemplates: API.OperationMethod<
     __c48,
     0,
   ) as any as S.Schema<CreateOrganizationsLocationsInspectTemplatesRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
+  output: __S(4672, __c146, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5188,7 +5158,7 @@ export const createOrganizationsStoredInfoTypes: API.OperationMethod<
   CreateOrganizationsStoredInfoTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<CreateOrganizationsStoredInfoTypesRequest>,
+  input: __S(2752, __c86, 0) as any as S.Schema<CreateOrganizationsStoredInfoTypesRequest>,
   output: __S(2536, __c79, 8) as any as S.Schema<GooglePrivacyDlpV2StoredInfoType>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5210,8 +5180,8 @@ export const createProjectsDeidentifyTemplates: API.OperationMethod<
   CreateProjectsDeidentifyTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<CreateProjectsDeidentifyTemplatesRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
+  input: __S(2784, __c87, 0) as any as S.Schema<CreateProjectsDeidentifyTemplatesRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5227,8 +5197,8 @@ export const createProjectsDlpJobs: API.OperationMethod<
   CreateProjectsDlpJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<CreateProjectsDlpJobsRequest>,
-  output: __S(4024, __c125, 24) as any as S.Schema<GooglePrivacyDlpV2DlpJob>,
+  input: __S(2816, __c88, 0) as any as S.Schema<CreateProjectsDlpJobsRequest>,
+  output: __S(4056, __c126, 24) as any as S.Schema<GooglePrivacyDlpV2DlpJob>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5249,8 +5219,8 @@ export const createProjectsInspectTemplates: API.OperationMethod<
   CreateProjectsInspectTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<CreateProjectsInspectTemplatesRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
+  input: __S(2880, __c90, 0) as any as S.Schema<CreateProjectsInspectTemplatesRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5271,7 +5241,7 @@ export const createProjectsJobTriggers: API.OperationMethod<
   CreateProjectsJobTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<CreateProjectsJobTriggersRequest>,
+  input: __S(2912, __c91, 0) as any as S.Schema<CreateProjectsJobTriggersRequest>,
   output: __S(2083, __c65, 3) as any as S.Schema<GooglePrivacyDlpV2JobTrigger>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5293,7 +5263,7 @@ export const createProjectsLocationsConnections: API.OperationMethod<
   CreateProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<CreateProjectsLocationsConnectionsRequest>,
+  input: __S(2944, __c92, 0) as any as S.Schema<CreateProjectsLocationsConnectionsRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<GooglePrivacyDlpV2Connection>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5315,8 +5285,8 @@ export const createProjectsLocationsContentPolicies: API.OperationMethod<
   CreateProjectsLocationsContentPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2945, __c92, 1) as any as S.Schema<CreateProjectsLocationsContentPoliciesRequest>,
-  output: __S(2986, __c93, 10) as any as S.Schema<GooglePrivacyDlpV2ContentPolicy>,
+  input: __S(2977, __c93, 1) as any as S.Schema<CreateProjectsLocationsContentPoliciesRequest>,
+  output: __S(3018, __c94, 10) as any as S.Schema<GooglePrivacyDlpV2ContentPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5337,8 +5307,8 @@ export const createProjectsLocationsDeidentifyTemplates: API.OperationMethod<
   CreateProjectsLocationsDeidentifyTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<CreateProjectsLocationsDeidentifyTemplatesRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
+  input: __S(3040, __c95, 0) as any as S.Schema<CreateProjectsLocationsDeidentifyTemplatesRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5359,8 +5329,8 @@ export const createProjectsLocationsDiscoveryConfigs: API.OperationMethod<
   CreateProjectsLocationsDiscoveryConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<CreateProjectsLocationsDiscoveryConfigsRequest>,
-  output: __S(1137, __c35, 17) as any as S.Schema<GooglePrivacyDlpV2DiscoveryConfig>,
+  input: __S(3072, __c96, 0) as any as S.Schema<CreateProjectsLocationsDiscoveryConfigsRequest>,
+  output: __S(1136, __c35, 16) as any as S.Schema<GooglePrivacyDlpV2DiscoveryConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5381,8 +5351,8 @@ export const createProjectsLocationsDlpJobs: API.OperationMethod<
   CreateProjectsLocationsDlpJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<CreateProjectsLocationsDlpJobsRequest>,
-  output: __S(4024, __c125, 24) as any as S.Schema<GooglePrivacyDlpV2DlpJob>,
+  input: __S(3104, __c97, 0) as any as S.Schema<CreateProjectsLocationsDlpJobsRequest>,
+  output: __S(4056, __c126, 24) as any as S.Schema<GooglePrivacyDlpV2DlpJob>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5403,8 +5373,8 @@ export const createProjectsLocationsInspectTemplates: API.OperationMethod<
   CreateProjectsLocationsInspectTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<CreateProjectsLocationsInspectTemplatesRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
+  input: __S(3136, __c98, 0) as any as S.Schema<CreateProjectsLocationsInspectTemplatesRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5425,7 +5395,7 @@ export const createProjectsLocationsJobTriggers: API.OperationMethod<
   CreateProjectsLocationsJobTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<CreateProjectsLocationsJobTriggersRequest>,
+  input: __S(3168, __c99, 0) as any as S.Schema<CreateProjectsLocationsJobTriggersRequest>,
   output: __S(2083, __c65, 3) as any as S.Schema<GooglePrivacyDlpV2JobTrigger>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5447,7 +5417,7 @@ export const createProjectsLocationsStoredInfoTypes: API.OperationMethod<
   CreateProjectsLocationsStoredInfoTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<CreateProjectsLocationsStoredInfoTypesRequest>,
+  input: __S(3200, __c100, 0) as any as S.Schema<CreateProjectsLocationsStoredInfoTypesRequest>,
   output: __S(2536, __c79, 8) as any as S.Schema<GooglePrivacyDlpV2StoredInfoType>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5469,7 +5439,7 @@ export const createProjectsStoredInfoTypes: API.OperationMethod<
   CreateProjectsStoredInfoTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<CreateProjectsStoredInfoTypesRequest>,
+  input: __S(3232, __c101, 0) as any as S.Schema<CreateProjectsStoredInfoTypesRequest>,
   output: __S(2536, __c79, 8) as any as S.Schema<GooglePrivacyDlpV2StoredInfoType>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5491,8 +5461,8 @@ export const deidentifyProjectsContent: API.OperationMethod<
   DeidentifyProjectsContentError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<DeidentifyProjectsContentRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<GooglePrivacyDlpV2DeidentifyContentResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<DeidentifyProjectsContentRequest>,
+  output: __S(3297, __c103, 1) as any as S.Schema<GooglePrivacyDlpV2DeidentifyContentResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5513,8 +5483,8 @@ export const deidentifyProjectsLocationsContent: API.OperationMethod<
   DeidentifyProjectsLocationsContentError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<DeidentifyProjectsLocationsContentRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<GooglePrivacyDlpV2DeidentifyContentResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<DeidentifyProjectsLocationsContentRequest>,
+  output: __S(3297, __c103, 1) as any as S.Schema<GooglePrivacyDlpV2DeidentifyContentResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5535,8 +5505,8 @@ export const deleteOrganizationsDeidentifyTemplates: API.OperationMethod<
   DeleteOrganizationsDeidentifyTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<DeleteOrganizationsDeidentifyTemplatesRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(3456, __c108, 0) as any as S.Schema<DeleteOrganizationsDeidentifyTemplatesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5557,8 +5527,8 @@ export const deleteOrganizationsInspectTemplates: API.OperationMethod<
   DeleteOrganizationsInspectTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<DeleteOrganizationsInspectTemplatesRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(3488, __c109, 0) as any as S.Schema<DeleteOrganizationsInspectTemplatesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5579,8 +5549,8 @@ export const deleteOrganizationsLocationsConnections: API.OperationMethod<
   DeleteOrganizationsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<DeleteOrganizationsLocationsConnectionsRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(3520, __c110, 0) as any as S.Schema<DeleteOrganizationsLocationsConnectionsRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5602,11 +5572,11 @@ export const deleteOrganizationsLocationsDeidentifyTemplates: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3520,
-    __c110,
+    3552,
+    __c111,
     0,
   ) as any as S.Schema<DeleteOrganizationsLocationsDeidentifyTemplatesRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5628,11 +5598,11 @@ export const deleteOrganizationsLocationsDiscoveryConfigs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3552,
-    __c111,
+    3584,
+    __c112,
     0,
   ) as any as S.Schema<DeleteOrganizationsLocationsDiscoveryConfigsRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5654,11 +5624,11 @@ export const deleteOrganizationsLocationsFileStoreDataProfiles: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3584,
-    __c112,
+    3616,
+    __c113,
     0,
   ) as any as S.Schema<DeleteOrganizationsLocationsFileStoreDataProfilesRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5680,11 +5650,11 @@ export const deleteOrganizationsLocationsInspectTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3616,
-    __c113,
+    3648,
+    __c114,
     0,
   ) as any as S.Schema<DeleteOrganizationsLocationsInspectTemplatesRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5705,8 +5675,8 @@ export const deleteOrganizationsLocationsJobTriggers: API.OperationMethod<
   DeleteOrganizationsLocationsJobTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<DeleteOrganizationsLocationsJobTriggersRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(3680, __c115, 0) as any as S.Schema<DeleteOrganizationsLocationsJobTriggersRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5728,11 +5698,11 @@ export const deleteOrganizationsLocationsStoredInfoTypes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4672,
-    __c146,
+    4704,
+    __c147,
     0,
   ) as any as S.Schema<DeleteOrganizationsLocationsStoredInfoTypesRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5754,11 +5724,11 @@ export const deleteOrganizationsLocationsTableDataProfiles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4704,
-    __c147,
+    4736,
+    __c148,
     0,
   ) as any as S.Schema<DeleteOrganizationsLocationsTableDataProfilesRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5779,8 +5749,8 @@ export const deleteOrganizationsStoredInfoTypes: API.OperationMethod<
   DeleteOrganizationsStoredInfoTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<DeleteOrganizationsStoredInfoTypesRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(4768, __c149, 0) as any as S.Schema<DeleteOrganizationsStoredInfoTypesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5801,8 +5771,8 @@ export const deleteProjectsDeidentifyTemplates: API.OperationMethod<
   DeleteProjectsDeidentifyTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<DeleteProjectsDeidentifyTemplatesRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(4800, __c150, 0) as any as S.Schema<DeleteProjectsDeidentifyTemplatesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5818,8 +5788,8 @@ export const deleteProjectsDlpJobs: API.OperationMethod<
   DeleteProjectsDlpJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<DeleteProjectsDlpJobsRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(4832, __c151, 0) as any as S.Schema<DeleteProjectsDlpJobsRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5840,8 +5810,8 @@ export const deleteProjectsInspectTemplates: API.OperationMethod<
   DeleteProjectsInspectTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<DeleteProjectsInspectTemplatesRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(4864, __c152, 0) as any as S.Schema<DeleteProjectsInspectTemplatesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5862,8 +5832,8 @@ export const deleteProjectsJobTriggers: API.OperationMethod<
   DeleteProjectsJobTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<DeleteProjectsJobTriggersRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(4896, __c153, 0) as any as S.Schema<DeleteProjectsJobTriggersRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5884,8 +5854,8 @@ export const deleteProjectsLocationsConnections: API.OperationMethod<
   DeleteProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<DeleteProjectsLocationsConnectionsRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(4928, __c154, 0) as any as S.Schema<DeleteProjectsLocationsConnectionsRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5906,8 +5876,8 @@ export const deleteProjectsLocationsContentPolicies: API.OperationMethod<
   DeleteProjectsLocationsContentPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<DeleteProjectsLocationsContentPoliciesRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(4960, __c155, 0) as any as S.Schema<DeleteProjectsLocationsContentPoliciesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5928,8 +5898,8 @@ export const deleteProjectsLocationsDeidentifyTemplates: API.OperationMethod<
   DeleteProjectsLocationsDeidentifyTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<DeleteProjectsLocationsDeidentifyTemplatesRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(4992, __c156, 0) as any as S.Schema<DeleteProjectsLocationsDeidentifyTemplatesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5950,8 +5920,8 @@ export const deleteProjectsLocationsDiscoveryConfigs: API.OperationMethod<
   DeleteProjectsLocationsDiscoveryConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<DeleteProjectsLocationsDiscoveryConfigsRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5056, __c158, 0) as any as S.Schema<DeleteProjectsLocationsDiscoveryConfigsRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5972,8 +5942,8 @@ export const deleteProjectsLocationsDlpJobs: API.OperationMethod<
   DeleteProjectsLocationsDlpJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<DeleteProjectsLocationsDlpJobsRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5088, __c159, 0) as any as S.Schema<DeleteProjectsLocationsDlpJobsRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5995,11 +5965,11 @@ export const deleteProjectsLocationsFileStoreDataProfiles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5088,
-    __c159,
+    5120,
+    __c160,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsFileStoreDataProfilesRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6020,8 +5990,8 @@ export const deleteProjectsLocationsInspectTemplates: API.OperationMethod<
   DeleteProjectsLocationsInspectTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<DeleteProjectsLocationsInspectTemplatesRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5152, __c161, 0) as any as S.Schema<DeleteProjectsLocationsInspectTemplatesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6042,8 +6012,8 @@ export const deleteProjectsLocationsJobTriggers: API.OperationMethod<
   DeleteProjectsLocationsJobTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<DeleteProjectsLocationsJobTriggersRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5184, __c162, 0) as any as S.Schema<DeleteProjectsLocationsJobTriggersRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6064,8 +6034,8 @@ export const deleteProjectsLocationsStoredInfoTypes: API.OperationMethod<
   DeleteProjectsLocationsStoredInfoTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<DeleteProjectsLocationsStoredInfoTypesRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5216, __c163, 0) as any as S.Schema<DeleteProjectsLocationsStoredInfoTypesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6086,8 +6056,8 @@ export const deleteProjectsLocationsTableDataProfiles: API.OperationMethod<
   DeleteProjectsLocationsTableDataProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<DeleteProjectsLocationsTableDataProfilesRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5248, __c164, 0) as any as S.Schema<DeleteProjectsLocationsTableDataProfilesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6108,8 +6078,8 @@ export const deleteProjectsStoredInfoTypes: API.OperationMethod<
   DeleteProjectsStoredInfoTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<DeleteProjectsStoredInfoTypesRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5280, __c165, 0) as any as S.Schema<DeleteProjectsStoredInfoTypesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6130,8 +6100,8 @@ export const finishProjectsLocationsDlpJobs: API.OperationMethod<
   FinishProjectsLocationsDlpJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<FinishProjectsLocationsDlpJobsRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5312, __c166, 0) as any as S.Schema<FinishProjectsLocationsDlpJobsRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6147,8 +6117,8 @@ export const getOrganizationsDeidentifyTemplates: API.OperationMethod<
   GetOrganizationsDeidentifyTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<GetOrganizationsDeidentifyTemplatesRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
+  input: __S(5344, __c167, 0) as any as S.Schema<GetOrganizationsDeidentifyTemplatesRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6164,8 +6134,8 @@ export const getOrganizationsInspectTemplates: API.OperationMethod<
   GetOrganizationsInspectTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<GetOrganizationsInspectTemplatesRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
+  input: __S(5408, __c169, 0) as any as S.Schema<GetOrganizationsInspectTemplatesRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6182,11 +6152,11 @@ export const getOrganizationsLocationsColumnDataProfiles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5408,
-    __c169,
+    5440,
+    __c170,
     0,
   ) as any as S.Schema<GetOrganizationsLocationsColumnDataProfilesRequest>,
-  output: __S(5504, __c172, 0) as any as S.Schema<GooglePrivacyDlpV2ColumnDataProfile>,
+  output: __S(5536, __c173, 0) as any as S.Schema<GooglePrivacyDlpV2ColumnDataProfile>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6202,7 +6172,7 @@ export const getOrganizationsLocationsConnections: API.OperationMethod<
   GetOrganizationsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<GetOrganizationsLocationsConnectionsRequest>,
+  input: __S(5568, __c174, 0) as any as S.Schema<GetOrganizationsLocationsConnectionsRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<GooglePrivacyDlpV2Connection>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6220,11 +6190,11 @@ export const getOrganizationsLocationsDeidentifyTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5568,
-    __c174,
+    5600,
+    __c175,
     0,
   ) as any as S.Schema<GetOrganizationsLocationsDeidentifyTemplatesRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
+  output: __S(4352, __c136, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6240,8 +6210,8 @@ export const getOrganizationsLocationsDiscoveryConfigs: API.OperationMethod<
   GetOrganizationsLocationsDiscoveryConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<GetOrganizationsLocationsDiscoveryConfigsRequest>,
-  output: __S(1137, __c35, 17) as any as S.Schema<GooglePrivacyDlpV2DiscoveryConfig>,
+  input: __S(5632, __c176, 0) as any as S.Schema<GetOrganizationsLocationsDiscoveryConfigsRequest>,
+  output: __S(1136, __c35, 16) as any as S.Schema<GooglePrivacyDlpV2DiscoveryConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6258,11 +6228,11 @@ export const getOrganizationsLocationsFileStoreDataProfiles: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5632,
-    __c176,
+    5664,
+    __c177,
     0,
   ) as any as S.Schema<GetOrganizationsLocationsFileStoreDataProfilesRequest>,
-  output: __S(5704, __c178, 8) as any as S.Schema<GooglePrivacyDlpV2FileStoreDataProfile>,
+  output: __S(5736, __c179, 8) as any as S.Schema<GooglePrivacyDlpV2FileStoreDataProfile>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6278,8 +6248,8 @@ export const getOrganizationsLocationsInspectTemplates: API.OperationMethod<
   GetOrganizationsLocationsInspectTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<GetOrganizationsLocationsInspectTemplatesRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
+  input: __S(5760, __c180, 0) as any as S.Schema<GetOrganizationsLocationsInspectTemplatesRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6295,7 +6265,7 @@ export const getOrganizationsLocationsJobTriggers: API.OperationMethod<
   GetOrganizationsLocationsJobTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<GetOrganizationsLocationsJobTriggersRequest>,
+  input: __S(5792, __c181, 0) as any as S.Schema<GetOrganizationsLocationsJobTriggersRequest>,
   output: __S(2083, __c65, 3) as any as S.Schema<GooglePrivacyDlpV2JobTrigger>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6313,11 +6283,11 @@ export const getOrganizationsLocationsProjectDataProfiles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5792,
-    __c181,
+    5824,
+    __c182,
     0,
   ) as any as S.Schema<GetOrganizationsLocationsProjectDataProfilesRequest>,
-  output: __S(5824, __c182, 0) as any as S.Schema<GooglePrivacyDlpV2ProjectDataProfile>,
+  output: __S(5856, __c183, 0) as any as S.Schema<GooglePrivacyDlpV2ProjectDataProfile>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6333,7 +6303,7 @@ export const getOrganizationsLocationsStoredInfoTypes: API.OperationMethod<
   GetOrganizationsLocationsStoredInfoTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<GetOrganizationsLocationsStoredInfoTypesRequest>,
+  input: __S(5888, __c184, 0) as any as S.Schema<GetOrganizationsLocationsStoredInfoTypesRequest>,
   output: __S(2536, __c79, 8) as any as S.Schema<GooglePrivacyDlpV2StoredInfoType>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6350,8 +6320,8 @@ export const getOrganizationsLocationsTableDataProfiles: API.OperationMethod<
   GetOrganizationsLocationsTableDataProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<GetOrganizationsLocationsTableDataProfilesRequest>,
-  output: __S(5953, __c186, 1) as any as S.Schema<GooglePrivacyDlpV2TableDataProfile>,
+  input: __S(5952, __c186, 0) as any as S.Schema<GetOrganizationsLocationsTableDataProfilesRequest>,
+  output: __S(5985, __c187, 1) as any as S.Schema<GooglePrivacyDlpV2TableDataProfile>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6367,7 +6337,7 @@ export const getOrganizationsStoredInfoTypes: API.OperationMethod<
   GetOrganizationsStoredInfoTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<GetOrganizationsStoredInfoTypesRequest>,
+  input: __S(6016, __c188, 0) as any as S.Schema<GetOrganizationsStoredInfoTypesRequest>,
   output: __S(2536, __c79, 8) as any as S.Schema<GooglePrivacyDlpV2StoredInfoType>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6384,8 +6354,8 @@ export const getProjectsDeidentifyTemplates: API.OperationMethod<
   GetProjectsDeidentifyTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<GetProjectsDeidentifyTemplatesRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
+  input: __S(6048, __c189, 0) as any as S.Schema<GetProjectsDeidentifyTemplatesRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6401,8 +6371,8 @@ export const getProjectsDlpJobs: API.OperationMethod<
   GetProjectsDlpJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<GetProjectsDlpJobsRequest>,
-  output: __S(4024, __c125, 24) as any as S.Schema<GooglePrivacyDlpV2DlpJob>,
+  input: __S(6080, __c190, 0) as any as S.Schema<GetProjectsDlpJobsRequest>,
+  output: __S(4056, __c126, 24) as any as S.Schema<GooglePrivacyDlpV2DlpJob>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6418,8 +6388,8 @@ export const getProjectsInspectTemplates: API.OperationMethod<
   GetProjectsInspectTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<GetProjectsInspectTemplatesRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
+  input: __S(6112, __c191, 0) as any as S.Schema<GetProjectsInspectTemplatesRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6435,7 +6405,7 @@ export const getProjectsJobTriggers: API.OperationMethod<
   GetProjectsJobTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<GetProjectsJobTriggersRequest>,
+  input: __S(6144, __c192, 0) as any as S.Schema<GetProjectsJobTriggersRequest>,
   output: __S(2083, __c65, 3) as any as S.Schema<GooglePrivacyDlpV2JobTrigger>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6452,8 +6422,8 @@ export const getProjectsLocationsColumnDataProfiles: API.OperationMethod<
   GetProjectsLocationsColumnDataProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<GetProjectsLocationsColumnDataProfilesRequest>,
-  output: __S(5504, __c172, 0) as any as S.Schema<GooglePrivacyDlpV2ColumnDataProfile>,
+  input: __S(6176, __c193, 0) as any as S.Schema<GetProjectsLocationsColumnDataProfilesRequest>,
+  output: __S(5536, __c173, 0) as any as S.Schema<GooglePrivacyDlpV2ColumnDataProfile>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6469,7 +6439,7 @@ export const getProjectsLocationsConnections: API.OperationMethod<
   GetProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<GetProjectsLocationsConnectionsRequest>,
+  input: __S(6208, __c194, 0) as any as S.Schema<GetProjectsLocationsConnectionsRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<GooglePrivacyDlpV2Connection>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6486,8 +6456,8 @@ export const getProjectsLocationsContentPolicies: API.OperationMethod<
   GetProjectsLocationsContentPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<GetProjectsLocationsContentPoliciesRequest>,
-  output: __S(2986, __c93, 10) as any as S.Schema<GooglePrivacyDlpV2ContentPolicy>,
+  input: __S(6240, __c195, 0) as any as S.Schema<GetProjectsLocationsContentPoliciesRequest>,
+  output: __S(3018, __c94, 10) as any as S.Schema<GooglePrivacyDlpV2ContentPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6503,8 +6473,8 @@ export const getProjectsLocationsDeidentifyTemplates: API.OperationMethod<
   GetProjectsLocationsDeidentifyTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<GetProjectsLocationsDeidentifyTemplatesRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
+  input: __S(6272, __c196, 0) as any as S.Schema<GetProjectsLocationsDeidentifyTemplatesRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6520,8 +6490,8 @@ export const getProjectsLocationsDiscoveryConfigs: API.OperationMethod<
   GetProjectsLocationsDiscoveryConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<GetProjectsLocationsDiscoveryConfigsRequest>,
-  output: __S(1137, __c35, 17) as any as S.Schema<GooglePrivacyDlpV2DiscoveryConfig>,
+  input: __S(6368, __c199, 0) as any as S.Schema<GetProjectsLocationsDiscoveryConfigsRequest>,
+  output: __S(1136, __c35, 16) as any as S.Schema<GooglePrivacyDlpV2DiscoveryConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6537,8 +6507,8 @@ export const getProjectsLocationsDlpJobs: API.OperationMethod<
   GetProjectsLocationsDlpJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<GetProjectsLocationsDlpJobsRequest>,
-  output: __S(4024, __c125, 24) as any as S.Schema<GooglePrivacyDlpV2DlpJob>,
+  input: __S(6400, __c200, 0) as any as S.Schema<GetProjectsLocationsDlpJobsRequest>,
+  output: __S(4056, __c126, 24) as any as S.Schema<GooglePrivacyDlpV2DlpJob>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6554,8 +6524,8 @@ export const getProjectsLocationsFileStoreDataProfiles: API.OperationMethod<
   GetProjectsLocationsFileStoreDataProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<GetProjectsLocationsFileStoreDataProfilesRequest>,
-  output: __S(5704, __c178, 8) as any as S.Schema<GooglePrivacyDlpV2FileStoreDataProfile>,
+  input: __S(6432, __c201, 0) as any as S.Schema<GetProjectsLocationsFileStoreDataProfilesRequest>,
+  output: __S(5736, __c179, 8) as any as S.Schema<GooglePrivacyDlpV2FileStoreDataProfile>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6571,8 +6541,8 @@ export const getProjectsLocationsInspectTemplates: API.OperationMethod<
   GetProjectsLocationsInspectTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<GetProjectsLocationsInspectTemplatesRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
+  input: __S(6464, __c202, 0) as any as S.Schema<GetProjectsLocationsInspectTemplatesRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6588,7 +6558,7 @@ export const getProjectsLocationsJobTriggers: API.OperationMethod<
   GetProjectsLocationsJobTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<GetProjectsLocationsJobTriggersRequest>,
+  input: __S(6496, __c203, 0) as any as S.Schema<GetProjectsLocationsJobTriggersRequest>,
   output: __S(2083, __c65, 3) as any as S.Schema<GooglePrivacyDlpV2JobTrigger>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6605,8 +6575,8 @@ export const getProjectsLocationsProjectDataProfiles: API.OperationMethod<
   GetProjectsLocationsProjectDataProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<GetProjectsLocationsProjectDataProfilesRequest>,
-  output: __S(5824, __c182, 0) as any as S.Schema<GooglePrivacyDlpV2ProjectDataProfile>,
+  input: __S(6528, __c204, 0) as any as S.Schema<GetProjectsLocationsProjectDataProfilesRequest>,
+  output: __S(5856, __c183, 0) as any as S.Schema<GooglePrivacyDlpV2ProjectDataProfile>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6622,7 +6592,7 @@ export const getProjectsLocationsStoredInfoTypes: API.OperationMethod<
   GetProjectsLocationsStoredInfoTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<GetProjectsLocationsStoredInfoTypesRequest>,
+  input: __S(6560, __c205, 0) as any as S.Schema<GetProjectsLocationsStoredInfoTypesRequest>,
   output: __S(2536, __c79, 8) as any as S.Schema<GooglePrivacyDlpV2StoredInfoType>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6639,8 +6609,8 @@ export const getProjectsLocationsTableDataProfiles: API.OperationMethod<
   GetProjectsLocationsTableDataProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<GetProjectsLocationsTableDataProfilesRequest>,
-  output: __S(5953, __c186, 1) as any as S.Schema<GooglePrivacyDlpV2TableDataProfile>,
+  input: __S(6592, __c206, 0) as any as S.Schema<GetProjectsLocationsTableDataProfilesRequest>,
+  output: __S(5985, __c187, 1) as any as S.Schema<GooglePrivacyDlpV2TableDataProfile>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6656,7 +6626,7 @@ export const getProjectsStoredInfoTypes: API.OperationMethod<
   GetProjectsStoredInfoTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<GetProjectsStoredInfoTypesRequest>,
+  input: __S(6624, __c207, 0) as any as S.Schema<GetProjectsStoredInfoTypesRequest>,
   output: __S(2536, __c79, 8) as any as S.Schema<GooglePrivacyDlpV2StoredInfoType>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6678,8 +6648,8 @@ export const hybridInspectProjectsLocationsDlpJobs: API.OperationMethod<
   HybridInspectProjectsLocationsDlpJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<HybridInspectProjectsLocationsDlpJobsRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GooglePrivacyDlpV2HybridInspectResponse>,
+  input: __S(6656, __c208, 0) as any as S.Schema<HybridInspectProjectsLocationsDlpJobsRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GooglePrivacyDlpV2HybridInspectResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6700,8 +6670,8 @@ export const hybridInspectProjectsLocationsJobTriggers: API.OperationMethod<
   HybridInspectProjectsLocationsJobTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<HybridInspectProjectsLocationsJobTriggersRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GooglePrivacyDlpV2HybridInspectResponse>,
+  input: __S(6816, __c213, 0) as any as S.Schema<HybridInspectProjectsLocationsJobTriggersRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GooglePrivacyDlpV2HybridInspectResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6717,8 +6687,8 @@ export const inspectProjectsContent: API.OperationMethod<
   InspectProjectsContentError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<InspectProjectsContentRequest>,
-  output: __S(6849, __c214, 1) as any as S.Schema<GooglePrivacyDlpV2InspectContentResponse>,
+  input: __S(6848, __c214, 0) as any as S.Schema<InspectProjectsContentRequest>,
+  output: __S(6881, __c215, 1) as any as S.Schema<GooglePrivacyDlpV2InspectContentResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6739,8 +6709,8 @@ export const inspectProjectsLocationsContent: API.OperationMethod<
   InspectProjectsLocationsContentError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<InspectProjectsLocationsContentRequest>,
-  output: __S(6849, __c214, 1) as any as S.Schema<GooglePrivacyDlpV2InspectContentResponse>,
+  input: __S(6944, __c217, 0) as any as S.Schema<InspectProjectsLocationsContentRequest>,
+  output: __S(6881, __c215, 1) as any as S.Schema<GooglePrivacyDlpV2InspectContentResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6756,8 +6726,8 @@ export const listInfoTypes: API.OperationMethod<
   ListInfoTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<ListInfoTypesRequest>,
-  output: __S(6983, __c218, 7) as any as S.Schema<GooglePrivacyDlpV2ListInfoTypesResponse>,
+  input: __S(6976, __c218, 0) as any as S.Schema<ListInfoTypesRequest>,
+  output: __S(7015, __c219, 7) as any as S.Schema<GooglePrivacyDlpV2ListInfoTypesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6773,8 +6743,8 @@ export const listLocationsInfoTypes: API.OperationMethod<
   ListLocationsInfoTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<ListLocationsInfoTypesRequest>,
-  output: __S(6983, __c218, 7) as any as S.Schema<GooglePrivacyDlpV2ListInfoTypesResponse>,
+  input: __S(7040, __c220, 0) as any as S.Schema<ListLocationsInfoTypesRequest>,
+  output: __S(7015, __c219, 7) as any as S.Schema<GooglePrivacyDlpV2ListInfoTypesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6791,10 +6761,10 @@ export const listOrganizationsDeidentifyTemplates: API.PaginatedOperationMethod<
   GcpOpContext,
   GooglePrivacyDlpV2ListDeidentifyTemplatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<ListOrganizationsDeidentifyTemplatesRequest>,
+  input: __S(7072, __c221, 0) as any as S.Schema<ListOrganizationsDeidentifyTemplatesRequest>,
   output: __S(
-    7073,
-    __c221,
+    7105,
+    __c222,
     1,
   ) as any as S.Schema<GooglePrivacyDlpV2ListDeidentifyTemplatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -6814,8 +6784,8 @@ export const listOrganizationsInspectTemplates: API.PaginatedOperationMethod<
   GcpOpContext,
   GooglePrivacyDlpV2ListInspectTemplatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<ListOrganizationsInspectTemplatesRequest>,
-  output: __S(7137, __c223, 1) as any as S.Schema<GooglePrivacyDlpV2ListInspectTemplatesResponse>,
+  input: __S(7136, __c223, 0) as any as S.Schema<ListOrganizationsInspectTemplatesRequest>,
+  output: __S(7169, __c224, 1) as any as S.Schema<GooglePrivacyDlpV2ListInspectTemplatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6834,11 +6804,11 @@ export const listOrganizationsLocationsColumnDataProfiles: API.PaginatedOperatio
   GooglePrivacyDlpV2ListColumnDataProfilesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    7168,
-    __c224,
+    7200,
+    __c225,
     0,
   ) as any as S.Schema<ListOrganizationsLocationsColumnDataProfilesRequest>,
-  output: __S(7201, __c225, 1) as any as S.Schema<GooglePrivacyDlpV2ListColumnDataProfilesResponse>,
+  output: __S(7233, __c226, 1) as any as S.Schema<GooglePrivacyDlpV2ListColumnDataProfilesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6856,8 +6826,8 @@ export const listOrganizationsLocationsConnections: API.PaginatedOperationMethod
   GcpOpContext,
   GooglePrivacyDlpV2ListConnectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<ListOrganizationsLocationsConnectionsRequest>,
-  output: __S(7265, __c227, 1) as any as S.Schema<GooglePrivacyDlpV2ListConnectionsResponse>,
+  input: __S(7264, __c227, 0) as any as S.Schema<ListOrganizationsLocationsConnectionsRequest>,
+  output: __S(7296, __c228, 0) as any as S.Schema<GooglePrivacyDlpV2ListConnectionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6876,13 +6846,13 @@ export const listOrganizationsLocationsDeidentifyTemplates: API.PaginatedOperati
   GooglePrivacyDlpV2ListDeidentifyTemplatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    7296,
-    __c228,
+    7360,
+    __c230,
     0,
   ) as any as S.Schema<ListOrganizationsLocationsDeidentifyTemplatesRequest>,
   output: __S(
-    7073,
-    __c221,
+    7105,
+    __c222,
     1,
   ) as any as S.Schema<GooglePrivacyDlpV2ListDeidentifyTemplatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -6966,7 +6936,7 @@ export const listOrganizationsLocationsInfoTypes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<ListOrganizationsLocationsInfoTypesRequest>,
-  output: __S(6983, __c218, 7) as any as S.Schema<GooglePrivacyDlpV2ListInfoTypesResponse>,
+  output: __S(7015, __c219, 7) as any as S.Schema<GooglePrivacyDlpV2ListInfoTypesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6984,7 +6954,7 @@ export const listOrganizationsLocationsInspectTemplates: API.PaginatedOperationM
   GooglePrivacyDlpV2ListInspectTemplatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<ListOrganizationsLocationsInspectTemplatesRequest>,
-  output: __S(7137, __c223, 1) as any as S.Schema<GooglePrivacyDlpV2ListInspectTemplatesResponse>,
+  output: __S(7169, __c224, 1) as any as S.Schema<GooglePrivacyDlpV2ListInspectTemplatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7103,8 +7073,8 @@ export const listProjectsDeidentifyTemplates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<ListProjectsDeidentifyTemplatesRequest>,
   output: __S(
-    7073,
-    __c221,
+    7105,
+    __c222,
     1,
   ) as any as S.Schema<GooglePrivacyDlpV2ListDeidentifyTemplatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7144,7 +7114,7 @@ export const listProjectsInspectTemplates: API.PaginatedOperationMethod<
   GooglePrivacyDlpV2ListInspectTemplatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<ListProjectsInspectTemplatesRequest>,
-  output: __S(7137, __c223, 1) as any as S.Schema<GooglePrivacyDlpV2ListInspectTemplatesResponse>,
+  output: __S(7169, __c224, 1) as any as S.Schema<GooglePrivacyDlpV2ListInspectTemplatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7182,7 +7152,7 @@ export const listProjectsLocationsColumnDataProfiles: API.PaginatedOperationMeth
   GooglePrivacyDlpV2ListColumnDataProfilesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<ListProjectsLocationsColumnDataProfilesRequest>,
-  output: __S(7201, __c225, 1) as any as S.Schema<GooglePrivacyDlpV2ListColumnDataProfilesResponse>,
+  output: __S(7233, __c226, 1) as any as S.Schema<GooglePrivacyDlpV2ListColumnDataProfilesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7201,7 +7171,7 @@ export const listProjectsLocationsConnections: API.PaginatedOperationMethod<
   GooglePrivacyDlpV2ListConnectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListProjectsLocationsConnectionsRequest>,
-  output: __S(7265, __c227, 1) as any as S.Schema<GooglePrivacyDlpV2ListConnectionsResponse>,
+  output: __S(7296, __c228, 0) as any as S.Schema<GooglePrivacyDlpV2ListConnectionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7240,8 +7210,8 @@ export const listProjectsLocationsDeidentifyTemplates: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListProjectsLocationsDeidentifyTemplatesRequest>,
   output: __S(
-    7073,
-    __c221,
+    7105,
+    __c222,
     1,
   ) as any as S.Schema<GooglePrivacyDlpV2ListDeidentifyTemplatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7318,7 +7288,7 @@ export const listProjectsLocationsInfoTypes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ListProjectsLocationsInfoTypesRequest>,
-  output: __S(6983, __c218, 7) as any as S.Schema<GooglePrivacyDlpV2ListInfoTypesResponse>,
+  output: __S(7015, __c219, 7) as any as S.Schema<GooglePrivacyDlpV2ListInfoTypesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7336,7 +7306,7 @@ export const listProjectsLocationsInspectTemplates: API.PaginatedOperationMethod
   GooglePrivacyDlpV2ListInspectTemplatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ListProjectsLocationsInspectTemplatesRequest>,
-  output: __S(7137, __c223, 1) as any as S.Schema<GooglePrivacyDlpV2ListInspectTemplatesResponse>,
+  output: __S(7169, __c224, 1) as any as S.Schema<GooglePrivacyDlpV2ListInspectTemplatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7454,7 +7424,7 @@ export const patchOrganizationsDeidentifyTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<PatchOrganizationsDeidentifyTemplatesRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
+  output: __S(4352, __c136, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7476,7 +7446,7 @@ export const patchOrganizationsInspectTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<PatchOrganizationsInspectTemplatesRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
+  output: __S(4672, __c146, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7524,7 +7494,7 @@ export const patchOrganizationsLocationsDeidentifyTemplates: API.OperationMethod
     __c51,
     0,
   ) as any as S.Schema<PatchOrganizationsLocationsDeidentifyTemplatesRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
+  output: __S(4352, __c136, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7546,7 +7516,7 @@ export const patchOrganizationsLocationsDiscoveryConfigs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<PatchOrganizationsLocationsDiscoveryConfigsRequest>,
-  output: __S(1137, __c35, 17) as any as S.Schema<GooglePrivacyDlpV2DiscoveryConfig>,
+  output: __S(1136, __c35, 16) as any as S.Schema<GooglePrivacyDlpV2DiscoveryConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7568,7 +7538,7 @@ export const patchOrganizationsLocationsInspectTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<PatchOrganizationsLocationsInspectTemplatesRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
+  output: __S(4672, __c146, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7656,7 +7626,7 @@ export const patchProjectsDeidentifyTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<PatchProjectsDeidentifyTemplatesRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
+  output: __S(4352, __c136, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7678,7 +7648,7 @@ export const patchProjectsInspectTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<PatchProjectsInspectTemplatesRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
+  output: __S(4672, __c146, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7744,7 +7714,7 @@ export const patchProjectsLocationsContentPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2145, __c67, 1) as any as S.Schema<PatchProjectsLocationsContentPoliciesRequest>,
-  output: __S(2986, __c93, 10) as any as S.Schema<GooglePrivacyDlpV2ContentPolicy>,
+  output: __S(3018, __c94, 10) as any as S.Schema<GooglePrivacyDlpV2ContentPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7766,7 +7736,7 @@ export const patchProjectsLocationsDeidentifyTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<PatchProjectsLocationsDeidentifyTemplatesRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
+  output: __S(4352, __c136, 0) as any as S.Schema<GooglePrivacyDlpV2DeidentifyTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7788,7 +7758,7 @@ export const patchProjectsLocationsDiscoveryConfigs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<PatchProjectsLocationsDiscoveryConfigsRequest>,
-  output: __S(1137, __c35, 17) as any as S.Schema<GooglePrivacyDlpV2DiscoveryConfig>,
+  output: __S(1136, __c35, 16) as any as S.Schema<GooglePrivacyDlpV2DiscoveryConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7810,7 +7780,7 @@ export const patchProjectsLocationsInspectTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<PatchProjectsLocationsInspectTemplatesRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
+  output: __S(4672, __c146, 0) as any as S.Schema<GooglePrivacyDlpV2InspectTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7977,7 +7947,7 @@ export const searchOrganizationsLocationsConnections: API.PaginatedOperationMeth
   GooglePrivacyDlpV2SearchConnectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<SearchOrganizationsLocationsConnectionsRequest>,
-  output: __S(7265, __c227, 1) as any as S.Schema<GooglePrivacyDlpV2SearchConnectionsResponse>,
+  output: __S(2688, __c84, 0) as any as S.Schema<GooglePrivacyDlpV2SearchConnectionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7995,8 +7965,8 @@ export const searchProjectsLocationsConnections: API.PaginatedOperationMethod<
   GcpOpContext,
   GooglePrivacyDlpV2SearchConnectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<SearchProjectsLocationsConnectionsRequest>,
-  output: __S(7265, __c227, 1) as any as S.Schema<GooglePrivacyDlpV2SearchConnectionsResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<SearchProjectsLocationsConnectionsRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<GooglePrivacyDlpV2SearchConnectionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8010,10 +7980,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/connections",
@@ -8045,20 +8017,20 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          databaseEngine: S.optional(S.String),
           usernamePassword: S.optional(__S(64, __c2, 0)),
-          connectionName: S.optional(S.String),
           maxConnections: S.optional(S.Number),
-          cloudSqlIam: S.optional(__S(4032, __c126, 0)),
+          cloudSqlIam: S.optional(__S(4064, __c127, 0)),
+          databaseEngine: S.optional(S.String),
+          connectionName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2CloudSqlProperties" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          errors: S.optional(__S(3777, __c118, 1)),
           name: S.optional(S.String),
-          state: S.optional(S.String),
           cloudSql: S.optional(__S(65, __c2, 1)),
-          errors: S.optional(__S(3745, __c117, 1)),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2Connection" });
   }
@@ -8068,10 +8040,10 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8085,7 +8057,7 @@ function __c3(j: number): any {
 function __c4(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1137, __c35, 17));
+      return S.Array(__S(1136, __c35, 16));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -8100,13 +8072,13 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          locationId: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           type: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          locationId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8120,7 +8092,7 @@ function __c5(j: number): any {
 function __c6(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4024, __c125, 24));
+      return S.Array(__S(4056, __c126, 24));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -8136,10 +8108,10 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8153,7 +8125,7 @@ function __c7(j: number): any {
 function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5704, __c178, 8));
+      return S.Array(__S(5736, __c179, 8));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -8168,10 +8140,10 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          languageCode: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
+          languageCode: S.optional(S.String.pipe(T.Query())),
           locationId: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8187,11 +8159,11 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          locationId: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          locationId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8207,13 +8179,13 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           type: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           locationId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8231,8 +8203,8 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           jobTriggers: S.optional(__S(384, __c12, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2ListJobTriggersResponse" });
   }
@@ -8243,10 +8215,10 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8260,7 +8232,7 @@ function __c13(j: number): any {
 function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5824, __c182, 0));
+      return S.Array(__S(5856, __c183, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -8275,11 +8247,11 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          locationId: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          locationId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8308,11 +8280,11 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8326,12 +8298,12 @@ function __c17(j: number): any {
 function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5953, __c186, 1));
+      return S.Array(__S(5985, __c187, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tableDataProfiles: S.optional(__S(576, __c18, 0)),
           nextPageToken: S.optional(S.String),
+          tableDataProfiles: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2ListTableDataProfilesResponse" });
   }
@@ -8341,11 +8313,11 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           locationId: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8360,10 +8332,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6304, __c197, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6336, __c198, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/deidentifyTemplates",
@@ -8378,11 +8352,11 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          locationId: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          locationId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8398,13 +8372,13 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          locationId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          type: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          locationId: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8420,11 +8394,11 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
           locationId: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8440,12 +8414,12 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          type: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          type: S.optional(S.String.pipe(T.Query())),
           locationId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -8462,11 +8436,11 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8482,10 +8456,10 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8501,9 +8475,9 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8513,7 +8487,7 @@ function __c27(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsContentPoliciesRequest" });
     case 1:
-      return S.Array(__S(2986, __c93, 10));
+      return S.Array(__S(3018, __c94, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8529,10 +8503,10 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           locationId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8548,10 +8522,10 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8567,13 +8541,13 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          locationId: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          type: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          type: S.optional(S.String.pipe(T.Query())),
+          locationId: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8588,10 +8562,12 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/discoveryConfigs",
@@ -8606,8 +8582,8 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          discoveryConfig: S.optional(__S(1137, __c35, 17)),
           configId: S.optional(S.String),
+          discoveryConfig: S.optional(__S(1136, __c35, 16)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2CreateDiscoveryConfigRequest" });
   }
@@ -8617,214 +8593,209 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allAssetInventoryAssets: S.optional(S.Boolean),
-          accountId: S.optional(S.String),
+          multiRegionProcessing: S.optional(__S(4064, __c127, 0)),
+          globalProcessing: S.optional(__S(4064, __c127, 0)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2AwsDiscoveryStartingLocation" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2ImageFallbackLocation" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          awsLocation: S.optional(__S(1056, __c33, 0)),
+          imageFallbackLocation: S.optional(__S(1056, __c33, 0)),
+          documentFallbackLocation: S.optional(__S(1056, __c33, 0)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2OtherCloudDiscoveryStartingLocation" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2ProcessingLocation" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          folderId: S.optional(S.String),
-          organizationId: S.optional(S.String),
+          databaseResourceNameRegex: S.optional(S.String),
+          instanceRegex: S.optional(S.String),
+          projectIdRegex: S.optional(S.String),
+          databaseRegex: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryStartingLocation" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DatabaseResourceRegex" });
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(1058, __c33, 2)),
-          projectId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2OrgConfig" });
+      return S.Array(__S(1058, __c33, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          namespacedValue: S.optional(S.String),
+          patterns: S.optional(__S(1059, __c33, 3)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2TagValue" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DatabaseResourceRegexes" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          tag: S.optional(__S(1060, __c33, 4)),
-          sensitivityScore: S.optional(__S(4384, __c137, 0)),
+          includeRegexes: S.optional(__S(1060, __c33, 4)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2TagCondition" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DatabaseResourceCollection" });
     case 6:
-      return S.Array(__S(1061, __c33, 5));
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.optional(S.String),
+          database: S.optional(S.String),
+          databaseResource: S.optional(S.String),
+          instance: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DatabaseResourceReference" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          lowerDataRiskToLow: S.optional(S.Boolean),
-          tagConditions: S.optional(__S(1062, __c33, 6)),
-          profileGenerationsToTag: S.optional(__S(4512, __c141, 0)),
+          others: S.optional(__S(4064, __c127, 0)),
+          collection: S.optional(__S(1061, __c33, 5)),
+          databaseResourceReference: S.optional(__S(1062, __c33, 6)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2TagResources" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryCloudSqlFilter" });
     case 8:
-      return S.suspend(() =>
-        S.Struct({
-          lowerDataRiskToLow: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2PublishToDataplexCatalog" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          minimumSensitivityScore: S.optional(S.String),
-          minimumRiskScore: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2PubSubCondition" });
-    case 10:
-      return S.Array(__S(1065, __c33, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          conditions: S.optional(__S(1066, __c33, 10)),
-          logicalOperator: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2PubSubExpressions" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          expressions: S.optional(__S(1067, __c33, 11)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DataProfilePubSubCondition" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          topic: S.optional(S.String),
-          event: S.optional(S.String),
-          pubsubCondition: S.optional(__S(1068, __c33, 12)),
-          detailOfMessage: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2PubSubNotification" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          sampleFindingsTable: S.optional(__S(3776, __c118, 0)),
-          profileTable: S.optional(__S(3776, __c118, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Export" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          tagResources: S.optional(__S(1063, __c33, 7)),
-          publishToChronicle: S.optional(__S(4032, __c126, 0)),
-          publishToDataplexCatalog: S.optional(__S(1064, __c33, 8)),
-          publishToScc: S.optional(__S(4032, __c126, 0)),
-          pubSubNotification: S.optional(__S(1069, __c33, 13)),
-          exportData: S.optional(__S(1070, __c33, 14)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DataProfileAction" });
-    case 16:
-      return S.Array(__S(1071, __c33, 15));
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          minAge: S.optional(S.String),
-          minRowCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2OrConditions" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          types: S.optional(__S(4512, __c141, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2BigQueryTableTypes" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          createdAfter: S.optional(S.String),
-          typeCollection: S.optional(S.String),
-          orConditions: S.optional(__S(1073, __c33, 17)),
-          types: S.optional(__S(1074, __c33, 18)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryBigQueryConditions" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          frequency: S.optional(S.String),
-          types: S.optional(__S(4512, __c141, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryTableModifiedCadence" });
-    case 21:
       return S.suspend(() =>
         S.Struct({
           frequency: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          frequency: S.optional(S.String),
+          types: S.optional(__S(4544, __c142, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2SchemaModifiedCadence" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          inspectTemplateModifiedCadence: S.optional(__S(1064, __c33, 8)),
+          schemaModifiedCadence: S.optional(__S(1065, __c33, 9)),
+          refreshFrequency: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryCloudSqlGenerationCadence" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          databaseEngines: S.optional(__S(4544, __c142, 0)),
+          types: S.optional(__S(4544, __c142, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryCloudSqlConditions" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(__S(1063, __c33, 7)),
+          disabled: S.optional(__S(4064, __c127, 0)),
+          generationCadence: S.optional(__S(1066, __c33, 10)),
+          conditions: S.optional(__S(1067, __c33, 11)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2CloudSqlDiscoveryTarget" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          inspectTemplateModifiedCadence: S.optional(__S(1064, __c33, 8)),
+          refreshFrequency: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryCloudStorageGenerationCadence" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          namespacedTagValue: S.optional(S.String),
+          namespacedTagKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2TagFilter" });
+    case 15:
+      return S.Array(__S(1070, __c33, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          tagFilters: S.optional(__S(1071, __c33, 15)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2TagFilters" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          projectIdRegex: S.optional(S.String),
+          bucketNameRegex: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2CloudStorageRegex" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          cloudStorageRegex: S.optional(__S(1073, __c33, 17)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2FileStoreRegex" });
+    case 19:
+      return S.Array(__S(1074, __c33, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          patterns: S.optional(__S(1075, __c33, 19)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2FileStoreRegexes" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          includeTags: S.optional(__S(1072, __c33, 16)),
+          includeRegexes: S.optional(__S(1076, __c33, 20)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2FileStoreCollection" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          tableModifiedCadence: S.optional(__S(1076, __c33, 20)),
-          refreshFrequency: S.optional(S.String),
-          schemaModifiedCadence: S.optional(__S(1076, __c33, 20)),
-          inspectTemplateModifiedCadence: S.optional(__S(1077, __c33, 21)),
+          projectId: S.optional(S.String),
+          bucketName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryGenerationCadence" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2CloudStorageResourceReference" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          datasetId: S.optional(S.String),
-          projectId: S.optional(S.String),
-          tableId: S.optional(S.String),
+          collection: S.optional(__S(1077, __c33, 21)),
+          others: S.optional(__S(4064, __c127, 0)),
+          cloudStorageResourceReference: S.optional(__S(1078, __c33, 22)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2TableReference" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryCloudStorageFilter" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          datasetIdRegex: S.optional(S.String),
-          tableIdRegex: S.optional(S.String),
-          projectIdRegex: S.optional(S.String),
+          includedBucketAttributes: S.optional(__S(4544, __c142, 0)),
+          includedObjectAttributes: S.optional(__S(4544, __c142, 0)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2BigQueryRegex" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryCloudStorageConditions" });
     case 25:
-      return S.Array(__S(1080, __c33, 24));
+      return S.suspend(() =>
+        S.Struct({
+          minAge: S.optional(S.String),
+          createdAfter: S.optional(S.String),
+          cloudStorageConditions: S.optional(__S(1080, __c33, 24)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryFileStoreConditions" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          patterns: S.optional(__S(1081, __c33, 25)),
+          generationCadence: S.optional(__S(1069, __c33, 13)),
+          filter: S.optional(__S(1079, __c33, 23)),
+          conditions: S.optional(__S(1081, __c33, 25)),
+          disabled: S.optional(__S(4064, __c127, 0)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2BigQueryRegexes" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2CloudStorageDiscoveryTarget" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          includeRegexes: S.optional(__S(1082, __c33, 26)),
+          projectIdRegex: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2BigQueryTableCollection" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2VertexDatasetRegex" });
     case 28:
-      return S.suspend(() =>
-        S.Struct({
-          otherTables: S.optional(__S(4032, __c126, 0)),
-          tableReference: S.optional(__S(1079, __c33, 23)),
-          tables: S.optional(__S(1083, __c33, 27)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryBigQueryFilter" });
+      return S.Array(__S(1083, __c33, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
-          conditions: S.optional(__S(1075, __c33, 19)),
-          cadence: S.optional(__S(1078, __c33, 22)),
-          filter: S.optional(__S(1084, __c33, 28)),
-          disabled: S.optional(__S(4032, __c126, 0)),
+          patterns: S.optional(__S(1084, __c33, 28)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2BigQueryDiscoveryTarget" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2VertexDatasetRegexes" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          accountIdRegex: S.optional(S.String),
+          vertexDatasetRegexes: S.optional(__S(1085, __c33, 29)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2AwsAccountRegex" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2VertexDatasetCollection" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          awsAccountRegex: S.optional(__S(1086, __c33, 30)),
-          bucketNameRegex: S.optional(S.String),
+          datasetResourceName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2AmazonS3BucketRegex" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2VertexDatasetResourceReference" });
   }
 }
 function __c34(j: number): any {
@@ -8832,208 +8803,221 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          amazonS3BucketRegex: S.optional(__S(1087, __c33, 31)),
+          collection: S.optional(__S(1086, __c33, 30)),
+          others: S.optional(__S(4064, __c127, 0)),
+          vertexDatasetResourceReference: S.optional(__S(1087, __c33, 31)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2OtherCloudResourceRegex" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryVertexDatasetFilter" });
     case 1:
-      return S.Array(__S(1088, __c34, 0));
+      return S.suspend(() =>
+        S.Struct({
+          createdAfter: S.optional(S.String),
+          minAge: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryVertexDatasetConditions" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          patterns: S.optional(__S(1089, __c34, 1)),
+          generationCadence: S.optional(__S(1069, __c33, 13)),
+          disabled: S.optional(__S(4064, __c127, 0)),
+          filter: S.optional(__S(1088, __c34, 0)),
+          conditions: S.optional(__S(1089, __c34, 1)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2OtherCloudResourceRegexes" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2VertexDatasetDiscoveryTarget" });
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          includeRegexes: S.optional(__S(1090, __c34, 2)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2OtherCloudResourceCollection" });
-    case 4:
       return S.suspend(() =>
         S.Struct({
           accountId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2AwsAccount" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          bucketName: S.optional(S.String),
+          awsAccount: S.optional(__S(1091, __c34, 3)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2AmazonS3Bucket" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          awsAccount: S.optional(__S(1092, __c34, 4)),
-          bucketName: S.optional(S.String),
+          amazonS3Bucket: S.optional(__S(1092, __c34, 4)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2AmazonS3Bucket" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2OtherCloudSingleResourceReference" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          amazonS3Bucket: S.optional(__S(1093, __c34, 5)),
+          accountIdRegex: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2OtherCloudSingleResourceReference" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2AwsAccountRegex" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          others: S.optional(__S(4032, __c126, 0)),
-          collection: S.optional(__S(1091, __c34, 3)),
-          singleResource: S.optional(__S(1094, __c34, 6)),
+          awsAccountRegex: S.optional(__S(1094, __c34, 6)),
+          bucketNameRegex: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryOtherCloudFilter" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2AmazonS3BucketRegex" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          refreshFrequency: S.optional(S.String),
-          inspectTemplateModifiedCadence: S.optional(__S(1077, __c33, 21)),
+          amazonS3BucketRegex: S.optional(__S(1095, __c34, 7)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryOtherCloudGenerationCadence" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2OtherCloudResourceRegex" });
     case 9:
-      return S.suspend(() =>
-        S.Struct({
-          bucketTypes: S.optional(__S(4512, __c141, 0)),
-          objectStorageClasses: S.optional(__S(4512, __c141, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2AmazonS3BucketConditions" });
+      return S.Array(__S(1096, __c34, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          amazonS3BucketConditions: S.optional(__S(1097, __c34, 9)),
-          minAge: S.optional(S.String),
+          patterns: S.optional(__S(1097, __c34, 9)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryOtherCloudConditions" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2OtherCloudResourceRegexes" });
     case 11:
+      return S.suspend(() =>
+        S.Struct({
+          includeRegexes: S.optional(__S(1098, __c34, 10)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2OtherCloudResourceCollection" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          singleResource: S.optional(__S(1093, __c34, 5)),
+          others: S.optional(__S(4064, __c127, 0)),
+          collection: S.optional(__S(1099, __c34, 11)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryOtherCloudFilter" });
+    case 13:
       return S.suspend(() =>
         S.Struct({
           dataSource: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2DataSourceType" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          filter: S.optional(__S(1095, __c34, 7)),
-          generationCadence: S.optional(__S(1096, __c34, 8)),
-          conditions: S.optional(__S(1098, __c34, 10)),
-          disabled: S.optional(__S(4032, __c126, 0)),
-          dataSourceType: S.optional(__S(1099, __c34, 11)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2OtherCloudDiscoveryTarget" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          types: S.optional(__S(4512, __c141, 0)),
-          frequency: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2SchemaModifiedCadence" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          schemaModifiedCadence: S.optional(__S(1101, __c34, 13)),
-          inspectTemplateModifiedCadence: S.optional(__S(1077, __c33, 21)),
-          refreshFrequency: S.optional(S.String),
+          bucketTypes: S.optional(__S(4544, __c142, 0)),
+          objectStorageClasses: S.optional(__S(4544, __c142, 0)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryCloudSqlGenerationCadence" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2AmazonS3BucketConditions" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          databaseResource: S.optional(S.String),
-          projectId: S.optional(S.String),
-          database: S.optional(S.String),
-          instance: S.optional(S.String),
+          amazonS3BucketConditions: S.optional(__S(1102, __c34, 14)),
+          minAge: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DatabaseResourceReference" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryOtherCloudConditions" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          databaseRegex: S.optional(S.String),
-          projectIdRegex: S.optional(S.String),
-          instanceRegex: S.optional(S.String),
-          databaseResourceNameRegex: S.optional(S.String),
+          filter: S.optional(__S(1100, __c34, 12)),
+          dataSourceType: S.optional(__S(1101, __c34, 13)),
+          generationCadence: S.optional(__S(1069, __c33, 13)),
+          disabled: S.optional(__S(4064, __c127, 0)),
+          conditions: S.optional(__S(1103, __c34, 15)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DatabaseResourceRegex" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2OtherCloudDiscoveryTarget" });
     case 17:
-      return S.Array(__S(1104, __c34, 16));
+      return S.suspend(() =>
+        S.Struct({
+          types: S.optional(__S(4544, __c142, 0)),
+          frequency: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryTableModifiedCadence" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          patterns: S.optional(__S(1105, __c34, 17)),
+          refreshFrequency: S.optional(S.String),
+          schemaModifiedCadence: S.optional(__S(1065, __c33, 9)),
+          inspectTemplateModifiedCadence: S.optional(__S(1064, __c33, 8)),
+          tableModifiedCadence: S.optional(__S(1105, __c34, 17)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DatabaseResourceRegexes" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryGenerationCadence" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          includeRegexes: S.optional(__S(1106, __c34, 18)),
+          projectId: S.optional(S.String),
+          tableId: S.optional(S.String),
+          datasetId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DatabaseResourceCollection" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2TableReference" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          databaseResourceReference: S.optional(__S(1103, __c34, 15)),
-          others: S.optional(__S(4032, __c126, 0)),
-          collection: S.optional(__S(1107, __c34, 19)),
+          projectIdRegex: S.optional(S.String),
+          tableIdRegex: S.optional(S.String),
+          datasetIdRegex: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryCloudSqlFilter" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2BigQueryRegex" });
     case 21:
-      return S.suspend(() =>
-        S.Struct({
-          databaseEngines: S.optional(__S(4512, __c141, 0)),
-          types: S.optional(__S(4512, __c141, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryCloudSqlConditions" });
+      return S.Array(__S(1108, __c34, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          disabled: S.optional(__S(4032, __c126, 0)),
-          generationCadence: S.optional(__S(1102, __c34, 14)),
-          filter: S.optional(__S(1108, __c34, 20)),
-          conditions: S.optional(__S(1109, __c34, 21)),
+          patterns: S.optional(__S(1109, __c34, 21)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2CloudSqlDiscoveryTarget" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2BigQueryRegexes" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          namespacedTagValue: S.optional(S.String),
-          namespacedTagKey: S.optional(S.String),
+          includeRegexes: S.optional(__S(1110, __c34, 22)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2TagFilter" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2BigQueryTableCollection" });
     case 24:
-      return S.Array(__S(1111, __c34, 23));
+      return S.suspend(() =>
+        S.Struct({
+          otherTables: S.optional(__S(4064, __c127, 0)),
+          tableReference: S.optional(__S(1107, __c34, 19)),
+          tables: S.optional(__S(1111, __c34, 23)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryBigQueryFilter" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          tagFilters: S.optional(__S(1112, __c34, 24)),
+          minRowCount: S.optional(S.Number),
+          minAge: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2TagFilters" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2OrConditions" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          projectIdRegex: S.optional(S.String),
-          bucketNameRegex: S.optional(S.String),
+          types: S.optional(__S(4544, __c142, 0)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2CloudStorageRegex" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2BigQueryTableTypes" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          cloudStorageRegex: S.optional(__S(1114, __c34, 26)),
+          createdAfter: S.optional(S.String),
+          orConditions: S.optional(__S(1113, __c34, 25)),
+          types: S.optional(__S(1114, __c34, 26)),
+          typeCollection: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2FileStoreRegex" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryBigQueryConditions" });
     case 28:
-      return S.Array(__S(1115, __c34, 27));
+      return S.suspend(() =>
+        S.Struct({
+          disabled: S.optional(__S(4064, __c127, 0)),
+          cadence: S.optional(__S(1106, __c34, 18)),
+          filter: S.optional(__S(1112, __c34, 24)),
+          conditions: S.optional(__S(1115, __c34, 27)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2BigQueryDiscoveryTarget" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          patterns: S.optional(__S(1116, __c34, 28)),
+          secretsTarget: S.optional(__S(4064, __c127, 0)),
+          cloudSqlTarget: S.optional(__S(1068, __c33, 12)),
+          cloudStorageTarget: S.optional(__S(1082, __c33, 26)),
+          vertexDatasetTarget: S.optional(__S(1090, __c34, 2)),
+          otherCloudTarget: S.optional(__S(1104, __c34, 16)),
+          bigQueryTarget: S.optional(__S(1116, __c34, 28)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2FileStoreRegexes" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryTarget" });
     case 30:
-      return S.suspend(() =>
-        S.Struct({
-          includeTags: S.optional(__S(1113, __c34, 25)),
-          includeRegexes: S.optional(__S(1117, __c34, 29)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2FileStoreCollection" });
+      return S.Array(__S(1117, __c34, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
-          bucketName: S.optional(S.String),
-          projectId: S.optional(S.String),
+          lowerDataRiskToLow: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2CloudStorageResourceReference" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2PublishToDataplexCatalog" });
   }
 }
 function __c35(j: number): any {
@@ -9041,135 +9025,120 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          others: S.optional(__S(4032, __c126, 0)),
-          collection: S.optional(__S(1118, __c34, 30)),
-          cloudStorageResourceReference: S.optional(__S(1119, __c34, 31)),
+          minimumRiskScore: S.optional(S.String),
+          minimumSensitivityScore: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryCloudStorageFilter" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2PubSubCondition" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          includedBucketAttributes: S.optional(__S(4512, __c141, 0)),
-          includedObjectAttributes: S.optional(__S(4512, __c141, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryCloudStorageConditions" });
+      return S.Array(__S(1120, __c35, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          createdAfter: S.optional(S.String),
-          minAge: S.optional(S.String),
-          cloudStorageConditions: S.optional(__S(1121, __c35, 1)),
+          conditions: S.optional(__S(1121, __c35, 1)),
+          logicalOperator: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryFileStoreConditions" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2PubSubExpressions" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          disabled: S.optional(__S(4032, __c126, 0)),
-          generationCadence: S.optional(__S(1096, __c34, 8)),
-          filter: S.optional(__S(1120, __c35, 0)),
-          conditions: S.optional(__S(1122, __c35, 2)),
+          expressions: S.optional(__S(1122, __c35, 2)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2CloudStorageDiscoveryTarget" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DataProfilePubSubCondition" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          minAge: S.optional(S.String),
-          createdAfter: S.optional(S.String),
+          event: S.optional(S.String),
+          topic: S.optional(S.String),
+          pubsubCondition: S.optional(__S(1123, __c35, 3)),
+          detailOfMessage: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryVertexDatasetConditions" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2PubSubNotification" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          projectIdRegex: S.optional(S.String),
+          profileTable: S.optional(__S(3808, __c119, 0)),
+          sampleFindingsTable: S.optional(__S(3808, __c119, 0)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2VertexDatasetRegex" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2Export" });
     case 6:
-      return S.Array(__S(1125, __c35, 5));
+      return S.suspend(() =>
+        S.Struct({
+          namespacedValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2TagValue" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          patterns: S.optional(__S(1126, __c35, 6)),
+          tag: S.optional(__S(1126, __c35, 6)),
+          sensitivityScore: S.optional(__S(4416, __c138, 0)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2VertexDatasetRegexes" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2TagCondition" });
     case 8:
-      return S.suspend(() =>
-        S.Struct({
-          vertexDatasetRegexes: S.optional(__S(1127, __c35, 7)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2VertexDatasetCollection" });
+      return S.Array(__S(1127, __c35, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          datasetResourceName: S.optional(S.String),
+          lowerDataRiskToLow: S.optional(S.Boolean),
+          profileGenerationsToTag: S.optional(__S(4544, __c142, 0)),
+          tagConditions: S.optional(__S(1128, __c35, 8)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2VertexDatasetResourceReference" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2TagResources" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          collection: S.optional(__S(1128, __c35, 8)),
-          vertexDatasetResourceReference: S.optional(__S(1129, __c35, 9)),
-          others: S.optional(__S(4032, __c126, 0)),
+          publishToChronicle: S.optional(__S(4064, __c127, 0)),
+          publishToDataplexCatalog: S.optional(__S(1119, __c34, 31)),
+          pubSubNotification: S.optional(__S(1124, __c35, 4)),
+          publishToScc: S.optional(__S(4064, __c127, 0)),
+          exportData: S.optional(__S(1125, __c35, 5)),
+          tagResources: S.optional(__S(1129, __c35, 9)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryVertexDatasetFilter" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DataProfileAction" });
     case 11:
-      return S.suspend(() =>
-        S.Struct({
-          conditions: S.optional(__S(1124, __c35, 4)),
-          generationCadence: S.optional(__S(1096, __c34, 8)),
-          filter: S.optional(__S(1130, __c35, 10)),
-          disabled: S.optional(__S(4032, __c126, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2VertexDatasetDiscoveryTarget" });
+      return S.Array(__S(1130, __c35, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          bigQueryTarget: S.optional(__S(1085, __c33, 29)),
-          otherCloudTarget: S.optional(__S(1100, __c34, 12)),
-          cloudSqlTarget: S.optional(__S(1110, __c34, 22)),
-          cloudStorageTarget: S.optional(__S(1123, __c35, 3)),
-          vertexDatasetTarget: S.optional(__S(1131, __c35, 11)),
-          secretsTarget: S.optional(__S(4032, __c126, 0)),
+          folderId: S.optional(S.String),
+          organizationId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryTarget" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryStartingLocation" });
     case 13:
-      return S.Array(__S(1132, __c35, 12));
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.optional(S.String),
+          location: S.optional(__S(1132, __c35, 12)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2OrgConfig" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          globalProcessing: S.optional(__S(4032, __c126, 0)),
-          multiRegionProcessing: S.optional(__S(4032, __c126, 0)),
+          allAssetInventoryAssets: S.optional(S.Boolean),
+          accountId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DocumentFallbackLocation" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2AwsDiscoveryStartingLocation" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          multiRegionProcessing: S.optional(__S(4032, __c126, 0)),
-          globalProcessing: S.optional(__S(4032, __c126, 0)),
+          awsLocation: S.optional(__S(1134, __c35, 14)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ImageFallbackLocation" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2OtherCloudDiscoveryStartingLocation" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          documentFallbackLocation: S.optional(__S(1134, __c35, 14)),
-          imageFallbackLocation: S.optional(__S(1135, __c35, 15)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ProcessingLocation" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          errors: S.optional(__S(3745, __c117, 1)),
-          otherCloudStartingLocation: S.optional(__S(1057, __c33, 1)),
-          orgConfig: S.optional(__S(1059, __c33, 3)),
-          inspectTemplates: S.optional(__S(4352, __c136, 0)),
-          updateTime: S.optional(S.String),
-          status: S.optional(S.String),
-          actions: S.optional(__S(1072, __c33, 16)),
-          targets: S.optional(__S(1133, __c35, 13)),
           createTime: S.optional(S.String),
-          processingLocation: S.optional(__S(1136, __c35, 16)),
           displayName: S.optional(S.String),
-          lastRunTime: S.optional(S.String),
+          errors: S.optional(__S(3777, __c118, 1)),
+          updateTime: S.optional(S.String),
           name: S.optional(S.String),
+          processingLocation: S.optional(__S(1057, __c33, 1)),
+          targets: S.optional(__S(1118, __c34, 30)),
+          lastRunTime: S.optional(S.String),
+          actions: S.optional(__S(1131, __c35, 11)),
+          inspectTemplates: S.optional(__S(4384, __c137, 0)),
+          orgConfig: S.optional(__S(1133, __c35, 13)),
+          status: S.optional(S.String),
+          otherCloudStartingLocation: S.optional(__S(1135, __c35, 15)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2DiscoveryConfig" });
   }
@@ -9179,11 +9148,11 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9199,9 +9168,9 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          languageCode: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           locationId: S.optional(S.String.pipe(T.Query())),
-          languageCode: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -9218,10 +9187,10 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           locationId: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -9238,13 +9207,13 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String.pipe(T.Query())),
-          locationId: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          type: S.optional(S.String.pipe(T.Query())),
+          locationId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9260,11 +9229,11 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9280,9 +9249,9 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           locationId: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -9300,11 +9269,11 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9320,11 +9289,11 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           locationId: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9339,10 +9308,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsDeidentifyTemplatesRequest" });
@@ -9353,8 +9324,8 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deidentifyTemplate: S.optional(__S(4320, __c135, 0)),
           updateMask: S.optional(S.String),
+          deidentifyTemplate: S.optional(__S(4352, __c136, 0)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest" });
   }
@@ -9363,10 +9334,12 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsInspectTemplatesRequest" });
@@ -9377,7 +9350,7 @@ function __c47(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          inspectTemplate: S.optional(__S(4640, __c145, 0)),
+          inspectTemplate: S.optional(__S(4672, __c146, 0)),
           updateMask: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2UpdateInspectTemplateRequest" });
@@ -9387,10 +9360,12 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6752, __c211, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6784, __c212, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/inspectTemplates",
@@ -9404,10 +9379,12 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsLocationsConnectionsRequest" });
@@ -9428,10 +9405,12 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsLocationsDeidentifyTemplatesRequest" });
@@ -9441,10 +9420,12 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsLocationsDiscoveryConfigsRequest" });
@@ -9455,8 +9436,8 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          discoveryConfig: S.optional(__S(1137, __c35, 17)),
           updateMask: S.optional(S.String),
+          discoveryConfig: S.optional(__S(1136, __c35, 16)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2UpdateDiscoveryConfigRequest" });
   }
@@ -9465,10 +9446,12 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsLocationsInspectTemplatesRequest" });
@@ -9478,10 +9461,12 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1792, __c56, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsLocationsJobTriggersRequest" });
@@ -9492,8 +9477,8 @@ function __c56(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String),
           jobTrigger: S.optional(__S(2083, __c65, 3)),
+          updateMask: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2UpdateJobTriggerRequest" });
   }
@@ -9502,10 +9487,12 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1856, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1856, __c58, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsLocationsStoredInfoTypesRequest" });
@@ -9526,10 +9513,12 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1856, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1856, __c58, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsStoredInfoTypesRequest" });
@@ -9539,10 +9528,12 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsDeidentifyTemplatesRequest" });
@@ -9552,10 +9543,12 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsInspectTemplatesRequest" });
@@ -9565,10 +9558,12 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1792, __c56, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsJobTriggersRequest" });
@@ -9578,10 +9573,12 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2048, __c64, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/jobTriggers",
@@ -9596,9 +9593,9 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          locationId: S.optional(S.String),
           jobTrigger: S.optional(__S(2083, __c65, 3)),
           triggerId: S.optional(S.String),
+          locationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2CreateJobTriggerRequest" });
   }
@@ -9615,7 +9612,7 @@ function __c65(j: number): any {
       return S.suspend(() =>
         S.Struct({
           schedule: S.optional(__S(2080, __c65, 0)),
-          manual: S.optional(__S(4032, __c126, 0)),
+          manual: S.optional(__S(4064, __c127, 0)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2Trigger" });
     case 2:
@@ -9623,16 +9620,16 @@ function __c65(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          inspectJob: S.optional(__S(3856, __c120, 16)),
-          status: S.optional(S.String),
-          displayName: S.optional(S.String),
-          lastRunTime: S.optional(S.String),
           updateTime: S.optional(S.String),
-          errors: S.optional(__S(3745, __c117, 1)),
-          triggers: S.optional(__S(2082, __c65, 2)),
+          inspectJob: S.optional(__S(3888, __c121, 16)),
+          status: S.optional(S.String),
+          name: S.optional(S.String),
           createTime: S.optional(S.String),
+          lastRunTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          errors: S.optional(__S(3777, __c118, 1)),
+          description: S.optional(S.String),
+          triggers: S.optional(__S(2082, __c65, 2)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2JobTrigger" });
   }
@@ -9641,10 +9638,12 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsConnectionsRequest" });
@@ -9655,16 +9654,18 @@ function __c67(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contentPolicy: S.optional(__S(2986, __c93, 10)),
           updateMask: S.optional(S.String),
+          contentPolicy: S.optional(__S(3018, __c94, 10)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2UpdateContentPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2144, __c67, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2144, __c67, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsContentPoliciesRequest" });
@@ -9674,10 +9675,12 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsDeidentifyTemplatesRequest" });
@@ -9687,10 +9690,12 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsDiscoveryConfigsRequest" });
@@ -9700,10 +9705,12 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsInspectTemplatesRequest" });
@@ -9713,10 +9720,12 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1792, __c56, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsJobTriggersRequest" });
@@ -9726,10 +9735,12 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1856, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1856, __c58, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsStoredInfoTypesRequest" });
@@ -9739,10 +9750,12 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1856, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1856, __c58, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsStoredInfoTypesRequest" });
@@ -9752,10 +9765,12 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2402, __c75, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2402, __c75, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/image:redact",
@@ -9770,9 +9785,9 @@ function __c75(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          redactionColor: S.optional(__S(4256, __c133, 0)),
+          infoType: S.optional(__S(4480, __c140, 0)),
           redactAllText: S.optional(S.Boolean),
-          infoType: S.optional(__S(4448, __c139, 0)),
-          redactionColor: S.optional(__S(4224, __c132, 0)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2ImageRedactionConfig" });
     case 1:
@@ -9780,21 +9795,21 @@ function __c75(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          includeFindings: S.optional(S.Boolean),
-          byteItem: S.optional(__S(3328, __c104, 0)),
-          inspectConfig: S.optional(__S(4637, __c144, 29)),
-          locationId: S.optional(S.String),
-          inspectTemplate: S.optional(S.String),
           deidentifyTemplate: S.optional(S.String),
+          includeFindings: S.optional(S.Boolean),
           imageRedactionConfigs: S.optional(__S(2401, __c75, 1)),
+          byteItem: S.optional(__S(3360, __c105, 0)),
+          inspectTemplate: S.optional(S.String),
+          inspectConfig: S.optional(__S(4669, __c145, 29)),
+          locationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2RedactImageRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          redactedImage: S.optional(S.String),
           extractedText: S.optional(S.String),
-          inspectResult: S.optional(__S(6904, __c215, 24)),
+          redactedImage: S.optional(S.String),
+          inspectResult: S.optional(__S(6936, __c216, 24)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2RedactImageResponse" });
   }
@@ -9803,10 +9818,12 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2402, __c75, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2402, __c75, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/image:redact",
@@ -9820,10 +9837,12 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/storedInfoTypes",
@@ -9838,9 +9857,9 @@ function __c78(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          config: S.optional(__S(2531, __c79, 3)),
-          storedInfoTypeId: S.optional(S.String),
           locationId: S.optional(S.String),
+          storedInfoTypeId: S.optional(S.String),
+          config: S.optional(__S(2531, __c79, 3)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2CreateStoredInfoTypeRequest" });
   }
@@ -9850,32 +9869,32 @@ function __c79(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          table: S.optional(__S(3776, __c118, 0)),
-          field: S.optional(__S(4064, __c127, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2BigQueryField" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2CloudStorageFileSet" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          table: S.optional(__S(3808, __c119, 0)),
+          field: S.optional(__S(4096, __c128, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2BigQueryField" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          outputPath: S.optional(__S(4544, __c142, 0)),
-          bigQueryField: S.optional(__S(2528, __c79, 0)),
-          cloudStorageFileSet: S.optional(__S(2529, __c79, 1)),
+          cloudStorageFileSet: S.optional(__S(2528, __c79, 0)),
+          outputPath: S.optional(__S(4576, __c143, 0)),
+          bigQueryField: S.optional(__S(2529, __c79, 1)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2LargeCustomDictionaryConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dictionary: S.optional(__S(4547, __c142, 3)),
-          description: S.optional(S.String),
           displayName: S.optional(S.String),
-          regex: S.optional(__S(4546, __c142, 2)),
           largeCustomDictionary: S.optional(__S(2530, __c79, 2)),
+          regex: S.optional(__S(4578, __c143, 2)),
+          dictionary: S.optional(__S(4579, __c143, 3)),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2StoredInfoTypeConfig" });
     case 4:
@@ -9893,11 +9912,11 @@ function __c79(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          stats: S.optional(__S(2533, __c79, 5)),
+          errors: S.optional(__S(3777, __c118, 1)),
           state: S.optional(S.String),
-          createTime: S.optional(S.String),
           config: S.optional(__S(2531, __c79, 3)),
-          errors: S.optional(__S(3745, __c117, 1)),
+          createTime: S.optional(S.String),
+          stats: S.optional(__S(2533, __c79, 5)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2StoredInfoTypeVersion" });
     case 7:
@@ -9905,8 +9924,8 @@ function __c79(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          currentVersion: S.optional(__S(2534, __c79, 6)),
           pendingVersions: S.optional(__S(2535, __c79, 7)),
+          currentVersion: S.optional(__S(2534, __c79, 6)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2StoredInfoType" });
@@ -9916,10 +9935,12 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2592, __c81, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/content:reidentify",
@@ -9934,19 +9955,19 @@ function __c81(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          reidentifyTemplateName: S.optional(S.String),
-          item: S.optional(__S(3378, __c105, 18)),
-          reidentifyConfig: S.optional(__S(4290, __c134, 2)),
-          inspectTemplateName: S.optional(S.String),
           locationId: S.optional(S.String),
-          inspectConfig: S.optional(__S(4637, __c144, 29)),
+          reidentifyTemplateName: S.optional(S.String),
+          inspectTemplateName: S.optional(S.String),
+          item: S.optional(__S(3410, __c106, 18)),
+          inspectConfig: S.optional(__S(4669, __c145, 29)),
+          reidentifyConfig: S.optional(__S(4322, __c135, 2)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2ReidentifyContentRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          overview: S.optional(__S(3300, __c103, 4)),
-          item: S.optional(__S(3378, __c105, 18)),
+          overview: S.optional(__S(3332, __c104, 4)),
+          item: S.optional(__S(3410, __c106, 18)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2ReidentifyContentResponse" });
   }
@@ -9955,10 +9976,12 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2592, __c81, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/content:reidentify",
@@ -9973,10 +9996,10 @@ function __c83(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9992,10 +10015,21 @@ function __c84(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          connections: S.optional(__S(7328, __c229, 0)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2SearchConnectionsResponse" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -10006,14 +10040,16 @@ function __c84(j: number): any {
       ).annotate({ identifier: "SearchProjectsLocationsConnectionsRequest" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/storedInfoTypes",
@@ -10023,14 +10059,16 @@ function __c85(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsStoredInfoTypesRequest" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6304, __c197, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6336, __c198, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/deidentifyTemplates",
@@ -10040,14 +10078,16 @@ function __c86(j: number): any {
       ).annotate({ identifier: "CreateProjectsDeidentifyTemplatesRequest" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2848, __c89, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/dlpJobs",
@@ -10057,27 +10097,29 @@ function __c87(j: number): any {
       ).annotate({ identifier: "CreateProjectsDlpJobsRequest" });
   }
 }
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          riskJob: S.optional(__S(3994, __c124, 26)),
-          locationId: S.optional(S.String),
-          jobId: S.optional(S.String),
-          inspectJob: S.optional(__S(3856, __c120, 16)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2CreateDlpJobRequest" });
-  }
-}
 function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6752, __c211, 0).pipe(T.HttpBody())),
-        }).pipe(
+          riskJob: S.optional(__S(4026, __c125, 26)),
+          inspectJob: S.optional(__S(3888, __c121, 16)),
+          locationId: S.optional(S.String),
+          jobId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2CreateDlpJobRequest" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(6784, __c212, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/inspectTemplates",
@@ -10087,14 +10129,16 @@ function __c89(j: number): any {
       ).annotate({ identifier: "CreateProjectsInspectTemplatesRequest" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2048, __c64, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/jobTriggers",
@@ -10104,14 +10148,16 @@ function __c90(j: number): any {
       ).annotate({ identifier: "CreateProjectsJobTriggersRequest" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/connections",
@@ -10121,21 +10167,23 @@ function __c91(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsConnectionsRequest" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contentPolicy: S.optional(__S(2986, __c93, 10)),
           contentPolicyId: S.optional(S.String),
+          contentPolicy: S.optional(__S(3018, __c94, 10)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2CreateContentPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2944, __c92, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2976, __c93, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/contentPolicies",
@@ -10145,7 +10193,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsContentPoliciesRequest" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10156,77 +10204,79 @@ function __c93(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          infoTypeNames: S.optional(__S(4352, __c136, 0)),
+          tableId: S.optional(S.String),
+          projectId: S.optional(S.String),
+          datasetId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2InfoTypes" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2LogToBigQuery" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          minCount: S.optional(S.String),
-          infoTypes: S.optional(__S(2977, __c93, 1)),
-          anyInfoType: S.optional(__S(4032, __c126, 0)),
+          logToBigQuery: S.optional(__S(3009, __c94, 1)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2InfoTypeCondition" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2LoggingConfig" });
     case 3:
+      return S.Array(__S(3010, __c94, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          infoTypeCondition: S.optional(__S(2978, __c93, 2)),
+          infoTypeNames: S.optional(__S(4384, __c137, 0)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2PolicyCondition" });
-    case 4:
-      return S.Array(__S(2979, __c93, 3));
+      ).annotate({ identifier: "GooglePrivacyDlpV2InfoTypes" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          action: S.optional(__S(2976, __c93, 0)),
-          conditions: S.optional(__S(2980, __c93, 4)),
+          minCount: S.optional(S.String),
+          infoTypes: S.optional(__S(3012, __c94, 4)),
+          anyInfoType: S.optional(__S(4064, __c127, 0)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2PolicyRule" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2InfoTypeCondition" });
     case 6:
-      return S.Array(__S(2981, __c93, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String),
-          datasetId: S.optional(S.String),
-          tableId: S.optional(S.String),
+          infoTypeCondition: S.optional(__S(3013, __c94, 5)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2LogToBigQuery" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2PolicyCondition" });
+    case 7:
+      return S.Array(__S(3014, __c94, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          logToBigQuery: S.optional(__S(2983, __c93, 7)),
+          conditions: S.optional(__S(3015, __c94, 7)),
+          action: S.optional(__S(3008, __c94, 0)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2LoggingConfig" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2PolicyRule" });
     case 9:
-      return S.Array(__S(2984, __c93, 8));
+      return S.Array(__S(3016, __c94, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          failedToScanSupportedFileType: S.optional(__S(2976, __c93, 0)),
-          createTime: S.optional(S.String),
+          defaultAction: S.optional(__S(3008, __c94, 0)),
+          errors: S.optional(__S(3777, __c118, 1)),
+          failedToScanSupportedFileType: S.optional(__S(3008, __c94, 0)),
           name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          errors: S.optional(__S(3745, __c117, 1)),
-          inspectConfig: S.optional(__S(4637, __c144, 29)),
-          defaultAction: S.optional(__S(2976, __c93, 0)),
-          inputTooLarge: S.optional(__S(2976, __c93, 0)),
-          rules: S.optional(__S(2982, __c93, 6)),
-          loggingConfigs: S.optional(__S(2985, __c93, 9)),
-          unsupportedFileType: S.optional(__S(2976, __c93, 0)),
+          loggingConfigs: S.optional(__S(3011, __c94, 3)),
+          createTime: S.optional(S.String),
+          unsupportedFileType: S.optional(__S(3008, __c94, 0)),
+          inputTooLarge: S.optional(__S(3008, __c94, 0)),
+          rules: S.optional(__S(3017, __c94, 9)),
+          inspectConfig: S.optional(__S(4669, __c145, 29)),
           displayName: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2ContentPolicy" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6304, __c197, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6336, __c198, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/deidentifyTemplates",
@@ -10236,14 +10286,16 @@ function __c94(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDeidentifyTemplatesRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/discoveryConfigs",
@@ -10253,14 +10305,16 @@ function __c95(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDiscoveryConfigsRequest" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2848, __c89, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/dlpJobs",
@@ -10270,14 +10324,16 @@ function __c96(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDlpJobsRequest" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6752, __c211, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6784, __c212, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/inspectTemplates",
@@ -10287,14 +10343,16 @@ function __c97(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsInspectTemplatesRequest" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2048, __c64, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/jobTriggers",
@@ -10304,14 +10362,16 @@ function __c98(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsJobTriggersRequest" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/storedInfoTypes",
@@ -10321,14 +10381,16 @@ function __c99(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsStoredInfoTypesRequest" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/storedInfoTypes",
@@ -10338,14 +10400,16 @@ function __c100(j: number): any {
       ).annotate({ identifier: "CreateProjectsStoredInfoTypesRequest" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3264, __c102, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/content:deidentify",
@@ -10355,61 +10419,26 @@ function __c101(j: number): any {
       ).annotate({ identifier: "DeidentifyProjectsContentRequest" });
   }
 }
-function __c102(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          inspectTemplateName: S.optional(S.String),
-          deidentifyConfig: S.optional(__S(4290, __c134, 2)),
-          deidentifyTemplateName: S.optional(S.String),
-          locationId: S.optional(S.String),
-          item: S.optional(__S(3378, __c105, 18)),
-          inspectConfig: S.optional(__S(4637, __c144, 29)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DeidentifyContentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          item: S.optional(__S(3378, __c105, 18)),
-          overview: S.optional(__S(3300, __c103, 4)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DeidentifyContentResponse" });
-  }
-}
 function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(S.String),
-          code: S.optional(S.String),
-          count: S.optional(S.String),
+          inspectTemplateName: S.optional(S.String),
+          deidentifyConfig: S.optional(__S(4322, __c135, 2)),
+          locationId: S.optional(S.String),
+          item: S.optional(__S(3410, __c106, 18)),
+          deidentifyTemplateName: S.optional(S.String),
+          inspectConfig: S.optional(__S(4669, __c145, 29)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2SummaryResult" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DeidentifyContentRequest" });
     case 1:
-      return S.Array(__S(3296, __c103, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          fieldTransformations: S.optional(__S(4285, __c133, 29)),
-          transformedBytes: S.optional(S.String),
-          infoType: S.optional(__S(4448, __c139, 0)),
-          recordSuppress: S.optional(__S(4282, __c133, 26)),
-          transformation: S.optional(__S(4272, __c133, 16)),
-          results: S.optional(__S(3297, __c103, 1)),
-          field: S.optional(__S(4064, __c127, 0)),
+          item: S.optional(__S(3410, __c106, 18)),
+          overview: S.optional(__S(3332, __c104, 4)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2TransformationSummary" });
-    case 3:
-      return S.Array(__S(3298, __c103, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          transformedBytes: S.optional(S.String),
-          transformationSummaries: S.optional(__S(3299, __c103, 3)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2TransformationOverview" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DeidentifyContentResponse" });
   }
 }
 function __c104(j: number): any {
@@ -10417,10 +10446,34 @@ function __c104(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          data: S.optional(S.String),
+          details: S.optional(S.String),
+          count: S.optional(S.String),
+          code: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ByteContentItem" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2SummaryResult" });
+    case 1:
+      return S.Array(__S(3328, __c104, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          recordSuppress: S.optional(__S(4317, __c134, 29)),
+          transformedBytes: S.optional(S.String),
+          fieldTransformations: S.optional(__S(4320, __c135, 0)),
+          field: S.optional(__S(4096, __c128, 0)),
+          infoType: S.optional(__S(4480, __c140, 0)),
+          transformation: S.optional(__S(4304, __c134, 16)),
+          results: S.optional(__S(3329, __c104, 1)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2TransformationSummary" });
+    case 3:
+      return S.Array(__S(3330, __c104, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          transformedBytes: S.optional(S.String),
+          transformationSummaries: S.optional(__S(3331, __c104, 3)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2TransformationOverview" });
   }
 }
 function __c105(j: number): any {
@@ -10428,107 +10481,10 @@ function __c105(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          text: S.optional(S.String),
+          data: S.optional(S.String),
+          type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2MessagePart" });
-    case 1:
-      return S.Array(__S(3360, __c105, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          participantId: S.optional(S.String),
-          messageType: S.optional(S.String),
-          messageParts: S.optional(__S(3361, __c105, 1)),
-          content: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ConversationMessage" });
-    case 3:
-      return S.Array(__S(3362, __c105, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          messages: S.optional(__S(3363, __c105, 3)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Conversation" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(S.String),
-          key: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2KeyValueMetadataProperty" });
-    case 6:
-      return S.Array(__S(3365, __c105, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          value: S.optional(__S(4160, __c130, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2LabelFieldMetadata" });
-    case 8:
-      return S.Array(__S(3367, __c105, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          labelId: S.optional(S.String),
-          labelFields: S.optional(__S(3368, __c105, 8)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2GoogleDriveLabelMetadata" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          googleDriveLabel: S.optional(__S(3369, __c105, 9)),
-          sensitivityLabel: S.optional(__S(4576, __c143, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2FileLabel" });
-    case 11:
-      return S.Array(__S(3370, __c105, 10));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          properties: S.optional(__S(3366, __c105, 6)),
-          fileLabels: S.optional(__S(3371, __c105, 11)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ContentMetadata" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          values: S.optional(__S(3936, __c123, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Row" });
-    case 14:
-      return S.Array(__S(3373, __c105, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          headers: S.optional(__S(4096, __c128, 0)),
-          rows: S.optional(__S(3374, __c105, 14)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Table" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          values: S.optional(__S(4352, __c136, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2StringValueBatch" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          stringValueBatch: S.optional(__S(3376, __c105, 16)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2BatchContentItem" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          conversation: S.optional(__S(3364, __c105, 4)),
-          contentMetadata: S.optional(__S(3372, __c105, 12)),
-          byteItem: S.optional(__S(3328, __c104, 0)),
-          table: S.optional(__S(3375, __c105, 15)),
-          value: S.optional(S.String),
-          batchContentItem: S.optional(__S(3377, __c105, 17)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ContentItem" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2ByteContentItem" });
   }
 }
 function __c106(j: number): any {
@@ -10536,9 +10492,119 @@ function __c106(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3264, __c102, 0).pipe(T.HttpBody())),
-        }).pipe(
+          values: S.optional(__S(4384, __c137, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2StringValueBatch" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          stringValueBatch: S.optional(__S(3392, __c106, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2BatchContentItem" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          text: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2MessagePart" });
+    case 3:
+      return S.Array(__S(3394, __c106, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          content: S.optional(S.String),
+          messageParts: S.optional(__S(3395, __c106, 3)),
+          participantId: S.optional(S.String),
+          messageType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2ConversationMessage" });
+    case 5:
+      return S.Array(__S(3396, __c106, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          messages: S.optional(__S(3397, __c106, 5)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2Conversation" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(__S(4192, __c131, 0)),
+          id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2LabelFieldMetadata" });
+    case 8:
+      return S.Array(__S(3399, __c106, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          labelFields: S.optional(__S(3400, __c106, 8)),
+          labelId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2GoogleDriveLabelMetadata" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          sensitivityLabel: S.optional(__S(4608, __c144, 0)),
+          googleDriveLabel: S.optional(__S(3401, __c106, 9)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2FileLabel" });
+    case 11:
+      return S.Array(__S(3402, __c106, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          key: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2KeyValueMetadataProperty" });
+    case 13:
+      return S.Array(__S(3404, __c106, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          fileLabels: S.optional(__S(3403, __c106, 11)),
+          properties: S.optional(__S(3405, __c106, 13)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2ContentMetadata" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(3968, __c124, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2Row" });
+    case 16:
+      return S.Array(__S(3407, __c106, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          headers: S.optional(__S(4128, __c129, 0)),
+          rows: S.optional(__S(3408, __c106, 16)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2Table" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          byteItem: S.optional(__S(3360, __c105, 0)),
+          batchContentItem: S.optional(__S(3393, __c106, 1)),
+          conversation: S.optional(__S(3398, __c106, 6)),
+          contentMetadata: S.optional(__S(3406, __c106, 14)),
+          table: S.optional(__S(3409, __c106, 17)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2ContentItem" });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/content:deidentify",
@@ -10546,18 +10612,6 @@ function __c106(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeidentifyProjectsLocationsContentRequest" });
-  }
-}
-function __c107(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "DeleteOrganizationsDeidentifyTemplatesRequest" });
   }
 }
 function __c108(j: number): any {
@@ -10569,7 +10623,7 @@ function __c108(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteOrganizationsInspectTemplatesRequest" });
+      ).annotate({ identifier: "DeleteOrganizationsDeidentifyTemplatesRequest" });
   }
 }
 function __c109(j: number): any {
@@ -10581,7 +10635,7 @@ function __c109(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteOrganizationsLocationsConnectionsRequest" });
+      ).annotate({ identifier: "DeleteOrganizationsInspectTemplatesRequest" });
   }
 }
 function __c110(j: number): any {
@@ -10593,7 +10647,7 @@ function __c110(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteOrganizationsLocationsDeidentifyTemplatesRequest" });
+      ).annotate({ identifier: "DeleteOrganizationsLocationsConnectionsRequest" });
   }
 }
 function __c111(j: number): any {
@@ -10605,7 +10659,7 @@ function __c111(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteOrganizationsLocationsDiscoveryConfigsRequest" });
+      ).annotate({ identifier: "DeleteOrganizationsLocationsDeidentifyTemplatesRequest" });
   }
 }
 function __c112(j: number): any {
@@ -10617,7 +10671,7 @@ function __c112(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteOrganizationsLocationsFileStoreDataProfilesRequest" });
+      ).annotate({ identifier: "DeleteOrganizationsLocationsDiscoveryConfigsRequest" });
   }
 }
 function __c113(j: number): any {
@@ -10629,7 +10683,7 @@ function __c113(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteOrganizationsLocationsInspectTemplatesRequest" });
+      ).annotate({ identifier: "DeleteOrganizationsLocationsFileStoreDataProfilesRequest" });
   }
 }
 function __c114(j: number): any {
@@ -10641,7 +10695,7 @@ function __c114(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteOrganizationsLocationsJobTriggersRequest" });
+      ).annotate({ identifier: "DeleteOrganizationsLocationsInspectTemplatesRequest" });
   }
 }
 function __c115(j: number): any {
@@ -10650,7 +10704,19 @@ function __c115(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4032, __c126, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "DeleteOrganizationsLocationsJobTriggersRequest" });
+  }
+}
+function __c116(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(4064, __c127, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10661,34 +10727,20 @@ function __c115(j: number): any {
       ).annotate({ identifier: "ActivateProjectsJobTriggersRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(3712, __c116, 0));
+      return S.Array(__S(3744, __c117, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
+          details: S.optional(__S(3745, __c117, 1)),
           code: S.optional(S.Number),
-          details: S.optional(__S(3713, __c116, 1)),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
-  }
-}
-function __c117(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          timestamps: S.optional(__S(4352, __c136, 0)),
-          details: S.optional(__S(3714, __c116, 2)),
-          extraInfo: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Error" });
-    case 1:
-      return S.Array(__S(3744, __c117, 0));
   }
 }
 function __c118(j: number): any {
@@ -10696,161 +10748,31 @@ function __c118(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tableId: S.optional(S.String),
-          projectId: S.optional(S.String),
-          datasetId: S.optional(S.String),
+          extraInfo: S.optional(S.String),
+          timestamps: S.optional(__S(4384, __c137, 0)),
+          details: S.optional(__S(3746, __c117, 2)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2BigQueryTable" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2Error" });
+    case 1:
+      return S.Array(__S(3776, __c118, 0));
   }
 }
 function __c119(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
+      return S.suspend(() =>
+        S.Struct({
+          datasetId: S.optional(S.String),
+          projectId: S.optional(S.String),
+          tableId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2BigQueryTable" });
   }
 }
 function __c120(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          deidentifyTemplate: S.optional(S.String),
-          imageRedactTemplate: S.optional(S.String),
-          structuredDeidentifyTemplate: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2TransformationConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          table: S.optional(__S(3776, __c118, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2TransformationDetailsStorageConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          cloudStorageOutput: S.optional(S.String),
-          transformationConfig: S.optional(__S(3840, __c120, 0)),
-          transformationDetailsStorageConfig: S.optional(__S(3841, __c120, 1)),
-          fileTypesToTransform: S.optional(__S(4512, __c141, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Deidentify" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          topic: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2PublishToPubSub" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          storagePath: S.optional(__S(4544, __c142, 0)),
-          outputSchema: S.optional(S.String),
-          table: S.optional(__S(3776, __c118, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2OutputStorageConfig" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          outputConfig: S.optional(__S(3844, __c120, 4)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2SaveFindings" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          publishToStackdriver: S.optional(__S(4032, __c126, 0)),
-          jobNotificationEmails: S.optional(__S(4032, __c126, 0)),
-          deidentify: S.optional(__S(3842, __c120, 2)),
-          publishSummaryToCscc: S.optional(__S(4032, __c126, 0)),
-          publishFindingsToDataplexCatalog: S.optional(__S(4032, __c126, 0)),
-          pubSub: S.optional(__S(3843, __c120, 3)),
-          publishFindingsToCloudDataCatalog: S.optional(__S(4032, __c126, 0)),
-          saveFindings: S.optional(__S(3845, __c120, 5)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Action" });
-    case 7:
-      return S.Array(__S(3846, __c120, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          excludedFields: S.optional(__S(4096, __c128, 0)),
-          sampleMethod: S.optional(S.String),
-          tableReference: S.optional(__S(3776, __c118, 0)),
-          identifyingFields: S.optional(__S(4096, __c128, 0)),
-          rowsLimit: S.optional(S.String),
-          rowsLimitPercent: S.optional(S.Number),
-          includedFields: S.optional(__S(4096, __c128, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2BigQueryOptions" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          partitionId: S.optional(__S(3904, __c122, 0)),
-          kind: S.optional(__S(4064, __c127, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DatastoreOptions" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          bucketName: S.optional(S.String),
-          includeRegex: S.optional(__S(4352, __c136, 0)),
-          excludeRegex: S.optional(__S(4352, __c136, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2CloudStorageRegexFileSet" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          regexFileSet: S.optional(__S(3850, __c120, 10)),
-          url: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2FileSet" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          sampleMethod: S.optional(S.String),
-          fileTypes: S.optional(__S(4512, __c141, 0)),
-          fileSet: S.optional(__S(3851, __c120, 11)),
-          filesLimitPercent: S.optional(S.Number),
-          bytesLimitPerFile: S.optional(S.String),
-          bytesLimitPerFilePercent: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2CloudStorageOptions" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          tableOptions: S.optional(__S(3872, __c121, 0)),
-          requiredFindingLabelKeys: S.optional(__S(4352, __c136, 0)),
-          labels: S.optional(__S(3808, __c119, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2HybridOptions" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          timestampField: S.optional(__S(4064, __c127, 0)),
-          endTime: S.optional(S.String),
-          startTime: S.optional(S.String),
-          enableAutoPopulationOfTimespanConfig: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2TimespanConfig" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          bigQueryOptions: S.optional(__S(3848, __c120, 8)),
-          datastoreOptions: S.optional(__S(3849, __c120, 9)),
-          cloudStorageOptions: S.optional(__S(3852, __c120, 12)),
-          hybridOptions: S.optional(__S(3853, __c120, 13)),
-          timespanConfig: S.optional(__S(3854, __c120, 14)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2StorageConfig" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          actions: S.optional(__S(3847, __c120, 7)),
-          inspectConfig: S.optional(__S(4637, __c144, 29)),
-          storageConfig: S.optional(__S(3855, __c120, 15)),
-          inspectTemplateName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2InspectJobConfig" });
+      return S.Record(S.String, S.String);
   }
 }
 function __c121(j: number): any {
@@ -10858,12 +10780,156 @@ function __c121(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          identifyingFields: S.optional(__S(4096, __c128, 0)),
+          structuredDeidentifyTemplate: S.optional(S.String),
+          deidentifyTemplate: S.optional(S.String),
+          imageRedactTemplate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2TransformationConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          table: S.optional(__S(3808, __c119, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2TransformationDetailsStorageConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          transformationConfig: S.optional(__S(3872, __c121, 0)),
+          fileTypesToTransform: S.optional(__S(4544, __c142, 0)),
+          cloudStorageOutput: S.optional(S.String),
+          transformationDetailsStorageConfig: S.optional(__S(3873, __c121, 1)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2Deidentify" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          storagePath: S.optional(__S(4576, __c143, 0)),
+          table: S.optional(__S(3808, __c119, 0)),
+          outputSchema: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2OutputStorageConfig" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          outputConfig: S.optional(__S(3875, __c121, 3)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2SaveFindings" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          topic: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2PublishToPubSub" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          deidentify: S.optional(__S(3874, __c121, 2)),
+          publishFindingsToDataplexCatalog: S.optional(__S(4064, __c127, 0)),
+          publishSummaryToCscc: S.optional(__S(4064, __c127, 0)),
+          jobNotificationEmails: S.optional(__S(4064, __c127, 0)),
+          saveFindings: S.optional(__S(3876, __c121, 4)),
+          publishToStackdriver: S.optional(__S(4064, __c127, 0)),
+          publishFindingsToCloudDataCatalog: S.optional(__S(4064, __c127, 0)),
+          pubSub: S.optional(__S(3877, __c121, 5)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2Action" });
+    case 7:
+      return S.Array(__S(3878, __c121, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          enableAutoPopulationOfTimespanConfig: S.optional(S.Boolean),
+          endTime: S.optional(S.String),
+          startTime: S.optional(S.String),
+          timestampField: S.optional(__S(4096, __c128, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2TimespanConfig" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          labels: S.optional(__S(3840, __c120, 0)),
+          tableOptions: S.optional(__S(3904, __c122, 0)),
+          requiredFindingLabelKeys: S.optional(__S(4384, __c137, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2HybridOptions" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          partitionId: S.optional(__S(3936, __c123, 0)),
+          kind: S.optional(__S(4096, __c128, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DatastoreOptions" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          excludeRegex: S.optional(__S(4384, __c137, 0)),
+          bucketName: S.optional(S.String),
+          includeRegex: S.optional(__S(4384, __c137, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2CloudStorageRegexFileSet" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.optional(S.String),
+          regexFileSet: S.optional(__S(3883, __c121, 11)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2FileSet" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          fileSet: S.optional(__S(3884, __c121, 12)),
+          bytesLimitPerFilePercent: S.optional(S.Number),
+          filesLimitPercent: S.optional(S.Number),
+          fileTypes: S.optional(__S(4544, __c142, 0)),
+          sampleMethod: S.optional(S.String),
+          bytesLimitPerFile: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2CloudStorageOptions" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          rowsLimit: S.optional(S.String),
+          sampleMethod: S.optional(S.String),
+          identifyingFields: S.optional(__S(4128, __c129, 0)),
+          includedFields: S.optional(__S(4128, __c129, 0)),
+          tableReference: S.optional(__S(3808, __c119, 0)),
+          rowsLimitPercent: S.optional(S.Number),
+          excludedFields: S.optional(__S(4128, __c129, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2BigQueryOptions" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          timespanConfig: S.optional(__S(3880, __c121, 8)),
+          hybridOptions: S.optional(__S(3881, __c121, 9)),
+          datastoreOptions: S.optional(__S(3882, __c121, 10)),
+          cloudStorageOptions: S.optional(__S(3885, __c121, 13)),
+          bigQueryOptions: S.optional(__S(3886, __c121, 14)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2StorageConfig" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          inspectTemplateName: S.optional(S.String),
+          actions: S.optional(__S(3879, __c121, 7)),
+          storageConfig: S.optional(__S(3887, __c121, 15)),
+          inspectConfig: S.optional(__S(4669, __c145, 29)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2InspectJobConfig" });
+  }
+}
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          identifyingFields: S.optional(__S(4128, __c129, 0)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2TableOptions" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10874,201 +10940,10 @@ function __c122(j: number): any {
       ).annotate({ identifier: "GooglePrivacyDlpV2PartitionId" });
   }
 }
-function __c123(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(4160, __c130, 0));
-  }
-}
 function __c124(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          infoType: S.optional(__S(4448, __c139, 0)),
-          field: S.optional(__S(4064, __c127, 0)),
-          customTag: S.optional(S.String),
-          inferred: S.optional(__S(4032, __c126, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2TaggedField" });
-    case 1:
-      return S.Array(__S(3968, __c124, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(__S(4064, __c127, 0)),
-          customTag: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2QuasiIdField" });
-    case 3:
-      return S.Array(__S(3970, __c124, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          relativeFrequency: S.optional(__S(4064, __c127, 0)),
-          table: S.optional(__S(3776, __c118, 0)),
-          quasiIds: S.optional(__S(3971, __c124, 3)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2AuxiliaryTable" });
-    case 5:
-      return S.Array(__S(3972, __c124, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          quasiIds: S.optional(__S(3969, __c124, 1)),
-          auxiliaryTables: S.optional(__S(3973, __c124, 5)),
-          regionCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2KMapEstimationConfig" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          sensitiveAttribute: S.optional(__S(4064, __c127, 0)),
-          quasiIds: S.optional(__S(4096, __c128, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2LDiversityConfig" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(__S(4064, __c127, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2EntityId" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          entityId: S.optional(__S(3976, __c124, 8)),
-          quasiIds: S.optional(__S(4096, __c128, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2KAnonymityConfig" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(__S(4064, __c127, 0)),
-          customTag: S.optional(S.String),
-          inferred: S.optional(__S(4032, __c126, 0)),
-          infoType: S.optional(__S(4448, __c139, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2QuasiId" });
-    case 11:
-      return S.Array(__S(3978, __c124, 10));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          table: S.optional(__S(3776, __c118, 0)),
-          relativeFrequency: S.optional(__S(4064, __c127, 0)),
-          quasiIds: S.optional(__S(3971, __c124, 3)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2StatisticalTable" });
-    case 13:
-      return S.Array(__S(3980, __c124, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          quasiIds: S.optional(__S(3979, __c124, 11)),
-          regionCode: S.optional(S.String),
-          auxiliaryTables: S.optional(__S(3981, __c124, 13)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DeltaPresenceEstimationConfig" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          kMapEstimationConfig: S.optional(__S(3974, __c124, 6)),
-          lDiversityConfig: S.optional(__S(3975, __c124, 7)),
-          kAnonymityConfig: S.optional(__S(3977, __c124, 9)),
-          categoricalStatsConfig: S.optional(__S(3976, __c124, 8)),
-          numericalStatsConfig: S.optional(__S(3976, __c124, 8)),
-          deltaPresenceEstimationConfig: S.optional(__S(3982, __c124, 14)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2PrivacyMetric" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.optional(S.String),
-          value: S.optional(__S(4160, __c130, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ValueFrequency" });
-    case 17:
-      return S.Array(__S(3984, __c124, 16));
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          bucketSize: S.optional(S.String),
-          valueFrequencyUpperBound: S.optional(S.String),
-          bucketValueCount: S.optional(S.String),
-          bucketValues: S.optional(__S(3985, __c124, 17)),
-          valueFrequencyLowerBound: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2CategoricalStatsHistogramBucket" });
-    case 19:
-      return S.Array(__S(3986, __c124, 18));
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          valueFrequencyHistogramBuckets: S.optional(__S(3987, __c124, 19)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2CategoricalStatsResult" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          quasiIdsValues: S.optional(__S(3936, __c123, 0)),
-          estimatedProbability: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DeltaPresenceEstimationQuasiIdValues" });
-    case 22:
-      return S.Array(__S(3989, __c124, 21));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          maxProbability: S.optional(S.Number),
-          bucketSize: S.optional(S.String),
-          minProbability: S.optional(S.Number),
-          bucketValueCount: S.optional(S.String),
-          bucketValues: S.optional(__S(3990, __c124, 22)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DeltaPresenceEstimationHistogramBucket" });
-    case 24:
-      return S.Array(__S(3991, __c124, 23));
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          deltaPresenceEstimationHistogram: S.optional(__S(3992, __c124, 24)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DeltaPresenceEstimationResult" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          sourceTable: S.optional(__S(3776, __c118, 0)),
-          actions: S.optional(__S(3847, __c120, 7)),
-          privacyMetric: S.optional(__S(3983, __c124, 15)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2RiskAnalysisJobConfig" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          jobConfig: S.optional(__S(3994, __c124, 26)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2RequestedRiskAnalysisOptions" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          quasiIdsValues: S.optional(__S(3936, __c123, 0)),
-          estimatedAnonymity: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2KMapEstimationQuasiIdValues" });
-    case 29:
-      return S.Array(__S(3996, __c124, 28));
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          bucketValueCount: S.optional(S.String),
-          bucketValues: S.optional(__S(3997, __c124, 29)),
-          bucketSize: S.optional(S.String),
-          maxAnonymity: S.optional(S.String),
-          minAnonymity: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2KMapEstimationHistogramBucket" });
-    case 31:
-      return S.Array(__S(3998, __c124, 30));
+      return S.Array(__S(4192, __c131, 0));
   }
 }
 function __c125(j: number): any {
@@ -11076,179 +10951,370 @@ function __c125(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          kMapEstimationHistogram: S.optional(__S(3999, __c124, 31)),
+          quasiIdsValues: S.optional(__S(3968, __c124, 0)),
+          estimatedProbability: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2KMapEstimationResult" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DeltaPresenceEstimationQuasiIdValues" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          minValue: S.optional(__S(4160, __c130, 0)),
-          quantileValues: S.optional(__S(3936, __c123, 0)),
-          maxValue: S.optional(__S(4160, __c130, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2NumericalStatsResult" });
+      return S.Array(__S(4000, __c125, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          equivalenceClassSize: S.optional(S.String),
-          quasiIdsValues: S.optional(__S(3936, __c123, 0)),
+          bucketSize: S.optional(S.String),
+          maxProbability: S.optional(S.Number),
+          bucketValues: S.optional(__S(4001, __c125, 1)),
+          bucketValueCount: S.optional(S.String),
+          minProbability: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2KAnonymityEquivalenceClass" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DeltaPresenceEstimationHistogramBucket" });
     case 3:
       return S.Array(__S(4002, __c125, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          bucketSize: S.optional(S.String),
-          equivalenceClassSizeLowerBound: S.optional(S.String),
-          bucketValues: S.optional(__S(4003, __c125, 3)),
-          equivalenceClassSizeUpperBound: S.optional(S.String),
-          bucketValueCount: S.optional(S.String),
+          deltaPresenceEstimationHistogram: S.optional(__S(4003, __c125, 3)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2KAnonymityHistogramBucket" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2DeltaPresenceEstimationResult" });
     case 5:
-      return S.Array(__S(4004, __c125, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
-          equivalenceClassHistogramBuckets: S.optional(__S(4005, __c125, 5)),
+          equivalenceClassSize: S.optional(S.String),
+          quasiIdsValues: S.optional(__S(3968, __c124, 0)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2KAnonymityResult" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2KAnonymityEquivalenceClass" });
+    case 6:
+      return S.Array(__S(4005, __c125, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          quasiIdsValues: S.optional(__S(3936, __c123, 0)),
-          topSensitiveValues: S.optional(__S(3985, __c124, 17)),
-          equivalenceClassSize: S.optional(S.String),
-          numDistinctSensitiveValues: S.optional(S.String),
+          bucketValues: S.optional(__S(4006, __c125, 6)),
+          equivalenceClassSizeUpperBound: S.optional(S.String),
+          equivalenceClassSizeLowerBound: S.optional(S.String),
+          bucketSize: S.optional(S.String),
+          bucketValueCount: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2LDiversityEquivalenceClass" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2KAnonymityHistogramBucket" });
     case 8:
       return S.Array(__S(4007, __c125, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          bucketValueCount: S.optional(S.String),
-          bucketSize: S.optional(S.String),
-          bucketValues: S.optional(__S(4008, __c125, 8)),
-          sensitiveValueFrequencyLowerBound: S.optional(S.String),
-          sensitiveValueFrequencyUpperBound: S.optional(S.String),
+          equivalenceClassHistogramBuckets: S.optional(__S(4008, __c125, 8)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2LDiversityHistogramBucket" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2KAnonymityResult" });
     case 10:
-      return S.Array(__S(4009, __c125, 9));
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(__S(4096, __c128, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2CategoricalStatsConfig" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          sensitiveValueFrequencyHistogramBuckets: S.optional(__S(4010, __c125, 10)),
+          quasiIds: S.optional(__S(4128, __c129, 0)),
+          entityId: S.optional(__S(4010, __c125, 10)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2LDiversityResult" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2KAnonymityConfig" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          requestedPrivacyMetric: S.optional(__S(3983, __c124, 15)),
-          categoricalStatsResult: S.optional(__S(3988, __c124, 20)),
-          deltaPresenceEstimationResult: S.optional(__S(3993, __c124, 25)),
-          requestedOptions: S.optional(__S(3995, __c124, 27)),
-          kMapEstimationResult: S.optional(__S(4000, __c125, 0)),
-          numericalStatsResult: S.optional(__S(4001, __c125, 1)),
-          kAnonymityResult: S.optional(__S(4006, __c125, 6)),
-          lDiversityResult: S.optional(__S(4011, __c125, 11)),
-          requestedSourceTable: S.optional(__S(3776, __c118, 0)),
+          infoType: S.optional(__S(4480, __c140, 0)),
+          customTag: S.optional(S.String),
+          field: S.optional(__S(4096, __c128, 0)),
+          inferred: S.optional(__S(4064, __c127, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2QuasiId" });
+    case 13:
+      return S.Array(__S(4012, __c125, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(__S(4096, __c128, 0)),
+          customTag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2QuasiIdentifierField" });
+    case 15:
+      return S.Array(__S(4014, __c125, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          quasiIds: S.optional(__S(4015, __c125, 15)),
+          relativeFrequency: S.optional(__S(4096, __c128, 0)),
+          table: S.optional(__S(3808, __c119, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2StatisticalTable" });
+    case 17:
+      return S.Array(__S(4016, __c125, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          regionCode: S.optional(S.String),
+          quasiIds: S.optional(__S(4013, __c125, 13)),
+          auxiliaryTables: S.optional(__S(4017, __c125, 17)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DeltaPresenceEstimationConfig" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          quasiIds: S.optional(__S(4128, __c129, 0)),
+          sensitiveAttribute: S.optional(__S(4096, __c128, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2LDiversityConfig" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          customTag: S.optional(S.String),
+          field: S.optional(__S(4096, __c128, 0)),
+          inferred: S.optional(__S(4064, __c127, 0)),
+          infoType: S.optional(__S(4480, __c140, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2TaggedField" });
+    case 21:
+      return S.Array(__S(4020, __c125, 20));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          quasiIds: S.optional(__S(4015, __c125, 15)),
+          table: S.optional(__S(3808, __c119, 0)),
+          relativeFrequency: S.optional(__S(4096, __c128, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2AuxiliaryTable" });
+    case 23:
+      return S.Array(__S(4022, __c125, 22));
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          quasiIds: S.optional(__S(4021, __c125, 21)),
+          regionCode: S.optional(S.String),
+          auxiliaryTables: S.optional(__S(4023, __c125, 23)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2KMapEstimationConfig" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          categoricalStatsConfig: S.optional(__S(4010, __c125, 10)),
+          kAnonymityConfig: S.optional(__S(4011, __c125, 11)),
+          deltaPresenceEstimationConfig: S.optional(__S(4018, __c125, 18)),
+          lDiversityConfig: S.optional(__S(4019, __c125, 19)),
+          numericalStatsConfig: S.optional(__S(4010, __c125, 10)),
+          kMapEstimationConfig: S.optional(__S(4024, __c125, 24)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2PrivacyMetric" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          actions: S.optional(__S(3879, __c121, 7)),
+          privacyMetric: S.optional(__S(4025, __c125, 25)),
+          sourceTable: S.optional(__S(3808, __c119, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2RiskAnalysisJobConfig" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          jobConfig: S.optional(__S(4026, __c125, 26)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2RequestedRiskAnalysisOptions" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(__S(4192, __c131, 0)),
+          count: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2ValueFrequency" });
+    case 29:
+      return S.Array(__S(4028, __c125, 28));
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          valueFrequencyLowerBound: S.optional(S.String),
+          bucketValueCount: S.optional(S.String),
+          bucketSize: S.optional(S.String),
+          valueFrequencyUpperBound: S.optional(S.String),
+          bucketValues: S.optional(__S(4029, __c125, 29)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2CategoricalStatsHistogramBucket" });
+    case 31:
+      return S.Array(__S(4030, __c125, 30));
+  }
+}
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          valueFrequencyHistogramBuckets: S.optional(__S(4031, __c125, 31)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2CategoricalStatsResult" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          numDistinctSensitiveValues: S.optional(S.String),
+          quasiIdsValues: S.optional(__S(3968, __c124, 0)),
+          equivalenceClassSize: S.optional(S.String),
+          topSensitiveValues: S.optional(__S(4029, __c125, 29)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2LDiversityEquivalenceClass" });
+    case 2:
+      return S.Array(__S(4033, __c126, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          bucketValues: S.optional(__S(4034, __c126, 2)),
+          bucketValueCount: S.optional(S.String),
+          sensitiveValueFrequencyUpperBound: S.optional(S.String),
+          bucketSize: S.optional(S.String),
+          sensitiveValueFrequencyLowerBound: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2LDiversityHistogramBucket" });
+    case 4:
+      return S.Array(__S(4035, __c126, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          sensitiveValueFrequencyHistogramBuckets: S.optional(__S(4036, __c126, 4)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2LDiversityResult" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          maxValue: S.optional(__S(4192, __c131, 0)),
+          quantileValues: S.optional(__S(3968, __c124, 0)),
+          minValue: S.optional(__S(4192, __c131, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2NumericalStatsResult" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          quasiIdsValues: S.optional(__S(3968, __c124, 0)),
+          estimatedAnonymity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2KMapEstimationQuasiIdValues" });
+    case 8:
+      return S.Array(__S(4039, __c126, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          bucketSize: S.optional(S.String),
+          maxAnonymity: S.optional(S.String),
+          bucketValues: S.optional(__S(4040, __c126, 8)),
+          minAnonymity: S.optional(S.String),
+          bucketValueCount: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2KMapEstimationHistogramBucket" });
+    case 10:
+      return S.Array(__S(4041, __c126, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          kMapEstimationHistogram: S.optional(__S(4042, __c126, 10)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2KMapEstimationResult" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          requestedSourceTable: S.optional(__S(3808, __c119, 0)),
+          deltaPresenceEstimationResult: S.optional(__S(4004, __c125, 4)),
+          kAnonymityResult: S.optional(__S(4009, __c125, 9)),
+          requestedOptions: S.optional(__S(4027, __c125, 27)),
+          categoricalStatsResult: S.optional(__S(4032, __c126, 0)),
+          lDiversityResult: S.optional(__S(4037, __c126, 5)),
+          numericalStatsResult: S.optional(__S(4038, __c126, 6)),
+          requestedPrivacyMetric: S.optional(__S(4025, __c125, 25)),
+          kMapEstimationResult: S.optional(__S(4043, __c126, 11)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2AnalyzeDataSourceRiskDetails" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          snapshotStructuredDeidentifyTemplate: S.optional(__S(4320, __c135, 0)),
-          snapshotDeidentifyTemplate: S.optional(__S(4320, __c135, 0)),
-          snapshotImageRedactTemplate: S.optional(__S(4320, __c135, 0)),
+          snapshotDeidentifyTemplate: S.optional(__S(4352, __c136, 0)),
+          snapshotImageRedactTemplate: S.optional(__S(4352, __c136, 0)),
+          snapshotStructuredDeidentifyTemplate: S.optional(__S(4352, __c136, 0)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2RequestedDeidentifyOptions" });
     case 14:
       return S.suspend(() =>
         S.Struct({
           transformationCount: S.optional(S.String),
-          transformationErrorCount: S.optional(S.String),
           transformedBytes: S.optional(S.String),
+          transformationErrorCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2DeidentifyDataSourceStats" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          requestedOptions: S.optional(__S(4013, __c125, 13)),
-          deidentifyStats: S.optional(__S(4014, __c125, 14)),
+          requestedOptions: S.optional(__S(4045, __c126, 13)),
+          deidentifyStats: S.optional(__S(4046, __c126, 14)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2DeidentifyDataSourceDetails" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          deidentifyDetails: S.optional(__S(4015, __c125, 15)),
+          deidentifyDetails: S.optional(__S(4047, __c126, 15)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2ActionDetails" });
     case 17:
-      return S.Array(__S(4016, __c125, 16));
+      return S.Array(__S(4048, __c126, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          infoType: S.optional(__S(4448, __c139, 0)),
-          count: S.optional(S.String),
+          snapshotInspectTemplate: S.optional(__S(4672, __c146, 0)),
+          jobConfig: S.optional(__S(3888, __c121, 16)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2InfoTypeStats" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2RequestedOptions" });
     case 19:
-      return S.Array(__S(4018, __c125, 18));
-    case 20:
       return S.suspend(() =>
         S.Struct({
-          abortedCount: S.optional(S.String),
           processedCount: S.optional(S.String),
+          abortedCount: S.optional(S.String),
           pendingCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2HybridInspectStatistics" });
-    case 21:
+    case 20:
       return S.suspend(() =>
         S.Struct({
-          infoTypeStats: S.optional(__S(4019, __c125, 19)),
-          numRowsProcessed: S.optional(S.String),
-          totalEstimatedBytes: S.optional(S.String),
-          processedBytes: S.optional(S.String),
-          hybridStats: S.optional(__S(4020, __c125, 20)),
+          infoType: S.optional(__S(4480, __c140, 0)),
+          count: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Result" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2InfoTypeStats" });
+    case 21:
+      return S.Array(__S(4052, __c126, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          jobConfig: S.optional(__S(3856, __c120, 16)),
-          snapshotInspectTemplate: S.optional(__S(4640, __c145, 0)),
+          numRowsProcessed: S.optional(S.String),
+          hybridStats: S.optional(__S(4051, __c126, 19)),
+          infoTypeStats: S.optional(__S(4053, __c126, 21)),
+          totalEstimatedBytes: S.optional(S.String),
+          processedBytes: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2RequestedOptions" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2Result" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(4021, __c125, 21)),
-          requestedOptions: S.optional(__S(4022, __c125, 22)),
+          requestedOptions: S.optional(__S(4050, __c126, 18)),
+          result: S.optional(__S(4054, __c126, 22)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2InspectDataSourceDetails" });
     case 24:
       return S.suspend(() =>
         S.Struct({
+          errors: S.optional(__S(3777, __c118, 1)),
           jobTriggerName: S.optional(S.String),
+          riskDetails: S.optional(__S(4044, __c126, 12)),
           lastModified: S.optional(S.String),
-          riskDetails: S.optional(__S(4012, __c125, 12)),
-          errors: S.optional(__S(3745, __c117, 1)),
+          state: S.optional(S.String),
           name: S.optional(S.String),
           endTime: S.optional(S.String),
           type: S.optional(S.String),
           startTime: S.optional(S.String),
-          actionDetails: S.optional(__S(4017, __c125, 17)),
+          actionDetails: S.optional(__S(4049, __c126, 17)),
+          inspectDetails: S.optional(__S(4055, __c126, 23)),
           createTime: S.optional(S.String),
-          inspectDetails: S.optional(__S(4023, __c125, 23)),
-          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2DlpJob" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -11256,7 +11322,7 @@ function __c126(j: number): any {
       });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11266,31 +11332,10 @@ function __c127(j: number): any {
       ).annotate({ identifier: "GooglePrivacyDlpV2FieldId" });
   }
 }
-function __c128(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(4064, __c127, 0));
-  }
-}
 function __c129(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          nanos: S.optional(S.Number),
-          seconds: S.optional(S.Number),
-          hours: S.optional(S.Number),
-          minutes: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleTypeTimeOfDay" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          day: S.optional(S.Number),
-          year: S.optional(S.Number),
-          month: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleTypeDate" });
+      return S.Array(__S(4096, __c128, 0));
   }
 }
 function __c130(j: number): any {
@@ -11298,19 +11343,40 @@ function __c130(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          timeValue: S.optional(__S(4128, __c129, 0)),
-          dateValue: S.optional(__S(4129, __c129, 1)),
-          stringValue: S.optional(S.String),
-          floatValue: S.optional(S.Number),
+          minutes: S.optional(S.Number),
+          seconds: S.optional(S.Number),
+          nanos: S.optional(S.Number),
+          hours: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleTypeTimeOfDay" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          month: S.optional(S.Number),
+          year: S.optional(S.Number),
+          day: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleTypeDate" });
+  }
+}
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          timeValue: S.optional(__S(4160, __c130, 0)),
           integerValue: S.optional(S.String),
-          booleanValue: S.optional(S.Boolean),
-          timestampValue: S.optional(S.String),
+          floatValue: S.optional(S.Number),
           dayOfWeekValue: S.optional(S.String),
+          dateValue: S.optional(__S(4161, __c130, 1)),
+          timestampValue: S.optional(S.String),
+          booleanValue: S.optional(S.Boolean),
+          stringValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2Value" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11320,277 +11386,277 @@ function __c131(j: number): any {
       ).annotate({ identifier: "GooglePrivacyDlpV2UnwrappedCryptoKey" });
   }
 }
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          red: S.optional(S.Number),
-          green: S.optional(S.Number),
-          blue: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Color" });
-  }
-}
 function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          wrappedKey: S.optional(S.String),
-          cryptoKeyName: S.optional(S.String),
+          blue: S.optional(S.Number),
+          green: S.optional(S.Number),
+          red: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2KmsWrappedCryptoKey" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          kmsWrapped: S.optional(__S(4256, __c133, 0)),
-          transient: S.optional(__S(4064, __c127, 0)),
-          unwrapped: S.optional(__S(4192, __c131, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2CryptoKey" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          upperBoundDays: S.optional(S.Number),
-          context: S.optional(__S(4064, __c127, 0)),
-          lowerBoundDays: S.optional(S.Number),
-          cryptoKey: S.optional(__S(4257, __c133, 1)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DateShiftConfig" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          partToExtract: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2TimePartConfig" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          charactersToSkip: S.optional(S.String),
-          commonCharactersToIgnore: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2CharsToIgnore" });
-    case 5:
-      return S.Array(__S(4260, __c133, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          maskingCharacter: S.optional(S.String),
-          charactersToIgnore: S.optional(__S(4261, __c133, 5)),
-          numberToMask: S.optional(S.Number),
-          reverseOrder: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2CharacterMaskConfig" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          cryptoKey: S.optional(__S(4257, __c133, 1)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2CryptoHashConfig" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          min: S.optional(__S(4160, __c130, 0)),
-          max: S.optional(__S(4160, __c130, 0)),
-          replacementValue: S.optional(__S(4160, __c130, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Bucket" });
-    case 9:
-      return S.Array(__S(4264, __c133, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          buckets: S.optional(__S(4265, __c133, 9)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2BucketingConfig" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          newValue: S.optional(__S(4160, __c130, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ReplaceValueConfig" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          upperBound: S.optional(__S(4160, __c130, 0)),
-          lowerBound: S.optional(__S(4160, __c130, 0)),
-          bucketSize: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2FixedSizeBucketingConfig" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          wordList: S.optional(__S(4416, __c138, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ReplaceDictionaryConfig" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          customAlphabet: S.optional(S.String),
-          cryptoKey: S.optional(__S(4257, __c133, 1)),
-          commonAlphabet: S.optional(S.String),
-          radix: S.optional(S.Number),
-          surrogateInfoType: S.optional(__S(4448, __c139, 0)),
-          context: S.optional(__S(4064, __c127, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2CryptoReplaceFfxFpeConfig" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          context: S.optional(__S(4064, __c127, 0)),
-          cryptoKey: S.optional(__S(4257, __c133, 1)),
-          surrogateInfoType: S.optional(__S(4448, __c139, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2CryptoDeterministicConfig" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          dateShiftConfig: S.optional(__S(4258, __c133, 2)),
-          timePartConfig: S.optional(__S(4259, __c133, 3)),
-          characterMaskConfig: S.optional(__S(4262, __c133, 6)),
-          cryptoHashConfig: S.optional(__S(4263, __c133, 7)),
-          bucketingConfig: S.optional(__S(4266, __c133, 10)),
-          replaceConfig: S.optional(__S(4267, __c133, 11)),
-          fixedSizeBucketingConfig: S.optional(__S(4268, __c133, 12)),
-          replaceDictionaryConfig: S.optional(__S(4269, __c133, 13)),
-          redactConfig: S.optional(__S(4032, __c126, 0)),
-          cryptoReplaceFfxFpeConfig: S.optional(__S(4270, __c133, 14)),
-          replaceWithInfoTypeConfig: S.optional(__S(4032, __c126, 0)),
-          cryptoDeterministicConfig: S.optional(__S(4271, __c133, 15)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2PrimitiveTransformation" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          primitiveTransformation: S.optional(__S(4272, __c133, 16)),
-          infoTypes: S.optional(__S(4480, __c140, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2InfoTypeTransformation" });
-    case 18:
-      return S.Array(__S(4273, __c133, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          transformations: S.optional(__S(4274, __c133, 18)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2InfoTypeTransformations" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          leaveUntransformed: S.optional(__S(4032, __c126, 0)),
-          throwError: S.optional(__S(4032, __c126, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2TransformationErrorHandling" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(__S(4160, __c130, 0)),
-          operator: S.optional(S.String),
-          field: S.optional(__S(4064, __c127, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Condition" });
-    case 22:
-      return S.Array(__S(4277, __c133, 21));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          conditions: S.optional(__S(4278, __c133, 22)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Conditions" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          conditions: S.optional(__S(4279, __c133, 23)),
-          logicalOperator: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Expressions" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          expressions: S.optional(__S(4280, __c133, 24)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2RecordCondition" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          condition: S.optional(__S(4281, __c133, 25)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2RecordSuppression" });
-    case 27:
-      return S.Array(__S(4282, __c133, 26));
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          primitiveTransformation: S.optional(__S(4272, __c133, 16)),
-          fields: S.optional(__S(4096, __c128, 0)),
-          infoTypeTransformations: S.optional(__S(4275, __c133, 19)),
-          condition: S.optional(__S(4281, __c133, 25)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2FieldTransformation" });
-    case 29:
-      return S.Array(__S(4284, __c133, 28));
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          recordSuppressions: S.optional(__S(4283, __c133, 27)),
-          fieldTransformations: S.optional(__S(4285, __c133, 29)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2RecordTransformations" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          allText: S.optional(__S(4032, __c126, 0)),
-          allInfoTypes: S.optional(__S(4032, __c126, 0)),
-          redactionColor: S.optional(__S(4224, __c132, 0)),
-          selectedInfoTypes: S.optional(__S(4481, __c140, 1)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ImageTransformation" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2Color" });
   }
 }
 function __c134(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4287, __c133, 31));
+      return S.suspend(() =>
+        S.Struct({
+          wordList: S.optional(__S(4448, __c139, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2ReplaceDictionaryConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          transforms: S.optional(__S(4288, __c134, 0)),
+          partToExtract: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ImageTransformations" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2TimePartConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          infoTypeTransformations: S.optional(__S(4275, __c133, 19)),
-          transformationErrorHandling: S.optional(__S(4276, __c133, 20)),
-          recordTransformations: S.optional(__S(4286, __c133, 30)),
-          imageTransformations: S.optional(__S(4289, __c134, 1)),
+          lowerBound: S.optional(__S(4192, __c131, 0)),
+          bucketSize: S.optional(S.Number),
+          upperBound: S.optional(__S(4192, __c131, 0)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DeidentifyConfig" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2FixedSizeBucketingConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          newValue: S.optional(__S(4192, __c131, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2ReplaceValueConfig" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          cryptoKeyName: S.optional(S.String),
+          wrappedKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2KmsWrappedCryptoKey" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          unwrapped: S.optional(__S(4224, __c132, 0)),
+          kmsWrapped: S.optional(__S(4292, __c134, 4)),
+          transient: S.optional(__S(4096, __c128, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2CryptoKey" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          cryptoKey: S.optional(__S(4293, __c134, 5)),
+          context: S.optional(__S(4096, __c128, 0)),
+          lowerBoundDays: S.optional(S.Number),
+          upperBoundDays: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DateShiftConfig" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          surrogateInfoType: S.optional(__S(4480, __c140, 0)),
+          context: S.optional(__S(4096, __c128, 0)),
+          cryptoKey: S.optional(__S(4293, __c134, 5)),
+          commonAlphabet: S.optional(S.String),
+          radix: S.optional(S.Number),
+          customAlphabet: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2CryptoReplaceFfxFpeConfig" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          cryptoKey: S.optional(__S(4293, __c134, 5)),
+          context: S.optional(__S(4096, __c128, 0)),
+          surrogateInfoType: S.optional(__S(4480, __c140, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2CryptoDeterministicConfig" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          replacementValue: S.optional(__S(4192, __c131, 0)),
+          min: S.optional(__S(4192, __c131, 0)),
+          max: S.optional(__S(4192, __c131, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2Bucket" });
+    case 10:
+      return S.Array(__S(4297, __c134, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          buckets: S.optional(__S(4298, __c134, 10)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2BucketingConfig" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          commonCharactersToIgnore: S.optional(S.String),
+          charactersToSkip: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2CharsToIgnore" });
+    case 13:
+      return S.Array(__S(4300, __c134, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          maskingCharacter: S.optional(S.String),
+          numberToMask: S.optional(S.Number),
+          reverseOrder: S.optional(S.Boolean),
+          charactersToIgnore: S.optional(__S(4301, __c134, 13)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2CharacterMaskConfig" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          cryptoKey: S.optional(__S(4293, __c134, 5)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2CryptoHashConfig" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          replaceDictionaryConfig: S.optional(__S(4288, __c134, 0)),
+          timePartConfig: S.optional(__S(4289, __c134, 1)),
+          fixedSizeBucketingConfig: S.optional(__S(4290, __c134, 2)),
+          replaceConfig: S.optional(__S(4291, __c134, 3)),
+          dateShiftConfig: S.optional(__S(4294, __c134, 6)),
+          replaceWithInfoTypeConfig: S.optional(__S(4064, __c127, 0)),
+          cryptoReplaceFfxFpeConfig: S.optional(__S(4295, __c134, 7)),
+          cryptoDeterministicConfig: S.optional(__S(4296, __c134, 8)),
+          bucketingConfig: S.optional(__S(4299, __c134, 11)),
+          characterMaskConfig: S.optional(__S(4302, __c134, 14)),
+          cryptoHashConfig: S.optional(__S(4303, __c134, 15)),
+          redactConfig: S.optional(__S(4064, __c127, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2PrimitiveTransformation" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          infoTypes: S.optional(__S(4512, __c141, 0)),
+          primitiveTransformation: S.optional(__S(4304, __c134, 16)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2InfoTypeTransformation" });
+    case 18:
+      return S.Array(__S(4305, __c134, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          transformations: S.optional(__S(4306, __c134, 18)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2InfoTypeTransformations" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          allInfoTypes: S.optional(__S(4064, __c127, 0)),
+          allText: S.optional(__S(4064, __c127, 0)),
+          selectedInfoTypes: S.optional(__S(4513, __c141, 1)),
+          redactionColor: S.optional(__S(4256, __c133, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2ImageTransformation" });
+    case 21:
+      return S.Array(__S(4308, __c134, 20));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          transforms: S.optional(__S(4309, __c134, 21)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2ImageTransformations" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          throwError: S.optional(__S(4064, __c127, 0)),
+          leaveUntransformed: S.optional(__S(4064, __c127, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2TransformationErrorHandling" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(__S(4096, __c128, 0)),
+          operator: S.optional(S.String),
+          value: S.optional(__S(4192, __c131, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2Condition" });
+    case 25:
+      return S.Array(__S(4312, __c134, 24));
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: S.optional(__S(4313, __c134, 25)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2Conditions" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: S.optional(__S(4314, __c134, 26)),
+          logicalOperator: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2Expressions" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          expressions: S.optional(__S(4315, __c134, 27)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2RecordCondition" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          condition: S.optional(__S(4316, __c134, 28)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2RecordSuppression" });
+    case 30:
+      return S.Array(__S(4317, __c134, 29));
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          fields: S.optional(__S(4128, __c129, 0)),
+          condition: S.optional(__S(4316, __c134, 28)),
+          primitiveTransformation: S.optional(__S(4304, __c134, 16)),
+          infoTypeTransformations: S.optional(__S(4307, __c134, 19)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2FieldTransformation" });
   }
 }
 function __c135(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(4319, __c134, 31));
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          deidentifyConfig: S.optional(__S(4290, __c134, 2)),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
+          recordSuppressions: S.optional(__S(4318, __c134, 30)),
+          fieldTransformations: S.optional(__S(4320, __c135, 0)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DeidentifyTemplate" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2RecordTransformations" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          infoTypeTransformations: S.optional(__S(4307, __c134, 19)),
+          imageTransformations: S.optional(__S(4310, __c134, 22)),
+          transformationErrorHandling: S.optional(__S(4311, __c134, 23)),
+          recordTransformations: S.optional(__S(4321, __c135, 1)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DeidentifyConfig" });
   }
 }
 function __c136(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          deidentifyConfig: S.optional(__S(4322, __c135, 2)),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DeidentifyTemplate" });
   }
 }
 function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11600,47 +11666,47 @@ function __c137(j: number): any {
       ).annotate({ identifier: "GooglePrivacyDlpV2SensitivityScore" });
   }
 }
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          words: S.optional(__S(4352, __c136, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2WordList" });
-  }
-}
 function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          sensitivityScore: S.optional(__S(4384, __c137, 0)),
-          version: S.optional(S.String),
+          words: S.optional(__S(4384, __c137, 0)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2InfoType" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2WordList" });
   }
 }
 function __c140(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4448, __c139, 0));
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          infoTypes: S.optional(__S(4480, __c140, 0)),
+          sensitivityScore: S.optional(__S(4416, __c138, 0)),
+          version: S.optional(S.String),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2SelectedInfoTypes" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2InfoType" });
   }
 }
 function __c141(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Array(__S(4480, __c140, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          infoTypes: S.optional(__S(4512, __c141, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2SelectedInfoTypes" });
   }
 }
 function __c142(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11653,20 +11719,20 @@ function __c142(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          groupIndexes: S.optional(__S(4545, __c142, 1)),
           pattern: S.optional(S.String),
+          groupIndexes: S.optional(__S(4577, __c143, 1)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2Regex" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          cloudStoragePath: S.optional(__S(4544, __c142, 0)),
-          wordList: S.optional(__S(4416, __c138, 0)),
+          cloudStoragePath: S.optional(__S(4576, __c143, 0)),
+          wordList: S.optional(__S(4448, __c139, 0)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2Dictionary" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11676,225 +11742,209 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GooglePrivacyDlpV2SensitivityLabel" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          infoType: S.optional(__S(4480, __c140, 0)),
           maxFindings: S.optional(S.Number),
-          infoType: S.optional(__S(4448, __c139, 0)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2InfoTypeLimit" });
     case 1:
-      return S.Array(__S(4608, __c144, 0));
+      return S.Array(__S(4640, __c145, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          maxFindingsPerRequest: S.optional(S.Number),
-          maxFindingsPerInfoType: S.optional(__S(4609, __c144, 1)),
           maxFindingsPerItem: S.optional(S.Number),
+          maxFindingsPerInfoType: S.optional(__S(4641, __c145, 1)),
+          maxFindingsPerRequest: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2FindingLimits" });
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          minLikelihood: S.optional(S.String),
-          infoType: S.optional(__S(4448, __c139, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2InfoTypeLikelihood" });
-    case 4:
-      return S.Array(__S(4611, __c144, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          windowAfter: S.optional(S.Number),
-          windowBefore: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Proximity" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          relativeLikelihood: S.optional(S.Number),
-          fixedLikelihood: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2LikelihoodAdjustment" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          proximity: S.optional(__S(4613, __c144, 5)),
-          hotwordRegex: S.optional(__S(4546, __c142, 2)),
-          likelihoodAdjustment: S.optional(__S(4614, __c144, 6)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2HotwordRule" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          encloses: S.optional(__S(4032, __c126, 0)),
-          fullyInside: S.optional(__S(4032, __c126, 0)),
-          overlaps: S.optional(__S(4032, __c126, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ImageContainmentType" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          infoTypes: S.optional(__S(4480, __c140, 0)),
-          imageContainmentType: S.optional(__S(4616, __c144, 8)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ExcludeByImageFindings" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          proximity: S.optional(__S(4613, __c144, 5)),
-          hotwordRegex: S.optional(__S(4546, __c142, 2)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ExcludeByHotword" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          matchingType: S.optional(S.String),
-          excludeByImageFindings: S.optional(__S(4617, __c144, 9)),
-          excludeInfoTypes: S.optional(__S(4481, __c140, 1)),
-          excludeByHotword: S.optional(__S(4618, __c144, 10)),
-          dictionary: S.optional(__S(4547, __c142, 3)),
-          regex: S.optional(__S(4546, __c142, 2)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ExclusionRule" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          minLikelihood: S.optional(S.String),
-          infoTypes: S.optional(__S(4480, __c140, 0)),
-          imageContainmentType: S.optional(__S(4616, __c144, 8)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2AdjustByImageFindings" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          infoTypes: S.optional(__S(4480, __c140, 0)),
-          matchingType: S.optional(S.String),
-          minLikelihood: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2AdjustByMatchingInfoTypes" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          likelihoodAdjustment: S.optional(__S(4614, __c144, 6)),
-          adjustByImageFindings: S.optional(__S(4620, __c144, 12)),
-          adjustByMatchingInfoTypes: S.optional(__S(4621, __c144, 13)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2AdjustmentRule" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          hotwordRule: S.optional(__S(4615, __c144, 7)),
-          exclusionRule: S.optional(__S(4619, __c144, 11)),
-          adjustmentRule: S.optional(__S(4622, __c144, 14)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2InspectionRule" });
-    case 16:
-      return S.Array(__S(4623, __c144, 15));
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          rules: S.optional(__S(4624, __c144, 16)),
-          infoTypes: S.optional(__S(4480, __c140, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2InspectionRuleSet" });
-    case 18:
-      return S.Array(__S(4625, __c144, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          hotwordRule: S.optional(__S(4615, __c144, 7)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DetectionRule" });
-    case 20:
-      return S.Array(__S(4627, __c144, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(S.String),
-          id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2LabelField" });
-    case 22:
-      return S.Array(__S(4629, __c144, 21));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          labelFieldsToMatch: S.optional(__S(4630, __c144, 22)),
-          labelId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2GoogleDriveLabel" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          googleDriveLabel: S.optional(__S(4631, __c144, 23)),
-          sensitivityLabel: S.optional(__S(4576, __c143, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2FileLabelInfoType" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          valueRegex: S.optional(S.String),
-          keyRegex: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2MetadataKeyValueExpression" });
-    case 26:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2StoredType" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          windowBefore: S.optional(S.Number),
+          windowAfter: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2Proximity" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          fixedLikelihood: S.optional(S.String),
+          relativeLikelihood: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2LikelihoodAdjustment" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          proximity: S.optional(__S(4644, __c145, 4)),
+          likelihoodAdjustment: S.optional(__S(4645, __c145, 5)),
+          hotwordRegex: S.optional(__S(4578, __c143, 2)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2HotwordRule" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          hotwordRule: S.optional(__S(4646, __c145, 6)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DetectionRule" });
+    case 8:
+      return S.Array(__S(4647, __c145, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2LabelField" });
+    case 10:
+      return S.Array(__S(4649, __c145, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          labelId: S.optional(S.String),
+          labelFieldsToMatch: S.optional(__S(4650, __c145, 10)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2GoogleDriveLabel" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          sensitivityLabel: S.optional(__S(4608, __c144, 0)),
+          googleDriveLabel: S.optional(__S(4651, __c145, 11)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2FileLabelInfoType" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          valueRegex: S.optional(S.String),
+          keyRegex: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2MetadataKeyValueExpression" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          storedType: S.optional(__S(4643, __c145, 3)),
+          sensitivityScore: S.optional(__S(4416, __c138, 0)),
+          regex: S.optional(__S(4578, __c143, 2)),
+          detectionRules: S.optional(__S(4648, __c145, 8)),
+          fileLabelInfoType: S.optional(__S(4652, __c145, 12)),
+          likelihood: S.optional(S.String),
+          infoType: S.optional(__S(4480, __c140, 0)),
+          metadataKeyValueExpression: S.optional(__S(4653, __c145, 13)),
+          dictionary: S.optional(__S(4579, __c143, 3)),
+          exclusionType: S.optional(S.String),
+          surrogateType: S.optional(__S(4064, __c127, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2CustomInfoType" });
+    case 15:
+      return S.Array(__S(4654, __c145, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          overlaps: S.optional(__S(4064, __c127, 0)),
+          encloses: S.optional(__S(4064, __c127, 0)),
+          fullyInside: S.optional(__S(4064, __c127, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2ImageContainmentType" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          imageContainmentType: S.optional(__S(4656, __c145, 16)),
+          infoTypes: S.optional(__S(4512, __c141, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2ExcludeByImageFindings" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          proximity: S.optional(__S(4644, __c145, 4)),
+          hotwordRegex: S.optional(__S(4578, __c143, 2)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2ExcludeByHotword" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          dictionary: S.optional(__S(4579, __c143, 3)),
+          excludeByImageFindings: S.optional(__S(4657, __c145, 17)),
+          matchingType: S.optional(S.String),
+          excludeInfoTypes: S.optional(__S(4513, __c141, 1)),
+          excludeByHotword: S.optional(__S(4658, __c145, 18)),
+          regex: S.optional(__S(4578, __c143, 2)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2ExclusionRule" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          minLikelihood: S.optional(S.String),
+          matchingType: S.optional(S.String),
+          infoTypes: S.optional(__S(4512, __c141, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2AdjustByMatchingInfoTypes" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          imageContainmentType: S.optional(__S(4656, __c145, 16)),
+          infoTypes: S.optional(__S(4512, __c141, 0)),
+          minLikelihood: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2AdjustByImageFindings" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          likelihoodAdjustment: S.optional(__S(4645, __c145, 5)),
+          adjustByMatchingInfoTypes: S.optional(__S(4660, __c145, 20)),
+          adjustByImageFindings: S.optional(__S(4661, __c145, 21)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2AdjustmentRule" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          hotwordRule: S.optional(__S(4646, __c145, 6)),
+          exclusionRule: S.optional(__S(4659, __c145, 19)),
+          adjustmentRule: S.optional(__S(4662, __c145, 22)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2InspectionRule" });
+    case 24:
+      return S.Array(__S(4663, __c145, 23));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          infoTypes: S.optional(__S(4512, __c141, 0)),
+          rules: S.optional(__S(4664, __c145, 24)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2InspectionRuleSet" });
+    case 26:
+      return S.Array(__S(4665, __c145, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
-          surrogateType: S.optional(__S(4032, __c126, 0)),
-          infoType: S.optional(__S(4448, __c139, 0)),
-          likelihood: S.optional(S.String),
-          detectionRules: S.optional(__S(4628, __c144, 20)),
-          fileLabelInfoType: S.optional(__S(4632, __c144, 24)),
-          metadataKeyValueExpression: S.optional(__S(4633, __c144, 25)),
-          storedType: S.optional(__S(4634, __c144, 26)),
-          exclusionType: S.optional(S.String),
-          sensitivityScore: S.optional(__S(4384, __c137, 0)),
-          dictionary: S.optional(__S(4547, __c142, 3)),
-          regex: S.optional(__S(4546, __c142, 2)),
+          minLikelihood: S.optional(S.String),
+          infoType: S.optional(__S(4480, __c140, 0)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2CustomInfoType" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2InfoTypeLikelihood" });
     case 28:
-      return S.Array(__S(4635, __c144, 27));
+      return S.Array(__S(4667, __c145, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
-          limits: S.optional(__S(4610, __c144, 2)),
-          excludeInfoTypes: S.optional(S.Boolean),
-          infoTypes: S.optional(__S(4480, __c140, 0)),
-          minLikelihoodPerInfoType: S.optional(__S(4612, __c144, 4)),
-          ruleSet: S.optional(__S(4626, __c144, 18)),
-          contentOptions: S.optional(__S(4512, __c141, 0)),
-          includeQuote: S.optional(S.Boolean),
-          customInfoTypes: S.optional(__S(4636, __c144, 28)),
+          limits: S.optional(__S(4642, __c145, 2)),
+          customInfoTypes: S.optional(__S(4655, __c145, 15)),
+          ruleSet: S.optional(__S(4666, __c145, 26)),
+          infoTypes: S.optional(__S(4512, __c141, 0)),
+          minLikelihoodPerInfoType: S.optional(__S(4668, __c145, 28)),
           minLikelihood: S.optional(S.String),
+          includeQuote: S.optional(S.Boolean),
+          contentOptions: S.optional(__S(4544, __c142, 0)),
+          excludeInfoTypes: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2InspectConfig" });
-  }
-}
-function __c145(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          allowLimitedAvailabilityInfoTypes: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          inspectConfig: S.optional(__S(4637, __c144, 29)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2InspectTemplate" });
   }
 }
 function __c146(j: number): any {
@@ -11902,11 +11952,15 @@ function __c146(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "DeleteOrganizationsLocationsStoredInfoTypesRequest" });
+          allowLimitedAvailabilityInfoTypes: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          inspectConfig: S.optional(__S(4669, __c145, 29)),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2InspectTemplate" });
   }
 }
 function __c147(j: number): any {
@@ -11918,7 +11972,7 @@ function __c147(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteOrganizationsLocationsTableDataProfilesRequest" });
+      ).annotate({ identifier: "DeleteOrganizationsLocationsStoredInfoTypesRequest" });
   }
 }
 function __c148(j: number): any {
@@ -11930,7 +11984,7 @@ function __c148(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteOrganizationsStoredInfoTypesRequest" });
+      ).annotate({ identifier: "DeleteOrganizationsLocationsTableDataProfilesRequest" });
   }
 }
 function __c149(j: number): any {
@@ -11942,7 +11996,7 @@ function __c149(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteProjectsDeidentifyTemplatesRequest" });
+      ).annotate({ identifier: "DeleteOrganizationsStoredInfoTypesRequest" });
   }
 }
 function __c150(j: number): any {
@@ -11954,7 +12008,7 @@ function __c150(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteProjectsDlpJobsRequest" });
+      ).annotate({ identifier: "DeleteProjectsDeidentifyTemplatesRequest" });
   }
 }
 function __c151(j: number): any {
@@ -11966,7 +12020,7 @@ function __c151(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteProjectsInspectTemplatesRequest" });
+      ).annotate({ identifier: "DeleteProjectsDlpJobsRequest" });
   }
 }
 function __c152(j: number): any {
@@ -11978,7 +12032,7 @@ function __c152(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteProjectsJobTriggersRequest" });
+      ).annotate({ identifier: "DeleteProjectsInspectTemplatesRequest" });
   }
 }
 function __c153(j: number): any {
@@ -11990,7 +12044,7 @@ function __c153(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsConnectionsRequest" });
+      ).annotate({ identifier: "DeleteProjectsJobTriggersRequest" });
   }
 }
 function __c154(j: number): any {
@@ -12002,7 +12056,7 @@ function __c154(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsContentPoliciesRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsConnectionsRequest" });
   }
 }
 function __c155(j: number): any {
@@ -12014,7 +12068,7 @@ function __c155(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsDeidentifyTemplatesRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsContentPoliciesRequest" });
   }
 }
 function __c156(j: number): any {
@@ -12023,15 +12077,10 @@ function __c156(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4032, __c126, 0).pipe(T.HttpBody())),
         }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v2/{+name}:activate",
-            baseUrl: "https://dlp.googleapis.com/",
-          }),
+          T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "ActivateProjectsLocationsJobTriggersRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsDeidentifyTemplatesRequest" });
   }
 }
 function __c157(j: number): any {
@@ -12040,10 +12089,15 @@ function __c157(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
+          body: S.optional(__S(4064, __c127, 0).pipe(T.HttpBody())),
         }).pipe(
-          T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
+          T.Http({
+            method: "POST",
+            uri: "v2/{+name}:activate",
+            baseUrl: "https://dlp.googleapis.com/",
+          }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsDiscoveryConfigsRequest" });
+      ).annotate({ identifier: "ActivateProjectsLocationsJobTriggersRequest" });
   }
 }
 function __c158(j: number): any {
@@ -12055,7 +12109,7 @@ function __c158(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsDlpJobsRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsDiscoveryConfigsRequest" });
   }
 }
 function __c159(j: number): any {
@@ -12067,7 +12121,7 @@ function __c159(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsFileStoreDataProfilesRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsDlpJobsRequest" });
   }
 }
 function __c160(j: number): any {
@@ -12079,7 +12133,7 @@ function __c160(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsInspectTemplatesRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsFileStoreDataProfilesRequest" });
   }
 }
 function __c161(j: number): any {
@@ -12091,7 +12145,7 @@ function __c161(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsJobTriggersRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsInspectTemplatesRequest" });
   }
 }
 function __c162(j: number): any {
@@ -12103,7 +12157,7 @@ function __c162(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsStoredInfoTypesRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsJobTriggersRequest" });
   }
 }
 function __c163(j: number): any {
@@ -12115,7 +12169,7 @@ function __c163(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsTableDataProfilesRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsStoredInfoTypesRequest" });
   }
 }
 function __c164(j: number): any {
@@ -12127,7 +12181,7 @@ function __c164(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteProjectsStoredInfoTypesRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsTableDataProfilesRequest" });
   }
 }
 function __c165(j: number): any {
@@ -12136,7 +12190,19 @@ function __c165(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4032, __c126, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsStoredInfoTypesRequest" });
+  }
+}
+function __c166(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(4064, __c127, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -12147,7 +12213,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "FinishProjectsLocationsDlpJobsRequest" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12159,13 +12225,13 @@ function __c166(j: number): any {
       ).annotate({ identifier: "GetOrganizationsDeidentifyTemplatesRequest" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4032, __c126, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(4064, __c127, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -12174,18 +12240,6 @@ function __c167(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CancelProjectsDlpJobsRequest" });
-  }
-}
-function __c168(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetOrganizationsInspectTemplatesRequest" });
   }
 }
 function __c169(j: number): any {
@@ -12197,71 +12251,10 @@ function __c169(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetOrganizationsLocationsColumnDataProfilesRequest" });
+      ).annotate({ identifier: "GetOrganizationsInspectTemplatesRequest" });
   }
 }
 function __c170(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(__S(3714, __c116, 2)),
-          timestamp: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ProfileStatus" });
-  }
-}
-function __c171(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          infoType: S.optional(__S(4448, __c139, 0)),
-          excludedFromAnalysis: S.optional(S.Boolean),
-          estimatedPrevalence: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2OtherInfoTypeSummary" });
-    case 1:
-      return S.Array(__S(5472, __c171, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          infoType: S.optional(__S(4448, __c139, 0)),
-          estimatedPrevalence: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2InfoTypeSummary" });
-  }
-}
-function __c172(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          freeTextScore: S.optional(S.Number),
-          tableFullResource: S.optional(S.String),
-          name: S.optional(S.String),
-          estimatedUniquenessScore: S.optional(S.String),
-          tableId: S.optional(S.String),
-          column: S.optional(S.String),
-          estimatedNullPercentage: S.optional(S.String),
-          datasetLocation: S.optional(S.String),
-          datasetProjectId: S.optional(S.String),
-          profileLastGenerated: S.optional(S.String),
-          datasetId: S.optional(S.String),
-          dataRiskLevel: S.optional(__S(4384, __c137, 0)),
-          otherMatches: S.optional(__S(5473, __c171, 1)),
-          state: S.optional(S.String),
-          columnInfoType: S.optional(__S(5474, __c171, 2)),
-          columnType: S.optional(S.String),
-          policyState: S.optional(S.String),
-          tableDataProfile: S.optional(S.String),
-          profileStatus: S.optional(__S(5440, __c170, 0)),
-          sensitivityScore: S.optional(__S(4384, __c137, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ColumnDataProfile" });
-  }
-}
-function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12270,7 +12263,68 @@ function __c173(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetOrganizationsLocationsConnectionsRequest" });
+      ).annotate({ identifier: "GetOrganizationsLocationsColumnDataProfilesRequest" });
+  }
+}
+function __c171(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(__S(3746, __c117, 2)),
+          timestamp: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2ProfileStatus" });
+  }
+}
+function __c172(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          excludedFromAnalysis: S.optional(S.Boolean),
+          estimatedPrevalence: S.optional(S.Number),
+          infoType: S.optional(__S(4480, __c140, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2OtherInfoTypeSummary" });
+    case 1:
+      return S.Array(__S(5504, __c172, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          estimatedPrevalence: S.optional(S.Number),
+          infoType: S.optional(__S(4480, __c140, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2InfoTypeSummary" });
+  }
+}
+function __c173(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          profileStatus: S.optional(__S(5472, __c171, 0)),
+          tableDataProfile: S.optional(S.String),
+          otherMatches: S.optional(__S(5505, __c172, 1)),
+          sensitivityScore: S.optional(__S(4416, __c138, 0)),
+          tableFullResource: S.optional(S.String),
+          name: S.optional(S.String),
+          profileLastGenerated: S.optional(S.String),
+          columnInfoType: S.optional(__S(5506, __c172, 2)),
+          datasetId: S.optional(S.String),
+          freeTextScore: S.optional(S.Number),
+          dataRiskLevel: S.optional(__S(4416, __c138, 0)),
+          policyState: S.optional(S.String),
+          datasetLocation: S.optional(S.String),
+          columnType: S.optional(S.String),
+          estimatedUniquenessScore: S.optional(S.String),
+          column: S.optional(S.String),
+          tableId: S.optional(S.String),
+          datasetProjectId: S.optional(S.String),
+          estimatedNullPercentage: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2ColumnDataProfile" });
   }
 }
 function __c174(j: number): any {
@@ -12282,7 +12336,7 @@ function __c174(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetOrganizationsLocationsDeidentifyTemplatesRequest" });
+      ).annotate({ identifier: "GetOrganizationsLocationsConnectionsRequest" });
   }
 }
 function __c175(j: number): any {
@@ -12294,7 +12348,7 @@ function __c175(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetOrganizationsLocationsDiscoveryConfigsRequest" });
+      ).annotate({ identifier: "GetOrganizationsLocationsDeidentifyTemplatesRequest" });
   }
 }
 function __c176(j: number): any {
@@ -12306,143 +12360,10 @@ function __c176(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetOrganizationsLocationsFileStoreDataProfilesRequest" });
+      ).annotate({ identifier: "GetOrganizationsLocationsDiscoveryConfigsRequest" });
   }
 }
 function __c177(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          signals: S.optional(__S(4512, __c141, 0)),
-          category: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Domain" });
-    case 1:
-      return S.Array(__S(5664, __c177, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          namespacedTagValue: S.optional(S.String),
-          value: S.optional(S.String),
-          key: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Tag" });
-    case 3:
-      return S.Array(__S(5666, __c177, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          fullResource: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2RelatedResource" });
-    case 5:
-      return S.Array(__S(5668, __c177, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.optional(S.String),
-          folderId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DataProfileLocation" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          otherCloudStartingLocation: S.optional(__S(1057, __c33, 1)),
-          inspectTemplates: S.optional(__S(4352, __c136, 0)),
-          location: S.optional(__S(5670, __c177, 6)),
-          dataProfileActions: S.optional(__S(1072, __c33, 16)),
-          projectId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DataProfileJobConfig" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          inspectTemplateModifiedTime: S.optional(S.String),
-          inspectTemplateName: S.optional(S.String),
-          dataProfileJob: S.optional(__S(5671, __c177, 7)),
-          inspectConfig: S.optional(__S(4637, __c144, 29)),
-          discoveryConfig: S.optional(__S(1137, __c35, 17)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DataProfileConfigSnapshot" });
-  }
-}
-function __c178(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          infoType: S.optional(__S(4448, __c139, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2FileStoreInfoTypeSummary" });
-    case 1:
-      return S.Array(__S(5696, __c178, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          cluster: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2FileClusterType" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          fileExtension: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2FileExtensionInfo" });
-    case 4:
-      return S.Array(__S(5699, __c178, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          sensitivityScore: S.optional(__S(4384, __c137, 0)),
-          errors: S.optional(__S(3745, __c117, 1)),
-          fileStoreInfoTypeSummaries: S.optional(__S(5697, __c178, 1)),
-          fileClusterType: S.optional(__S(5698, __c178, 2)),
-          fileExtensionsScanned: S.optional(__S(5700, __c178, 4)),
-          noFilesExist: S.optional(S.Boolean),
-          dataRiskLevel: S.optional(__S(4384, __c137, 0)),
-          fileExtensionsSeen: S.optional(__S(5700, __c178, 4)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2FileClusterSummary" });
-    case 6:
-      return S.Array(__S(5701, __c178, 5));
-    case 7:
-      return S.Record(S.String, __S(4160, __c130, 0));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          resourceLabels: S.optional(__S(3808, __c119, 0)),
-          domains: S.optional(__S(5665, __c177, 1)),
-          createTime: S.optional(S.String),
-          resourceVisibility: S.optional(S.String),
-          tags: S.optional(__S(5667, __c177, 3)),
-          projectDataProfile: S.optional(S.String),
-          sensitivityScore: S.optional(__S(4384, __c137, 0)),
-          state: S.optional(S.String),
-          fileStoreInfoTypeSummaries: S.optional(__S(5697, __c178, 1)),
-          relatedResources: S.optional(__S(5669, __c177, 5)),
-          lastModifiedTime: S.optional(S.String),
-          fileClusterSummaries: S.optional(__S(5702, __c178, 6)),
-          name: S.optional(S.String),
-          fullResource: S.optional(S.String),
-          fileStoreIsEmpty: S.optional(S.Boolean),
-          projectId: S.optional(S.String),
-          sampleFindingsTable: S.optional(__S(3776, __c118, 0)),
-          profileStatus: S.optional(__S(5440, __c170, 0)),
-          profileLastGenerated: S.optional(S.String),
-          dataStorageLocations: S.optional(__S(4352, __c136, 0)),
-          locationType: S.optional(S.String),
-          fileStorePath: S.optional(S.String),
-          dataRiskLevel: S.optional(__S(4384, __c137, 0)),
-          configSnapshot: S.optional(__S(5672, __c177, 8)),
-          fileStoreLocation: S.optional(S.String),
-          dataSourceType: S.optional(__S(1099, __c34, 11)),
-          resourceAttributes: S.optional(__S(5703, __c178, 7)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2FileStoreDataProfile" });
-  }
-}
-function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12451,7 +12372,133 @@ function __c179(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetOrganizationsLocationsInspectTemplatesRequest" });
+      ).annotate({ identifier: "GetOrganizationsLocationsFileStoreDataProfilesRequest" });
+  }
+}
+function __c178(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          signals: S.optional(__S(4544, __c142, 0)),
+          category: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2Domain" });
+    case 1:
+      return S.Array(__S(5696, __c178, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          fullResource: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2RelatedResource" });
+    case 3:
+      return S.Array(__S(5698, __c178, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.optional(S.String),
+          otherCloudStartingLocation: S.optional(__S(1135, __c35, 15)),
+          dataProfileActions: S.optional(__S(1131, __c35, 11)),
+          location: S.optional(__S(1132, __c35, 12)),
+          inspectTemplates: S.optional(__S(4384, __c137, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DataProfileJobConfig" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          inspectTemplateModifiedTime: S.optional(S.String),
+          dataProfileJob: S.optional(__S(5700, __c178, 4)),
+          inspectTemplateName: S.optional(S.String),
+          inspectConfig: S.optional(__S(4669, __c145, 29)),
+          discoveryConfig: S.optional(__S(1136, __c35, 16)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DataProfileConfigSnapshot" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          namespacedTagValue: S.optional(S.String),
+          value: S.optional(S.String),
+          key: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2Tag" });
+    case 7:
+      return S.Array(__S(5702, __c178, 6));
+  }
+}
+function __c179(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          infoType: S.optional(__S(4480, __c140, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2FileStoreInfoTypeSummary" });
+    case 1:
+      return S.Array(__S(5728, __c179, 0));
+    case 2:
+      return S.Record(S.String, __S(4192, __c131, 0));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          fileExtension: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2FileExtensionInfo" });
+    case 4:
+      return S.Array(__S(5731, __c179, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          cluster: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2FileClusterType" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          sensitivityScore: S.optional(__S(4416, __c138, 0)),
+          noFilesExist: S.optional(S.Boolean),
+          dataRiskLevel: S.optional(__S(4416, __c138, 0)),
+          fileExtensionsScanned: S.optional(__S(5732, __c179, 4)),
+          fileExtensionsSeen: S.optional(__S(5732, __c179, 4)),
+          fileClusterType: S.optional(__S(5733, __c179, 5)),
+          fileStoreInfoTypeSummaries: S.optional(__S(5729, __c179, 1)),
+          errors: S.optional(__S(3777, __c118, 1)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2FileClusterSummary" });
+    case 7:
+      return S.Array(__S(5734, __c179, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          dataStorageLocations: S.optional(__S(4384, __c137, 0)),
+          domains: S.optional(__S(5697, __c178, 1)),
+          fileStoreLocation: S.optional(S.String),
+          fileStoreInfoTypeSummaries: S.optional(__S(5729, __c179, 1)),
+          fileStoreIsEmpty: S.optional(S.Boolean),
+          projectDataProfile: S.optional(S.String),
+          resourceAttributes: S.optional(__S(5730, __c179, 2)),
+          resourceLabels: S.optional(__S(3840, __c120, 0)),
+          sampleFindingsTable: S.optional(__S(3808, __c119, 0)),
+          relatedResources: S.optional(__S(5699, __c178, 3)),
+          createTime: S.optional(S.String),
+          profileLastGenerated: S.optional(S.String),
+          state: S.optional(S.String),
+          fileStorePath: S.optional(S.String),
+          locationType: S.optional(S.String),
+          configSnapshot: S.optional(__S(5701, __c178, 5)),
+          profileStatus: S.optional(__S(5472, __c171, 0)),
+          dataSourceType: S.optional(__S(1101, __c34, 13)),
+          lastModifiedTime: S.optional(S.String),
+          name: S.optional(S.String),
+          fileClusterSummaries: S.optional(__S(5735, __c179, 7)),
+          projectId: S.optional(S.String),
+          resourceVisibility: S.optional(S.String),
+          dataRiskLevel: S.optional(__S(4416, __c138, 0)),
+          fullResource: S.optional(S.String),
+          tags: S.optional(__S(5703, __c178, 7)),
+          sensitivityScore: S.optional(__S(4416, __c138, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2FileStoreDataProfile" });
   }
 }
 function __c180(j: number): any {
@@ -12463,7 +12510,7 @@ function __c180(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetOrganizationsLocationsJobTriggersRequest" });
+      ).annotate({ identifier: "GetOrganizationsLocationsInspectTemplatesRequest" });
   }
 }
 function __c181(j: number): any {
@@ -12475,7 +12522,7 @@ function __c181(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetOrganizationsLocationsProjectDataProfilesRequest" });
+      ).annotate({ identifier: "GetOrganizationsLocationsJobTriggersRequest" });
   }
 }
 function __c182(j: number): any {
@@ -12483,19 +12530,31 @@ function __c182(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileLastGenerated: S.optional(S.String),
-          dataRiskLevel: S.optional(__S(4384, __c137, 0)),
-          projectId: S.optional(S.String),
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetOrganizationsLocationsProjectDataProfilesRequest" });
+  }
+}
+function __c183(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           fileStoreDataProfileCount: S.optional(S.String),
-          name: S.optional(S.String),
-          sensitivityScore: S.optional(__S(4384, __c137, 0)),
-          profileStatus: S.optional(__S(5440, __c170, 0)),
+          sensitivityScore: S.optional(__S(4416, __c138, 0)),
           tableDataProfileCount: S.optional(S.String),
+          profileLastGenerated: S.optional(S.String),
+          name: S.optional(S.String),
+          dataRiskLevel: S.optional(__S(4416, __c138, 0)),
+          profileStatus: S.optional(__S(5472, __c171, 0)),
+          projectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2ProjectDataProfile" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12507,13 +12566,13 @@ function __c183(j: number): any {
       ).annotate({ identifier: "GetOrganizationsLocationsStoredInfoTypesRequest" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4032, __c126, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(4064, __c127, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -12524,7 +12583,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsDlpJobsRequest" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12536,57 +12595,45 @@ function __c185(j: number): any {
       ).annotate({ identifier: "GetOrganizationsLocationsTableDataProfilesRequest" });
   }
 }
-function __c186(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(5474, __c171, 2));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          sampleFindingsTable: S.optional(__S(3776, __c118, 0)),
-          domains: S.optional(__S(5665, __c177, 1)),
-          relatedResources: S.optional(__S(5669, __c177, 5)),
-          expirationTime: S.optional(S.String),
-          rowCount: S.optional(S.String),
-          lastModifiedTime: S.optional(S.String),
-          resourceLabels: S.optional(__S(3808, __c119, 0)),
-          name: S.optional(S.String),
-          failedColumnCount: S.optional(S.String),
-          scannedColumnCount: S.optional(S.String),
-          tags: S.optional(__S(5667, __c177, 3)),
-          datasetId: S.optional(S.String),
-          sensitivityScore: S.optional(__S(4384, __c137, 0)),
-          otherInfoTypes: S.optional(__S(5473, __c171, 1)),
-          datasetLocation: S.optional(S.String),
-          dataRiskLevel: S.optional(__S(4384, __c137, 0)),
-          createTime: S.optional(S.String),
-          tableSizeBytes: S.optional(S.String),
-          profileLastGenerated: S.optional(S.String),
-          datasetProjectId: S.optional(S.String),
-          projectDataProfile: S.optional(S.String),
-          dataSourceType: S.optional(__S(1099, __c34, 11)),
-          state: S.optional(S.String),
-          predictedInfoTypes: S.optional(__S(5952, __c186, 0)),
-          tableId: S.optional(S.String),
-          configSnapshot: S.optional(__S(5672, __c177, 8)),
-          encryptionStatus: S.optional(S.String),
-          resourceVisibility: S.optional(S.String),
-          fullResource: S.optional(S.String),
-          profileStatus: S.optional(__S(5440, __c170, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2TableDataProfile" });
-  }
-}
 function __c187(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(5506, __c172, 2));
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetOrganizationsStoredInfoTypesRequest" });
+          datasetProjectId: S.optional(S.String),
+          datasetLocation: S.optional(S.String),
+          otherInfoTypes: S.optional(__S(5505, __c172, 1)),
+          tags: S.optional(__S(5703, __c178, 7)),
+          scannedColumnCount: S.optional(S.String),
+          sampleFindingsTable: S.optional(__S(3808, __c119, 0)),
+          name: S.optional(S.String),
+          projectDataProfile: S.optional(S.String),
+          encryptionStatus: S.optional(S.String),
+          resourceLabels: S.optional(__S(3840, __c120, 0)),
+          relatedResources: S.optional(__S(5699, __c178, 3)),
+          lastModifiedTime: S.optional(S.String),
+          domains: S.optional(__S(5697, __c178, 1)),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          resourceVisibility: S.optional(S.String),
+          dataRiskLevel: S.optional(__S(4416, __c138, 0)),
+          tableSizeBytes: S.optional(S.String),
+          rowCount: S.optional(S.String),
+          configSnapshot: S.optional(__S(5701, __c178, 5)),
+          fullResource: S.optional(S.String),
+          dataSourceType: S.optional(__S(1101, __c34, 13)),
+          tableId: S.optional(S.String),
+          failedColumnCount: S.optional(S.String),
+          predictedInfoTypes: S.optional(__S(5984, __c187, 0)),
+          profileStatus: S.optional(__S(5472, __c171, 0)),
+          expirationTime: S.optional(S.String),
+          profileLastGenerated: S.optional(S.String),
+          sensitivityScore: S.optional(__S(4416, __c138, 0)),
+          datasetId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2TableDataProfile" });
   }
 }
 function __c188(j: number): any {
@@ -12598,7 +12645,7 @@ function __c188(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsDeidentifyTemplatesRequest" });
+      ).annotate({ identifier: "GetOrganizationsStoredInfoTypesRequest" });
   }
 }
 function __c189(j: number): any {
@@ -12610,7 +12657,7 @@ function __c189(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsDlpJobsRequest" });
+      ).annotate({ identifier: "GetProjectsDeidentifyTemplatesRequest" });
   }
 }
 function __c190(j: number): any {
@@ -12622,7 +12669,7 @@ function __c190(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsInspectTemplatesRequest" });
+      ).annotate({ identifier: "GetProjectsDlpJobsRequest" });
   }
 }
 function __c191(j: number): any {
@@ -12634,7 +12681,7 @@ function __c191(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsJobTriggersRequest" });
+      ).annotate({ identifier: "GetProjectsInspectTemplatesRequest" });
   }
 }
 function __c192(j: number): any {
@@ -12646,7 +12693,7 @@ function __c192(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsColumnDataProfilesRequest" });
+      ).annotate({ identifier: "GetProjectsJobTriggersRequest" });
   }
 }
 function __c193(j: number): any {
@@ -12658,7 +12705,7 @@ function __c193(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsConnectionsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsColumnDataProfilesRequest" });
   }
 }
 function __c194(j: number): any {
@@ -12670,7 +12717,7 @@ function __c194(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsContentPoliciesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsConnectionsRequest" });
   }
 }
 function __c195(j: number): any {
@@ -12682,7 +12729,7 @@ function __c195(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsDeidentifyTemplatesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsContentPoliciesRequest" });
   }
 }
 function __c196(j: number): any {
@@ -12690,9 +12737,23 @@ function __c196(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6304, __c197, 0).pipe(T.HttpBody())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
+          T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsDeidentifyTemplatesRequest" });
+  }
+}
+function __c197(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(6336, __c198, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/deidentifyTemplates",
@@ -12702,28 +12763,16 @@ function __c196(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsDeidentifyTemplatesRequest" });
   }
 }
-function __c197(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          templateId: S.optional(S.String),
-          deidentifyTemplate: S.optional(__S(4320, __c135, 0)),
-          locationId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2CreateDeidentifyTemplateRequest" });
-  }
-}
 function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsDiscoveryConfigsRequest" });
+          deidentifyTemplate: S.optional(__S(4352, __c136, 0)),
+          templateId: S.optional(S.String),
+          locationId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2CreateDeidentifyTemplateRequest" });
   }
 }
 function __c199(j: number): any {
@@ -12735,7 +12784,7 @@ function __c199(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsDlpJobsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsDiscoveryConfigsRequest" });
   }
 }
 function __c200(j: number): any {
@@ -12747,7 +12796,7 @@ function __c200(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsFileStoreDataProfilesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsDlpJobsRequest" });
   }
 }
 function __c201(j: number): any {
@@ -12759,7 +12808,7 @@ function __c201(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsInspectTemplatesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsFileStoreDataProfilesRequest" });
   }
 }
 function __c202(j: number): any {
@@ -12771,7 +12820,7 @@ function __c202(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsJobTriggersRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsInspectTemplatesRequest" });
   }
 }
 function __c203(j: number): any {
@@ -12783,7 +12832,7 @@ function __c203(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsProjectDataProfilesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsJobTriggersRequest" });
   }
 }
 function __c204(j: number): any {
@@ -12795,7 +12844,7 @@ function __c204(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsStoredInfoTypesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsProjectDataProfilesRequest" });
   }
 }
 function __c205(j: number): any {
@@ -12807,7 +12856,7 @@ function __c205(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsTableDataProfilesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsStoredInfoTypesRequest" });
   }
 }
 function __c206(j: number): any {
@@ -12819,7 +12868,7 @@ function __c206(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsStoredInfoTypesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsTableDataProfilesRequest" });
   }
 }
 function __c207(j: number): any {
@@ -12828,8 +12877,22 @@ function __c207(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6658, __c208, 2).pipe(T.HttpBody())),
         }).pipe(
+          T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsStoredInfoTypesRequest" });
+  }
+}
+function __c208(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(6690, __c209, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:hybridInspect",
@@ -12839,47 +12902,31 @@ function __c207(j: number): any {
       ).annotate({ identifier: "HybridInspectProjectsLocationsDlpJobsRequest" });
   }
 }
-function __c208(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(3808, __c119, 0)),
-          tableOptions: S.optional(__S(3872, __c121, 0)),
-          rowOffset: S.optional(S.String),
-          containerDetails: S.optional(__S(6688, __c209, 0)),
-          fileOffset: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2HybridFindingDetails" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          item: S.optional(__S(3378, __c105, 18)),
-          findingDetails: S.optional(__S(6656, __c208, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2HybridContentItem" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          hybridItem: S.optional(__S(6657, __c208, 1)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2HybridInspectDlpJobRequest" });
-  }
-}
 function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.String),
-          type: S.optional(S.String),
-          fullPath: S.optional(S.String),
-          rootPath: S.optional(S.String),
-          relativePath: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          projectId: S.optional(S.String),
+          fileOffset: S.optional(S.String),
+          labels: S.optional(__S(3840, __c120, 0)),
+          tableOptions: S.optional(__S(3904, __c122, 0)),
+          containerDetails: S.optional(__S(6720, __c210, 0)),
+          rowOffset: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Container" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2HybridFindingDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          findingDetails: S.optional(__S(6688, __c209, 0)),
+          item: S.optional(__S(3410, __c106, 18)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2HybridContentItem" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          hybridItem: S.optional(__S(6689, __c209, 1)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2HybridInspectDlpJobRequest" });
   }
 }
 function __c210(j: number): any {
@@ -12887,9 +12934,27 @@ function __c210(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6752, __c211, 0).pipe(T.HttpBody())),
-        }).pipe(
+          rootPath: S.optional(S.String),
+          version: S.optional(S.String),
+          fullPath: S.optional(S.String),
+          relativePath: S.optional(S.String),
+          type: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          projectId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2Container" });
+  }
+}
+function __c211(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(6784, __c212, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/inspectTemplates",
@@ -12899,26 +12964,28 @@ function __c210(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsInspectTemplatesRequest" });
   }
 }
-function __c211(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          locationId: S.optional(S.String),
-          inspectTemplate: S.optional(__S(4640, __c145, 0)),
-          templateId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2CreateInspectTemplateRequest" });
-  }
-}
 function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6658, __c208, 2).pipe(T.HttpBody())),
-        }).pipe(
+          locationId: S.optional(S.String),
+          inspectTemplate: S.optional(__S(4672, __c146, 0)),
+          templateId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2CreateInspectTemplateRequest" });
+  }
+}
+function __c213(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(6690, __c209, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:hybridInspect",
@@ -12928,14 +12995,16 @@ function __c212(j: number): any {
       ).annotate({ identifier: "HybridInspectProjectsLocationsJobTriggersRequest" });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6848, __c214, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6880, __c215, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/content:inspect",
@@ -12945,203 +13014,23 @@ function __c213(j: number): any {
       ).annotate({ identifier: "InspectProjectsContentRequest" });
   }
 }
-function __c214(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          locationId: S.optional(S.String),
-          item: S.optional(__S(3378, __c105, 18)),
-          inspectTemplateName: S.optional(S.String),
-          inspectConfig: S.optional(__S(4637, __c144, 29)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2InspectContentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          result: S.optional(__S(6904, __c215, 24)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2InspectContentResponse" });
-  }
-}
 function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          end: S.optional(S.String),
-          start: S.optional(S.String),
+          locationId: S.optional(S.String),
+          item: S.optional(__S(3410, __c106, 18)),
+          inspectTemplateName: S.optional(S.String),
+          inspectConfig: S.optional(__S(4669, __c145, 29)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Range" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2InspectContentRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          fileOffset: S.optional(S.String),
+          result: S.optional(__S(6936, __c216, 24)),
         }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DocumentLocation" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          rowIndex: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2TableLocation" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.optional(S.String),
-          name: S.optional(S.String),
-          id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2PathElement" });
-    case 4:
-      return S.Array(__S(6883, __c215, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.optional(__S(6884, __c215, 4)),
-          partitionId: S.optional(__S(3904, __c122, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Key" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          entityKey: S.optional(__S(6885, __c215, 5)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DatastoreKey" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          tableReference: S.optional(__S(3776, __c118, 0)),
-          rowNumber: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2BigQueryKey" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          datastoreKey: S.optional(__S(6886, __c215, 6)),
-          bigQueryKey: S.optional(__S(6887, __c215, 7)),
-          idValues: S.optional(__S(4352, __c136, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2RecordKey" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          tableLocation: S.optional(__S(6882, __c215, 2)),
-          fieldId: S.optional(__S(4064, __c127, 0)),
-          recordKey: S.optional(__S(6888, __c215, 8)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2RecordLocation" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          allMessages: S.optional(__S(4032, __c126, 0)),
-          messageIndex: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ConversationLocation" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          itemIndex: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2BatchContentLocation" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          width: S.optional(S.Number),
-          left: S.optional(S.Number),
-          top: S.optional(S.Number),
-          height: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2BoundingBox" });
-    case 13:
-      return S.Array(__S(6892, __c215, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          boundingBoxes: S.optional(__S(6893, __c215, 13)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ImageLocation" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          storageLabel: S.optional(__S(4192, __c131, 0)),
-          keyValueMetadataLabel: S.optional(__S(4192, __c131, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2MetadataLocation" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          documentLocation: S.optional(__S(6881, __c215, 1)),
-          recordLocation: S.optional(__S(6889, __c215, 9)),
-          containerVersion: S.optional(S.String),
-          conversationLocation: S.optional(__S(6890, __c215, 10)),
-          batchContentLocation: S.optional(__S(6891, __c215, 11)),
-          imageLocation: S.optional(__S(6894, __c215, 14)),
-          containerTimestamp: S.optional(S.String),
-          containerName: S.optional(S.String),
-          metadataLocation: S.optional(__S(6895, __c215, 15)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ContentLocation" });
-    case 17:
-      return S.Array(__S(6896, __c215, 16));
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          byteRange: S.optional(__S(6880, __c215, 0)),
-          codepointRange: S.optional(__S(6880, __c215, 0)),
-          contentLocations: S.optional(__S(6897, __c215, 17)),
-          container: S.optional(__S(6688, __c209, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Location" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          offsetMinutes: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2TimeZone" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          time: S.optional(__S(4128, __c129, 0)),
-          dayOfWeek: S.optional(S.String),
-          date: S.optional(__S(4129, __c129, 1)),
-          timeZone: S.optional(__S(6899, __c215, 19)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2DateTime" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          dateTime: S.optional(__S(6900, __c215, 20)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2QuoteInfo" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          infoType: S.optional(__S(4448, __c139, 0)),
-          likelihood: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(3808, __c119, 0)),
-          location: S.optional(__S(6898, __c215, 18)),
-          jobCreateTime: S.optional(S.String),
-          findingId: S.optional(S.String),
-          quote: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          jobName: S.optional(S.String),
-          quoteInfo: S.optional(__S(6901, __c215, 21)),
-          triggerName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2Finding" });
-    case 23:
-      return S.Array(__S(6902, __c215, 22));
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          findings: S.optional(__S(6903, __c215, 23)),
-          findingsTruncated: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2InspectResult" });
+      ).annotate({ identifier: "GooglePrivacyDlpV2InspectContentResponse" });
   }
 }
 function __c216(j: number): any {
@@ -13149,9 +13038,192 @@ function __c216(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6848, __c214, 0).pipe(T.HttpBody())),
-        }).pipe(
+          offsetMinutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2TimeZone" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          date: S.optional(__S(4161, __c130, 1)),
+          time: S.optional(__S(4160, __c130, 0)),
+          timeZone: S.optional(__S(6912, __c216, 0)),
+          dayOfWeek: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DateTime" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          dateTime: S.optional(__S(6913, __c216, 1)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2QuoteInfo" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          fileOffset: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DocumentLocation" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          top: S.optional(S.Number),
+          left: S.optional(S.Number),
+          width: S.optional(S.Number),
+          height: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2BoundingBox" });
+    case 5:
+      return S.Array(__S(6916, __c216, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          boundingBoxes: S.optional(__S(6917, __c216, 5)),
+          pageNumber: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2ImageLocation" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          itemIndex: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2BatchContentLocation" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          rowNumber: S.optional(S.String),
+          tableReference: S.optional(__S(3808, __c119, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2BigQueryKey" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.optional(S.String),
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2PathElement" });
+    case 10:
+      return S.Array(__S(6921, __c216, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.optional(__S(6922, __c216, 10)),
+          partitionId: S.optional(__S(3936, __c123, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2Key" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          entityKey: S.optional(__S(6923, __c216, 11)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2DatastoreKey" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          bigQueryKey: S.optional(__S(6920, __c216, 8)),
+          datastoreKey: S.optional(__S(6924, __c216, 12)),
+          idValues: S.optional(__S(4384, __c137, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2RecordKey" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          rowIndex: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2TableLocation" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          recordKey: S.optional(__S(6925, __c216, 13)),
+          tableLocation: S.optional(__S(6926, __c216, 14)),
+          fieldId: S.optional(__S(4096, __c128, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2RecordLocation" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          messageIndex: S.optional(S.Number),
+          allMessages: S.optional(__S(4064, __c127, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2ConversationLocation" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          storageLabel: S.optional(__S(4224, __c132, 0)),
+          type: S.optional(S.String),
+          keyValueMetadataLabel: S.optional(__S(4224, __c132, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2MetadataLocation" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          documentLocation: S.optional(__S(6915, __c216, 3)),
+          imageLocation: S.optional(__S(6918, __c216, 6)),
+          containerTimestamp: S.optional(S.String),
+          containerName: S.optional(S.String),
+          batchContentLocation: S.optional(__S(6919, __c216, 7)),
+          recordLocation: S.optional(__S(6927, __c216, 15)),
+          conversationLocation: S.optional(__S(6928, __c216, 16)),
+          containerVersion: S.optional(S.String),
+          metadataLocation: S.optional(__S(6929, __c216, 17)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2ContentLocation" });
+    case 19:
+      return S.Array(__S(6930, __c216, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          end: S.optional(S.String),
+          start: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2Range" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          contentLocations: S.optional(__S(6931, __c216, 19)),
+          codepointRange: S.optional(__S(6932, __c216, 20)),
+          byteRange: S.optional(__S(6932, __c216, 20)),
+          container: S.optional(__S(6720, __c210, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2Location" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          jobCreateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          likelihood: S.optional(S.String),
+          quote: S.optional(S.String),
+          jobName: S.optional(S.String),
+          quoteInfo: S.optional(__S(6914, __c216, 2)),
+          labels: S.optional(__S(3840, __c120, 0)),
+          infoType: S.optional(__S(4480, __c140, 0)),
+          location: S.optional(__S(6933, __c216, 21)),
+          resourceName: S.optional(S.String),
+          findingId: S.optional(S.String),
+          triggerName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2Finding" });
+    case 23:
+      return S.Array(__S(6934, __c216, 22));
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          findingsTruncated: S.optional(S.Boolean),
+          findings: S.optional(__S(6935, __c216, 23)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2InspectResult" });
+  }
+}
+function __c217(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(6880, __c215, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/content:inspect",
@@ -13161,7 +13233,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "InspectProjectsLocationsContentRequest" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13176,7 +13248,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "ListInfoTypesRequest" });
   }
 }
-function __c218(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13186,15 +13258,8 @@ function __c218(j: number): any {
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2VersionDescription" });
     case 1:
-      return S.Array(__S(6976, __c218, 0));
+      return S.Array(__S(7008, __c219, 0));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          regionalizationScope: S.optional(S.String),
-          locations: S.optional(__S(4352, __c136, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2LocationSupport" });
-    case 3:
       return S.suspend(() =>
         S.Struct({
           typeCategory: S.optional(S.String),
@@ -13202,43 +13267,50 @@ function __c218(j: number): any {
           industryCategory: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2InfoTypeCategory" });
+    case 3:
+      return S.Array(__S(7010, __c219, 2));
     case 4:
-      return S.Array(__S(6979, __c218, 3));
+      return S.suspend(() =>
+        S.Struct({
+          locations: S.optional(__S(4384, __c137, 0)),
+          regionalizationScope: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2LocationSupport" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          supportedBy: S.optional(__S(4512, __c141, 0)),
-          versions: S.optional(__S(6977, __c218, 1)),
-          locationSupport: S.optional(__S(6978, __c218, 2)),
-          description: S.optional(S.String),
           example: S.optional(S.String),
-          name: S.optional(S.String),
-          specificInfoTypes: S.optional(__S(4352, __c136, 0)),
           displayName: S.optional(S.String),
-          sensitivityScore: S.optional(__S(4384, __c137, 0)),
-          categories: S.optional(__S(6980, __c218, 4)),
+          description: S.optional(S.String),
+          versions: S.optional(__S(7009, __c219, 1)),
+          name: S.optional(S.String),
+          categories: S.optional(__S(7011, __c219, 3)),
+          specificInfoTypes: S.optional(__S(4384, __c137, 0)),
+          sensitivityScore: S.optional(__S(4416, __c138, 0)),
+          supportedBy: S.optional(__S(4544, __c142, 0)),
           launchStatus: S.optional(S.String),
+          locationSupport: S.optional(__S(7012, __c219, 4)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2InfoTypeDescription" });
     case 6:
-      return S.Array(__S(6981, __c218, 5));
+      return S.Array(__S(7013, __c219, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          infoTypes: S.optional(__S(6982, __c218, 6)),
+          infoTypes: S.optional(__S(7014, __c219, 6)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2ListInfoTypesResponse" });
   }
 }
-function __c219(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
-          locationId: S.optional(S.String.pipe(T.Query())),
-          languageCode: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          languageCode: S.optional(S.String.pipe(T.Query())),
+          locationId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13249,16 +13321,16 @@ function __c219(j: number): any {
       ).annotate({ identifier: "ListLocationsInfoTypesRequest" });
   }
 }
-function __c220(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          locationId: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          locationId: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13269,29 +13341,29 @@ function __c220(j: number): any {
       ).annotate({ identifier: "ListOrganizationsDeidentifyTemplatesRequest" });
   }
 }
-function __c221(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4320, __c135, 0));
+      return S.Array(__S(4352, __c136, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          deidentifyTemplates: S.optional(__S(7072, __c221, 0)),
+          deidentifyTemplates: S.optional(__S(7104, __c222, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2ListDeidentifyTemplatesResponse" });
   }
 }
-function __c222(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          locationId: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          locationId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13302,29 +13374,29 @@ function __c222(j: number): any {
       ).annotate({ identifier: "ListOrganizationsInspectTemplatesRequest" });
   }
 }
-function __c223(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4640, __c145, 0));
+      return S.Array(__S(4672, __c146, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          inspectTemplates: S.optional(__S(7136, __c223, 0)),
+          inspectTemplates: S.optional(__S(7168, __c224, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2ListInspectTemplatesResponse" });
   }
 }
-function __c224(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13335,27 +13407,27 @@ function __c224(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsColumnDataProfilesRequest" });
   }
 }
-function __c225(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5504, __c172, 0));
+      return S.Array(__S(5536, __c173, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
+          columnDataProfiles: S.optional(__S(7232, __c226, 0)),
           nextPageToken: S.optional(S.String),
-          columnDataProfiles: S.optional(__S(7200, __c225, 0)),
         }),
       ).annotate({ identifier: "GooglePrivacyDlpV2ListColumnDataProfilesResponse" });
   }
 }
-function __c226(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -13367,28 +13439,32 @@ function __c226(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsConnectionsRequest" });
   }
 }
-function __c227(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(66, __c2, 2));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          connections: S.optional(__S(7264, __c227, 0)),
-        }),
-      ).annotate({ identifier: "GooglePrivacyDlpV2ListConnectionsResponse" });
-  }
-}
 function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          locationId: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          nextPageToken: S.optional(S.String),
+          connections: S.optional(__S(7328, __c229, 0)),
+        }),
+      ).annotate({ identifier: "GooglePrivacyDlpV2ListConnectionsResponse" });
+  }
+}
+function __c229(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(66, __c2, 2));
+  }
+}
+function __c230(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          locationId: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({

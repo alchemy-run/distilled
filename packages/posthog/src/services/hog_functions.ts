@@ -62,7 +62,7 @@ export type HogFunctionTypeEnum =
   | "transformation"
   | "transformation_log"
   | "legacy_destination";
-/** * `string` - string * `number` - number * `boolean` - boolean * `dictionary` - dictionary * `choice` - choice * `json` - json * `integration` - integration * `integration_multi` - integration_multi * `integration_field` - integration_field * `email` - email * `native_email` - native_email * `posthog_assignee` - posthog_assignee * `posthog_ticket_tags` - posthog_ticket_tags * `posthog_business_hours` - posthog_business_hours * `non_failure_status_codes` - non_failure_status_codes * `customer_analytics_account_properties` - customer_analytics_account_properties * `customer_analytics_account_relationships` - customer_analytics_account_relationships * `task_model` - task_model * `task_repository` - task_repository * `task_mcp_installations` - task_mcp_installations * `signals_scout` - signals_scout * `task_skills` - task_skills */
+/** * `string` - string * `number` - number * `boolean` - boolean * `dictionary` - dictionary * `choice` - choice * `json` - json * `integration` - integration * `integration_multi` - integration_multi * `integration_field` - integration_field * `email` - email * `native_email` - native_email * `posthog_assignee` - posthog_assignee * `posthog_ticket_tags` - posthog_ticket_tags * `posthog_business_hours` - posthog_business_hours * `non_failure_status_codes` - non_failure_status_codes * `customer_analytics_account_properties` - customer_analytics_account_properties * `customer_analytics_account_relationships` - customer_analytics_account_relationships * `task_model` - task_model * `task_repository` - task_repository * `task_mcp_installations` - task_mcp_installations * `signals_scout` - signals_scout * `posthog_survey` - posthog_survey * `task_skills` - task_skills * `replay_vision_scan` - replay_vision_scan */
 export type InputsSchemaItemTypeEnum =
   | "string"
   | "number"
@@ -85,36 +85,38 @@ export type InputsSchemaItemTypeEnum =
   | "task_repository"
   | "task_mcp_installations"
   | "signals_scout"
-  | "task_skills";
+  | "posthog_survey"
+  | "task_skills"
+  | "replay_vision_scan";
 export type InputsSchemaItemChoicesItemMap = { [key: string]: unknown | undefined };
 export type InputsSchemaItemChoicesList = Array<InputsSchemaItemChoicesItemMap>;
 export type InputsSchemaItemTemplatingCase1 = "hog" | "liquid";
 export type InputsSchemaItemTemplating = boolean | InputsSchemaItemTemplatingCase1;
 export interface InputsSchemaItem {
-  type?: InputsSchemaItemTypeEnum | (string & {});
-  key?: string;
-  label?: string;
-  choices?: InputsSchemaItemChoicesList;
-  searchable?: boolean;
-  required?: boolean;
-  default?: unknown;
-  secret?: boolean;
-  hidden?: boolean;
-  description?: string;
-  integration?: string;
-  integration_key?: string;
-  requires_field?: string;
-  integration_field?: string;
-  requiredScopes?: string;
-  templating?: InputsSchemaItemTemplating;
+  type?: InputsSchemaItemTypeEnum | (string & {}) | undefined;
+  key?: string | undefined;
+  label?: string | undefined;
+  choices?: InputsSchemaItemChoicesList | undefined;
+  searchable?: boolean | undefined;
+  required?: boolean | undefined;
+  default?: unknown | undefined;
+  secret?: boolean | undefined;
+  hidden?: boolean | undefined;
+  description?: string | undefined;
+  integration?: string | undefined;
+  integration_key?: string | undefined;
+  requires_field?: string | undefined;
+  integration_field?: string | undefined;
+  requiredScopes?: string | undefined;
+  templating?: InputsSchemaItemTemplating | undefined;
 }
 /** Schema defining the configurable input parameters for this function. */
 export type CreateHogFunctionRequestInputsSchemaList = Array<InputsSchemaItem>;
 /** * `hog` - hog * `liquid` - liquid */
 export type HogFunctionTemplatingEnum = "hog" | "liquid";
 export interface InputsItemInput {
-  value?: unknown;
-  templating?: HogFunctionTemplatingEnum | (string & {});
+  value?: unknown | undefined;
+  templating?: HogFunctionTemplatingEnum | (string & {}) | undefined;
 }
 /** Values for each input defined in inputs_schema. */
 export type CreateHogFunctionRequestInputsMap = { [key: string]: InputsItemInput | undefined };
@@ -134,34 +136,34 @@ export type HogFunctionFiltersDataWarehouseList = Array<HogFunctionFiltersDataWa
 export type HogFunctionFiltersPropertiesItemMap = { [key: string]: unknown | undefined };
 export type HogFunctionFiltersPropertiesList = Array<HogFunctionFiltersPropertiesItemMap>;
 export interface HogFunctionFilters {
-  source?: HogFunctionFiltersSourceEnum | (string & {});
-  actions?: HogFunctionFiltersActionsList;
-  events?: HogFunctionFiltersEventsList;
-  data_warehouse?: HogFunctionFiltersDataWarehouseList;
-  properties?: HogFunctionFiltersPropertiesList;
-  bytecode?: unknown;
-  transpiled?: unknown;
-  filter_test_accounts?: boolean;
-  bytecode_error?: string;
-  bytecode_contract?: string;
+  source?: HogFunctionFiltersSourceEnum | (string & {}) | undefined;
+  actions?: HogFunctionFiltersActionsList | undefined;
+  events?: HogFunctionFiltersEventsList | undefined;
+  data_warehouse?: HogFunctionFiltersDataWarehouseList | undefined;
+  properties?: HogFunctionFiltersPropertiesList | undefined;
+  bytecode?: unknown | undefined;
+  transpiled?: unknown | undefined;
+  filter_test_accounts?: boolean | undefined;
+  bytecode_error?: string | undefined;
+  bytecode_contract?: string | undefined;
 }
 export interface HogFunctionMasking {
   /** Time-to-live in seconds for the masking cache (60-86400). */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Optional threshold count before masking applies. */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
   /** Hog expression used to compute the masking hash. */
-  hash?: string;
+  hash?: string | undefined;
   /** Compiled bytecode for the hash expression. Auto-generated. */
-  bytecode?: unknown;
+  bytecode?: unknown | undefined;
 }
 export type MappingsInputInputsSchemaList = Array<InputsSchemaItem>;
 export type MappingsInputInputsMap = { [key: string]: InputsItemInput | undefined };
 export interface MappingsInput {
-  name?: string;
-  inputs_schema?: MappingsInputInputsSchemaList;
-  inputs?: MappingsInputInputsMap;
-  filters?: HogFunctionFilters;
+  inputs_schema?: MappingsInputInputsSchemaList | undefined;
+  inputs?: MappingsInputInputsMap | undefined;
+  name?: string | undefined;
+  filters?: HogFunctionFilters | undefined;
 }
 /** Event-to-destination field mappings. Only for destination and site_destination types. */
 export type CreateHogFunctionRequestMappingsList = Array<MappingsInput>;
@@ -169,36 +171,36 @@ export interface CreateHogFunctionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
-  type?: HogFunctionTypeEnum | (string & {}) | null;
+  type?: HogFunctionTypeEnum | (string & {}) | null | undefined;
   /** Display name for the function. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Human-readable description of what this function does. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the function is active and processing events. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Soft-delete flag. Set to true to archive the function. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Source code. Hog language for most types; TypeScript for site_destination and site_app. */
-  hog?: string;
+  hog?: string | undefined;
   /** Schema defining the configurable input parameters for this function. */
-  inputs_schema?: CreateHogFunctionRequestInputsSchemaList;
+  inputs_schema?: CreateHogFunctionRequestInputsSchemaList | undefined;
   /** Values for each input defined in inputs_schema. */
-  inputs?: CreateHogFunctionRequestInputsMap;
+  inputs?: CreateHogFunctionRequestInputsMap | undefined;
   /** Event filters that control which events trigger this function. */
-  filters?: HogFunctionFilters;
+  filters?: HogFunctionFilters | undefined;
   /** PII masking configuration with TTL, threshold, and hash expression. */
-  masking?: HogFunctionMasking | null;
+  masking?: HogFunctionMasking | null | undefined;
   /** Event-to-destination field mappings. Only for destination and site_destination types. */
-  mappings?: CreateHogFunctionRequestMappingsList | null;
+  mappings?: CreateHogFunctionRequestMappingsList | null | undefined;
   /** URL for the function's icon displayed in the UI. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** ID of the template to create this function from. */
-  template_id?: string | null;
+  template_id?: string | null | undefined;
   /** Execution priority for transformations. Lower values run first. */
-  execution_order?: number | null;
-  _create_in_folder?: string;
+  execution_order?: number | null | undefined;
+  _create_in_folder?: string | undefined;
   /** Optimistic concurrency: the updated_at (or draft_updated_at when editing a staged draft) you last read. If the stored side is newer, the write fails with 409 instead of overwriting the concurrent edit. Omit to overwrite unconditionally. */
-  base_updated_at?: string;
+  base_updated_at?: string | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -215,134 +217,134 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** Schema defining the configurable input parameters for this function. */
 export type HogFunctionOutputInputsSchemaList = Array<InputsSchemaItem>;
 export type InputsItemBytecodeList = Array<unknown>;
 export interface InputsItem {
-  value?: unknown;
-  templating?: HogFunctionTemplatingEnum;
-  bytecode?: InputsItemBytecodeList;
-  bytecode_contract?: string;
-  order?: number;
-  transpiled?: unknown;
+  value?: unknown | undefined;
+  templating?: HogFunctionTemplatingEnum | undefined;
+  bytecode?: InputsItemBytecodeList | undefined;
+  bytecode_contract?: string | undefined;
+  order?: number | undefined;
+  transpiled?: unknown | undefined;
 }
 /** Values for each input defined in inputs_schema. */
 export type HogFunctionOutputInputsMap = { [key: string]: InputsItem | undefined };
 export type MappingsInputsSchemaList = Array<InputsSchemaItem>;
 export type MappingsInputsMap = { [key: string]: InputsItem | undefined };
 export interface Mappings {
-  name?: string;
-  inputs_schema?: MappingsInputsSchemaList;
-  inputs?: MappingsInputsMap;
-  filters?: HogFunctionFilters;
+  inputs_schema?: MappingsInputsSchemaList | undefined;
+  inputs?: MappingsInputsMap | undefined;
+  name?: string | undefined;
+  filters?: HogFunctionFilters | undefined;
 }
 /** Event-to-destination field mappings. Only for destination and site_destination types. */
 export type HogFunctionOutputMappingsList = Array<Mappings>;
 export interface HogFunctionMappingTemplate {
   /** Name of this mapping template. */
-  name?: string;
+  name?: string | undefined;
   /** Whether this mapping is enabled by default. */
-  include_by_default?: boolean | null;
+  include_by_default?: boolean | null | undefined;
   /** Whether this mapping should match all events by default, hiding the event filter UI. */
-  use_all_events_by_default?: boolean | null;
+  use_all_events_by_default?: boolean | null | undefined;
   /** Event filters specific to this mapping. */
-  filters?: unknown;
+  filters?: unknown | undefined;
   /** Input values specific to this mapping. */
-  inputs?: unknown;
+  inputs?: unknown | undefined;
   /** Additional input schema fields specific to this mapping. */
-  inputs_schema?: unknown;
+  inputs_schema?: unknown | undefined;
 }
 /** Pre-defined mapping configurations for destination templates. */
 export type HogFunctionTemplateMappingTemplatesList = Array<HogFunctionMappingTemplate>;
 export interface HogFunctionTemplate {
   /** Unique template identifier (e.g. 'template-slack'). */
-  id?: string;
+  id?: string | undefined;
   /** Display name of the template. */
-  name?: string;
+  name?: string | undefined;
   /** What this template does. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Source code of the template. */
-  code?: string;
+  code?: string | undefined;
   /** Programming language: 'hog' or 'javascript'. */
-  code_language?: string;
+  code_language?: string | undefined;
   /** Schema defining configurable inputs for functions created from this template. */
-  inputs_schema?: unknown;
+  inputs_schema?: unknown | undefined;
   /** Function type this template creates. */
-  type?: string;
+  type?: string | undefined;
   /** Lifecycle status: alpha, beta, stable, deprecated, or hidden. */
-  status?: string;
+  status?: string | undefined;
   /** Category tags for organizing templates. */
-  category?: unknown;
+  category?: unknown | undefined;
   /** Whether available on free plans. */
-  free?: boolean;
+  free?: boolean | undefined;
   /** URL for the template's icon. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** Default event filters. */
-  filters?: unknown;
+  filters?: unknown | undefined;
   /** Default PII masking configuration. */
-  masking?: unknown;
+  masking?: unknown | undefined;
   /** Pre-defined mapping configurations for destination templates. */
-  mapping_templates?: HogFunctionTemplateMappingTemplatesList | null;
+  mapping_templates?: HogFunctionTemplateMappingTemplatesList | null | undefined;
 }
 /** * `0` - 0 * `1` - 1 * `2` - 2 * `3` - 3 * `11` - 11 * `12` - 12 */
 export type HogFunctionStatusStateEnum = 0 | 1 | 2 | 3 | 11 | 12;
 export interface HogFunctionStatus {
-  state?: HogFunctionStatusStateEnum;
-  tokens?: number;
+  state?: HogFunctionStatusStateEnum | undefined;
+  tokens?: number | undefined;
 }
 export type SearchMatchTypeEnum = "exact" | "similar";
 export interface HogFunctionOutput {
-  id?: string;
+  id?: string | undefined;
   /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
-  type?: HogFunctionTypeEnum | null;
+  type?: HogFunctionTypeEnum | null | undefined;
   /** Display name for the function. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Human-readable description of what this function does. */
-  description?: string;
-  created_at?: string;
-  created_by?: UserBasic | null;
-  updated_at?: string;
+  description?: string | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  updated_at?: string | undefined;
   /** Whether the function is active and processing events. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Source code. Hog language for most types; TypeScript for site_destination and site_app. */
-  hog?: string;
-  bytecode?: unknown;
-  transpiled?: string | null;
+  hog?: string | undefined;
+  bytecode?: unknown | undefined;
+  transpiled?: string | null | undefined;
   /** Schema defining the configurable input parameters for this function. */
-  inputs_schema?: HogFunctionOutputInputsSchemaList;
+  inputs_schema?: HogFunctionOutputInputsSchemaList | undefined;
   /** Values for each input defined in inputs_schema. */
-  inputs?: HogFunctionOutputInputsMap;
+  inputs?: HogFunctionOutputInputsMap | undefined;
   /** Event filters that control which events trigger this function. */
-  filters?: HogFunctionFilters;
+  filters?: HogFunctionFilters | undefined;
   /** PII masking configuration with TTL, threshold, and hash expression. */
-  masking?: HogFunctionMasking | null;
+  masking?: HogFunctionMasking | null | undefined;
   /** Event-to-destination field mappings. Only for destination and site_destination types. */
-  mappings?: HogFunctionOutputMappingsList | null;
+  mappings?: HogFunctionOutputMappingsList | null | undefined;
   /** URL for the function's icon displayed in the UI. */
-  icon_url?: string | null;
-  template?: HogFunctionTemplate;
-  status?: HogFunctionStatus | null;
+  icon_url?: string | null | undefined;
+  template?: HogFunctionTemplate | undefined;
+  status?: HogFunctionStatus | null | undefined;
   /** Execution priority for transformations. Lower values run first. */
-  execution_order?: number | null;
-  batch_export_id?: string | null;
+  execution_order?: number | null | undefined;
+  batch_export_id?: string | null | undefined;
   /** How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match, returned only when no exact match exists). Null when the list is not filtered by `search`. */
-  search_match_type?: SearchMatchTypeEnum | null;
+  search_match_type?: SearchMatchTypeEnum | null | undefined;
   /** Incremented every time the live config changes. See the revisions endpoint. */
-  version?: number;
+  version?: number | undefined;
   /** Config staged for review but not live yet: a full snapshot of hog, inputs_schema, inputs, filters, mappings and masking. Null when nothing is staged. Publish or discard it to clear. */
-  draft?: unknown;
+  draft?: unknown | undefined;
   /** When config was last staged for review, or null when nothing is staged. */
-  draft_updated_at?: string | null;
+  draft_updated_at?: string | null | undefined;
 }
 export interface CreateHogFunctionsDiscardDraftRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -358,36 +360,36 @@ export type HogFunctionInputInputsMap = { [key: string]: InputsItemInput | undef
 export type HogFunctionInputMappingsList = Array<MappingsInput>;
 export interface HogFunctionInput {
   /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
-  type?: HogFunctionTypeEnum | (string & {}) | null;
+  type?: HogFunctionTypeEnum | (string & {}) | null | undefined;
   /** Display name for the function. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Human-readable description of what this function does. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the function is active and processing events. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Soft-delete flag. Set to true to archive the function. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Source code. Hog language for most types; TypeScript for site_destination and site_app. */
-  hog?: string;
+  hog?: string | undefined;
   /** Schema defining the configurable input parameters for this function. */
-  inputs_schema?: HogFunctionInputInputsSchemaList;
+  inputs_schema?: HogFunctionInputInputsSchemaList | undefined;
   /** Values for each input defined in inputs_schema. */
-  inputs?: HogFunctionInputInputsMap;
+  inputs?: HogFunctionInputInputsMap | undefined;
   /** Event filters that control which events trigger this function. */
-  filters?: HogFunctionFilters;
+  filters?: HogFunctionFilters | undefined;
   /** PII masking configuration with TTL, threshold, and hash expression. */
-  masking?: HogFunctionMasking | null;
+  masking?: HogFunctionMasking | null | undefined;
   /** Event-to-destination field mappings. Only for destination and site_destination types. */
-  mappings?: HogFunctionInputMappingsList | null;
+  mappings?: HogFunctionInputMappingsList | null | undefined;
   /** URL for the function's icon displayed in the UI. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** ID of the template to create this function from. */
-  template_id?: string | null;
+  template_id?: string | null | undefined;
   /** Execution priority for transformations. Lower values run first. */
-  execution_order?: number | null;
-  _create_in_folder?: string;
+  execution_order?: number | null | undefined;
+  _create_in_folder?: string | undefined;
   /** Optimistic concurrency: the updated_at (or draft_updated_at when editing a staged draft) you last read. If the stored side is newer, the write fails with 409 instead of overwriting the concurrent edit. Omit to overwrite unconditionally. */
-  base_updated_at?: string;
+  base_updated_at?: string | undefined;
 }
 /** Mock global variables available during test invocation. */
 export type CreateHogFunctionsInvocationRequestGlobalsMap = { [key: string]: unknown | undefined };
@@ -401,27 +403,27 @@ export interface CreateHogFunctionsInvocationRequest {
   /** A UUID string identifying this hog function. */
   id: string;
   /** Full function configuration to test. Omit when use_draft is true. */
-  configuration?: HogFunctionInput;
+  configuration?: HogFunctionInput | undefined;
   /** Test the function's staged draft instead of passing a configuration. Staged secret inputs are used; secrets the draft doesn't change fall back to the live values. 400 when nothing is staged. */
-  use_draft?: boolean;
+  use_draft?: boolean | undefined;
   /** Mock global variables available during test invocation. */
-  globals?: CreateHogFunctionsInvocationRequestGlobalsMap;
+  globals?: CreateHogFunctionsInvocationRequestGlobalsMap | undefined;
   /** Mock ClickHouse event data to test the function with. */
-  clickhouse_event?: CreateHogFunctionsInvocationRequestClickhouseEventMap;
+  clickhouse_event?: CreateHogFunctionsInvocationRequestClickhouseEventMap | undefined;
   /** When true (default), async functions like fetch() are simulated. */
-  mock_async_functions?: boolean;
+  mock_async_functions?: boolean | undefined;
   /** Optional invocation ID for correlation. */
-  invocation_id?: string | null;
+  invocation_id?: string | null | undefined;
 }
 /** Execution logs from the test invocation. */
 export type HogFunctionInvocationOutputLogsList = Array<unknown>;
 export interface HogFunctionInvocationOutput {
   /** Invocation result status. */
-  status?: string;
+  status?: string | undefined;
   /** Execution logs from the test invocation. */
-  logs?: HogFunctionInvocationOutputLogsList;
+  logs?: HogFunctionInvocationOutputLogsList | undefined;
   /** Optional invocation ID for correlation. */
-  invocation_id?: string | null;
+  invocation_id?: string | null | undefined;
 }
 /** * `running` - running * `succeeded` - succeeded * `failed` - failed * `canceled` - canceled */
 export type HogInvocationRerunFilterStatusEnum = "running" | "succeeded" | "failed" | "canceled";
@@ -440,17 +442,17 @@ export interface HogInvocationRerunFilter {
   /** Exclusive upper bound on `scheduled_at` (UTC). */
   window_end: string;
   /** Restrict to invocations whose latest status is one of these. Defaults to ['failed']. */
-  status?: HogInvocationRerunFilterStatusList;
+  status?: HogInvocationRerunFilterStatusList | undefined;
   /** Restrict to invocations whose error_kind matches one of these (e.g. 'http_5xx', 'timeout'). */
-  error_kind?: HogInvocationRerunFilterErrorKindList;
+  error_kind?: HogInvocationRerunFilterErrorKindList | undefined;
   /** Restrict to invocations whose error_message contains this substring (case-insensitive). Use to isolate one failure mode when error_kind is too coarse (most app-level errors share the 'hog_error' kind). */
-  error_message_contains?: string;
+  error_message_contains?: string | undefined;
   /** Skip invocations that have already been attempted this many times or more. */
-  max_attempts?: number;
+  max_attempts?: number | undefined;
   /** Maximum number of invocations to rerun in this request. Server-side cap is 10000. */
-  max_count?: number;
+  max_count?: number | undefined;
   /** Optional restriction to specific invocation IDs within the window. Capped at 10000 per request. Always combined with `window_start`/`window_end` so the ClickHouse query can be partition-pruned. */
-  invocation_ids?: HogInvocationRerunFilterInvocationIdsList;
+  invocation_ids?: HogInvocationRerunFilterInvocationIdsList | undefined;
 }
 export interface CreateHogFunctionsRerunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -491,17 +493,19 @@ export interface GetHogFunctionsLogRequest {
   /** A UUID string identifying this hog function. */
   id: string;
   /** Only return entries after this ISO 8601 timestamp. Defaults to 7 days ago; pass an explicit value to read further back. */
-  after?: string;
+  after?: string | undefined;
   /** Only return entries before this ISO 8601 timestamp. */
-  before?: string;
+  before?: string | undefined;
   /** Filter logs to a specific execution instance. */
-  instance_id?: string;
+  instance_id?: string | undefined;
   /** Comma-separated log levels to include, e.g. 'WARN,ERROR'. Valid levels: DEBUG, LOG, INFO, WARN, ERROR. */
-  level?: string;
+  level?: string | undefined;
   /** Maximum number of log entries to return (1-500, default 50). */
-  limit?: number;
+  limit?: number | undefined;
+  /** Number of log entries to skip before the first returned entry (default 0). */
+  offset?: number | undefined;
   /** Case-insensitive substring search across log messages. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface GetHogFunctionsLogResponse {}
 export interface GetHogFunctionsMaskedSecretRequest {
@@ -536,30 +540,30 @@ export interface GetHogFunctionsMetricsRequest {
   /** A UUID string identifying this hog function. */
   id: string;
   /** Start of the time range. Accepts relative formats like '-7d', '-24h' or ISO 8601 timestamps. Defaults to '-7d'. */
-  after?: string;
+  after?: string | undefined;
   /** End of the time range. Same format as 'after'. Defaults to now. */
-  before?: string;
+  before?: string | undefined;
   /** Group the series by metric 'name' or 'kind'. Defaults to 'kind'. * `name` - name * `kind` - kind */
-  breakdown_by?: GetHogFunctionsMetricsRequestBreakdownBy | (string & {});
+  breakdown_by?: GetHogFunctionsMetricsRequestBreakdownBy | (string & {}) | undefined;
   /** Filter metrics to a specific execution instance. */
-  instance_id?: string;
+  instance_id?: string | undefined;
   /** Time bucket size for the series. One of: hour, day, week. Defaults to 'day'. * `hour` - hour * `day` - day * `week` - week */
-  interval?: GetHogFunctionsMetricsRequestInterval | (string & {});
-  /** Comma-separated metric kinds to filter by, e.g. 'success,failure'. */
-  kind?: string;
-  /** Comma-separated metric names to filter by. */
-  name?: string;
+  interval?: GetHogFunctionsMetricsRequestInterval | (string & {}) | undefined;
+  /** Comma-separated metric kinds to filter by, up to 50, e.g. 'success,failure'. With breakdown_by=kind, each named kind is returned, as zeros when it has no rows. */
+  kind?: string | undefined;
+  /** Comma-separated metric names to filter by, up to 50. With breakdown_by=name, each named metric is returned, as zeros when it has no rows. */
+  name?: string | undefined;
 }
 export type AppMetricsResponseLabelsList = Array<string>;
 export type AppMetricSeriesValuesList = Array<number>;
 export interface AppMetricSeries {
-  name?: string;
-  values?: AppMetricSeriesValuesList;
+  name?: string | undefined;
+  values?: AppMetricSeriesValuesList | undefined;
 }
 export type AppMetricsResponseSeriesList = Array<AppMetricSeries>;
 export interface AppMetricsResponse {
-  labels?: AppMetricsResponseLabelsList;
-  series?: AppMetricsResponseSeriesList;
+  labels?: AppMetricsResponseLabelsList | undefined;
+  series?: AppMetricsResponseSeriesList | undefined;
 }
 export type GetHogFunctionsMetricsTotalRequestBreakdownBy = "name" | "kind";
 export type GetHogFunctionsMetricsTotalRequestInterval = "hour" | "day" | "week";
@@ -569,23 +573,23 @@ export interface GetHogFunctionsMetricsTotalRequest {
   /** A UUID string identifying this hog function. */
   id: string;
   /** Start of the time range. Accepts relative formats like '-7d', '-24h' or ISO 8601 timestamps. Defaults to '-7d'. */
-  after?: string;
+  after?: string | undefined;
   /** End of the time range. Same format as 'after'. Defaults to now. */
-  before?: string;
+  before?: string | undefined;
   /** Group the series by metric 'name' or 'kind'. Defaults to 'kind'. * `name` - name * `kind` - kind */
-  breakdown_by?: GetHogFunctionsMetricsTotalRequestBreakdownBy | (string & {});
+  breakdown_by?: GetHogFunctionsMetricsTotalRequestBreakdownBy | (string & {}) | undefined;
   /** Filter metrics to a specific execution instance. */
-  instance_id?: string;
+  instance_id?: string | undefined;
   /** Time bucket size for the series. One of: hour, day, week. Defaults to 'day'. * `hour` - hour * `day` - day * `week` - week */
-  interval?: GetHogFunctionsMetricsTotalRequestInterval | (string & {});
-  /** Comma-separated metric kinds to filter by, e.g. 'success,failure'. */
-  kind?: string;
-  /** Comma-separated metric names to filter by. */
-  name?: string;
+  interval?: GetHogFunctionsMetricsTotalRequestInterval | (string & {}) | undefined;
+  /** Comma-separated metric kinds to filter by, up to 50, e.g. 'success,failure'. With breakdown_by=kind, each named kind is returned, as zeros when it has no rows. */
+  kind?: string | undefined;
+  /** Comma-separated metric names to filter by, up to 50. With breakdown_by=name, each named metric is returned, as zeros when it has no rows. */
+  name?: string | undefined;
 }
 export type AppMetricsTotalsResponseTotalsMap = { [key: string]: number | undefined };
 export interface AppMetricsTotalsResponse {
-  totals?: AppMetricsTotalsResponseTotalsMap;
+  totals?: AppMetricsTotalsResponseTotalsMap | undefined;
 }
 export interface GetHogFunctionsRevisionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -624,36 +628,36 @@ export interface HogFunctionsEnableBackfillsCreateRequest {
   /** A UUID string identifying this hog function. */
   id: string;
   /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
-  type?: HogFunctionTypeEnum | (string & {}) | null;
+  type?: HogFunctionTypeEnum | (string & {}) | null | undefined;
   /** Display name for the function. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Human-readable description of what this function does. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the function is active and processing events. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Soft-delete flag. Set to true to archive the function. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Source code. Hog language for most types; TypeScript for site_destination and site_app. */
-  hog?: string;
+  hog?: string | undefined;
   /** Schema defining the configurable input parameters for this function. */
-  inputs_schema?: HogFunctionsEnableBackfillsCreateRequestInputsSchemaList;
+  inputs_schema?: HogFunctionsEnableBackfillsCreateRequestInputsSchemaList | undefined;
   /** Values for each input defined in inputs_schema. */
-  inputs?: HogFunctionsEnableBackfillsCreateRequestInputsMap;
+  inputs?: HogFunctionsEnableBackfillsCreateRequestInputsMap | undefined;
   /** Event filters that control which events trigger this function. */
-  filters?: HogFunctionFilters;
+  filters?: HogFunctionFilters | undefined;
   /** PII masking configuration with TTL, threshold, and hash expression. */
-  masking?: HogFunctionMasking | null;
+  masking?: HogFunctionMasking | null | undefined;
   /** Event-to-destination field mappings. Only for destination and site_destination types. */
-  mappings?: HogFunctionsEnableBackfillsCreateRequestMappingsList | null;
+  mappings?: HogFunctionsEnableBackfillsCreateRequestMappingsList | null | undefined;
   /** URL for the function's icon displayed in the UI. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** ID of the template to create this function from. */
-  template_id?: string | null;
+  template_id?: string | null | undefined;
   /** Execution priority for transformations. Lower values run first. */
-  execution_order?: number | null;
-  _create_in_folder?: string;
+  execution_order?: number | null | undefined;
+  _create_in_folder?: string | undefined;
   /** Optimistic concurrency: the updated_at (or draft_updated_at when editing a staged draft) you last read. If the stored side is newer, the write fails with 409 instead of overwriting the concurrent edit. Omit to overwrite unconditionally. */
-  base_updated_at?: string;
+  base_updated_at?: string | undefined;
 }
 export interface HogFunctionsEnableBackfillsCreateResponse {}
 export interface HogFunctionsPublishCreateRequest {
@@ -662,9 +666,9 @@ export interface HogFunctionsPublishCreateRequest {
   /** A UUID string identifying this hog function. */
   id: string;
   /** False (default) previews the publish: returns which config fields would change without changing anything. True applies the staged draft to the live function. */
-  confirm?: boolean;
+  confirm?: boolean | undefined;
   /** From the preview response, and required when confirm=true on an enabled function. Expires after 15 minutes, and any edit to the draft or the live config invalidates it (409), so you always publish the exact draft you previewed. */
-  confirm_token?: string;
+  confirm_token?: string | undefined;
 }
 /** Config fields publishing would change (hog, inputs_schema, inputs, filters, mappings, masking). Only set on previews. */
 export type HogFunctionPublishResponseOutputChangedFieldsList = Array<string>;
@@ -678,7 +682,7 @@ export interface HogFunctionPublishResponseOutput {
   /** Config fields publishing would change (hog, inputs_schema, inputs, filters, mappings, masking). Only set on previews. */
   changed_fields: HogFunctionPublishResponseOutputChangedFieldsList | null;
   /** The function after publishing (only set when published=true). */
-  function?: HogFunctionOutput | null;
+  function?: HogFunctionOutput | null | undefined;
 }
 export interface HogFunctionsRevisionsRestoreCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -688,50 +692,50 @@ export interface HogFunctionsRevisionsRestoreCreateRequest {
   /** Function version to restore. */
   version: number;
   /** Replace the open staged draft with this revision's config. Without it, restoring while a draft is open returns 409. */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
 }
 export type ListHogFunctionsRequestTypeList = Array<string>;
 export interface ListHogFunctionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  created_at?: string;
-  created_by?: number;
-  enabled?: boolean;
-  id?: string;
+  created_at?: string | undefined;
+  created_by?: number | undefined;
+  enabled?: boolean | undefined;
+  id?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Multiple values may be separated by commas. */
-  type?: ListHogFunctionsRequestTypeList;
-  updated_at?: string;
+  type?: ListHogFunctionsRequestTypeList | undefined;
+  updated_at?: string | undefined;
 }
 export interface HogFunctionMinimal {
-  id?: string;
-  type?: string | null;
-  name?: string | null;
-  description?: string;
-  created_at?: string;
-  created_by?: UserBasic | null;
-  updated_at?: string;
-  enabled?: boolean;
-  hog?: string;
-  filters?: unknown;
-  icon_url?: string | null;
-  template?: HogFunctionTemplate;
-  status?: HogFunctionStatus | null;
-  execution_order?: number | null;
+  id?: string | undefined;
+  type?: string | null | undefined;
+  name?: string | null | undefined;
+  description?: string | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  updated_at?: string | undefined;
+  enabled?: boolean | undefined;
+  hog?: string | undefined;
+  filters?: unknown | undefined;
+  icon_url?: string | null | undefined;
+  template?: HogFunctionTemplate | undefined;
+  status?: HogFunctionStatus | null | undefined;
+  execution_order?: number | null | undefined;
   /** How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match, returned only when no exact match exists). Null when the list is not filtered by `search`. */
-  search_match_type?: SearchMatchTypeEnum | null;
+  search_match_type?: SearchMatchTypeEnum | null | undefined;
   /** When config was last staged for review, or null when nothing is staged. */
-  draft_updated_at?: string | null;
+  draft_updated_at?: string | null | undefined;
 }
 export type PaginatedHogFunctionMinimalListResultsList = Array<HogFunctionMinimal>;
 export interface PaginatedHogFunctionMinimalList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedHogFunctionMinimalListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedHogFunctionMinimalListResultsList | undefined;
 }
 export interface ListHogFunctionsRevisionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -739,9 +743,9 @@ export interface ListHogFunctionsRevisionsRequest {
   /** A UUID string identifying this hog function. */
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface HogFunctionRevisionBasic {
   /** Function version this snapshot was published as. */
@@ -752,8 +756,8 @@ export interface HogFunctionRevisionBasic {
 export type PaginatedHogFunctionRevisionBasicListResultsList = Array<HogFunctionRevisionBasic>;
 export interface PaginatedHogFunctionRevisionBasicList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedHogFunctionRevisionBasicListResultsList;
 }
 /** Schema defining the configurable input parameters for this function. */
@@ -768,36 +772,36 @@ export interface UpdateHogFunctionRequest {
   /** A UUID string identifying this hog function. */
   id: string;
   /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
-  type?: HogFunctionTypeEnum | (string & {}) | null;
+  type?: HogFunctionTypeEnum | (string & {}) | null | undefined;
   /** Display name for the function. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Human-readable description of what this function does. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the function is active and processing events. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Soft-delete flag. Set to true to archive the function. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Source code. Hog language for most types; TypeScript for site_destination and site_app. */
-  hog?: string;
+  hog?: string | undefined;
   /** Schema defining the configurable input parameters for this function. */
-  inputs_schema?: UpdateHogFunctionRequestInputsSchemaList;
+  inputs_schema?: UpdateHogFunctionRequestInputsSchemaList | undefined;
   /** Values for each input defined in inputs_schema. */
-  inputs?: UpdateHogFunctionRequestInputsMap;
+  inputs?: UpdateHogFunctionRequestInputsMap | undefined;
   /** Event filters that control which events trigger this function. */
-  filters?: HogFunctionFilters;
+  filters?: HogFunctionFilters | undefined;
   /** PII masking configuration with TTL, threshold, and hash expression. */
-  masking?: HogFunctionMasking | null;
+  masking?: HogFunctionMasking | null | undefined;
   /** Event-to-destination field mappings. Only for destination and site_destination types. */
-  mappings?: UpdateHogFunctionRequestMappingsList | null;
+  mappings?: UpdateHogFunctionRequestMappingsList | null | undefined;
   /** URL for the function's icon displayed in the UI. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** ID of the template to create this function from. */
-  template_id?: string | null;
+  template_id?: string | null | undefined;
   /** Execution priority for transformations. Lower values run first. */
-  execution_order?: number | null;
-  _create_in_folder?: string;
+  execution_order?: number | null | undefined;
+  _create_in_folder?: string | undefined;
   /** Optimistic concurrency: the updated_at (or draft_updated_at when editing a staged draft) you last read. If the stored side is newer, the write fails with 409 instead of overwriting the concurrent edit. Omit to overwrite unconditionally. */
-  base_updated_at?: string;
+  base_updated_at?: string | undefined;
 }
 /** Schema defining the configurable input parameters for this function. */
 export type UpdateHogFunctionsPartialRequestInputsSchemaList = Array<InputsSchemaItem>;
@@ -813,46 +817,46 @@ export interface UpdateHogFunctionsPartialRequest {
   /** A UUID string identifying this hog function. */
   id: string;
   /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
-  type?: HogFunctionTypeEnum | (string & {}) | null;
+  type?: HogFunctionTypeEnum | (string & {}) | null | undefined;
   /** Display name for the function. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Human-readable description of what this function does. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the function is active and processing events. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Soft-delete flag. Set to true to archive the function. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Source code. Hog language for most types; TypeScript for site_destination and site_app. */
-  hog?: string;
+  hog?: string | undefined;
   /** Schema defining the configurable input parameters for this function. */
-  inputs_schema?: UpdateHogFunctionsPartialRequestInputsSchemaList;
+  inputs_schema?: UpdateHogFunctionsPartialRequestInputsSchemaList | undefined;
   /** Values for each input defined in inputs_schema. */
-  inputs?: UpdateHogFunctionsPartialRequestInputsMap;
+  inputs?: UpdateHogFunctionsPartialRequestInputsMap | undefined;
   /** Event filters that control which events trigger this function. */
-  filters?: HogFunctionFilters;
+  filters?: HogFunctionFilters | undefined;
   /** PII masking configuration with TTL, threshold, and hash expression. */
-  masking?: HogFunctionMasking | null;
+  masking?: HogFunctionMasking | null | undefined;
   /** Event-to-destination field mappings. Only for destination and site_destination types. */
-  mappings?: UpdateHogFunctionsPartialRequestMappingsList | null;
+  mappings?: UpdateHogFunctionsPartialRequestMappingsList | null | undefined;
   /** URL for the function's icon displayed in the UI. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** ID of the template to create this function from. */
-  template_id?: string | null;
+  template_id?: string | null | undefined;
   /** Execution priority for transformations. Lower values run first. */
-  execution_order?: number | null;
-  _create_in_folder?: string;
+  execution_order?: number | null | undefined;
+  _create_in_folder?: string | undefined;
   /** Optimistic concurrency: the updated_at (or draft_updated_at when editing a staged draft) you last read. If the stored side is newer, the write fails with 409 instead of overwriting the concurrent edit. Omit to overwrite unconditionally. */
-  base_updated_at?: string;
+  base_updated_at?: string | undefined;
 }
-/** Map of hog function UUIDs to their new execution_order values. */
+/** Map of hog function UUIDs to their new execution_order values, from 0 to 32767. */
 export type UpdateHogFunctionsRearrangePartialRequestOrdersMap = {
   [key: string]: number | undefined;
 };
 export interface UpdateHogFunctionsRearrangePartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Map of hog function UUIDs to their new execution_order values. */
-  orders?: UpdateHogFunctionsRearrangePartialRequestOrdersMap;
+  /** Map of hog function UUIDs to their new execution_order values, from 0 to 32767. */
+  orders?: UpdateHogFunctionsRearrangePartialRequestOrdersMap | undefined;
 }
 export type UpdateHogFunctionsRearrangePartialResponseBodyList = Array<HogFunctionOutput>;
 export type UpdateHogFunctionsRearrangePartialResponse =
@@ -1218,6 +1222,7 @@ function __c0(j: number): any {
           instance_id: S.optional(S.String.pipe(T.Query())),
           level: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1816,9 +1821,9 @@ function __c21(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           inputs_schema: S.optional(__S(138, __c17, 2)),
           inputs: S.optional(__S(169, __c21, 1)),
+          name: S.optional(S.String),
           filters: S.optional(__S(139, __c17, 3)),
         }),
       ).annotate({ identifier: "Mappings" });
@@ -1870,9 +1875,9 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           inputs_schema: S.optional(__S(138, __c17, 2)),
           inputs: S.optional(__S(177, __c22, 1)),
+          name: S.optional(S.String),
           filters: S.optional(__S(139, __c17, 3)),
         }),
       ).annotate({ identifier: "MappingsInput" });

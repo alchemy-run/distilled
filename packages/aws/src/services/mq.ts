@@ -173,8 +173,8 @@ export class UnauthorizedException
   ).pipe(C.withAuthError) {}
 export type AuthenticationStrategy = "SIMPLE" | "LDAP" | "CONFIG_MANAGED" | (string & {});
 export interface ConfigurationId {
-  Id?: string;
-  Revision?: number;
+  Id?: string | undefined;
+  Revision?: number | undefined;
 }
 export type DeploymentMode =
   | "SINGLE_INSTANCE"
@@ -182,28 +182,28 @@ export type DeploymentMode =
   | "CLUSTER_MULTI_AZ"
   | (string & {});
 export interface EncryptionOptions {
-  KmsKeyId?: string;
-  UseAwsOwnedKey?: boolean;
+  KmsKeyId?: string | undefined;
+  UseAwsOwnedKey?: boolean | undefined;
 }
 export type EngineType = "ACTIVEMQ" | "RABBITMQ" | (string & {});
 export type __listOf__string = string[];
 const __listOf__string = /*@__PURE__*/ __L.at(__c32, 0);
 export interface LdapServerMetadataInput {
-  Hosts?: string[];
-  RoleBase?: string;
-  RoleName?: string;
-  RoleSearchMatching?: string;
-  RoleSearchSubtree?: boolean;
-  ServiceAccountPassword?: string | redacted.Redacted<string>;
-  ServiceAccountUsername?: string;
-  UserBase?: string;
-  UserRoleName?: string;
-  UserSearchMatching?: string;
-  UserSearchSubtree?: boolean;
+  Hosts?: string[] | undefined;
+  RoleBase?: string | undefined;
+  RoleName?: string | undefined;
+  RoleSearchMatching?: string | undefined;
+  RoleSearchSubtree?: boolean | undefined;
+  ServiceAccountPassword?: string | redacted.Redacted<string> | undefined;
+  ServiceAccountUsername?: string | undefined;
+  UserBase?: string | undefined;
+  UserRoleName?: string | undefined;
+  UserSearchMatching?: string | undefined;
+  UserSearchSubtree?: boolean | undefined;
 }
 export interface Logs {
-  Audit?: boolean;
-  General?: boolean;
+  Audit?: boolean | undefined;
+  General?: boolean | undefined;
 }
 export type DayOfWeek =
   | "MONDAY"
@@ -215,101 +215,103 @@ export type DayOfWeek =
   | "SUNDAY"
   | (string & {});
 export interface WeeklyStartTime {
-  DayOfWeek?: DayOfWeek;
-  TimeOfDay?: string;
-  TimeZone?: string;
+  DayOfWeek?: DayOfWeek | undefined;
+  TimeOfDay?: string | undefined;
+  TimeZone?: string | undefined;
 }
 export type BrokerStorageType = "EBS" | "EFS" | (string & {});
 export type __mapOf__string = { [key: string]: string | undefined };
 const __mapOf__string = /*@__PURE__*/ __L.at(__c31, 0);
 export interface User {
-  ConsoleAccess?: boolean;
-  Groups?: string[];
-  Password?: string | redacted.Redacted<string>;
-  Username?: string;
-  ReplicationUser?: boolean;
+  ConsoleAccess?: boolean | undefined;
+  Groups?: string[] | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  Username?: string | undefined;
+  ReplicationUser?: boolean | undefined;
 }
 export type __listOfUser = User[];
 const __listOfUser = /*@__PURE__*/ __L.at(__c27, 1);
 export type DataReplicationMode = "NONE" | "CRDR" | (string & {});
 export interface CreateBrokerRequest {
-  AuthenticationStrategy?: AuthenticationStrategy;
-  AutoMinorVersionUpgrade?: boolean;
-  BrokerName?: string;
-  Configuration?: ConfigurationId;
-  CreatorRequestId?: string;
-  DeploymentMode?: DeploymentMode;
-  EncryptionOptions?: EncryptionOptions;
-  EngineType?: EngineType;
-  EngineVersion?: string;
-  HostInstanceType?: string;
-  LdapServerMetadata?: LdapServerMetadataInput;
-  Logs?: Logs;
-  MaintenanceWindowStartTime?: WeeklyStartTime;
-  PubliclyAccessible?: boolean;
-  SecurityGroups?: string[];
-  StorageSize?: number;
-  StorageType?: BrokerStorageType;
-  SubnetIds?: string[];
-  Tags?: { [key: string]: string | undefined };
-  Users?: User[];
-  DataReplicationMode?: DataReplicationMode;
-  DataReplicationPrimaryBrokerArn?: string;
+  AuthenticationStrategy?: AuthenticationStrategy | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  BrokerName?: string | undefined;
+  Configuration?: ConfigurationId | undefined;
+  CreatorRequestId?: string | undefined;
+  DeploymentMode?: DeploymentMode | undefined;
+  EncryptionOptions?: EncryptionOptions | undefined;
+  EngineType?: EngineType | undefined;
+  EngineVersion?: string | undefined;
+  HostInstanceType?: string | undefined;
+  LdapServerMetadata?: LdapServerMetadataInput | undefined;
+  Logs?: Logs | undefined;
+  MaintenanceWindowStartTime?: WeeklyStartTime | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  SecurityGroups?: string[] | undefined;
+  StorageSize?: number | undefined;
+  StorageType?: BrokerStorageType | undefined;
+  SubnetIds?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Users?: User[] | undefined;
+  DataReplicationMode?: DataReplicationMode | undefined;
+  DataReplicationPrimaryBrokerArn?: string | undefined;
 }
 export interface CreateBrokerResponse {
-  BrokerArn?: string;
-  BrokerId?: string;
+  BrokerArn?: string | undefined;
+  BrokerId?: string | undefined;
 }
 export interface CreateConfigurationRequest {
-  AuthenticationStrategy?: AuthenticationStrategy;
-  EngineType?: EngineType;
-  EngineVersion?: string;
-  Name?: string;
-  Tags?: { [key: string]: string | undefined };
+  AuthenticationStrategy?: AuthenticationStrategy | undefined;
+  EngineType?: EngineType | undefined;
+  EngineVersion?: string | undefined;
+  Name?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __timestampIso8601 = Date;
 export interface ConfigurationRevision {
-  Created?: Date;
-  Description?: string;
-  Revision?: number;
+  Created?: Date | undefined;
+  Description?: string | undefined;
+  Revision?: number | undefined;
 }
 export interface CreateConfigurationResponse {
-  Arn?: string;
-  AuthenticationStrategy?: AuthenticationStrategy;
-  Created?: Date;
-  Id?: string;
-  LatestRevision?: ConfigurationRevision & { Created: __timestampIso8601; Revision: number };
-  Name?: string;
+  Arn?: string | undefined;
+  AuthenticationStrategy?: AuthenticationStrategy | undefined;
+  Created?: Date | undefined;
+  Id?: string | undefined;
+  LatestRevision?:
+    | (ConfigurationRevision & { Created: __timestampIso8601; Revision: number })
+    | undefined;
+  Name?: string | undefined;
 }
 export interface CreateTagsRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateTagsResponse {}
 export interface CreateUserRequest {
   BrokerId: string;
-  ConsoleAccess?: boolean;
-  Groups?: string[];
-  Password?: string | redacted.Redacted<string>;
+  ConsoleAccess?: boolean | undefined;
+  Groups?: string[] | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
   Username: string;
-  ReplicationUser?: boolean;
+  ReplicationUser?: boolean | undefined;
 }
 export interface CreateUserResponse {}
 export interface DeleteBrokerRequest {
   BrokerId: string;
 }
 export interface DeleteBrokerResponse {
-  BrokerId?: string;
+  BrokerId?: string | undefined;
 }
 export interface DeleteConfigurationRequest {
   ConfigurationId: string;
 }
 export interface DeleteConfigurationResponse {
-  ConfigurationId?: string;
+  ConfigurationId?: string | undefined;
 }
 export interface DeleteTagsRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface DeleteTagsResponse {}
 export interface DeleteUserRequest {
@@ -321,15 +323,15 @@ export interface DescribeBrokerRequest {
   BrokerId: string;
 }
 export interface ActionRequired {
-  ActionRequiredCode?: string;
-  ActionRequiredInfo?: string;
+  ActionRequiredCode?: string | undefined;
+  ActionRequiredInfo?: string | undefined;
 }
 export type __listOfActionRequired = ActionRequired[];
 const __listOfActionRequired = /*@__PURE__*/ __L.at(__c6, 2);
 export interface BrokerInstance {
-  ConsoleURL?: string;
-  Endpoints?: string[];
-  IpAddress?: string;
+  ConsoleURL?: string | undefined;
+  Endpoints?: string[] | undefined;
+  IpAddress?: string | undefined;
 }
 export type __listOfBrokerInstance = BrokerInstance[];
 const __listOfBrokerInstance = /*@__PURE__*/ __L.at(__c6, 4);
@@ -345,190 +347,210 @@ export type BrokerState =
 export type __listOfConfigurationId = ConfigurationId[];
 const __listOfConfigurationId = /*@__PURE__*/ __L.at(__c6, 5);
 export interface Configurations {
-  Current?: ConfigurationId;
-  History?: ConfigurationId[];
-  Pending?: ConfigurationId;
+  Current?: ConfigurationId | undefined;
+  History?: ConfigurationId[] | undefined;
+  Pending?: ConfigurationId | undefined;
 }
 export interface LdapServerMetadataOutput {
-  Hosts?: string[];
-  RoleBase?: string;
-  RoleName?: string;
-  RoleSearchMatching?: string;
-  RoleSearchSubtree?: boolean;
-  ServiceAccountUsername?: string;
-  UserBase?: string;
-  UserRoleName?: string;
-  UserSearchMatching?: string;
-  UserSearchSubtree?: boolean;
+  Hosts?: string[] | undefined;
+  RoleBase?: string | undefined;
+  RoleName?: string | undefined;
+  RoleSearchMatching?: string | undefined;
+  RoleSearchSubtree?: boolean | undefined;
+  ServiceAccountUsername?: string | undefined;
+  UserBase?: string | undefined;
+  UserRoleName?: string | undefined;
+  UserSearchMatching?: string | undefined;
+  UserSearchSubtree?: boolean | undefined;
 }
 export interface PendingLogs {
-  Audit?: boolean;
-  General?: boolean;
+  Audit?: boolean | undefined;
+  General?: boolean | undefined;
 }
 export interface LogsSummary {
-  Audit?: boolean;
-  AuditLogGroup?: string;
-  General?: boolean;
-  GeneralLogGroup?: string;
-  Pending?: PendingLogs;
+  Audit?: boolean | undefined;
+  AuditLogGroup?: string | undefined;
+  General?: boolean | undefined;
+  GeneralLogGroup?: string | undefined;
+  Pending?: PendingLogs | undefined;
 }
 export type ChangeType = "CREATE" | "UPDATE" | "DELETE" | (string & {});
 export interface UserSummary {
-  PendingChange?: ChangeType;
-  Username?: string;
+  PendingChange?: ChangeType | undefined;
+  Username?: string | undefined;
 }
 export type __listOfUserSummary = UserSummary[];
 const __listOfUserSummary = /*@__PURE__*/ __L.at(__c7, 1);
 export interface DataReplicationCounterpart {
-  BrokerId?: string;
-  Region?: string;
+  BrokerId?: string | undefined;
+  Region?: string | undefined;
 }
 export interface DataReplicationMetadataOutput {
-  DataReplicationCounterpart?: DataReplicationCounterpart;
-  DataReplicationRole?: string;
+  DataReplicationCounterpart?: DataReplicationCounterpart | undefined;
+  DataReplicationRole?: string | undefined;
 }
 export interface DescribeBrokerResponse {
-  ActionsRequired?: ActionRequired[];
-  AuthenticationStrategy?: AuthenticationStrategy;
-  AutoMinorVersionUpgrade?: boolean;
-  BrokerArn?: string;
-  BrokerId?: string;
-  BrokerInstances?: BrokerInstance[];
-  BrokerName?: string;
-  BrokerState?: BrokerState;
-  Configurations?: Configurations & {
-    Current: ConfigurationId & { Id: string };
-    History: (ConfigurationId & { Id: string })[];
-    Pending: ConfigurationId & { Id: string };
-  };
-  Created?: Date;
-  DeploymentMode?: DeploymentMode;
-  EncryptionOptions?: EncryptionOptions & { UseAwsOwnedKey: boolean };
-  EngineType?: EngineType;
-  EngineVersion?: string;
-  HostInstanceType?: string;
-  LdapServerMetadata?: LdapServerMetadataOutput & {
-    Hosts: __listOf__string;
-    RoleBase: string;
-    RoleSearchMatching: string;
-    ServiceAccountUsername: string;
-    UserBase: string;
-    UserSearchMatching: string;
-  };
-  Logs?: LogsSummary & { General: boolean; GeneralLogGroup: string };
-  MaintenanceWindowStartTime?: WeeklyStartTime & { DayOfWeek: DayOfWeek; TimeOfDay: string };
-  PendingAuthenticationStrategy?: AuthenticationStrategy;
-  PendingEngineVersion?: string;
-  PendingHostInstanceType?: string;
-  PendingLdapServerMetadata?: LdapServerMetadataOutput & {
-    Hosts: __listOf__string;
-    RoleBase: string;
-    RoleSearchMatching: string;
-    ServiceAccountUsername: string;
-    UserBase: string;
-    UserSearchMatching: string;
-  };
-  PendingSecurityGroups?: string[];
-  PendingStorageSize?: number;
-  PubliclyAccessible?: boolean;
-  SecurityGroups?: string[];
-  StorageSize?: number;
-  StorageType?: BrokerStorageType;
-  SubnetIds?: string[];
-  Tags?: { [key: string]: string | undefined };
-  Users?: (UserSummary & { Username: string })[];
-  DataReplicationMetadata?: DataReplicationMetadataOutput & {
-    DataReplicationRole: string;
-    DataReplicationCounterpart: DataReplicationCounterpart & { BrokerId: string; Region: string };
-  };
-  DataReplicationMode?: DataReplicationMode;
-  PendingDataReplicationMetadata?: DataReplicationMetadataOutput & {
-    DataReplicationRole: string;
-    DataReplicationCounterpart: DataReplicationCounterpart & { BrokerId: string; Region: string };
-  };
-  PendingDataReplicationMode?: DataReplicationMode;
+  ActionsRequired?: ActionRequired[] | undefined;
+  AuthenticationStrategy?: AuthenticationStrategy | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  BrokerArn?: string | undefined;
+  BrokerId?: string | undefined;
+  BrokerInstances?: BrokerInstance[] | undefined;
+  BrokerName?: string | undefined;
+  BrokerState?: BrokerState | undefined;
+  Configurations?:
+    | (Configurations & {
+        Current: ConfigurationId & { Id: string };
+        History: (ConfigurationId & { Id: string })[];
+        Pending: ConfigurationId & { Id: string };
+      })
+    | undefined;
+  Created?: Date | undefined;
+  DeploymentMode?: DeploymentMode | undefined;
+  EncryptionOptions?: (EncryptionOptions & { UseAwsOwnedKey: boolean }) | undefined;
+  EngineType?: EngineType | undefined;
+  EngineVersion?: string | undefined;
+  HostInstanceType?: string | undefined;
+  LdapServerMetadata?:
+    | (LdapServerMetadataOutput & {
+        Hosts: __listOf__string;
+        RoleBase: string;
+        RoleSearchMatching: string;
+        ServiceAccountUsername: string;
+        UserBase: string;
+        UserSearchMatching: string;
+      })
+    | undefined;
+  Logs?: (LogsSummary & { General: boolean; GeneralLogGroup: string }) | undefined;
+  MaintenanceWindowStartTime?:
+    | (WeeklyStartTime & { DayOfWeek: DayOfWeek; TimeOfDay: string })
+    | undefined;
+  PendingAuthenticationStrategy?: AuthenticationStrategy | undefined;
+  PendingEngineVersion?: string | undefined;
+  PendingHostInstanceType?: string | undefined;
+  PendingLdapServerMetadata?:
+    | (LdapServerMetadataOutput & {
+        Hosts: __listOf__string;
+        RoleBase: string;
+        RoleSearchMatching: string;
+        ServiceAccountUsername: string;
+        UserBase: string;
+        UserSearchMatching: string;
+      })
+    | undefined;
+  PendingSecurityGroups?: string[] | undefined;
+  PendingStorageSize?: number | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  SecurityGroups?: string[] | undefined;
+  StorageSize?: number | undefined;
+  StorageType?: BrokerStorageType | undefined;
+  SubnetIds?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Users?: (UserSummary & { Username: string })[] | undefined;
+  DataReplicationMetadata?:
+    | (DataReplicationMetadataOutput & {
+        DataReplicationRole: string;
+        DataReplicationCounterpart: DataReplicationCounterpart & {
+          BrokerId: string;
+          Region: string;
+        };
+      })
+    | undefined;
+  DataReplicationMode?: DataReplicationMode | undefined;
+  PendingDataReplicationMetadata?:
+    | (DataReplicationMetadataOutput & {
+        DataReplicationRole: string;
+        DataReplicationCounterpart: DataReplicationCounterpart & {
+          BrokerId: string;
+          Region: string;
+        };
+      })
+    | undefined;
+  PendingDataReplicationMode?: DataReplicationMode | undefined;
 }
 export type MaxResults = number;
 export interface DescribeBrokerEngineTypesRequest {
-  EngineType?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  EngineType?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface EngineVersion {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type __listOfEngineVersion = EngineVersion[];
 const __listOfEngineVersion = /*@__PURE__*/ __L.at(__c10, 1);
 export interface BrokerEngineType {
-  EngineType?: EngineType;
-  EngineVersions?: EngineVersion[];
+  EngineType?: EngineType | undefined;
+  EngineVersions?: EngineVersion[] | undefined;
 }
 export type __listOfBrokerEngineType = BrokerEngineType[];
 const __listOfBrokerEngineType = /*@__PURE__*/ __L.at(__c9, 2);
 export type __integerMin5Max100 = number;
 export interface DescribeBrokerEngineTypesResponse {
-  BrokerEngineTypes?: BrokerEngineType[];
-  MaxResults?: number;
-  NextToken?: string;
+  BrokerEngineTypes?: BrokerEngineType[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeBrokerInstanceOptionsRequest {
-  EngineType?: string;
-  HostInstanceType?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  StorageType?: string;
+  EngineType?: string | undefined;
+  HostInstanceType?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  StorageType?: string | undefined;
 }
 export interface AvailabilityZone {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type __listOfAvailabilityZone = AvailabilityZone[];
 const __listOfAvailabilityZone = __listOfEngineVersion as any as S.Schema<__listOfAvailabilityZone>;
 export type __listOfDeploymentMode = DeploymentMode[];
 const __listOfDeploymentMode = /*@__PURE__*/ __L.at(__c11, 1);
 export interface BrokerInstanceOption {
-  AvailabilityZones?: AvailabilityZone[];
-  EngineType?: EngineType;
-  HostInstanceType?: string;
-  StorageType?: BrokerStorageType;
-  SupportedDeploymentModes?: DeploymentMode[];
-  SupportedEngineVersions?: string[];
+  AvailabilityZones?: AvailabilityZone[] | undefined;
+  EngineType?: EngineType | undefined;
+  HostInstanceType?: string | undefined;
+  StorageType?: BrokerStorageType | undefined;
+  SupportedDeploymentModes?: DeploymentMode[] | undefined;
+  SupportedEngineVersions?: string[] | undefined;
 }
 export type __listOfBrokerInstanceOption = BrokerInstanceOption[];
 const __listOfBrokerInstanceOption = /*@__PURE__*/ __L.at(__c11, 3);
 export interface DescribeBrokerInstanceOptionsResponse {
-  BrokerInstanceOptions?: BrokerInstanceOption[];
-  MaxResults?: number;
-  NextToken?: string;
+  BrokerInstanceOptions?: BrokerInstanceOption[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeConfigurationRequest {
   ConfigurationId: string;
 }
 export interface DescribeConfigurationResponse {
-  Arn?: string;
-  AuthenticationStrategy?: AuthenticationStrategy;
-  Created?: Date;
-  Description?: string;
-  EngineType?: EngineType;
-  EngineVersion?: string;
-  Id?: string;
-  LatestRevision?: ConfigurationRevision & { Created: __timestampIso8601; Revision: number };
-  Name?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  AuthenticationStrategy?: AuthenticationStrategy | undefined;
+  Created?: Date | undefined;
+  Description?: string | undefined;
+  EngineType?: EngineType | undefined;
+  EngineVersion?: string | undefined;
+  Id?: string | undefined;
+  LatestRevision?:
+    | (ConfigurationRevision & { Created: __timestampIso8601; Revision: number })
+    | undefined;
+  Name?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeConfigurationRevisionRequest {
   ConfigurationId: string;
   ConfigurationRevision: string;
 }
 export interface DescribeConfigurationRevisionResponse {
-  ConfigurationId?: string;
-  Created?: Date;
-  Data?: string;
-  Description?: string;
+  ConfigurationId?: string | undefined;
+  Created?: Date | undefined;
+  Data?: string | undefined;
+  Description?: string | undefined;
 }
 export interface DescribeSharedResourcesRequest {
   BrokerId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SharedResourceErrorCode =
   | "QUOTA_EXCEEDED"
@@ -540,8 +562,8 @@ export type SharedResourceErrorCode =
   | "RESOURCE_CONFIGURATION_NOT_FOUND"
   | (string & {});
 export interface SharedResourceError {
-  Code?: SharedResourceErrorCode;
-  Message?: string;
+  Code?: SharedResourceErrorCode | undefined;
+  Message?: string | undefined;
 }
 export type SharedResourceStatus =
   | "AVAILABLE"
@@ -553,186 +575,208 @@ export type SharedResourceStatus =
   | (string & {});
 export type SharedResourceType = "RESOURCE_SHARE" | "RESOURCE" | (string & {});
 export interface SharedResource {
-  DnsNames?: string[];
-  Error?: SharedResourceError;
-  ResourceArn?: string;
-  ResourceShareArns?: string[];
-  Status?: SharedResourceStatus;
-  Type?: SharedResourceType;
+  DnsNames?: string[] | undefined;
+  Error?: SharedResourceError | undefined;
+  ResourceArn?: string | undefined;
+  ResourceShareArns?: string[] | undefined;
+  Status?: SharedResourceStatus | undefined;
+  Type?: SharedResourceType | undefined;
 }
 export type __listOfSharedResource = SharedResource[];
 const __listOfSharedResource = /*@__PURE__*/ __L.at(__c15, 3);
 export interface DescribeSharedResourcesResponse {
-  NextToken?: string;
-  SharedResources?: (SharedResource & {
-    ResourceArn: string;
-    Status: SharedResourceStatus;
-    Type: SharedResourceType;
-    Error: SharedResourceError & { Code: SharedResourceErrorCode; Message: string };
-  })[];
+  NextToken?: string | undefined;
+  SharedResources?:
+    | (SharedResource & {
+        ResourceArn: string;
+        Status: SharedResourceStatus;
+        Type: SharedResourceType;
+        Error: SharedResourceError & { Code: SharedResourceErrorCode; Message: string };
+      })[]
+    | undefined;
 }
 export interface DescribeUserRequest {
   BrokerId: string;
   Username: string;
 }
 export interface UserPendingChanges {
-  ConsoleAccess?: boolean;
-  Groups?: string[];
-  PendingChange?: ChangeType;
+  ConsoleAccess?: boolean | undefined;
+  Groups?: string[] | undefined;
+  PendingChange?: ChangeType | undefined;
 }
 export interface DescribeUserResponse {
-  BrokerId?: string;
-  ConsoleAccess?: boolean;
-  Groups?: string[];
-  Pending?: UserPendingChanges & { PendingChange: ChangeType };
-  Username?: string;
-  ReplicationUser?: boolean;
+  BrokerId?: string | undefined;
+  ConsoleAccess?: boolean | undefined;
+  Groups?: string[] | undefined;
+  Pending?: (UserPendingChanges & { PendingChange: ChangeType }) | undefined;
+  Username?: string | undefined;
+  ReplicationUser?: boolean | undefined;
 }
 export interface ListBrokersRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface BrokerSummary {
-  BrokerArn?: string;
-  BrokerId?: string;
-  BrokerName?: string;
-  BrokerState?: BrokerState;
-  Created?: Date;
-  DeploymentMode?: DeploymentMode;
-  EngineType?: EngineType;
-  HostInstanceType?: string;
+  BrokerArn?: string | undefined;
+  BrokerId?: string | undefined;
+  BrokerName?: string | undefined;
+  BrokerState?: BrokerState | undefined;
+  Created?: Date | undefined;
+  DeploymentMode?: DeploymentMode | undefined;
+  EngineType?: EngineType | undefined;
+  HostInstanceType?: string | undefined;
 }
 export type __listOfBrokerSummary = BrokerSummary[];
 const __listOfBrokerSummary = /*@__PURE__*/ __L.at(__c17, 2);
 export interface ListBrokersResponse {
-  BrokerSummaries?: (BrokerSummary & { DeploymentMode: DeploymentMode; EngineType: EngineType })[];
-  NextToken?: string;
+  BrokerSummaries?:
+    | (BrokerSummary & { DeploymentMode: DeploymentMode; EngineType: EngineType })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListConfigurationRevisionsRequest {
   ConfigurationId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type __listOfConfigurationRevision = ConfigurationRevision[];
 const __listOfConfigurationRevision = /*@__PURE__*/ __L.at(__c18, 1);
 export interface ListConfigurationRevisionsResponse {
-  ConfigurationId?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Revisions?: (ConfigurationRevision & { Created: __timestampIso8601; Revision: number })[];
+  ConfigurationId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Revisions?:
+    | (ConfigurationRevision & { Created: __timestampIso8601; Revision: number })[]
+    | undefined;
 }
 export interface ListConfigurationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Configuration {
-  Arn?: string;
-  AuthenticationStrategy?: AuthenticationStrategy;
-  Created?: Date;
-  Description?: string;
-  EngineType?: EngineType;
-  EngineVersion?: string;
-  Id?: string;
-  LatestRevision?: ConfigurationRevision;
-  Name?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  AuthenticationStrategy?: AuthenticationStrategy | undefined;
+  Created?: Date | undefined;
+  Description?: string | undefined;
+  EngineType?: EngineType | undefined;
+  EngineVersion?: string | undefined;
+  Id?: string | undefined;
+  LatestRevision?: ConfigurationRevision | undefined;
+  Name?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfConfiguration = Configuration[];
 const __listOfConfiguration = /*@__PURE__*/ __L.at(__c19, 1);
 export interface ListConfigurationsResponse {
-  Configurations?: (Configuration & {
-    Arn: string;
-    AuthenticationStrategy: AuthenticationStrategy;
-    Created: __timestampIso8601;
-    Description: string;
-    EngineType: EngineType;
-    EngineVersion: string;
-    Id: string;
-    LatestRevision: ConfigurationRevision & { Created: __timestampIso8601; Revision: number };
-    Name: string;
-  })[];
-  MaxResults?: number;
-  NextToken?: string;
+  Configurations?:
+    | (Configuration & {
+        Arn: string;
+        AuthenticationStrategy: AuthenticationStrategy;
+        Created: __timestampIso8601;
+        Description: string;
+        EngineType: EngineType;
+        EngineVersion: string;
+        Id: string;
+        LatestRevision: ConfigurationRevision & { Created: __timestampIso8601; Revision: number };
+        Name: string;
+      })[]
+    | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsRequest {
   ResourceArn: string;
 }
 export interface ListTagsResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListUsersRequest {
   BrokerId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListUsersResponse {
-  BrokerId?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Users?: (UserSummary & { Username: string })[];
+  BrokerId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Users?: (UserSummary & { Username: string })[] | undefined;
 }
 export type PromoteMode = "SWITCHOVER" | "FAILOVER" | (string & {});
 export interface PromoteRequest {
   BrokerId: string;
-  Mode?: PromoteMode;
+  Mode?: PromoteMode | undefined;
 }
 export interface PromoteResponse {
-  BrokerId?: string;
+  BrokerId?: string | undefined;
 }
 export interface RebootBrokerRequest {
   BrokerId: string;
 }
 export interface RebootBrokerResponse {}
 export interface UpdateBrokerRequest {
-  AuthenticationStrategy?: AuthenticationStrategy;
-  AutoMinorVersionUpgrade?: boolean;
+  AuthenticationStrategy?: AuthenticationStrategy | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
   BrokerId: string;
-  Configuration?: ConfigurationId;
-  EngineVersion?: string;
-  HostInstanceType?: string;
-  LdapServerMetadata?: LdapServerMetadataInput;
-  Logs?: Logs;
-  MaintenanceWindowStartTime?: WeeklyStartTime;
-  ResourceShareArns?: string[];
-  SecurityGroups?: string[];
-  StorageSize?: number;
-  DataReplicationMode?: DataReplicationMode;
+  Configuration?: ConfigurationId | undefined;
+  EngineVersion?: string | undefined;
+  HostInstanceType?: string | undefined;
+  LdapServerMetadata?: LdapServerMetadataInput | undefined;
+  Logs?: Logs | undefined;
+  MaintenanceWindowStartTime?: WeeklyStartTime | undefined;
+  ResourceShareArns?: string[] | undefined;
+  SecurityGroups?: string[] | undefined;
+  StorageSize?: number | undefined;
+  DataReplicationMode?: DataReplicationMode | undefined;
 }
 export interface UpdateBrokerResponse {
-  AuthenticationStrategy?: AuthenticationStrategy;
-  AutoMinorVersionUpgrade?: boolean;
-  BrokerId?: string;
-  Configuration?: ConfigurationId & { Id: string };
-  EngineVersion?: string;
-  HostInstanceType?: string;
-  LdapServerMetadata?: LdapServerMetadataOutput & {
-    Hosts: __listOf__string;
-    RoleBase: string;
-    RoleSearchMatching: string;
-    ServiceAccountUsername: string;
-    UserBase: string;
-    UserSearchMatching: string;
-  };
-  Logs?: Logs;
-  MaintenanceWindowStartTime?: WeeklyStartTime & { DayOfWeek: DayOfWeek; TimeOfDay: string };
-  ResourceShareArns?: string[];
-  SecurityGroups?: string[];
-  DataReplicationMetadata?: DataReplicationMetadataOutput & {
-    DataReplicationRole: string;
-    DataReplicationCounterpart: DataReplicationCounterpart & { BrokerId: string; Region: string };
-  };
-  DataReplicationMode?: DataReplicationMode;
-  PendingDataReplicationMetadata?: DataReplicationMetadataOutput & {
-    DataReplicationRole: string;
-    DataReplicationCounterpart: DataReplicationCounterpart & { BrokerId: string; Region: string };
-  };
-  PendingDataReplicationMode?: DataReplicationMode;
-  StorageSize?: number;
+  AuthenticationStrategy?: AuthenticationStrategy | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  BrokerId?: string | undefined;
+  Configuration?: (ConfigurationId & { Id: string }) | undefined;
+  EngineVersion?: string | undefined;
+  HostInstanceType?: string | undefined;
+  LdapServerMetadata?:
+    | (LdapServerMetadataOutput & {
+        Hosts: __listOf__string;
+        RoleBase: string;
+        RoleSearchMatching: string;
+        ServiceAccountUsername: string;
+        UserBase: string;
+        UserSearchMatching: string;
+      })
+    | undefined;
+  Logs?: Logs | undefined;
+  MaintenanceWindowStartTime?:
+    | (WeeklyStartTime & { DayOfWeek: DayOfWeek; TimeOfDay: string })
+    | undefined;
+  ResourceShareArns?: string[] | undefined;
+  SecurityGroups?: string[] | undefined;
+  DataReplicationMetadata?:
+    | (DataReplicationMetadataOutput & {
+        DataReplicationRole: string;
+        DataReplicationCounterpart: DataReplicationCounterpart & {
+          BrokerId: string;
+          Region: string;
+        };
+      })
+    | undefined;
+  DataReplicationMode?: DataReplicationMode | undefined;
+  PendingDataReplicationMetadata?:
+    | (DataReplicationMetadataOutput & {
+        DataReplicationRole: string;
+        DataReplicationCounterpart: DataReplicationCounterpart & {
+          BrokerId: string;
+          Region: string;
+        };
+      })
+    | undefined;
+  PendingDataReplicationMode?: DataReplicationMode | undefined;
+  StorageSize?: number | undefined;
 }
 export interface UpdateConfigurationRequest {
   ConfigurationId: string;
-  Data?: string;
-  Description?: string;
+  Data?: string | undefined;
+  Description?: string | undefined;
 }
 export type SanitizationWarningReason =
   | "DISALLOWED_ELEMENT_REMOVED"
@@ -740,33 +784,35 @@ export type SanitizationWarningReason =
   | "INVALID_ATTRIBUTE_VALUE_REMOVED"
   | (string & {});
 export interface SanitizationWarning {
-  AttributeName?: string;
-  ElementName?: string;
-  Reason?: SanitizationWarningReason;
+  AttributeName?: string | undefined;
+  ElementName?: string | undefined;
+  Reason?: SanitizationWarningReason | undefined;
 }
 export type __listOfSanitizationWarning = SanitizationWarning[];
 const __listOfSanitizationWarning = /*@__PURE__*/ __L.at(__c25, 2);
 export interface UpdateConfigurationResponse {
-  Arn?: string;
-  Created?: Date;
-  Id?: string;
-  LatestRevision?: ConfigurationRevision & { Created: __timestampIso8601; Revision: number };
-  Name?: string;
-  Warnings?: (SanitizationWarning & { Reason: SanitizationWarningReason })[];
+  Arn?: string | undefined;
+  Created?: Date | undefined;
+  Id?: string | undefined;
+  LatestRevision?:
+    | (ConfigurationRevision & { Created: __timestampIso8601; Revision: number })
+    | undefined;
+  Name?: string | undefined;
+  Warnings?: (SanitizationWarning & { Reason: SanitizationWarningReason })[] | undefined;
 }
 export interface UpdateUserRequest {
   BrokerId: string;
-  ConsoleAccess?: boolean;
-  Groups?: string[];
-  Password?: string | redacted.Redacted<string>;
+  ConsoleAccess?: boolean | undefined;
+  Groups?: string[] | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
   Username: string;
-  ReplicationUser?: boolean;
+  ReplicationUser?: boolean | undefined;
 }
 export interface UpdateUserResponse {}
 export interface ResourceShareError {
-  ErrorCode?: string;
-  ResourceShareArn?: string;
-  Status?: string;
+  ErrorCode?: string | undefined;
+  ResourceShareArn?: string | undefined;
+  Status?: string | undefined;
 }
 export type __listOfResourceShareError = ResourceShareError[];
 const __listOfResourceShareError = /*@__PURE__*/ __L.at(__c0, 1);

@@ -137,15 +137,15 @@ export interface Review {
   user: ReviewUser;
 }
 export interface ListReviewRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
   product_id: string;
-  min_stars?: number;
-  max_stars?: number;
-  created_before?: string;
-  created_after?: string;
+  min_stars?: number | undefined;
+  max_stars?: number | undefined;
+  created_before?: string | undefined;
+  created_after?: string | undefined;
 }
 /** Represents an image attachment */
 export type ReviewListItemAttachmentsItem = ReviewAttachmentsItem;

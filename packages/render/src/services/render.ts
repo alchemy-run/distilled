@@ -73,7 +73,7 @@ export interface AddDiskResponse {
   name: string;
   sizeGB: number;
   mountPath: string;
-  serviceId?: string;
+  serviceId?: string | undefined;
   createdAt: string;
   updatedAt: string;
 }
@@ -94,13 +94,13 @@ export interface Header {
   value: string;
 }
 export interface AddHeadersResponse {
-  headers?: Header;
+  headers?: Header | undefined;
 }
 export interface AddOrUpdateBuildSourceSecretFileRequest {
   buildSourceId: string;
   /** The file name of the secret file */
   envVarKey: string;
-  content?: string;
+  content?: string | undefined;
 }
 export interface SecretFile {
   name: string;
@@ -111,7 +111,7 @@ export interface AddOrUpdateSecretFileRequest {
   serviceId: string;
   /** The file name of the secret file */
   envVarKey: string;
-  content?: string;
+  content?: string | undefined;
 }
 export type AddResourcesToEnvironmentRequestResourceIdsList = Array<string>;
 export interface AddResourcesToEnvironmentRequest {
@@ -135,7 +135,7 @@ export interface Environment {
   name: string;
   projectId: string;
   databasesIds: EnvironmentDatabasesIdsList;
-  ipAllowList?: EnvironmentIpAllowListList;
+  ipAllowList?: EnvironmentIpAllowListList | undefined;
   redisIds: EnvironmentRedisIdsList;
   serviceIds: EnvironmentServiceIdsList;
   envGroupIds: EnvironmentEnvGroupIdsList;
@@ -150,7 +150,7 @@ export interface AddRouteRequest {
   source: string;
   destination: string;
   /** Redirect and Rewrite Rules are applied in priority order starting at 0. Defaults to last in the priority list. */
-  priority?: number;
+  priority?: number | undefined;
 }
 export interface Route {
   id: string;
@@ -202,18 +202,18 @@ export interface CancelDeployRequest {
   deployId: string;
 }
 export interface DeployCommit {
-  id?: string;
-  message?: string;
-  createdAt?: string;
+  id?: string | undefined;
+  message?: string | undefined;
+  createdAt?: string | undefined;
 }
 /** Image information used when creating the deploy. Not present for Git-backed deploys */
 export interface DeployImage {
   /** Image reference used when creating the deploy */
-  ref?: string;
+  ref?: string | undefined;
   /** SHA that the image reference was resolved to when creating the deploy */
-  sha?: string;
+  sha?: string | undefined;
   /** Name of credential used to pull the image, if provided */
-  registryCredential?: string;
+  registryCredential?: string | undefined;
 }
 export type DeployStatus =
   | "created"
@@ -240,16 +240,23 @@ export type DeployTrigger =
   | "service_updated";
 export interface Deploy {
   id: string;
-  commit?: DeployCommit;
+  /** The ID of the build this deploy shipped. Only present for deploys of a build from a Build Source. */
+  buildId?: string | undefined;
+  commit?: DeployCommit | undefined;
   /** Image information used when creating the deploy. Not present for Git-backed deploys */
-  image?: DeployImage;
-  status?: DeployStatus;
-  trigger?: DeployTrigger;
-  startedAt?: string;
-  finishedAt?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  image?: DeployImage | undefined;
+  status?: DeployStatus | undefined;
+  trigger?: DeployTrigger | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
+  createdAt?: string | undefined;
+  updatedAt?: string | undefined;
 }
+export interface CancelFlowRunRequest {
+  /** The ID of the flow run */
+  flowRunId: string;
+}
+export interface CancelFlowRunResponse {}
 export interface CancelJobRequest {
   /** The ID of the service */
   serviceId: string;
@@ -262,16 +269,63 @@ export interface Schema7 {
   serviceId: string;
   startCommand: string;
   planId: string;
-  status?: Items2;
+  status?: Items2 | undefined;
   createdAt: string;
-  startedAt?: string;
-  finishedAt?: string;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
 }
 export interface CancelTaskRunRequest {
   /** The ID of the task run */
   taskRunId: string;
 }
 export interface CancelTaskRunResponse {}
+export type ConnectSandboxFilesRequestOperation = "upload" | "download";
+export interface ConnectSandboxFilesRequest {
+  /** The ID of the sandbox */
+  sandboxId: string;
+  /** The file operation to authorize -- `upload` (PUT a file or tar archive) or `download` (GET a file, or a directory as a tar archive). */
+  operation: ConnectSandboxFilesRequestOperation | (string & {});
+  /** The ID of the workspace the sandbox belongs to. Optional: the workspace is determined from the sandbox ID, and this parameter is ignored when supplied. */
+  ownerId?: string | undefined;
+  /** Path in the sandbox this token authorizes. A relative path resolves within the sandbox's working directory, which is the image's WORKDIR or, when the image sets none, the home directory ("." is the working directory itself); an absolute path addresses the sandbox filesystem root. For an archive upload, the extraction root; for a download, the file or directory to fetch. */
+  path: string;
+}
+/** A minted connect token and the sandbox-proxy endpoint to invoke with it. Send the request (and body, where the operation takes one) to `uri` using `method`, with `token` as a bearer credential. */
+export interface Schema26 {
+  /** Identifier for this execution. */
+  executionId: string;
+  /** Short-lived bearer token authorizing exactly this operation against the sandbox. */
+  token: string;
+  /** The sandbox-proxy endpoint to invoke. */
+  uri: string;
+  /** HTTP method to use against `uri`. */
+  method: string;
+  /** When `token` stops being valid. Start the run before this time. */
+  expiresAt: string;
+}
+export type ConnectSandboxRunRequestOperation = "sync" | "stream";
+export interface ConnectSandboxRunRequest {
+  /** The ID of the sandbox */
+  sandboxId: string;
+  /** The run operation to authorize -- `sync` (buffered) or `stream` (server-sent events). */
+  operation: ConnectSandboxRunRequestOperation | (string & {});
+  /** The ID of the workspace the sandbox belongs to. Optional: the workspace is determined from the sandbox ID, and this parameter is ignored when supplied. */
+  ownerId?: string | undefined;
+  /** Command text for the sandbox event timeline. */
+  command?: string | undefined;
+}
+export interface ConnectSandboxRunResponse {
+  /** Identifier for this execution. */
+  executionId: string;
+  /** Short-lived bearer token authorizing exactly this operation against the sandbox. */
+  token: string;
+  /** The sandbox-proxy endpoint to invoke. */
+  uri: string;
+  /** HTTP method to use against `uri`. */
+  method: string;
+  /** When `token` stops being valid. Start the run before this time. */
+  expiresAt: string;
+}
 export type BuildFilterPathsList2 = Array<string>;
 export type BuildFilterIgnoredPathsList2 = Array<string>;
 /** Glob patterns matched against files changed by a commit. When set, a commit only triggers a build when at least one changed file matches `paths` and none match `ignoredPaths`. Useful for monorepos where a single repo backs many services. */
@@ -296,22 +350,23 @@ export type CreateBuildSourceRequestGitRegion =
   | "singapore"
   | "virginia";
 export interface CreateBuildSourceRequestGit {
-  baseDir?: string;
-  branch?: string;
-  buildCommand?: string;
-  buildFilter?: BuildFilter2;
-  dockerfilePath?: string;
+  branch?: string | undefined;
+  buildCommand?: string | undefined;
+  buildFilter?: BuildFilter2 | undefined;
+  /** Directory passed to `docker build` as the build context, relative to the repository root. Only valid for the `docker` runtime. Defaults to ".". */
+  dockerContext?: string | undefined;
+  dockerfilePath?: string | undefined;
   /** Build runtime for the build source. Static sites are not supported for build sources. */
   runtime: CreateBuildSourceRequestGitRuntime | (string & {});
-  registryCredentialId?: string;
+  registryCredentialId?: string | undefined;
   /** Defaults to "oregon" */
-  region?: CreateBuildSourceRequestGitRegion | (string & {});
-  repoUrl?: string;
-  rootDir?: string;
+  region?: CreateBuildSourceRequestGitRegion | (string & {}) | undefined;
+  repoUrl?: string | undefined;
+  rootDir?: string | undefined;
 }
 export interface CreateBuildSourceRequestImage {
   ownerId: string;
-  registryCredentialId?: string;
+  registryCredentialId?: string | undefined;
   imageUrl: string;
 }
 export type CreateBuildSourceRequestServiceIdsList = Array<string>;
@@ -337,33 +392,34 @@ export type CreateBuildSourceRequestEnvGroupIdsList = Array<string>;
 export interface CreateBuildSourceRequest {
   ownerId: string;
   name: string;
-  projectId?: string;
-  git?: CreateBuildSourceRequestGit;
-  image?: CreateBuildSourceRequestImage;
-  serviceIds?: CreateBuildSourceRequestServiceIdsList;
-  envVars?: Schema6;
+  projectId?: string | undefined;
+  git?: CreateBuildSourceRequestGit | undefined;
+  image?: CreateBuildSourceRequestImage | undefined;
+  serviceIds?: CreateBuildSourceRequestServiceIdsList | undefined;
+  envVars?: Schema6 | undefined;
   /** Secret files for the build source's build. Only valid for `git` sources. */
-  secretFiles?: CreateBuildSourceRequestSecretFilesList;
+  secretFiles?: CreateBuildSourceRequestSecretFilesList | undefined;
   /** IDs of env groups to link to the build source. Only valid for `git` sources; env groups must belong to the same workspace and must not be scoped to an environment. */
-  envGroupIds?: CreateBuildSourceRequestEnvGroupIdsList;
+  envGroupIds?: CreateBuildSourceRequestEnvGroupIdsList | undefined;
 }
 /** Build runtime for the build source. Static sites are not supported for build sources. */
 export type GitRuntime = "docker" | "elixir" | "go" | "node" | "python" | "ruby" | "rust";
 /** Defaults to "oregon" */
 export type GitRegion = "frankfurt" | "oregon" | "ohio" | "singapore" | "virginia";
 export interface Git {
-  baseDir?: string;
-  branch?: string;
-  buildCommand?: string;
-  buildFilter?: BuildFilter2;
-  dockerfilePath?: string;
+  branch?: string | undefined;
+  buildCommand?: string | undefined;
+  buildFilter?: BuildFilter2 | undefined;
+  /** Directory passed to `docker build` as the build context, relative to the repository root. Only valid for the `docker` runtime. Defaults to ".". */
+  dockerContext?: string | undefined;
+  dockerfilePath?: string | undefined;
   /** Build runtime for the build source. Static sites are not supported for build sources. */
   runtime: GitRuntime;
-  registryCredentialId?: string;
+  registryCredentialId?: string | undefined;
   /** Defaults to "oregon" */
-  region?: GitRegion;
-  repoUrl?: string;
-  rootDir?: string;
+  region?: GitRegion | undefined;
+  repoUrl?: string | undefined;
+  rootDir?: string | undefined;
 }
 export type Image2 = CreateBuildSourceRequestImage;
 export interface CreateBuildSourceResponseServiceLinksItem {
@@ -379,11 +435,11 @@ export interface CreateBuildSourceResponse {
   /** ID of the workspace this build source belongs to. */
   ownerId: string;
   /** ID of the project this build source is scoped to, if any. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Present when the build source is currently build-based. Mutually exclusive with `image`. */
-  git?: Git;
+  git?: Git | undefined;
   /** Present when the build source is currently image-based. Mutually exclusive with `git`. */
-  image?: CreateBuildSourceRequestImage;
+  image?: CreateBuildSourceRequestImage | undefined;
   createdAt: string;
   updatedAt: string;
   /** Services currently linked to this build source. */
@@ -397,8 +453,8 @@ export interface CreateCustomDomainRequest {
 export type CustomDomainDomainType = "apex" | "subdomain";
 export type CustomDomainVerificationStatus = "verified" | "unverified";
 export interface CustomDomainServer {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export interface CustomDomain {
   id: string;
@@ -408,7 +464,7 @@ export interface CustomDomain {
   redirectForName: string;
   verificationStatus: CustomDomainVerificationStatus;
   createdAt: string;
-  server?: CustomDomainServer;
+  server?: CustomDomainServer | undefined;
 }
 export type CreateCustomDomainResponseBodyList = Array<CustomDomain>;
 export type CreateCustomDomainResponse = CreateCustomDomainResponseBodyList;
@@ -420,12 +476,12 @@ export interface CreateDedicatedIpRequest {
   /** Name for the dedicated IP set. */
   name: string;
   /** Free-form description for the dedicated IP set. */
-  description?: string;
+  description?: string | undefined;
   /** The ID of the workspace that will own this dedicated IP set. */
   ownerId: string;
   region: Region | (string & {});
   /** Environments to scope the dedicated IP set to. If omitted or empty, it applies to all services in the workspace within its region. */
-  environmentIds?: CreateDedicatedIpRequestEnvironmentIdsList;
+  environmentIds?: CreateDedicatedIpRequestEnvironmentIdsList | undefined;
 }
 /** Environments this dedicated IP set applies to. If empty, it applies to all services in the workspace within its region. */
 export type DedicatedIPEnvironmentIdsList = Array<string>;
@@ -458,7 +514,7 @@ export interface DedicatedIP {
   /** Time the dedicated IP set was created. */
   createdAt: string;
   /** Time the dedicated IP set was last updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** If `clear`, Render clears the service's build cache before deploying. This can be useful if you're experiencing issues with your build. */
 export type CreateDeployRequestClearCache = "clear" | "do_not_clear";
@@ -468,15 +524,15 @@ export interface CreateDeployRequest {
   /** The ID of the service */
   serviceId: string;
   /** The ID of the build to deploy. Cannot be combined with `commitId`, `imageUrl`, or `deployMode`. */
-  buildId?: string;
+  buildId?: string | undefined;
   /** If `clear`, Render clears the service's build cache before deploying. This can be useful if you're experiencing issues with your build. */
-  clearCache?: CreateDeployRequestClearCache | (string & {});
+  clearCache?: CreateDeployRequestClearCache | (string & {}) | undefined;
   /** The SHA of a specific Git commit to deploy for a service. Defaults to the latest commit on the service's connected branch. Cannot be combined with `buildId`, `imageUrl`, or `deployMode: deploy_only`. Note that deploying a specific commit with this endpoint does not disable autodeploys for the service. You can toggle autodeploys for your service with the [Update service](https://api-docs.render.com/reference/update-service) endpoint or in the Render Dashboard. Not supported for cron jobs. */
-  commitId?: string;
+  commitId?: string | undefined;
   /** The URL of the image to deploy for an image-backed service. Cannot be combined with `buildId`, `commitId`, or `deployMode: deploy_only`. The host, repository, and image name all must match the currently configured image for the service. */
-  imageUrl?: string;
+  imageUrl?: string | undefined;
   /** Deployment mode controlling build and deploy behavior. Defaults to `build_and_deploy` when not specified. **Validation:** `deployMode` cannot be combined with `buildId`. `deploy_only` cannot be combined with `commitId`, `imageUrl`, or `clearCache`. */
-  deployMode?: DeployMode | (string & {});
+  deployMode?: DeployMode | (string & {}) | undefined;
 }
 export type CreateEnvGroupRequestSecretFilesList = Array<Items>;
 export type CreateEnvGroupRequestServiceIdsList = Array<string>;
@@ -484,9 +540,9 @@ export interface CreateEnvGroupRequest {
   name: string;
   ownerId: string;
   envVars: Schema6;
-  secretFiles?: CreateEnvGroupRequestSecretFilesList;
-  serviceIds?: CreateEnvGroupRequestServiceIdsList;
-  environmentId?: string;
+  secretFiles?: CreateEnvGroupRequestSecretFilesList | undefined;
+  serviceIds?: CreateEnvGroupRequestServiceIdsList | undefined;
+  environmentId?: string | undefined;
 }
 export type ServiceTypeShort = "static" | "web" | "pserv" | "worker" | "cron";
 export interface EnvGroupLink {
@@ -510,7 +566,7 @@ export interface CreateEnvGroupResponse {
   updatedAt: string;
   /** List of serviceIds linked to the envGroup */
   serviceLinks: CreateEnvGroupResponseServiceLinksList;
-  environmentId?: string;
+  environmentId?: string | undefined;
   envVars: CreateEnvGroupResponseEnvVarsList;
   secretFiles: CreateEnvGroupResponseSecretFilesList;
 }
@@ -518,9 +574,9 @@ export type CreateEnvironmentRequestIpAllowListList = Array<CidrBlockAndDescript
 export interface CreateEnvironmentRequest {
   name: string;
   projectId: string;
-  protectedStatus?: ProtectedStatus | (string & {});
-  networkIsolationEnabled?: boolean;
-  ipAllowList?: CreateEnvironmentRequestIpAllowListList;
+  protectedStatus?: ProtectedStatus | (string & {}) | undefined;
+  networkIsolationEnabled?: boolean | undefined;
+  ipAllowList?: CreateEnvironmentRequestIpAllowListList | undefined;
 }
 export type KeyValuePlan =
   | "free"
@@ -554,11 +610,11 @@ export interface CreateKeyValueRequest {
   /** The ID of the owner of the Key Value instance */
   ownerId: string;
   plan: KeyValuePlan | (string & {});
-  region?: Region | (string & {});
-  environmentId?: string;
-  maxmemoryPolicy?: MaxmemoryPolicy | (string & {});
-  persistenceMode?: PersistenceMode | (string & {});
-  ipAllowList?: CreateKeyValueRequestIpAllowListList;
+  region?: Region | (string & {}) | undefined;
+  environmentId?: string | undefined;
+  maxmemoryPolicy?: MaxmemoryPolicy | (string & {}) | undefined;
+  persistenceMode?: PersistenceMode | (string & {}) | undefined;
+  ipAllowList?: CreateKeyValueRequestIpAllowListList | undefined;
 }
 export type DatabaseStatus =
   | "creating"
@@ -578,15 +634,15 @@ export interface Owner {
   id: string;
   name: string;
   email: string;
-  ipAllowList?: OwnerIpAllowListList;
+  ipAllowList?: OwnerIpAllowListList | undefined;
   /** Whether two-factor authentication is enabled for the owner. Only present if `type` is `user`. */
-  twoFactorAuthEnabled?: boolean;
+  twoFactorAuthEnabled?: boolean | undefined;
   type: OwnerType;
 }
 /** Options for a Key Value instance */
 export interface KeyValueOptions {
-  maxmemoryPolicy?: string;
-  persistenceMode?: PersistenceMode;
+  maxmemoryPolicy?: string | undefined;
+  persistenceMode?: PersistenceMode | undefined;
 }
 /** The IP allow list for the Key Value instance */
 export type KeyValueDetailIpAllowListList = Array<CidrBlockAndDescription>;
@@ -602,7 +658,7 @@ export interface Maintenance {
   type: string;
   scheduledAt: string;
   /** If present, the maintenance run cannot be scheduled for later than this date-time. */
-  pendingMaintenanceBy?: string;
+  pendingMaintenanceBy?: string | undefined;
   state: Items4;
 }
 /** A Key Value instance */
@@ -623,10 +679,10 @@ export interface KeyValueDetail {
   /** The IP allow list for the Key Value instance */
   ipAllowList: KeyValueDetailIpAllowListList;
   /** The ID of the environment the Key Value instance is associated with */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** The version of Key Value */
   version: string;
-  maintenance?: Maintenance;
+  maintenance?: Maintenance | undefined;
 }
 export type CreatePostgresRequestPlan =
   | "free"
@@ -689,27 +745,27 @@ export type ReadReplicasInput = Array<ReadReplicaInput>;
 /** The PostgreSQL version */
 export type PostgresVersion = "11" | "12" | "13" | "14" | "15" | "16" | "17" | "18";
 export interface CreatePostgresRequest {
-  databaseName?: string;
-  databaseUser?: string;
+  databaseName?: string | undefined;
+  databaseUser?: string | undefined;
   /** The Datadog API key for the Datadog agent to monitor the new database. */
-  datadogAPIKey?: string;
+  datadogAPIKey?: string | undefined;
   /** Datadog region to use for monitoring the new database. Defaults to 'US1'. */
-  datadogSite?: string;
+  datadogSite?: string | undefined;
   /** The name of the database as it will appear in the Render Dashboard */
   name: string;
-  enableHighAvailability?: boolean;
-  environmentId?: string;
+  enableHighAvailability?: boolean | undefined;
+  environmentId?: string | undefined;
   /** The ID of the workspace to create the database for */
   ownerId: string;
   plan: CreatePostgresRequestPlan | (string & {});
   /** The number of gigabytes of disk space to allocate for the database */
-  diskSizeGB?: number;
-  enableDiskAutoscaling?: boolean;
+  diskSizeGB?: number | undefined;
+  enableDiskAutoscaling?: boolean | undefined;
   /** What connection pool to use (if any) out of 'pgbouncer' and 'none' */
-  connectionPool?: string;
-  region?: Region | (string & {});
-  ipAllowList?: CreatePostgresRequestIpAllowListList;
-  readReplicas?: ReadReplicasInput;
+  connectionPool?: string | undefined;
+  region?: Region | (string & {}) | undefined;
+  ipAllowList?: CreatePostgresRequestIpAllowListList | undefined;
+  readReplicas?: ReadReplicasInput | undefined;
   version: PostgresVersion | (string & {});
 }
 export type PostgresDetailIpAllowListList = Array<CidrBlockAndDescription>;
@@ -789,19 +845,19 @@ export interface PostgresDetail {
   createdAt: string;
   updatedAt: string;
   /** The time at which the database will be expire. Applies to free tier databases only. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** The URL to view the Postgres instance in the Render Dashboard */
   dashboardUrl: string;
   databaseName: string;
   databaseUser: string;
-  environmentId?: string;
+  environmentId?: string | undefined;
   highAvailabilityEnabled: boolean;
-  maintenance?: Maintenance;
+  maintenance?: Maintenance | undefined;
   name: string;
   owner: Owner;
   plan: Plan2;
-  diskSizeGB?: number;
-  primaryPostgresID?: string;
+  diskSizeGB?: number | undefined;
+  primaryPostgresID?: string | undefined;
   region: Region;
   readReplicas: ReadReplicas;
   role: DatabaseRole;
@@ -826,9 +882,9 @@ export interface CreatePostgresUserResponse {}
 export type ProjectPOSTEnvironmentInputIpAllowListList = Array<CidrBlockAndDescription>;
 export interface ProjectPOSTEnvironmentInput {
   name: string;
-  protectedStatus?: ProtectedStatus | (string & {});
-  networkIsolationEnabled?: boolean;
-  ipAllowList?: ProjectPOSTEnvironmentInputIpAllowListList;
+  protectedStatus?: ProtectedStatus | (string & {}) | undefined;
+  networkIsolationEnabled?: boolean | undefined;
+  ipAllowList?: ProjectPOSTEnvironmentInputIpAllowListList | undefined;
 }
 /** The environments to create when creating the project */
 export type CreateProjectRequestEnvironmentsList = Array<ProjectPOSTEnvironmentInput>;
@@ -879,6 +935,220 @@ export interface RegistryCredential {
   /** Last updated time for the credential */
   updatedAt: string;
 }
+/** How outbound traffic is handled. `allow-all`, `deny-all`, or `allow-list` (requires additional `rules`). */
+export type CreateSandboxRequestNetworkPolicyType = "allow-all" | "deny-all" | "allow-list";
+/** How outbound traffic is handled. `allow-all`, `deny-all`, or `allow-list` (requires additional `rules`). */
+export type _04 = "allow-all" | "deny-all" | "allow-list";
+/** Protocol this rule admits. Only `https` is accepted: under `allow-list` every other outbound protocol is dropped. */
+export type CreateSandboxRequestNetworkPolicyRulesItemProtocol = "https";
+export interface CreateSandboxRequestNetworkPolicyRulesItem {
+  /** Hostname to apply the rule to. Matching is exact: `foo.local` does not cover `api.foo.local`, which needs its own rule or `*.foo.local`. A wildcard is only allowed as the leftmost label. */
+  domain: string;
+  /** Protocol this rule admits. Only `https` is accepted: under `allow-list` every other outbound protocol is dropped. */
+  protocol?: CreateSandboxRequestNetworkPolicyRulesItemProtocol | (string & {}) | undefined;
+}
+/** Destinations the sandbox may reach, required when the policy is `allow-list` and rejected otherwise. Each domain may be listed once. */
+export type CreateSandboxRequestNetworkPolicyRulesList =
+  Array<CreateSandboxRequestNetworkPolicyRulesItem>;
+/** Set either `type` or its deprecated alias `default`. Sending both is only accepted when they name the same policy. */
+export interface CreateSandboxRequestNetworkPolicy {
+  /** How outbound traffic is handled. `allow-all`, `deny-all`, or `allow-list` (requires additional `rules`). Either `type` or `default` is required when `networkPolicy` is provided. Defaults to `allow-all`, or to the source sandbox's network policy when starting from a snapshot. Include `networkPolicy` to override. */
+  type?: CreateSandboxRequestNetworkPolicyType | (string & {}) | undefined;
+  /** Deprecated alias for `type`, accepted so that clients built against the earlier schema keep working. To be removed before GA. */
+  default?: _04 | (string & {}) | undefined;
+  /** Destinations the sandbox may reach, required when the policy is `allow-list` and rejected otherwise. Each domain may be listed once. */
+  rules?: CreateSandboxRequestNetworkPolicyRulesList | undefined;
+}
+/** The compute plan to use. `starter`, `standard` and `pro` are deprecated. */
+export type CreateSandboxRequestPlanCase0 =
+  | "starter"
+  | "standard"
+  | "pro"
+  | "1c-2g"
+  | "2c-4g"
+  | "4c-8g"
+  | "8c-16g";
+/** Compute plan. See `sandboxPlan` for known values. */
+export type CreateSandboxRequestPlan = CreateSandboxRequestPlanCase0 | string;
+/** Inline environment variables injected into the sandbox at creation. */
+export type CreateSandboxRequestEnvMap = { [key: string]: string | undefined };
+export interface CreateSandboxRequest {
+  /** The ID of the workspace the sandbox belongs to. */
+  ownerId: string;
+  /** Group to create the sandbox in; defaults to the workspace's default group. */
+  sandboxGroupId?: string | undefined;
+  /** A label for the sandbox, like `my-agent`. It isn't unique, so the sandbox ID stays the handle. It can't start with `sbx-`. */
+  name?: string | undefined;
+  /** Set either `type` or its deprecated alias `default`. Sending both is only accepted when they name the same policy. */
+  networkPolicy?: CreateSandboxRequestNetworkPolicy | undefined;
+  /** Compute plan. See `sandboxPlan` for known values. */
+  plan?: CreateSandboxRequestPlan | undefined;
+  /** Maximum sandbox lifetime in seconds. Sandbox is terminated when reached. Use 0 for no timeout. Positive values must be at least 60. Defaults to 86400, or to the source sandbox's timeout when starting from a snapshot. */
+  timeoutSeconds?: number | undefined;
+  /** Seconds of inactivity before the sandbox is suspended. Use 0 to disable automatic idle suspension. Positive values must be at least 300. Defaults to 900, or to the source sandbox's idle timeout when starting from a snapshot. */
+  idleTimeoutSeconds?: number | undefined;
+  /** Inline environment variables injected into the sandbox at creation. */
+  env?: CreateSandboxRequestEnvMap | undefined;
+  /** Start from this snapshot instead of the base image. Must be `available` and in the same sandbox group. For a `runtime` snapshot, `plan` must match the snapshot's plan. The new sandbox uses the source sandbox's network policy, timeout and idle timeout. Include `networkPolicy`, `timeoutSeconds` or `idleTimeoutSeconds` to set a different one. */
+  snapshotId?: string | undefined;
+  /** Start from the snapshot this name currently resolves to in the sandbox group. Mutually exclusive with `snapshotId`. Same restore rules as `snapshotId`. */
+  snapshotName?: string | undefined;
+  /** Start from this build's image instead of the base image. The build must have succeeded and be in the sandbox's group: 404 with `code: build_not_found` if it isn't in the group, and 409 with `code: build_not_succeeded` if it hasn't succeeded. Mutually exclusive with `buildName`, `snapshotId` and `snapshotName`. */
+  buildId?: string | undefined;
+  /** Start from the newest succeeded build with this name in the sandbox's group. 404 with `code: build_not_found` if the group has no build with the name, and 409 with `code: build_not_succeeded` if none of them has succeeded. Mutually exclusive with `buildId`, `snapshotId` and `snapshotName`. */
+  buildName?: string | undefined;
+}
+export type Items6 =
+  | "creating"
+  | "running"
+  | "suspending"
+  | "suspended"
+  | "resuming"
+  | "errored"
+  | "terminated";
+/** The compute plan to use. `starter`, `standard` and `pro` are deprecated. */
+export type _03 = "starter" | "standard" | "pro" | "1c-2g" | "2c-4g" | "4c-8g" | "8c-16g";
+/** Compute plan. See `sandboxPlan` for known values. */
+export type CreateSandboxResponsePlan = _03 | string;
+/** Protocol this rule admits. Only `https` is accepted: under `allow-list` every other outbound protocol is dropped. */
+export type ItemsProtocol = "https";
+export interface Items7 {
+  /** Hostname to apply the rule to. Matching is exact: `foo.local` does not cover `api.foo.local`, which needs its own rule or `*.foo.local`. A wildcard is only allowed as the leftmost label. */
+  domain: string;
+  /** Protocol this rule admits. Only `https` is accepted: under `allow-list` every other outbound protocol is dropped. */
+  protocol?: ItemsProtocol | undefined;
+}
+/** Destinations the sandbox may reach, present when `type` is `allow-list` and absent otherwise. Each domain may be listed once. */
+export type CreateSandboxResponseNetworkPolicyRulesList = Array<Items7>;
+export interface CreateSandboxResponseNetworkPolicy {
+  /** How outbound traffic is handled. `allow-all`, `deny-all`, or `allow-list` (requires additional `rules`). */
+  type: _04;
+  /** Deprecated alias for `type`, always returned with the same value. To be removed before GA; read `type` instead. */
+  default?: _04 | undefined;
+  /** Destinations the sandbox may reach, present when `type` is `allow-list` and absent otherwise. Each domain may be listed once. */
+  rules?: CreateSandboxResponseNetworkPolicyRulesList | undefined;
+}
+export interface CreateSandboxResponse {
+  id: string;
+  /** The label set when the sandbox was created. */
+  name?: string | null | undefined;
+  /** The sandbox group this sandbox belongs to. */
+  sandboxGroupId?: string | undefined;
+  status: Items6;
+  /** Compute plan. See `sandboxPlan` for known values. */
+  plan: CreateSandboxResponsePlan;
+  networkPolicy: CreateSandboxResponseNetworkPolicy;
+  /** Region the sandbox is running in. */
+  region: string;
+  /** Maximum sandbox lifetime in seconds. 0 means the sandbox has no timeout. */
+  timeoutSeconds: number;
+  /** Seconds of inactivity before the sandbox is suspended. 0 disables automatic idle suspension. */
+  idleTimeoutSeconds: number;
+  createdAt: string;
+  /** When the sandbox was terminated, or null. */
+  terminatedAt?: string | null | undefined;
+}
+/** Pulls `sourceImage` from a private registry. Used for this build only and never stored. */
+export interface CreateSandboxBuildRequestRegistryCredential {
+  username: string;
+  password: string | Redacted.Redacted<string>;
+}
+export interface CreateSandboxBuildRequest {
+  /** The ID of the sandbox group */
+  sandboxGroupId: string;
+  /** Names the image. Every build of an image shares it. */
+  name: string;
+  /** The image to convert, by tag or digest. */
+  sourceImage: string;
+  /** Pulls `sourceImage` from a private registry. Used for this build only and never stored. */
+  registryCredential?: CreateSandboxBuildRequestRegistryCredential | undefined;
+}
+export interface CreateSandboxBuildResponseSource {
+  repository: string;
+  image: string;
+  reference: string;
+}
+export type Items9 = "pending" | "running" | "succeeded" | "failed";
+export interface CreateSandboxBuildResponse {
+  id: string;
+  sandboxGroupId: string;
+  /** Names the image. Every build of an image shares it. */
+  name: string;
+  source: CreateSandboxBuildResponseSource;
+  /** The image digest the build converts. */
+  sourceDigest: string;
+  status: Items9;
+  /** Why the build failed. Null unless `failed`. */
+  failureReason?: string | null | undefined;
+  createdAt: string;
+  /** When the build succeeded or failed. */
+  finishedAt?: string | null | undefined;
+}
+export interface CreateSandboxGroupRequest {
+  /** Workspace ID. */
+  ownerId: string;
+  /** Name, unique within the workspace. */
+  name: string;
+  /** Region for the group's sandboxes. Defaults to Render's default sandbox region. */
+  region?: string | undefined;
+}
+export interface CreateSandboxGroupResponse {
+  id: string;
+  /** The ID of the workspace this group belongs to. */
+  ownerId: string;
+  /** Human-friendly name for the group. */
+  name: string;
+  /** Render region the group operates in. */
+  region: string;
+  /** Whether this is the workspace's default group. Sandboxes are created here unless a group is given. */
+  isDefault: boolean;
+  /** Environment this group is bound to. */
+  environmentId?: string | null | undefined;
+  /** The effective limit on active sandboxes in this group, capped by Render's limit for this workspace. */
+  concurrencyLimit: number;
+  createdAt: string;
+  updatedAt: string;
+}
+/** `filesystem` captures the writable filesystem and restores onto any plan. `runtime` also captures memory and CPU state and restores only onto the plan of the source sandbox. */
+export type Kind = "filesystem" | "runtime";
+export interface CreateSandboxSnapshotRequest {
+  /** The ID of the sandbox */
+  sandboxId: string;
+  /** The ID of the workspace the sandbox belongs to. Optional: the workspace is determined from the sandbox ID, and this parameter is ignored when supplied. */
+  ownerId?: string | undefined;
+  kind?: Kind | (string & {}) | undefined;
+  /** Case sensitive. Scoped to the sandbox group. Must not start with `snp-` so clients can tell a name from a snapshot ID. Several snapshots may share a name; the most recently available one is the one the name resolves to. */
+  name?: string | undefined;
+  /** The time after which the snapshot can no longer be retrieved or restored. Must be in the future. Omit to use Render's default snapshot lifetime. */
+  expiresAt?: string | undefined;
+}
+/** `filesystem` captures the writable filesystem and restores onto any plan. `runtime` also captures memory and CPU state and restores only onto the plan of the source sandbox. */
+export type CreateSandboxSnapshotResponseKind = "filesystem" | "runtime";
+export type Items8 = "creating" | "available" | "failed";
+/** Plan of the source sandbox at capture time. See `sandboxPlan` for known values. */
+export type CreateSandboxSnapshotResponsePlan = _03 | string;
+export interface CreateSandboxSnapshotResponse {
+  id: string;
+  sandboxGroupId: string;
+  /** The sandbox this snapshot was captured from. Lineage only. */
+  sourceSandboxId: string;
+  /** Set at create. Never changes. Null when created without a name. */
+  name?: string | null | undefined;
+  /** `filesystem` captures the writable filesystem and restores onto any plan. `runtime` also captures memory and CPU state and restores only onto the plan of the source sandbox. */
+  kind: CreateSandboxSnapshotResponseKind;
+  status: Items8;
+  /** Plan of the source sandbox at capture time. See `sandboxPlan` for known values. */
+  plan: CreateSandboxSnapshotResponsePlan;
+  requestedAt: string;
+  /** When the sandbox was frozen for capture. Null until `available`. */
+  capturedAt?: string | null | undefined;
+  /** The time after which the snapshot can no longer be retrieved or restored. Set by Render when the create request did not specify one. */
+  expiresAt: string;
+  /** Null until `available`. */
+  sizeBytes?: number | null | undefined;
+  /** Null unless `failed`. */
+  error?: string | null | undefined;
+}
 export type ServiceType =
   | "static_site"
   | "web_service"
@@ -893,7 +1163,7 @@ export interface Image {
   /** The ID of the owner for this image. This should match the owner of the service as well as the owner of any specified registry credential. */
   ownerId: string;
   /** Optional reference to the registry credential passed to the image repository to retrieve this image. */
-  registryCredentialId?: string;
+  registryCredentialId?: string | undefined;
   /** Path to the image used for this server (e.g docker.io/library/nginx:latest). */
   imagePath: string;
 }
@@ -919,35 +1189,35 @@ export type PullRequestPreviewsEnabled = "yes" | "no";
 export type PreviewsGeneration = "off" | "manual" | "automatic";
 export interface Previews {
   /** Defaults to "off" */
-  generation?: PreviewsGeneration | (string & {});
+  generation?: PreviewsGeneration | (string & {}) | undefined;
 }
 export interface RoutePost {
   type: RouteType | (string & {});
   source: string;
   destination: string;
   /** Redirect and Rewrite Rules are applied in priority order starting at 0. Defaults to last in the priority list. */
-  priority?: number;
+  priority?: number | undefined;
 }
 export type StaticSiteDetailsPOSTRoutesList = Array<RoutePost>;
 /** Controls whether render.com subdomains are available for the service */
 export type RenderSubdomainPolicy = "enabled" | "disabled";
 export type StaticSiteDetailsPOSTIpAllowListList = Array<CidrBlockAndDescription>;
 export interface StaticSiteDetailsPOST {
-  buildCommand?: string;
-  headers?: StaticSiteDetailsPOSTHeadersList;
+  buildCommand?: string | undefined;
+  headers?: StaticSiteDetailsPOSTHeadersList | undefined;
   /** Defaults to "public" */
-  publishPath?: string;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {});
-  previews?: Previews;
-  routes?: StaticSiteDetailsPOSTRoutesList;
-  renderSubdomainPolicy?: RenderSubdomainPolicy | (string & {});
-  ipAllowList?: StaticSiteDetailsPOSTIpAllowListList;
+  publishPath?: string | undefined;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {}) | undefined;
+  previews?: Previews | undefined;
+  routes?: StaticSiteDetailsPOSTRoutesList | undefined;
+  renderSubdomainPolicy?: RenderSubdomainPolicy | (string & {}) | undefined;
+  ipAllowList?: StaticSiteDetailsPOSTIpAllowListList | undefined;
 }
 export interface ServiceDisk {
   name: string;
   mountPath: string;
   /** Defaults to 1 */
-  sizeGB?: number;
+  sizeGB?: number | undefined;
 }
 /** This field has been deprecated, runtime should be used in its place. */
 export type ServiceEnv = "docker" | "elixir" | "go" | "node" | "python" | "ruby" | "rust" | "image";
@@ -962,11 +1232,11 @@ export type ServiceRuntime =
   | "rust"
   | "image";
 export interface DockerDetailsPOST {
-  dockerCommand?: string;
-  dockerContext?: string;
+  dockerCommand?: string | undefined;
+  dockerContext?: string | undefined;
   /** Defaults to "./Dockerfile" */
-  dockerfilePath?: string;
-  registryCredentialId?: string;
+  dockerfilePath?: string | undefined;
+  registryCredentialId?: string | undefined;
 }
 /** Fields for native environment (runtime) services */
 export interface NativeEnvironmentDetailsPOST {
@@ -1012,26 +1282,27 @@ export type Plan =
   | "12c-96g";
 export type WebServiceDetailsPOSTIpAllowListList = Array<CidrBlockAndDescription>;
 export interface WebServiceDetailsPOST {
-  /** The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set. */
-  buildSourceId?: string;
-  autoscaling?: Schema5;
-  disk?: ServiceDisk;
-  env?: ServiceEnv | (string & {});
-  runtime: ServiceRuntime | (string & {});
-  envSpecificDetails?: EnvSpecificDetailsPOST;
-  healthCheckPath?: string;
-  maintenanceMode?: MaintenanceMode;
+  /** The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set. A git-backed Build Source must be in the same region as the service; otherwise the request is rejected with 400 and `code: build_source_region_mismatch`. */
+  buildSourceId?: string | undefined;
+  autoscaling?: Schema5 | undefined;
+  disk?: ServiceDisk | undefined;
+  env?: ServiceEnv | (string & {}) | undefined;
+  /** Required unless `buildSourceId` is set, since the build source provides its own runtime. */
+  runtime?: ServiceRuntime | (string & {}) | undefined;
+  envSpecificDetails?: EnvSpecificDetailsPOST | undefined;
+  healthCheckPath?: string | undefined;
+  maintenanceMode?: MaintenanceMode | undefined;
   /** Defaults to 1 */
-  numInstances?: number;
+  numInstances?: number | undefined;
   /** The compute plan to use. If omitted, defaults to `0.5c-512mb` when creating a new service. */
-  plan?: Plan | (string & {});
-  preDeployCommand?: string;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {});
-  previews?: Previews;
-  region?: Region | (string & {});
-  maxShutdownDelaySeconds?: number;
-  renderSubdomainPolicy?: RenderSubdomainPolicy | (string & {});
-  ipAllowList?: WebServiceDetailsPOSTIpAllowListList;
+  plan?: Plan | (string & {}) | undefined;
+  preDeployCommand?: string | undefined;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {}) | undefined;
+  previews?: Previews | undefined;
+  region?: Region | (string & {}) | undefined;
+  maxShutdownDelaySeconds?: number | undefined;
+  renderSubdomainPolicy?: RenderSubdomainPolicy | (string & {}) | undefined;
+  ipAllowList?: WebServiceDetailsPOSTIpAllowListList | undefined;
 }
 /** Defaults to `0.5c-512mb` when creating a new service. */
 export type PaidPlan =
@@ -1056,44 +1327,46 @@ export type PaidPlan =
   | "12c-48g"
   | "12c-96g";
 export interface PrivateServiceDetailsPOST {
-  /** The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set. */
-  buildSourceId?: string;
-  autoscaling?: Schema5;
-  disk?: ServiceDisk;
-  env?: ServiceEnv | (string & {});
-  runtime: ServiceRuntime | (string & {});
-  envSpecificDetails?: EnvSpecificDetailsPOST;
+  /** The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set. A git-backed Build Source must be in the same region as the service; otherwise the request is rejected with 400 and `code: build_source_region_mismatch`. */
+  buildSourceId?: string | undefined;
+  autoscaling?: Schema5 | undefined;
+  disk?: ServiceDisk | undefined;
+  env?: ServiceEnv | (string & {}) | undefined;
+  /** Required unless `buildSourceId` is set, since the build source provides its own runtime. */
+  runtime?: ServiceRuntime | (string & {}) | undefined;
+  envSpecificDetails?: EnvSpecificDetailsPOST | undefined;
   /** Defaults to 1 */
-  numInstances?: number;
-  plan?: PaidPlan | (string & {});
-  preDeployCommand?: string;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {});
-  previews?: Previews;
-  region?: Region | (string & {});
-  maxShutdownDelaySeconds?: number;
+  numInstances?: number | undefined;
+  plan?: PaidPlan | (string & {}) | undefined;
+  preDeployCommand?: string | undefined;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {}) | undefined;
+  previews?: Previews | undefined;
+  region?: Region | (string & {}) | undefined;
+  maxShutdownDelaySeconds?: number | undefined;
 }
 export type BackgroundWorkerDetailsPOST = PrivateServiceDetailsPOST;
 export interface DockerDetails {
   dockerCommand: string;
   dockerContext: string;
   dockerfilePath: string;
-  preDeployCommand?: string;
-  registryCredential?: RegistryCredential;
+  preDeployCommand?: string | undefined;
+  registryCredential?: RegistryCredential | undefined;
 }
 export interface NativeEnvironmentDetails {
   buildCommand: string;
   startCommand: string;
-  preDeployCommand?: string;
+  preDeployCommand?: string | undefined;
 }
 export type EnvSpecificDetails = DockerDetails | NativeEnvironmentDetails;
 export interface CronJobDetailsPOST {
-  /** The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set. */
-  buildSourceId?: string;
-  env?: ServiceEnv | (string & {});
-  runtime: ServiceRuntime | (string & {});
-  envSpecificDetails?: EnvSpecificDetails;
-  plan?: PaidPlan | (string & {});
-  region?: Region | (string & {});
+  /** The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set. A git-backed Build Source must be in the same region as the service; otherwise the request is rejected with 400 and `code: build_source_region_mismatch`. */
+  buildSourceId?: string | undefined;
+  env?: ServiceEnv | (string & {}) | undefined;
+  /** Required unless `buildSourceId` is set, since the build source provides its own runtime. */
+  runtime?: ServiceRuntime | (string & {}) | undefined;
+  envSpecificDetails?: EnvSpecificDetails | undefined;
+  plan?: PaidPlan | (string & {}) | undefined;
+  region?: Region | (string & {}) | undefined;
   schedule: string;
 }
 export type CreateServiceRequestServiceDetails =
@@ -1109,20 +1382,20 @@ export interface CreateServiceRequest {
   /** The ID of the workspace the service belongs to. Obtain your workspace's ID from its Settings page in the Render Dashboard. */
   ownerId: string;
   /** The service's repository URL. Do not specify a branch in this string (use the `branch` parameter instead). */
-  repo?: string;
-  autoDeploy?: AutoDeploy | (string & {});
+  repo?: string | undefined;
+  autoDeploy?: AutoDeploy | (string & {}) | undefined;
   /** Controls autodeploy behavior. - `commit`: Deploy each time a commit is pushed to the service's linked branch. - `checksPass`: Deploy each time a commit is pushed to the linked branch, but only after the commit's CI checks pass. - `off`: Disable autodeploys. */
-  autoDeployTrigger?: CreateServiceRequestAutoDeployTrigger | (string & {});
+  autoDeployTrigger?: CreateServiceRequestAutoDeployTrigger | (string & {}) | undefined;
   /** The repo branch to pull, build, and deploy. If omitted, uses the repository's default branch. */
-  branch?: string;
-  image?: Image;
-  buildFilter?: BuildFilter;
-  rootDir?: string;
-  envVars?: Schema6;
-  secretFiles?: CreateServiceRequestSecretFilesList;
+  branch?: string | undefined;
+  image?: Image | undefined;
+  buildFilter?: BuildFilter | undefined;
+  rootDir?: string | undefined;
+  envVars?: Schema6 | undefined;
+  secretFiles?: CreateServiceRequestSecretFilesList | undefined;
   /** The ID of the environment the service belongs to, if any. Obtain an environment's ID from its Settings page in the Render Dashboard. */
-  environmentId?: string;
-  serviceDetails?: CreateServiceRequestServiceDetails;
+  environmentId?: string | undefined;
+  serviceDetails?: CreateServiceRequestServiceDetails | undefined;
 }
 /** Controls autodeploy behavior. - `commit`: Deploy each time a commit is pushed to the service's linked branch. - `checksPass`: Deploy each time a commit is pushed to the linked branch, but only after the commit's CI checks pass. - `off`: Disable autodeploys. */
 export type AutoDeployTrigger = "commit" | "off" | "checksPass";
@@ -1135,14 +1408,14 @@ export type Resource = CreateBuildSourceResponseServiceLinksItem;
 export type BuildPlan = "starter" | "performance";
 export interface StaticSiteDetails {
   buildCommand: string;
-  ipAllowList?: StaticSiteDetailsIpAllowListList;
-  parentServer?: CreateBuildSourceResponseServiceLinksItem;
+  ipAllowList?: StaticSiteDetailsIpAllowListList | undefined;
+  parentServer?: CreateBuildSourceResponseServiceLinksItem | undefined;
   publishPath: string;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled;
-  previews?: Previews;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | undefined;
+  previews?: Previews | undefined;
   url: string;
   buildPlan: BuildPlan;
-  renderSubdomainPolicy?: RenderSubdomainPolicy;
+  renderSubdomainPolicy?: RenderSubdomainPolicy | undefined;
 }
 export type CacheProfile = "no-cache" | "origin-controlled" | "origin-controlled-all";
 export interface Cache {
@@ -1162,71 +1435,71 @@ export interface ServerPort {
 }
 export type WebServiceDetailsOpenPortsList = Array<ServerPort>;
 export interface WebServiceDetails {
-  autoscaling?: Schema5;
-  cache?: Cache;
-  disk?: WebServiceDetailsDisk;
+  autoscaling?: Schema5 | undefined;
+  cache?: Cache | undefined;
+  disk?: WebServiceDetailsDisk | undefined;
   env: ServiceEnv;
   envSpecificDetails: EnvSpecificDetails;
   healthCheckPath: string;
-  ipAllowList?: WebServiceDetailsIpAllowListList;
-  maintenanceMode?: MaintenanceMode;
+  ipAllowList?: WebServiceDetailsIpAllowListList | undefined;
+  maintenanceMode?: MaintenanceMode | undefined;
   /** For a *manually* scaled service, this is the number of instances the service is scaled to. DOES NOT indicate the number of running instances for an *autoscaled* service. */
   numInstances: number;
   openPorts: WebServiceDetailsOpenPortsList;
-  parentServer?: CreateBuildSourceResponseServiceLinksItem;
+  parentServer?: CreateBuildSourceResponseServiceLinksItem | undefined;
   plan: Plan;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled;
-  previews?: Previews;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | undefined;
+  previews?: Previews | undefined;
   region: Region;
   runtime: ServiceRuntime;
-  sshAddress?: string;
+  sshAddress?: string | undefined;
   url: string;
   buildPlan: BuildPlan;
-  maxShutdownDelaySeconds?: number;
-  renderSubdomainPolicy?: RenderSubdomainPolicy;
+  maxShutdownDelaySeconds?: number | undefined;
+  renderSubdomainPolicy?: RenderSubdomainPolicy | undefined;
 }
 export type Disk = WebServiceDetailsDisk;
 export type PrivateServiceDetailsOpenPortsList = Array<ServerPort>;
 export interface PrivateServiceDetails {
-  autoscaling?: Schema5;
-  disk?: WebServiceDetailsDisk;
+  autoscaling?: Schema5 | undefined;
+  disk?: WebServiceDetailsDisk | undefined;
   env: ServiceEnv;
   envSpecificDetails: EnvSpecificDetails;
   /** For a *manually* scaled service, this is the number of instances the service is scaled to. DOES NOT indicate the number of running instances for an *autoscaled* service. */
   numInstances: number;
   openPorts: PrivateServiceDetailsOpenPortsList;
-  parentServer?: CreateBuildSourceResponseServiceLinksItem;
+  parentServer?: CreateBuildSourceResponseServiceLinksItem | undefined;
   plan: Plan;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled;
-  previews?: Previews;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | undefined;
+  previews?: Previews | undefined;
   region: Region;
   runtime: ServiceRuntime;
-  sshAddress?: string;
+  sshAddress?: string | undefined;
   url: string;
   buildPlan: BuildPlan;
-  maxShutdownDelaySeconds?: number;
+  maxShutdownDelaySeconds?: number | undefined;
 }
 export interface BackgroundWorkerDetails {
-  autoscaling?: Schema5;
-  disk?: WebServiceDetailsDisk;
+  autoscaling?: Schema5 | undefined;
+  disk?: WebServiceDetailsDisk | undefined;
   env: ServiceEnv;
   envSpecificDetails: EnvSpecificDetails;
   /** For a *manually* scaled service, this is the number of instances the service is scaled to. DOES NOT indicate the number of running instances for an *autoscaled* service. */
   numInstances: number;
-  parentServer?: CreateBuildSourceResponseServiceLinksItem;
+  parentServer?: CreateBuildSourceResponseServiceLinksItem | undefined;
   plan: Plan;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled;
-  previews?: Previews;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | undefined;
+  previews?: Previews | undefined;
   region: Region;
   runtime: ServiceRuntime;
-  sshAddress?: string;
+  sshAddress?: string | undefined;
   buildPlan: BuildPlan;
-  maxShutdownDelaySeconds?: number;
+  maxShutdownDelaySeconds?: number | undefined;
 }
 export interface CronJobDetails {
   env: ServiceEnv;
   envSpecificDetails: EnvSpecificDetails;
-  lastSuccessfulRunAt?: string;
+  lastSuccessfulRunAt?: string | undefined;
   plan: Plan;
   region: Region;
   runtime: ServiceRuntime;
@@ -1241,21 +1514,22 @@ export type ServiceServiceDetails =
   | CronJobDetails;
 export interface Service {
   id: string;
-  buildSourceId?: string;
+  /** The ID of the Build Source the service builds and deploys from, if any. A git-backed Build Source must be in the same region as the service. */
+  buildSourceId?: string | undefined;
   autoDeploy: AutoDeploy;
-  autoDeployTrigger?: AutoDeployTrigger;
-  branch?: string;
-  buildFilter?: BuildFilter;
+  autoDeployTrigger?: AutoDeployTrigger | undefined;
+  branch?: string | undefined;
+  buildFilter?: BuildFilter | undefined;
   createdAt: string;
   /** The URL to view the service in the Render Dashboard */
   dashboardUrl: string;
-  environmentId?: string;
-  imagePath?: string;
+  environmentId?: string | undefined;
+  imagePath?: string | undefined;
   name: string;
   notifyOnFail: NotifySetting;
   ownerId: string;
-  registryCredential?: CreateBuildSourceResponseServiceLinksItem;
-  repo?: string;
+  registryCredential?: CreateBuildSourceResponseServiceLinksItem | undefined;
+  repo?: string | undefined;
   rootDir: string;
   slug: string;
   suspended: ServiceSuspended;
@@ -1265,8 +1539,8 @@ export interface Service {
   serviceDetails: ServiceServiceDetails;
 }
 export interface ServiceAndDeploy {
-  service?: Service;
-  deployId?: string;
+  service?: Service | undefined;
+  deployId?: string | undefined;
 }
 /** Positional arguments passed to the task function */
 export type CreateTaskRequestInputCase0List = Array<unknown>;
@@ -1281,8 +1555,8 @@ export interface CreateTaskRequest {
   task: string;
   /** Input data for a task. Can be either an array (for positional arguments) or an object (for named parameters). */
   input: CreateTaskRequestInput;
-  /** A client-generated key that makes starting a task run safe to retry. Repeating a request with the same key within 24 hours returns the task run that the first request started instead of starting another one; the repeated request's input is ignored. Keys are scoped to a single workflow version, so the same key used against a different version starts a separate run. Omit the key to always start a new run. */
-  idempotencyKey?: string;
+  /** A client-generated key that makes starting a task run safe to retry. Repeating a request with the same key within 24 hours returns the task run that the first request started instead of starting another one; the repeated request's input is ignored. Keys are scoped to a workflow. Omit the key to always start a new run. */
+  idempotencyKey?: string | undefined;
 }
 export type Status2 =
   | "pending"
@@ -1294,24 +1568,24 @@ export type Status2 =
   | "paused";
 export interface CreateTaskResponseAttemptsItem {
   /** The ID of the task run this attempt belongs to. */
-  taskRunId?: string;
+  taskRunId?: string | undefined;
   /** The 0-indexed attempt number. */
   attempt: number;
   status: Status2;
-  enqueuedAt?: string;
+  enqueuedAt?: string | undefined;
   startedAt: string;
-  completedAt?: string;
+  completedAt?: string | undefined;
 }
 export type CreateTaskResponseAttemptsList = Array<CreateTaskResponseAttemptsItem>;
 export interface CreateTaskResponse {
   id: string;
   taskId: string;
   status: Status2;
-  startedAt?: string;
-  completedAt?: string;
+  startedAt?: string | undefined;
+  completedAt?: string | undefined;
   parentTaskRunId: string;
   /** The 0-indexed attempt of the parent task run that spawned this task run. Omitted for root task runs and for task runs created before this field was introduced. */
-  parentTaskAttempt?: number;
+  parentTaskAttempt?: number | undefined;
   rootTaskRunId: string;
   retries: number;
   attempts: CreateTaskResponseAttemptsList;
@@ -1333,6 +1607,7 @@ export type Type =
   | "disk_created"
   | "disk_updated"
   | "disk_deleted"
+  | "disk_snapshot_restored"
   | "image_pull_failed"
   | "instance_count_changed"
   | "job_run_ended"
@@ -1409,13 +1684,13 @@ export interface CreateWebhookResponse {
 export type Runtime = "elixir" | "go" | "node" | "python" | "ruby";
 export interface CreateWorkflowRequestBuildConfig {
   /** The branch to use for the build, if applicable. */
-  branch?: string;
+  branch?: string | undefined;
   /** The command to run to build the workflow. Required for every runtime except docker, which builds from its Dockerfile. */
   buildCommand: string;
   /** The repository URL to use for the build. Cannot be blank. */
   repo: string;
   /** The root directory of the repository to use for the build, if applicable. */
-  rootDir?: string;
+  rootDir?: string | undefined;
   runtime: Runtime | (string & {});
 }
 /** Defaults to "oregon" */
@@ -1436,18 +1711,18 @@ export interface CreateWorkflowRequest {
   /** Defaults to "oregon" */
   region: CreateWorkflowRequestRegion | (string & {});
   /** Controls autodeploy behavior. "commit" deploys when a commit is pushed to the branch. "checksPass" waits for CI checks to pass before deploying. "off" disables autodeploy. */
-  autoDeployTrigger?: CreateWorkflowRequestAutoDeployTrigger | (string & {});
-  envVars?: Schema6;
+  autoDeployTrigger?: CreateWorkflowRequestAutoDeployTrigger | (string & {}) | undefined;
+  envVars?: Schema6 | undefined;
 }
 export interface BuildConfig {
   /** The branch to use for the build, if applicable. */
-  branch?: string;
+  branch?: string | undefined;
   /** The command to run to build the workflow. Required for every runtime except docker, which builds from its Dockerfile. */
   buildCommand: string;
   /** The repository URL to use for the build. Cannot be blank. */
   repo: string;
   /** The root directory of the repository to use for the build, if applicable. */
-  rootDir?: string;
+  rootDir?: string | undefined;
   runtime: Runtime;
 }
 /** Defaults to "oregon" */
@@ -1464,13 +1739,15 @@ export interface CreateWorkflowResponse {
   /** Command to run the workflow. */
   runCommand: string;
   region: Region2;
-  environmentId?: string;
-  slug?: string;
-  autoDeployTrigger?: AutoDeployTrigger2;
+  environmentId?: string | undefined;
+  slug?: string | undefined;
+  autoDeployTrigger?: AutoDeployTrigger2 | undefined;
+  /** ID of the workflow version that new task runs use by default. Omitted until a version has been registered. */
+  defaultVersionId?: string | undefined;
 }
 export interface CreateWorkflowVersionRequest {
   workflowId: string;
-  commit?: string;
+  commit?: string | undefined;
 }
 export interface CreateWorkflowVersionResponse {}
 export interface DeleteAutoscalingConfigRequest {
@@ -1590,6 +1867,15 @@ export interface DeleteRouteRequest {
   routeId: string;
 }
 export interface DeleteRouteResponse {}
+export interface DeleteSandboxSnapshotRequest {
+  /** The ID of the sandbox group */
+  sandboxGroupId: string;
+  /** The ID of the snapshot */
+  snapshotId: string;
+  /** The ID of the workspace the sandbox group belongs to. Optional: the workspace is determined from the sandbox group ID, and this parameter is ignored when supplied. */
+  ownerId?: string | undefined;
+}
+export interface DeleteSandboxSnapshotResponse {}
 export interface DeleteSecretFileRequest {
   /** The ID of the service */
   serviceId: string;
@@ -1629,13 +1915,13 @@ export interface FailoverPostgresRequest {
 export interface FailoverPostgresResponse {}
 export interface GetActiveConnectionsRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources Postgres ids or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** A time series datapoint label */
 export interface GetActiveConnectionsResponseBodyItemLabelsItem {
@@ -1666,13 +1952,13 @@ export type GetActiveConnectionsResponseBodyList = Array<GetActiveConnectionsRes
 export type GetActiveConnectionsResponse = GetActiveConnectionsResponseBodyList;
 export interface GetBandwidthRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Service ID to query. When multiple service ids are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetBandwidthResponseBodyItemLabelsItem = GetActiveConnectionsResponseBodyItemLabelsItem;
@@ -1697,13 +1983,13 @@ export type GetBandwidthResponseBodyList = Array<GetBandwidthResponseBodyItem>;
 export type GetBandwidthResponse = GetBandwidthResponseBodyList;
 export interface GetBandwidthSourcesRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Service ID to query. When multiple service ids are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
 }
 export type GetBandwidthSourcesResponseDataItemLabelsTrafficSource =
   | "total"
@@ -1712,22 +1998,22 @@ export type GetBandwidthSourcesResponseDataItemLabelsTrafficSource =
   | "nat"
   | "privatelink";
 export interface GetBandwidthSourcesResponseDataItemLabels {
-  resource?: string;
-  trafficSource?: GetBandwidthSourcesResponseDataItemLabelsTrafficSource;
+  resource?: string | undefined;
+  trafficSource?: GetBandwidthSourcesResponseDataItemLabelsTrafficSource | undefined;
 }
 export interface GetBandwidthSourcesResponseDataItemValuesItem {
-  timestamp?: number;
-  value?: number;
+  timestamp?: number | undefined;
+  value?: number | undefined;
 }
 export type GetBandwidthSourcesResponseDataItemValuesList =
   Array<GetBandwidthSourcesResponseDataItemValuesItem>;
 export interface GetBandwidthSourcesResponseDataItem {
-  labels?: GetBandwidthSourcesResponseDataItemLabels;
-  values?: GetBandwidthSourcesResponseDataItemValuesList;
+  labels?: GetBandwidthSourcesResponseDataItemLabels | undefined;
+  values?: GetBandwidthSourcesResponseDataItemValuesList | undefined;
 }
 export type GetBandwidthSourcesResponseDataList = Array<GetBandwidthSourcesResponseDataItem>;
 export interface GetBandwidthSourcesResponse {
-  data?: GetBandwidthSourcesResponseDataList;
+  data?: GetBandwidthSourcesResponseDataList | undefined;
 }
 export interface GetBlueprintRequest {
   /** The ID of the Blueprint */
@@ -1757,6 +2043,8 @@ export interface GetBlueprintResponseResourcesItem {
 export type GetBlueprintResponseResourcesList = Array<GetBlueprintResponseResourcesItem>;
 export interface GetBlueprintResponse {
   id: string;
+  /** ID of the workspace that owns this Blueprint. */
+  ownerId: string;
   name: string;
   /** A Blueprint has status `created` until its first Sync is approved. */
   status: GetBlueprintResponseStatus;
@@ -1764,7 +2052,7 @@ export interface GetBlueprintResponse {
   repo: string;
   branch: string;
   path: string;
-  lastSync?: string;
+  lastSync?: string | undefined;
   resources: GetBlueprintResponseResourcesList;
 }
 export interface GetBuildSourceRequest {
@@ -1779,15 +2067,63 @@ export interface Schema12 {
   /** ID of the workspace this build source belongs to. */
   ownerId: string;
   /** ID of the project this build source is scoped to, if any. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Present when the build source is currently build-based. Mutually exclusive with `image`. */
-  git?: Git;
+  git?: Git | undefined;
   /** Present when the build source is currently image-based. Mutually exclusive with `git`. */
-  image?: CreateBuildSourceRequestImage;
+  image?: CreateBuildSourceRequestImage | undefined;
   createdAt: string;
   updatedAt: string;
   /** Services currently linked to this build source. */
   serviceLinks: SchemaServiceLinksList;
+}
+export interface GetBuildSourceBuildRequest {
+  buildSourceId: string;
+  buildId: string;
+}
+export type SchemaBuildRunStatus =
+  | "created"
+  | "inProgress"
+  | "succeeded"
+  | "failed"
+  | "canceled"
+  | "unknown";
+export type SchemaBuildRunRuntime =
+  | "docker"
+  | "elixir"
+  | "go"
+  | "node"
+  | "python"
+  | "ruby"
+  | "rust";
+/** The Render build run that produced this build. Present when the build source is currently build-based. Mutually exclusive with `image`. */
+export interface SchemaBuildRun {
+  id: string;
+  status?: SchemaBuildRunStatus | undefined;
+  buildStartedAt?: string | undefined;
+  buildFinishedAt?: string | undefined;
+  runtime?: SchemaBuildRunRuntime | undefined;
+  commitId?: string | undefined;
+  commitUrl?: string | undefined;
+}
+/** Present when the build source is currently image-based. Mutually exclusive with `buildRun`. */
+export interface SchemaImage {
+  imageVersionId?: string | undefined;
+  SHA?: string | undefined;
+  ref?: string | undefined;
+  imageUrl?: string | undefined;
+  registryCredentialId?: string | undefined;
+}
+export interface Schema13 {
+  id: string;
+  buildSourceId: string;
+  /** The Render build run that produced this build. Present when the build source is currently build-based. Mutually exclusive with `image`. */
+  buildRun?: SchemaBuildRun | undefined;
+  /** Present when the build source is currently image-based. Mutually exclusive with `buildRun`. */
+  image?: SchemaImage | undefined;
+  createdAt: string;
+  updatedAt: string;
+  assetsDeletedAt?: string | undefined;
 }
 export interface GetBuildSourceEnvVarRequest {
   buildSourceId: string;
@@ -1802,19 +2138,19 @@ export interface GetBuildSourceSecretFileRequest {
 export type GetCpuRequestAggregationMethod = "AVG" | "MAX" | "MIN";
 export interface GetCpuRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources can be service ids, Postgres ids, or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** Instance ID to query. When multiple instance ID query params are provided, they are ORed together */
-  instance?: string;
+  instance?: string | undefined;
   /** The aggregation method to apply to multiple time series */
-  aggregationMethod?: GetCpuRequestAggregationMethod | (string & {});
+  aggregationMethod?: GetCpuRequestAggregationMethod | (string & {}) | undefined;
 }
 /** A time series datapoint label */
 export type GetCpuResponseBodyItemLabelsItem = GetActiveConnectionsResponseBodyItemLabelsItem;
@@ -1839,17 +2175,17 @@ export type GetCpuResponseBodyList = Array<GetCpuResponseBodyItem>;
 export type GetCpuResponse = GetCpuResponseBodyList;
 export interface GetCpuLimitRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources can be service ids, Postgres ids, or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** Instance ID to query. When multiple instance ID query params are provided, they are ORed together */
-  instance?: string;
+  instance?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetCpuLimitResponseBodyItemLabelsItem = GetActiveConnectionsResponseBodyItemLabelsItem;
@@ -1874,17 +2210,17 @@ export type GetCpuLimitResponseBodyList = Array<GetCpuLimitResponseBodyItem>;
 export type GetCpuLimitResponse = GetCpuLimitResponseBodyList;
 export interface GetCpuTargetRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources can be service ids, Postgres ids, or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** Instance ID to query. When multiple instance ID query params are provided, they are ORed together */
-  instance?: string;
+  instance?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetCpuTargetResponseBodyItemLabelsItem = GetActiveConnectionsResponseBodyItemLabelsItem;
@@ -1932,21 +2268,21 @@ export interface Schema2 {
   name: string;
   sizeGB: number;
   mountPath: string;
-  serviceId?: string;
+  serviceId?: string | undefined;
   createdAt: string;
   updatedAt: string;
 }
 export interface GetDiskCapacityRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources can be service ids, Postgres ids, or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetDiskCapacityResponseBodyItemLabelsItem =
@@ -1973,15 +2309,15 @@ export type GetDiskCapacityResponseBodyList = Array<GetDiskCapacityResponseBodyI
 export type GetDiskCapacityResponse = GetDiskCapacityResponseBodyList;
 export interface GetDiskUsageRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources can be service ids, Postgres ids, or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetDiskUsageResponseBodyItemLabelsItem = GetActiveConnectionsResponseBodyItemLabelsItem;
@@ -2020,7 +2356,7 @@ export interface GetEnvGroupResponse {
   updatedAt: string;
   /** List of serviceIds linked to the envGroup */
   serviceLinks: GetEnvGroupResponseServiceLinksList;
-  environmentId?: string;
+  environmentId?: string | undefined;
   envVars: GetEnvGroupResponseEnvVarsList;
   secretFiles: GetEnvGroupResponseSecretFilesList;
 }
@@ -2048,9 +2384,9 @@ export interface GetEnvVarRequest {
 export interface GetEnvVarsForBuildSourceRequest {
   buildSourceId: string;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface EnvVarWithCursor {
   envVar: EnvVar;
@@ -2062,9 +2398,9 @@ export interface GetEnvVarsForServiceRequest {
   /** The ID of the service */
   serviceId: string;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetEnvVarsForServiceResponseBodyList = Array<EnvVarWithCursor>;
 export type GetEnvVarsForServiceResponse = GetEnvVarsForServiceResponseBodyList;
@@ -2089,6 +2425,7 @@ export type GetEventResponseType =
   | "disk_created"
   | "disk_updated"
   | "disk_deleted"
+  | "disk_snapshot_restored"
   | "image_pull_failed"
   | "instance_count_changed"
   | "job_run_ended"
@@ -2147,12 +2484,12 @@ export interface GetEventResponseDetailsCase0Case0 {
 }
 export interface GetEventResponseDetailsCase0Case1 {
   /** The previously linked build source. Absent when the service was newly attached. */
-  fromBuildSourceId?: string;
+  fromBuildSourceId?: string | undefined;
   /** The newly linked build source. Absent when the service was detached. */
-  toBuildSourceId?: string;
+  toBuildSourceId?: string | undefined;
 }
 export interface GetEventResponseDetailsCase0Case2 {
-  fromConfig?: Schema5;
+  fromConfig?: Schema5 | undefined;
   toConfig: Schema5;
 }
 export interface GetEventResponseDetailsCase0Case3 {
@@ -2162,10 +2499,10 @@ export interface GetEventResponseDetailsCase0Case3 {
 export interface GetEventResponseDetailsCase0Case4 {
   fromInstances: number;
   toInstances: number;
-  currentCPU?: number;
-  targetCPU?: number;
-  currentMemory?: number;
-  targetMemory?: number;
+  currentCPU?: number | undefined;
+  targetCPU?: number | undefined;
+  currentMemory?: number | undefined;
+  targetMemory?: number | undefined;
 }
 export interface GetEventResponseDetailsCase0Case5 {
   deletedBranch: string;
@@ -2182,21 +2519,21 @@ export interface ReasonOomKilled {
 export interface Reason {
   evicted: boolean;
   /** Details about why the application was evicted. */
-  evictionReason?: string;
+  evictionReason?: string | undefined;
   /** If present, the application exited with the specified non-zero status. */
-  nonZeroExit?: number;
+  nonZeroExit?: number | undefined;
   /** If true, the application exited early. Services besides cron jobs should not exit unless receiving a `SIGTERM` signal from Render. */
-  earlyExit?: boolean;
-  oomKilled?: ReasonOomKilled;
-  timedOutSeconds?: number;
-  unhealthy?: string;
-  timedOutReason?: string;
+  earlyExit?: boolean | undefined;
+  oomKilled?: ReasonOomKilled | undefined;
+  timedOutSeconds?: number | undefined;
+  unhealthy?: string | undefined;
+  timedOutReason?: string | undefined;
 }
 export interface GetEventResponseDetailsCase0Case6Reason {
-  buildFailed?: NewBuild;
-  newBuild?: NewBuild;
-  newDeploy?: NewBuild;
-  failure?: Reason;
+  buildFailed?: NewBuild | undefined;
+  newBuild?: NewBuild | undefined;
+  newDeploy?: NewBuild | undefined;
+  failure?: Reason | undefined;
 }
 export interface GetEventResponseDetailsCase0Case6 {
   buildId: string;
@@ -2216,11 +2553,11 @@ export interface GetEventResponseDetailsCase0Case7Trigger {
   envUpdated: boolean;
   /** Deploy was triggered manually from the dashboard */
   manual: boolean;
-  user?: User2;
+  user?: User2 | undefined;
   /** Updated property that triggered the deploy */
-  updatedProperty?: string;
+  updatedProperty?: string | undefined;
   /** Commit that triggered the deploy */
-  newCommit?: string;
+  newCommit?: string | undefined;
   /** Deploy was triggered by Render */
   deployedByRender: boolean;
   /** Whether the cache was cleared for the deploy */
@@ -2228,7 +2565,7 @@ export interface GetEventResponseDetailsCase0Case7Trigger {
   /** Whether the deploy was triggered by a rollback */
   rollback: boolean;
   /** Deploy ID that was rolled back to */
-  rollbackTargetDeployId?: string;
+  rollbackTargetDeployId?: string | undefined;
 }
 export interface GetEventResponseDetailsCase0Case7 {
   buildId: string;
@@ -2252,9 +2589,9 @@ export type GetEventResponseDetailsCase0Case9User = User2;
 export interface GetEventResponseDetailsCase0Case9 {
   cronJobRunId: string;
   status: GetEventResponseDetailsCase0Case9Status;
-  reason?: Reason;
+  reason?: Reason | undefined;
   /** User who triggered the action */
-  user?: User2;
+  user?: User2 | undefined;
 }
 export interface GetEventResponseDetailsCase0Case10 {
   cronJobRunId: string;
@@ -2268,14 +2605,14 @@ export interface GetEventResponseDetailsCase0Case11 {
   deployStatus: BuildStatus;
   status: number;
   /** Set when the deploy shipped a build published by the service's linked build source. */
-  buildId?: string;
+  buildId?: string | undefined;
 }
 export type Trigger = GetEventResponseDetailsCase0Case7Trigger;
 export interface GetEventResponseDetailsCase0Case12 {
   deployId: string;
   trigger: GetEventResponseDetailsCase0Case7Trigger;
   /** Set when the deploy ships a build published by the service's linked build source. */
-  buildId?: string;
+  buildId?: string | undefined;
 }
 export interface GetEventResponseDetailsCase0Case13 {
   diskId: string;
@@ -2291,99 +2628,107 @@ export interface GetEventResponseDetailsCase0Case15 {
 }
 export interface GetEventResponseDetailsCase0Case16 {
   diskId: string;
+  /** The instance whose disk was restored, when the restore named one. A service instance ID, or the service ID for an older single disk. */
+  instanceId?: string | undefined;
+  /** When the restored snapshot was taken */
+  snapshotCreatedAt?: string | undefined;
+  triggeredByUser: string | null;
+}
+export interface GetEventResponseDetailsCase0Case17 {
+  diskId: string;
   diskName: string;
   mountPath: string;
   usagePercent: number;
   thresholdPercent: number;
 }
-export type GetEventResponseDetailsCase0Case17 = GetEventResponseDetailsCase0Case16;
-export interface GetEventResponseDetailsCase0Case18 {
+export type GetEventResponseDetailsCase0Case18 = GetEventResponseDetailsCase0Case17;
+export interface GetEventResponseDetailsCase0Case19 {
   message: string;
   imageURL: string;
 }
-export interface GetEventResponseDetailsCase0Case19 {
+export interface GetEventResponseDetailsCase0Case20 {
   deployId: string;
 }
-export type GetEventResponseDetailsCase0Case20 = GetEventResponseDetailsCase0Case19;
-export type GetEventResponseDetailsCase0Case21 = GetEventResponseDetailsCase0Case3;
-export interface GetEventResponseDetailsCase0Case22 {
+export type GetEventResponseDetailsCase0Case21 = GetEventResponseDetailsCase0Case20;
+export type GetEventResponseDetailsCase0Case22 = GetEventResponseDetailsCase0Case3;
+export interface GetEventResponseDetailsCase0Case23 {
   jobId: string;
   status: Items2;
-  reason?: Reason;
-}
-export interface GetEventResponseDetailsCase0Case23 {
-  enabled: boolean;
+  reason?: Reason | undefined;
 }
 export interface GetEventResponseDetailsCase0Case24 {
+  enabled: boolean;
+}
+export interface GetEventResponseDetailsCase0Case25 {
   fromURI: string;
   toURI: string;
 }
-export interface GetEventResponseDetailsCase0Case26Trigger {
-  user?: User2;
+export interface GetEventResponseDetailsCase0Case27Trigger {
+  user?: User2 | undefined;
   /** Maintenance was triggered manually */
   manual: boolean;
   /** Maintenance was triggered by Render */
   startedByRender: boolean;
 }
-export interface GetEventResponseDetailsCase0Case26 {
-  trigger: GetEventResponseDetailsCase0Case26Trigger;
+export interface GetEventResponseDetailsCase0Case27 {
+  trigger: GetEventResponseDetailsCase0Case27Trigger;
 }
-export type GetEventResponseDetailsCase0Case27 = GetEventResponseDetailsCase0Case7;
-export interface GetEventResponseDetailsCase0Case28 {
+export type GetEventResponseDetailsCase0Case28 = GetEventResponseDetailsCase0Case7;
+export interface GetEventResponseDetailsCase0Case29 {
   from: string;
   to: string;
 }
-export interface GetEventResponseDetailsCase0Case29 {
+export interface GetEventResponseDetailsCase0Case30 {
   deployCommandExecutionId: string;
   deployId: string;
   preDeployStatus: BuildStatus;
   reason: GetEventResponseDetailsCase0Case6Reason;
   status: number;
 }
-export interface GetEventResponseDetailsCase0Case30 {
+export interface GetEventResponseDetailsCase0Case31 {
   deployCommandExecutionId: string;
   deployId: string;
 }
-export interface GetEventResponseDetailsCase0Case32 {
-  instanceID?: string;
-  reason?: Reason;
+export interface GetEventResponseDetailsCase0Case33 {
+  instanceID?: string | undefined;
+  reason?: Reason | undefined;
 }
-export interface GetEventResponseDetailsCase0Case34 {
+export interface GetEventResponseDetailsCase0Case35 {
   triggeredByUser: string | null;
-}
-export interface GetEventResponseDetailsCase0Case37 {
-  actor: string;
-  suspendedByUser?: User2;
 }
 export interface GetEventResponseDetailsCase0Case38 {
   actor: string;
-  resumedByUser?: User2;
+  suspendedByUser?: User2 | undefined;
 }
-export interface GetEventResponseDetailsCase0Case40 {
+export interface GetEventResponseDetailsCase0Case39 {
+  actor: string;
+  resumedByUser?: User2 | undefined;
+}
+export interface GetEventResponseDetailsCase0Case41 {
   trigger: string;
 }
-export interface GetEventResponseDetailsCase0Case41Trigger {
+export interface GetEventResponseDetailsCase0Case42Trigger {
   /** Edge Cache change was triggered manually from the dashboard */
   manual: boolean;
-  user?: User2;
+  user?: User2 | undefined;
   /** Edge Cache Change was triggered by Render */
   system: boolean;
 }
-export interface GetEventResponseDetailsCase0Case41 {
-  trigger: GetEventResponseDetailsCase0Case41Trigger;
+export interface GetEventResponseDetailsCase0Case42 {
+  trigger: GetEventResponseDetailsCase0Case42Trigger;
 }
-export type Trigger2 = GetEventResponseDetailsCase0Case41Trigger;
-export type GetEventResponseDetailsCase0Case42 = GetEventResponseDetailsCase0Case41;
-export type GetEventResponseDetailsCase0Case43 = GetEventResponseDetailsCase0Case41;
-export interface GetEventResponseDetailsCase0Case44 {
+export type Trigger2 = GetEventResponseDetailsCase0Case42Trigger;
+export type GetEventResponseDetailsCase0Case43 = GetEventResponseDetailsCase0Case42;
+export type GetEventResponseDetailsCase0Case44 = GetEventResponseDetailsCase0Case42;
+export interface GetEventResponseDetailsCase0Case45 {
   /** Why auto-deploy was disabled (manual_deploy, rollback, or setting_change) */
   reason: string;
   /** The auto-deploy trigger value immediately before it was disabled */
-  fromTrigger?: AutoDeployTrigger;
+  fromTrigger?: AutoDeployTrigger | undefined;
 }
-export interface GetEventResponseDetailsCase0Case45 {
+export interface GetEventResponseDetailsCase0Case46 {
   /** The auto-deploy trigger value after it was re-enabled */
-  newTrigger?: AutoDeployTrigger;
+  newTrigger?: AutoDeployTrigger | undefined;
 }
 export type GetEventResponseDetailsCase0 =
   | GetEventResponseDetailsCase0Case0
@@ -2403,47 +2748,48 @@ export type GetEventResponseDetailsCase0 =
   | GetEventResponseDetailsCase0Case14
   | GetEventResponseDetailsCase0Case15
   | GetEventResponseDetailsCase0Case16
-  | GetEventResponseDetailsCase0Case16
-  | GetEventResponseDetailsCase0Case18
+  | GetEventResponseDetailsCase0Case17
+  | GetEventResponseDetailsCase0Case17
   | GetEventResponseDetailsCase0Case19
-  | GetEventResponseDetailsCase0Case19
+  | GetEventResponseDetailsCase0Case20
+  | GetEventResponseDetailsCase0Case20
   | GetEventResponseDetailsCase0Case3
-  | GetEventResponseDetailsCase0Case22
   | GetEventResponseDetailsCase0Case23
   | GetEventResponseDetailsCase0Case24
+  | GetEventResponseDetailsCase0Case25
   | unknown
-  | GetEventResponseDetailsCase0Case26
+  | GetEventResponseDetailsCase0Case27
   | GetEventResponseDetailsCase0Case7
-  | GetEventResponseDetailsCase0Case28
   | GetEventResponseDetailsCase0Case29
   | GetEventResponseDetailsCase0Case30
-  | GetEventResponseDetailsCase0Case32
-  | GetEventResponseDetailsCase0Case34
-  | GetEventResponseDetailsCase0Case37
+  | GetEventResponseDetailsCase0Case31
+  | GetEventResponseDetailsCase0Case33
+  | GetEventResponseDetailsCase0Case35
   | GetEventResponseDetailsCase0Case38
-  | GetEventResponseDetailsCase0Case40
+  | GetEventResponseDetailsCase0Case39
   | GetEventResponseDetailsCase0Case41
-  | GetEventResponseDetailsCase0Case41
-  | GetEventResponseDetailsCase0Case41
-  | GetEventResponseDetailsCase0Case44
-  | GetEventResponseDetailsCase0Case45;
+  | GetEventResponseDetailsCase0Case42
+  | GetEventResponseDetailsCase0Case42
+  | GetEventResponseDetailsCase0Case42
+  | GetEventResponseDetailsCase0Case45
+  | GetEventResponseDetailsCase0Case46;
 export interface GetEventResponseDetailsCase1Case4 {
-  leaderId?: string;
+  leaderId?: string | undefined;
 }
 export interface GetEventResponseDetailsCase1Case5 {
-  user?: User2;
+  user?: User2 | undefined;
   from: string;
   to: string;
 }
 export interface GetEventResponseDetailsCase1Case6 {
-  user?: User2;
+  user?: User2 | undefined;
   enabled: boolean;
 }
 export interface GetEventResponseDetailsCase1Case7 {
-  user?: User2;
+  user?: User2 | undefined;
 }
 export interface GetEventResponseDetailsCase1Case8 {
-  user?: User2;
+  user?: User2 | undefined;
   fromDiskSize: number;
   toDiskSize: number;
 }
@@ -2461,7 +2807,7 @@ export interface GetEventResponseDetailsCase1Case13 {
   toVersion: string;
 }
 export interface GetEventResponseDetailsCase1Case14 {
-  user?: User2;
+  user?: User2 | undefined;
   fromVersion: string;
   toVersion: string;
 }
@@ -2495,23 +2841,126 @@ export interface GetEventResponse {
   type: GetEventResponseType;
   details: GetEventResponseDetails;
 }
+export interface GetFlowRequest {
+  /** The ID of the flow */
+  flowId: string;
+}
+export interface GetFlowResponse {
+  id: string;
+  name: string;
+  createdAt: string;
+  workflowId?: string | undefined;
+  workflowVersionId?: string | undefined;
+}
+export interface GetFlowRunRequest {
+  /** The ID of the flow run */
+  flowRunId: string;
+}
+/** The status of a flow run. */
+export type Items5 = "pending" | "running" | "succeeded" | "failed" | "canceled" | "paused";
+/** Positional arguments passed to the flow function */
+export type InputCase0List2 = Array<unknown>;
+/** Named parameters passed to the flow function as keyword arguments */
+export type InputCase1Map2 = { [key: string]: unknown | undefined };
+/** Input data for a flow. Can be either an array (for positional arguments) or an object (for named parameters). */
+export type Input2 = InputCase0List2 | InputCase1Map2;
+export type GetFlowRunResponseResultsList = Array<unknown>;
+export type GetFlowRunResponseErrorDetailsCode =
+  | "flow_determinism_error"
+  | "flow_step_limit_exceeded"
+  | "flow_payload_too_large"
+  | "flow_history_too_large";
+export type GetFlowRunResponseErrorDetailsKind = "input_hash" | "type" | "unknown_type";
+export interface GetFlowRunResponseErrorDetails {
+  code: GetFlowRunResponseErrorDetailsCode;
+  message: string;
+  seq?: number | undefined;
+  subKey?: string | undefined;
+  flowAttempt?: number | undefined;
+  kind?: GetFlowRunResponseErrorDetailsKind | undefined;
+  expected?: string | undefined;
+  actual?: string | undefined;
+  limit?: number | undefined;
+  value?: number | undefined;
+}
+export interface GetFlowRunResponseAttemptsItem {
+  /** The 0-indexed attempt number. */
+  attempt: number;
+  status: Items5;
+  startedAt?: string | undefined;
+  completedAt?: string | undefined;
+  /** Error message if the attempt failed. */
+  error?: string | undefined;
+}
+/** The flow run's attempts. A flow run gets a new attempt when it resumes after its process is interrupted; it replays completed steps instead of rerunning them. */
+export type GetFlowRunResponseAttemptsList = Array<GetFlowRunResponseAttemptsItem>;
+export interface GetFlowRunResponse {
+  id: string;
+  flowId: string;
+  status: Items5;
+  startedAt?: string | undefined;
+  completedAt?: string | undefined;
+  input: Input2;
+  results: GetFlowRunResponseResultsList;
+  /** Error message if the flow run failed. */
+  error?: string | undefined;
+  errorDetails?: GetFlowRunResponseErrorDetails | undefined;
+  /** The flow run's attempts. A flow run gets a new attempt when it resumes after its process is interrupted; it replays completed steps instead of rerunning them. */
+  attempts: GetFlowRunResponseAttemptsList;
+}
+export interface GetFlowRunStepRequest {
+  /** The ID of the flow run */
+  flowRunId: string;
+  /** The sequence number of the step within its flow run */
+  stepSeq: number;
+  /** The SDK's key for the step, as `stepKey` reports it in the step listing. Steps that share a sequence number are told apart by it. Omit it for a step the SDK recorded without one. */
+  stepKey?: string | undefined;
+}
+/** The kind of step. `inline` runs a function inside the flow's process and retries in place. `detached` runs a registered task as its own task run. `sleep` is a durable sleep. */
+export type GetFlowRunStepResponseType = "inline" | "detached" | "sleep";
+/** `running` until the step records an outcome, then `succeeded` or `failed`. */
+export type GetFlowRunStepResponseStatus = "running" | "succeeded" | "failed";
+export interface GetFlowRunStepResponse {
+  /** The step's position in the flow run. Steps are numbered densely in the order the flow started them. */
+  seq: number;
+  /** The SDK's key for the step. */
+  stepKey: string;
+  /** For inline steps, the function's name. For detached steps, the task's registered name. Omitted for sleep steps. */
+  name?: string | undefined;
+  /** The kind of step. `inline` runs a function inside the flow's process and retries in place. `detached` runs a registered task as its own task run. `sleep` is a durable sleep. */
+  type: GetFlowRunStepResponseType;
+  /** `running` until the step records an outcome, then `succeeded` or `failed`. */
+  status: GetFlowRunStepResponseStatus;
+  startedAt: string;
+  completedAt?: string | undefined;
+  /** For sleep steps, when the sleep ends. */
+  wakeAt?: string | undefined;
+  /** For detached steps, the ID of the task run the step started. */
+  childTaskRunId?: string | undefined;
+  /** The step's input. For detached steps, the input of the child task run. */
+  input?: unknown | undefined;
+  /** The step's result. Present only when the step succeeded; null when the step returned no value. */
+  result?: unknown | null | undefined;
+  /** Error message if the step failed. */
+  error?: string | undefined;
+}
 export interface GetHttpLatencyRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Service ID to query. When multiple service ids are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** The hosts of HTTP requests to filter to. When multiple host query params are provided, they are ORed together */
-  host?: string;
+  host?: string | undefined;
   /** The paths of HTTP requests to filter to. When multiple path query params are provided, they are ORed together */
-  path?: string;
+  path?: string | undefined;
   /** The quantile of latencies to fetch. When multiple quantile query params are provided, they are ORed together */
-  quantile?: number;
+  quantile?: number | undefined;
 }
 /** A time series datapoint label */
 export type GetHttpLatencyResponseBodyItemLabelsItem =
@@ -2539,21 +2988,21 @@ export type GetHttpLatencyResponse = GetHttpLatencyResponseBodyList;
 export type GetHttpRequestsRequestAggregateBy = "statusCode" | "host";
 export interface GetHttpRequestsRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Service ID to query. When multiple service ids are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** The hosts of HTTP requests to filter to. When multiple host query params are provided, they are ORed together */
-  host?: string;
+  host?: string | undefined;
   /** The paths of HTTP requests to filter to. When multiple path query params are provided, they are ORed together */
-  path?: string;
+  path?: string | undefined;
   /** The field to aggregate by */
-  aggregateBy?: GetHttpRequestsRequestAggregateBy | (string & {});
+  aggregateBy?: GetHttpRequestsRequestAggregateBy | (string & {}) | undefined;
 }
 /** A time series datapoint label */
 export type GetHttpRequestsResponseBodyItemLabelsItem =
@@ -2580,15 +3029,15 @@ export type GetHttpRequestsResponseBodyList = Array<GetHttpRequestsResponseBodyI
 export type GetHttpRequestsResponse = GetHttpRequestsResponseBodyList;
 export interface GetInstanceCountRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources can be service ids, Postgres ids, or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetInstanceCountResponseBodyItemLabelsItem =
@@ -2642,23 +3091,23 @@ export interface GetMaintenanceResponse {
   type: string;
   scheduledAt: string;
   /** If present, the maintenance run cannot be scheduled for later than this date-time. */
-  pendingMaintenanceBy?: string;
+  pendingMaintenanceBy?: string | undefined;
   state: Items4;
   resourceId: string;
 }
 export interface GetMemoryRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources can be service ids, Postgres ids, or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** Instance ID to query. When multiple instance ID query params are provided, they are ORed together */
-  instance?: string;
+  instance?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetMemoryResponseBodyItemLabelsItem = GetActiveConnectionsResponseBodyItemLabelsItem;
@@ -2683,17 +3132,17 @@ export type GetMemoryResponseBodyList = Array<GetMemoryResponseBodyItem>;
 export type GetMemoryResponse = GetMemoryResponseBodyList;
 export interface GetMemoryLimitRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources can be service ids, Postgres ids, or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** Instance ID to query. When multiple instance ID query params are provided, they are ORed together */
-  instance?: string;
+  instance?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetMemoryLimitResponseBodyItemLabelsItem =
@@ -2720,17 +3169,17 @@ export type GetMemoryLimitResponseBodyList = Array<GetMemoryLimitResponseBodyIte
 export type GetMemoryLimitResponse = GetMemoryLimitResponseBodyList;
 export interface GetMemoryTargetRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources can be service ids, Postgres ids, or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** Instance ID to query. When multiple instance ID query params are provided, they are ORed together */
-  instance?: string;
+  instance?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetMemoryTargetResponseBodyItemLabelsItem =
@@ -2767,10 +3216,10 @@ export interface GetOwnerLogStreamRequest {
 export type Preview = "send" | "drop";
 export interface GetOwnerLogStreamResponse {
   /** The ID of the owner. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The endpoint to stream logs to. */
-  endpoint?: string;
-  preview?: Preview;
+  endpoint?: string | undefined;
+  preview?: Preview | undefined;
 }
 export interface GetOwnerMembersRequest {
   /** The ID of the team */
@@ -2838,8 +3287,8 @@ export interface PostgresConnectionInfo {
   password: string | Redacted.Redacted<string>;
   internalConnectionString: string;
   externalConnectionString: string;
-  internalConnectionPoolString?: string;
-  externalConnectionPoolString?: string;
+  internalConnectionPoolString?: string | undefined;
+  externalConnectionPoolString?: string | undefined;
   psqlCommand: string;
 }
 export interface GetPostgresRecoveryInfoRequest {
@@ -2853,7 +3302,7 @@ export type GetPostgresRecoveryInfoResponseRecoveryStatus =
 export interface GetPostgresRecoveryInfoResponse {
   /** Availability of point-in-time recovery. */
   recoveryStatus: GetPostgresRecoveryInfoResponseRecoveryStatus;
-  startsAt?: string;
+  startsAt?: string | undefined;
 }
 export interface GetProjectRequest {
   projectId: string;
@@ -2864,13 +3313,13 @@ export interface GetRegistryCredentialRequest {
 }
 export interface GetReplicationLagRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Postgres ID to query. When multiple resource query params are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetReplicationLagResponseBodyItemLabelsItem =
@@ -2903,10 +3352,148 @@ export interface GetResourceLogStreamRequest {
 export type Items3 = "send" | "drop";
 export interface GetResourceLogStreamResponse {
   /** The ID of the resource. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The endpoint to stream logs to. Must be present if setting is send. Cannot be present if setting is drop. */
-  endpoint?: string;
-  setting?: Items3;
+  endpoint?: string | undefined;
+  setting?: Items3 | undefined;
+}
+export interface GetSandboxRequest {
+  /** The ID of the sandbox */
+  sandboxId: string;
+  /** The ID of the workspace the sandbox belongs to. Optional: the workspace is determined from the sandbox ID, and this parameter is ignored when supplied. */
+  ownerId?: string | undefined;
+}
+/** Compute plan. See `sandboxPlan` for known values. */
+export type SchemaPlan = _03 | string;
+/** Destinations the sandbox may reach, present when `type` is `allow-list` and absent otherwise. Each domain may be listed once. */
+export type SchemaNetworkPolicyRulesList = Array<Items7>;
+export interface SchemaNetworkPolicy {
+  /** How outbound traffic is handled. `allow-all`, `deny-all`, or `allow-list` (requires additional `rules`). */
+  type: _04;
+  /** Deprecated alias for `type`, always returned with the same value. To be removed before GA; read `type` instead. */
+  default?: _04 | undefined;
+  /** Destinations the sandbox may reach, present when `type` is `allow-list` and absent otherwise. Each domain may be listed once. */
+  rules?: SchemaNetworkPolicyRulesList | undefined;
+}
+export interface Schema21 {
+  id: string;
+  /** The label set when the sandbox was created. */
+  name?: string | null | undefined;
+  /** The sandbox group this sandbox belongs to. */
+  sandboxGroupId?: string | undefined;
+  status: Items6;
+  /** Compute plan. See `sandboxPlan` for known values. */
+  plan: SchemaPlan;
+  networkPolicy: SchemaNetworkPolicy;
+  /** Region the sandbox is running in. */
+  region: string;
+  /** Maximum sandbox lifetime in seconds. 0 means the sandbox has no timeout. */
+  timeoutSeconds: number;
+  /** Seconds of inactivity before the sandbox is suspended. 0 disables automatic idle suspension. */
+  idleTimeoutSeconds: number;
+  createdAt: string;
+  /** When the sandbox was terminated, or null. */
+  terminatedAt?: string | null | undefined;
+}
+export interface GetSandboxBuildRequest {
+  /** The ID of the sandbox group */
+  sandboxGroupId: string;
+  /** The ID of the build */
+  buildId: string;
+}
+export type SchemaSource = CreateSandboxBuildResponseSource;
+export interface Schema24 {
+  id: string;
+  sandboxGroupId: string;
+  /** Names the image. Every build of an image shares it. */
+  name: string;
+  source: CreateSandboxBuildResponseSource;
+  /** The image digest the build converts. */
+  sourceDigest: string;
+  status: Items9;
+  /** Why the build failed. Null unless `failed`. */
+  failureReason?: string | null | undefined;
+  createdAt: string;
+  /** When the build succeeded or failed. */
+  finishedAt?: string | null | undefined;
+}
+export interface GetSandboxExecutionRequest {
+  /** The ID of the sandbox */
+  sandboxId: string;
+  /** The ID of the execution */
+  execId: string;
+  /** The ID of the workspace the sandbox belongs to. Optional: the workspace is determined from the sandbox ID, and this parameter is ignored when supplied. */
+  ownerId?: string | undefined;
+}
+export type GetSandboxExecutionResponseType = "runs" | "files";
+export type GetSandboxExecutionResponseOperation = "sync" | "stream" | "upload" | "download";
+export interface GetSandboxExecutionResponse {
+  id: string;
+  sandboxId: string;
+  type: GetSandboxExecutionResponseType;
+  operation: GetSandboxExecutionResponseOperation;
+  /** The execution target. For runs, the truncated command; for file transfers, the target file path. */
+  command?: string | undefined;
+  /** The ID of the user the execution token was minted for. */
+  userId: string;
+  startedAt: string;
+  stoppedAt?: string | undefined;
+  exitCode?: number | undefined;
+}
+export interface GetSandboxGroupRequest {
+  /** The ID of the sandbox group */
+  sandboxGroupId: string;
+}
+export interface Schema22 {
+  id: string;
+  /** The ID of the workspace this group belongs to. */
+  ownerId: string;
+  /** Human-friendly name for the group. */
+  name: string;
+  /** Render region the group operates in. */
+  region: string;
+  /** Whether this is the workspace's default group. Sandboxes are created here unless a group is given. */
+  isDefault: boolean;
+  /** Environment this group is bound to. */
+  environmentId?: string | null | undefined;
+  /** The effective limit on active sandboxes in this group, capped by Render's limit for this workspace. */
+  concurrencyLimit: number;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface GetSandboxSnapshotRequest {
+  /** The ID of the sandbox group */
+  sandboxGroupId: string;
+  /** The ID of the snapshot */
+  snapshotId: string;
+  /** The ID of the workspace the sandbox group belongs to. Optional: the workspace is determined from the sandbox group ID, and this parameter is ignored when supplied. */
+  ownerId?: string | undefined;
+}
+/** `filesystem` captures the writable filesystem and restores onto any plan. `runtime` also captures memory and CPU state and restores only onto the plan of the source sandbox. */
+export type SchemaKind = "filesystem" | "runtime";
+/** Plan of the source sandbox at capture time. See `sandboxPlan` for known values. */
+export type SchemaPlan2 = _03 | string;
+export interface Schema25 {
+  id: string;
+  sandboxGroupId: string;
+  /** The sandbox this snapshot was captured from. Lineage only. */
+  sourceSandboxId: string;
+  /** Set at create. Never changes. Null when created without a name. */
+  name?: string | null | undefined;
+  /** `filesystem` captures the writable filesystem and restores onto any plan. `runtime` also captures memory and CPU state and restores only onto the plan of the source sandbox. */
+  kind: SchemaKind;
+  status: Items8;
+  /** Plan of the source sandbox at capture time. See `sandboxPlan` for known values. */
+  plan: SchemaPlan2;
+  requestedAt: string;
+  /** When the sandbox was frozen for capture. Null until `available`. */
+  capturedAt?: string | null | undefined;
+  /** The time after which the snapshot can no longer be retrieved or restored. Set by Render when the create request did not specify one. */
+  expiresAt: string;
+  /** Null until `available`. */
+  sizeBytes?: number | null | undefined;
+  /** Null unless `failed`. */
+  error?: string | null | undefined;
 }
 export interface GetSecretFileRequest {
   /** The ID of the service */
@@ -2941,7 +3528,7 @@ export interface OutboundIps {
   /** `dedicated` if a dedicated IP set applies to the resource, `shared` if its traffic originates from the shared Render IPs for its region. */
   type: OutboundIpsType;
   /** The dedicated IP set the traffic originates from. Only present when `type` is `dedicated`. */
-  dedicatedIpId?: string;
+  dedicatedIpId?: string | undefined;
   /** The IP addresses the resource's outbound traffic originates from. */
   ips: OutboundIpsIpsList;
 }
@@ -2953,8 +3540,8 @@ export interface GetTaskResponse {
   id: string;
   name: string;
   createdAt: string;
-  workflowId?: string;
-  workflowVersionId?: string;
+  workflowId?: string | undefined;
+  workflowVersionId?: string | undefined;
 }
 export interface GetTaskRunRequest {
   /** The ID of the task run */
@@ -2978,16 +3565,16 @@ export type Input = InputCase0List | InputCase1Map;
 export type Results = Array<unknown>;
 export interface GetTaskRunResponseAttemptsItem {
   /** The ID of the task run this attempt belongs to. */
-  taskRunId?: string;
+  taskRunId?: string | undefined;
   /** The 0-indexed attempt number. */
   attempt: number;
   status: Status2;
-  enqueuedAt?: string;
+  enqueuedAt?: string | undefined;
   startedAt: string;
-  completedAt?: string;
+  completedAt?: string | undefined;
   /** Error message if the task attempt failed. */
-  error?: string;
-  results?: Results;
+  error?: string | undefined;
+  results?: Results | undefined;
 }
 export type GetTaskRunResponseAttemptsList = Array<GetTaskRunResponseAttemptsItem>;
 export interface GetTaskRunResponse {
@@ -2996,13 +3583,13 @@ export interface GetTaskRunResponse {
   status: GetTaskRunResponseStatus;
   results: GetTaskRunResponseResultsList;
   /** Error message if the task run failed. */
-  error?: string;
-  startedAt?: string;
-  completedAt?: string;
+  error?: string | undefined;
+  startedAt?: string | undefined;
+  completedAt?: string | undefined;
   input: Input;
   parentTaskRunId: string;
   /** The 0-indexed attempt of the parent task run that spawned this task run. Omitted for root task runs and for task runs created before this field was introduced. */
-  parentTaskAttempt?: number;
+  parentTaskAttempt?: number | undefined;
   rootTaskRunId: string;
   retries: number;
   attempts: GetTaskRunResponseAttemptsList;
@@ -3011,17 +3598,17 @@ export type GetTaskRunsCompletedRequestState = "succeeded" | "failed";
 export type GetTaskRunsCompletedRequestAggregateBy = "state";
 export interface GetTaskRunsCompletedRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Task ID to query. When multiple task IDs are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
   /** The state of task runs to filter to. When multiple state query params are provided, they are ORed together */
-  state?: GetTaskRunsCompletedRequestState | (string & {});
+  state?: GetTaskRunsCompletedRequestState | (string & {}) | undefined;
   /** The field to aggregate by */
-  aggregateBy?: GetTaskRunsCompletedRequestAggregateBy | (string & {});
+  aggregateBy?: GetTaskRunsCompletedRequestAggregateBy | (string & {}) | undefined;
 }
 /** A time series datapoint label */
 export type GetTaskRunsCompletedResponseBodyItemLabelsItem =
@@ -3048,13 +3635,13 @@ export type GetTaskRunsCompletedResponseBodyList = Array<GetTaskRunsCompletedRes
 export type GetTaskRunsCompletedResponse = GetTaskRunsCompletedResponseBodyList;
 export interface GetTaskRunsQueuedRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Task ID to query. When multiple task IDs are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetTaskRunsQueuedResponseBodyItemLabelsItem =
@@ -3112,9 +3699,11 @@ export interface Schema15 {
   /** Command to run the workflow. */
   runCommand: string;
   region: Region2;
-  environmentId?: string;
-  slug?: string;
-  autoDeployTrigger?: AutoDeployTrigger2;
+  environmentId?: string | undefined;
+  slug?: string | undefined;
+  autoDeployTrigger?: AutoDeployTrigger2 | undefined;
+  /** ID of the workflow version that new task runs use by default. Omitted until a version has been registered. */
+  defaultVersionId?: string | undefined;
 }
 export interface GetWorkflowVersionRequest {
   /** The ID of the workflow version */
@@ -3151,7 +3740,7 @@ export interface LinkEnvGroupToBuildSourceResponse {
   updatedAt: string;
   /** List of serviceIds linked to the envGroup */
   serviceLinks: LinkEnvGroupToBuildSourceResponseServiceLinksList;
-  environmentId?: string;
+  environmentId?: string | undefined;
   envVars: LinkEnvGroupToBuildSourceResponseEnvVarsList;
   secretFiles: LinkEnvGroupToBuildSourceResponseSecretFilesList;
 }
@@ -3173,27 +3762,27 @@ export interface LinkServiceToEnvGroupResponse {
   updatedAt: string;
   /** List of serviceIds linked to the envGroup */
   serviceLinks: LinkServiceToEnvGroupResponseServiceLinksList;
-  environmentId?: string;
+  environmentId?: string | undefined;
   envVars: LinkServiceToEnvGroupResponseEnvVarsList;
   secretFiles: LinkServiceToEnvGroupResponseSecretFilesList;
 }
 export interface ListApplicationFilterValuesRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Service ID to query. When multiple service ids are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
 }
 export type ListApplicationFilterValuesResponseBodyItemFilter = "instance";
 export type ListApplicationFilterValuesResponseBodyItemValuesList = Array<string>;
 export interface ListApplicationFilterValuesResponseBodyItem {
-  filter?: ListApplicationFilterValuesResponseBodyItemFilter;
-  values?: ListApplicationFilterValuesResponseBodyItemValuesList;
+  filter?: ListApplicationFilterValuesResponseBodyItemFilter | undefined;
+  values?: ListApplicationFilterValuesResponseBodyItemValuesList | undefined;
 }
 /** A collection of filter values for application metrics */
 export type ListApplicationFilterValuesResponseBodyList =
@@ -3202,23 +3791,25 @@ export type ListApplicationFilterValuesResponse = ListApplicationFilterValuesRes
 export type ListBlueprintsRequestOwnerIdList = Array<string>;
 export interface ListBlueprintsRequest {
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListBlueprintsRequestOwnerIdList;
+  ownerId?: ListBlueprintsRequestOwnerIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** A Blueprint has status `created` until its first Sync is approved. */
 export type Status = "created" | "paused" | "in_sync" | "syncing" | "error";
 export interface Schema {
   id: string;
+  /** ID of the workspace that owns this Blueprint. */
+  ownerId: string;
   name: string;
   status: Status;
   autoSync: boolean;
   repo: string;
   branch: string;
   path: string;
-  lastSync?: string;
+  lastSync?: string | undefined;
 }
 /** A Blueprint with a cursor */
 export interface BlueprintWithCursor {
@@ -3231,17 +3822,17 @@ export interface ListBlueprintSyncsRequest {
   /** The ID of the Blueprint */
   blueprintId: string;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type SyncWithCursorSyncCommit = NewBuild;
 export type SyncWithCursorSyncState = "created" | "pending" | "running" | "error" | "success";
 export interface SyncWithCursorSync {
   id: string;
   commit: NewBuild;
-  startedAt?: string;
-  completedAt?: string;
+  startedAt?: string | undefined;
+  completedAt?: string | undefined;
   state: SyncWithCursorSyncState;
 }
 /** A Blueprint sync with a cursor */
@@ -3254,78 +3845,39 @@ export type ListBlueprintSyncsResponse = ListBlueprintSyncsResponseBodyList;
 export interface ListBuildsInBuildSourceRequest {
   buildSourceId: string;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
-export type SchemaBuildRunStatus =
-  | "created"
-  | "inProgress"
-  | "succeeded"
-  | "failed"
-  | "canceled"
-  | "unknown";
-export type SchemaBuildRunRuntime =
-  | "docker"
-  | "elixir"
-  | "go"
-  | "node"
-  | "python"
-  | "ruby"
-  | "rust";
-/** The Render build run that produced this build. Present when the build source is currently build-based. Mutually exclusive with `image`. */
-export interface SchemaBuildRun {
-  id: string;
-  status?: SchemaBuildRunStatus;
-  buildStartedAt?: string;
-  buildFinishedAt?: string;
-  runtime?: SchemaBuildRunRuntime;
-  commitId?: string;
-  commitUrl?: string;
+export interface ListBuildsInBuildSourceResponseBodyItem {
+  build: Schema13;
+  cursor: string;
 }
-/** Present when the build source is currently image-based. Mutually exclusive with `buildRun`. */
-export interface SchemaImage {
-  imageVersionId?: string;
-  SHA?: string;
-  ref?: string;
-  imageUrl?: string;
-  registryCredentialId?: string;
-}
-export interface Schema13 {
-  id: string;
-  buildSourceId: string;
-  /** The Render build run that produced this build. Present when the build source is currently build-based. Mutually exclusive with `image`. */
-  buildRun?: SchemaBuildRun;
-  /** Present when the build source is currently image-based. Mutually exclusive with `buildRun`. */
-  image?: SchemaImage;
-  createdAt: string;
-  updatedAt: string;
-  assetsDeletedAt?: string;
-}
-export type ListBuildsInBuildSourceResponseBodyList = Array<Schema13>;
+export type ListBuildsInBuildSourceResponseBodyList =
+  Array<ListBuildsInBuildSourceResponseBodyItem>;
 export type ListBuildsInBuildSourceResponse = ListBuildsInBuildSourceResponseBodyList;
 export type ListBuildSourcesRequestNameList = Array<string>;
 export type ListBuildSourcesRequestOwnerIdList = Array<string>;
 export interface ListBuildSourcesRequest {
   /** Filter by name */
-  name?: ListBuildSourcesRequestNameList;
+  name?: ListBuildSourcesRequestNameList | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListBuildSourcesRequestOwnerIdList;
-  projectId?: string;
+  ownerId?: ListBuildSourcesRequestOwnerIdList | undefined;
+  projectId?: string | undefined;
   /** Include previews in the response */
-  includePreviews?: boolean;
+  includePreviews?: boolean | undefined;
   /** Filter for resources created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for resources created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for resources updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for resources updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface ListBuildSourcesResponseBodyItem {
   buildSource: Schema12;
@@ -3340,19 +3892,19 @@ export interface ListCustomDomainsRequest {
   /** The ID of the service */
   serviceId: string;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter for the names of custom domain */
-  name?: ListCustomDomainsRequestNameList;
+  name?: ListCustomDomainsRequestNameList | undefined;
   /** Filter for domain type */
-  domainType?: ListCustomDomainsRequestDomainType | (string & {});
+  domainType?: ListCustomDomainsRequestDomainType | (string & {}) | undefined;
   /** Filter for domain verification status (`verified` or `unverified`) */
-  verificationStatus?: ListCustomDomainsRequestVerificationStatus | (string & {});
+  verificationStatus?: ListCustomDomainsRequestVerificationStatus | (string & {}) | undefined;
   /** Filter for custom domains created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for custom domains created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
 }
 export interface CustomDomainWithCursor {
   customDomain: CustomDomain;
@@ -3364,7 +3916,7 @@ export interface ListDedicatedIpsRequest {
   /** The ID of the workspace to list dedicated IP sets for. */
   ownerId: string;
   /** Filter dedicated IP sets limited to this environment. Excludes workspace-scoped dedicated IP sets. The environment must belong to the workspace named by `ownerId`. */
-  environmentId?: string;
+  environmentId?: string | undefined;
 }
 export type ListDedicatedIpsResponseBodyList = Array<DedicatedIP>;
 export type ListDedicatedIpsResponse = ListDedicatedIpsResponseBodyList;
@@ -3373,27 +3925,27 @@ export interface ListDeploysRequest {
   /** The ID of the service */
   serviceId: string;
   /** Filter for deploys with the specified statuses */
-  status?: ListDeploysRequestStatusList;
+  status?: ListDeploysRequestStatusList | undefined;
   /** Filter for deploys created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for deploys created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for deploys updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for deploys updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** Filter for deploys finished before a certain time (specified as an ISO 8601 timestamp) */
-  finishedBefore?: string;
+  finishedBefore?: string | undefined;
   /** Filter for deploys finished after a certain time (specified as an ISO 8601 timestamp) */
-  finishedAfter?: string;
+  finishedAfter?: string | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface DeployWithCursor {
-  deploy?: Deploy;
-  cursor?: string;
+  deploy?: Deploy | undefined;
+  cursor?: string | undefined;
 }
 export type DeployList = Array<DeployWithCursor>;
 export type ListDeploysResponse = DeployList;
@@ -3403,25 +3955,25 @@ export type ListDisksRequestNameList = Array<string>;
 export type ListDisksRequestServiceIdList = Array<string>;
 export interface ListDisksRequest {
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListDisksRequestOwnerIdList;
+  ownerId?: ListDisksRequestOwnerIdList | undefined;
   /** Filter by disk IDs */
-  diskId?: ListDisksRequestDiskIdList;
+  diskId?: ListDisksRequestDiskIdList | undefined;
   /** Filter by name */
-  name?: ListDisksRequestNameList;
+  name?: ListDisksRequestNameList | undefined;
   /** Filter for resources created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for resources created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for resources updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for resources updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** Filter for resources by service ID */
-  serviceId?: ListDisksRequestServiceIdList;
+  serviceId?: ListDisksRequestServiceIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface DiskWithCursor {
   disk: Schema2;
@@ -3434,23 +3986,23 @@ export type ListEnvGroupsRequestOwnerIdList = Array<string>;
 export type ListEnvGroupsRequestEnvironmentIdList = Array<string>;
 export interface ListEnvGroupsRequest {
   /** Filter by name */
-  name?: ListEnvGroupsRequestNameList;
+  name?: ListEnvGroupsRequestNameList | undefined;
   /** Filter for resources created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for resources created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for resources updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for resources updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListEnvGroupsRequestOwnerIdList;
+  ownerId?: ListEnvGroupsRequestOwnerIdList | undefined;
   /** Filter for resources that belong to an environment */
-  environmentId?: ListEnvGroupsRequestEnvironmentIdList;
+  environmentId?: ListEnvGroupsRequestEnvironmentIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** List of serviceIds linked to the envGroup */
 export type EnvGroupMetaServiceLinksList = Array<EnvGroupLink>;
@@ -3462,7 +4014,7 @@ export interface EnvGroupMeta {
   updatedAt: string;
   /** List of serviceIds linked to the envGroup */
   serviceLinks: EnvGroupMetaServiceLinksList;
-  environmentId?: string;
+  environmentId?: string | undefined;
 }
 export type ListEnvGroupsResponseBodyList = Array<EnvGroupMeta>;
 export type ListEnvGroupsResponse = ListEnvGroupsResponseBodyList;
@@ -3472,25 +4024,25 @@ export type ListEnvironmentsRequestOwnerIdList = Array<string>;
 export type ListEnvironmentsRequestEnvironmentIdList = Array<string>;
 export interface ListEnvironmentsRequest {
   /** Filter by name */
-  name?: ListEnvironmentsRequestNameList;
+  name?: ListEnvironmentsRequestNameList | undefined;
   /** Filter for resources that belong to a project */
   projectId: ListEnvironmentsRequestProjectIdList;
   /** Filter for resources created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for resources created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for resources updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for resources updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListEnvironmentsRequestOwnerIdList;
+  ownerId?: ListEnvironmentsRequestOwnerIdList | undefined;
   /** Filter for resources that belong to an environment */
-  environmentId?: ListEnvironmentsRequestEnvironmentIdList;
+  environmentId?: ListEnvironmentsRequestEnvironmentIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** An environment with a cursor */
 export interface EnvironmentWithCursor {
@@ -3516,6 +4068,7 @@ export type ListEventsRequestType =
   | "disk_created"
   | "disk_updated"
   | "disk_deleted"
+  | "disk_snapshot_restored"
   | "service_disk_usage_high"
   | "service_disk_usage_recovered"
   | "image_pull_failed"
@@ -3547,15 +4100,15 @@ export interface ListEventsRequest {
   /** The ID of the service */
   serviceId: string;
   /** The type of event to filter to */
-  type?: ListEventsRequestType | (string & {});
+  type?: ListEventsRequestType | (string & {}) | undefined;
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type _0 =
   | "artifact_fetch_failed"
@@ -3574,6 +4127,7 @@ export type _0 =
   | "disk_created"
   | "disk_updated"
   | "disk_deleted"
+  | "disk_snapshot_restored"
   | "service_disk_usage_high"
   | "service_disk_usage_recovered"
   | "image_pull_failed"
@@ -3627,9 +4181,9 @@ export type _0Case9User = User2;
 export interface _0Case9 {
   cronJobRunId: string;
   status: _0Case9Status;
-  reason?: Reason;
+  reason?: Reason | undefined;
   /** User who triggered the action */
-  user?: User2;
+  user?: User2 | undefined;
 }
 export type _0Case10 = GetEventResponseDetailsCase0Case10;
 export type _0Case11 = GetEventResponseDetailsCase0Case11;
@@ -3638,31 +4192,32 @@ export type _0Case13 = GetEventResponseDetailsCase0Case13;
 export type _0Case14 = GetEventResponseDetailsCase0Case14;
 export type _0Case15 = GetEventResponseDetailsCase0Case15;
 export type _0Case16 = GetEventResponseDetailsCase0Case16;
-export type _0Case17 = GetEventResponseDetailsCase0Case16;
-export type _0Case18 = GetEventResponseDetailsCase0Case18;
+export type _0Case17 = GetEventResponseDetailsCase0Case17;
+export type _0Case18 = GetEventResponseDetailsCase0Case17;
 export type _0Case19 = GetEventResponseDetailsCase0Case19;
-export type _0Case20 = GetEventResponseDetailsCase0Case19;
-export type _0Case21 = GetEventResponseDetailsCase0Case3;
-export type _0Case22 = GetEventResponseDetailsCase0Case22;
+export type _0Case20 = GetEventResponseDetailsCase0Case20;
+export type _0Case21 = GetEventResponseDetailsCase0Case20;
+export type _0Case22 = GetEventResponseDetailsCase0Case3;
 export type _0Case23 = GetEventResponseDetailsCase0Case23;
 export type _0Case24 = GetEventResponseDetailsCase0Case24;
-export type _0Case26Trigger = GetEventResponseDetailsCase0Case26Trigger;
-export type _0Case26 = GetEventResponseDetailsCase0Case26;
-export type _0Case27 = GetEventResponseDetailsCase0Case7;
-export type _0Case28 = GetEventResponseDetailsCase0Case28;
+export type _0Case25 = GetEventResponseDetailsCase0Case25;
+export type _0Case27Trigger = GetEventResponseDetailsCase0Case27Trigger;
+export type _0Case27 = GetEventResponseDetailsCase0Case27;
+export type _0Case28 = GetEventResponseDetailsCase0Case7;
 export type _0Case29 = GetEventResponseDetailsCase0Case29;
 export type _0Case30 = GetEventResponseDetailsCase0Case30;
-export type _0Case32 = GetEventResponseDetailsCase0Case32;
-export type _0Case34 = GetEventResponseDetailsCase0Case34;
-export type _0Case37 = GetEventResponseDetailsCase0Case37;
+export type _0Case31 = GetEventResponseDetailsCase0Case31;
+export type _0Case33 = GetEventResponseDetailsCase0Case33;
+export type _0Case35 = GetEventResponseDetailsCase0Case35;
 export type _0Case38 = GetEventResponseDetailsCase0Case38;
-export type _0Case40 = GetEventResponseDetailsCase0Case40;
-export type _0Case41Trigger = GetEventResponseDetailsCase0Case41Trigger;
+export type _0Case39 = GetEventResponseDetailsCase0Case39;
 export type _0Case41 = GetEventResponseDetailsCase0Case41;
-export type _0Case42 = GetEventResponseDetailsCase0Case41;
-export type _0Case43 = GetEventResponseDetailsCase0Case41;
-export type _0Case44 = GetEventResponseDetailsCase0Case44;
+export type _0Case42Trigger = GetEventResponseDetailsCase0Case42Trigger;
+export type _0Case42 = GetEventResponseDetailsCase0Case42;
+export type _0Case43 = GetEventResponseDetailsCase0Case42;
+export type _0Case44 = GetEventResponseDetailsCase0Case42;
 export type _0Case45 = GetEventResponseDetailsCase0Case45;
+export type _0Case46 = GetEventResponseDetailsCase0Case46;
 export type _02 =
   | GetEventResponseDetailsCase0Case0
   | GetEventResponseDetailsCase0Case1
@@ -3681,30 +4236,31 @@ export type _02 =
   | GetEventResponseDetailsCase0Case14
   | GetEventResponseDetailsCase0Case15
   | GetEventResponseDetailsCase0Case16
-  | GetEventResponseDetailsCase0Case16
-  | GetEventResponseDetailsCase0Case18
+  | GetEventResponseDetailsCase0Case17
+  | GetEventResponseDetailsCase0Case17
   | GetEventResponseDetailsCase0Case19
-  | GetEventResponseDetailsCase0Case19
+  | GetEventResponseDetailsCase0Case20
+  | GetEventResponseDetailsCase0Case20
   | GetEventResponseDetailsCase0Case3
-  | GetEventResponseDetailsCase0Case22
   | GetEventResponseDetailsCase0Case23
   | GetEventResponseDetailsCase0Case24
+  | GetEventResponseDetailsCase0Case25
   | unknown
-  | GetEventResponseDetailsCase0Case26
+  | GetEventResponseDetailsCase0Case27
   | GetEventResponseDetailsCase0Case7
-  | GetEventResponseDetailsCase0Case28
   | GetEventResponseDetailsCase0Case29
   | GetEventResponseDetailsCase0Case30
-  | GetEventResponseDetailsCase0Case32
-  | GetEventResponseDetailsCase0Case34
-  | GetEventResponseDetailsCase0Case37
+  | GetEventResponseDetailsCase0Case31
+  | GetEventResponseDetailsCase0Case33
+  | GetEventResponseDetailsCase0Case35
   | GetEventResponseDetailsCase0Case38
-  | GetEventResponseDetailsCase0Case40
+  | GetEventResponseDetailsCase0Case39
   | GetEventResponseDetailsCase0Case41
-  | GetEventResponseDetailsCase0Case41
-  | GetEventResponseDetailsCase0Case41
-  | GetEventResponseDetailsCase0Case44
-  | GetEventResponseDetailsCase0Case45;
+  | GetEventResponseDetailsCase0Case42
+  | GetEventResponseDetailsCase0Case42
+  | GetEventResponseDetailsCase0Case42
+  | GetEventResponseDetailsCase0Case45
+  | GetEventResponseDetailsCase0Case46;
 export interface ServiceEventWithCursorEvent {
   id: string;
   timestamp: string;
@@ -3719,6 +4275,118 @@ export interface ServiceEventWithCursor {
 }
 export type ListEventsResponseBodyList = Array<ServiceEventWithCursor>;
 export type ListEventsResponse = ListEventsResponseBodyList;
+export type ListFlowRunsRequestFlowSlugList = Array<string>;
+export type ListFlowRunsRequestFlowIdList = Array<string>;
+/** The status of a flow run. */
+export type ListFlowRunsRequestStatusItem =
+  | "pending"
+  | "running"
+  | "succeeded"
+  | "failed"
+  | "canceled"
+  | "paused";
+export type ListFlowRunsRequestStatusList = Array<ListFlowRunsRequestStatusItem | (string & {})>;
+export type ListFlowRunsRequestOwnerIdList = Array<string>;
+export type ListFlowRunsRequestWorkflowVersionIdList = Array<string>;
+export type ListFlowRunsRequestWorkflowIdList = Array<string>;
+export interface ListFlowRunsRequest {
+  /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  cursor?: string | undefined;
+  /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  limit?: number | undefined;
+  /** An array of flow slugs in the format workflow-slug/flow-name. An optional version can be appended (workflow-slug/flow-name:version). If no version is provided, the latest version is used. */
+  flowSlug?: ListFlowRunsRequestFlowSlugList | undefined;
+  /** An array of flow IDs */
+  flowId?: ListFlowRunsRequestFlowIdList | undefined;
+  /** An array of flow run statuses to filter on */
+  status?: ListFlowRunsRequestStatusList | undefined;
+  /** The ID of the workspaces to return resources for */
+  ownerId?: ListFlowRunsRequestOwnerIdList | undefined;
+  /** An array of workflow version IDs */
+  workflowVersionId?: ListFlowRunsRequestWorkflowVersionIdList | undefined;
+  /** An array of workflow IDs */
+  workflowId?: ListFlowRunsRequestWorkflowIdList | undefined;
+}
+export interface Schema20 {
+  id: string;
+  flowId: string;
+  status: Items5;
+  startedAt?: string | undefined;
+  completedAt?: string | undefined;
+}
+export interface FlowRunWithCursor {
+  flowRun: Schema20;
+  cursor: string;
+}
+export type ListFlowRunsResponseBodyList = Array<FlowRunWithCursor>;
+export type ListFlowRunsResponse = ListFlowRunsResponseBodyList;
+export interface ListFlowRunStepsRequest {
+  /** The ID of the flow run */
+  flowRunId: string;
+  /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  cursor?: string | undefined;
+  /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  limit?: number | undefined;
+}
+/** The kind of step. `inline` runs a function inside the flow's process and retries in place. `detached` runs a registered task as its own task run. `sleep` is a durable sleep. */
+export type Type2 = "inline" | "detached" | "sleep";
+/** `running` until the step records an outcome, then `succeeded` or `failed`. */
+export type Status3 = "running" | "succeeded" | "failed";
+export interface ListFlowRunStepsResponseStepsItem {
+  /** The step's position in the flow run. Steps are numbered densely in the order the flow started them. */
+  seq: number;
+  /** The SDK's key for the step. */
+  stepKey: string;
+  /** For inline steps, the function's name. For detached steps, the task's registered name. Omitted for sleep steps. */
+  name?: string | undefined;
+  type: Type2;
+  status: Status3;
+  startedAt: string;
+  completedAt?: string | undefined;
+  /** For sleep steps, when the sleep ends. */
+  wakeAt?: string | undefined;
+  /** For detached steps, the ID of the task run the step started. */
+  childTaskRunId?: string | undefined;
+}
+export type ListFlowRunStepsResponseStepsList = Array<ListFlowRunStepsResponseStepsItem>;
+export interface ListFlowRunStepsResponse {
+  steps: ListFlowRunStepsResponseStepsList;
+  /** Pass as the `cursor` query parameter to fetch the next page. Absent on the last page. */
+  cursor?: string | undefined;
+  /** Whether another page of steps follows this one. */
+  hasMore: boolean;
+}
+export type ListFlowsRequestOwnerIdList = Array<string>;
+export type ListFlowsRequestFlowSlugList = Array<string>;
+export type ListFlowsRequestWorkflowVersionIdList = Array<string>;
+export type ListFlowsRequestWorkflowIdList = Array<string>;
+export interface ListFlowsRequest {
+  /** The ID of the workspaces to return resources for */
+  ownerId?: ListFlowsRequestOwnerIdList | undefined;
+  /** An array of flow slugs in the format workflow-slug/flow-name. An optional version can be appended (workflow-slug/flow-name:version). If no version is provided, the latest version is used. */
+  flowSlug?: ListFlowsRequestFlowSlugList | undefined;
+  /** An array of workflow version IDs */
+  workflowVersionId?: ListFlowsRequestWorkflowVersionIdList | undefined;
+  /** An array of workflow IDs */
+  workflowId?: ListFlowsRequestWorkflowIdList | undefined;
+  /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  cursor?: string | undefined;
+  /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  limit?: number | undefined;
+}
+export interface Schema19 {
+  id: string;
+  name: string;
+  createdAt: string;
+  workflowId?: string | undefined;
+  workflowVersionId?: string | undefined;
+}
+export interface FlowWithCursor {
+  flow: Schema19;
+  cursor: string;
+}
+export type ListFlowsResponseBodyList = Array<FlowWithCursor>;
+export type ListFlowsResponse = ListFlowsResponseBodyList;
 export type ListHeadersRequestPathList = Array<string>;
 export type ListHeadersRequestNameList = Array<string>;
 export type ListHeadersRequestValueList = Array<string>;
@@ -3726,15 +4394,15 @@ export interface ListHeadersRequest {
   /** The ID of the service */
   serviceId: string;
   /** Filter for specific paths that headers apply to */
-  path?: ListHeadersRequestPathList;
+  path?: ListHeadersRequestPathList | undefined;
   /** Filter for header names */
-  name?: ListHeadersRequestNameList;
+  name?: ListHeadersRequestNameList | undefined;
   /** Filter for header values */
-  value?: ListHeadersRequestValueList;
+  value?: ListHeadersRequestValueList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface HeaderWithCursor {
   header: Header;
@@ -3744,25 +4412,25 @@ export type ListHeadersResponseBodyList = Array<HeaderWithCursor>;
 export type ListHeadersResponse = ListHeadersResponseBodyList;
 export interface ListHttpFilterValuesRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Service ID to query. When multiple service ids are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** The hosts of HTTP requests to filter to. When multiple host query params are provided, they are ORed together */
-  host?: string;
+  host?: string | undefined;
   /** The status codes of HTTP requests to filter to. When multiple status code query params are provided, they are ORed together */
-  statusCode?: string;
+  statusCode?: string | undefined;
 }
 export type ListHttpFilterValuesResponseBodyItemFilter = "host" | "statusCode";
 export type ListHttpFilterValuesResponseBodyItemValuesList = Array<string>;
 export interface ListHttpFilterValuesResponseBodyItem {
-  filter?: ListHttpFilterValuesResponseBodyItemFilter;
-  values?: ListHttpFilterValuesResponseBodyItemValuesList;
+  filter?: ListHttpFilterValuesResponseBodyItemFilter | undefined;
+  values?: ListHttpFilterValuesResponseBodyItemValuesList | undefined;
 }
 /** A collection of filter values for HTTP metrics */
 export type ListHttpFilterValuesResponseBodyList = Array<ListHttpFilterValuesResponseBodyItem>;
@@ -3783,23 +4451,23 @@ export interface ListJobRequest {
   /** The ID of the service */
   serviceId: string;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter for the status of the job (`pending`, `running`, `succeeded`, `failed`, or `canceled`) */
-  status?: ListJobRequestStatusList;
+  status?: ListJobRequestStatusList | undefined;
   /** Filter for jobs created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for jobs created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for jobs started before a certain time (specified as an ISO 8601 timestamp) */
-  startedBefore?: string;
+  startedBefore?: string | undefined;
   /** Filter for jobs started after a certain time (specified as an ISO 8601 timestamp) */
-  startedAfter?: string;
+  startedAfter?: string | undefined;
   /** Filter for jobs finished before a certain time (specified as an ISO 8601 timestamp) */
-  finishedBefore?: string;
+  finishedBefore?: string | undefined;
   /** Filter for jobs finished after a certain time (specified as an ISO 8601 timestamp) */
-  finishedAfter?: string;
+  finishedAfter?: string | undefined;
 }
 export interface JobWithCursor {
   job: Schema7;
@@ -3813,25 +4481,25 @@ export type ListKeyValueRequestOwnerIdList = Array<string>;
 export type ListKeyValueRequestEnvironmentIdList = Array<string>;
 export interface ListKeyValueRequest {
   /** Filter by name */
-  name?: ListKeyValueRequestNameList;
+  name?: ListKeyValueRequestNameList | undefined;
   /** Filter by resource region */
-  region?: ListKeyValueRequestRegionList;
+  region?: ListKeyValueRequestRegionList | undefined;
   /** Filter for resources created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for resources created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for resources updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for resources updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListKeyValueRequestOwnerIdList;
+  ownerId?: ListKeyValueRequestOwnerIdList | undefined;
   /** Filter for resources that belong to an environment */
-  environmentId?: ListKeyValueRequestEnvironmentIdList;
+  environmentId?: ListKeyValueRequestEnvironmentIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** The IP allow list for the Key Value instance */
 export type KeyValueIpAllowListList = Array<CidrBlockAndDescription>;
@@ -3853,7 +4521,7 @@ export interface KeyValue {
   /** The IP allow list for the Key Value instance */
   ipAllowList: KeyValueIpAllowListList;
   /** The ID of the environment the Key Value instance is associated with */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** The version of Key Value */
   version: string;
   /** The URL to view the Key Value instance in the Render Dashboard */
@@ -3882,37 +4550,37 @@ export interface ListLogsRequest {
   /** The ID of the workspace to return logs for */
   ownerId: string;
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The direction to query logs for. Backward will return most recent logs first. Forward will start with the oldest logs in the time range. */
-  direction?: ListLogsRequestDirection | (string & {});
+  direction?: ListLogsRequestDirection | (string & {}) | undefined;
   /** Filter logs by their resource. A resource is the id of a server, cronjob, job, postgres, redis, workflow, or sandbox group. */
   resource: ListLogsRequestResourceList;
   /** Filter logs by the instance they were emitted from. An instance is the id of a specific running server. */
-  instance?: ListLogsRequestInstanceList;
+  instance?: ListLogsRequestInstanceList | undefined;
   /** Filter request logs by their host. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  host?: ListLogsRequestHostList;
+  host?: ListLogsRequestHostList | undefined;
   /** Filter request logs by their status code. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  statusCode?: ListLogsRequestStatusCodeList;
+  statusCode?: ListLogsRequestStatusCodeList | undefined;
   /** Filter request logs by their requests method. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  method?: ListLogsRequestMethodList;
+  method?: ListLogsRequestMethodList | undefined;
   /** Filter logs by their task(s) */
-  task?: ListLogsRequestTaskList;
+  task?: ListLogsRequestTaskList | undefined;
   /** Filter logs by their task run id(s) */
-  taskRun?: ListLogsRequestTaskRunList;
+  taskRun?: ListLogsRequestTaskRunList | undefined;
   /** Filter logs by sandbox ID. */
-  sandbox?: ListLogsRequestSandboxList;
+  sandbox?: ListLogsRequestSandboxList | undefined;
   /** Filter logs by their severity level. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  level?: ListLogsRequestLevelList;
+  level?: ListLogsRequestLevelList | undefined;
   /** Filter logs by their type. Types include `app` for application logs, `request` for request logs, and `build` for build logs. You can find the full set of types available for a query by using the `GET /logs/values` endpoint. */
-  type?: ListLogsRequestTypeList;
+  type?: ListLogsRequestTypeList | undefined;
   /** Filter by the text of the logs. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  text?: ListLogsRequestTextList;
+  text?: ListLogsRequestTextList | undefined;
   /** Filter request logs by their path. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  path?: ListLogsRequestPathList;
+  path?: ListLogsRequestPathList | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** The name of the log label */
 export type SchemaLabelsItemName =
@@ -3985,37 +4653,37 @@ export interface ListLogsValuesRequest {
   /** The label to query logs for */
   label: ListLogsValuesRequestLabel | (string & {});
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The direction to query logs for. Backward will return most recent logs first. Forward will start with the oldest logs in the time range. */
-  direction?: ListLogsValuesRequestDirection | (string & {});
+  direction?: ListLogsValuesRequestDirection | (string & {}) | undefined;
   /** Filter logs by their resource. A resource is the id of a server, cronjob, job, postgres, redis, workflow, or sandbox group. */
   resource: ListLogsValuesRequestResourceList;
   /** Filter logs by the instance they were emitted from. An instance is the id of a specific running server. */
-  instance?: ListLogsValuesRequestInstanceList;
+  instance?: ListLogsValuesRequestInstanceList | undefined;
   /** Filter request logs by their host. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  host?: ListLogsValuesRequestHostList;
+  host?: ListLogsValuesRequestHostList | undefined;
   /** Filter request logs by their status code. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  statusCode?: ListLogsValuesRequestStatusCodeList;
+  statusCode?: ListLogsValuesRequestStatusCodeList | undefined;
   /** Filter request logs by their requests method. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  method?: ListLogsValuesRequestMethodList;
+  method?: ListLogsValuesRequestMethodList | undefined;
   /** Filter logs by their task(s) */
-  task?: ListLogsValuesRequestTaskList;
+  task?: ListLogsValuesRequestTaskList | undefined;
   /** Filter logs by their task run id(s) */
-  taskRun?: ListLogsValuesRequestTaskRunList;
+  taskRun?: ListLogsValuesRequestTaskRunList | undefined;
   /** Filter logs by sandbox ID. */
-  sandbox?: ListLogsValuesRequestSandboxList;
+  sandbox?: ListLogsValuesRequestSandboxList | undefined;
   /** Filter logs by their severity level. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  level?: ListLogsValuesRequestLevelList;
+  level?: ListLogsValuesRequestLevelList | undefined;
   /** Filter logs by their type. Types include `app` for application logs, `request` for request logs, and `build` for build logs. You can find the full set of types available for a query by using the `GET /logs/values` endpoint. */
-  type?: ListLogsValuesRequestTypeList;
+  type?: ListLogsValuesRequestTypeList | undefined;
   /** Filter by the text of the logs. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  text?: ListLogsValuesRequestTextList;
+  text?: ListLogsValuesRequestTextList | undefined;
   /** Filter request logs by their path. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  path?: ListLogsValuesRequestPathList;
+  path?: ListLogsValuesRequestPathList | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListLogsValuesResponseBodyList = Array<string>;
 export type ListLogsValuesResponse = ListLogsValuesResponseBodyList;
@@ -4032,17 +4700,17 @@ export type ListMaintenanceRequestStateList = Array<
   ListMaintenanceRequestStateItem | (string & {})
 >;
 export interface ListMaintenanceRequest {
-  resourceId?: ListMaintenanceRequestResourceIdList;
+  resourceId?: ListMaintenanceRequestResourceIdList | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListMaintenanceRequestOwnerIdList;
-  state?: ListMaintenanceRequestStateList;
+  ownerId?: ListMaintenanceRequestOwnerIdList | undefined;
+  state?: ListMaintenanceRequestStateList | undefined;
 }
 export interface Schema11 {
   id: string;
   type: string;
   scheduledAt: string;
   /** If present, the maintenance run cannot be scheduled for later than this date-time. */
-  pendingMaintenanceBy?: string;
+  pendingMaintenanceBy?: string | undefined;
   state: Items4;
   resourceId: string;
 }
@@ -4052,13 +4720,13 @@ export type ListNotificationOverridesRequestOwnerIdList = Array<string>;
 export type ListNotificationOverridesRequestServiceIdList = Array<string>;
 export interface ListNotificationOverridesRequest {
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListNotificationOverridesRequestOwnerIdList;
+  ownerId?: ListNotificationOverridesRequestOwnerIdList | undefined;
   /** Filter for resources by service ID */
-  serviceId?: ListNotificationOverridesRequestServiceIdList;
+  serviceId?: ListNotificationOverridesRequestServiceIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface NotificationOverrideWithCursorOverride {
   serviceId: string;
@@ -4076,15 +4744,15 @@ export interface ListOrganizationAuditLogsRequest {
   /** The unique identifier of the organization */
   orgId: string;
   /** Start time for filtering audit logs (ISO 8601 format) */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time for filtering audit logs (ISO 8601 format) */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The direction to query logs for. Backward will return most recent logs first. Forward will start with the oldest logs in the time range. */
-  direction?: ListOrganizationAuditLogsRequestDirection | (string & {});
+  direction?: ListOrganizationAuditLogsRequestDirection | (string & {}) | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of audit log items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** The type of event that occurred */
 export type AuditLogEvent =
@@ -4102,7 +4770,9 @@ export type AuditLogEvent =
   | "ChangeTeamMemberRoleEvent"
   | "ChangeWorkspaceDeployHandlingEvent"
   | "ChangeWorkspacePrivacyEvent"
-  | "CreateArtifactSourceEvent"
+  | "CreateBuildSourceEvent"
+  | "DeleteBuildSourceEvent"
+  | "UpdateBuildSourceEvent"
   | "CreateCronJobEvent"
   | "CreateEnvVarsEvent"
   | "CreateEnvironmentEvent"
@@ -4140,6 +4810,7 @@ export type AuditLogEvent =
   | "InviteToOrgEvent"
   | "InviteToTeamEvent"
   | "JoinTeamEvent"
+  | "LinkBuildSourceEnvGroupEvent"
   | "LoginEvent"
   | "LogoutEvent"
   | "MaintenanceModeEnabledEvent"
@@ -4157,12 +4828,16 @@ export type AuditLogEvent =
   | "StartShellEvent"
   | "SuspendPostgresEvent"
   | "SuspendServiceEvent"
+  | "UnlinkBuildSourceEnvGroupEvent"
   | "UpdateEnvVarsEvent"
   | "UpdateIPAllowListEvent"
+  | "UpdateOrgPaymentMethodEvent"
   | "UpdateOtelIntegrationEvent"
   | "UpdateSSOConnectionEvent"
+  | "UpdateServiceBuildSourceEvent"
   | "UpdateServiceNameEvent"
   | "UpdateWebhookEvent"
+  | "UpdateWorkspacePaymentMethodEvent"
   | "VerifyOrgDomainEvent"
   | "ViewConnectionInfoEvent"
   | "ViewEnvVarValuesEvent"
@@ -4176,9 +4851,9 @@ export interface AuditLogActor {
   /** The type of actor that performed the action */
   type: AuditLogActorType;
   /** Email address of the actor (if applicable) */
-  email?: string;
+  email?: string | undefined;
   /** Unique identifier of the actor (if applicable) */
-  id?: string;
+  id?: string | undefined;
 }
 /** Additional context information about the event */
 export type AuditLogMetadataMap = { [key: string]: string | undefined };
@@ -4206,15 +4881,15 @@ export interface ListOwnerAuditLogsRequest {
   /** The ID of the workspace to return resources for */
   ownerId: string;
   /** Start time for filtering audit logs (ISO 8601 format) */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time for filtering audit logs (ISO 8601 format) */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The direction to query logs for. Backward will return most recent logs first. Forward will start with the oldest logs in the time range. */
-  direction?: ListOwnerAuditLogsRequestDirection | (string & {});
+  direction?: ListOwnerAuditLogsRequestDirection | (string & {}) | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of audit log items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListOwnerAuditLogsResponseBodyList = Array<AuditLogWithCursor>;
 export type ListOwnerAuditLogsResponse = ListOwnerAuditLogsResponseBodyList;
@@ -4222,37 +4897,37 @@ export type ListOwnersRequestNameList = Array<string>;
 export type ListOwnersRequestEmailList = Array<string>;
 export interface ListOwnersRequest {
   /** Only return workspaces with one of the provided names. Only exact matches are returned. */
-  name?: ListOwnersRequestNameList;
+  name?: ListOwnersRequestNameList | undefined;
   /** Only return workspaces owned by one of the provided email addresses. */
-  email?: ListOwnersRequestEmailList;
+  email?: ListOwnersRequestEmailList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface OwnerWithCursor {
-  owner?: Owner;
-  cursor?: string;
+  owner?: Owner | undefined;
+  cursor?: string | undefined;
 }
 export type ListOwnersResponseBodyList = Array<OwnerWithCursor>;
 export type ListOwnersResponse = ListOwnersResponseBodyList;
 export interface ListPathFilterValuesRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Service ID to query. When multiple service ids are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** The hosts of HTTP requests to filter to. When multiple host query params are provided, they are ORed together */
-  host?: string;
+  host?: string | undefined;
   /** The status codes of HTTP requests to filter to. When multiple status code query params are provided, they are ORed together */
-  statusCode?: string;
+  statusCode?: string | undefined;
   /** The paths of HTTP requests to filter to. When multiple path query params are provided, they are ORed together */
-  path?: string;
+  path?: string | undefined;
 }
 /** A collection of suggested paths to filter by */
 export type ListPathFilterValuesResponseBodyList = Array<string>;
@@ -4267,29 +4942,29 @@ export type ListPostgresRequestOwnerIdList = Array<string>;
 export type ListPostgresRequestEnvironmentIdList = Array<string>;
 export interface ListPostgresRequest {
   /** Filter by name */
-  name?: ListPostgresRequestNameList;
+  name?: ListPostgresRequestNameList | undefined;
   /** Filter by resource region */
-  region?: ListPostgresRequestRegionList;
+  region?: ListPostgresRequestRegionList | undefined;
   /** Filter resources based on whether they're suspended or not suspended */
-  suspended?: ListPostgresRequestSuspendedList;
+  suspended?: ListPostgresRequestSuspendedList | undefined;
   /** Filter for resources created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for resources created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for resources updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for resources updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListPostgresRequestOwnerIdList;
+  ownerId?: ListPostgresRequestOwnerIdList | undefined;
   /** Filter for resources that belong to an environment */
-  environmentId?: ListPostgresRequestEnvironmentIdList;
+  environmentId?: ListPostgresRequestEnvironmentIdList | undefined;
   /** Include replicas in the response */
-  includeReplicas?: boolean;
+  includeReplicas?: boolean | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type PostgresIpAllowListList = Array<CidrBlockAndDescription>;
 export type PostgresSuspended = "suspended" | "not_suspended";
@@ -4300,16 +4975,16 @@ export interface Postgres {
   createdAt: string;
   updatedAt: string;
   /** The time at which the database will be expire. Applies to free tier databases only. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   databaseName: string;
   databaseUser: string;
-  environmentId?: string;
+  environmentId?: string | undefined;
   highAvailabilityEnabled: boolean;
   name: string;
   owner: Owner;
   plan: Plan2;
-  diskSizeGB?: number;
-  primaryPostgresID?: string;
+  diskSizeGB?: number | undefined;
+  primaryPostgresID?: string | undefined;
   region: Region;
   readReplicas: ReadReplicas;
   role: DatabaseRole;
@@ -4336,7 +5011,7 @@ export interface ListPostgresExportResponseBodyItem {
   id: string;
   createdAt: string;
   /** URL to download the Postgres export */
-  url?: string;
+  url?: string | undefined;
 }
 export type ListPostgresExportResponseBodyList = Array<ListPostgresExportResponseBodyItem>;
 export type ListPostgresExportResponse = ListPostgresExportResponseBodyList;
@@ -4345,21 +5020,21 @@ export interface ListPostgresProcessesRequest {
 }
 /** A single live process from pg_stat_activity. */
 export interface ListPostgresProcessesResponseProcessesItem {
-  pid?: number;
-  databaseName?: string;
-  username?: string;
-  applicationName?: string;
-  clientAddr?: string;
-  backendStart?: string;
-  queryStart?: string;
-  state?: string;
-  waitEvent?: string;
-  waitEventType?: string;
-  query?: string;
+  pid?: number | undefined;
+  databaseName?: string | undefined;
+  username?: string | undefined;
+  applicationName?: string | undefined;
+  clientAddr?: string | undefined;
+  backendStart?: string | undefined;
+  queryStart?: string | undefined;
+  state?: string | undefined;
+  waitEvent?: string | undefined;
+  waitEventType?: string | undefined;
+  query?: string | undefined;
   /** Duration of the query, in seconds. */
-  duration?: number;
+  duration?: number | undefined;
   /** Whether this process is running against the primary instance of a highly available database. */
-  isLeader?: boolean;
+  isLeader?: boolean | undefined;
 }
 export type ListPostgresProcessesResponseProcessesList =
   Array<ListPostgresProcessesResponseProcessesItem>;
@@ -4371,11 +5046,11 @@ export interface ListPostgresSizesRequest {
 }
 /** The size of an index, table, or database. */
 export interface ListPostgresSizesResponseSizesItem {
-  Database?: string;
-  Schema?: string;
-  Table?: string;
-  Index?: string;
-  Bytes?: number;
+  Database?: string | undefined;
+  Schema?: string | undefined;
+  Table?: string | undefined;
+  Index?: string | undefined;
+  Bytes?: number | undefined;
 }
 export type ListPostgresSizesResponseSizesList = Array<ListPostgresSizesResponseSizesItem>;
 export interface ListPostgresSizesResponse {
@@ -4386,10 +5061,10 @@ export interface ListPostgresTableScansRequest {
 }
 /** The number of sequential scans performed against a table. */
 export interface ListPostgresTableScansResponseTableScansItem {
-  Database?: string;
-  Schema?: string;
-  Table?: string;
-  Scans?: number;
+  Database?: string | undefined;
+  Schema?: string | undefined;
+  Table?: string | undefined;
+  Scans?: number | undefined;
 }
 export type ListPostgresTableScansResponseTableScansList =
   Array<ListPostgresTableScansResponseTableScansItem>;
@@ -4401,25 +5076,25 @@ export interface ListPostgresTopQueriesRequest {
 }
 /** A single query from pg_stat_statements. */
 export interface ListPostgresTopQueriesResponseTopQueriesItem {
-  queryId?: string;
-  query?: string;
-  calls?: number;
-  totalTimeMs?: number;
-  minTimeMs?: number;
-  maxTimeMs?: number;
-  meanTimeMs?: number;
-  stddevTimeMs?: number;
-  rows?: number;
-  sharedBlocksHit?: number;
-  sharedBlocksRead?: number;
-  sharedBlocksDirtied?: number;
-  sharedBlocksWritten?: number;
-  localBlocksHit?: number;
-  localBlocksRead?: number;
-  localBlocksDirtied?: number;
-  localBlocksWritten?: number;
-  tempBlocksRead?: number;
-  tempBlocksWritten?: number;
+  queryId?: string | undefined;
+  query?: string | undefined;
+  calls?: number | undefined;
+  totalTimeMs?: number | undefined;
+  minTimeMs?: number | undefined;
+  maxTimeMs?: number | undefined;
+  meanTimeMs?: number | undefined;
+  stddevTimeMs?: number | undefined;
+  rows?: number | undefined;
+  sharedBlocksHit?: number | undefined;
+  sharedBlocksRead?: number | undefined;
+  sharedBlocksDirtied?: number | undefined;
+  sharedBlocksWritten?: number | undefined;
+  localBlocksHit?: number | undefined;
+  localBlocksRead?: number | undefined;
+  localBlocksDirtied?: number | undefined;
+  localBlocksWritten?: number | undefined;
+  tempBlocksRead?: number | undefined;
+  tempBlocksWritten?: number | undefined;
 }
 export type ListPostgresTopQueriesResponseTopQueriesList =
   Array<ListPostgresTopQueriesResponseTopQueriesItem>;
@@ -4430,10 +5105,10 @@ export interface ListPostgresUsersRequest {
   postgresId: string;
 }
 export interface ListPostgresUsersResponseBodyItem {
-  username?: string;
-  default?: boolean;
-  createdAt?: string;
-  openConnections?: number;
+  username?: string | undefined;
+  default?: boolean | undefined;
+  createdAt?: string | undefined;
+  openConnections?: number | undefined;
 }
 export type ListPostgresUsersResponseBodyList = Array<ListPostgresUsersResponseBodyItem>;
 export type ListPostgresUsersResponse = ListPostgresUsersResponseBodyList;
@@ -4441,21 +5116,21 @@ export type ListProjectsRequestNameList = Array<string>;
 export type ListProjectsRequestOwnerIdList = Array<string>;
 export interface ListProjectsRequest {
   /** Filter by name */
-  name?: ListProjectsRequestNameList;
+  name?: ListProjectsRequestNameList | undefined;
   /** Filter for resources created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for resources created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for resources updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for resources updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListProjectsRequestOwnerIdList;
+  ownerId?: ListProjectsRequestOwnerIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface ProjectWithCursor {
   project: Project;
@@ -4471,25 +5146,25 @@ export type ListRegistryCredentialsRequestTypeList = Array<
 export type ListRegistryCredentialsRequestOwnerIdList = Array<string>;
 export interface ListRegistryCredentialsRequest {
   /** Filter for the name of a credential */
-  name?: ListRegistryCredentialsRequestNameList;
+  name?: ListRegistryCredentialsRequestNameList | undefined;
   /** Filter for the username of a credential */
-  username?: ListRegistryCredentialsRequestUsernameList;
+  username?: ListRegistryCredentialsRequestUsernameList | undefined;
   /** Filter for the registry type for the credential */
-  type?: ListRegistryCredentialsRequestTypeList;
+  type?: ListRegistryCredentialsRequestTypeList | undefined;
   /** Filter for services created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for services created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for services updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for services updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListRegistryCredentialsRequestOwnerIdList;
+  ownerId?: ListRegistryCredentialsRequestOwnerIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListRegistryCredentialsResponseBodyList = Array<RegistryCredential>;
 export type ListRegistryCredentialsResponse = ListRegistryCredentialsResponseBodyList;
@@ -4503,25 +5178,25 @@ export type ListResourceLogStreamsRequestSettingList = Array<
 >;
 export interface ListResourceLogStreamsRequest {
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListResourceLogStreamsRequestOwnerIdList;
+  ownerId?: ListResourceLogStreamsRequestOwnerIdList | undefined;
   /** Filter log streams by their id. */
-  logStreamId?: ListResourceLogStreamsRequestLogStreamIdList;
+  logStreamId?: ListResourceLogStreamsRequestLogStreamIdList | undefined;
   /** IDs of resources (server, cron job, postgres, or redis) to filter by */
-  resourceId?: ListResourceLogStreamsRequestResourceIdList;
+  resourceId?: ListResourceLogStreamsRequestResourceIdList | undefined;
   /** Filter log streams by their setting. */
-  setting?: ListResourceLogStreamsRequestSettingList;
+  setting?: ListResourceLogStreamsRequestSettingList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Resource log stream overrides */
 export interface Schema9 {
   /** The ID of the resource. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The endpoint to stream logs to. Must be present if setting is send. Cannot be present if setting is drop. */
-  endpoint?: string;
-  setting?: Items3;
+  endpoint?: string | undefined;
+  setting?: Items3 | undefined;
 }
 export type ListResourceLogStreamsResponseBodyList = Array<Schema9>;
 export type ListResourceLogStreamsResponse = ListResourceLogStreamsResponseBodyList;
@@ -4533,15 +5208,15 @@ export interface ListRoutesRequest {
   /** The ID of the service */
   serviceId: string;
   /** Filter for the type of route rule */
-  type?: ListRoutesRequestTypeList;
+  type?: ListRoutesRequestTypeList | undefined;
   /** Filter for the source path of the route */
-  source?: ListRoutesRequestSourceList;
+  source?: ListRoutesRequestSourceList | undefined;
   /** Filter for the destination path of the route */
-  destination?: ListRoutesRequestDestinationList;
+  destination?: ListRoutesRequestDestinationList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface RouteWithCursor {
   route: Route;
@@ -4549,12 +5224,136 @@ export interface RouteWithCursor {
 }
 export type ListRoutesResponseBodyList = Array<RouteWithCursor>;
 export type ListRoutesResponse = ListRoutesResponseBodyList;
+export type ListSandboxBuildsRequestStatusItem = "pending" | "running" | "succeeded" | "failed";
+export type ListSandboxBuildsRequestStatusList = Array<
+  ListSandboxBuildsRequestStatusItem | (string & {})
+>;
+export interface ListSandboxBuildsRequest {
+  /** The ID of the sandbox group */
+  sandboxGroupId: string;
+  /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  cursor?: string | undefined;
+  /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  limit?: number | undefined;
+  /** Return only builds of the image with this name. */
+  name?: string | undefined;
+  /** Filter by build status. */
+  status?: ListSandboxBuildsRequestStatusList | undefined;
+}
+/** A sandbox build with a cursor */
+export interface SandboxBuildWithCursor {
+  build: Schema24;
+  cursor: string;
+}
+export type ListSandboxBuildsResponseBodyList = Array<SandboxBuildWithCursor>;
+export type ListSandboxBuildsResponse = ListSandboxBuildsResponseBodyList;
+export type ListSandboxesRequestStatusItem =
+  | "creating"
+  | "running"
+  | "suspending"
+  | "suspended"
+  | "resuming"
+  | "errored"
+  | "terminated";
+export type ListSandboxesRequestStatusList = Array<ListSandboxesRequestStatusItem | (string & {})>;
+export interface ListSandboxesRequest {
+  /** The ID of the workspace whose sandboxes to return. */
+  ownerId: string;
+  /** Return only sandboxes in this group. The group must belong to ownerId. */
+  sandboxGroupId?: string | undefined;
+  /** Return only sandboxes with exactly this name. Names aren't unique, so this can match more than one sandbox. */
+  name?: string | undefined;
+  /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  cursor?: string | undefined;
+  /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  limit?: number | undefined;
+  /** Filter by sandbox status. If omitted, returns sandboxes in every status except `terminated`. To include terminated sandboxes, list `terminated` explicitly. */
+  status?: ListSandboxesRequestStatusList | undefined;
+}
+/** A sandbox with a cursor */
+export interface SandboxWithCursor {
+  sandbox: Schema21;
+  cursor: string;
+}
+export type ListSandboxesResponseBodyList = Array<SandboxWithCursor>;
+export type ListSandboxesResponse = ListSandboxesResponseBodyList;
+export interface ListSandboxExecutionsRequest {
+  /** The ID of the sandbox */
+  sandboxId: string;
+  /** The ID of the workspace the sandbox belongs to. Optional: the workspace is determined from the sandbox ID, and this parameter is ignored when supplied. */
+  ownerId?: string | undefined;
+  /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  cursor?: string | undefined;
+  /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  limit?: number | undefined;
+}
+export type SchemaType = "runs" | "files";
+export type SchemaOperation = "sync" | "stream" | "upload" | "download";
+/** One recorded sandbox execution (a command run or file transfer). `startedAt` is the token provisioning time. `command` may be present while the execution is in flight (recorded at token mint). `stoppedAt` and `exitCode` are absent until a status report or sandbox finalization. */
+export interface Schema23 {
+  id: string;
+  sandboxId: string;
+  type: SchemaType;
+  operation: SchemaOperation;
+  /** The execution target. For runs, the truncated command; for file transfers, the target file path. */
+  command?: string | undefined;
+  /** The ID of the user the execution token was minted for. */
+  userId: string;
+  startedAt: string;
+  stoppedAt?: string | undefined;
+  exitCode?: number | undefined;
+}
+/** A sandbox execution with a cursor */
+export interface ExecutionWithCursor {
+  execution: Schema23;
+  cursor: string;
+}
+export type ListSandboxExecutionsResponseBodyList = Array<ExecutionWithCursor>;
+export type ListSandboxExecutionsResponse = ListSandboxExecutionsResponseBodyList;
+export interface ListSandboxGroupsRequest {
+  /** The ID of the workspace whose sandbox groups to return. */
+  ownerId: string;
+  /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  cursor?: string | undefined;
+  /** Maximum groups to return. */
+  limit?: number | undefined;
+}
+/** A sandbox group with a cursor */
+export interface SandboxGroupWithCursor {
+  sandboxGroup: Schema22;
+  cursor: string;
+}
+export type ListSandboxGroupsResponseBodyList = Array<SandboxGroupWithCursor>;
+export type ListSandboxGroupsResponse = ListSandboxGroupsResponseBodyList;
+export type ListSandboxSnapshotsRequestStatusItem = "creating" | "available" | "failed";
+export type ListSandboxSnapshotsRequestStatusList = Array<
+  ListSandboxSnapshotsRequestStatusItem | (string & {})
+>;
+export interface ListSandboxSnapshotsRequest {
+  /** The ID of the sandbox group */
+  sandboxGroupId: string;
+  /** The ID of the workspace whose snapshots to return. */
+  ownerId: string;
+  /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  cursor?: string | undefined;
+  /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  limit?: number | undefined;
+  /** Filter by snapshot status. */
+  status?: ListSandboxSnapshotsRequestStatusList | undefined;
+}
+/** A sandbox snapshot with a cursor */
+export interface SandboxSnapshotWithCursor {
+  snapshot: Schema25;
+  cursor: string;
+}
+export type ListSandboxSnapshotsResponseBodyList = Array<SandboxSnapshotWithCursor>;
+export type ListSandboxSnapshotsResponse = ListSandboxSnapshotsResponseBodyList;
 export interface ListSecretFilesForBuildSourceRequest {
   buildSourceId: string;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface SecretFileWithCursor {
   secretFile: SecretFile;
@@ -4566,9 +5365,9 @@ export interface ListSecretFilesForServiceRequest {
   /** The ID of the service */
   serviceId: string;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListSecretFilesForServiceResponseBodyList = Array<SecretFileWithCursor>;
 export type ListSecretFilesForServiceResponse = ListSecretFilesForServiceResponseBodyList;
@@ -4584,33 +5383,33 @@ export type ListServicesRequestSuspendedList = Array<
 export type ListServicesRequestOwnerIdList = Array<string>;
 export interface ListServicesRequest {
   /** Filter by name */
-  name?: ListServicesRequestNameList;
+  name?: ListServicesRequestNameList | undefined;
   /** Filter for types of services */
-  type?: ListServicesRequestTypeList;
+  type?: ListServicesRequestTypeList | undefined;
   /** Filter for resources that belong to an environment */
-  environmentId?: ListServicesRequestEnvironmentIdList;
+  environmentId?: ListServicesRequestEnvironmentIdList | undefined;
   /** Filter for environments (runtimes) of services (deprecated; use `runtime` instead) */
-  env?: ListServicesRequestEnvList;
+  env?: ListServicesRequestEnvList | undefined;
   /** Filter by resource region */
-  region?: ListServicesRequestRegionList;
+  region?: ListServicesRequestRegionList | undefined;
   /** Filter resources based on whether they're suspended or not suspended */
-  suspended?: ListServicesRequestSuspendedList;
+  suspended?: ListServicesRequestSuspendedList | undefined;
   /** Filter for resources created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for resources created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for resources updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for resources updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListServicesRequestOwnerIdList;
+  ownerId?: ListServicesRequestOwnerIdList | undefined;
   /** Include previews in the response */
-  includePreviews?: boolean;
+  includePreviews?: boolean | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface ServiceWithCursor {
   service: Service;
@@ -4623,9 +5422,9 @@ export interface ListSnapshotsRequest {
   diskId: string;
 }
 export interface DiskSnapshot {
-  createdAt?: string;
-  snapshotKey?: string;
-  instanceId?: string;
+  createdAt?: string | undefined;
+  snapshotKey?: string | undefined;
+  instanceId?: string | undefined;
 }
 export type ListSnapshotsResponseBodyList = Array<DiskSnapshot>;
 export type ListSnapshotsResponse = ListSnapshotsResponseBodyList;
@@ -4636,19 +5435,19 @@ export type ListTaskRunsRequestWorkflowVersionIdList = Array<string>;
 export type ListTaskRunsRequestWorkflowIdList = Array<string>;
 export interface ListTaskRunsRequest {
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
   /** An array of task slugs in the format workflow-slug/task-name. An optional version can be appended (workflow-slug/task-name:version). If no version is provided, the latest version is used. */
-  taskSlug?: ListTaskRunsRequestTaskSlugList;
+  taskSlug?: ListTaskRunsRequestTaskSlugList | undefined;
   /** An array of root task run IDs to filter on */
-  rootTaskRunId?: ListTaskRunsRequestRootTaskRunIdList;
+  rootTaskRunId?: ListTaskRunsRequestRootTaskRunIdList | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListTaskRunsRequestOwnerIdList;
+  ownerId?: ListTaskRunsRequestOwnerIdList | undefined;
   /** An array of workflow version IDs */
-  workflowVersionId?: ListTaskRunsRequestWorkflowVersionIdList;
+  workflowVersionId?: ListTaskRunsRequestWorkflowVersionIdList | undefined;
   /** An array of workflow IDs */
-  workflowId?: ListTaskRunsRequestWorkflowIdList;
+  workflowId?: ListTaskRunsRequestWorkflowIdList | undefined;
 }
 export type SchemaAttemptsItem = CreateTaskResponseAttemptsItem;
 export type SchemaAttemptsList = Array<CreateTaskResponseAttemptsItem>;
@@ -4656,11 +5455,11 @@ export interface Schema18 {
   id: string;
   taskId: string;
   status: Status2;
-  startedAt?: string;
-  completedAt?: string;
+  startedAt?: string | undefined;
+  completedAt?: string | undefined;
   parentTaskRunId: string;
   /** The 0-indexed attempt of the parent task run that spawned this task run. Omitted for root task runs and for task runs created before this field was introduced. */
-  parentTaskAttempt?: number;
+  parentTaskAttempt?: number | undefined;
   rootTaskRunId: string;
   retries: number;
   attempts: SchemaAttemptsList;
@@ -4677,27 +5476,21 @@ export type ListTasksRequestWorkflowVersionIdList = Array<string>;
 export type ListTasksRequestWorkflowIdList = Array<string>;
 export interface ListTasksRequest {
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListTasksRequestOwnerIdList;
+  ownerId?: ListTasksRequestOwnerIdList | undefined;
   /** An array of task slugs in the format workflow-slug/task-name. An optional version can be appended (workflow-slug/task-name:version). If no version is provided, the latest version is used. */
-  taskSlug?: ListTasksRequestTaskSlugList;
+  taskSlug?: ListTasksRequestTaskSlugList | undefined;
   /** An array of workflow version IDs */
-  workflowVersionId?: ListTasksRequestWorkflowVersionIdList;
+  workflowVersionId?: ListTasksRequestWorkflowVersionIdList | undefined;
   /** An array of workflow IDs */
-  workflowId?: ListTasksRequestWorkflowIdList;
+  workflowId?: ListTasksRequestWorkflowIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
-export interface Schema17 {
-  id: string;
-  name: string;
-  createdAt: string;
-  workflowId?: string;
-  workflowVersionId?: string;
-}
+export type Schema17 = Schema19;
 export interface TaskWithCursor {
-  task: Schema17;
+  task: Schema19;
   cursor: string;
 }
 export type ListTasksResponseBodyList = Array<TaskWithCursor>;
@@ -4706,13 +5499,13 @@ export interface ListWebhookEventsRequest {
   /** Unique identifier for the webhook */
   webhookId: string;
   /** Filter events sent before this time (specified as an ISO 8601 timestamp) */
-  sentBefore?: string;
+  sentBefore?: string | undefined;
   /** Filter for resources sent after a certain time (specified as an ISO 8601 timestamp) */
-  sentAfter?: string;
+  sentAfter?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface WebhookEventWithCursorWebhookEvent {
   /** the id of the webhook event */
@@ -4721,10 +5514,10 @@ export interface WebhookEventWithCursorWebhookEvent {
   eventId: string;
   eventType: Type;
   sentAt: string;
-  statusCode?: number;
-  responseBody?: string;
+  statusCode?: number | undefined;
+  responseBody?: string | undefined;
   /** error is populated when an error occurs without a response such as a timeout */
-  error?: string;
+  error?: string | undefined;
 }
 export interface WebhookEventWithCursor {
   webhookEvent: WebhookEventWithCursorWebhookEvent;
@@ -4735,11 +5528,11 @@ export type ListWebhookEventsResponse = ListWebhookEventsResponseBodyList;
 export type ListWebhooksRequestOwnerIdList = Array<string>;
 export interface ListWebhooksRequest {
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListWebhooksRequestOwnerIdList;
+  ownerId?: ListWebhooksRequestOwnerIdList | undefined;
 }
 export interface WebhookWithCursor {
   webhook: Schema14;
@@ -4753,17 +5546,17 @@ export type ListWorkflowsRequestWorkflowIDList = Array<string>;
 export type ListWorkflowsRequestEnvironmentIdList = Array<string>;
 export interface ListWorkflowsRequest {
   /** Filter by name */
-  name?: ListWorkflowsRequestNameList;
+  name?: ListWorkflowsRequestNameList | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListWorkflowsRequestOwnerIdList;
+  ownerId?: ListWorkflowsRequestOwnerIdList | undefined;
   /** The IDs of the workflows to return resources for */
-  workflowID?: ListWorkflowsRequestWorkflowIDList;
+  workflowID?: ListWorkflowsRequestWorkflowIDList | undefined;
   /** Filter for resources that belong to an environment */
-  environmentId?: ListWorkflowsRequestEnvironmentIdList;
+  environmentId?: ListWorkflowsRequestEnvironmentIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface WorkflowWithCursor {
   workflow: Schema15;
@@ -4776,15 +5569,15 @@ export type ListWorkflowVersionsRequestWorkflowIDList = Array<string>;
 export type ListWorkflowVersionsRequestWorkflowVersionIdList = Array<string>;
 export interface ListWorkflowVersionsRequest {
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListWorkflowVersionsRequestOwnerIdList;
+  ownerId?: ListWorkflowVersionsRequestOwnerIdList | undefined;
   /** The IDs of the workflows to return resources for */
-  workflowID?: ListWorkflowVersionsRequestWorkflowIDList;
+  workflowID?: ListWorkflowVersionsRequestWorkflowIDList | undefined;
   /** The IDs of the workflow versions to return resources for */
-  workflowVersionId?: ListWorkflowVersionsRequestWorkflowVersionIdList;
+  workflowVersionId?: ListWorkflowVersionsRequestWorkflowVersionIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type SchemaStatus =
   | "created"
@@ -4810,9 +5603,12 @@ export type PatchOwnerNotificationSettingsRequestNotificationsToSend = "none" | 
 export interface PatchOwnerNotificationSettingsRequest {
   /** The ID of the workspace to return resources for */
   ownerId: string;
-  emailEnabled?: boolean;
-  previewNotificationsEnabled?: boolean;
-  notificationsToSend?: PatchOwnerNotificationSettingsRequestNotificationsToSend | (string & {});
+  emailEnabled?: boolean | undefined;
+  previewNotificationsEnabled?: boolean | undefined;
+  notificationsToSend?:
+    | PatchOwnerNotificationSettingsRequestNotificationsToSend
+    | (string & {})
+    | undefined;
 }
 export interface Schema3 {
   ownerId: string;
@@ -4830,7 +5626,7 @@ export interface PatchRouteRequest {
   priority: number;
 }
 export interface PatchRouteResponse {
-  headers?: Route;
+  headers?: Route | undefined;
 }
 export type PatchServiceNotificationOverridesRequestPreviewNotificationsEnabled =
   | "default"
@@ -4846,8 +5642,12 @@ export interface PatchServiceNotificationOverridesRequest {
   serviceId: string;
   previewNotificationsEnabled?:
     | PatchServiceNotificationOverridesRequestPreviewNotificationsEnabled
-    | (string & {});
-  notificationsToSend?: PatchServiceNotificationOverridesRequestNotificationsToSend | (string & {});
+    | (string & {})
+    | undefined;
+  notificationsToSend?:
+    | PatchServiceNotificationOverridesRequestNotificationsToSend
+    | (string & {})
+    | undefined;
 }
 export interface Schema4 {
   serviceId: string;
@@ -4858,17 +5658,17 @@ export interface PostJobRequest {
   /** The ID of the service */
   serviceId: string;
   startCommand: string;
-  planId?: string;
+  planId?: string | undefined;
 }
 export interface PostJobResponse {
   id: string;
   serviceId: string;
   startCommand: string;
   planId: string;
-  status?: Items2;
+  status?: Items2 | undefined;
   createdAt: string;
-  startedAt?: string;
-  finishedAt?: string;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
 }
 export interface PreviewServiceRequest {
   /** The ID of the service */
@@ -4876,8 +5676,8 @@ export interface PreviewServiceRequest {
   /** Must be either a full URL or the relative path to an image. If a relative path, Render uses the base service's image URL as its root. For example, if the base service's image URL is `docker.io/library/nginx:latest`, then valid values are: `docker.io/library/nginx:<any tag or SHA>`, `library/nginx:<any tag or SHA>`, or `nginx:<any tag or SHA>`. Note that the path must match (only the tag or SHA can vary). */
   imagePath: string;
   /** A name for the service preview instance. If not specified, Render generates the name using the base service's name and the specified tag or SHA. */
-  name?: string;
-  plan?: Plan | (string & {});
+  name?: string | undefined;
+  plan?: Plan | (string & {}) | undefined;
 }
 export interface PurgeCacheRequest {
   /** The ID of the service */
@@ -4900,17 +5700,17 @@ export type PutRoutesResponse = PutRoutesResponseBodyList;
 export interface RecoverPostgresRequest {
   postgresId: string;
   /** Name of the new database. */
-  restoreName?: string;
+  restoreName?: string | undefined;
   /** The point in time to restore the database to. See `/recovery-info` for restore availability */
-  restoreTime?: string;
+  restoreTime?: string | undefined;
   /** Datadog API key to use for monitoring the new database. Defaults to the API key of the original database. Use an empty string to prevent copying of the API key to the new database. */
-  datadogApiKey?: string;
+  datadogApiKey?: string | undefined;
   /** Datadog region code to use for monitoring the new database. Defaults to the region code of the original database. Use an empty string to prevent copying of the region code to the new database. */
-  datadogSite?: string;
+  datadogSite?: string | undefined;
   /** The plan to use for the new database. Defaults to the same plan as the original database. Cannot be a lower tier plan than the original database. */
-  plan?: string;
+  plan?: string | undefined;
   /** The environment to create the new database in. Defaults to the environment of the original database. */
-  environmentId?: string;
+  environmentId?: string | undefined;
 }
 export interface RefreshCustomDomainRequest {
   /** The ID of the service */
@@ -4945,7 +5745,7 @@ export interface RestoreSnapshotRequest {
   /** The ID of the disk */
   diskId: string;
   snapshotKey: string;
-  instanceId?: string;
+  instanceId?: string | undefined;
 }
 export interface ResumeKeyValueRequest {
   redisId: string;
@@ -4970,12 +5770,12 @@ export interface CronJobRun {
   /** The ID of the run */
   id: string;
   status: CronJobRunStatus;
-  startedAt?: string;
-  finishedAt?: string;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
   /** user who triggered the cron job run */
-  triggeredBy?: string;
-  /** user who cancelled the cron job run */
-  canceledBy?: string;
+  triggeredBy?: string | undefined;
+  /** user who canceled the cron job run */
+  canceledBy?: string | undefined;
 }
 export interface ScaleServiceRequest {
   /** The ID of the service */
@@ -4983,6 +5783,28 @@ export interface ScaleServiceRequest {
   numInstances: number;
 }
 export interface ScaleServiceResponse {}
+/** Positional arguments passed to the flow function */
+export type StartFlowRunRequestInputCase0List = Array<unknown>;
+/** Named parameters passed to the flow function as keyword arguments */
+export type StartFlowRunRequestInputCase1Map = { [key: string]: unknown | undefined };
+/** Input data for a flow. Can be either an array (for positional arguments) or an object (for named parameters). */
+export type StartFlowRunRequestInput =
+  | StartFlowRunRequestInputCase0List
+  | StartFlowRunRequestInputCase1Map;
+export interface StartFlowRunRequest {
+  /** A flow slug in the format workflow-slug/flow-name. An optional version can be appended (workflow-slug/flow-name:version). If no version is provided, the latest version is used. Cannot be blank. */
+  flow: string;
+  /** Input data for a flow. Can be either an array (for positional arguments) or an object (for named parameters). */
+  input: StartFlowRunRequestInput;
+  idempotencyKey?: string | undefined;
+}
+export interface StartFlowRunResponse {
+  id: string;
+  flowId: string;
+  status: Items5;
+  startedAt?: string | undefined;
+  completedAt?: string | undefined;
+}
 export type StreamTaskRunsEventsRequestTaskRunIdsList = Array<string>;
 export interface StreamTaskRunsEventsRequest {
   /** Filter to a subset of task run IDs. */
@@ -5006,37 +5828,37 @@ export interface SubscribeLogsRequest {
   /** The ID of the workspace to return logs for */
   ownerId: string;
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The direction to query logs for. Backward will return most recent logs first. Forward will start with the oldest logs in the time range. */
-  direction?: SubscribeLogsRequestDirection | (string & {});
+  direction?: SubscribeLogsRequestDirection | (string & {}) | undefined;
   /** Filter logs by their resource. A resource is the id of a server, cronjob, job, postgres, redis, workflow, or sandbox group. */
   resource: SubscribeLogsRequestResourceList;
   /** Filter logs by the instance they were emitted from. An instance is the id of a specific running server. */
-  instance?: SubscribeLogsRequestInstanceList;
+  instance?: SubscribeLogsRequestInstanceList | undefined;
   /** Filter request logs by their host. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  host?: SubscribeLogsRequestHostList;
+  host?: SubscribeLogsRequestHostList | undefined;
   /** Filter request logs by their status code. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  statusCode?: SubscribeLogsRequestStatusCodeList;
+  statusCode?: SubscribeLogsRequestStatusCodeList | undefined;
   /** Filter request logs by their requests method. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  method?: SubscribeLogsRequestMethodList;
+  method?: SubscribeLogsRequestMethodList | undefined;
   /** Filter logs by their task(s) */
-  task?: SubscribeLogsRequestTaskList;
+  task?: SubscribeLogsRequestTaskList | undefined;
   /** Filter logs by their task run id(s) */
-  taskRun?: SubscribeLogsRequestTaskRunList;
+  taskRun?: SubscribeLogsRequestTaskRunList | undefined;
   /** Filter logs by sandbox ID. */
-  sandbox?: SubscribeLogsRequestSandboxList;
+  sandbox?: SubscribeLogsRequestSandboxList | undefined;
   /** Filter logs by their severity level. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  level?: SubscribeLogsRequestLevelList;
+  level?: SubscribeLogsRequestLevelList | undefined;
   /** Filter logs by their type. Types include `app` for application logs, `request` for request logs, and `build` for build logs. You can find the full set of types available for a query by using the `GET /logs/values` endpoint. */
-  type?: SubscribeLogsRequestTypeList;
+  type?: SubscribeLogsRequestTypeList | undefined;
   /** Filter by the text of the logs. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  text?: SubscribeLogsRequestTextList;
+  text?: SubscribeLogsRequestTextList | undefined;
   /** Filter request logs by their path. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  path?: SubscribeLogsRequestPathList;
+  path?: SubscribeLogsRequestPathList | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface SubscribeLogsResponse {}
 export interface SuspendKeyValueRequest {
@@ -5052,6 +5874,13 @@ export interface SuspendServiceRequest {
   serviceId: string;
 }
 export interface SuspendServiceResponse {}
+export interface TerminateSandboxRequest {
+  /** The ID of the sandbox */
+  sandboxId: string;
+  /** The ID of the workspace the sandbox belongs to. Optional: the workspace is determined from the sandbox ID, and this parameter is ignored when supplied. */
+  ownerId?: string | undefined;
+}
+export interface TerminateSandboxResponse {}
 export interface TriggerBuildSourceBuildRequest {
   buildSourceId: string;
 }
@@ -5073,12 +5902,12 @@ export type TriggerBuildSourceBuildResponseBuildRunRuntime =
 /** The Render build run that produced this build. Present when the build source is currently build-based. Mutually exclusive with `image`. */
 export interface TriggerBuildSourceBuildResponseBuildRun {
   id: string;
-  status?: TriggerBuildSourceBuildResponseBuildRunStatus;
-  buildStartedAt?: string;
-  buildFinishedAt?: string;
-  runtime?: TriggerBuildSourceBuildResponseBuildRunRuntime;
-  commitId?: string;
-  commitUrl?: string;
+  status?: TriggerBuildSourceBuildResponseBuildRunStatus | undefined;
+  buildStartedAt?: string | undefined;
+  buildFinishedAt?: string | undefined;
+  runtime?: TriggerBuildSourceBuildResponseBuildRunRuntime | undefined;
+  commitId?: string | undefined;
+  commitUrl?: string | undefined;
 }
 /** Present when the build source is currently image-based. Mutually exclusive with `buildRun`. */
 export type TriggerBuildSourceBuildResponseImage = SchemaImage;
@@ -5086,12 +5915,12 @@ export interface TriggerBuildSourceBuildResponse {
   id: string;
   buildSourceId: string;
   /** The Render build run that produced this build. Present when the build source is currently build-based. Mutually exclusive with `image`. */
-  buildRun?: TriggerBuildSourceBuildResponseBuildRun;
+  buildRun?: TriggerBuildSourceBuildResponseBuildRun | undefined;
   /** Present when the build source is currently image-based. Mutually exclusive with `buildRun`. */
-  image?: SchemaImage;
+  image?: SchemaImage | undefined;
   createdAt: string;
   updatedAt: string;
-  assetsDeletedAt?: string;
+  assetsDeletedAt?: string | undefined;
 }
 export interface TriggerMaintenanceRequest {
   maintenanceRunID: string;
@@ -5111,21 +5940,25 @@ export interface UnlinkServiceFromEnvGroupResponse {}
 export interface UpdateBlueprintRequest {
   /** The ID of the Blueprint */
   blueprintId: string;
-  name?: string;
+  name?: string | undefined;
   /** Configuration value that controls whether or not this blueprint will be re-synced on each git push to the configured branch. Even when true, autoSync will not apply when the blueprint has the Created status, which indicates its first sync has not yet been approved. Other conditions, such as a locked workspace, can also prevent automatic syncing even when this is true. */
-  autoSync?: boolean;
+  autoSync?: boolean | undefined;
   /** Path to the Blueprint file in the repository */
-  path?: string;
+  path?: string | undefined;
+  /** The Git branch to read the Blueprint file from. Requires Blueprint onboarding early access. The branch must contain a Blueprint file at the configured path. Updating this field does not plan a sync. */
+  branch?: string | undefined;
 }
 export interface UpdateBlueprintResponse {
   id: string;
+  /** ID of the workspace that owns this Blueprint. */
+  ownerId: string;
   name: string;
   status: Status;
   autoSync: boolean;
   repo: string;
   branch: string;
   path: string;
-  lastSync?: string;
+  lastSync?: string | undefined;
 }
 export type UpdateBuildSourceRequestGitBuildFilterPathsList = Array<string>;
 export type UpdateBuildSourceRequestGitBuildFilterIgnoredPathsList = Array<string>;
@@ -5151,33 +5984,34 @@ export type UpdateBuildSourceRequestGitRegion =
   | "singapore"
   | "virginia";
 export interface UpdateBuildSourceRequestGit {
-  baseDir?: string;
-  branch?: string;
-  buildCommand?: string;
+  branch?: string | undefined;
+  buildCommand?: string | undefined;
   /** Glob patterns matched against files changed by a commit. When set, a commit only triggers a build when at least one changed file matches `paths` and none match `ignoredPaths`. Useful for monorepos where a single repo backs many services. */
-  buildFilter?: UpdateBuildSourceRequestGitBuildFilter;
-  dockerfilePath?: string;
+  buildFilter?: UpdateBuildSourceRequestGitBuildFilter | undefined;
+  /** Directory passed to `docker build` as the build context, relative to the repository root. Only valid for the `docker` runtime. */
+  dockerContext?: string | undefined;
+  dockerfilePath?: string | undefined;
   /** Build runtime for the build source. Static sites are not supported for build sources. */
-  runtime?: UpdateBuildSourceRequestGitRuntime | (string & {});
+  runtime?: UpdateBuildSourceRequestGitRuntime | (string & {}) | undefined;
   /** Optional reference to the registry credential for this build. Omit the field to leave the stored credential unchanged; send an empty string to clear it. */
-  registryCredentialId?: string;
+  registryCredentialId?: string | undefined;
   /** Region for the build. Honored only when this PATCH performs an image->build transition; rejected on a pure build patch (the cluster is pinned for an existing build), and must match the prior build region when switching back to build after time as an external image. Defaults to "oregon" for first-time builds. */
-  region?: UpdateBuildSourceRequestGitRegion | (string & {});
-  repoUrl?: string;
-  rootDir?: string;
+  region?: UpdateBuildSourceRequestGitRegion | (string & {}) | undefined;
+  repoUrl?: string | undefined;
+  rootDir?: string | undefined;
 }
 /** Patch shape for a build source's image identity. Unset fields are left unchanged on the underlying image reference. ownerId is intentionally omitted -- a build source's owner is fixed at creation, and changing the image's owner would amount to a different identity. */
 export interface UpdateBuildSourceRequestImage {
-  imageUrl?: string;
+  imageUrl?: string | undefined;
   /** Optional reference to the registry credential passed to the image repository to retrieve this image. Omit the field to leave the stored credential unchanged; send an empty string to clear it. */
-  registryCredentialId?: string;
+  registryCredentialId?: string | undefined;
 }
 export interface UpdateBuildSourceRequest {
   buildSourceId: string;
-  name?: string;
-  git?: UpdateBuildSourceRequestGit;
+  name?: string | undefined;
+  git?: UpdateBuildSourceRequestGit | undefined;
   /** Patch shape for a build source's image identity. Unset fields are left unchanged on the underlying image reference. ownerId is intentionally omitted -- a build source's owner is fixed at creation, and changing the image's owner would amount to a different identity. */
-  image?: UpdateBuildSourceRequestImage;
+  image?: UpdateBuildSourceRequestImage | undefined;
 }
 export interface EnvVarValue {
   value: string;
@@ -5196,16 +6030,16 @@ export type UpdateDedicatedIpRequestEnvironmentIdsList = Array<string>;
 export interface UpdateDedicatedIpRequest {
   /** The ID of the dedicated IP set */
   dedicatedIpId: string;
-  name?: string;
-  description?: string;
-  environmentIds?: UpdateDedicatedIpRequestEnvironmentIdsList;
+  name?: string | undefined;
+  description?: string | undefined;
+  environmentIds?: UpdateDedicatedIpRequestEnvironmentIdsList | undefined;
 }
 export interface UpdateDiskRequest {
   /** The ID of the disk */
   diskId: string;
-  name?: string;
-  sizeGB?: number;
-  mountPath?: string;
+  name?: string | undefined;
+  sizeGB?: number | undefined;
+  mountPath?: string | undefined;
 }
 export interface UpdateEnvGroupRequest {
   envGroupId: string;
@@ -5223,7 +6057,7 @@ export interface UpdateEnvGroupResponse {
   updatedAt: string;
   /** List of serviceIds linked to the envGroup */
   serviceLinks: UpdateEnvGroupResponseServiceLinksList;
-  environmentId?: string;
+  environmentId?: string | undefined;
   envVars: UpdateEnvGroupResponseEnvVarsList;
   secretFiles: UpdateEnvGroupResponseSecretFilesList;
 }
@@ -5246,14 +6080,14 @@ export interface UpdateEnvGroupEnvVarResponse {
   updatedAt: string;
   /** List of serviceIds linked to the envGroup */
   serviceLinks: UpdateEnvGroupEnvVarResponseServiceLinksList;
-  environmentId?: string;
+  environmentId?: string | undefined;
   envVars: UpdateEnvGroupEnvVarResponseEnvVarsList;
   secretFiles: UpdateEnvGroupEnvVarResponseSecretFilesList;
 }
 export interface UpdateEnvGroupSecretFileRequest {
   envGroupId: string;
   envVarKey: string;
-  content?: string;
+  content?: string | undefined;
 }
 /** List of serviceIds linked to the envGroup */
 export type UpdateEnvGroupSecretFileResponseServiceLinksList = Array<EnvGroupLink>;
@@ -5267,17 +6101,17 @@ export interface UpdateEnvGroupSecretFileResponse {
   updatedAt: string;
   /** List of serviceIds linked to the envGroup */
   serviceLinks: UpdateEnvGroupSecretFileResponseServiceLinksList;
-  environmentId?: string;
+  environmentId?: string | undefined;
   envVars: UpdateEnvGroupSecretFileResponseEnvVarsList;
   secretFiles: UpdateEnvGroupSecretFileResponseSecretFilesList;
 }
 export type UpdateEnvironmentRequestIpAllowListList = Array<CidrBlockAndDescription>;
 export interface UpdateEnvironmentRequest {
   environmentId: string;
-  name?: string;
-  networkIsolationEnabled?: boolean;
-  protectedStatus?: ProtectedStatus | (string & {});
-  ipAllowList?: UpdateEnvironmentRequestIpAllowListList;
+  name?: string | undefined;
+  networkIsolationEnabled?: boolean | undefined;
+  protectedStatus?: ProtectedStatus | (string & {}) | undefined;
+  ipAllowList?: UpdateEnvironmentRequestIpAllowListList | undefined;
 }
 export interface UpdateEnvVarRequest {
   /** The ID of the service */
@@ -5315,16 +6149,16 @@ export type UpdateKeyValueRequestIpAllowListList = Array<CidrBlockAndDescription
 export interface UpdateKeyValueRequest {
   redisId: string;
   /** The name of the Key Value instance */
-  name?: string;
-  plan?: KeyValuePlan | (string & {});
-  maxmemoryPolicy?: MaxmemoryPolicy | (string & {});
-  persistenceMode?: PersistenceMode | (string & {});
-  ipAllowList?: UpdateKeyValueRequestIpAllowListList;
+  name?: string | undefined;
+  plan?: KeyValuePlan | (string & {}) | undefined;
+  maxmemoryPolicy?: MaxmemoryPolicy | (string & {}) | undefined;
+  persistenceMode?: PersistenceMode | (string & {}) | undefined;
+  ipAllowList?: UpdateKeyValueRequestIpAllowListList | undefined;
 }
 export interface UpdateMaintenanceRequest {
   maintenanceRunID: string;
   /** The date-time at which the maintenance is scheduled to start. This must be before the pendingMaintenanceBy date-time. */
-  scheduledAt?: string;
+  scheduledAt?: string | undefined;
 }
 export interface UpdateMaintenanceResponse {}
 /** Whether to send logs or drop them. */
@@ -5333,40 +6167,40 @@ export interface UpdateOwnerLogStreamRequest {
   /** The ID of the workspace to update log stream information for */
   ownerId: string;
   /** The endpoint to stream logs to. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** The optional token to authenticate the log stream. */
-  token?: string;
+  token?: string | undefined;
   /** Whether to send logs or drop them. */
   preview: UpdateOwnerLogStreamRequestPreview | (string & {});
 }
 export interface UpdateOwnerLogStreamResponse {
   /** The ID of the owner. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The endpoint to stream logs to. */
-  endpoint?: string;
-  preview?: Preview;
+  endpoint?: string | undefined;
+  preview?: Preview | undefined;
 }
 export type UpdatePostgresRequestIpAllowListList = Array<CidrBlockAndDescription>;
 export interface UpdatePostgresRequest {
   postgresId: string;
-  name?: string;
-  plan?: Plan2 | (string & {});
+  name?: string | undefined;
+  plan?: Plan2 | (string & {}) | undefined;
   /** The number of gigabytes of disk space to allocate for the database */
-  diskSizeGB?: number;
-  enableDiskAutoscaling?: boolean;
+  diskSizeGB?: number | undefined;
+  enableDiskAutoscaling?: boolean | undefined;
   /** What connection pool to use (if any) out of 'pgbouncer' and 'none' */
-  connectionPool?: string;
-  enableHighAvailability?: boolean;
+  connectionPool?: string | undefined;
+  enableHighAvailability?: boolean | undefined;
   /** The Datadog API key for the Datadog agent to monitor the database. Pass empty string to remove. Restarts Postgres on change. */
-  datadogAPIKey?: string;
+  datadogAPIKey?: string | undefined;
   /** Datadog region to use for monitoring the new database. Defaults to 'US1'. */
-  datadogSite?: string;
-  ipAllowList?: UpdatePostgresRequestIpAllowListList;
-  readReplicas?: ReadReplicasInput;
+  datadogSite?: string | undefined;
+  ipAllowList?: UpdatePostgresRequestIpAllowListList | undefined;
+  readReplicas?: ReadReplicasInput | undefined;
 }
 export interface UpdateProjectRequest {
   projectId: string;
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateRegistryCredentialRequest {
   /** The ID of the registry credential */
@@ -5379,16 +6213,22 @@ export interface UpdateRegistryCredentialRequest {
 export interface UpdateResourceLogStreamRequest {
   /** The ID of the resource (server, cron job, postgres, or redis) to update log stream override information for */
   resourceId: string;
-  endpoint?: string;
-  token?: string;
+  endpoint?: string | undefined;
+  token?: string | undefined;
   setting: Items3 | (string & {});
 }
 export interface UpdateResourceLogStreamResponse {
   /** The ID of the resource. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The endpoint to stream logs to. Must be present if setting is send. Cannot be present if setting is drop. */
-  endpoint?: string;
-  setting?: Items3;
+  endpoint?: string | undefined;
+  setting?: Items3 | undefined;
+}
+export interface UpdateSandboxGroupRequest {
+  /** The ID of the sandbox group */
+  sandboxGroupId: string;
+  /** Maximum active sandboxes in the group. The configured value is capped by Render's limit for this workspace. Responses return the effective limit. Lowering the limit does not stop existing sandboxes. */
+  concurrencyLimit: number;
 }
 export type UpdateSecretFilesForBuildSourceRequestBodyList = Array<Items>;
 export interface UpdateSecretFilesForBuildSourceRequest {
@@ -5409,55 +6249,55 @@ export type UpdateSecretFilesForServiceResponseBodyList = Array<SecretFileWithCu
 export type UpdateSecretFilesForServiceResponse = UpdateSecretFilesForServiceResponseBodyList;
 export type StaticSiteDetailsPATCHIpAllowListList = Array<CidrBlockAndDescription>;
 export interface StaticSiteDetailsPATCH {
-  buildCommand?: string;
-  publishPath?: string;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {});
-  previews?: Previews;
-  renderSubdomainPolicy?: RenderSubdomainPolicy | (string & {});
-  ipAllowList?: StaticSiteDetailsPATCHIpAllowListList;
+  buildCommand?: string | undefined;
+  publishPath?: string | undefined;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {}) | undefined;
+  previews?: Previews | undefined;
+  renderSubdomainPolicy?: RenderSubdomainPolicy | (string & {}) | undefined;
+  ipAllowList?: StaticSiteDetailsPATCHIpAllowListList | undefined;
 }
 export interface DockerDetailsPATCH {
-  dockerCommand?: string;
-  dockerContext?: string;
-  dockerfilePath?: string;
+  dockerCommand?: string | undefined;
+  dockerContext?: string | undefined;
+  dockerfilePath?: string | undefined;
   /** Optional reference to the registry credential for this build. Omit the field to leave the stored credential unchanged; send an empty string to clear it. */
-  registryCredentialId?: string;
+  registryCredentialId?: string | undefined;
 }
 export interface NativeEnvironmentDetailsPATCH {
-  buildCommand?: string;
-  startCommand?: string;
+  buildCommand?: string | undefined;
+  startCommand?: string | undefined;
 }
 export type EnvSpecificDetailsPATCH = DockerDetailsPATCH | NativeEnvironmentDetailsPATCH;
 export type WebServiceDetailsPATCHIpAllowListList = Array<CidrBlockAndDescription>;
 export interface WebServiceDetailsPATCH {
-  envSpecificDetails?: EnvSpecificDetailsPATCH;
-  healthCheckPath?: string;
-  maintenanceMode?: MaintenanceMode;
-  plan?: Plan | (string & {});
-  preDeployCommand?: string;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {});
-  previews?: Previews;
-  runtime?: ServiceRuntime | (string & {});
-  maxShutdownDelaySeconds?: number;
-  renderSubdomainPolicy?: RenderSubdomainPolicy | (string & {});
-  ipAllowList?: WebServiceDetailsPATCHIpAllowListList;
-  cache?: Cache;
+  envSpecificDetails?: EnvSpecificDetailsPATCH | undefined;
+  healthCheckPath?: string | undefined;
+  maintenanceMode?: MaintenanceMode | undefined;
+  plan?: Plan | (string & {}) | undefined;
+  preDeployCommand?: string | undefined;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {}) | undefined;
+  previews?: Previews | undefined;
+  runtime?: ServiceRuntime | (string & {}) | undefined;
+  maxShutdownDelaySeconds?: number | undefined;
+  renderSubdomainPolicy?: RenderSubdomainPolicy | (string & {}) | undefined;
+  ipAllowList?: WebServiceDetailsPATCHIpAllowListList | undefined;
+  cache?: Cache | undefined;
 }
 export interface PrivateServiceDetailsPATCH {
-  envSpecificDetails?: EnvSpecificDetailsPATCH;
-  plan?: PaidPlan | (string & {});
-  preDeployCommand?: string;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {});
-  previews?: Previews;
-  runtime?: ServiceRuntime | (string & {});
-  maxShutdownDelaySeconds?: number;
+  envSpecificDetails?: EnvSpecificDetailsPATCH | undefined;
+  plan?: PaidPlan | (string & {}) | undefined;
+  preDeployCommand?: string | undefined;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {}) | undefined;
+  previews?: Previews | undefined;
+  runtime?: ServiceRuntime | (string & {}) | undefined;
+  maxShutdownDelaySeconds?: number | undefined;
 }
 export type BackgroundWorkerDetailsPATCH = PrivateServiceDetailsPATCH;
 export interface CronJobDetailsPATCH {
-  envSpecificDetails?: EnvSpecificDetailsPATCH;
-  plan?: PaidPlan | (string & {});
-  schedule?: string;
-  runtime?: ServiceRuntime | (string & {});
+  envSpecificDetails?: EnvSpecificDetailsPATCH | undefined;
+  plan?: PaidPlan | (string & {}) | undefined;
+  schedule?: string | undefined;
+  runtime?: ServiceRuntime | (string & {}) | undefined;
 }
 export type UpdateServiceRequestServiceDetails =
   | StaticSiteDetailsPATCH
@@ -5468,51 +6308,50 @@ export type UpdateServiceRequestServiceDetails =
 export interface UpdateServiceRequest {
   /** The ID of the service */
   serviceId: string;
-  /** The ID of the Build Source to attach this service to. Cannot be combined with other build-configuration changes. Attaching to a Build Source with no builds triggers one. */
-  buildSourceId?: string;
-  buildId?: string;
-  autoDeploy?: AutoDeploy | (string & {});
-  autoDeployTrigger?: AutoDeployTrigger | (string & {});
-  repo?: string;
-  branch?: string;
-  image?: Image;
-  name?: string;
-  buildFilter?: BuildFilter;
-  rootDir?: string;
-  serviceDetails?: UpdateServiceRequestServiceDetails;
+  /** The ID of the Build Source to link this service to. Cannot be combined with build-configuration changes or other `serviceDetails` fields, except `startCommand`. Linking to a Build Source with a native runtime requires a start command, either in this request or already set on the service. Linking to a Build Source with a Docker or image runtime rejects a start command. A git-backed Build Source must be in the same region as the service; otherwise the request is rejected with 400 and `code: build_source_region_mismatch`. */
+  buildSourceId?: string | undefined;
+  autoDeploy?: AutoDeploy | (string & {}) | undefined;
+  autoDeployTrigger?: AutoDeployTrigger | (string & {}) | undefined;
+  repo?: string | undefined;
+  branch?: string | undefined;
+  image?: Image | undefined;
+  name?: string | undefined;
+  buildFilter?: BuildFilter | undefined;
+  rootDir?: string | undefined;
+  serviceDetails?: UpdateServiceRequestServiceDetails | undefined;
 }
 export interface UpdateWebhookRequest {
   /** Unique identifier for the webhook */
   webhookId: string;
-  name?: string;
-  url?: string;
-  enabled?: boolean;
-  eventFilter?: EventFilter;
+  name?: string | undefined;
+  url?: string | undefined;
+  enabled?: boolean | undefined;
+  eventFilter?: EventFilter | undefined;
 }
 /** The runtime environment for the workflow (e.g., node, python, etc.). */
 export type UpdateWorkflowRequestBuildConfigRuntime = "elixir" | "go" | "node" | "python" | "ruby";
 /** A partial update to a workflow's build config. Every field is optional; omitted fields are left unchanged. */
 export interface UpdateWorkflowRequestBuildConfig {
   /** The branch to use for the build, if applicable. */
-  branch?: string;
+  branch?: string | undefined;
   /** The command to run to build the workflow. Required for every runtime except docker, which builds from its Dockerfile. */
-  buildCommand?: string;
+  buildCommand?: string | undefined;
   /** The repository URL to use for the build. Cannot be blank. */
-  repo?: string;
+  repo?: string | undefined;
   /** The root directory of the repository to use for the build, if applicable. */
-  rootDir?: string;
+  rootDir?: string | undefined;
   /** The runtime environment for the workflow (e.g., node, python, etc.). */
-  runtime?: UpdateWorkflowRequestBuildConfigRuntime | (string & {});
+  runtime?: UpdateWorkflowRequestBuildConfigRuntime | (string & {}) | undefined;
 }
 export interface UpdateWorkflowRequest {
   /** The ID of the workflow */
   workflowId: string;
-  name?: string;
+  name?: string | undefined;
   /** A partial update to a workflow's build config. Every field is optional; omitted fields are left unchanged. */
-  buildConfig?: UpdateWorkflowRequestBuildConfig;
+  buildConfig?: UpdateWorkflowRequestBuildConfig | undefined;
   /** The command to run the workflow. Cannot be blank. */
-  runCommand?: string;
-  autoDeployTrigger?: AutoDeployTrigger2 | (string & {});
+  runCommand?: string | undefined;
+  autoDeployTrigger?: AutoDeployTrigger2 | (string & {}) | undefined;
 }
 export interface UpdateWorkspaceMemberRequest {
   /** The ID of the workspace to return resources for */
@@ -5536,11 +6375,11 @@ export interface UpsertOwnerMetricsStreamRequest {
   /** The ID of the workspace to return metrics stream information for */
   ownerId: string;
   /** Provider to send metrics to */
-  provider?: UpsertOwnerMetricsStreamRequestProvider | (string & {});
+  provider?: UpsertOwnerMetricsStreamRequestProvider | (string & {}) | undefined;
   /** The endpoint URL to stream metrics to */
-  url?: string;
+  url?: string | undefined;
   /** Authentication token for the metrics stream */
-  token?: string;
+  token?: string | undefined;
 }
 export interface UpsertOwnerMetricsStreamResponse {
   /** The ID of the owner */
@@ -5557,13 +6396,13 @@ export interface ValidateBlueprintRequest {
 }
 export interface ValidateBlueprintResponseErrorsItem {
   /** The path to the field with the error (e.g., `services[0].plan`) */
-  path?: string;
+  path?: string | undefined;
   /** The error message */
   error: string;
   /** The line number in the YAML file (1-indexed) */
-  line?: number;
+  line?: number | undefined;
   /** The column number in the YAML file (1-indexed) */
-  column?: number;
+  column?: number | undefined;
 }
 /** A list of validation errors. Only present if `valid` is `false`. */
 export type ValidateBlueprintResponseErrorsList = Array<ValidateBlueprintResponseErrorsItem>;
@@ -5580,25 +6419,25 @@ export type ValidateBlueprintResponsePlanWorkflowsList = Array<string>;
 /** A summary of the resources that would be created as part of the Blueprint. Only present if `valid` is `true`. */
 export interface ValidateBlueprintResponsePlan {
   /** The names of services that would be created as part of the Blueprint. */
-  services?: ValidateBlueprintResponsePlanServicesList;
+  services?: ValidateBlueprintResponsePlanServicesList | undefined;
   /** The names of Render Postgres databases that would be created as part of the Blueprint. */
-  databases?: ValidateBlueprintResponsePlanDatabasesList;
+  databases?: ValidateBlueprintResponsePlanDatabasesList | undefined;
   /** The names of Render Key Value instances that would be created as part of the Blueprint. */
-  keyValue?: ValidateBlueprintResponsePlanKeyValueList;
+  keyValue?: ValidateBlueprintResponsePlanKeyValueList | undefined;
   /** The names of environment groups that would be created as part of the Blueprint. */
-  envGroups?: ValidateBlueprintResponsePlanEnvGroupsList;
+  envGroups?: ValidateBlueprintResponsePlanEnvGroupsList | undefined;
   /** The names of workflows that would be created as part of the Blueprint. */
-  workflows?: ValidateBlueprintResponsePlanWorkflowsList;
+  workflows?: ValidateBlueprintResponsePlanWorkflowsList | undefined;
   /** The total number of actions that would be performed by the Blueprint. In addition to created resources, this includes modifications to individual configuration fields. */
-  totalActions?: number;
+  totalActions?: number | undefined;
 }
 export interface ValidateBlueprintResponse {
   /** If `true`, the Blueprint validated successfully. If `false`, at least one validation error occurred. */
   valid: boolean;
   /** A list of validation errors. Only present if `valid` is `false`. */
-  errors?: ValidateBlueprintResponseErrorsList;
+  errors?: ValidateBlueprintResponseErrorsList | undefined;
   /** A summary of the resources that would be created as part of the Blueprint. Only present if `valid` is `true`. */
-  plan?: ValidateBlueprintResponsePlan;
+  plan?: ValidateBlueprintResponsePlan | undefined;
 }
 export type AddDiskError = BadRequest | Forbidden | NotFound | RenderOpError;
 /** Add disk Attach a persistent disk to a web service, private service, or background worker. The service must be redeployed for the disk to be attached. */
@@ -5608,8 +6447,8 @@ export const addDisk: API.OperationMethod<
   AddDiskError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1528, __c191, 0) as any as S.Schema<AddDiskRequest>,
-  output: __S(1536, __c192, 0) as any as S.Schema<AddDiskResponse>,
+  input: __S(1848, __c231, 0) as any as S.Schema<AddDiskRequest>,
+  output: __S(1856, __c232, 0) as any as S.Schema<AddDiskResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5625,8 +6464,8 @@ export const addHeaders: API.OperationMethod<
   AddHeadersError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1624, __c203, 0) as any as S.Schema<AddHeadersRequest>,
-  output: __S(1625, __c203, 1) as any as S.Schema<AddHeadersResponse>,
+  input: __S(1944, __c243, 0) as any as S.Schema<AddHeadersRequest>,
+  output: __S(1945, __c243, 1) as any as S.Schema<AddHeadersResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5646,8 +6485,8 @@ export const addOrUpdateBuildSourceSecretFile: API.OperationMethod<
   AddOrUpdateBuildSourceSecretFileError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1720, __c215, 0) as any as S.Schema<AddOrUpdateBuildSourceSecretFileRequest>,
-  output: __S(1728, __c216, 0) as any as S.Schema<SecretFile>,
+  input: __S(2040, __c255, 0) as any as S.Schema<AddOrUpdateBuildSourceSecretFileRequest>,
+  output: __S(2048, __c256, 0) as any as S.Schema<SecretFile>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5663,8 +6502,8 @@ export const addOrUpdateSecretFile: API.OperationMethod<
   AddOrUpdateSecretFileError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c228, 0) as any as S.Schema<AddOrUpdateSecretFileRequest>,
-  output: __S(1728, __c216, 0) as any as S.Schema<SecretFile>,
+  input: __S(2144, __c268, 0) as any as S.Schema<AddOrUpdateSecretFileRequest>,
+  output: __S(2048, __c256, 0) as any as S.Schema<SecretFile>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5680,8 +6519,8 @@ export const addResourcesToEnvironment: API.OperationMethod<
   AddResourcesToEnvironmentError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1912, __c239, 0) as any as S.Schema<AddResourcesToEnvironmentRequest>,
-  output: __S(1936, __c242, 0) as any as S.Schema<Environment>,
+  input: __S(2240, __c280, 0) as any as S.Schema<AddResourcesToEnvironmentRequest>,
+  output: __S(2264, __c283, 0) as any as S.Schema<Environment>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5693,8 +6532,8 @@ export type AddRouteError = BadRequest | Forbidden | NotFound | RenderOpError;
 /** Add redirect/rewrite rules Add redirect/rewrite rules to the service with the provided ID. */
 export const addRoute: API.OperationMethod<AddRouteRequest, Route, AddRouteError, RenderOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2032, __c254, 0) as any as S.Schema<AddRouteRequest>,
-    output: __S(2040, __c255, 0) as any as S.Schema<Route>,
+    input: __S(2352, __c294, 0) as any as S.Schema<AddRouteRequest>,
+    output: __S(2360, __c295, 0) as any as S.Schema<Route>,
     errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
     protocol: RenderProtocol,
     retry: Retry.Retry,
@@ -5727,8 +6566,8 @@ export const cancelCronJobRun: API.OperationMethod<
   CancelCronJobRunError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<CancelCronJobRunRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<CancelCronJobRunResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<CancelCronJobRunRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<CancelCronJobRunResponse>,
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5744,13 +6583,30 @@ export const cancelDeploy: API.OperationMethod<
   CancelDeployError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<CancelDeployRequest>,
-  output: __S(226, __c28, 2) as any as S.Schema<Deploy>,
+  input: __S(240, __c30, 0) as any as S.Schema<CancelDeployRequest>,
+  output: __S(250, __c31, 2) as any as S.Schema<Deploy>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelDeploy",
+}));
+
+export type CancelFlowRunError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** Cancel flow run Cancel a running flow run with the provided ID. */
+export const cancelFlowRun: API.OperationMethod<
+  CancelFlowRunRequest,
+  CancelFlowRunResponse,
+  CancelFlowRunError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(360, __c45, 0) as any as S.Schema<CancelFlowRunRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<CancelFlowRunResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelFlowRun",
 }));
 
 export type CancelJobError = BadRequest | NotFound | RenderOpError;
@@ -5761,8 +6617,8 @@ export const cancelJob: API.OperationMethod<
   CancelJobError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<CancelJobRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<Schema7>,
+  input: __S(464, __c58, 0) as any as S.Schema<CancelJobRequest>,
+  output: __S(472, __c59, 0) as any as S.Schema<Schema7>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5778,13 +6634,47 @@ export const cancelTaskRun: API.OperationMethod<
   CancelTaskRunError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<CancelTaskRunRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<CancelTaskRunResponse>,
+  input: __S(560, __c70, 0) as any as S.Schema<CancelTaskRunRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<CancelTaskRunResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelTaskRun",
+}));
+
+export type ConnectSandboxFilesError = BadRequest | Forbidden | NotFound | Conflict | RenderOpError;
+/** Mint a connect token for a sandbox file transfer Mint a short-lived, capability-scoped connect token that authorizes a single file upload or download against the sandbox, and return the sandbox-proxy endpoint to invoke with it. The caller streams the file bytes directly to (or from) that endpoint with the token as a bearer credential. `application/octet-stream` carries a single file and `application/x-tar` a directory archive, with compression carried separately by `Content-Encoding: gzip` in either direction; directory downloads return `application/x-tar` with `Content-Encoding: gzip`. The token is bound to this sandbox, operation, and path, and expires shortly after issuance. 409 with `code: sandbox_not_running` if the sandbox is terminated or errored, or `code: sandbox_group_suspended` if the sandbox group is suspended. */
+export const connectSandboxFiles: API.OperationMethod<
+  ConnectSandboxFilesRequest,
+  Schema26,
+  ConnectSandboxFilesError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(664, __c83, 0) as any as S.Schema<ConnectSandboxFilesRequest>,
+  output: __S(672, __c84, 0) as any as S.Schema<Schema26>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectSandboxFiles",
+}));
+
+export type ConnectSandboxRunError = BadRequest | Forbidden | NotFound | Conflict | RenderOpError;
+/** Create a connect token for a sandbox run Mint a short-lived, capability-scoped connect token that authorizes a single run operation against the specified sandbox. The response contains the sandbox URI where the caller sends the command with the token as a bearer credential. 409 with `code: sandbox_not_running` if the sandbox is terminated or errored, or `code: sandbox_group_suspended` if the sandbox group is suspended. */
+export const connectSandboxRun: API.OperationMethod<
+  ConnectSandboxRunRequest,
+  ConnectSandboxRunResponse,
+  ConnectSandboxRunError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(768, __c96, 0) as any as S.Schema<ConnectSandboxRunRequest>,
+  output: __S(672, __c84, 0) as any as S.Schema<ConnectSandboxRunResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectSandboxRun",
 }));
 
 export type CreateBuildSourceError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -5795,8 +6685,8 @@ export const createBuildSource: API.OperationMethod<
   CreateBuildSourceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c66, 0) as any as S.Schema<CreateBuildSourceRequest>,
-  output: __S(578, __c72, 2) as any as S.Schema<CreateBuildSourceResponse>,
+  input: __S(856, __c107, 0) as any as S.Schema<CreateBuildSourceRequest>,
+  output: __S(906, __c113, 2) as any as S.Schema<CreateBuildSourceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5812,8 +6702,8 @@ export const createCustomDomain: API.OperationMethod<
   CreateCustomDomainError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c84, 0) as any as S.Schema<CreateCustomDomainRequest>,
-  output: __S(674, __c84, 2) as any as S.Schema<CreateCustomDomainResponse>,
+  input: __S(1000, __c125, 0) as any as S.Schema<CreateCustomDomainRequest>,
+  output: __S(1002, __c125, 2) as any as S.Schema<CreateCustomDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5829,8 +6719,8 @@ export const createDedicatedIp: API.OperationMethod<
   CreateDedicatedIpError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c96, 0) as any as S.Schema<CreateDedicatedIpRequest>,
-  output: __S(776, __c97, 0) as any as S.Schema<DedicatedIP>,
+  input: __S(1096, __c137, 0) as any as S.Schema<CreateDedicatedIpRequest>,
+  output: __S(1104, __c138, 0) as any as S.Schema<DedicatedIP>,
   errors: [BadRequest, Forbidden, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5846,8 +6736,8 @@ export const createDeploy: API.OperationMethod<
   CreateDeployError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c108, 0) as any as S.Schema<CreateDeployRequest>,
-  output: __S(226, __c28, 2) as any as S.Schema<Deploy>,
+  input: __S(1192, __c149, 0) as any as S.Schema<CreateDeployRequest>,
+  output: __S(250, __c31, 2) as any as S.Schema<Deploy>,
   errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5863,8 +6753,8 @@ export const createEnvGroup: API.OperationMethod<
   CreateEnvGroupError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(952, __c119, 0) as any as S.Schema<CreateEnvGroupRequest>,
-  output: __S(977, __c122, 1) as any as S.Schema<CreateEnvGroupResponse>,
+  input: __S(1280, __c160, 0) as any as S.Schema<CreateEnvGroupRequest>,
+  output: __S(1305, __c163, 1) as any as S.Schema<CreateEnvGroupResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5880,8 +6770,8 @@ export const createEnvironment: API.OperationMethod<
   CreateEnvironmentError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1064, __c133, 0) as any as S.Schema<CreateEnvironmentRequest>,
-  output: __S(1936, __c242, 0) as any as S.Schema<Environment>,
+  input: __S(1392, __c174, 0) as any as S.Schema<CreateEnvironmentRequest>,
+  output: __S(2264, __c283, 0) as any as S.Schema<Environment>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5897,8 +6787,8 @@ export const createKeyValue: API.OperationMethod<
   CreateKeyValueError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c144, 0) as any as S.Schema<CreateKeyValueRequest>,
-  output: __S(1184, __c148, 0) as any as S.Schema<KeyValueDetail>,
+  input: __S(1480, __c185, 0) as any as S.Schema<CreateKeyValueRequest>,
+  output: __S(1496, __c187, 0) as any as S.Schema<KeyValueDetail>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5914,8 +6804,8 @@ export const createPostgres: API.OperationMethod<
   CreatePostgresError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1272, __c159, 0) as any as S.Schema<CreatePostgresRequest>,
-  output: __S(1280, __c160, 0) as any as S.Schema<PostgresDetail>,
+  input: __S(1600, __c200, 0) as any as S.Schema<CreatePostgresRequest>,
+  output: __S(1608, __c201, 0) as any as S.Schema<PostgresDetail>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5931,8 +6821,8 @@ export const createPostgresExport: API.OperationMethod<
   CreatePostgresExportError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c166, 0) as any as S.Schema<CreatePostgresExportRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<CreatePostgresExportResponse>,
+  input: __S(1640, __c205, 0) as any as S.Schema<CreatePostgresExportRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<CreatePostgresExportResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5948,8 +6838,8 @@ export const createPostgresUser: API.OperationMethod<
   CreatePostgresUserError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1336, __c167, 0) as any as S.Schema<CreatePostgresUserRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<CreatePostgresUserResponse>,
+  input: __S(1648, __c206, 0) as any as S.Schema<CreatePostgresUserRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<CreatePostgresUserResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5965,8 +6855,8 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1346, __c168, 2) as any as S.Schema<CreateProjectRequest>,
-  output: __S(1352, __c169, 0) as any as S.Schema<Project>,
+  input: __S(1658, __c207, 2) as any as S.Schema<CreateProjectRequest>,
+  output: __S(1664, __c208, 0) as any as S.Schema<Project>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5982,8 +6872,8 @@ export const createRegistryCredential: API.OperationMethod<
   CreateRegistryCredentialError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c170, 0) as any as S.Schema<CreateRegistryCredentialRequest>,
-  output: __S(1368, __c171, 0) as any as S.Schema<RegistryCredential>,
+  input: __S(1672, __c209, 0) as any as S.Schema<CreateRegistryCredentialRequest>,
+  output: __S(1680, __c210, 0) as any as S.Schema<RegistryCredential>,
   errors: [BadRequest, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -5991,16 +6881,89 @@ export const createRegistryCredential: API.OperationMethod<
   span: "CreateRegistryCredential",
 }));
 
+export type CreateSandboxError = BadRequest | Forbidden | NotFound | Conflict | RenderOpError;
+/** Create sandbox Create a sandbox. Returns the initial sandbox snapshot synchronously. With `snapshotId`: 404 with `code: snapshot_not_found` if the snapshot does not exist; 409 with `code: snapshot_not_available` if it is not `available`, or `code: snapshot_plan_mismatch` if a `runtime` snapshot was requested with a different `plan`. With `snapshotName`: 400 with `code: invalid_snapshot_name` if the name is malformed, 400 without a code if `snapshotId` is also set, and 404 with `code: snapshot_not_found` if no `available` snapshot in the group has the name. The 409 cases above apply to the resolved snapshot. 400 with `code: invalid_sandbox_name` if `name` is longer than 64 characters or starts with `sbx-`. 409 with `code: sandbox_group_suspended` if the sandbox group is suspended. 400 with `code: sandbox_group_limit_reached` if the owner has no default sandbox group and is already at its sandbox group limit. 400 with `code: invalid_sandbox_plan` if `plan` is not one the API currently accepts. The message lists the accepted plans. 400 with `code: invalid_timeout_seconds` if `timeoutSeconds` is below 0 or above 2592000 (30 days). */
+export const createSandbox: API.OperationMethod<
+  CreateSandboxRequest,
+  CreateSandboxResponse,
+  CreateSandboxError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1689, __c211, 1) as any as S.Schema<CreateSandboxRequest>,
+  output: __S(1690, __c211, 2) as any as S.Schema<CreateSandboxResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandbox",
+}));
+
+export type CreateSandboxBuildError = BadRequest | Forbidden | NotFound | Conflict | RenderOpError;
+/** Create sandbox build Starts converting an OCI image into a sandbox image, and returns the build without waiting for it. Poll the build until it `succeeded` or `failed`, then pass its ID as `buildId` to create a sandbox. A request for a name and image digest the group already has, or is building, returns that build. 400 with `code: invalid_sandbox_group_id` if `sandboxGroupId` is not a well-formed `sbg-` ID, or a message if the image is invalid or its registry can't serve it. 409 with `code: sandbox_group_suspended` if the sandbox group is suspended. 429 if the group already has as many builds pending or running as its limit allows. The message includes the limit. */
+export const createSandboxBuild: API.OperationMethod<
+  CreateSandboxBuildRequest,
+  CreateSandboxBuildResponse,
+  CreateSandboxBuildError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1713, __c214, 1) as any as S.Schema<CreateSandboxBuildRequest>,
+  output: __S(1721, __c215, 1) as any as S.Schema<CreateSandboxBuildResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxBuild",
+}));
+
+export type CreateSandboxGroupError = BadRequest | Forbidden | NotFound | Conflict | RenderOpError;
+/** Create sandbox group Create a sandbox group. The workspace's first group becomes its default. Returns 409 if the `name` is taken. */
+export const createSandboxGroup: API.OperationMethod<
+  CreateSandboxGroupRequest,
+  CreateSandboxGroupResponse,
+  CreateSandboxGroupError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1728, __c216, 0) as any as S.Schema<CreateSandboxGroupRequest>,
+  output: __S(1736, __c217, 0) as any as S.Schema<CreateSandboxGroupResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxGroup",
+}));
+
+export type CreateSandboxSnapshotError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | RenderOpError;
+/** Create sandbox snapshot Capture a snapshot of a running sandbox. Returns 202 with the snapshot in `creating`. Poll until it is `available` or `failed`. The sandbox keeps running; a runtime capture pauses it briefly. 400 with `code: invalid_snapshot_name` if `name` is malformed. 409 with `code: sandbox_not_running` if the sandbox is not `running`, or `code: sandbox_group_suspended` if the sandbox group is suspended. */
+export const createSandboxSnapshot: API.OperationMethod<
+  CreateSandboxSnapshotRequest,
+  CreateSandboxSnapshotResponse,
+  CreateSandboxSnapshotError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1744, __c218, 0) as any as S.Schema<CreateSandboxSnapshotRequest>,
+  output: __S(1745, __c218, 1) as any as S.Schema<CreateSandboxSnapshotResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxSnapshot",
+}));
+
 export type CreateServiceError = BadRequest | NotFound | Conflict | RenderOpError;
-/** Create service Creates a new Render service in the specified workspace with the specified configuration. */
+/** Create service Creates a new Render service in the specified workspace with the specified configuration. 400 with `code: build_source_region_mismatch` if `buildSourceId` names a git-backed Build Source in a different region than the service. */
 export const createService: API.OperationMethod<
   CreateServiceRequest,
   ServiceAndDeploy,
   CreateServiceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c172, 0) as any as S.Schema<CreateServiceRequest>,
-  output: __S(1392, __c174, 0) as any as S.Schema<ServiceAndDeploy>,
+  input: __S(1752, __c219, 0) as any as S.Schema<CreateServiceRequest>,
+  output: __S(1768, __c221, 0) as any as S.Schema<ServiceAndDeploy>,
   errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6016,8 +6979,8 @@ export const createTask: API.OperationMethod<
   CreateTaskError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c176, 0) as any as S.Schema<CreateTaskRequest>,
-  output: __S(1418, __c177, 2) as any as S.Schema<CreateTaskResponse>,
+  input: __S(1784, __c223, 0) as any as S.Schema<CreateTaskRequest>,
+  output: __S(1794, __c224, 2) as any as S.Schema<CreateTaskResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6033,8 +6996,8 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c178, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(1432, __c179, 0) as any as S.Schema<CreateWebhookResponse>,
+  input: __S(1800, __c225, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(1808, __c226, 0) as any as S.Schema<CreateWebhookResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6050,8 +7013,8 @@ export const createWorkflow: API.OperationMethod<
   CreateWorkflowError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c180, 0) as any as S.Schema<CreateWorkflowRequest>,
-  output: __S(1449, __c181, 1) as any as S.Schema<CreateWorkflowResponse>,
+  input: __S(1816, __c227, 0) as any as S.Schema<CreateWorkflowRequest>,
+  output: __S(1825, __c228, 1) as any as S.Schema<CreateWorkflowResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6067,8 +7030,8 @@ export const createWorkflowVersion: API.OperationMethod<
   CreateWorkflowVersionError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c182, 0) as any as S.Schema<CreateWorkflowVersionRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<CreateWorkflowVersionResponse>,
+  input: __S(1832, __c229, 0) as any as S.Schema<CreateWorkflowVersionRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<CreateWorkflowVersionResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6084,8 +7047,8 @@ export const deleteAutoscalingConfig: API.OperationMethod<
   DeleteAutoscalingConfigError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1464, __c183, 0) as any as S.Schema<DeleteAutoscalingConfigRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteAutoscalingConfigResponse>,
+  input: __S(1840, __c230, 0) as any as S.Schema<DeleteAutoscalingConfigRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteAutoscalingConfigResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6101,8 +7064,8 @@ export const deleteBuildSource: API.OperationMethod<
   DeleteBuildSourceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c184, 0) as any as S.Schema<DeleteBuildSourceRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteBuildSourceResponse>,
+  input: __S(1864, __c233, 0) as any as S.Schema<DeleteBuildSourceRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteBuildSourceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6118,8 +7081,8 @@ export const deleteBuildSourceEnvVar: API.OperationMethod<
   DeleteBuildSourceEnvVarError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1480, __c185, 0) as any as S.Schema<DeleteBuildSourceEnvVarRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteBuildSourceEnvVarResponse>,
+  input: __S(1872, __c234, 0) as any as S.Schema<DeleteBuildSourceEnvVarRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteBuildSourceEnvVarResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6135,8 +7098,8 @@ export const deleteBuildSourceSecretFile: API.OperationMethod<
   DeleteBuildSourceSecretFileError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c186, 0) as any as S.Schema<DeleteBuildSourceSecretFileRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteBuildSourceSecretFileResponse>,
+  input: __S(1880, __c235, 0) as any as S.Schema<DeleteBuildSourceSecretFileRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteBuildSourceSecretFileResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6152,8 +7115,8 @@ export const deleteCustomDomain: API.OperationMethod<
   DeleteCustomDomainError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1496, __c187, 0) as any as S.Schema<DeleteCustomDomainRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteCustomDomainResponse>,
+  input: __S(1888, __c236, 0) as any as S.Schema<DeleteCustomDomainRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteCustomDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6169,8 +7132,8 @@ export const deleteDedicatedIp: API.OperationMethod<
   DeleteDedicatedIpError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c188, 0) as any as S.Schema<DeleteDedicatedIpRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteDedicatedIpResponse>,
+  input: __S(1896, __c237, 0) as any as S.Schema<DeleteDedicatedIpRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteDedicatedIpResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6186,8 +7149,8 @@ export const deleteDisk: API.OperationMethod<
   DeleteDiskError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1512, __c189, 0) as any as S.Schema<DeleteDiskRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteDiskResponse>,
+  input: __S(1904, __c238, 0) as any as S.Schema<DeleteDiskRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteDiskResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6203,8 +7166,8 @@ export const deleteEnvGroup: API.OperationMethod<
   DeleteEnvGroupError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c190, 0) as any as S.Schema<DeleteEnvGroupRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteEnvGroupResponse>,
+  input: __S(1912, __c239, 0) as any as S.Schema<DeleteEnvGroupRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteEnvGroupResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6220,8 +7183,8 @@ export const deleteEnvGroupEnvVar: API.OperationMethod<
   DeleteEnvGroupEnvVarError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1544, __c193, 0) as any as S.Schema<DeleteEnvGroupEnvVarRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteEnvGroupEnvVarResponse>,
+  input: __S(1920, __c240, 0) as any as S.Schema<DeleteEnvGroupEnvVarRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteEnvGroupEnvVarResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6237,8 +7200,8 @@ export const deleteEnvGroupSecretFile: API.OperationMethod<
   DeleteEnvGroupSecretFileError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c194, 0) as any as S.Schema<DeleteEnvGroupSecretFileRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteEnvGroupSecretFileResponse>,
+  input: __S(1928, __c241, 0) as any as S.Schema<DeleteEnvGroupSecretFileRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteEnvGroupSecretFileResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6254,8 +7217,8 @@ export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1560, __c195, 0) as any as S.Schema<DeleteEnvironmentRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteEnvironmentResponse>,
+  input: __S(1936, __c242, 0) as any as S.Schema<DeleteEnvironmentRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteEnvironmentResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6271,8 +7234,8 @@ export const deleteEnvVar: API.OperationMethod<
   DeleteEnvVarError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c196, 0) as any as S.Schema<DeleteEnvVarRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteEnvVarResponse>,
+  input: __S(1960, __c245, 0) as any as S.Schema<DeleteEnvVarRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteEnvVarResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6288,8 +7251,8 @@ export const deleteHeader: API.OperationMethod<
   DeleteHeaderError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1576, __c197, 0) as any as S.Schema<DeleteHeaderRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteHeaderResponse>,
+  input: __S(1968, __c246, 0) as any as S.Schema<DeleteHeaderRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteHeaderResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6305,8 +7268,8 @@ export const deleteKeyValue: API.OperationMethod<
   DeleteKeyValueError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c198, 0) as any as S.Schema<DeleteKeyValueRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteKeyValueResponse>,
+  input: __S(1976, __c247, 0) as any as S.Schema<DeleteKeyValueRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteKeyValueResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6322,8 +7285,8 @@ export const deleteOwnerLogStream: API.OperationMethod<
   DeleteOwnerLogStreamError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1592, __c199, 0) as any as S.Schema<DeleteOwnerLogStreamRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteOwnerLogStreamResponse>,
+  input: __S(1984, __c248, 0) as any as S.Schema<DeleteOwnerLogStreamRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteOwnerLogStreamResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6339,8 +7302,8 @@ export const deleteOwnerMetricsStream: API.OperationMethod<
   DeleteOwnerMetricsStreamError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c200, 0) as any as S.Schema<DeleteOwnerMetricsStreamRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteOwnerMetricsStreamResponse>,
+  input: __S(1992, __c249, 0) as any as S.Schema<DeleteOwnerMetricsStreamRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteOwnerMetricsStreamResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6356,8 +7319,8 @@ export const deletePostgres: API.OperationMethod<
   DeletePostgresError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1608, __c201, 0) as any as S.Schema<DeletePostgresRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeletePostgresResponse>,
+  input: __S(2000, __c250, 0) as any as S.Schema<DeletePostgresRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeletePostgresResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6373,8 +7336,8 @@ export const deletePostgresUser: API.OperationMethod<
   DeletePostgresUserError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c202, 0) as any as S.Schema<DeletePostgresUserRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeletePostgresUserResponse>,
+  input: __S(2008, __c251, 0) as any as S.Schema<DeletePostgresUserRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeletePostgresUserResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6390,8 +7353,8 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1640, __c205, 0) as any as S.Schema<DeleteProjectRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteProjectResponse>,
+  input: __S(2016, __c252, 0) as any as S.Schema<DeleteProjectRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteProjectResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6407,8 +7370,8 @@ export const deleteRegistryCredential: API.OperationMethod<
   DeleteRegistryCredentialError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c206, 0) as any as S.Schema<DeleteRegistryCredentialRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteRegistryCredentialResponse>,
+  input: __S(2024, __c253, 0) as any as S.Schema<DeleteRegistryCredentialRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteRegistryCredentialResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6424,8 +7387,8 @@ export const deleteResourceLogStream: API.OperationMethod<
   DeleteResourceLogStreamError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1656, __c207, 0) as any as S.Schema<DeleteResourceLogStreamRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteResourceLogStreamResponse>,
+  input: __S(2032, __c254, 0) as any as S.Schema<DeleteResourceLogStreamRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteResourceLogStreamResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6441,13 +7404,35 @@ export const deleteRoute: API.OperationMethod<
   DeleteRouteError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c208, 0) as any as S.Schema<DeleteRouteRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteRouteResponse>,
+  input: __S(2056, __c257, 0) as any as S.Schema<DeleteRouteRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteRouteResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteRoute",
+}));
+
+export type DeleteSandboxSnapshotError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | RenderOpError;
+/** Delete sandbox snapshot Idempotent: returns 204 if the snapshot is already deleted or expired. Sandboxes created from the snapshot are not affected. A snapshot that belongs to another sandbox group returns 404. 400 with `code: invalid_sandbox_group_id` when `sandboxGroupId` is malformed. 400 with `code: invalid_snapshot_id` when `snapshotId` is malformed. 409 with `code: snapshot_creating` while the capture is in progress. */
+export const deleteSandboxSnapshot: API.OperationMethod<
+  DeleteSandboxSnapshotRequest,
+  DeleteSandboxSnapshotResponse,
+  DeleteSandboxSnapshotError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2064, __c258, 0) as any as S.Schema<DeleteSandboxSnapshotRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteSandboxSnapshotResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSandboxSnapshot",
 }));
 
 export type DeleteSecretFileError = Forbidden | NotFound | RenderOpError;
@@ -6458,8 +7443,8 @@ export const deleteSecretFile: API.OperationMethod<
   DeleteSecretFileError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1672, __c209, 0) as any as S.Schema<DeleteSecretFileRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteSecretFileResponse>,
+  input: __S(2072, __c259, 0) as any as S.Schema<DeleteSecretFileRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteSecretFileResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6475,8 +7460,8 @@ export const deleteService: API.OperationMethod<
   DeleteServiceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c210, 0) as any as S.Schema<DeleteServiceRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteServiceResponse>,
+  input: __S(2080, __c260, 0) as any as S.Schema<DeleteServiceRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteServiceResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6492,8 +7477,8 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1688, __c211, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteWebhookResponse>,
+  input: __S(2088, __c261, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteWebhookResponse>,
   errors: [NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6509,8 +7494,8 @@ export const deleteWorkflow: API.OperationMethod<
   DeleteWorkflowError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c212, 0) as any as S.Schema<DeleteWorkflowRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteWorkflowResponse>,
+  input: __S(2096, __c262, 0) as any as S.Schema<DeleteWorkflowRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteWorkflowResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6526,8 +7511,8 @@ export const deployRollback: API.OperationMethod<
   DeployRollbackError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1704, __c213, 0) as any as S.Schema<DeployRollbackRequest>,
-  output: __S(226, __c28, 2) as any as S.Schema<Deploy>,
+  input: __S(2104, __c263, 0) as any as S.Schema<DeployRollbackRequest>,
+  output: __S(250, __c31, 2) as any as S.Schema<Deploy>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6543,8 +7528,8 @@ export const disconnectBlueprint: API.OperationMethod<
   DisconnectBlueprintError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c214, 0) as any as S.Schema<DisconnectBlueprintRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DisconnectBlueprintResponse>,
+  input: __S(2112, __c264, 0) as any as S.Schema<DisconnectBlueprintRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DisconnectBlueprintResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6560,8 +7545,8 @@ export const failoverPostgres: API.OperationMethod<
   FailoverPostgresError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1736, __c217, 0) as any as S.Schema<FailoverPostgresRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<FailoverPostgresResponse>,
+  input: __S(2120, __c265, 0) as any as S.Schema<FailoverPostgresRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<FailoverPostgresResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6577,8 +7562,8 @@ export const getActiveConnections: API.OperationMethod<
   GetActiveConnectionsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c218, 0) as any as S.Schema<GetActiveConnectionsRequest>,
-  output: __S(1758, __c219, 6) as any as S.Schema<GetActiveConnectionsResponse>,
+  input: __S(2128, __c266, 0) as any as S.Schema<GetActiveConnectionsRequest>,
+  output: __S(2142, __c267, 6) as any as S.Schema<GetActiveConnectionsResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6594,8 +7579,8 @@ export const getBandwidth: API.OperationMethod<
   GetBandwidthError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c220, 0) as any as S.Schema<GetBandwidthRequest>,
-  output: __S(1758, __c219, 6) as any as S.Schema<GetBandwidthResponse>,
+  input: __S(2152, __c269, 0) as any as S.Schema<GetBandwidthRequest>,
+  output: __S(2142, __c267, 6) as any as S.Schema<GetBandwidthResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6611,8 +7596,8 @@ export const getBandwidthSources: API.OperationMethod<
   GetBandwidthSourcesError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1768, __c221, 0) as any as S.Schema<GetBandwidthSourcesRequest>,
-  output: __S(1774, __c221, 6) as any as S.Schema<GetBandwidthSourcesResponse>,
+  input: __S(2160, __c270, 0) as any as S.Schema<GetBandwidthSourcesRequest>,
+  output: __S(2166, __c270, 6) as any as S.Schema<GetBandwidthSourcesResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6628,8 +7613,8 @@ export const getBlueprint: API.OperationMethod<
   GetBlueprintError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c222, 0) as any as S.Schema<GetBlueprintRequest>,
-  output: __S(1777, __c222, 1) as any as S.Schema<GetBlueprintResponse>,
+  input: __S(2168, __c271, 0) as any as S.Schema<GetBlueprintRequest>,
+  output: __S(2169, __c271, 1) as any as S.Schema<GetBlueprintResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6645,13 +7630,30 @@ export const getBuildSource: API.OperationMethod<
   GetBuildSourceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1784, __c223, 0) as any as S.Schema<GetBuildSourceRequest>,
-  output: __S(578, __c72, 2) as any as S.Schema<Schema12>,
+  input: __S(2176, __c272, 0) as any as S.Schema<GetBuildSourceRequest>,
+  output: __S(906, __c113, 2) as any as S.Schema<Schema12>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBuildSource",
+}));
+
+export type GetBuildSourceBuildError = Forbidden | NotFound | RenderOpError;
+/** Retrieve a build Retrieve a build of a build source, including its status. */
+export const getBuildSourceBuild: API.OperationMethod<
+  GetBuildSourceBuildRequest,
+  Schema13,
+  GetBuildSourceBuildError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2184, __c273, 0) as any as S.Schema<GetBuildSourceBuildRequest>,
+  output: __S(2194, __c274, 2) as any as S.Schema<Schema13>,
+  errors: [Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuildSourceBuild",
 }));
 
 export type GetBuildSourceEnvVarError = Forbidden | NotFound | RenderOpError;
@@ -6662,8 +7664,8 @@ export const getBuildSourceEnvVar: API.OperationMethod<
   GetBuildSourceEnvVarError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c224, 0) as any as S.Schema<GetBuildSourceEnvVarRequest>,
-  output: __S(968, __c121, 0) as any as S.Schema<EnvVar>,
+  input: __S(2200, __c275, 0) as any as S.Schema<GetBuildSourceEnvVarRequest>,
+  output: __S(1296, __c162, 0) as any as S.Schema<EnvVar>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6679,8 +7681,8 @@ export const getBuildSourceSecretFile: API.OperationMethod<
   GetBuildSourceSecretFileError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1800, __c225, 0) as any as S.Schema<GetBuildSourceSecretFileRequest>,
-  output: __S(1728, __c216, 0) as any as S.Schema<SecretFile>,
+  input: __S(2208, __c276, 0) as any as S.Schema<GetBuildSourceSecretFileRequest>,
+  output: __S(2048, __c256, 0) as any as S.Schema<SecretFile>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6696,8 +7698,8 @@ export const getCpu: API.OperationMethod<
   GetCpuError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c226, 0) as any as S.Schema<GetCpuRequest>,
-  output: __S(1758, __c219, 6) as any as S.Schema<GetCpuResponse>,
+  input: __S(2216, __c277, 0) as any as S.Schema<GetCpuRequest>,
+  output: __S(2142, __c267, 6) as any as S.Schema<GetCpuResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6713,8 +7715,8 @@ export const getCpuLimit: API.OperationMethod<
   GetCpuLimitError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1816, __c227, 0) as any as S.Schema<GetCpuLimitRequest>,
-  output: __S(1758, __c219, 6) as any as S.Schema<GetCpuLimitResponse>,
+  input: __S(2224, __c278, 0) as any as S.Schema<GetCpuLimitRequest>,
+  output: __S(2142, __c267, 6) as any as S.Schema<GetCpuLimitResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6730,8 +7732,8 @@ export const getCpuTarget: API.OperationMethod<
   GetCpuTargetError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1832, __c229, 0) as any as S.Schema<GetCpuTargetRequest>,
-  output: __S(1758, __c219, 6) as any as S.Schema<GetCpuTargetResponse>,
+  input: __S(2232, __c279, 0) as any as S.Schema<GetCpuTargetRequest>,
+  output: __S(2142, __c267, 6) as any as S.Schema<GetCpuTargetResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6747,8 +7749,8 @@ export const getCustomDomain: API.OperationMethod<
   GetCustomDomainError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c230, 0) as any as S.Schema<GetCustomDomainRequest>,
-  output: __S(681, __c85, 1) as any as S.Schema<CustomDomain>,
+  input: __S(2272, __c284, 0) as any as S.Schema<GetCustomDomainRequest>,
+  output: __S(1009, __c126, 1) as any as S.Schema<CustomDomain>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6764,8 +7766,8 @@ export const getDedicatedIp: API.OperationMethod<
   GetDedicatedIpError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1848, __c231, 0) as any as S.Schema<GetDedicatedIpRequest>,
-  output: __S(776, __c97, 0) as any as S.Schema<DedicatedIP>,
+  input: __S(2280, __c285, 0) as any as S.Schema<GetDedicatedIpRequest>,
+  output: __S(1104, __c138, 0) as any as S.Schema<DedicatedIP>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6781,8 +7783,8 @@ export const getDeploy: API.OperationMethod<
   GetDeployError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c232, 0) as any as S.Schema<GetDeployRequest>,
-  output: __S(226, __c28, 2) as any as S.Schema<Deploy>,
+  input: __S(2288, __c286, 0) as any as S.Schema<GetDeployRequest>,
+  output: __S(250, __c31, 2) as any as S.Schema<Deploy>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6794,8 +7796,8 @@ export type GetDiskError = Forbidden | NotFound | RenderOpError;
 /** Retrieve disk Retrieve the persistent disk with the provided ID. */
 export const getDisk: API.OperationMethod<GetDiskRequest, Schema2, GetDiskError, RenderOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1864, __c233, 0) as any as S.Schema<GetDiskRequest>,
-    output: __S(1536, __c192, 0) as any as S.Schema<Schema2>,
+    input: __S(2296, __c287, 0) as any as S.Schema<GetDiskRequest>,
+    output: __S(1856, __c232, 0) as any as S.Schema<Schema2>,
     errors: [Forbidden, NotFound, UnknownRenderError],
     protocol: RenderProtocol,
     retry: Retry.Retry,
@@ -6811,8 +7813,8 @@ export const getDiskCapacity: API.OperationMethod<
   GetDiskCapacityError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c234, 0) as any as S.Schema<GetDiskCapacityRequest>,
-  output: __S(1758, __c219, 6) as any as S.Schema<GetDiskCapacityResponse>,
+  input: __S(2304, __c288, 0) as any as S.Schema<GetDiskCapacityRequest>,
+  output: __S(2142, __c267, 6) as any as S.Schema<GetDiskCapacityResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6828,8 +7830,8 @@ export const getDiskUsage: API.OperationMethod<
   GetDiskUsageError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1880, __c235, 0) as any as S.Schema<GetDiskUsageRequest>,
-  output: __S(1758, __c219, 6) as any as S.Schema<GetDiskUsageResponse>,
+  input: __S(2312, __c289, 0) as any as S.Schema<GetDiskUsageRequest>,
+  output: __S(2142, __c267, 6) as any as S.Schema<GetDiskUsageResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6845,8 +7847,8 @@ export const getEnvGroup: API.OperationMethod<
   GetEnvGroupError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c236, 0) as any as S.Schema<GetEnvGroupRequest>,
-  output: __S(977, __c122, 1) as any as S.Schema<GetEnvGroupResponse>,
+  input: __S(2320, __c290, 0) as any as S.Schema<GetEnvGroupRequest>,
+  output: __S(1305, __c163, 1) as any as S.Schema<GetEnvGroupResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6862,8 +7864,8 @@ export const getEnvGroupEnvVar: API.OperationMethod<
   GetEnvGroupEnvVarError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1896, __c237, 0) as any as S.Schema<GetEnvGroupEnvVarRequest>,
-  output: __S(968, __c121, 0) as any as S.Schema<EnvVar>,
+  input: __S(2328, __c291, 0) as any as S.Schema<GetEnvGroupEnvVarRequest>,
+  output: __S(1296, __c162, 0) as any as S.Schema<EnvVar>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6879,8 +7881,8 @@ export const getEnvGroupSecretFile: API.OperationMethod<
   GetEnvGroupSecretFileError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c238, 0) as any as S.Schema<GetEnvGroupSecretFileRequest>,
-  output: __S(1728, __c216, 0) as any as S.Schema<SecretFile>,
+  input: __S(2336, __c292, 0) as any as S.Schema<GetEnvGroupSecretFileRequest>,
+  output: __S(2048, __c256, 0) as any as S.Schema<SecretFile>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6896,8 +7898,8 @@ export const getEnvironment: API.OperationMethod<
   GetEnvironmentError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1944, __c243, 0) as any as S.Schema<GetEnvironmentRequest>,
-  output: __S(1936, __c242, 0) as any as S.Schema<Environment>,
+  input: __S(2344, __c293, 0) as any as S.Schema<GetEnvironmentRequest>,
+  output: __S(2264, __c283, 0) as any as S.Schema<Environment>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6913,8 +7915,8 @@ export const getEnvVar: API.OperationMethod<
   GetEnvVarError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c244, 0) as any as S.Schema<GetEnvVarRequest>,
-  output: __S(968, __c121, 0) as any as S.Schema<EnvVar>,
+  input: __S(2368, __c296, 0) as any as S.Schema<GetEnvVarRequest>,
+  output: __S(1296, __c162, 0) as any as S.Schema<EnvVar>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6930,8 +7932,8 @@ export const getEnvVarsForBuildSource: API.OperationMethod<
   GetEnvVarsForBuildSourceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1960, __c245, 0) as any as S.Schema<GetEnvVarsForBuildSourceRequest>,
-  output: __S(1970, __c246, 2) as any as S.Schema<GetEnvVarsForBuildSourceResponse>,
+  input: __S(2376, __c297, 0) as any as S.Schema<GetEnvVarsForBuildSourceRequest>,
+  output: __S(2386, __c298, 2) as any as S.Schema<GetEnvVarsForBuildSourceResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6947,8 +7949,8 @@ export const getEnvVarsForService: API.OperationMethod<
   GetEnvVarsForServiceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1976, __c247, 0) as any as S.Schema<GetEnvVarsForServiceRequest>,
-  output: __S(1970, __c246, 2) as any as S.Schema<GetEnvVarsForServiceResponse>,
+  input: __S(2392, __c299, 0) as any as S.Schema<GetEnvVarsForServiceRequest>,
+  output: __S(2386, __c298, 2) as any as S.Schema<GetEnvVarsForServiceResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6964,13 +7966,64 @@ export const getEvent: API.OperationMethod<
   GetEventError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c248, 0) as any as S.Schema<GetEventRequest>,
-  output: __S(1985, __c248, 1) as any as S.Schema<GetEventResponse>,
+  input: __S(2400, __c300, 0) as any as S.Schema<GetEventRequest>,
+  output: __S(2401, __c300, 1) as any as S.Schema<GetEventResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetEvent",
+}));
+
+export type GetFlowError = Forbidden | NotFound | RenderOpError;
+/** Retrieve flow Retrieve the workflow flow with the provided ID. */
+export const getFlow: API.OperationMethod<
+  GetFlowRequest,
+  GetFlowResponse,
+  GetFlowError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2408, __c301, 0) as any as S.Schema<GetFlowRequest>,
+  output: __S(2416, __c302, 0) as any as S.Schema<GetFlowResponse>,
+  errors: [Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlow",
+}));
+
+export type GetFlowRunError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** Retrieve flow run Retrieve the flow run with the provided ID, including its input and results. */
+export const getFlowRun: API.OperationMethod<
+  GetFlowRunRequest,
+  GetFlowRunResponse,
+  GetFlowRunError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2424, __c303, 0) as any as S.Schema<GetFlowRunRequest>,
+  output: __S(2428, __c303, 4) as any as S.Schema<GetFlowRunResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlowRun",
+}));
+
+export type GetFlowRunStepError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** Retrieve flow run step Retrieve a single step of a flow run, including its input, result and error. A sequence number can cover more than one step, so pass the `stepKey` the step listing reported to address one of those. */
+export const getFlowRunStep: API.OperationMethod<
+  GetFlowRunStepRequest,
+  GetFlowRunStepResponse,
+  GetFlowRunStepError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2440, __c305, 0) as any as S.Schema<GetFlowRunStepRequest>,
+  output: __S(2441, __c305, 1) as any as S.Schema<GetFlowRunStepResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlowRunStep",
 }));
 
 export type GetHttpLatencyError = BadRequest | RenderOpError;
@@ -6981,8 +8034,8 @@ export const getHttpLatency: API.OperationMethod<
   GetHttpLatencyError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1992, __c249, 0) as any as S.Schema<GetHttpLatencyRequest>,
-  output: __S(1758, __c219, 6) as any as S.Schema<GetHttpLatencyResponse>,
+  input: __S(2448, __c306, 0) as any as S.Schema<GetHttpLatencyRequest>,
+  output: __S(2142, __c267, 6) as any as S.Schema<GetHttpLatencyResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -6998,8 +8051,8 @@ export const getHttpRequests: API.OperationMethod<
   GetHttpRequestsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c250, 0) as any as S.Schema<GetHttpRequestsRequest>,
-  output: __S(1758, __c219, 6) as any as S.Schema<GetHttpRequestsResponse>,
+  input: __S(2456, __c307, 0) as any as S.Schema<GetHttpRequestsRequest>,
+  output: __S(2142, __c267, 6) as any as S.Schema<GetHttpRequestsResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7015,8 +8068,8 @@ export const getInstanceCount: API.OperationMethod<
   GetInstanceCountError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2008, __c251, 0) as any as S.Schema<GetInstanceCountRequest>,
-  output: __S(1758, __c219, 6) as any as S.Schema<GetInstanceCountResponse>,
+  input: __S(2464, __c308, 0) as any as S.Schema<GetInstanceCountRequest>,
+  output: __S(2142, __c267, 6) as any as S.Schema<GetInstanceCountResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7028,8 +8081,8 @@ export type GetJobError = BadRequest | NotFound | RenderOpError;
 /** Retrieve job Retrieve the details of a particular one-off job for a particular service. */
 export const getJob: API.OperationMethod<GetJobRequest, Schema7, GetJobError, RenderOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2016, __c252, 0) as any as S.Schema<GetJobRequest>,
-    output: __S(336, __c42, 0) as any as S.Schema<Schema7>,
+    input: __S(8, __c1, 0) as any as S.Schema<GetJobRequest>,
+    output: __S(472, __c59, 0) as any as S.Schema<Schema7>,
     errors: [BadRequest, NotFound, UnknownRenderError],
     protocol: RenderProtocol,
     retry: Retry.Retry,
@@ -7045,8 +8098,8 @@ export const getKeyValue: API.OperationMethod<
   GetKeyValueError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2024, __c253, 0) as any as S.Schema<GetKeyValueRequest>,
-  output: __S(1184, __c148, 0) as any as S.Schema<KeyValueDetail>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetKeyValueRequest>,
+  output: __S(1496, __c187, 0) as any as S.Schema<KeyValueDetail>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7062,8 +8115,8 @@ export const getKeyValueConnectionInfo: API.OperationMethod<
   GetKeyValueConnectionInfoError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c256, 0) as any as S.Schema<GetKeyValueConnectionInfoRequest>,
-  output: __S(2049, __c256, 1) as any as S.Schema<KeyValueConnectionInfo>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetKeyValueConnectionInfoRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<KeyValueConnectionInfo>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7079,8 +8132,8 @@ export const getMaintenance: API.OperationMethod<
   GetMaintenanceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2056, __c257, 0) as any as S.Schema<GetMaintenanceRequest>,
-  output: __S(2064, __c258, 0) as any as S.Schema<GetMaintenanceResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetMaintenanceRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<GetMaintenanceResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7096,8 +8149,8 @@ export const getMemory: API.OperationMethod<
   GetMemoryError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2072, __c259, 0) as any as S.Schema<GetMemoryRequest>,
-  output: __S(1758, __c219, 6) as any as S.Schema<GetMemoryResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetMemoryRequest>,
+  output: __S(2142, __c267, 6) as any as S.Schema<GetMemoryResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7113,8 +8166,8 @@ export const getMemoryLimit: API.OperationMethod<
   GetMemoryLimitError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c260, 0) as any as S.Schema<GetMemoryLimitRequest>,
-  output: __S(1758, __c219, 6) as any as S.Schema<GetMemoryLimitResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetMemoryLimitRequest>,
+  output: __S(2142, __c267, 6) as any as S.Schema<GetMemoryLimitResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7130,8 +8183,8 @@ export const getMemoryTarget: API.OperationMethod<
   GetMemoryTargetError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2088, __c261, 0) as any as S.Schema<GetMemoryTargetRequest>,
-  output: __S(1758, __c219, 6) as any as S.Schema<GetMemoryTargetResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<GetMemoryTargetRequest>,
+  output: __S(2142, __c267, 6) as any as S.Schema<GetMemoryTargetResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7143,8 +8196,8 @@ export type GetOwnerError = NotFound | RenderOpError;
 /** Retrieve workspace Retrieve the workspace with the provided ID. Workspace IDs start with `tea-`. If you provide a user ID (starts with `own-`), this endpoint returns the user's default workspace. */
 export const getOwner: API.OperationMethod<GetOwnerRequest, Owner, GetOwnerError, RenderOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2096, __c262, 0) as any as S.Schema<GetOwnerRequest>,
-    output: __S(1160, __c145, 0) as any as S.Schema<Owner>,
+    input: __S(72, __c9, 0) as any as S.Schema<GetOwnerRequest>,
+    output: __S(1512, __c189, 0) as any as S.Schema<Owner>,
     errors: [NotFound, UnknownRenderError],
     protocol: RenderProtocol,
     retry: Retry.Retry,
@@ -7160,8 +8213,8 @@ export const getOwnerLogStream: API.OperationMethod<
   GetOwnerLogStreamError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2104, __c263, 0) as any as S.Schema<GetOwnerLogStreamRequest>,
-  output: __S(2112, __c264, 0) as any as S.Schema<GetOwnerLogStreamResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetOwnerLogStreamRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<GetOwnerLogStreamResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7177,8 +8230,8 @@ export const getOwnerMembers: API.OperationMethod<
   GetOwnerMembersError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2120, __c265, 0) as any as S.Schema<GetOwnerMembersRequest>,
-  output: __S(2122, __c265, 2) as any as S.Schema<GetOwnerMembersResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetOwnerMembersRequest>,
+  output: __S(98, __c12, 2) as any as S.Schema<GetOwnerMembersResponse>,
   errors: [NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7194,8 +8247,8 @@ export const getOwnerMetricsStream: API.OperationMethod<
   GetOwnerMetricsStreamError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2136, __c267, 0) as any as S.Schema<GetOwnerMetricsStreamRequest>,
-  output: __S(2144, __c268, 0) as any as S.Schema<Schema10>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetOwnerMetricsStreamRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<Schema10>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7211,8 +8264,8 @@ export const getOwnerNotificationSettings: API.OperationMethod<
   GetOwnerNotificationSettingsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2152, __c269, 0) as any as S.Schema<GetOwnerNotificationSettingsRequest>,
-  output: __S(2160, __c270, 0) as any as S.Schema<GetOwnerNotificationSettingsResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetOwnerNotificationSettingsRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<GetOwnerNotificationSettingsResponse>,
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7228,8 +8281,8 @@ export const getPostgres: API.OperationMethod<
   GetPostgresError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<GetPostgresRequest>,
-  output: __S(1280, __c160, 0) as any as S.Schema<PostgresDetail>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetPostgresRequest>,
+  output: __S(1608, __c201, 0) as any as S.Schema<PostgresDetail>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7245,8 +8298,8 @@ export const getPostgresConnectionInfo: API.OperationMethod<
   GetPostgresConnectionInfoError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetPostgresConnectionInfoRequest>,
-  output: __S(17, __c2, 1) as any as S.Schema<PostgresConnectionInfo>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetPostgresConnectionInfoRequest>,
+  output: __S(169, __c21, 1) as any as S.Schema<PostgresConnectionInfo>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7262,8 +8315,8 @@ export const getPostgresRecoveryInfo: API.OperationMethod<
   GetPostgresRecoveryInfoError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetPostgresRecoveryInfoRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<GetPostgresRecoveryInfoResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetPostgresRecoveryInfoRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<GetPostgresRecoveryInfoResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7279,8 +8332,8 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(1352, __c169, 0) as any as S.Schema<Project>,
+  input: __S(184, __c23, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(1664, __c208, 0) as any as S.Schema<Project>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7296,8 +8349,8 @@ export const getRegistryCredential: API.OperationMethod<
   GetRegistryCredentialError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetRegistryCredentialRequest>,
-  output: __S(1368, __c171, 0) as any as S.Schema<RegistryCredential>,
+  input: __S(192, __c24, 0) as any as S.Schema<GetRegistryCredentialRequest>,
+  output: __S(1680, __c210, 0) as any as S.Schema<RegistryCredential>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7313,8 +8366,8 @@ export const getReplicationLag: API.OperationMethod<
   GetReplicationLagError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetReplicationLagRequest>,
-  output: __S(1758, __c219, 6) as any as S.Schema<GetReplicationLagResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<GetReplicationLagRequest>,
+  output: __S(2142, __c267, 6) as any as S.Schema<GetReplicationLagResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7330,13 +8383,98 @@ export const getResourceLogStream: API.OperationMethod<
   GetResourceLogStreamError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetResourceLogStreamRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<GetResourceLogStreamResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<GetResourceLogStreamRequest>,
+  output: __S(216, __c27, 0) as any as S.Schema<GetResourceLogStreamResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetResourceLogStream",
+}));
+
+export type GetSandboxError = Forbidden | NotFound | RenderOpError;
+/** Retrieve sandbox Retrieve the sandbox with the provided ID. */
+export const getSandbox: API.OperationMethod<
+  GetSandboxRequest,
+  Schema21,
+  GetSandboxError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(224, __c28, 0) as any as S.Schema<GetSandboxRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<Schema21>,
+  errors: [Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandbox",
+}));
+
+export type GetSandboxBuildError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** Retrieve sandbox build One build by ID. 404 with `code: build_not_found` if the build doesn't exist or belongs to another sandbox group. 400 with `code: invalid_sandbox_group_id` if `sandboxGroupId` is not a well-formed `sbg-` ID, or `invalid build ID` if `buildId` is not a well-formed `sbb-` ID. */
+export const getSandboxBuild: API.OperationMethod<
+  GetSandboxBuildRequest,
+  Schema24,
+  GetSandboxBuildError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(256, __c32, 0) as any as S.Schema<GetSandboxBuildRequest>,
+  output: __S(1721, __c215, 1) as any as S.Schema<Schema24>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxBuild",
+}));
+
+export type GetSandboxExecutionError = Forbidden | NotFound | RenderOpError;
+/** Retrieve execution Retrieve one execution record for the sandbox. */
+export const getSandboxExecution: API.OperationMethod<
+  GetSandboxExecutionRequest,
+  GetSandboxExecutionResponse,
+  GetSandboxExecutionError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(264, __c33, 0) as any as S.Schema<GetSandboxExecutionRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<GetSandboxExecutionResponse>,
+  errors: [Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxExecution",
+}));
+
+export type GetSandboxGroupError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** Retrieve sandbox group Retrieve a sandbox group. 400 `invalid_sandbox_group_id` for a malformed ID. */
+export const getSandboxGroup: API.OperationMethod<
+  GetSandboxGroupRequest,
+  Schema22,
+  GetSandboxGroupError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(280, __c35, 0) as any as S.Schema<GetSandboxGroupRequest>,
+  output: __S(1736, __c217, 0) as any as S.Schema<Schema22>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxGroup",
+}));
+
+export type GetSandboxSnapshotError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** Retrieve sandbox snapshot One snapshot by ID. Deleted and expired snapshots return 404. A snapshot that belongs to another sandbox group returns 404. 400 with `code: invalid_sandbox_group_id` if `sandboxGroupId` is not a well-formed `sbg-` ID, or `code: invalid_snapshot_id` if `snapshotId` is not a well-formed `snp-` ID. */
+export const getSandboxSnapshot: API.OperationMethod<
+  GetSandboxSnapshotRequest,
+  Schema25,
+  GetSandboxSnapshotError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(288, __c36, 0) as any as S.Schema<GetSandboxSnapshotRequest>,
+  output: __S(296, __c37, 0) as any as S.Schema<Schema25>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxSnapshot",
 }));
 
 export type GetSecretFileError = Forbidden | NotFound | RenderOpError;
@@ -7347,8 +8485,8 @@ export const getSecretFile: API.OperationMethod<
   GetSecretFileError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetSecretFileRequest>,
-  output: __S(1728, __c216, 0) as any as S.Schema<SecretFile>,
+  input: __S(304, __c38, 0) as any as S.Schema<GetSecretFileRequest>,
+  output: __S(2048, __c256, 0) as any as S.Schema<SecretFile>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7364,8 +8502,8 @@ export const getService: API.OperationMethod<
   GetServiceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetServiceRequest>,
-  output: __S(1384, __c173, 0) as any as S.Schema<Service>,
+  input: __S(312, __c39, 0) as any as S.Schema<GetServiceRequest>,
+  output: __S(1760, __c220, 0) as any as S.Schema<Service>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7381,8 +8519,8 @@ export const getServiceNotificationOverrides: API.OperationMethod<
   GetServiceNotificationOverridesError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetServiceNotificationOverridesRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<GetServiceNotificationOverridesResponse>,
+  input: __S(320, __c40, 0) as any as S.Schema<GetServiceNotificationOverridesRequest>,
+  output: __S(328, __c41, 0) as any as S.Schema<GetServiceNotificationOverridesResponse>,
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7398,8 +8536,8 @@ export const getServiceOutboundIps: API.OperationMethod<
   GetServiceOutboundIpsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetServiceOutboundIpsRequest>,
-  output: __S(121, __c15, 1) as any as S.Schema<OutboundIps>,
+  input: __S(336, __c42, 0) as any as S.Schema<GetServiceOutboundIpsRequest>,
+  output: __S(337, __c42, 1) as any as S.Schema<OutboundIps>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7415,8 +8553,8 @@ export const getTask: API.OperationMethod<
   GetTaskError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetTaskRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<GetTaskResponse>,
+  input: __S(344, __c43, 0) as any as S.Schema<GetTaskRequest>,
+  output: __S(2416, __c302, 0) as any as S.Schema<GetTaskResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7432,8 +8570,8 @@ export const getTaskRun: API.OperationMethod<
   GetTaskRunError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(145, __c18, 1) as any as S.Schema<GetTaskRunRequest>,
-  output: __S(148, __c18, 4) as any as S.Schema<GetTaskRunResponse>,
+  input: __S(352, __c44, 0) as any as S.Schema<GetTaskRunRequest>,
+  output: __S(355, __c44, 3) as any as S.Schema<GetTaskRunResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7449,8 +8587,8 @@ export const getTaskRunsCompleted: API.OperationMethod<
   GetTaskRunsCompletedError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetTaskRunsCompletedRequest>,
-  output: __S(1758, __c219, 6) as any as S.Schema<GetTaskRunsCompletedResponse>,
+  input: __S(368, __c46, 0) as any as S.Schema<GetTaskRunsCompletedRequest>,
+  output: __S(2142, __c267, 6) as any as S.Schema<GetTaskRunsCompletedResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7466,8 +8604,8 @@ export const getTaskRunsQueued: API.OperationMethod<
   GetTaskRunsQueuedError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetTaskRunsQueuedRequest>,
-  output: __S(1758, __c219, 6) as any as S.Schema<GetTaskRunsQueuedResponse>,
+  input: __S(376, __c47, 0) as any as S.Schema<GetTaskRunsQueuedRequest>,
+  output: __S(2142, __c267, 6) as any as S.Schema<GetTaskRunsQueuedResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7479,8 +8617,8 @@ export type GetUserError = RenderOpError;
 /** Get the authenticated user Retrieve the user associated with the provided API key. */
 export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, RenderOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(168, __c21, 0) as any as S.Schema<GetUserRequest>,
-    output: __S(169, __c21, 1) as any as S.Schema<User>,
+    input: __S(384, __c48, 0) as any as S.Schema<GetUserRequest>,
+    output: __S(385, __c48, 1) as any as S.Schema<User>,
     errors: [UnknownRenderError],
     protocol: RenderProtocol,
     retry: Retry.Retry,
@@ -7496,8 +8634,8 @@ export const getWebhook: API.OperationMethod<
   GetWebhookError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(1432, __c179, 0) as any as S.Schema<Schema14>,
+  input: __S(392, __c49, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(1808, __c226, 0) as any as S.Schema<Schema14>,
   errors: [NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7513,8 +8651,8 @@ export const getWorkflow: API.OperationMethod<
   GetWorkflowError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<GetWorkflowRequest>,
-  output: __S(1449, __c181, 1) as any as S.Schema<Schema15>,
+  input: __S(400, __c50, 0) as any as S.Schema<GetWorkflowRequest>,
+  output: __S(1825, __c228, 1) as any as S.Schema<Schema15>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7530,8 +8668,8 @@ export const getWorkflowVersion: API.OperationMethod<
   GetWorkflowVersionError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetWorkflowVersionRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<GetWorkflowVersionResponse>,
+  input: __S(408, __c51, 0) as any as S.Schema<GetWorkflowVersionRequest>,
+  output: __S(416, __c52, 0) as any as S.Schema<GetWorkflowVersionResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7547,8 +8685,8 @@ export const linkEnvGroupToBuildSource: API.OperationMethod<
   LinkEnvGroupToBuildSourceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<LinkEnvGroupToBuildSourceRequest>,
-  output: __S(977, __c122, 1) as any as S.Schema<LinkEnvGroupToBuildSourceResponse>,
+  input: __S(424, __c53, 0) as any as S.Schema<LinkEnvGroupToBuildSourceRequest>,
+  output: __S(1305, __c163, 1) as any as S.Schema<LinkEnvGroupToBuildSourceResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7564,8 +8702,8 @@ export const linkServiceToEnvGroup: API.OperationMethod<
   LinkServiceToEnvGroupError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<LinkServiceToEnvGroupRequest>,
-  output: __S(977, __c122, 1) as any as S.Schema<LinkServiceToEnvGroupResponse>,
+  input: __S(432, __c54, 0) as any as S.Schema<LinkServiceToEnvGroupRequest>,
+  output: __S(1305, __c163, 1) as any as S.Schema<LinkServiceToEnvGroupResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7581,8 +8719,8 @@ export const listApplicationFilterValues: API.OperationMethod<
   ListApplicationFilterValuesError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<ListApplicationFilterValuesRequest>,
-  output: __S(250, __c31, 2) as any as S.Schema<ListApplicationFilterValuesResponse>,
+  input: __S(440, __c55, 0) as any as S.Schema<ListApplicationFilterValuesRequest>,
+  output: __S(450, __c56, 2) as any as S.Schema<ListApplicationFilterValuesResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7598,8 +8736,8 @@ export const listBlueprints: API.OperationMethod<
   ListBlueprintsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<ListBlueprintsRequest>,
-  output: __S(260, __c32, 4) as any as S.Schema<ListBlueprintsResponse>,
+  input: __S(456, __c57, 0) as any as S.Schema<ListBlueprintsRequest>,
+  output: __S(460, __c57, 4) as any as S.Schema<ListBlueprintsResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7608,15 +8746,15 @@ export const listBlueprints: API.OperationMethod<
 }));
 
 export type ListBlueprintSyncsError = Forbidden | NotFound | RenderOpError;
-/** List Blueprint syncs List syncs for the Blueprint with the provided ID. */
+/** List Blueprint syncs List syncs for the Blueprint with the provided ID. Syncs that are planned but not yet approved (in the `created` state) are not included. */
 export const listBlueprintSyncs: API.OperationMethod<
   ListBlueprintSyncsRequest,
   ListBlueprintSyncsResponse,
   ListBlueprintSyncsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(265, __c33, 1) as any as S.Schema<ListBlueprintSyncsRequest>,
-  output: __S(269, __c33, 5) as any as S.Schema<ListBlueprintSyncsResponse>,
+  input: __S(481, __c60, 1) as any as S.Schema<ListBlueprintSyncsRequest>,
+  output: __S(485, __c60, 5) as any as S.Schema<ListBlueprintSyncsResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7625,15 +8763,15 @@ export const listBlueprintSyncs: API.OperationMethod<
 }));
 
 export type ListBuildsInBuildSourceError = Forbidden | NotFound | RenderOpError;
-/** List builds in a build source List builds in a build source. */
+/** List builds in a build source List builds in a build source, newest first. Pass the last item's `cursor` as the `cursor` parameter to fetch the next page. */
 export const listBuildsInBuildSource: API.OperationMethod<
   ListBuildsInBuildSourceRequest,
   ListBuildsInBuildSourceResponse,
   ListBuildsInBuildSourceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<ListBuildsInBuildSourceRequest>,
-  output: __S(274, __c34, 2) as any as S.Schema<ListBuildsInBuildSourceResponse>,
+  input: __S(488, __c61, 0) as any as S.Schema<ListBuildsInBuildSourceRequest>,
+  output: __S(491, __c61, 3) as any as S.Schema<ListBuildsInBuildSourceResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7649,8 +8787,8 @@ export const listBuildSources: API.OperationMethod<
   ListBuildSourcesError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<ListBuildSourcesRequest>,
-  output: __S(291, __c36, 3) as any as S.Schema<ListBuildSourcesResponse>,
+  input: __S(496, __c62, 0) as any as S.Schema<ListBuildSourcesRequest>,
+  output: __S(499, __c62, 3) as any as S.Schema<ListBuildSourcesResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7666,8 +8804,8 @@ export const listCustomDomains: API.OperationMethod<
   ListCustomDomainsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<ListCustomDomainsRequest>,
-  output: __S(299, __c37, 3) as any as S.Schema<ListCustomDomainsResponse>,
+  input: __S(504, __c63, 0) as any as S.Schema<ListCustomDomainsRequest>,
+  output: __S(507, __c63, 3) as any as S.Schema<ListCustomDomainsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7683,8 +8821,8 @@ export const listDedicatedIps: API.OperationMethod<
   ListDedicatedIpsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<ListDedicatedIpsRequest>,
-  output: __S(306, __c38, 2) as any as S.Schema<ListDedicatedIpsResponse>,
+  input: __S(512, __c64, 0) as any as S.Schema<ListDedicatedIpsRequest>,
+  output: __S(514, __c64, 2) as any as S.Schema<ListDedicatedIpsResponse>,
   errors: [BadRequest, Forbidden, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7700,8 +8838,8 @@ export const listDeploys: API.OperationMethod<
   ListDeploysError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<ListDeploysRequest>,
-  output: __S(315, __c39, 3) as any as S.Schema<ListDeploysResponse>,
+  input: __S(520, __c65, 0) as any as S.Schema<ListDeploysRequest>,
+  output: __S(523, __c65, 3) as any as S.Schema<ListDeploysResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7717,8 +8855,8 @@ export const listDisks: API.OperationMethod<
   ListDisksError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<ListDisksRequest>,
-  output: __S(323, __c40, 3) as any as S.Schema<ListDisksResponse>,
+  input: __S(528, __c66, 0) as any as S.Schema<ListDisksRequest>,
+  output: __S(531, __c66, 3) as any as S.Schema<ListDisksResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7734,8 +8872,8 @@ export const listEnvGroups: API.OperationMethod<
   ListEnvGroupsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<ListEnvGroupsRequest>,
-  output: __S(347, __c43, 3) as any as S.Schema<ListEnvGroupsResponse>,
+  input: __S(536, __c67, 0) as any as S.Schema<ListEnvGroupsRequest>,
+  output: __S(539, __c67, 3) as any as S.Schema<ListEnvGroupsResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7751,8 +8889,8 @@ export const listEnvironments: API.OperationMethod<
   ListEnvironmentsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<ListEnvironmentsRequest>,
-  output: __S(355, __c44, 3) as any as S.Schema<ListEnvironmentsResponse>,
+  input: __S(544, __c68, 0) as any as S.Schema<ListEnvironmentsRequest>,
+  output: __S(547, __c68, 3) as any as S.Schema<ListEnvironmentsResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7768,13 +8906,64 @@ export const listEvents: API.OperationMethod<
   ListEventsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<ListEventsRequest>,
-  output: __S(364, __c45, 4) as any as S.Schema<ListEventsResponse>,
+  input: __S(552, __c69, 0) as any as S.Schema<ListEventsRequest>,
+  output: __S(556, __c69, 4) as any as S.Schema<ListEventsResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEvents",
+}));
+
+export type ListFlowRunsError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** List flow runs List flow runs that match the provided filters. If no filters are provided, all flow runs accessible by the authenticated user are returned. */
+export const listFlowRuns: API.OperationMethod<
+  ListFlowRunsRequest,
+  ListFlowRunsResponse,
+  ListFlowRunsError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(568, __c71, 0) as any as S.Schema<ListFlowRunsRequest>,
+  output: __S(571, __c71, 3) as any as S.Schema<ListFlowRunsResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlowRuns",
+}));
+
+export type ListFlowRunStepsError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** List flow run steps List the steps a flow run has recorded, in the order the flow started them. A page can hold fewer than `limit` steps and still have more after it, so page until `hasMore` is false. */
+export const listFlowRunSteps: API.OperationMethod<
+  ListFlowRunStepsRequest,
+  ListFlowRunStepsResponse,
+  ListFlowRunStepsError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(584, __c73, 0) as any as S.Schema<ListFlowRunStepsRequest>,
+  output: __S(587, __c73, 3) as any as S.Schema<ListFlowRunStepsResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlowRunSteps",
+}));
+
+export type ListFlowsError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** List flows List workflow flows that match the provided filters. If no filters are provided, all flow definitions accessible by the authenticated user are returned. */
+export const listFlows: API.OperationMethod<
+  ListFlowsRequest,
+  ListFlowsResponse,
+  ListFlowsError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(592, __c74, 0) as any as S.Schema<ListFlowsRequest>,
+  output: __S(595, __c74, 3) as any as S.Schema<ListFlowsResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlows",
 }));
 
 export type ListHeadersError = Forbidden | NotFound | RenderOpError;
@@ -7785,8 +8974,8 @@ export const listHeaders: API.OperationMethod<
   ListHeadersError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<ListHeadersRequest>,
-  output: __S(371, __c46, 3) as any as S.Schema<ListHeadersResponse>,
+  input: __S(600, __c75, 0) as any as S.Schema<ListHeadersRequest>,
+  output: __S(603, __c75, 3) as any as S.Schema<ListHeadersResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7802,8 +8991,8 @@ export const listHttpFilterValues: API.OperationMethod<
   ListHttpFilterValuesError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<ListHttpFilterValuesRequest>,
-  output: __S(250, __c31, 2) as any as S.Schema<ListHttpFilterValuesResponse>,
+  input: __S(608, __c76, 0) as any as S.Schema<ListHttpFilterValuesRequest>,
+  output: __S(450, __c56, 2) as any as S.Schema<ListHttpFilterValuesResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7819,8 +9008,8 @@ export const listInstances: API.OperationMethod<
   ListInstancesError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<ListInstancesRequest>,
-  output: __S(387, __c48, 3) as any as S.Schema<ListInstancesResponse>,
+  input: __S(616, __c77, 0) as any as S.Schema<ListInstancesRequest>,
+  output: __S(619, __c77, 3) as any as S.Schema<ListInstancesResponse>,
   errors: [NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7836,8 +9025,8 @@ export const listJob: API.OperationMethod<
   ListJobError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<ListJobRequest>,
-  output: __S(395, __c49, 3) as any as S.Schema<ListJobResponse>,
+  input: __S(624, __c78, 0) as any as S.Schema<ListJobRequest>,
+  output: __S(627, __c78, 3) as any as S.Schema<ListJobResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7853,8 +9042,8 @@ export const listKeyValue: API.OperationMethod<
   ListKeyValueError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<ListKeyValueRequest>,
-  output: __S(404, __c50, 4) as any as S.Schema<ListKeyValueResponse>,
+  input: __S(632, __c79, 0) as any as S.Schema<ListKeyValueRequest>,
+  output: __S(636, __c79, 4) as any as S.Schema<ListKeyValueResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7870,8 +9059,8 @@ export const listLogs: API.OperationMethod<
   ListLogsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<ListLogsRequest>,
-  output: __S(413, __c51, 5) as any as S.Schema<ListLogsResponse>,
+  input: __S(640, __c80, 0) as any as S.Schema<ListLogsRequest>,
+  output: __S(645, __c80, 5) as any as S.Schema<ListLogsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7887,8 +9076,8 @@ export const listLogsValues: API.OperationMethod<
   ListLogsValuesError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<ListLogsValuesRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<ListLogsValuesResponse>,
+  input: __S(648, __c81, 0) as any as S.Schema<ListLogsValuesRequest>,
+  output: __S(656, __c82, 0) as any as S.Schema<ListLogsValuesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7904,8 +9093,8 @@ export const listMaintenance: API.OperationMethod<
   ListMaintenanceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<ListMaintenanceRequest>,
-  output: __S(442, __c55, 2) as any as S.Schema<ListMaintenanceResponse>,
+  input: __S(680, __c85, 0) as any as S.Schema<ListMaintenanceRequest>,
+  output: __S(682, __c85, 2) as any as S.Schema<ListMaintenanceResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7921,8 +9110,8 @@ export const listNotificationOverrides: API.OperationMethod<
   ListNotificationOverridesError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<ListNotificationOverridesRequest>,
-  output: __S(451, __c56, 3) as any as S.Schema<ListNotificationOverridesResponse>,
+  input: __S(688, __c86, 0) as any as S.Schema<ListNotificationOverridesRequest>,
+  output: __S(691, __c86, 3) as any as S.Schema<ListNotificationOverridesResponse>,
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7938,8 +9127,8 @@ export const listOrganizationAuditLogs: API.OperationMethod<
   ListOrganizationAuditLogsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<ListOrganizationAuditLogsRequest>,
-  output: __S(469, __c58, 5) as any as S.Schema<ListOrganizationAuditLogsResponse>,
+  input: __S(696, __c87, 0) as any as S.Schema<ListOrganizationAuditLogsRequest>,
+  output: __S(708, __c88, 4) as any as S.Schema<ListOrganizationAuditLogsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7955,8 +9144,8 @@ export const listOwnerAuditLogs: API.OperationMethod<
   ListOwnerAuditLogsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(472, __c59, 0) as any as S.Schema<ListOwnerAuditLogsRequest>,
-  output: __S(469, __c58, 5) as any as S.Schema<ListOwnerAuditLogsResponse>,
+  input: __S(712, __c89, 0) as any as S.Schema<ListOwnerAuditLogsRequest>,
+  output: __S(708, __c88, 4) as any as S.Schema<ListOwnerAuditLogsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7972,8 +9161,8 @@ export const listOwners: API.OperationMethod<
   ListOwnersError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<ListOwnersRequest>,
-  output: __S(483, __c60, 3) as any as S.Schema<ListOwnersResponse>,
+  input: __S(720, __c90, 0) as any as S.Schema<ListOwnersRequest>,
+  output: __S(723, __c90, 3) as any as S.Schema<ListOwnersResponse>,
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -7989,8 +9178,8 @@ export const listPathFilterValues: API.OperationMethod<
   ListPathFilterValuesError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(488, __c61, 0) as any as S.Schema<ListPathFilterValuesRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<ListPathFilterValuesResponse>,
+  input: __S(728, __c91, 0) as any as S.Schema<ListPathFilterValuesRequest>,
+  output: __S(656, __c82, 0) as any as S.Schema<ListPathFilterValuesResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8006,8 +9195,8 @@ export const listPostgres: API.OperationMethod<
   ListPostgresError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<ListPostgresRequest>,
-  output: __S(500, __c62, 4) as any as S.Schema<ListPostgresResponse>,
+  input: __S(736, __c92, 0) as any as S.Schema<ListPostgresRequest>,
+  output: __S(740, __c92, 4) as any as S.Schema<ListPostgresResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8023,8 +9212,8 @@ export const listPostgresExport: API.OperationMethod<
   ListPostgresExportError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c63, 0) as any as S.Schema<ListPostgresExportRequest>,
-  output: __S(507, __c63, 3) as any as S.Schema<ListPostgresExportResponse>,
+  input: __S(744, __c93, 0) as any as S.Schema<ListPostgresExportRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<ListPostgresExportResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8040,8 +9229,8 @@ export const listPostgresProcesses: API.OperationMethod<
   ListPostgresProcessesError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<ListPostgresProcessesRequest>,
-  output: __S(515, __c64, 3) as any as S.Schema<ListPostgresProcessesResponse>,
+  input: __S(752, __c94, 0) as any as S.Schema<ListPostgresProcessesRequest>,
+  output: __S(755, __c94, 3) as any as S.Schema<ListPostgresProcessesResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8057,8 +9246,8 @@ export const listPostgresSizes: API.OperationMethod<
   ListPostgresSizesError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<ListPostgresSizesRequest>,
-  output: __S(523, __c65, 3) as any as S.Schema<ListPostgresSizesResponse>,
+  input: __S(760, __c95, 0) as any as S.Schema<ListPostgresSizesRequest>,
+  output: __S(763, __c95, 3) as any as S.Schema<ListPostgresSizesResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8074,8 +9263,8 @@ export const listPostgresTableScans: API.OperationMethod<
   ListPostgresTableScansError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(584, __c73, 0) as any as S.Schema<ListPostgresTableScansRequest>,
-  output: __S(587, __c73, 3) as any as S.Schema<ListPostgresTableScansResponse>,
+  input: __S(776, __c97, 0) as any as S.Schema<ListPostgresTableScansRequest>,
+  output: __S(779, __c97, 3) as any as S.Schema<ListPostgresTableScansResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8091,8 +9280,8 @@ export const listPostgresTopQueries: API.OperationMethod<
   ListPostgresTopQueriesError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<ListPostgresTopQueriesRequest>,
-  output: __S(595, __c74, 3) as any as S.Schema<ListPostgresTopQueriesResponse>,
+  input: __S(784, __c98, 0) as any as S.Schema<ListPostgresTopQueriesRequest>,
+  output: __S(787, __c98, 3) as any as S.Schema<ListPostgresTopQueriesResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8108,8 +9297,8 @@ export const listPostgresUsers: API.OperationMethod<
   ListPostgresUsersError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(600, __c75, 0) as any as S.Schema<ListPostgresUsersRequest>,
-  output: __S(603, __c75, 3) as any as S.Schema<ListPostgresUsersResponse>,
+  input: __S(792, __c99, 0) as any as S.Schema<ListPostgresUsersRequest>,
+  output: __S(795, __c99, 3) as any as S.Schema<ListPostgresUsersResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8125,8 +9314,8 @@ export const listProjects: API.OperationMethod<
   ListProjectsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c76, 0) as any as S.Schema<ListProjectsRequest>,
-  output: __S(611, __c76, 3) as any as S.Schema<ListProjectsResponse>,
+  input: __S(800, __c100, 0) as any as S.Schema<ListProjectsRequest>,
+  output: __S(803, __c100, 3) as any as S.Schema<ListProjectsResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8142,8 +9331,8 @@ export const listRegistryCredentials: API.OperationMethod<
   ListRegistryCredentialsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(616, __c77, 0) as any as S.Schema<ListRegistryCredentialsRequest>,
-  output: __S(618, __c77, 2) as any as S.Schema<ListRegistryCredentialsResponse>,
+  input: __S(808, __c101, 0) as any as S.Schema<ListRegistryCredentialsRequest>,
+  output: __S(810, __c101, 2) as any as S.Schema<ListRegistryCredentialsResponse>,
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8159,8 +9348,8 @@ export const listResourceLogStreams: API.OperationMethod<
   ListResourceLogStreamsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c78, 0) as any as S.Schema<ListResourceLogStreamsRequest>,
-  output: __S(626, __c78, 2) as any as S.Schema<ListResourceLogStreamsResponse>,
+  input: __S(816, __c102, 0) as any as S.Schema<ListResourceLogStreamsRequest>,
+  output: __S(818, __c102, 2) as any as S.Schema<ListResourceLogStreamsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8176,13 +9365,98 @@ export const listRoutes: API.OperationMethod<
   ListRoutesError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(632, __c79, 0) as any as S.Schema<ListRoutesRequest>,
-  output: __S(635, __c79, 3) as any as S.Schema<ListRoutesResponse>,
+  input: __S(824, __c103, 0) as any as S.Schema<ListRoutesRequest>,
+  output: __S(827, __c103, 3) as any as S.Schema<ListRoutesResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRoutes",
+}));
+
+export type ListSandboxBuildsError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** List sandbox builds Builds in a sandbox group, newest first. 400 with `code: invalid_sandbox_group_id` if `sandboxGroupId` is not a well-formed `sbg-` ID, `code: invalid_status` for a status outside the build status vocabulary, `code: invalid_cursor` for a malformed cursor, or `code: invalid_limit` for a limit outside 1 to 100. */
+export const listSandboxBuilds: API.OperationMethod<
+  ListSandboxBuildsRequest,
+  ListSandboxBuildsResponse,
+  ListSandboxBuildsError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(832, __c104, 0) as any as S.Schema<ListSandboxBuildsRequest>,
+  output: __S(835, __c104, 3) as any as S.Schema<ListSandboxBuildsResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSandboxBuilds",
+}));
+
+export type ListSandboxesError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** List sandboxes List sandboxes for a single workspace. Sandboxes are scoped to the region of their workspace's sandbox group, so one workspace must be named per request. */
+export const listSandboxes: API.OperationMethod<
+  ListSandboxesRequest,
+  ListSandboxesResponse,
+  ListSandboxesError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(840, __c105, 0) as any as S.Schema<ListSandboxesRequest>,
+  output: __S(843, __c105, 3) as any as S.Schema<ListSandboxesResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSandboxes",
+}));
+
+export type ListSandboxExecutionsError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** List executions List execution records for the sandbox, ordered by start time, newest first. */
+export const listSandboxExecutions: API.OperationMethod<
+  ListSandboxExecutionsRequest,
+  ListSandboxExecutionsResponse,
+  ListSandboxExecutionsError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(848, __c106, 0) as any as S.Schema<ListSandboxExecutionsRequest>,
+  output: __S(851, __c106, 3) as any as S.Schema<ListSandboxExecutionsResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSandboxExecutions",
+}));
+
+export type ListSandboxGroupsError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** List sandbox groups List sandbox groups for a single workspace, newest first. The default page size is 20 and the maximum is 100. Use the last item's cursor to fetch the next page, until it is empty. */
+export const listSandboxGroups: API.OperationMethod<
+  ListSandboxGroupsRequest,
+  ListSandboxGroupsResponse,
+  ListSandboxGroupsError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(912, __c114, 0) as any as S.Schema<ListSandboxGroupsRequest>,
+  output: __S(915, __c114, 3) as any as S.Schema<ListSandboxGroupsResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSandboxGroups",
+}));
+
+export type ListSandboxSnapshotsError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** List sandbox snapshots Snapshots in a sandbox group, newest first. Expired and deleted snapshots are omitted. 400 with `code: invalid_sandbox_group_id` if `sandboxGroupId` is not a well-formed `sbg-` ID, `code: invalid_owner_id` if `ownerId` is missing or repeated, `code: invalid_status` for a status outside the snapshot status vocabulary, `code: invalid_cursor` for a malformed or unknown cursor, or `code: invalid_limit` for a limit outside 1 to 100. */
+export const listSandboxSnapshots: API.OperationMethod<
+  ListSandboxSnapshotsRequest,
+  ListSandboxSnapshotsResponse,
+  ListSandboxSnapshotsError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(920, __c115, 0) as any as S.Schema<ListSandboxSnapshotsRequest>,
+  output: __S(923, __c115, 3) as any as S.Schema<ListSandboxSnapshotsResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSandboxSnapshots",
 }));
 
 export type ListSecretFilesForBuildSourceError = Forbidden | NotFound | RenderOpError;
@@ -8193,8 +9467,8 @@ export const listSecretFilesForBuildSource: API.OperationMethod<
   ListSecretFilesForBuildSourceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c80, 0) as any as S.Schema<ListSecretFilesForBuildSourceRequest>,
-  output: __S(650, __c81, 2) as any as S.Schema<ListSecretFilesForBuildSourceResponse>,
+  input: __S(928, __c116, 0) as any as S.Schema<ListSecretFilesForBuildSourceRequest>,
+  output: __S(938, __c117, 2) as any as S.Schema<ListSecretFilesForBuildSourceResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8210,8 +9484,8 @@ export const listSecretFilesForService: API.OperationMethod<
   ListSecretFilesForServiceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c82, 0) as any as S.Schema<ListSecretFilesForServiceRequest>,
-  output: __S(650, __c81, 2) as any as S.Schema<ListSecretFilesForServiceResponse>,
+  input: __S(944, __c118, 0) as any as S.Schema<ListSecretFilesForServiceRequest>,
+  output: __S(938, __c117, 2) as any as S.Schema<ListSecretFilesForServiceResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8227,8 +9501,8 @@ export const listServices: API.OperationMethod<
   ListServicesError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(664, __c83, 0) as any as S.Schema<ListServicesRequest>,
-  output: __S(667, __c83, 3) as any as S.Schema<ListServicesResponse>,
+  input: __S(952, __c119, 0) as any as S.Schema<ListServicesRequest>,
+  output: __S(955, __c119, 3) as any as S.Schema<ListServicesResponse>,
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8244,8 +9518,8 @@ export const listSnapshots: API.OperationMethod<
   ListSnapshotsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c86, 0) as any as S.Schema<ListSnapshotsRequest>,
-  output: __S(691, __c86, 3) as any as S.Schema<ListSnapshotsResponse>,
+  input: __S(960, __c120, 0) as any as S.Schema<ListSnapshotsRequest>,
+  output: __S(963, __c120, 3) as any as S.Schema<ListSnapshotsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8261,8 +9535,8 @@ export const listTaskRuns: API.OperationMethod<
   ListTaskRunsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(696, __c87, 0) as any as S.Schema<ListTaskRunsRequest>,
-  output: __S(699, __c87, 3) as any as S.Schema<ListTaskRunsResponse>,
+  input: __S(968, __c121, 0) as any as S.Schema<ListTaskRunsRequest>,
+  output: __S(971, __c121, 3) as any as S.Schema<ListTaskRunsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8278,8 +9552,8 @@ export const listTasks: API.OperationMethod<
   ListTasksError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c88, 0) as any as S.Schema<ListTasksRequest>,
-  output: __S(707, __c88, 3) as any as S.Schema<ListTasksResponse>,
+  input: __S(976, __c122, 0) as any as S.Schema<ListTasksRequest>,
+  output: __S(979, __c122, 3) as any as S.Schema<ListTasksResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8295,8 +9569,8 @@ export const listWebhookEvents: API.OperationMethod<
   ListWebhookEventsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(712, __c89, 0) as any as S.Schema<ListWebhookEventsRequest>,
-  output: __S(716, __c89, 4) as any as S.Schema<ListWebhookEventsResponse>,
+  input: __S(984, __c123, 0) as any as S.Schema<ListWebhookEventsRequest>,
+  output: __S(988, __c123, 4) as any as S.Schema<ListWebhookEventsResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8312,8 +9586,8 @@ export const listWebhooks: API.OperationMethod<
   ListWebhooksError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c90, 0) as any as S.Schema<ListWebhooksRequest>,
-  output: __S(723, __c90, 3) as any as S.Schema<ListWebhooksResponse>,
+  input: __S(992, __c124, 0) as any as S.Schema<ListWebhooksRequest>,
+  output: __S(995, __c124, 3) as any as S.Schema<ListWebhooksResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8329,8 +9603,8 @@ export const listWorkflows: API.OperationMethod<
   ListWorkflowsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(728, __c91, 0) as any as S.Schema<ListWorkflowsRequest>,
-  output: __S(731, __c91, 3) as any as S.Schema<ListWorkflowsResponse>,
+  input: __S(1016, __c127, 0) as any as S.Schema<ListWorkflowsRequest>,
+  output: __S(1019, __c127, 3) as any as S.Schema<ListWorkflowsResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8346,8 +9620,8 @@ export const listWorkflowVersions: API.OperationMethod<
   ListWorkflowVersionsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c92, 0) as any as S.Schema<ListWorkflowVersionsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<ListWorkflowVersionsResponse>,
+  input: __S(1024, __c128, 0) as any as S.Schema<ListWorkflowVersionsRequest>,
+  output: __S(1027, __c128, 3) as any as S.Schema<ListWorkflowVersionsResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8363,8 +9637,8 @@ export const patchOwnerNotificationSettings: API.OperationMethod<
   PatchOwnerNotificationSettingsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(744, __c93, 0) as any as S.Schema<PatchOwnerNotificationSettingsRequest>,
-  output: __S(2160, __c270, 0) as any as S.Schema<Schema3>,
+  input: __S(1032, __c129, 0) as any as S.Schema<PatchOwnerNotificationSettingsRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<Schema3>,
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8380,8 +9654,8 @@ export const patchRoute: API.OperationMethod<
   PatchRouteError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c94, 0) as any as S.Schema<PatchRouteRequest>,
-  output: __S(753, __c94, 1) as any as S.Schema<PatchRouteResponse>,
+  input: __S(1040, __c130, 0) as any as S.Schema<PatchRouteRequest>,
+  output: __S(1041, __c130, 1) as any as S.Schema<PatchRouteResponse>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8397,8 +9671,8 @@ export const patchServiceNotificationOverrides: API.OperationMethod<
   PatchServiceNotificationOverridesError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(760, __c95, 0) as any as S.Schema<PatchServiceNotificationOverridesRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<Schema4>,
+  input: __S(1048, __c131, 0) as any as S.Schema<PatchServiceNotificationOverridesRequest>,
+  output: __S(328, __c41, 0) as any as S.Schema<Schema4>,
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8414,8 +9688,8 @@ export const postJob: API.OperationMethod<
   PostJobError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c98, 0) as any as S.Schema<PostJobRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<PostJobResponse>,
+  input: __S(1056, __c132, 0) as any as S.Schema<PostJobRequest>,
+  output: __S(472, __c59, 0) as any as S.Schema<PostJobResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8431,8 +9705,8 @@ export const previewService: API.OperationMethod<
   PreviewServiceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(792, __c99, 0) as any as S.Schema<PreviewServiceRequest>,
-  output: __S(1392, __c174, 0) as any as S.Schema<ServiceAndDeploy>,
+  input: __S(1064, __c133, 0) as any as S.Schema<PreviewServiceRequest>,
+  output: __S(1768, __c221, 0) as any as S.Schema<ServiceAndDeploy>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8448,8 +9722,8 @@ export const purgeCache: API.OperationMethod<
   PurgeCacheError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c100, 0) as any as S.Schema<PurgeCacheRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<PurgeCacheResponse>,
+  input: __S(1072, __c134, 0) as any as S.Schema<PurgeCacheRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<PurgeCacheResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8465,8 +9739,8 @@ export const putRoutes: API.OperationMethod<
   PutRoutesError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(810, __c101, 2) as any as S.Schema<PutRoutesRequest>,
-  output: __S(812, __c101, 4) as any as S.Schema<PutRoutesResponse>,
+  input: __S(1082, __c135, 2) as any as S.Schema<PutRoutesRequest>,
+  output: __S(1084, __c135, 4) as any as S.Schema<PutRoutesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8482,8 +9756,8 @@ export const recoverPostgres: API.OperationMethod<
   RecoverPostgresError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c102, 0) as any as S.Schema<RecoverPostgresRequest>,
-  output: __S(1280, __c160, 0) as any as S.Schema<PostgresDetail>,
+  input: __S(1088, __c136, 0) as any as S.Schema<RecoverPostgresRequest>,
+  output: __S(1608, __c201, 0) as any as S.Schema<PostgresDetail>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8499,8 +9773,8 @@ export const refreshCustomDomain: API.OperationMethod<
   RefreshCustomDomainError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(824, __c103, 0) as any as S.Schema<RefreshCustomDomainRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<RefreshCustomDomainResponse>,
+  input: __S(1112, __c139, 0) as any as S.Schema<RefreshCustomDomainRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<RefreshCustomDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8516,8 +9790,8 @@ export const removeResourcesFromEnvironment: API.OperationMethod<
   RemoveResourcesFromEnvironmentError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c104, 0) as any as S.Schema<RemoveResourcesFromEnvironmentRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<RemoveResourcesFromEnvironmentResponse>,
+  input: __S(1120, __c140, 0) as any as S.Schema<RemoveResourcesFromEnvironmentRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<RemoveResourcesFromEnvironmentResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8533,8 +9807,8 @@ export const removeWorkspaceMember: API.OperationMethod<
   RemoveWorkspaceMemberError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(840, __c105, 0) as any as S.Schema<RemoveWorkspaceMemberRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<RemoveWorkspaceMemberResponse>,
+  input: __S(1128, __c141, 0) as any as S.Schema<RemoveWorkspaceMemberRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<RemoveWorkspaceMemberResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8550,8 +9824,8 @@ export const restartPostgres: API.OperationMethod<
   RestartPostgresError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c106, 0) as any as S.Schema<RestartPostgresRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<RestartPostgresResponse>,
+  input: __S(1136, __c142, 0) as any as S.Schema<RestartPostgresRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<RestartPostgresResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8567,8 +9841,8 @@ export const restartService: API.OperationMethod<
   RestartServiceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(856, __c107, 0) as any as S.Schema<RestartServiceRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<RestartServiceResponse>,
+  input: __S(1144, __c143, 0) as any as S.Schema<RestartServiceRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<RestartServiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8584,8 +9858,8 @@ export const restoreSnapshot: API.OperationMethod<
   RestoreSnapshotError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(872, __c109, 0) as any as S.Schema<RestoreSnapshotRequest>,
-  output: __S(1536, __c192, 0) as any as S.Schema<Schema2>,
+  input: __S(1152, __c144, 0) as any as S.Schema<RestoreSnapshotRequest>,
+  output: __S(1856, __c232, 0) as any as S.Schema<Schema2>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8601,8 +9875,8 @@ export const resumeKeyValue: API.OperationMethod<
   ResumeKeyValueError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c110, 0) as any as S.Schema<ResumeKeyValueRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<ResumeKeyValueResponse>,
+  input: __S(1160, __c145, 0) as any as S.Schema<ResumeKeyValueRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<ResumeKeyValueResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8618,8 +9892,8 @@ export const resumePostgres: API.OperationMethod<
   ResumePostgresError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(888, __c111, 0) as any as S.Schema<ResumePostgresRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<ResumePostgresResponse>,
+  input: __S(1168, __c146, 0) as any as S.Schema<ResumePostgresRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<ResumePostgresResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8635,8 +9909,8 @@ export const resumeService: API.OperationMethod<
   ResumeServiceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c112, 0) as any as S.Schema<ResumeServiceRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<ResumeServiceResponse>,
+  input: __S(1176, __c147, 0) as any as S.Schema<ResumeServiceRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<ResumeServiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8652,8 +9926,8 @@ export const runCronJob: API.OperationMethod<
   RunCronJobError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(904, __c113, 0) as any as S.Schema<RunCronJobRequest>,
-  output: __S(905, __c113, 1) as any as S.Schema<CronJobRun>,
+  input: __S(1184, __c148, 0) as any as S.Schema<RunCronJobRequest>,
+  output: __S(1185, __c148, 1) as any as S.Schema<CronJobRun>,
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8669,13 +9943,30 @@ export const scaleService: API.OperationMethod<
   ScaleServiceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c114, 0) as any as S.Schema<ScaleServiceRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<ScaleServiceResponse>,
+  input: __S(1200, __c150, 0) as any as S.Schema<ScaleServiceRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<ScaleServiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ScaleService",
+}));
+
+export type StartFlowRunError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** Start flow run Starts a run of the workflow flow with the provided slug, passing the provided input data. */
+export const startFlowRun: API.OperationMethod<
+  StartFlowRunRequest,
+  StartFlowRunResponse,
+  StartFlowRunError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1208, __c151, 0) as any as S.Schema<StartFlowRunRequest>,
+  output: __S(576, __c72, 0) as any as S.Schema<StartFlowRunResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartFlowRun",
 }));
 
 export type StreamTaskRunsEventsError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8686,8 +9977,8 @@ export const streamTaskRunsEvents: API.OperationMethod<
   StreamTaskRunsEventsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(920, __c115, 0) as any as S.Schema<StreamTaskRunsEventsRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<StreamTaskRunsEventsResponse>,
+  input: __S(1216, __c152, 0) as any as S.Schema<StreamTaskRunsEventsRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<StreamTaskRunsEventsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8703,8 +9994,8 @@ export const subscribeLogs: API.OperationMethod<
   SubscribeLogsError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c116, 0) as any as S.Schema<SubscribeLogsRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<SubscribeLogsResponse>,
+  input: __S(1224, __c153, 0) as any as S.Schema<SubscribeLogsRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<SubscribeLogsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8720,8 +10011,8 @@ export const suspendKeyValue: API.OperationMethod<
   SuspendKeyValueError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(936, __c117, 0) as any as S.Schema<SuspendKeyValueRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<SuspendKeyValueResponse>,
+  input: __S(1232, __c154, 0) as any as S.Schema<SuspendKeyValueRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<SuspendKeyValueResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8737,8 +10028,8 @@ export const suspendPostgres: API.OperationMethod<
   SuspendPostgresError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c118, 0) as any as S.Schema<SuspendPostgresRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<SuspendPostgresResponse>,
+  input: __S(1240, __c155, 0) as any as S.Schema<SuspendPostgresRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<SuspendPostgresResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8754,13 +10045,30 @@ export const suspendService: API.OperationMethod<
   SuspendServiceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(984, __c123, 0) as any as S.Schema<SuspendServiceRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<SuspendServiceResponse>,
+  input: __S(1248, __c156, 0) as any as S.Schema<SuspendServiceRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<SuspendServiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SuspendService",
+}));
+
+export type TerminateSandboxError = Forbidden | NotFound | RenderOpError;
+/** Terminate sandbox Terminate the sandbox with the provided ID. Idempotent: returns 204 from any state, including `terminated`. Terminating a `creating` sandbox cancels boot/setup immediately. */
+export const terminateSandbox: API.OperationMethod<
+  TerminateSandboxRequest,
+  TerminateSandboxResponse,
+  TerminateSandboxError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1256, __c157, 0) as any as S.Schema<TerminateSandboxRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<TerminateSandboxResponse>,
+  errors: [Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateSandbox",
 }));
 
 export type TriggerBuildSourceBuildError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8771,8 +10079,8 @@ export const triggerBuildSourceBuild: API.OperationMethod<
   TriggerBuildSourceBuildError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c124, 0) as any as S.Schema<TriggerBuildSourceBuildRequest>,
-  output: __S(282, __c35, 2) as any as S.Schema<TriggerBuildSourceBuildResponse>,
+  input: __S(1264, __c158, 0) as any as S.Schema<TriggerBuildSourceBuildRequest>,
+  output: __S(2194, __c274, 2) as any as S.Schema<TriggerBuildSourceBuildResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8788,8 +10096,8 @@ export const triggerMaintenance: API.OperationMethod<
   TriggerMaintenanceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1000, __c125, 0) as any as S.Schema<TriggerMaintenanceRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<TriggerMaintenanceResponse>,
+  input: __S(1272, __c159, 0) as any as S.Schema<TriggerMaintenanceRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<TriggerMaintenanceResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8805,8 +10113,8 @@ export const unlinkEnvGroupFromBuildSource: API.OperationMethod<
   UnlinkEnvGroupFromBuildSourceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c126, 0) as any as S.Schema<UnlinkEnvGroupFromBuildSourceRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<UnlinkEnvGroupFromBuildSourceResponse>,
+  input: __S(1312, __c164, 0) as any as S.Schema<UnlinkEnvGroupFromBuildSourceRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<UnlinkEnvGroupFromBuildSourceResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8822,8 +10130,8 @@ export const unlinkServiceFromEnvGroup: API.OperationMethod<
   UnlinkServiceFromEnvGroupError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1016, __c127, 0) as any as S.Schema<UnlinkServiceFromEnvGroupRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<UnlinkServiceFromEnvGroupResponse>,
+  input: __S(1320, __c165, 0) as any as S.Schema<UnlinkServiceFromEnvGroupRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<UnlinkServiceFromEnvGroupResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8831,7 +10139,7 @@ export const unlinkServiceFromEnvGroup: API.OperationMethod<
   span: "UnlinkServiceFromEnvGroup",
 }));
 
-export type UpdateBlueprintError = Forbidden | NotFound | RenderOpError;
+export type UpdateBlueprintError = BadRequest | Forbidden | NotFound | RenderOpError;
 /** Update Blueprint Update the Blueprint with the provided ID. */
 export const updateBlueprint: API.OperationMethod<
   UpdateBlueprintRequest,
@@ -8839,9 +10147,9 @@ export const updateBlueprint: API.OperationMethod<
   UpdateBlueprintError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c128, 0) as any as S.Schema<UpdateBlueprintRequest>,
-  output: __S(1025, __c128, 1) as any as S.Schema<UpdateBlueprintResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  input: __S(1328, __c166, 0) as any as S.Schema<UpdateBlueprintRequest>,
+  output: __S(1329, __c166, 1) as any as S.Schema<UpdateBlueprintResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8856,8 +10164,8 @@ export const updateBuildSource: API.OperationMethod<
   UpdateBuildSourceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1034, __c129, 2) as any as S.Schema<UpdateBuildSourceRequest>,
-  output: __S(578, __c72, 2) as any as S.Schema<Schema12>,
+  input: __S(1338, __c167, 2) as any as S.Schema<UpdateBuildSourceRequest>,
+  output: __S(906, __c113, 2) as any as S.Schema<Schema12>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8873,8 +10181,8 @@ export const updateBuildSourceEnvVar: API.OperationMethod<
   UpdateBuildSourceEnvVarError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c130, 0) as any as S.Schema<UpdateBuildSourceEnvVarRequest>,
-  output: __S(968, __c121, 0) as any as S.Schema<EnvVar>,
+  input: __S(1344, __c168, 0) as any as S.Schema<UpdateBuildSourceEnvVarRequest>,
+  output: __S(1296, __c162, 0) as any as S.Schema<EnvVar>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8890,8 +10198,8 @@ export const updateDedicatedIp: API.OperationMethod<
   UpdateDedicatedIpError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1048, __c131, 0) as any as S.Schema<UpdateDedicatedIpRequest>,
-  output: __S(776, __c97, 0) as any as S.Schema<DedicatedIP>,
+  input: __S(1352, __c169, 0) as any as S.Schema<UpdateDedicatedIpRequest>,
+  output: __S(1104, __c138, 0) as any as S.Schema<DedicatedIP>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8907,8 +10215,8 @@ export const updateDisk: API.OperationMethod<
   UpdateDiskError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c132, 0) as any as S.Schema<UpdateDiskRequest>,
-  output: __S(1536, __c192, 0) as any as S.Schema<Schema2>,
+  input: __S(1360, __c170, 0) as any as S.Schema<UpdateDiskRequest>,
+  output: __S(1856, __c232, 0) as any as S.Schema<Schema2>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8924,8 +10232,8 @@ export const updateEnvGroup: API.OperationMethod<
   UpdateEnvGroupError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c134, 0) as any as S.Schema<UpdateEnvGroupRequest>,
-  output: __S(977, __c122, 1) as any as S.Schema<UpdateEnvGroupResponse>,
+  input: __S(1368, __c171, 0) as any as S.Schema<UpdateEnvGroupRequest>,
+  output: __S(1305, __c163, 1) as any as S.Schema<UpdateEnvGroupResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8941,8 +10249,8 @@ export const updateEnvGroupEnvVar: API.OperationMethod<
   UpdateEnvGroupEnvVarError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1080, __c135, 0) as any as S.Schema<UpdateEnvGroupEnvVarRequest>,
-  output: __S(977, __c122, 1) as any as S.Schema<UpdateEnvGroupEnvVarResponse>,
+  input: __S(1376, __c172, 0) as any as S.Schema<UpdateEnvGroupEnvVarRequest>,
+  output: __S(1305, __c163, 1) as any as S.Schema<UpdateEnvGroupEnvVarResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8958,8 +10266,8 @@ export const updateEnvGroupSecretFile: API.OperationMethod<
   UpdateEnvGroupSecretFileError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c136, 0) as any as S.Schema<UpdateEnvGroupSecretFileRequest>,
-  output: __S(977, __c122, 1) as any as S.Schema<UpdateEnvGroupSecretFileResponse>,
+  input: __S(1384, __c173, 0) as any as S.Schema<UpdateEnvGroupSecretFileRequest>,
+  output: __S(1305, __c163, 1) as any as S.Schema<UpdateEnvGroupSecretFileResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8975,8 +10283,8 @@ export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1096, __c137, 0) as any as S.Schema<UpdateEnvironmentRequest>,
-  output: __S(1936, __c242, 0) as any as S.Schema<Environment>,
+  input: __S(1400, __c175, 0) as any as S.Schema<UpdateEnvironmentRequest>,
+  output: __S(2264, __c283, 0) as any as S.Schema<Environment>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -8992,8 +10300,8 @@ export const updateEnvVar: API.OperationMethod<
   UpdateEnvVarError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c138, 0) as any as S.Schema<UpdateEnvVarRequest>,
-  output: __S(968, __c121, 0) as any as S.Schema<EnvVar>,
+  input: __S(1408, __c176, 0) as any as S.Schema<UpdateEnvVarRequest>,
+  output: __S(1296, __c162, 0) as any as S.Schema<EnvVar>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -9009,8 +10317,8 @@ export const updateEnvVarsForBuildSource: API.OperationMethod<
   UpdateEnvVarsForBuildSourceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1112, __c139, 0) as any as S.Schema<UpdateEnvVarsForBuildSourceRequest>,
-  output: __S(1970, __c246, 2) as any as S.Schema<UpdateEnvVarsForBuildSourceResponse>,
+  input: __S(1416, __c177, 0) as any as S.Schema<UpdateEnvVarsForBuildSourceRequest>,
+  output: __S(2386, __c298, 2) as any as S.Schema<UpdateEnvVarsForBuildSourceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -9026,8 +10334,8 @@ export const updateEnvVarsForService: API.OperationMethod<
   UpdateEnvVarsForServiceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1121, __c140, 1) as any as S.Schema<UpdateEnvVarsForServiceRequest>,
-  output: __S(1970, __c246, 2) as any as S.Schema<UpdateEnvVarsForServiceResponse>,
+  input: __S(1425, __c178, 1) as any as S.Schema<UpdateEnvVarsForServiceRequest>,
+  output: __S(2386, __c298, 2) as any as S.Schema<UpdateEnvVarsForServiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -9043,8 +10351,8 @@ export const updateHeaders: API.OperationMethod<
   UpdateHeadersError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1130, __c141, 2) as any as S.Schema<UpdateHeadersRequest>,
-  output: __S(1132, __c141, 4) as any as S.Schema<UpdateHeadersResponse>,
+  input: __S(1434, __c179, 2) as any as S.Schema<UpdateHeadersRequest>,
+  output: __S(1436, __c179, 4) as any as S.Schema<UpdateHeadersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -9060,8 +10368,8 @@ export const updateKeyValue: API.OperationMethod<
   UpdateKeyValueError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c142, 0) as any as S.Schema<UpdateKeyValueRequest>,
-  output: __S(1184, __c148, 0) as any as S.Schema<KeyValueDetail>,
+  input: __S(1440, __c180, 0) as any as S.Schema<UpdateKeyValueRequest>,
+  output: __S(1496, __c187, 0) as any as S.Schema<KeyValueDetail>,
   errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -9077,8 +10385,8 @@ export const updateMaintenance: API.OperationMethod<
   UpdateMaintenanceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1144, __c143, 0) as any as S.Schema<UpdateMaintenanceRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<UpdateMaintenanceResponse>,
+  input: __S(1448, __c181, 0) as any as S.Schema<UpdateMaintenanceRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<UpdateMaintenanceResponse>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -9094,8 +10402,8 @@ export const updateOwnerLogStream: API.OperationMethod<
   UpdateOwnerLogStreamError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1192, __c149, 0) as any as S.Schema<UpdateOwnerLogStreamRequest>,
-  output: __S(2112, __c264, 0) as any as S.Schema<UpdateOwnerLogStreamResponse>,
+  input: __S(1456, __c182, 0) as any as S.Schema<UpdateOwnerLogStreamRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<UpdateOwnerLogStreamResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -9111,8 +10419,8 @@ export const updatePostgres: API.OperationMethod<
   UpdatePostgresError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c150, 0) as any as S.Schema<UpdatePostgresRequest>,
-  output: __S(1280, __c160, 0) as any as S.Schema<PostgresDetail>,
+  input: __S(1464, __c183, 0) as any as S.Schema<UpdatePostgresRequest>,
+  output: __S(1608, __c201, 0) as any as S.Schema<PostgresDetail>,
   errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -9128,8 +10436,8 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1208, __c151, 0) as any as S.Schema<UpdateProjectRequest>,
-  output: __S(1352, __c169, 0) as any as S.Schema<Project>,
+  input: __S(1472, __c184, 0) as any as S.Schema<UpdateProjectRequest>,
+  output: __S(1664, __c208, 0) as any as S.Schema<Project>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -9150,8 +10458,8 @@ export const updateRegistryCredential: API.OperationMethod<
   UpdateRegistryCredentialError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c152, 0) as any as S.Schema<UpdateRegistryCredentialRequest>,
-  output: __S(1368, __c171, 0) as any as S.Schema<RegistryCredential>,
+  input: __S(1520, __c190, 0) as any as S.Schema<UpdateRegistryCredentialRequest>,
+  output: __S(1680, __c210, 0) as any as S.Schema<RegistryCredential>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -9167,13 +10475,30 @@ export const updateResourceLogStream: API.OperationMethod<
   UpdateResourceLogStreamError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1224, __c153, 0) as any as S.Schema<UpdateResourceLogStreamRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<UpdateResourceLogStreamResponse>,
+  input: __S(1528, __c191, 0) as any as S.Schema<UpdateResourceLogStreamRequest>,
+  output: __S(216, __c27, 0) as any as S.Schema<UpdateResourceLogStreamResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateResourceLogStream",
+}));
+
+export type UpdateSandboxGroupError = BadRequest | Forbidden | NotFound | Conflict | RenderOpError;
+/** Update sandbox group Update a sandbox group's concurrency limit. Returns 400 for a malformed ID (`invalid_sandbox_group_id`), missing `concurrencyLimit`, or a value below 1. The response returns the effective limit after applying Render's cap. */
+export const updateSandboxGroup: API.OperationMethod<
+  UpdateSandboxGroupRequest,
+  Schema22,
+  UpdateSandboxGroupError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1536, __c192, 0) as any as S.Schema<UpdateSandboxGroupRequest>,
+  output: __S(1736, __c217, 0) as any as S.Schema<Schema22>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSandboxGroup",
 }));
 
 export type UpdateSecretFilesForBuildSourceError =
@@ -9188,8 +10513,8 @@ export const updateSecretFilesForBuildSource: API.OperationMethod<
   UpdateSecretFilesForBuildSourceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c154, 0) as any as S.Schema<UpdateSecretFilesForBuildSourceRequest>,
-  output: __S(650, __c81, 2) as any as S.Schema<UpdateSecretFilesForBuildSourceResponse>,
+  input: __S(1544, __c193, 0) as any as S.Schema<UpdateSecretFilesForBuildSourceRequest>,
+  output: __S(938, __c117, 2) as any as S.Schema<UpdateSecretFilesForBuildSourceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -9205,8 +10530,8 @@ export const updateSecretFilesForService: API.OperationMethod<
   UpdateSecretFilesForServiceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1240, __c155, 0) as any as S.Schema<UpdateSecretFilesForServiceRequest>,
-  output: __S(650, __c81, 2) as any as S.Schema<UpdateSecretFilesForServiceResponse>,
+  input: __S(1552, __c194, 0) as any as S.Schema<UpdateSecretFilesForServiceRequest>,
+  output: __S(938, __c117, 2) as any as S.Schema<UpdateSecretFilesForServiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -9215,15 +10540,15 @@ export const updateSecretFilesForService: API.OperationMethod<
 }));
 
 export type UpdateServiceError = BadRequest | Forbidden | NotFound | Conflict | RenderOpError;
-/** Update service Update the service with the provided ID. */
+/** Update service Update the service with the provided ID. 400 with `code: build_source_region_mismatch` if `buildSourceId` names a git-backed Build Source in a different region than the service. */
 export const updateService: API.OperationMethod<
   UpdateServiceRequest,
   Service,
   UpdateServiceError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c156, 0) as any as S.Schema<UpdateServiceRequest>,
-  output: __S(1384, __c173, 0) as any as S.Schema<Service>,
+  input: __S(1560, __c195, 0) as any as S.Schema<UpdateServiceRequest>,
+  output: __S(1760, __c220, 0) as any as S.Schema<Service>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -9239,8 +10564,8 @@ export const updateWebhook: API.OperationMethod<
   UpdateWebhookError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1256, __c157, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(1432, __c179, 0) as any as S.Schema<Schema14>,
+  input: __S(1568, __c196, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(1808, __c226, 0) as any as S.Schema<Schema14>,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -9256,8 +10581,8 @@ export const updateWorkflow: API.OperationMethod<
   UpdateWorkflowError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1265, __c158, 1) as any as S.Schema<UpdateWorkflowRequest>,
-  output: __S(1449, __c181, 1) as any as S.Schema<Schema15>,
+  input: __S(1577, __c197, 1) as any as S.Schema<UpdateWorkflowRequest>,
+  output: __S(1825, __c228, 1) as any as S.Schema<Schema15>,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -9278,8 +10603,8 @@ export const updateWorkspaceMember: API.OperationMethod<
   UpdateWorkspaceMemberError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1304, __c163, 0) as any as S.Schema<UpdateWorkspaceMemberRequest>,
-  output: __S(2128, __c266, 0) as any as S.Schema<TeamMember>,
+  input: __S(1584, __c198, 0) as any as S.Schema<UpdateWorkspaceMemberRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<TeamMember>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -9295,8 +10620,8 @@ export const upsertOwnerMetricsStream: API.OperationMethod<
   UpsertOwnerMetricsStreamError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c164, 0) as any as S.Schema<UpsertOwnerMetricsStreamRequest>,
-  output: __S(2144, __c268, 0) as any as S.Schema<UpsertOwnerMetricsStreamResponse>,
+  input: __S(1592, __c199, 0) as any as S.Schema<UpsertOwnerMetricsStreamRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<UpsertOwnerMetricsStreamResponse>,
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -9312,8 +10637,8 @@ export const validateBlueprint: API.OperationMethod<
   ValidateBlueprintError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1320, __c165, 0) as any as S.Schema<ValidateBlueprintRequest>,
-  output: __S(1324, __c165, 4) as any as S.Schema<ValidateBlueprintResponse>,
+  input: __S(1632, __c204, 0) as any as S.Schema<ValidateBlueprintRequest>,
+  output: __S(1636, __c204, 4) as any as S.Schema<ValidateBlueprintResponse>,
   errors: [BadRequest, Forbidden, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -9364,12 +10689,248 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          serviceId: S.String.pipe(T.Label()),
+          jobId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}/jobs/{jobId}", code: 200 })),
+      ).annotate({ identifier: "GetJobRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          redisId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/key-value/{redisId}", code: 200 })),
+      ).annotate({ identifier: "GetKeyValueRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          redisId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/key-value/{redisId}/connection-info", code: 200 })),
+      ).annotate({ identifier: "GetKeyValueConnectionInfoRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          internalConnectionString: S.String,
+          externalConnectionString: S.String,
+          cliCommand: S.String,
+        }),
+      ).annotate({ identifier: "KeyValueConnectionInfo" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maintenanceRunID: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/maintenance/{maintenanceRunID}", code: 200 })),
+      ).annotate({ identifier: "GetMaintenanceRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          scheduledAt: S.String,
+          pendingMaintenanceBy: S.optional(S.String),
+          state: S.String,
+          resourceId: S.String,
+        }),
+      ).annotate({ identifier: "GetMaintenanceResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.optional(S.String.pipe(T.Query())),
+          endTime: S.optional(S.String.pipe(T.Query())),
+          resolutionSeconds: S.optional(S.Number.pipe(T.Query())),
+          resource: S.optional(S.String.pipe(T.Query())),
+          service: S.optional(S.String.pipe(T.Query())),
+          instance: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/metrics/memory", code: 200 })),
+      ).annotate({ identifier: "GetMemoryRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.optional(S.String.pipe(T.Query())),
+          endTime: S.optional(S.String.pipe(T.Query())),
+          resolutionSeconds: S.optional(S.Number.pipe(T.Query())),
+          resource: S.optional(S.String.pipe(T.Query())),
+          service: S.optional(S.String.pipe(T.Query())),
+          instance: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/metrics/memory-limit", code: 200 })),
+      ).annotate({ identifier: "GetMemoryLimitRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.optional(S.String.pipe(T.Query())),
+          endTime: S.optional(S.String.pipe(T.Query())),
+          resolutionSeconds: S.optional(S.Number.pipe(T.Query())),
+          resource: S.optional(S.String.pipe(T.Query())),
+          service: S.optional(S.String.pipe(T.Query())),
+          instance: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/metrics/memory-target", code: 200 })),
+      ).annotate({ identifier: "GetMemoryTargetRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/owners/{ownerId}", code: 200 })),
+      ).annotate({ identifier: "GetOwnerRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/logs/streams/owner/{ownerId}", code: 200 })),
+      ).annotate({ identifier: "GetOwnerLogStreamRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.optional(S.String),
+          endpoint: S.optional(S.String),
+          preview: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetOwnerLogStreamResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/owners/{ownerId}/members", code: 200 })),
+      ).annotate({ identifier: "GetOwnerMembersRequest" });
+    case 1:
+      return S.Array(__S(104, __c13, 0));
+    case 2:
+      return S.suspend(() => __S(97, __c12, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetOwnerMembersResponse",
+      });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String,
+          name: S.String,
+          email: S.String,
+          status: S.String,
+          role: S.String,
+          mfaEnabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "TeamMember" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cronJobId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/cron-jobs/{cronJobId}/runs", code: 200 })),
+      ).annotate({ identifier: "CancelCronJobRunRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelCronJobRunResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/metrics-stream/{ownerId}", code: 200 })),
+      ).annotate({ identifier: "GetOwnerMetricsStreamRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.String,
+          provider: S.String,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "Schema10" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/notification-settings/owners/{ownerId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetOwnerNotificationSettingsRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.String,
+          slackEnabled: S.Boolean,
+          emailEnabled: S.Boolean,
+          previewNotificationsEnabled: S.Boolean,
+          notificationsToSend: S.String,
+        }),
+      ).annotate({ identifier: "GetOwnerNotificationSettingsResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           postgresId: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/postgres/{postgresId}", code: 200 })),
       ).annotate({ identifier: "GetPostgresRequest" });
   }
 }
-function __c2(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9392,7 +10953,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "PostgresConnectionInfo" });
   }
 }
-function __c3(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9409,7 +10970,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetPostgresRecoveryInfoResponse" });
   }
 }
-function __c4(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9419,7 +10980,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetProjectRequest" });
   }
 }
-function __c5(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9431,7 +10992,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetRegistryCredentialRequest" });
   }
 }
-function __c6(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9444,7 +11005,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetReplicationLagRequest" });
   }
 }
-function __c7(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9454,7 +11015,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetResourceLogStreamRequest" });
   }
 }
-function __c8(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9466,270 +11027,38 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetResourceLogStreamResponse" });
   }
 }
-function __c9(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          envVarKey: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/services/{serviceId}/secret-files/{envVarKey}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetSecretFileRequest" });
+          sandboxId: S.String.pipe(T.Label()),
+          ownerId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}", code: 200 })),
+      ).annotate({ identifier: "GetSandboxRequest" });
   }
 }
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}", code: 200 })),
-      ).annotate({ identifier: "GetServiceRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/notification-settings/overrides/services/{serviceId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetServiceNotificationOverridesRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String,
-          previewNotificationsEnabled: S.String,
-          notificationsToSend: S.String,
-        }),
-      ).annotate({ identifier: "GetServiceNotificationOverridesResponse" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cronJobId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/cron-jobs/{cronJobId}/runs", code: 200 })),
-      ).annotate({ identifier: "CancelCronJobRunRequest" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelCronJobRunResponse" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}/outbound-ips", code: 200 })),
-      ).annotate({ identifier: "GetServiceOutboundIpsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          dedicatedIpId: S.optional(S.String),
-          ips: __S(1920, __c240, 0),
-        }),
-      ).annotate({ identifier: "OutboundIps" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          taskId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/tasks/{taskId}", code: 200 })),
-      ).annotate({ identifier: "GetTaskRequest" });
-  }
-}
-function __c17(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          name: S.String,
+          name: S.optional(S.NullOr(S.String)),
+          sandboxGroupId: S.optional(S.String),
+          status: S.String,
+          plan: S.Unknown,
+          networkPolicy: __S(1698, __c212, 2),
+          region: S.String,
+          timeoutSeconds: S.Number,
+          idleTimeoutSeconds: S.Number,
           createdAt: S.String,
-          workflowId: S.optional(S.String),
-          workflowVersionId: S.optional(S.String),
+          terminatedAt: S.optional(S.NullOr(S.String)),
         }),
-      ).annotate({ identifier: "GetTaskResponse" });
+      ).annotate({ identifier: "Schema21" });
   }
 }
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          taskRunId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/task-runs/{taskRunId}", code: 200 })),
-      ).annotate({ identifier: "GetTaskRunRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          taskRunId: S.optional(S.String),
-          attempt: S.Number,
-          status: S.String,
-          enqueuedAt: S.optional(S.String),
-          startedAt: S.String,
-          completedAt: S.optional(S.String),
-          error: S.optional(S.String),
-          results: S.optional(__S(144, __c18, 0)),
-        }),
-      ).annotate({ identifier: "GetTaskRunResponseAttemptsItem" });
-    case 3:
-      return S.Array(__S(146, __c18, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          taskId: S.String,
-          status: S.String,
-          results: __S(144, __c18, 0),
-          error: S.optional(S.String),
-          startedAt: S.optional(S.String),
-          completedAt: S.optional(S.String),
-          input: S.Unknown,
-          parentTaskRunId: S.String,
-          parentTaskAttempt: S.optional(S.Number),
-          rootTaskRunId: S.String,
-          retries: S.Number,
-          attempts: __S(147, __c18, 3),
-        }),
-      ).annotate({ identifier: "GetTaskRunResponse" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(S.String.pipe(T.Query())),
-          endTime: S.optional(S.String.pipe(T.Query())),
-          resolutionSeconds: S.optional(S.Number.pipe(T.Query())),
-          resource: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String.pipe(T.Query())),
-          aggregateBy: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/metrics/task-runs-completed", code: 200 })),
-      ).annotate({ identifier: "GetTaskRunsCompletedRequest" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(S.String.pipe(T.Query())),
-          endTime: S.optional(S.String.pipe(T.Query())),
-          resolutionSeconds: S.optional(S.Number.pipe(T.Query())),
-          resource: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/metrics/task-runs-queued", code: 200 })),
-      ).annotate({ identifier: "GetTaskRunsQueuedRequest" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/users", code: 200 })),
-      ).annotate({ identifier: "GetUserRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          email: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "User" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          webhookId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/webhooks/{webhookId}", code: 200 })),
-      ).annotate({ identifier: "GetWebhookRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          workflowId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/workflows/{workflowId}", code: 200 })),
-      ).annotate({ identifier: "GetWorkflowRequest" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          workflowVersionId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/workflowversions/{workflowVersionId}", code: 200 })),
-      ).annotate({ identifier: "GetWorkflowVersionRequest" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          workflowId: S.String,
-          name: S.String,
-          createdAt: S.String,
-          status: S.String,
-        }),
-      ).annotate({ identifier: "GetWorkflowVersionResponse" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          buildSourceId: S.String.pipe(T.Label()),
-          envGroupId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/build-sources/{buildSourceId}/env-groups/{envGroupId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "LinkEnvGroupToBuildSourceRequest" });
-  }
-}
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9746,7 +11075,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CancelDeployRequest" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9768,8 +11097,9 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          commit: S.optional(__S(224, __c28, 0)),
-          image: S.optional(__S(225, __c28, 1)),
+          buildId: S.optional(S.String),
+          commit: S.optional(__S(248, __c31, 0)),
+          image: S.optional(__S(249, __c31, 1)),
           status: S.optional(S.String),
           trigger: S.optional(S.String),
           startedAt: S.optional(S.String),
@@ -9780,7 +11110,344 @@ function __c28(j: number): any {
       ).annotate({ identifier: "Deploy" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxGroupId: S.String.pipe(T.Label()),
+          buildId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/sandbox-groups/{sandboxGroupId}/builds/{buildId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetSandboxBuildRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          execId: S.String.pipe(T.Label()),
+          ownerId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/execs/{execId}", code: 200 })),
+      ).annotate({ identifier: "GetSandboxExecutionRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          sandboxId: S.String,
+          type: S.String,
+          operation: S.String,
+          command: S.optional(S.String),
+          userId: S.String,
+          startedAt: S.String,
+          stoppedAt: S.optional(S.String),
+          exitCode: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetSandboxExecutionResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxGroupId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/sandbox-groups/{sandboxGroupId}", code: 200 })),
+      ).annotate({ identifier: "GetSandboxGroupRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxGroupId: S.String.pipe(T.Label()),
+          snapshotId: S.String.pipe(T.Label()),
+          ownerId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/sandbox-groups/{sandboxGroupId}/snapshots/{snapshotId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetSandboxSnapshotRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          sandboxGroupId: S.String,
+          sourceSandboxId: S.String,
+          name: S.optional(S.NullOr(S.String)),
+          kind: S.String,
+          status: S.String,
+          plan: S.Unknown,
+          requestedAt: S.String,
+          capturedAt: S.optional(S.NullOr(S.String)),
+          expiresAt: S.String,
+          sizeBytes: S.optional(S.NullOr(S.Number)),
+          error: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "Schema25" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String.pipe(T.Label()),
+          envVarKey: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/services/{serviceId}/secret-files/{envVarKey}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetSecretFileRequest" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}", code: 200 })),
+      ).annotate({ identifier: "GetServiceRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/notification-settings/overrides/services/{serviceId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetServiceNotificationOverridesRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String,
+          previewNotificationsEnabled: S.String,
+          notificationsToSend: S.String,
+        }),
+      ).annotate({ identifier: "GetServiceNotificationOverridesResponse" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}/outbound-ips", code: 200 })),
+      ).annotate({ identifier: "GetServiceOutboundIpsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          dedicatedIpId: S.optional(S.String),
+          ips: __S(2248, __c281, 0),
+        }),
+      ).annotate({ identifier: "OutboundIps" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          taskId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/tasks/{taskId}", code: 200 })),
+      ).annotate({ identifier: "GetTaskRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          taskRunId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/task-runs/{taskRunId}", code: 200 })),
+      ).annotate({ identifier: "GetTaskRunRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          taskRunId: S.optional(S.String),
+          attempt: S.Number,
+          status: S.String,
+          enqueuedAt: S.optional(S.String),
+          startedAt: S.String,
+          completedAt: S.optional(S.String),
+          error: S.optional(S.String),
+          results: S.optional(__S(2432, __c304, 0)),
+        }),
+      ).annotate({ identifier: "GetTaskRunResponseAttemptsItem" });
+    case 2:
+      return S.Array(__S(353, __c44, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          taskId: S.String,
+          status: S.String,
+          results: __S(2432, __c304, 0),
+          error: S.optional(S.String),
+          startedAt: S.optional(S.String),
+          completedAt: S.optional(S.String),
+          input: S.Unknown,
+          parentTaskRunId: S.String,
+          parentTaskAttempt: S.optional(S.Number),
+          rootTaskRunId: S.String,
+          retries: S.Number,
+          attempts: __S(354, __c44, 2),
+        }),
+      ).annotate({ identifier: "GetTaskRunResponse" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          flowRunId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/flow-runs/{flowRunId}", code: 200 })),
+      ).annotate({ identifier: "CancelFlowRunRequest" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.optional(S.String.pipe(T.Query())),
+          endTime: S.optional(S.String.pipe(T.Query())),
+          resolutionSeconds: S.optional(S.Number.pipe(T.Query())),
+          resource: S.optional(S.String.pipe(T.Query())),
+          state: S.optional(S.String.pipe(T.Query())),
+          aggregateBy: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/metrics/task-runs-completed", code: 200 })),
+      ).annotate({ identifier: "GetTaskRunsCompletedRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.optional(S.String.pipe(T.Query())),
+          endTime: S.optional(S.String.pipe(T.Query())),
+          resolutionSeconds: S.optional(S.Number.pipe(T.Query())),
+          resource: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/metrics/task-runs-queued", code: 200 })),
+      ).annotate({ identifier: "GetTaskRunsQueuedRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/users", code: 200 })),
+      ).annotate({ identifier: "GetUserRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          email: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "User" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          webhookId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/webhooks/{webhookId}", code: 200 })),
+      ).annotate({ identifier: "GetWebhookRequest" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          workflowId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/workflows/{workflowId}", code: 200 })),
+      ).annotate({ identifier: "GetWorkflowRequest" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          workflowVersionId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/workflowversions/{workflowVersionId}", code: 200 })),
+      ).annotate({ identifier: "GetWorkflowVersionRequest" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          workflowId: S.String,
+          name: S.String,
+          createdAt: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "GetWorkflowVersionResponse" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          buildSourceId: S.String.pipe(T.Label()),
+          envGroupId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/build-sources/{buildSourceId}/env-groups/{envGroupId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "LinkEnvGroupToBuildSourceRequest" });
+  }
+}
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9797,7 +11464,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "LinkServiceToEnvGroupRequest" });
   }
 }
-function __c30(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9811,29 +11478,29 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ListApplicationFilterValuesRequest" });
   }
 }
-function __c31(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String),
-          values: S.optional(__S(1920, __c240, 0)),
+          values: S.optional(__S(2248, __c281, 0)),
         }),
       ).annotate({ identifier: "ListApplicationFilterValuesResponseBodyItem" });
     case 1:
-      return S.Array(__S(248, __c31, 0));
+      return S.Array(__S(448, __c56, 0));
     case 2:
-      return S.suspend(() => __S(249, __c31, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(449, __c56, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListApplicationFilterValuesResponse",
       });
   }
 }
-function __c32(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ownerId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/blueprints", code: 200 })),
@@ -9842,6 +11509,7 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
+          ownerId: S.String,
           name: S.String,
           status: S.String,
           autoSync: S.Boolean,
@@ -9854,19 +11522,49 @@ function __c32(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          blueprint: __S(257, __c32, 1),
+          blueprint: __S(457, __c57, 1),
           cursor: S.String,
         }),
       ).annotate({ identifier: "BlueprintWithCursor" });
     case 3:
-      return S.Array(__S(258, __c32, 2));
+      return S.Array(__S(458, __c57, 2));
     case 4:
-      return S.suspend(() => __S(259, __c32, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(459, __c57, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListBlueprintsResponse",
       });
   }
 }
-function __c33(j: number): any {
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String.pipe(T.Label()),
+          jobId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/services/{serviceId}/jobs/{jobId}/cancel", code: 200 }),
+        ),
+      ).annotate({ identifier: "CancelJobRequest" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          serviceId: S.String,
+          startCommand: S.String,
+          planId: S.String,
+          status: S.optional(S.String),
+          createdAt: S.String,
+          startedAt: S.optional(S.String),
+          finishedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Schema7" });
+  }
+}
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9886,7 +11584,7 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          commit: __S(264, __c33, 0),
+          commit: __S(480, __c60, 0),
           startedAt: S.optional(S.String),
           completedAt: S.optional(S.String),
           state: S.String,
@@ -9895,19 +11593,19 @@ function __c33(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          sync: __S(266, __c33, 2),
+          sync: __S(482, __c60, 2),
           cursor: S.String,
         }),
       ).annotate({ identifier: "SyncWithCursor" });
     case 4:
-      return S.Array(__S(267, __c33, 3));
+      return S.Array(__S(483, __c60, 3));
     case 5:
-      return S.suspend(() => __S(268, __c33, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(484, __c60, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListBlueprintSyncsResponse",
       });
   }
 }
-function __c34(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9918,58 +11616,27 @@ function __c34(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/build-sources/{buildSourceId}/builds", code: 200 })),
       ).annotate({ identifier: "ListBuildsInBuildSourceRequest" });
     case 1:
-      return S.Array(__S(282, __c35, 2));
+      return S.suspend(() =>
+        S.Struct({
+          build: __S(2194, __c274, 2),
+          cursor: S.String,
+        }),
+      ).annotate({ identifier: "ListBuildsInBuildSourceResponseBodyItem" });
     case 2:
-      return S.suspend(() => __S(273, __c34, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.Array(__S(489, __c61, 1));
+    case 3:
+      return S.suspend(() => __S(490, __c61, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListBuildsInBuildSourceResponse",
       });
   }
 }
-function __c35(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String,
-          status: S.optional(S.String),
-          buildStartedAt: S.optional(S.String),
-          buildFinishedAt: S.optional(S.String),
-          runtime: S.optional(S.String),
-          commitId: S.optional(S.String),
-          commitUrl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SchemaBuildRun" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          imageVersionId: S.optional(S.String),
-          SHA: S.optional(S.String),
-          ref: S.optional(S.String),
-          imageUrl: S.optional(S.String),
-          registryCredentialId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SchemaImage" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          buildSourceId: S.String,
-          buildRun: S.optional(__S(280, __c35, 0)),
-          image: S.optional(__S(281, __c35, 1)),
-          createdAt: S.String,
-          updatedAt: S.String,
-          assetsDeletedAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Schema13" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          ownerId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          name: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           projectId: S.optional(S.String.pipe(T.Query())),
           includePreviews: S.optional(S.Boolean.pipe(T.Query())),
           createdBefore: S.optional(S.String.pipe(T.Query())),
@@ -9983,19 +11650,19 @@ function __c36(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          buildSource: __S(578, __c72, 2),
+          buildSource: __S(906, __c113, 2),
           cursor: S.String,
         }),
       ).annotate({ identifier: "ListBuildSourcesResponseBodyItem" });
     case 2:
-      return S.Array(__S(289, __c36, 1));
+      return S.Array(__S(497, __c62, 1));
     case 3:
-      return S.suspend(() => __S(290, __c36, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(498, __c62, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListBuildSourcesResponse",
       });
   }
 }
-function __c37(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10003,7 +11670,7 @@ function __c37(j: number): any {
           serviceId: S.String.pipe(T.Label()),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          name: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          name: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           domainType: S.optional(S.String.pipe(T.Query())),
           verificationStatus: S.optional(S.String.pipe(T.Query())),
           createdBefore: S.optional(S.String.pipe(T.Query())),
@@ -10013,19 +11680,19 @@ function __c37(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          customDomain: __S(681, __c85, 1),
+          customDomain: __S(1009, __c126, 1),
           cursor: S.String,
         }),
       ).annotate({ identifier: "CustomDomainWithCursor" });
     case 2:
-      return S.Array(__S(297, __c37, 1));
+      return S.Array(__S(505, __c63, 1));
     case 3:
-      return S.suspend(() => __S(298, __c37, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(506, __c63, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCustomDomainsResponse",
       });
   }
 }
-function __c38(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10035,20 +11702,20 @@ function __c38(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/dedicated-ips", code: 200 })),
       ).annotate({ identifier: "ListDedicatedIpsRequest" });
     case 1:
-      return S.Array(__S(776, __c97, 0));
+      return S.Array(__S(1104, __c138, 0));
     case 2:
-      return S.suspend(() => __S(305, __c38, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(513, __c64, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDedicatedIpsResponse",
       });
   }
 }
-function __c39(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceId: S.String.pipe(T.Label()),
-          status: S.optional(__S(1296, __c162, 0).pipe(T.Query())),
+          status: S.optional(__S(1624, __c203, 0).pipe(T.Query())),
           createdBefore: S.optional(S.String.pipe(T.Query())),
           createdAfter: S.optional(S.String.pipe(T.Query())),
           updatedBefore: S.optional(S.String.pipe(T.Query())),
@@ -10062,31 +11729,31 @@ function __c39(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          deploy: S.optional(__S(226, __c28, 2)),
+          deploy: S.optional(__S(250, __c31, 2)),
           cursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeployWithCursor" });
     case 2:
-      return S.Array(__S(313, __c39, 1));
+      return S.Array(__S(521, __c65, 1));
     case 3:
-      return S.suspend(() => __S(314, __c39, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(522, __c65, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDeploysResponse",
       });
   }
 }
-function __c40(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ownerId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          diskId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          name: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          diskId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          name: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           createdBefore: S.optional(S.String.pipe(T.Query())),
           createdAfter: S.optional(S.String.pipe(T.Query())),
           updatedBefore: S.optional(S.String.pipe(T.Query())),
           updatedAfter: S.optional(S.String.pipe(T.Query())),
-          serviceId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          serviceId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/disks", code: 200 })),
@@ -10094,60 +11761,30 @@ function __c40(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          disk: __S(1536, __c192, 0),
+          disk: __S(1856, __c232, 0),
           cursor: S.String,
         }),
       ).annotate({ identifier: "DiskWithCursor" });
     case 2:
-      return S.Array(__S(321, __c40, 1));
+      return S.Array(__S(529, __c66, 1));
     case 3:
-      return S.suspend(() => __S(322, __c40, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(530, __c66, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDisksResponse",
       });
   }
 }
-function __c41(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          jobId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/services/{serviceId}/jobs/{jobId}/cancel", code: 200 }),
-        ),
-      ).annotate({ identifier: "CancelJobRequest" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          serviceId: S.String,
-          startCommand: S.String,
-          planId: S.String,
-          status: S.optional(S.String),
-          createdAt: S.String,
-          startedAt: S.optional(S.String),
-          finishedAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Schema7" });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          name: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           createdBefore: S.optional(S.String.pipe(T.Query())),
           createdAfter: S.optional(S.String.pipe(T.Query())),
           updatedBefore: S.optional(S.String.pipe(T.Query())),
           updatedAfter: S.optional(S.String.pipe(T.Query())),
-          ownerId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          environmentId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          environmentId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/env-groups", code: 200 })),
@@ -10160,31 +11797,31 @@ function __c43(j: number): any {
           ownerId: S.String,
           createdAt: S.String,
           updatedAt: S.String,
-          serviceLinks: __S(961, __c120, 1),
+          serviceLinks: __S(1289, __c161, 1),
           environmentId: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnvGroupMeta" });
     case 2:
-      return S.Array(__S(345, __c43, 1));
+      return S.Array(__S(537, __c67, 1));
     case 3:
-      return S.suspend(() => __S(346, __c43, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(538, __c67, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListEnvGroupsResponse",
       });
   }
 }
-function __c44(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          projectId: __S(1920, __c240, 0).pipe(T.Query()),
+          name: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          projectId: __S(2248, __c281, 0).pipe(T.Query()),
           createdBefore: S.optional(S.String.pipe(T.Query())),
           createdAfter: S.optional(S.String.pipe(T.Query())),
           updatedBefore: S.optional(S.String.pipe(T.Query())),
           updatedAfter: S.optional(S.String.pipe(T.Query())),
-          ownerId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          environmentId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          environmentId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/environments", code: 200 })),
@@ -10192,19 +11829,19 @@ function __c44(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          environment: __S(1936, __c242, 0),
+          environment: __S(2264, __c283, 0),
           cursor: S.String,
         }),
       ).annotate({ identifier: "EnvironmentWithCursor" });
     case 2:
-      return S.Array(__S(353, __c44, 1));
+      return S.Array(__S(545, __c68, 1));
     case 3:
-      return S.suspend(() => __S(354, __c44, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(546, __c68, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListEnvironmentsResponse",
       });
   }
 }
-function __c45(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10230,27 +11867,145 @@ function __c45(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          event: __S(361, __c45, 1),
+          event: __S(553, __c69, 1),
           cursor: S.String,
         }),
       ).annotate({ identifier: "ServiceEventWithCursor" });
     case 3:
-      return S.Array(__S(362, __c45, 2));
+      return S.Array(__S(554, __c69, 2));
     case 4:
-      return S.suspend(() => __S(363, __c45, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(555, __c69, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListEventsResponse",
       });
   }
 }
-function __c46(j: number): any {
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          taskRunId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/task-runs/{taskRunId}", code: 200 })),
+      ).annotate({ identifier: "CancelTaskRunRequest" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          flowSlug: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          flowId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          status: S.optional(__S(1624, __c203, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          workflowVersionId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          workflowId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/flow-runs", code: 200 })),
+      ).annotate({ identifier: "ListFlowRunsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          flowRun: __S(576, __c72, 0),
+          cursor: S.String,
+        }),
+      ).annotate({ identifier: "FlowRunWithCursor" });
+    case 2:
+      return S.Array(__S(569, __c71, 1));
+    case 3:
+      return S.suspend(() => __S(570, __c71, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListFlowRunsResponse",
+      });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          flowId: S.String,
+          status: S.String,
+          startedAt: S.optional(S.String),
+          completedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Schema20" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          flowRunId: S.String.pipe(T.Label()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/flow-runs/{flowRunId}/steps", code: 200 })),
+      ).annotate({ identifier: "ListFlowRunStepsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          seq: S.Number,
+          stepKey: S.String,
+          name: S.optional(S.String),
+          type: S.String,
+          status: S.String,
+          startedAt: S.String,
+          completedAt: S.optional(S.String),
+          wakeAt: S.optional(S.String),
+          childTaskRunId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListFlowRunStepsResponseStepsItem" });
+    case 2:
+      return S.Array(__S(585, __c73, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          steps: __S(586, __c73, 2),
+          cursor: S.optional(S.String),
+          hasMore: S.Boolean,
+        }),
+      ).annotate({ identifier: "ListFlowRunStepsResponse" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          flowSlug: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          workflowVersionId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          workflowId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/flows", code: 200 })),
+      ).annotate({ identifier: "ListFlowsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          flow: __S(2416, __c302, 0),
+          cursor: S.String,
+        }),
+      ).annotate({ identifier: "FlowWithCursor" });
+    case 2:
+      return S.Array(__S(593, __c74, 1));
+    case 3:
+      return S.suspend(() => __S(594, __c74, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListFlowsResponse",
+      });
+  }
+}
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceId: S.String.pipe(T.Label()),
-          path: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          name: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          value: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          path: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          name: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          value: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}/headers", code: 200 })),
@@ -10258,19 +12013,19 @@ function __c46(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          header: __S(1632, __c204, 0),
+          header: __S(1952, __c244, 0),
           cursor: S.String,
         }),
       ).annotate({ identifier: "HeaderWithCursor" });
     case 2:
-      return S.Array(__S(369, __c46, 1));
+      return S.Array(__S(601, __c75, 1));
     case 3:
-      return S.suspend(() => __S(370, __c46, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(602, __c75, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListHeadersResponse",
       });
   }
 }
-function __c47(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10286,7 +12041,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "ListHttpFilterValuesRequest" });
   }
 }
-function __c48(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10302,14 +12057,14 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "ServiceInstance" });
     case 2:
-      return S.Array(__S(385, __c48, 1));
+      return S.Array(__S(617, __c77, 1));
     case 3:
-      return S.suspend(() => __S(386, __c48, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(618, __c77, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListInstancesResponse",
       });
   }
 }
-function __c49(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10317,7 +12072,7 @@ function __c49(j: number): any {
           serviceId: S.String.pipe(T.Label()),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          status: S.optional(__S(1296, __c162, 0).pipe(T.Query())),
+          status: S.optional(__S(1624, __c203, 0).pipe(T.Query())),
           createdBefore: S.optional(S.String.pipe(T.Query())),
           createdAfter: S.optional(S.String.pipe(T.Query())),
           startedBefore: S.optional(S.String.pipe(T.Query())),
@@ -10329,31 +12084,31 @@ function __c49(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          job: __S(336, __c42, 0),
+          job: __S(472, __c59, 0),
           cursor: S.String,
         }),
       ).annotate({ identifier: "JobWithCursor" });
     case 2:
-      return S.Array(__S(393, __c49, 1));
+      return S.Array(__S(625, __c78, 1));
     case 3:
-      return S.suspend(() => __S(394, __c49, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(626, __c78, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListJobResponse",
       });
   }
 }
-function __c50(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          region: S.optional(__S(1296, __c162, 0).pipe(T.Query())),
+          name: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          region: S.optional(__S(1624, __c203, 0).pipe(T.Query())),
           createdBefore: S.optional(S.String.pipe(T.Query())),
           createdAfter: S.optional(S.String.pipe(T.Query())),
           updatedBefore: S.optional(S.String.pipe(T.Query())),
           updatedAfter: S.optional(S.String.pipe(T.Query())),
-          ownerId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          environmentId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          environmentId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/key-value", code: 200 })),
@@ -10368,9 +12123,9 @@ function __c50(j: number): any {
           region: S.String,
           plan: S.String,
           name: S.String,
-          owner: __S(1160, __c145, 0),
-          options: __S(1176, __c147, 0),
-          ipAllowList: __S(1929, __c241, 1),
+          owner: __S(1512, __c189, 0),
+          options: __S(1488, __c186, 0),
+          ipAllowList: __S(2257, __c282, 1),
           environmentId: S.optional(S.String),
           version: S.String,
           dashboardUrl: S.String,
@@ -10379,19 +12134,19 @@ function __c50(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          keyValue: __S(401, __c50, 1),
+          keyValue: __S(633, __c79, 1),
           cursor: S.String,
         }),
       ).annotate({ identifier: "KeyValueWithCursor" });
     case 3:
-      return S.Array(__S(402, __c50, 2));
+      return S.Array(__S(634, __c79, 2));
     case 4:
-      return S.suspend(() => __S(403, __c50, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(635, __c79, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListKeyValueResponse",
       });
   }
 }
-function __c51(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10400,18 +12155,18 @@ function __c51(j: number): any {
           startTime: S.optional(S.String.pipe(T.Query())),
           endTime: S.optional(S.String.pipe(T.Query())),
           direction: S.optional(S.String.pipe(T.Query())),
-          resource: __S(1920, __c240, 0).pipe(T.Query()),
-          instance: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          host: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          statusCode: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          method: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          task: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          taskRun: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          sandbox: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          level: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          type: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          text: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          path: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          resource: __S(2248, __c281, 0).pipe(T.Query()),
+          instance: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          host: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          statusCode: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          method: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          task: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          taskRun: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          sandbox: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          level: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          type: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          text: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          path: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/logs", code: 200 })),
       ).annotate({ identifier: "ListLogsRequest" });
@@ -10423,30 +12178,30 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "SchemaLabelsItem" });
     case 2:
-      return S.Array(__S(409, __c51, 1));
+      return S.Array(__S(641, __c80, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           message: S.String,
           timestamp: S.String,
-          labels: __S(410, __c51, 2),
+          labels: __S(642, __c80, 2),
         }),
       ).annotate({ identifier: "Schema8" });
     case 4:
-      return S.Array(__S(411, __c51, 3));
+      return S.Array(__S(643, __c80, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           hasMore: S.Boolean,
           nextStartTime: S.String,
           nextEndTime: S.String,
-          logs: __S(412, __c51, 4),
+          logs: __S(644, __c80, 4),
         }),
       ).annotate({ identifier: "ListLogsResponse" });
   }
 }
-function __c52(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10456,66 +12211,89 @@ function __c52(j: number): any {
           startTime: S.optional(S.String.pipe(T.Query())),
           endTime: S.optional(S.String.pipe(T.Query())),
           direction: S.optional(S.String.pipe(T.Query())),
-          resource: __S(1920, __c240, 0).pipe(T.Query()),
-          instance: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          host: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          statusCode: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          method: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          task: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          taskRun: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          sandbox: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          level: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          type: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          text: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          path: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          resource: __S(2248, __c281, 0).pipe(T.Query()),
+          instance: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          host: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          statusCode: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          method: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          task: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          taskRun: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          sandbox: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          level: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          type: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          text: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          path: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/logs/values", code: 200 })),
       ).annotate({ identifier: "ListLogsValuesRequest" });
   }
 }
-function __c53(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(1920, __c240, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2248, __c281, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListLogsValuesResponse",
       });
   }
 }
-function __c54(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          taskRunId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/task-runs/{taskRunId}", code: 200 })),
-      ).annotate({ identifier: "CancelTaskRunRequest" });
+          sandboxId: S.String.pipe(T.Label()),
+          operation: S.String.pipe(T.Label()),
+          ownerId: S.optional(S.String.pipe(T.Query())),
+          path: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/sandboxes/{sandboxId}/files/{operation}/token",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectSandboxFilesRequest" });
   }
 }
-function __c55(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourceId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          ownerId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          state: S.optional(__S(1296, __c162, 0).pipe(T.Query())),
+          executionId: S.String,
+          token: S.String,
+          uri: S.String,
+          method: S.String,
+          expiresAt: S.String,
+        }),
+      ).annotate({ identifier: "Schema26" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          state: S.optional(__S(1624, __c203, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/maintenance", code: 200 })),
       ).annotate({ identifier: "ListMaintenanceRequest" });
     case 1:
-      return S.Array(__S(2064, __c258, 0));
+      return S.Array(__S(40, __c5, 0));
     case 2:
-      return S.suspend(() => __S(441, __c55, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(681, __c85, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListMaintenanceResponse",
       });
   }
 }
-function __c56(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ownerId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          serviceId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          serviceId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/notification-settings/overrides", code: 200 })),
@@ -10523,19 +12301,19 @@ function __c56(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          override: __S(96, __c12, 0),
+          override: __S(328, __c41, 0),
           cursor: S.String,
         }),
       ).annotate({ identifier: "NotificationOverrideWithCursor" });
     case 2:
-      return S.Array(__S(449, __c56, 1));
+      return S.Array(__S(689, __c86, 1));
     case 3:
-      return S.suspend(() => __S(450, __c56, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(690, __c86, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListNotificationOverridesResponse",
       });
   }
 }
-function __c57(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10550,7 +12328,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ListOrganizationAuditLogsRequest" });
   }
 }
-function __c58(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10561,34 +12339,32 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "AuditLogActor" });
     case 1:
-      return S.Record(S.String, S.String);
-    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           timestamp: S.String,
           event: S.String,
           status: S.String,
-          actor: __S(464, __c58, 0),
-          metadata: __S(465, __c58, 1),
+          actor: __S(704, __c88, 0),
+          metadata: __S(1704, __c213, 0),
         }),
       ).annotate({ identifier: "AuditLog" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           cursor: S.String,
-          auditLog: __S(466, __c58, 2),
+          auditLog: __S(705, __c88, 1),
         }),
       ).annotate({ identifier: "AuditLogWithCursor" });
+    case 3:
+      return S.Array(__S(706, __c88, 2));
     case 4:
-      return S.Array(__S(467, __c58, 3));
-    case 5:
-      return S.suspend(() => __S(468, __c58, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(707, __c88, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOrganizationAuditLogsResponse",
       });
   }
 }
-function __c59(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10603,13 +12379,13 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ListOwnerAuditLogsRequest" });
   }
 }
-function __c60(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          email: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          name: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          email: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/owners", code: 200 })),
@@ -10617,19 +12393,19 @@ function __c60(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          owner: S.optional(__S(1160, __c145, 0)),
+          owner: S.optional(__S(1512, __c189, 0)),
           cursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "OwnerWithCursor" });
     case 2:
-      return S.Array(__S(481, __c60, 1));
+      return S.Array(__S(721, __c90, 1));
     case 3:
-      return S.suspend(() => __S(482, __c60, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(722, __c90, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOwnersResponse",
       });
   }
 }
-function __c61(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10646,20 +12422,20 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ListPathFilterValuesRequest" });
   }
 }
-function __c62(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          region: S.optional(__S(1296, __c162, 0).pipe(T.Query())),
-          suspended: S.optional(__S(1296, __c162, 0).pipe(T.Query())),
+          name: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          region: S.optional(__S(1624, __c203, 0).pipe(T.Query())),
+          suspended: S.optional(__S(1624, __c203, 0).pipe(T.Query())),
           createdBefore: S.optional(S.String.pipe(T.Query())),
           createdAfter: S.optional(S.String.pipe(T.Query())),
           updatedBefore: S.optional(S.String.pipe(T.Query())),
           updatedAfter: S.optional(S.String.pipe(T.Query())),
-          ownerId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          environmentId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          environmentId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           includeReplicas: S.optional(S.Boolean.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -10669,7 +12445,7 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          ipAllowList: __S(1929, __c241, 1),
+          ipAllowList: __S(2257, __c282, 1),
           createdAt: S.String,
           updatedAt: S.String,
           expiresAt: S.optional(S.String),
@@ -10678,17 +12454,17 @@ function __c62(j: number): any {
           environmentId: S.optional(S.String),
           highAvailabilityEnabled: S.Boolean,
           name: S.String,
-          owner: __S(1160, __c145, 0),
+          owner: __S(1512, __c189, 0),
           plan: S.String,
           diskSizeGB: S.optional(S.Number),
           primaryPostgresID: S.optional(S.String),
           region: S.String,
-          readReplicas: __S(560, __c70, 0),
+          readReplicas: __S(888, __c111, 0),
           role: S.String,
           status: S.String,
           version: S.String,
           suspended: S.String,
-          suspenders: __S(1296, __c162, 0),
+          suspenders: __S(1624, __c203, 0),
           dashboardUrl: S.String,
           diskAutoscalingEnabled: S.Boolean,
           connectionPool: S.String,
@@ -10697,19 +12473,19 @@ function __c62(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          postgres: __S(497, __c62, 1),
+          postgres: __S(737, __c92, 1),
           cursor: S.String,
         }),
       ).annotate({ identifier: "PostgresWithCursor" });
     case 3:
-      return S.Array(__S(498, __c62, 2));
+      return S.Array(__S(738, __c92, 2));
     case 4:
-      return S.suspend(() => __S(499, __c62, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(739, __c92, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPostgresResponse",
       });
   }
 }
-function __c63(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10726,14 +12502,14 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "ListPostgresExportResponseBodyItem" });
     case 2:
-      return S.Array(__S(505, __c63, 1));
+      return S.Array(__S(745, __c93, 1));
     case 3:
-      return S.suspend(() => __S(506, __c63, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(746, __c93, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPostgresExportResponse",
       });
   }
 }
-function __c64(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10762,16 +12538,16 @@ function __c64(j: number): any {
         }),
       ).annotate({ identifier: "ListPostgresProcessesResponseProcessesItem" });
     case 2:
-      return S.Array(__S(513, __c64, 1));
+      return S.Array(__S(753, __c94, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          processes: __S(514, __c64, 2),
+          processes: __S(754, __c94, 2),
         }),
       ).annotate({ identifier: "ListPostgresProcessesResponse" });
   }
 }
-function __c65(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10790,115 +12566,35 @@ function __c65(j: number): any {
         }),
       ).annotate({ identifier: "ListPostgresSizesResponseSizesItem" });
     case 2:
-      return S.Array(__S(521, __c65, 1));
+      return S.Array(__S(761, __c95, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          sizes: __S(522, __c65, 2),
+          sizes: __S(762, __c95, 2),
         }),
       ).annotate({ identifier: "ListPostgresSizesResponse" });
   }
 }
-function __c66(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ownerId: S.String,
-          name: S.String,
-          projectId: S.optional(S.String),
-          git: S.optional(__S(576, __c72, 0)),
-          image: S.optional(__S(577, __c72, 1)),
-          serviceIds: S.optional(__S(1920, __c240, 0)),
-          envVars: S.optional(__S(536, __c67, 0)),
-          secretFiles: S.optional(__S(544, __c68, 0)),
-          envGroupIds: S.optional(__S(1920, __c240, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/build-sources", code: 200 })),
-      ).annotate({ identifier: "CreateBuildSourceRequest" });
+          sandboxId: S.String.pipe(T.Label()),
+          operation: S.String.pipe(T.Label()),
+          ownerId: S.optional(S.String.pipe(T.Query())),
+          command: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/sandboxes/{sandboxId}/runs/{operation}/token",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectSandboxRunRequest" });
   }
 }
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-  }
-}
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1728, __c216, 0));
-  }
-}
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "CreateBuildSourceResponseServiceLinksItem" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(552, __c69, 0));
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          paths: __S(1920, __c240, 0),
-          ignoredPaths: __S(1920, __c240, 0),
-        }),
-      ).annotate({ identifier: "BuildFilter2" });
-  }
-}
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          baseDir: S.optional(S.String),
-          branch: S.optional(S.String),
-          buildCommand: S.optional(S.String),
-          buildFilter: S.optional(__S(568, __c71, 0)),
-          dockerfilePath: S.optional(S.String),
-          runtime: S.String,
-          registryCredentialId: S.optional(S.String),
-          region: S.optional(S.String),
-          repoUrl: S.optional(S.String),
-          rootDir: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateBuildSourceRequestGit" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ownerId: S.String,
-          registryCredentialId: S.optional(S.String),
-          imageUrl: S.String,
-        }),
-      ).annotate({ identifier: "CreateBuildSourceRequestImage" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          ownerId: S.String,
-          projectId: S.optional(S.String),
-          git: S.optional(__S(576, __c72, 0)),
-          image: S.optional(__S(577, __c72, 1)),
-          createdAt: S.String,
-          updatedAt: S.String,
-          serviceLinks: __S(560, __c70, 0),
-        }),
-      ).annotate({ identifier: "CreateBuildSourceResponse" });
-  }
-}
-function __c73(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10918,16 +12614,16 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "ListPostgresTableScansResponseTableScansItem" });
     case 2:
-      return S.Array(__S(585, __c73, 1));
+      return S.Array(__S(777, __c97, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tableScans: __S(586, __c73, 2),
+          tableScans: __S(778, __c97, 2),
         }),
       ).annotate({ identifier: "ListPostgresTableScansResponse" });
   }
 }
-function __c74(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10962,16 +12658,16 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "ListPostgresTopQueriesResponseTopQueriesItem" });
     case 2:
-      return S.Array(__S(593, __c74, 1));
+      return S.Array(__S(785, __c98, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          topQueries: __S(594, __c74, 2),
+          topQueries: __S(786, __c98, 2),
         }),
       ).annotate({ identifier: "ListPostgresTopQueriesResponse" });
   }
 }
-function __c75(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10989,24 +12685,24 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "ListPostgresUsersResponseBodyItem" });
     case 2:
-      return S.Array(__S(601, __c75, 1));
+      return S.Array(__S(793, __c99, 1));
     case 3:
-      return S.suspend(() => __S(602, __c75, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(794, __c99, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPostgresUsersResponse",
       });
   }
 }
-function __c76(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          name: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           createdBefore: S.optional(S.String.pipe(T.Query())),
           createdAfter: S.optional(S.String.pipe(T.Query())),
           updatedBefore: S.optional(S.String.pipe(T.Query())),
           updatedAfter: S.optional(S.String.pipe(T.Query())),
-          ownerId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/projects", code: 200 })),
@@ -11014,73 +12710,73 @@ function __c76(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          project: __S(1352, __c169, 0),
+          project: __S(1664, __c208, 0),
           cursor: S.String,
         }),
       ).annotate({ identifier: "ProjectWithCursor" });
     case 2:
-      return S.Array(__S(609, __c76, 1));
+      return S.Array(__S(801, __c100, 1));
     case 3:
-      return S.suspend(() => __S(610, __c76, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(802, __c100, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListProjectsResponse",
       });
   }
 }
-function __c77(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          username: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          type: S.optional(__S(1296, __c162, 0).pipe(T.Query())),
+          name: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          username: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          type: S.optional(__S(1624, __c203, 0).pipe(T.Query())),
           createdBefore: S.optional(S.String.pipe(T.Query())),
           createdAfter: S.optional(S.String.pipe(T.Query())),
           updatedBefore: S.optional(S.String.pipe(T.Query())),
           updatedAfter: S.optional(S.String.pipe(T.Query())),
-          ownerId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/registrycredentials", code: 200 })),
       ).annotate({ identifier: "ListRegistryCredentialsRequest" });
     case 1:
-      return S.Array(__S(1368, __c171, 0));
+      return S.Array(__S(1680, __c210, 0));
     case 2:
-      return S.suspend(() => __S(617, __c77, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(809, __c101, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRegistryCredentialsResponse",
       });
   }
 }
-function __c78(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ownerId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          logStreamId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          resourceId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          setting: S.optional(__S(1296, __c162, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          logStreamId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          resourceId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          setting: S.optional(__S(1624, __c203, 0).pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/logs/streams/resource", code: 200 })),
       ).annotate({ identifier: "ListResourceLogStreamsRequest" });
     case 1:
-      return S.Array(__S(64, __c8, 0));
+      return S.Array(__S(216, __c27, 0));
     case 2:
-      return S.suspend(() => __S(625, __c78, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(817, __c102, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListResourceLogStreamsResponse",
       });
   }
 }
-function __c79(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceId: S.String.pipe(T.Label()),
-          type: S.optional(__S(1296, __c162, 0).pipe(T.Query())),
-          source: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          destination: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          type: S.optional(__S(1624, __c203, 0).pipe(T.Query())),
+          source: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          destination: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}/routes", code: 200 })),
@@ -11088,19 +12784,255 @@ function __c79(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          route: __S(2040, __c255, 0),
+          route: __S(2360, __c295, 0),
           cursor: S.String,
         }),
       ).annotate({ identifier: "RouteWithCursor" });
     case 2:
-      return S.Array(__S(633, __c79, 1));
+      return S.Array(__S(825, __c103, 1));
     case 3:
-      return S.suspend(() => __S(634, __c79, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(826, __c103, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRoutesResponse",
       });
   }
 }
-function __c80(j: number): any {
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxGroupId: S.String.pipe(T.Label()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          name: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(__S(1624, __c203, 0).pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/sandbox-groups/{sandboxGroupId}/builds", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListSandboxBuildsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          build: __S(1721, __c215, 1),
+          cursor: S.String,
+        }),
+      ).annotate({ identifier: "SandboxBuildWithCursor" });
+    case 2:
+      return S.Array(__S(833, __c104, 1));
+    case 3:
+      return S.suspend(() => __S(834, __c104, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListSandboxBuildsResponse",
+      });
+  }
+}
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.String.pipe(T.Query()),
+          sandboxGroupId: S.optional(S.String.pipe(T.Query())),
+          name: S.optional(S.String.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          status: S.optional(__S(1624, __c203, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/sandboxes", code: 200 })),
+      ).annotate({ identifier: "ListSandboxesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sandbox: __S(232, __c29, 0),
+          cursor: S.String,
+        }),
+      ).annotate({ identifier: "SandboxWithCursor" });
+    case 2:
+      return S.Array(__S(841, __c105, 1));
+    case 3:
+      return S.suspend(() => __S(842, __c105, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListSandboxesResponse",
+      });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          ownerId: S.optional(S.String.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/execs", code: 200 })),
+      ).annotate({ identifier: "ListSandboxExecutionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          execution: __S(272, __c34, 0),
+          cursor: S.String,
+        }),
+      ).annotate({ identifier: "ExecutionWithCursor" });
+    case 2:
+      return S.Array(__S(849, __c106, 1));
+    case 3:
+      return S.suspend(() => __S(850, __c106, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListSandboxExecutionsResponse",
+      });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.String,
+          name: S.String,
+          projectId: S.optional(S.String),
+          git: S.optional(__S(904, __c113, 0)),
+          image: S.optional(__S(905, __c113, 1)),
+          serviceIds: S.optional(__S(2248, __c281, 0)),
+          envVars: S.optional(__S(864, __c108, 0)),
+          secretFiles: S.optional(__S(872, __c109, 0)),
+          envGroupIds: S.optional(__S(2248, __c281, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/build-sources", code: 200 })),
+      ).annotate({ identifier: "CreateBuildSourceRequest" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2048, __c256, 0));
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "CreateBuildSourceResponseServiceLinksItem" });
+  }
+}
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(880, __c110, 0));
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paths: __S(2248, __c281, 0),
+          ignoredPaths: __S(2248, __c281, 0),
+        }),
+      ).annotate({ identifier: "BuildFilter2" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          branch: S.optional(S.String),
+          buildCommand: S.optional(S.String),
+          buildFilter: S.optional(__S(896, __c112, 0)),
+          dockerContext: S.optional(S.String),
+          dockerfilePath: S.optional(S.String),
+          runtime: S.String,
+          registryCredentialId: S.optional(S.String),
+          region: S.optional(S.String),
+          repoUrl: S.optional(S.String),
+          rootDir: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateBuildSourceRequestGit" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.String,
+          registryCredentialId: S.optional(S.String),
+          imageUrl: S.String,
+        }),
+      ).annotate({ identifier: "CreateBuildSourceRequestImage" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          ownerId: S.String,
+          projectId: S.optional(S.String),
+          git: S.optional(__S(904, __c113, 0)),
+          image: S.optional(__S(905, __c113, 1)),
+          createdAt: S.String,
+          updatedAt: S.String,
+          serviceLinks: __S(888, __c111, 0),
+        }),
+      ).annotate({ identifier: "CreateBuildSourceResponse" });
+  }
+}
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.String.pipe(T.Query()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/sandbox-groups", code: 200 })),
+      ).annotate({ identifier: "ListSandboxGroupsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxGroup: __S(1736, __c217, 0),
+          cursor: S.String,
+        }),
+      ).annotate({ identifier: "SandboxGroupWithCursor" });
+    case 2:
+      return S.Array(__S(913, __c114, 1));
+    case 3:
+      return S.suspend(() => __S(914, __c114, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListSandboxGroupsResponse",
+      });
+  }
+}
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxGroupId: S.String.pipe(T.Label()),
+          ownerId: S.String.pipe(T.Query()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          status: S.optional(__S(1624, __c203, 0).pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/sandbox-groups/{sandboxGroupId}/snapshots", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListSandboxSnapshotsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          snapshot: __S(296, __c37, 0),
+          cursor: S.String,
+        }),
+      ).annotate({ identifier: "SandboxSnapshotWithCursor" });
+    case 2:
+      return S.Array(__S(921, __c115, 1));
+    case 3:
+      return S.suspend(() => __S(922, __c115, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListSandboxSnapshotsResponse",
+      });
+  }
+}
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11114,24 +13046,24 @@ function __c80(j: number): any {
       ).annotate({ identifier: "ListSecretFilesForBuildSourceRequest" });
   }
 }
-function __c81(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          secretFile: __S(1728, __c216, 0),
+          secretFile: __S(2048, __c256, 0),
           cursor: S.String,
         }),
       ).annotate({ identifier: "SecretFileWithCursor" });
     case 1:
-      return S.Array(__S(648, __c81, 0));
+      return S.Array(__S(936, __c117, 0));
     case 2:
-      return S.suspend(() => __S(649, __c81, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(937, __c117, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSecretFilesForBuildSourceResponse",
       });
   }
 }
-function __c82(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11143,22 +13075,22 @@ function __c82(j: number): any {
       ).annotate({ identifier: "ListSecretFilesForServiceRequest" });
   }
 }
-function __c83(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          type: S.optional(__S(1296, __c162, 0).pipe(T.Query())),
-          environmentId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          env: S.optional(__S(1296, __c162, 0).pipe(T.Query())),
-          region: S.optional(__S(1296, __c162, 0).pipe(T.Query())),
-          suspended: S.optional(__S(1296, __c162, 0).pipe(T.Query())),
+          name: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          type: S.optional(__S(1624, __c203, 0).pipe(T.Query())),
+          environmentId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          env: S.optional(__S(1624, __c203, 0).pipe(T.Query())),
+          region: S.optional(__S(1624, __c203, 0).pipe(T.Query())),
+          suspended: S.optional(__S(1624, __c203, 0).pipe(T.Query())),
           createdBefore: S.optional(S.String.pipe(T.Query())),
           createdAfter: S.optional(S.String.pipe(T.Query())),
           updatedBefore: S.optional(S.String.pipe(T.Query())),
           updatedAfter: S.optional(S.String.pipe(T.Query())),
-          ownerId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           includePreviews: S.optional(S.Boolean.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -11167,60 +13099,19 @@ function __c83(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          service: __S(1384, __c173, 0),
+          service: __S(1760, __c220, 0),
           cursor: S.String,
         }),
       ).annotate({ identifier: "ServiceWithCursor" });
     case 2:
-      return S.Array(__S(665, __c83, 1));
+      return S.Array(__S(953, __c119, 1));
     case 3:
-      return S.suspend(() => __S(666, __c83, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(954, __c119, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListServicesResponse",
       });
   }
 }
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          name: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/custom-domains", code: 200 })),
-      ).annotate({ identifier: "CreateCustomDomainRequest" });
-    case 1:
-      return S.Array(__S(681, __c85, 1));
-    case 2:
-      return S.suspend(() => __S(673, __c84, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "CreateCustomDomainResponse",
-      });
-  }
-}
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CustomDomainServer" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          domainType: S.String,
-          publicSuffix: S.String,
-          redirectForName: S.String,
-          verificationStatus: S.String,
-          createdAt: S.String,
-          server: S.optional(__S(680, __c85, 0)),
-        }),
-      ).annotate({ identifier: "CustomDomain" });
-  }
-}
-function __c86(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11237,51 +13128,51 @@ function __c86(j: number): any {
         }),
       ).annotate({ identifier: "DiskSnapshot" });
     case 2:
-      return S.Array(__S(689, __c86, 1));
+      return S.Array(__S(961, __c120, 1));
     case 3:
-      return S.suspend(() => __S(690, __c86, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(962, __c120, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSnapshotsResponse",
       });
   }
 }
-function __c87(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          taskSlug: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          rootTaskRunId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          ownerId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          workflowVersionId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          workflowId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          taskSlug: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          rootTaskRunId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          workflowVersionId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          workflowId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/task-runs", code: 200 })),
       ).annotate({ identifier: "ListTaskRunsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          taskRun: __S(1418, __c177, 2),
+          taskRun: __S(1794, __c224, 2),
           cursor: S.String,
         }),
       ).annotate({ identifier: "TaskRunWithCursor" });
     case 2:
-      return S.Array(__S(697, __c87, 1));
+      return S.Array(__S(969, __c121, 1));
     case 3:
-      return S.suspend(() => __S(698, __c87, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(970, __c121, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListTaskRunsResponse",
       });
   }
 }
-function __c88(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ownerId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          taskSlug: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          workflowVersionId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          workflowId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          taskSlug: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          workflowVersionId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          workflowId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/tasks", code: 200 })),
@@ -11289,19 +13180,19 @@ function __c88(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          task: __S(136, __c17, 0),
+          task: __S(2416, __c302, 0),
           cursor: S.String,
         }),
       ).annotate({ identifier: "TaskWithCursor" });
     case 2:
-      return S.Array(__S(705, __c88, 1));
+      return S.Array(__S(977, __c122, 1));
     case 3:
-      return S.suspend(() => __S(706, __c88, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(978, __c122, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListTasksResponse",
       });
   }
 }
-function __c89(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11328,52 +13219,93 @@ function __c89(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          webhookEvent: __S(713, __c89, 1),
+          webhookEvent: __S(985, __c123, 1),
           cursor: S.String,
         }),
       ).annotate({ identifier: "WebhookEventWithCursor" });
     case 3:
-      return S.Array(__S(714, __c89, 2));
+      return S.Array(__S(986, __c123, 2));
     case 4:
-      return S.suspend(() => __S(715, __c89, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(987, __c123, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListWebhookEventsResponse",
       });
   }
 }
-function __c90(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          ownerId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/webhooks", code: 200 })),
       ).annotate({ identifier: "ListWebhooksRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          webhook: __S(1432, __c179, 0),
+          webhook: __S(1808, __c226, 0),
           cursor: S.String,
         }),
       ).annotate({ identifier: "WebhookWithCursor" });
     case 2:
-      return S.Array(__S(721, __c90, 1));
+      return S.Array(__S(993, __c124, 1));
     case 3:
-      return S.suspend(() => __S(722, __c90, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(994, __c124, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListWebhooksResponse",
       });
   }
 }
-function __c91(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          ownerId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          workflowID: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          environmentId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          serviceId: S.String.pipe(T.Label()),
+          name: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/custom-domains", code: 200 })),
+      ).annotate({ identifier: "CreateCustomDomainRequest" });
+    case 1:
+      return S.Array(__S(1009, __c126, 1));
+    case 2:
+      return S.suspend(() => __S(1001, __c125, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "CreateCustomDomainResponse",
+      });
+  }
+}
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomDomainServer" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          domainType: S.String,
+          publicSuffix: S.String,
+          redirectForName: S.String,
+          verificationStatus: S.String,
+          createdAt: S.String,
+          server: S.optional(__S(1008, __c126, 0)),
+        }),
+      ).annotate({ identifier: "CustomDomain" });
+  }
+}
+function __c127(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          workflowID: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          environmentId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/workflows", code: 200 })),
@@ -11381,26 +13313,26 @@ function __c91(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          workflow: __S(1449, __c181, 1),
+          workflow: __S(1825, __c228, 1),
           cursor: S.String,
         }),
       ).annotate({ identifier: "WorkflowWithCursor" });
     case 2:
-      return S.Array(__S(729, __c91, 1));
+      return S.Array(__S(1017, __c127, 1));
     case 3:
-      return S.suspend(() => __S(730, __c91, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1018, __c127, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListWorkflowsResponse",
       });
   }
 }
-function __c92(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ownerId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          workflowID: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          workflowVersionId: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          ownerId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          workflowID: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          workflowVersionId: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/workflowversions", code: 200 })),
@@ -11408,19 +13340,19 @@ function __c92(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          workflowVersion: __S(200, __c25, 0),
+          workflowVersion: __S(416, __c52, 0),
           cursor: S.String,
         }),
       ).annotate({ identifier: "WorkflowVersionWithCursor" });
     case 2:
-      return S.Array(__S(737, __c92, 1));
+      return S.Array(__S(1025, __c128, 1));
     case 3:
-      return S.suspend(() => __S(738, __c92, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1026, __c128, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListWorkflowVersionsResponse",
       });
   }
 }
-function __c93(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11435,7 +13367,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "PatchOwnerNotificationSettingsRequest" });
   }
 }
-function __c94(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11450,12 +13382,12 @@ function __c94(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          headers: S.optional(__S(2040, __c255, 0)),
+          headers: S.optional(__S(2360, __c295, 0)),
         }),
       ).annotate({ identifier: "PatchRouteResponse" });
   }
 }
-function __c95(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11473,40 +13405,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "PatchServiceNotificationOverridesRequest" });
   }
 }
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.optional(S.String),
-          ownerId: S.String,
-          region: S.String,
-          environmentIds: S.optional(__S(1920, __c240, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/dedicated-ips", code: 200 })),
-      ).annotate({ identifier: "CreateDedicatedIpRequest" });
-  }
-}
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          description: S.String,
-          ownerId: S.String,
-          region: S.String,
-          environmentIds: __S(1920, __c240, 0),
-          ips: __S(1920, __c240, 0),
-          status: S.String,
-          createdAt: S.String,
-          updatedAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DedicatedIP" });
-  }
-}
-function __c98(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11518,7 +13417,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "PostJobRequest" });
   }
 }
-function __c99(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11531,7 +13430,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "PreviewServiceRequest" });
   }
 }
-function __c100(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11541,7 +13440,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "PurgeCacheRequest" });
   }
 }
-function __c101(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11552,23 +13451,23 @@ function __c101(j: number): any {
         }),
       ).annotate({ identifier: "RoutePut" });
     case 1:
-      return S.Array(__S(808, __c101, 0));
+      return S.Array(__S(1080, __c135, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           serviceId: S.String.pipe(T.Label()),
-          body: __S(809, __c101, 1).pipe(T.HttpBody()),
+          body: __S(1081, __c135, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PUT", uri: "/services/{serviceId}/routes", code: 200 })),
       ).annotate({ identifier: "PutRoutesRequest" });
     case 3:
-      return S.Array(__S(2040, __c255, 0));
+      return S.Array(__S(2360, __c295, 0));
     case 4:
-      return S.suspend(() => __S(811, __c101, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1083, __c135, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "PutRoutesResponse",
       });
   }
 }
-function __c102(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11584,7 +13483,40 @@ function __c102(j: number): any {
       ).annotate({ identifier: "RecoverPostgresRequest" });
   }
 }
-function __c103(j: number): any {
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.optional(S.String),
+          ownerId: S.String,
+          region: S.String,
+          environmentIds: S.optional(__S(2248, __c281, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/dedicated-ips", code: 200 })),
+      ).annotate({ identifier: "CreateDedicatedIpRequest" });
+  }
+}
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          description: S.String,
+          ownerId: S.String,
+          region: S.String,
+          environmentIds: __S(2248, __c281, 0),
+          ips: __S(2248, __c281, 0),
+          status: S.String,
+          createdAt: S.String,
+          updatedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DedicatedIP" });
+  }
+}
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11601,20 +13533,20 @@ function __c103(j: number): any {
       ).annotate({ identifier: "RefreshCustomDomainRequest" });
   }
 }
-function __c104(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           environmentId: S.String.pipe(T.Label()),
-          resourceIds: __S(1920, __c240, 0).pipe(T.Query()),
+          resourceIds: __S(2248, __c281, 0).pipe(T.Query()),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/environments/{environmentId}/resources", code: 200 }),
         ),
       ).annotate({ identifier: "RemoveResourcesFromEnvironmentRequest" });
   }
 }
-function __c105(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11625,7 +13557,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "RemoveWorkspaceMemberRequest" });
   }
 }
-function __c106(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11635,7 +13567,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "RestartPostgresRequest" });
   }
 }
-function __c107(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11645,22 +13577,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "RestartServiceRequest" });
   }
 }
-function __c108(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          buildId: S.optional(S.String),
-          clearCache: S.optional(S.String),
-          commitId: S.optional(S.String),
-          imageUrl: S.optional(S.String),
-          deployMode: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/deploys", code: 200 })),
-      ).annotate({ identifier: "CreateDeployRequest" });
-  }
-}
-function __c109(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11672,7 +13589,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "RestoreSnapshotRequest" });
   }
 }
-function __c110(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11682,7 +13599,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "ResumeKeyValueRequest" });
   }
 }
-function __c111(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11692,7 +13609,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "ResumePostgresRequest" });
   }
 }
-function __c112(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11702,7 +13619,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "ResumeServiceRequest" });
   }
 }
-function __c113(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11723,7 +13640,22 @@ function __c113(j: number): any {
       ).annotate({ identifier: "CronJobRun" });
   }
 }
-function __c114(j: number): any {
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String.pipe(T.Label()),
+          buildId: S.optional(S.String),
+          clearCache: S.optional(S.String),
+          commitId: S.optional(S.String),
+          imageUrl: S.optional(S.String),
+          deployMode: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/deploys", code: 200 })),
+      ).annotate({ identifier: "CreateDeployRequest" });
+  }
+}
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11734,17 +13666,29 @@ function __c114(j: number): any {
       ).annotate({ identifier: "ScaleServiceRequest" });
   }
 }
-function __c115(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          taskRunIds: __S(1920, __c240, 0).pipe(T.Query()),
+          flow: S.String,
+          input: S.Unknown,
+          idempotencyKey: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/flow-runs", code: 200 })),
+      ).annotate({ identifier: "StartFlowRunRequest" });
+  }
+}
+function __c152(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          taskRunIds: __S(2248, __c281, 0).pipe(T.Query()),
         }).pipe(T.Http({ method: "GET", uri: "/task-runs/events", code: 200 })),
       ).annotate({ identifier: "StreamTaskRunsEventsRequest" });
   }
 }
-function __c116(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11753,24 +13697,24 @@ function __c116(j: number): any {
           startTime: S.optional(S.String.pipe(T.Query())),
           endTime: S.optional(S.String.pipe(T.Query())),
           direction: S.optional(S.String.pipe(T.Query())),
-          resource: __S(1920, __c240, 0).pipe(T.Query()),
-          instance: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          host: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          statusCode: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          method: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          task: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          taskRun: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          sandbox: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          level: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          type: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          text: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
-          path: S.optional(__S(1920, __c240, 0).pipe(T.Query())),
+          resource: __S(2248, __c281, 0).pipe(T.Query()),
+          instance: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          host: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          statusCode: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          method: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          task: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          taskRun: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          sandbox: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          level: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          type: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          text: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
+          path: S.optional(__S(2248, __c281, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/logs/subscribe", code: 200 })),
       ).annotate({ identifier: "SubscribeLogsRequest" });
   }
 }
-function __c117(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11780,7 +13724,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "SuspendKeyValueRequest" });
   }
 }
-function __c118(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11790,67 +13734,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "SuspendPostgresRequest" });
   }
 }
-function __c119(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          ownerId: S.String,
-          envVars: __S(536, __c67, 0),
-          secretFiles: S.optional(__S(544, __c68, 0)),
-          serviceIds: S.optional(__S(1920, __c240, 0)),
-          environmentId: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/env-groups", code: 200 })),
-      ).annotate({ identifier: "CreateEnvGroupRequest" });
-  }
-}
-function __c120(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "EnvGroupLink" });
-    case 1:
-      return S.Array(__S(960, __c120, 0));
-  }
-}
-function __c121(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.String,
-          value: S.String,
-        }),
-      ).annotate({ identifier: "SchemaItemCase0" });
-  }
-}
-function __c122(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(968, __c121, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          ownerId: S.String,
-          createdAt: S.String,
-          updatedAt: S.String,
-          serviceLinks: __S(961, __c120, 1),
-          environmentId: S.optional(S.String),
-          envVars: __S(976, __c122, 0),
-          secretFiles: __S(544, __c68, 0),
-        }),
-      ).annotate({ identifier: "CreateEnvGroupResponse" });
-  }
-}
-function __c123(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11860,7 +13744,18 @@ function __c123(j: number): any {
       ).annotate({ identifier: "SuspendServiceRequest" });
   }
 }
-function __c124(j: number): any {
+function __c157(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          ownerId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/terminate", code: 200 })),
+      ).annotate({ identifier: "TerminateSandboxRequest" });
+  }
+}
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11872,7 +13767,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "TriggerBuildSourceBuildRequest" });
   }
 }
-function __c125(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11884,7 +13779,67 @@ function __c125(j: number): any {
       ).annotate({ identifier: "TriggerMaintenanceRequest" });
   }
 }
-function __c126(j: number): any {
+function __c160(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          ownerId: S.String,
+          envVars: __S(864, __c108, 0),
+          secretFiles: S.optional(__S(872, __c109, 0)),
+          serviceIds: S.optional(__S(2248, __c281, 0)),
+          environmentId: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/env-groups", code: 200 })),
+      ).annotate({ identifier: "CreateEnvGroupRequest" });
+  }
+}
+function __c161(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "EnvGroupLink" });
+    case 1:
+      return S.Array(__S(1288, __c161, 0));
+  }
+}
+function __c162(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          value: S.String,
+        }),
+      ).annotate({ identifier: "SchemaItemCase0" });
+  }
+}
+function __c163(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1296, __c162, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          ownerId: S.String,
+          createdAt: S.String,
+          updatedAt: S.String,
+          serviceLinks: __S(1289, __c161, 1),
+          environmentId: S.optional(S.String),
+          envVars: __S(1304, __c163, 0),
+          secretFiles: __S(872, __c109, 0),
+        }),
+      ).annotate({ identifier: "CreateEnvGroupResponse" });
+  }
+}
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11901,7 +13856,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "UnlinkEnvGroupFromBuildSourceRequest" });
   }
 }
-function __c127(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11918,7 +13873,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "UnlinkServiceFromEnvGroupRequest" });
   }
 }
-function __c128(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11927,12 +13882,14 @@ function __c128(j: number): any {
           name: S.optional(S.String),
           autoSync: S.optional(S.Boolean),
           path: S.optional(S.String),
+          branch: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/blueprints/{blueprintId}", code: 200 })),
       ).annotate({ identifier: "UpdateBlueprintRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
+          ownerId: S.String,
           name: S.String,
           status: S.String,
           autoSync: S.Boolean,
@@ -11944,15 +13901,15 @@ function __c128(j: number): any {
       ).annotate({ identifier: "UpdateBlueprintResponse" });
   }
 }
-function __c129(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          baseDir: S.optional(S.String),
           branch: S.optional(S.String),
           buildCommand: S.optional(S.String),
-          buildFilter: S.optional(__S(568, __c71, 0)),
+          buildFilter: S.optional(__S(896, __c112, 0)),
+          dockerContext: S.optional(S.String),
           dockerfilePath: S.optional(S.String),
           runtime: S.optional(S.String),
           registryCredentialId: S.optional(S.String),
@@ -11973,13 +13930,13 @@ function __c129(j: number): any {
         S.Struct({
           buildSourceId: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          git: S.optional(__S(1032, __c129, 0)),
-          image: S.optional(__S(1033, __c129, 1)),
+          git: S.optional(__S(1336, __c167, 0)),
+          image: S.optional(__S(1337, __c167, 1)),
         }).pipe(T.Http({ method: "PATCH", uri: "/build-sources/{buildSourceId}", code: 200 })),
       ).annotate({ identifier: "UpdateBuildSourceRequest" });
   }
 }
-function __c130(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11997,7 +13954,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "UpdateBuildSourceEnvVarRequest" });
   }
 }
-function __c131(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12005,12 +13962,12 @@ function __c131(j: number): any {
           dedicatedIpId: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          environmentIds: S.optional(__S(1920, __c240, 0)),
+          environmentIds: S.optional(__S(2248, __c281, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/dedicated-ips/{dedicatedIpId}", code: 200 })),
       ).annotate({ identifier: "UpdateDedicatedIpRequest" });
   }
 }
-function __c132(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12023,21 +13980,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "UpdateDiskRequest" });
   }
 }
-function __c133(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          projectId: S.String,
-          protectedStatus: S.optional(S.String),
-          networkIsolationEnabled: S.optional(S.Boolean),
-          ipAllowList: S.optional(__S(1929, __c241, 1)),
-        }).pipe(T.Http({ method: "POST", uri: "/environments", code: 200 })),
-      ).annotate({ identifier: "CreateEnvironmentRequest" });
-  }
-}
-function __c134(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12048,7 +13991,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "UpdateEnvGroupRequest" });
   }
 }
-function __c135(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12066,7 +14009,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "UpdateEnvGroupEnvVarRequest" });
   }
 }
-function __c136(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12084,7 +14027,21 @@ function __c136(j: number): any {
       ).annotate({ identifier: "UpdateEnvGroupSecretFileRequest" });
   }
 }
-function __c137(j: number): any {
+function __c174(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          projectId: S.String,
+          protectedStatus: S.optional(S.String),
+          networkIsolationEnabled: S.optional(S.Boolean),
+          ipAllowList: S.optional(__S(2257, __c282, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/environments", code: 200 })),
+      ).annotate({ identifier: "CreateEnvironmentRequest" });
+  }
+}
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12093,12 +14050,12 @@ function __c137(j: number): any {
           name: S.optional(S.String),
           networkIsolationEnabled: S.optional(S.Boolean),
           protectedStatus: S.optional(S.String),
-          ipAllowList: S.optional(__S(1929, __c241, 1)),
+          ipAllowList: S.optional(__S(2257, __c282, 1)),
         }).pipe(T.Http({ method: "PATCH", uri: "/environments/{environmentId}", code: 200 })),
       ).annotate({ identifier: "UpdateEnvironmentRequest" });
   }
 }
-function __c138(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12112,20 +14069,20 @@ function __c138(j: number): any {
       ).annotate({ identifier: "UpdateEnvVarRequest" });
   }
 }
-function __c139(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           buildSourceId: S.String.pipe(T.Label()),
-          body: __S(536, __c67, 0).pipe(T.HttpBody()),
+          body: __S(864, __c108, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({ method: "PUT", uri: "/build-sources/{buildSourceId}/env-vars", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateEnvVarsForBuildSourceRequest" });
   }
 }
-function __c140(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -12133,12 +14090,12 @@ function __c140(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serviceId: S.String.pipe(T.Label()),
-          body: __S(1120, __c140, 0).pipe(T.HttpBody()),
+          body: __S(1424, __c178, 0).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PUT", uri: "/services/{serviceId}/env-vars", code: 200 })),
       ).annotate({ identifier: "UpdateEnvVarsForServiceRequest" });
   }
 }
-function __c141(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12149,23 +14106,23 @@ function __c141(j: number): any {
         }),
       ).annotate({ identifier: "HeaderInput" });
     case 1:
-      return S.Array(__S(1128, __c141, 0));
+      return S.Array(__S(1432, __c179, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           serviceId: S.String.pipe(T.Label()),
-          body: __S(1129, __c141, 1).pipe(T.HttpBody()),
+          body: __S(1433, __c179, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PUT", uri: "/services/{serviceId}/headers", code: 200 })),
       ).annotate({ identifier: "UpdateHeadersRequest" });
     case 3:
-      return S.Array(__S(1632, __c204, 0));
+      return S.Array(__S(1952, __c244, 0));
     case 4:
-      return S.suspend(() => __S(1131, __c141, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1435, __c179, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "UpdateHeadersResponse",
       });
   }
 }
-function __c142(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12175,12 +14132,12 @@ function __c142(j: number): any {
           plan: S.optional(S.String),
           maxmemoryPolicy: S.optional(S.String),
           persistenceMode: S.optional(S.String),
-          ipAllowList: S.optional(__S(1929, __c241, 1)),
+          ipAllowList: S.optional(__S(2257, __c282, 1)),
         }).pipe(T.Http({ method: "PATCH", uri: "/key-value/{redisId}", code: 200 })),
       ).annotate({ identifier: "UpdateKeyValueRequest" });
   }
 }
-function __c143(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12191,86 +14148,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "UpdateMaintenanceRequest" });
   }
 }
-function __c144(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          ownerId: S.String,
-          plan: S.String,
-          region: S.optional(S.String),
-          environmentId: S.optional(S.String),
-          maxmemoryPolicy: S.optional(S.String),
-          persistenceMode: S.optional(S.String),
-          ipAllowList: S.optional(__S(1929, __c241, 1)),
-        }).pipe(T.Http({ method: "POST", uri: "/key-value", code: 200 })),
-      ).annotate({ identifier: "CreateKeyValueRequest" });
-  }
-}
-function __c145(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          email: S.String,
-          ipAllowList: S.optional(__S(1929, __c241, 1)),
-          twoFactorAuthEnabled: S.optional(S.Boolean),
-          type: S.String,
-        }),
-      ).annotate({ identifier: "Owner" });
-  }
-}
-function __c146(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          scheduledAt: S.String,
-          pendingMaintenanceBy: S.optional(S.String),
-          state: S.String,
-        }),
-      ).annotate({ identifier: "Maintenance" });
-  }
-}
-function __c147(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          maxmemoryPolicy: S.optional(S.String),
-          persistenceMode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "KeyValueOptions" });
-  }
-}
-function __c148(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          createdAt: S.String,
-          updatedAt: S.String,
-          status: S.String,
-          region: S.String,
-          plan: S.String,
-          name: S.String,
-          owner: __S(1160, __c145, 0),
-          options: __S(1176, __c147, 0),
-          ipAllowList: __S(1929, __c241, 1),
-          environmentId: S.optional(S.String),
-          version: S.String,
-          maintenance: S.optional(__S(1168, __c146, 0)),
-        }),
-      ).annotate({ identifier: "KeyValueDetail" });
-  }
-}
-function __c149(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12283,7 +14161,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "UpdateOwnerLogStreamRequest" });
   }
 }
-function __c150(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12297,13 +14175,13 @@ function __c150(j: number): any {
           enableHighAvailability: S.optional(S.Boolean),
           datadogAPIKey: S.optional(S.String),
           datadogSite: S.optional(S.String),
-          ipAllowList: S.optional(__S(1929, __c241, 1)),
-          readReplicas: S.optional(__S(1289, __c161, 1)),
+          ipAllowList: S.optional(__S(2257, __c282, 1)),
+          readReplicas: S.optional(__S(1617, __c202, 1)),
         }).pipe(T.Http({ method: "PATCH", uri: "/postgres/{postgresId}", code: 200 })),
       ).annotate({ identifier: "UpdatePostgresRequest" });
   }
 }
-function __c151(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12314,7 +14192,86 @@ function __c151(j: number): any {
       ).annotate({ identifier: "UpdateProjectRequest" });
   }
 }
-function __c152(j: number): any {
+function __c185(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          ownerId: S.String,
+          plan: S.String,
+          region: S.optional(S.String),
+          environmentId: S.optional(S.String),
+          maxmemoryPolicy: S.optional(S.String),
+          persistenceMode: S.optional(S.String),
+          ipAllowList: S.optional(__S(2257, __c282, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/key-value", code: 200 })),
+      ).annotate({ identifier: "CreateKeyValueRequest" });
+  }
+}
+function __c186(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxmemoryPolicy: S.optional(S.String),
+          persistenceMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KeyValueOptions" });
+  }
+}
+function __c187(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          createdAt: S.String,
+          updatedAt: S.String,
+          status: S.String,
+          region: S.String,
+          plan: S.String,
+          name: S.String,
+          owner: __S(1512, __c189, 0),
+          options: __S(1488, __c186, 0),
+          ipAllowList: __S(2257, __c282, 1),
+          environmentId: S.optional(S.String),
+          version: S.String,
+          maintenance: S.optional(__S(1504, __c188, 0)),
+        }),
+      ).annotate({ identifier: "KeyValueDetail" });
+  }
+}
+function __c188(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          scheduledAt: S.String,
+          pendingMaintenanceBy: S.optional(S.String),
+          state: S.String,
+        }),
+      ).annotate({ identifier: "Maintenance" });
+  }
+}
+function __c189(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          email: S.String,
+          ipAllowList: S.optional(__S(2257, __c282, 1)),
+          twoFactorAuthEnabled: S.optional(S.Boolean),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Owner" });
+  }
+}
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12334,7 +14291,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "UpdateRegistryCredentialRequest" });
   }
 }
-function __c153(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12347,52 +14304,62 @@ function __c153(j: number): any {
       ).annotate({ identifier: "UpdateResourceLogStreamRequest" });
   }
 }
-function __c154(j: number): any {
+function __c192(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxGroupId: S.String.pipe(T.Label()),
+          concurrencyLimit: S.Number,
+        }).pipe(T.Http({ method: "PATCH", uri: "/sandbox-groups/{sandboxGroupId}", code: 200 })),
+      ).annotate({ identifier: "UpdateSandboxGroupRequest" });
+  }
+}
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           buildSourceId: S.String.pipe(T.Label()),
-          body: __S(544, __c68, 0).pipe(T.HttpBody()),
+          body: __S(872, __c109, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({ method: "PUT", uri: "/build-sources/{buildSourceId}/secret-files", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateSecretFilesForBuildSourceRequest" });
   }
 }
-function __c155(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceId: S.String.pipe(T.Label()),
-          body: __S(544, __c68, 0).pipe(T.HttpBody()),
+          body: __S(872, __c109, 0).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PUT", uri: "/services/{serviceId}/secret-files", code: 200 })),
       ).annotate({ identifier: "UpdateSecretFilesForServiceRequest" });
   }
 }
-function __c156(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceId: S.String.pipe(T.Label()),
           buildSourceId: S.optional(S.String),
-          buildId: S.optional(S.String),
           autoDeploy: S.optional(S.String),
           autoDeployTrigger: S.optional(S.String),
           repo: S.optional(S.String),
           branch: S.optional(S.String),
-          image: S.optional(__S(1400, __c175, 0)),
+          image: S.optional(__S(1776, __c222, 0)),
           name: S.optional(S.String),
-          buildFilter: S.optional(__S(568, __c71, 0)),
+          buildFilter: S.optional(__S(896, __c112, 0)),
           rootDir: S.optional(S.String),
           serviceDetails: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/services/{serviceId}", code: 200 })),
       ).annotate({ identifier: "UpdateServiceRequest" });
   }
 }
-function __c157(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12401,12 +14368,12 @@ function __c157(j: number): any {
           name: S.optional(S.String),
           url: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          eventFilter: S.optional(__S(1296, __c162, 0)),
+          eventFilter: S.optional(__S(1624, __c203, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/webhooks/{webhookId}", code: 200 })),
       ).annotate({ identifier: "UpdateWebhookRequest" });
   }
 }
-function __c158(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12423,14 +14390,39 @@ function __c158(j: number): any {
         S.Struct({
           workflowId: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          buildConfig: S.optional(__S(1264, __c158, 0)),
+          buildConfig: S.optional(__S(1576, __c197, 0)),
           runCommand: S.optional(S.String),
           autoDeployTrigger: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/workflows/{workflowId}", code: 200 })),
       ).annotate({ identifier: "UpdateWorkflowRequest" });
   }
 }
-function __c159(j: number): any {
+function __c198(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.String.pipe(T.Label()),
+          userId: S.String.pipe(T.Label()),
+          role: S.String,
+        }).pipe(T.Http({ method: "PATCH", uri: "/owners/{ownerId}/members/{userId}", code: 200 })),
+      ).annotate({ identifier: "UpdateWorkspaceMemberRequest" });
+  }
+}
+function __c199(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.String.pipe(T.Label()),
+          provider: S.optional(S.String),
+          url: S.optional(S.String),
+          token: S.optional(S.String),
+        }).pipe(T.Http({ method: "PUT", uri: "/metrics-stream/{ownerId}", code: 200 })),
+      ).annotate({ identifier: "UpsertOwnerMetricsStreamRequest" });
+  }
+}
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12448,20 +14440,20 @@ function __c159(j: number): any {
           enableDiskAutoscaling: S.optional(S.Boolean),
           connectionPool: S.optional(S.String),
           region: S.optional(S.String),
-          ipAllowList: S.optional(__S(1929, __c241, 1)),
-          readReplicas: S.optional(__S(1289, __c161, 1)),
+          ipAllowList: S.optional(__S(2257, __c282, 1)),
+          readReplicas: S.optional(__S(1617, __c202, 1)),
           version: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/postgres", code: 200 })),
       ).annotate({ identifier: "CreatePostgresRequest" });
   }
 }
-function __c160(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          ipAllowList: __S(1929, __c241, 1),
+          ipAllowList: __S(2257, __c282, 1),
           createdAt: S.String,
           updatedAt: S.String,
           expiresAt: S.optional(S.String),
@@ -12470,26 +14462,26 @@ function __c160(j: number): any {
           databaseUser: S.String,
           environmentId: S.optional(S.String),
           highAvailabilityEnabled: S.Boolean,
-          maintenance: S.optional(__S(1168, __c146, 0)),
+          maintenance: S.optional(__S(1504, __c188, 0)),
           name: S.String,
-          owner: __S(1160, __c145, 0),
+          owner: __S(1512, __c189, 0),
           plan: S.String,
           diskSizeGB: S.optional(S.Number),
           primaryPostgresID: S.optional(S.String),
           region: S.String,
-          readReplicas: __S(560, __c70, 0),
+          readReplicas: __S(888, __c111, 0),
           role: S.String,
           status: S.String,
           version: S.String,
           suspended: S.String,
-          suspenders: __S(1296, __c162, 0),
+          suspenders: __S(1624, __c203, 0),
           diskAutoscalingEnabled: S.Boolean,
           connectionPool: S.String,
         }),
       ).annotate({ identifier: "PostgresDetail" });
   }
 }
-function __c161(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12498,41 +14490,16 @@ function __c161(j: number): any {
         }),
       ).annotate({ identifier: "ReadReplicaInput" });
     case 1:
-      return S.Array(__S(1288, __c161, 0));
+      return S.Array(__S(1616, __c202, 0));
   }
 }
-function __c162(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c163(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ownerId: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
-          role: S.String,
-        }).pipe(T.Http({ method: "PATCH", uri: "/owners/{ownerId}/members/{userId}", code: 200 })),
-      ).annotate({ identifier: "UpdateWorkspaceMemberRequest" });
-  }
-}
-function __c164(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ownerId: S.String.pipe(T.Label()),
-          provider: S.optional(S.String),
-          url: S.optional(S.String),
-          token: S.optional(S.String),
-        }).pipe(T.Http({ method: "PUT", uri: "/metrics-stream/{ownerId}", code: 200 })),
-      ).annotate({ identifier: "UpsertOwnerMetricsStreamRequest" });
-  }
-}
-function __c165(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12558,15 +14525,15 @@ function __c165(j: number): any {
         }),
       ).annotate({ identifier: "ValidateBlueprintResponseErrorsItem" });
     case 2:
-      return S.Array(__S(1321, __c165, 1));
+      return S.Array(__S(1633, __c204, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          services: S.optional(__S(1920, __c240, 0)),
-          databases: S.optional(__S(1920, __c240, 0)),
-          keyValue: S.optional(__S(1920, __c240, 0)),
-          envGroups: S.optional(__S(1920, __c240, 0)),
-          workflows: S.optional(__S(1920, __c240, 0)),
+          services: S.optional(__S(2248, __c281, 0)),
+          databases: S.optional(__S(2248, __c281, 0)),
+          keyValue: S.optional(__S(2248, __c281, 0)),
+          envGroups: S.optional(__S(2248, __c281, 0)),
+          workflows: S.optional(__S(2248, __c281, 0)),
           totalActions: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ValidateBlueprintResponsePlan" });
@@ -12574,13 +14541,13 @@ function __c165(j: number): any {
       return S.suspend(() =>
         S.Struct({
           valid: S.Boolean,
-          errors: S.optional(__S(1322, __c165, 2)),
-          plan: S.optional(__S(1323, __c165, 3)),
+          errors: S.optional(__S(1634, __c204, 2)),
+          plan: S.optional(__S(1635, __c204, 3)),
         }),
       ).annotate({ identifier: "ValidateBlueprintResponse" });
   }
 }
-function __c166(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12590,7 +14557,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "CreatePostgresExportRequest" });
   }
 }
-function __c167(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12601,7 +14568,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "CreatePostgresUserRequest" });
   }
 }
-function __c168(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12609,22 +14576,22 @@ function __c168(j: number): any {
           name: S.String,
           protectedStatus: S.optional(S.String),
           networkIsolationEnabled: S.optional(S.Boolean),
-          ipAllowList: S.optional(__S(1929, __c241, 1)),
+          ipAllowList: S.optional(__S(2257, __c282, 1)),
         }),
       ).annotate({ identifier: "ProjectPOSTEnvironmentInput" });
     case 1:
-      return S.Array(__S(1344, __c168, 0));
+      return S.Array(__S(1656, __c207, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           ownerId: S.String,
-          environments: __S(1345, __c168, 1),
+          environments: __S(1657, __c207, 1),
         }).pipe(T.Http({ method: "POST", uri: "/projects", code: 200 })),
       ).annotate({ identifier: "CreateProjectRequest" });
   }
 }
-function __c169(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12633,13 +14600,13 @@ function __c169(j: number): any {
           createdAt: S.String,
           updatedAt: S.String,
           name: S.String,
-          owner: __S(1160, __c145, 0),
-          environmentIds: __S(1920, __c240, 0),
+          owner: __S(1512, __c189, 0),
+          environmentIds: __S(2248, __c281, 0),
         }),
       ).annotate({ identifier: "Project" });
   }
 }
-function __c170(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12653,7 +14620,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "CreateRegistryCredentialRequest" });
   }
 }
-function __c171(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12667,7 +14634,188 @@ function __c171(j: number): any {
       ).annotate({ identifier: "RegistryCredential" });
   }
 }
-function __c172(j: number): any {
+function __c211(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          default: S.optional(S.String),
+          rules: S.optional(__S(1697, __c212, 1)),
+        }),
+      ).annotate({ identifier: "CreateSandboxRequestNetworkPolicy" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.String,
+          sandboxGroupId: S.optional(S.String),
+          name: S.optional(S.String),
+          networkPolicy: S.optional(__S(1688, __c211, 0)),
+          plan: S.optional(S.Unknown),
+          timeoutSeconds: S.optional(S.Number),
+          idleTimeoutSeconds: S.optional(S.Number),
+          env: S.optional(__S(1704, __c213, 0)),
+          snapshotId: S.optional(S.String),
+          snapshotName: S.optional(S.String),
+          buildId: S.optional(S.String),
+          buildName: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/sandboxes", code: 200 })),
+      ).annotate({ identifier: "CreateSandboxRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.optional(S.NullOr(S.String)),
+          sandboxGroupId: S.optional(S.String),
+          status: S.String,
+          plan: S.Unknown,
+          networkPolicy: __S(1698, __c212, 2),
+          region: S.String,
+          timeoutSeconds: S.Number,
+          idleTimeoutSeconds: S.Number,
+          createdAt: S.String,
+          terminatedAt: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CreateSandboxResponse" });
+  }
+}
+function __c212(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String,
+          protocol: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateSandboxRequestNetworkPolicyRulesItem" });
+    case 1:
+      return S.Array(__S(1696, __c212, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          default: S.optional(S.String),
+          rules: S.optional(__S(1697, __c212, 1)),
+        }),
+      ).annotate({ identifier: "CreateSandboxResponseNetworkPolicy" });
+  }
+}
+function __c213(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c214(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.String,
+          password: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "CreateSandboxBuildRequestRegistryCredential" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxGroupId: S.String.pipe(T.Label()),
+          name: S.String,
+          sourceImage: S.String,
+          registryCredential: S.optional(__S(1712, __c214, 0)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/sandbox-groups/{sandboxGroupId}/builds", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateSandboxBuildRequest" });
+  }
+}
+function __c215(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repository: S.String,
+          image: S.String,
+          reference: S.String,
+        }),
+      ).annotate({ identifier: "CreateSandboxBuildResponseSource" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          sandboxGroupId: S.String,
+          name: S.String,
+          source: __S(1720, __c215, 0),
+          sourceDigest: S.String,
+          status: S.String,
+          failureReason: S.optional(S.NullOr(S.String)),
+          createdAt: S.String,
+          finishedAt: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CreateSandboxBuildResponse" });
+  }
+}
+function __c216(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.String,
+          name: S.String,
+          region: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/sandbox-groups", code: 200 })),
+      ).annotate({ identifier: "CreateSandboxGroupRequest" });
+  }
+}
+function __c217(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          ownerId: S.String,
+          name: S.String,
+          region: S.String,
+          isDefault: S.Boolean,
+          environmentId: S.optional(S.NullOr(S.String)),
+          concurrencyLimit: S.Number,
+          createdAt: S.String,
+          updatedAt: S.String,
+        }),
+      ).annotate({ identifier: "CreateSandboxGroupResponse" });
+  }
+}
+function __c218(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          ownerId: S.optional(S.String.pipe(T.Query())),
+          kind: S.optional(S.String),
+          name: S.optional(S.String),
+          expiresAt: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/snapshots", code: 200 })),
+      ).annotate({ identifier: "CreateSandboxSnapshotRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          sandboxGroupId: S.String,
+          sourceSandboxId: S.String,
+          name: S.optional(S.NullOr(S.String)),
+          kind: S.String,
+          status: S.String,
+          plan: S.Unknown,
+          requestedAt: S.String,
+          capturedAt: S.optional(S.NullOr(S.String)),
+          expiresAt: S.String,
+          sizeBytes: S.optional(S.NullOr(S.Number)),
+          error: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CreateSandboxSnapshotResponse" });
+  }
+}
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12679,18 +14827,18 @@ function __c172(j: number): any {
           autoDeploy: S.optional(S.String),
           autoDeployTrigger: S.optional(S.String),
           branch: S.optional(S.String),
-          image: S.optional(__S(1400, __c175, 0)),
-          buildFilter: S.optional(__S(568, __c71, 0)),
+          image: S.optional(__S(1776, __c222, 0)),
+          buildFilter: S.optional(__S(896, __c112, 0)),
           rootDir: S.optional(S.String),
-          envVars: S.optional(__S(536, __c67, 0)),
-          secretFiles: S.optional(__S(544, __c68, 0)),
+          envVars: S.optional(__S(864, __c108, 0)),
+          secretFiles: S.optional(__S(872, __c109, 0)),
           environmentId: S.optional(S.String),
           serviceDetails: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/services", code: 200 })),
       ).annotate({ identifier: "CreateServiceRequest" });
   }
 }
-function __c173(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12700,7 +14848,7 @@ function __c173(j: number): any {
           autoDeploy: S.String,
           autoDeployTrigger: S.optional(S.String),
           branch: S.optional(S.String),
-          buildFilter: S.optional(__S(568, __c71, 0)),
+          buildFilter: S.optional(__S(896, __c112, 0)),
           createdAt: S.String,
           dashboardUrl: S.String,
           environmentId: S.optional(S.String),
@@ -12708,12 +14856,12 @@ function __c173(j: number): any {
           name: S.String,
           notifyOnFail: S.String,
           ownerId: S.String,
-          registryCredential: S.optional(__S(552, __c69, 0)),
+          registryCredential: S.optional(__S(880, __c110, 0)),
           repo: S.optional(S.String),
           rootDir: S.String,
           slug: S.String,
           suspended: S.String,
-          suspenders: __S(1296, __c162, 0),
+          suspenders: __S(1624, __c203, 0),
           type: S.String,
           updatedAt: S.String,
           serviceDetails: S.Unknown,
@@ -12721,18 +14869,18 @@ function __c173(j: number): any {
       ).annotate({ identifier: "Service" });
   }
 }
-function __c174(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          service: S.optional(__S(1384, __c173, 0)),
+          service: S.optional(__S(1760, __c220, 0)),
           deployId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceAndDeploy" });
   }
 }
-function __c175(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12744,7 +14892,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "Image" });
   }
 }
-function __c176(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12756,7 +14904,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "CreateTaskRequest" });
   }
 }
-function __c177(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12770,7 +14918,7 @@ function __c177(j: number): any {
         }),
       ).annotate({ identifier: "CreateTaskResponseAttemptsItem" });
     case 1:
-      return S.Array(__S(1416, __c177, 0));
+      return S.Array(__S(1792, __c224, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -12783,12 +14931,12 @@ function __c177(j: number): any {
           parentTaskAttempt: S.optional(S.Number),
           rootTaskRunId: S.String,
           retries: S.Number,
-          attempts: __S(1417, __c177, 1),
+          attempts: __S(1793, __c224, 1),
         }),
       ).annotate({ identifier: "CreateTaskResponse" });
   }
 }
-function __c178(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12797,12 +14945,12 @@ function __c178(j: number): any {
           url: S.String,
           name: S.String,
           enabled: S.Boolean,
-          eventFilter: __S(1296, __c162, 0),
+          eventFilter: __S(1624, __c203, 0),
         }).pipe(T.Http({ method: "POST", uri: "/webhooks", code: 200 })),
       ).annotate({ identifier: "CreateWebhookRequest" });
   }
 }
-function __c179(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12812,28 +14960,28 @@ function __c179(j: number): any {
           name: S.String,
           secret: S.String.pipe(T.SensitiveValue({})),
           enabled: S.Boolean,
-          eventFilter: __S(1296, __c162, 0),
+          eventFilter: __S(1624, __c203, 0),
         }),
       ).annotate({ identifier: "CreateWebhookResponse" });
   }
 }
-function __c180(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           ownerId: S.String,
-          buildConfig: __S(1448, __c181, 0),
+          buildConfig: __S(1824, __c228, 0),
           runCommand: S.String,
           region: S.String,
           autoDeployTrigger: S.optional(S.String),
-          envVars: S.optional(__S(536, __c67, 0)),
+          envVars: S.optional(__S(864, __c108, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/workflows", code: 200 })),
       ).annotate({ identifier: "CreateWorkflowRequest" });
   }
 }
-function __c181(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12853,17 +15001,18 @@ function __c181(j: number): any {
           ownerId: S.String,
           createdAt: S.String,
           updatedAt: S.String,
-          buildConfig: __S(1448, __c181, 0),
+          buildConfig: __S(1824, __c228, 0),
           runCommand: S.String,
           region: S.String,
           environmentId: S.optional(S.String),
           slug: S.optional(S.String),
           autoDeployTrigger: S.optional(S.String),
+          defaultVersionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateWorkflowResponse" });
   }
 }
-function __c182(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12874,7 +15023,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "CreateWorkflowVersionRequest" });
   }
 }
-function __c183(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12884,7 +15033,36 @@ function __c183(j: number): any {
       ).annotate({ identifier: "DeleteAutoscalingConfigRequest" });
   }
 }
-function __c184(j: number): any {
+function __c231(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          sizeGB: S.Number,
+          mountPath: S.String,
+          serviceId: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/disks", code: 200 })),
+      ).annotate({ identifier: "AddDiskRequest" });
+  }
+}
+function __c232(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          sizeGB: S.Number,
+          mountPath: S.String,
+          serviceId: S.optional(S.String),
+          createdAt: S.String,
+          updatedAt: S.String,
+        }),
+      ).annotate({ identifier: "AddDiskResponse" });
+  }
+}
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12894,7 +15072,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "DeleteBuildSourceRequest" });
   }
 }
-function __c185(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12911,7 +15089,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "DeleteBuildSourceEnvVarRequest" });
   }
 }
-function __c186(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12928,7 +15106,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "DeleteBuildSourceSecretFileRequest" });
   }
 }
-function __c187(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12945,7 +15123,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "DeleteCustomDomainRequest" });
   }
 }
-function __c188(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12955,7 +15133,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "DeleteDedicatedIpRequest" });
   }
 }
-function __c189(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12965,7 +15143,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "DeleteDiskRequest" });
   }
 }
-function __c190(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12975,36 +15153,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "DeleteEnvGroupRequest" });
   }
 }
-function __c191(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          sizeGB: S.Number,
-          mountPath: S.String,
-          serviceId: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/disks", code: 200 })),
-      ).annotate({ identifier: "AddDiskRequest" });
-  }
-}
-function __c192(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          sizeGB: S.Number,
-          mountPath: S.String,
-          serviceId: S.optional(S.String),
-          createdAt: S.String,
-          updatedAt: S.String,
-        }),
-      ).annotate({ identifier: "AddDiskResponse" });
-  }
-}
-function __c193(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13021,7 +15170,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "DeleteEnvGroupEnvVarRequest" });
   }
 }
-function __c194(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13038,7 +15187,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "DeleteEnvGroupSecretFileRequest" });
   }
 }
-function __c195(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13048,7 +15197,39 @@ function __c195(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentRequest" });
   }
 }
-function __c196(j: number): any {
+function __c243(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String.pipe(T.Label()),
+          path: S.String,
+          name: S.String,
+          value: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/headers", code: 200 })),
+      ).annotate({ identifier: "AddHeadersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          headers: S.optional(__S(1952, __c244, 0)),
+        }),
+      ).annotate({ identifier: "AddHeadersResponse" });
+  }
+}
+function __c244(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          path: S.String,
+          name: S.String,
+          value: S.String,
+        }),
+      ).annotate({ identifier: "Header" });
+  }
+}
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13065,7 +15246,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "DeleteEnvVarRequest" });
   }
 }
-function __c197(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13078,7 +15259,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "DeleteHeaderRequest" });
   }
 }
-function __c198(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13088,7 +15269,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "DeleteKeyValueRequest" });
   }
 }
-function __c199(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13098,7 +15279,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "DeleteOwnerLogStreamRequest" });
   }
 }
-function __c200(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13108,7 +15289,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "DeleteOwnerMetricsStreamRequest" });
   }
 }
-function __c201(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13118,7 +15299,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "DeletePostgresRequest" });
   }
 }
-function __c202(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13135,39 +15316,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "DeletePostgresUserRequest" });
   }
 }
-function __c203(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          path: S.String,
-          name: S.String,
-          value: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/headers", code: 200 })),
-      ).annotate({ identifier: "AddHeadersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          headers: S.optional(__S(1632, __c204, 0)),
-        }),
-      ).annotate({ identifier: "AddHeadersResponse" });
-  }
-}
-function __c204(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          path: S.String,
-          name: S.String,
-          value: S.String,
-        }),
-      ).annotate({ identifier: "Header" });
-  }
-}
-function __c205(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13177,7 +15326,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c206(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13193,7 +15342,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "DeleteRegistryCredentialRequest" });
   }
 }
-function __c207(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13205,88 +15354,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "DeleteResourceLogStreamRequest" });
   }
 }
-function __c208(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          routeId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/services/{serviceId}/routes/{routeId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteRouteRequest" });
-  }
-}
-function __c209(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          envVarKey: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/services/{serviceId}/secret-files/{envVarKey}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteSecretFileRequest" });
-  }
-}
-function __c210(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/services/{serviceId}", code: 200 })),
-      ).annotate({ identifier: "DeleteServiceRequest" });
-  }
-}
-function __c211(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          webhookId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/webhooks/{webhookId}", code: 200 })),
-      ).annotate({ identifier: "DeleteWebhookRequest" });
-  }
-}
-function __c212(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          workflowId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/workflows/{workflowId}", code: 200 })),
-      ).annotate({ identifier: "DeleteWorkflowRequest" });
-  }
-}
-function __c213(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          deployId: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/rollback", code: 200 })),
-      ).annotate({ identifier: "DeployRollbackRequest" });
-  }
-}
-function __c214(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          blueprintId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/blueprints/{blueprintId}", code: 200 })),
-      ).annotate({ identifier: "DisconnectBlueprintRequest" });
-  }
-}
-function __c215(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13304,7 +15372,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "AddOrUpdateBuildSourceSecretFileRequest" });
   }
 }
-function __c216(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13315,7 +15383,106 @@ function __c216(j: number): any {
       ).annotate({ identifier: "SecretFile" });
   }
 }
-function __c217(j: number): any {
+function __c257(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String.pipe(T.Label()),
+          routeId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/services/{serviceId}/routes/{routeId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "DeleteRouteRequest" });
+  }
+}
+function __c258(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxGroupId: S.String.pipe(T.Label()),
+          snapshotId: S.String.pipe(T.Label()),
+          ownerId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/sandbox-groups/{sandboxGroupId}/snapshots/{snapshotId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteSandboxSnapshotRequest" });
+  }
+}
+function __c259(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String.pipe(T.Label()),
+          envVarKey: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/services/{serviceId}/secret-files/{envVarKey}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteSecretFileRequest" });
+  }
+}
+function __c260(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/services/{serviceId}", code: 200 })),
+      ).annotate({ identifier: "DeleteServiceRequest" });
+  }
+}
+function __c261(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          webhookId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/webhooks/{webhookId}", code: 200 })),
+      ).annotate({ identifier: "DeleteWebhookRequest" });
+  }
+}
+function __c262(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          workflowId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/workflows/{workflowId}", code: 200 })),
+      ).annotate({ identifier: "DeleteWorkflowRequest" });
+  }
+}
+function __c263(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String.pipe(T.Label()),
+          deployId: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/rollback", code: 200 })),
+      ).annotate({ identifier: "DeployRollbackRequest" });
+  }
+}
+function __c264(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          blueprintId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/blueprints/{blueprintId}", code: 200 })),
+      ).annotate({ identifier: "DisconnectBlueprintRequest" });
+  }
+}
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13325,7 +15492,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "FailoverPostgresRequest" });
   }
 }
-function __c218(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13338,7 +15505,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "GetActiveConnectionsRequest" });
   }
 }
-function __c219(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13348,7 +15515,7 @@ function __c219(j: number): any {
         }),
       ).annotate({ identifier: "GetActiveConnectionsResponseBodyItemLabelsItem" });
     case 1:
-      return S.Array(__S(1752, __c219, 0));
+      return S.Array(__S(2136, __c267, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -13357,24 +15524,42 @@ function __c219(j: number): any {
         }),
       ).annotate({ identifier: "GetActiveConnectionsResponseBodyItemValuesItem" });
     case 3:
-      return S.Array(__S(1754, __c219, 2));
+      return S.Array(__S(2138, __c267, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          labels: __S(1753, __c219, 1),
-          values: __S(1755, __c219, 3),
+          labels: __S(2137, __c267, 1),
+          values: __S(2139, __c267, 3),
           unit: S.String,
         }),
       ).annotate({ identifier: "GetActiveConnectionsResponseBodyItem" });
     case 5:
-      return S.Array(__S(1756, __c219, 4));
+      return S.Array(__S(2140, __c267, 4));
     case 6:
-      return S.suspend(() => __S(1757, __c219, 5).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2141, __c267, 5).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetActiveConnectionsResponse",
       });
   }
 }
-function __c220(j: number): any {
+function __c268(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String.pipe(T.Label()),
+          envVarKey: S.String.pipe(T.Label()),
+          content: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/services/{serviceId}/secret-files/{envVarKey}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AddOrUpdateSecretFileRequest" });
+  }
+}
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13387,7 +15572,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "GetBandwidthRequest" });
   }
 }
-function __c221(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13413,25 +15598,25 @@ function __c221(j: number): any {
         }),
       ).annotate({ identifier: "GetBandwidthSourcesResponseDataItemValuesItem" });
     case 3:
-      return S.Array(__S(1770, __c221, 2));
+      return S.Array(__S(2162, __c270, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1769, __c221, 1)),
-          values: S.optional(__S(1771, __c221, 3)),
+          labels: S.optional(__S(2161, __c270, 1)),
+          values: S.optional(__S(2163, __c270, 3)),
         }),
       ).annotate({ identifier: "GetBandwidthSourcesResponseDataItem" });
     case 5:
-      return S.Array(__S(1772, __c221, 4));
+      return S.Array(__S(2164, __c270, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1773, __c221, 5)),
+          data: S.optional(__S(2165, __c270, 5)),
         }),
       ).annotate({ identifier: "GetBandwidthSourcesResponse" });
   }
 }
-function __c222(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13443,6 +15628,7 @@ function __c222(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
+          ownerId: S.String,
           name: S.String,
           status: S.String,
           autoSync: S.Boolean,
@@ -13450,12 +15636,12 @@ function __c222(j: number): any {
           branch: S.String,
           path: S.String,
           lastSync: S.optional(S.String),
-          resources: __S(961, __c120, 1),
+          resources: __S(1289, __c161, 1),
         }),
       ).annotate({ identifier: "GetBlueprintResponse" });
   }
 }
-function __c223(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13465,7 +15651,62 @@ function __c223(j: number): any {
       ).annotate({ identifier: "GetBuildSourceRequest" });
   }
 }
-function __c224(j: number): any {
+function __c273(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          buildSourceId: S.String.pipe(T.Label()),
+          buildId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/build-sources/{buildSourceId}/builds/{buildId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetBuildSourceBuildRequest" });
+  }
+}
+function __c274(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          status: S.optional(S.String),
+          buildStartedAt: S.optional(S.String),
+          buildFinishedAt: S.optional(S.String),
+          runtime: S.optional(S.String),
+          commitId: S.optional(S.String),
+          commitUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SchemaBuildRun" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          imageVersionId: S.optional(S.String),
+          SHA: S.optional(S.String),
+          ref: S.optional(S.String),
+          imageUrl: S.optional(S.String),
+          registryCredentialId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SchemaImage" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          buildSourceId: S.String,
+          buildRun: S.optional(__S(2192, __c274, 0)),
+          image: S.optional(__S(2193, __c274, 1)),
+          createdAt: S.String,
+          updatedAt: S.String,
+          assetsDeletedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Schema13" });
+  }
+}
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13482,7 +15723,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "GetBuildSourceEnvVarRequest" });
   }
 }
-function __c225(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13499,7 +15740,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "GetBuildSourceSecretFileRequest" });
   }
 }
-function __c226(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13515,7 +15756,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "GetCpuRequest" });
   }
 }
-function __c227(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13530,25 +15771,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "GetCpuLimitRequest" });
   }
 }
-function __c228(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          envVarKey: S.String.pipe(T.Label()),
-          content: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/services/{serviceId}/secret-files/{envVarKey}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AddOrUpdateSecretFileRequest" });
-  }
-}
-function __c229(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13563,7 +15786,58 @@ function __c229(j: number): any {
       ).annotate({ identifier: "GetCpuTargetRequest" });
   }
 }
-function __c230(j: number): any {
+function __c280(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          environmentId: S.String.pipe(T.Label()),
+          resourceIds: __S(2248, __c281, 0),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/environments/{environmentId}/resources", code: 200 }),
+        ),
+      ).annotate({ identifier: "AddResourcesToEnvironmentRequest" });
+  }
+}
+function __c281(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c282(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cidrBlock: S.String,
+          description: S.String,
+        }),
+      ).annotate({ identifier: "CidrBlockAndDescription" });
+    case 1:
+      return S.Array(__S(2256, __c282, 0));
+  }
+}
+function __c283(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          projectId: S.String,
+          databasesIds: __S(2248, __c281, 0),
+          ipAllowList: S.optional(__S(2257, __c282, 1)),
+          redisIds: __S(2248, __c281, 0),
+          serviceIds: __S(2248, __c281, 0),
+          envGroupIds: __S(2248, __c281, 0),
+          protectedStatus: S.String,
+          networkIsolationEnabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "Environment" });
+  }
+}
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13580,7 +15854,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "GetCustomDomainRequest" });
   }
 }
-function __c231(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13590,7 +15864,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "GetDedicatedIpRequest" });
   }
 }
-function __c232(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13603,7 +15877,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "GetDeployRequest" });
   }
 }
-function __c233(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13613,7 +15887,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "GetDiskRequest" });
   }
 }
-function __c234(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13627,7 +15901,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "GetDiskCapacityRequest" });
   }
 }
-function __c235(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13641,7 +15915,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "GetDiskUsageRequest" });
   }
 }
-function __c236(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13651,7 +15925,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "GetEnvGroupRequest" });
   }
 }
-function __c237(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13668,7 +15942,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "GetEnvGroupEnvVarRequest" });
   }
 }
-function __c238(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13685,58 +15959,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "GetEnvGroupSecretFileRequest" });
   }
 }
-function __c239(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          environmentId: S.String.pipe(T.Label()),
-          resourceIds: __S(1920, __c240, 0),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/environments/{environmentId}/resources", code: 200 }),
-        ),
-      ).annotate({ identifier: "AddResourcesToEnvironmentRequest" });
-  }
-}
-function __c240(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c241(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cidrBlock: S.String,
-          description: S.String,
-        }),
-      ).annotate({ identifier: "CidrBlockAndDescription" });
-    case 1:
-      return S.Array(__S(1928, __c241, 0));
-  }
-}
-function __c242(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          projectId: S.String,
-          databasesIds: __S(1920, __c240, 0),
-          ipAllowList: S.optional(__S(1929, __c241, 1)),
-          redisIds: __S(1920, __c240, 0),
-          serviceIds: __S(1920, __c240, 0),
-          envGroupIds: __S(1920, __c240, 0),
-          protectedStatus: S.String,
-          networkIsolationEnabled: S.Boolean,
-        }),
-      ).annotate({ identifier: "Environment" });
-  }
-}
-function __c243(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13746,7 +15969,35 @@ function __c243(j: number): any {
       ).annotate({ identifier: "GetEnvironmentRequest" });
   }
 }
-function __c244(j: number): any {
+function __c294(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String.pipe(T.Label()),
+          type: S.String,
+          source: S.String,
+          destination: S.String,
+          priority: S.optional(S.Number),
+        }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/routes", code: 200 })),
+      ).annotate({ identifier: "AddRouteRequest" });
+  }
+}
+function __c295(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          source: S.String,
+          destination: S.String,
+          priority: S.Number,
+        }),
+      ).annotate({ identifier: "Route" });
+  }
+}
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13759,7 +16010,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "GetEnvVarRequest" });
   }
 }
-function __c245(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13773,24 +16024,24 @@ function __c245(j: number): any {
       ).annotate({ identifier: "GetEnvVarsForBuildSourceRequest" });
   }
 }
-function __c246(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          envVar: __S(968, __c121, 0),
+          envVar: __S(1296, __c162, 0),
           cursor: S.String,
         }),
       ).annotate({ identifier: "EnvVarWithCursor" });
     case 1:
-      return S.Array(__S(1968, __c246, 0));
+      return S.Array(__S(2384, __c298, 0));
     case 2:
-      return S.suspend(() => __S(1969, __c246, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2385, __c298, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetEnvVarsForBuildSourceResponse",
       });
   }
 }
-function __c247(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13802,7 +16053,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "GetEnvVarsForServiceRequest" });
   }
 }
-function __c248(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13822,7 +16073,120 @@ function __c248(j: number): any {
       ).annotate({ identifier: "GetEventResponse" });
   }
 }
-function __c249(j: number): any {
+function __c301(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          flowId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/flows/{flowId}", code: 200 })),
+      ).annotate({ identifier: "GetFlowRequest" });
+  }
+}
+function __c302(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          createdAt: S.String,
+          workflowId: S.optional(S.String),
+          workflowVersionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetFlowResponse" });
+  }
+}
+function __c303(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          flowRunId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/flow-runs/{flowRunId}", code: 200 })),
+      ).annotate({ identifier: "GetFlowRunRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          message: S.String,
+          seq: S.optional(S.Number),
+          subKey: S.optional(S.String),
+          flowAttempt: S.optional(S.Number),
+          kind: S.optional(S.String),
+          expected: S.optional(S.String),
+          actual: S.optional(S.String),
+          limit: S.optional(S.Number),
+          value: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetFlowRunResponseErrorDetails" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          attempt: S.Number,
+          status: S.String,
+          startedAt: S.optional(S.String),
+          completedAt: S.optional(S.String),
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetFlowRunResponseAttemptsItem" });
+    case 3:
+      return S.Array(__S(2426, __c303, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          flowId: S.String,
+          status: S.String,
+          startedAt: S.optional(S.String),
+          completedAt: S.optional(S.String),
+          input: S.Unknown,
+          results: __S(2432, __c304, 0),
+          error: S.optional(S.String),
+          errorDetails: S.optional(__S(2425, __c303, 1)),
+          attempts: __S(2427, __c303, 3),
+        }),
+      ).annotate({ identifier: "GetFlowRunResponse" });
+  }
+}
+function __c304(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+  }
+}
+function __c305(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          flowRunId: S.String.pipe(T.Label()),
+          stepSeq: S.Number.pipe(T.Label()),
+          stepKey: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/flow-runs/{flowRunId}/steps/{stepSeq}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetFlowRunStepRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          seq: S.Number,
+          stepKey: S.String,
+          name: S.optional(S.String),
+          type: S.String,
+          status: S.String,
+          startedAt: S.String,
+          completedAt: S.optional(S.String),
+          wakeAt: S.optional(S.String),
+          childTaskRunId: S.optional(S.String),
+          input: S.optional(S.Unknown),
+          result: S.optional(S.NullOr(S.Unknown)),
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetFlowRunStepResponse" });
+  }
+}
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13839,7 +16203,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "GetHttpLatencyRequest" });
   }
 }
-function __c250(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13856,7 +16220,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "GetHttpRequestsRequest" });
   }
 }
-function __c251(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13868,254 +16232,6 @@ function __c251(j: number): any {
           service: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/metrics/instance-count", code: 200 })),
       ).annotate({ identifier: "GetInstanceCountRequest" });
-  }
-}
-function __c252(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          jobId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}/jobs/{jobId}", code: 200 })),
-      ).annotate({ identifier: "GetJobRequest" });
-  }
-}
-function __c253(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          redisId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/key-value/{redisId}", code: 200 })),
-      ).annotate({ identifier: "GetKeyValueRequest" });
-  }
-}
-function __c254(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          type: S.String,
-          source: S.String,
-          destination: S.String,
-          priority: S.optional(S.Number),
-        }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/routes", code: 200 })),
-      ).annotate({ identifier: "AddRouteRequest" });
-  }
-}
-function __c255(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          source: S.String,
-          destination: S.String,
-          priority: S.Number,
-        }),
-      ).annotate({ identifier: "Route" });
-  }
-}
-function __c256(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          redisId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/key-value/{redisId}/connection-info", code: 200 })),
-      ).annotate({ identifier: "GetKeyValueConnectionInfoRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          internalConnectionString: S.String,
-          externalConnectionString: S.String,
-          cliCommand: S.String,
-        }),
-      ).annotate({ identifier: "KeyValueConnectionInfo" });
-  }
-}
-function __c257(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          maintenanceRunID: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/maintenance/{maintenanceRunID}", code: 200 })),
-      ).annotate({ identifier: "GetMaintenanceRequest" });
-  }
-}
-function __c258(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          scheduledAt: S.String,
-          pendingMaintenanceBy: S.optional(S.String),
-          state: S.String,
-          resourceId: S.String,
-        }),
-      ).annotate({ identifier: "GetMaintenanceResponse" });
-  }
-}
-function __c259(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(S.String.pipe(T.Query())),
-          endTime: S.optional(S.String.pipe(T.Query())),
-          resolutionSeconds: S.optional(S.Number.pipe(T.Query())),
-          resource: S.optional(S.String.pipe(T.Query())),
-          service: S.optional(S.String.pipe(T.Query())),
-          instance: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/metrics/memory", code: 200 })),
-      ).annotate({ identifier: "GetMemoryRequest" });
-  }
-}
-function __c260(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(S.String.pipe(T.Query())),
-          endTime: S.optional(S.String.pipe(T.Query())),
-          resolutionSeconds: S.optional(S.Number.pipe(T.Query())),
-          resource: S.optional(S.String.pipe(T.Query())),
-          service: S.optional(S.String.pipe(T.Query())),
-          instance: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/metrics/memory-limit", code: 200 })),
-      ).annotate({ identifier: "GetMemoryLimitRequest" });
-  }
-}
-function __c261(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(S.String.pipe(T.Query())),
-          endTime: S.optional(S.String.pipe(T.Query())),
-          resolutionSeconds: S.optional(S.Number.pipe(T.Query())),
-          resource: S.optional(S.String.pipe(T.Query())),
-          service: S.optional(S.String.pipe(T.Query())),
-          instance: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/metrics/memory-target", code: 200 })),
-      ).annotate({ identifier: "GetMemoryTargetRequest" });
-  }
-}
-function __c262(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ownerId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/owners/{ownerId}", code: 200 })),
-      ).annotate({ identifier: "GetOwnerRequest" });
-  }
-}
-function __c263(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ownerId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/logs/streams/owner/{ownerId}", code: 200 })),
-      ).annotate({ identifier: "GetOwnerLogStreamRequest" });
-  }
-}
-function __c264(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ownerId: S.optional(S.String),
-          endpoint: S.optional(S.String),
-          preview: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetOwnerLogStreamResponse" });
-  }
-}
-function __c265(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ownerId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/owners/{ownerId}/members", code: 200 })),
-      ).annotate({ identifier: "GetOwnerMembersRequest" });
-    case 1:
-      return S.Array(__S(2128, __c266, 0));
-    case 2:
-      return S.suspend(() => __S(2121, __c265, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetOwnerMembersResponse",
-      });
-  }
-}
-function __c266(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String,
-          name: S.String,
-          email: S.String,
-          status: S.String,
-          role: S.String,
-          mfaEnabled: S.Boolean,
-        }),
-      ).annotate({ identifier: "TeamMember" });
-  }
-}
-function __c267(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ownerId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/metrics-stream/{ownerId}", code: 200 })),
-      ).annotate({ identifier: "GetOwnerMetricsStreamRequest" });
-  }
-}
-function __c268(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ownerId: S.String,
-          provider: S.String,
-          url: S.String,
-        }),
-      ).annotate({ identifier: "Schema10" });
-  }
-}
-function __c269(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ownerId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/notification-settings/owners/{ownerId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetOwnerNotificationSettingsRequest" });
-  }
-}
-function __c270(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ownerId: S.String,
-          slackEnabled: S.Boolean,
-          emailEnabled: S.Boolean,
-          previewNotificationsEnabled: S.Boolean,
-          notificationsToSend: S.String,
-        }),
-      ).annotate({ identifier: "GetOwnerNotificationSettingsResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

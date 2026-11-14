@@ -1,0 +1,317 @@
+{
+  "description": "The spec types every PATCH body as io.k8s.apimachinery.pkg.apis.meta.v1.Patch, a bare object, which convert drops, and names the patch types only in `consumes`. Patch operations had no body member, and a patch passed as extra keys went out as application/json, which the API server refuses with 415 Unsupported Media Type (kube-apiserver v1.36.2, 2026-10-29). Each patch operation gets a required `contentType` header that names the patch type, as client-go does, and an optional `patch` document that carries a JSON patch (an array of operations). For the other patch types, scripts/generate.ts adds the resource's own fields to the input, so a merge patch reads like a replace. application/apply-patch+cbor is left out: it needs a body of CBOR bytes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "APPLICATION_JSON_PATCH_JSON": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "application/json-patch+json"
+            }
+          },
+          "APPLICATION_MERGE_PATCH_JSON": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "application/merge-patch+json"
+            }
+          },
+          "APPLICATION_STRATEGIC_MERGE_PATCH_JSON": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "application/strategic-merge-patch+json"
+            }
+          },
+          "APPLICATION_APPLY_PATCH_YAML": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "application/apply-patch+yaml"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "How the server applies a PATCH body."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedControllerRevisionRequest/members/contentType",
+      "value": {
+        "target": "com.kubernetes.apps#PatchType",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedControllerRevisionRequest/members/patch",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDaemonSetRequest/members/contentType",
+      "value": {
+        "target": "com.kubernetes.apps#PatchType",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDaemonSetRequest/members/patch",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDaemonSetStatusRequest/members/contentType",
+      "value": {
+        "target": "com.kubernetes.apps#PatchType",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDaemonSetStatusRequest/members/patch",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDeploymentRequest/members/contentType",
+      "value": {
+        "target": "com.kubernetes.apps#PatchType",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDeploymentRequest/members/patch",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDeploymentScaleRequest/members/contentType",
+      "value": {
+        "target": "com.kubernetes.apps#PatchType",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDeploymentScaleRequest/members/patch",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDeploymentStatusRequest/members/contentType",
+      "value": {
+        "target": "com.kubernetes.apps#PatchType",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDeploymentStatusRequest/members/patch",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedReplicaSetRequest/members/contentType",
+      "value": {
+        "target": "com.kubernetes.apps#PatchType",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedReplicaSetRequest/members/patch",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedReplicaSetScaleRequest/members/contentType",
+      "value": {
+        "target": "com.kubernetes.apps#PatchType",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedReplicaSetScaleRequest/members/patch",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedReplicaSetStatusRequest/members/contentType",
+      "value": {
+        "target": "com.kubernetes.apps#PatchType",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedReplicaSetStatusRequest/members/patch",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedStatefulSetRequest/members/contentType",
+      "value": {
+        "target": "com.kubernetes.apps#PatchType",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedStatefulSetRequest/members/patch",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedStatefulSetScaleRequest/members/contentType",
+      "value": {
+        "target": "com.kubernetes.apps#PatchType",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedStatefulSetScaleRequest/members/patch",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedStatefulSetStatusRequest/members/contentType",
+      "value": {
+        "target": "com.kubernetes.apps#PatchType",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedStatefulSetStatusRequest/members/patch",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
+        }
+      }
+    }
+  ]
+}

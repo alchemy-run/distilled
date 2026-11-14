@@ -67,7 +67,7 @@ export interface UpdateJsSnippetVersionPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Version pin: null for latest, "1.358.0" for exact, "1" for major, "1.358" for minor */
-  js_snippet_version?: string | null;
+  js_snippet_version?: string | null | undefined;
 }
 export type UpdateJsSnippetVersionPartialResponseBodyMap = { [key: string]: unknown | undefined };
 export type UpdateJsSnippetVersionPartialResponse = UpdateJsSnippetVersionPartialResponseBodyMap;

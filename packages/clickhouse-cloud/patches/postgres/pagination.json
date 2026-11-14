@@ -1,0 +1,16 @@
+{
+  "description": "Page listPostgresServiceBackups by cursor. The operation takes `cursor` and `limit` query parameters and answers { status, requestId, result: [...], limit, nextCursor } (the spec describes nextCursor as 'Cursor for the next page, to be sent as the `cursor` query parameter. Null on the last page.'). The converter's cursor detection does not recognise `nextCursor`, so the list was a single-page call. Not called live: no Postgres service existed to list backups for. The multi-page traversal was captured on listApiKeys, which answers the same envelope per the spec.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.postgres#PostgresServiceBackupGetList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "result",
+        "pageSize": "limit"
+      }
+    }
+  ]
+}

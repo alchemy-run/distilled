@@ -1,0 +1,9 @@
+{
+  "description": "The converter marks every member named like an access key sensitive, which catches `GcpBackupBucketProperties.accessKeyId` on a snapshot's bucket. The spec describes it as 'Access Key ID (HMAC key)': the public half of the key pair, an identifier like a key ID, while its secret (set only on the backup bucket requests) stays sensitive. IDs stay plain strings (distilled-sdk skill, Credentials). Source: the OpenAPI document served at https://api.clickhouse.cloud/v1 (2026-11-11).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.clickhouse.cloud.snapshot#GcpBackupBucketProperties/members/accessKeyId/traits/smithy.api#sensitive"
+    }
+  ]
+}

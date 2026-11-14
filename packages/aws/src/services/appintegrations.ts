@@ -158,22 +158,22 @@ export type ApplicationTrustedSource = string;
 export type ApplicationApprovedOrigins = string[];
 export interface ExternalUrlConfig {
   AccessUrl: string;
-  ApprovedOrigins?: string[];
+  ApprovedOrigins?: string[] | undefined;
 }
 export interface ApplicationSourceConfig {
-  ExternalUrlConfig?: ExternalUrlConfig;
+  ExternalUrlConfig?: ExternalUrlConfig | undefined;
 }
 export type EventName = string;
 export interface Subscription {
   Event: string;
-  Description?: string;
+  Description?: string | undefined;
 }
 export type SubscriptionList = Subscription[];
 export type EventDefinitionSchema = string;
 export interface Publication {
   Event: string;
   Schema: string;
-  Description?: string;
+  Description?: string | undefined;
 }
 export type PublicationList = Publication[];
 export type IdempotencyToken = string;
@@ -185,52 +185,54 @@ export type PermissionList = string[];
 export type InitializationTimeout = number;
 export type ContactHandlingScope = "CROSS_CONTACTS" | "PER_CONTACT" | (string & {});
 export interface ContactHandling {
-  Scope?: ContactHandlingScope;
+  Scope?: ContactHandlingScope | undefined;
 }
 export interface ApplicationConfig {
-  ContactHandling?: ContactHandling;
+  ContactHandling?: ContactHandling | undefined;
 }
 export type IframePermission = string;
 export type IframePermissionList = string[];
 export interface IframeConfig {
-  Allow?: string[];
-  Sandbox?: string[];
+  Allow?: string[] | undefined;
+  Sandbox?: string[] | undefined;
 }
 export type ApplicationType = "STANDARD" | "SERVICE" | "MCP_SERVER" | "A2A_SERVER" | (string & {});
-export type AuthType = "API_KEY" | (string & {});
+export type AuthType = "API_KEY" | "CONNECT_JWT" | (string & {});
 export type Arn = string;
+export type Identifier = string;
 export interface AuthConfig {
-  AuthType?: AuthType;
-  CredentialProviderIdentifier?: string;
+  AuthType?: AuthType | undefined;
+  CredentialProviderIdentifier?: string | undefined;
+  AudienceOverride?: string | undefined;
 }
 export interface CreateApplicationRequest {
   Name: string;
   Namespace: string;
-  Description?: string;
+  Description?: string | undefined;
   ApplicationSourceConfig: ApplicationSourceConfig;
-  Subscriptions?: Subscription[];
-  Publications?: Publication[];
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
-  Permissions?: string[];
-  IsService?: boolean;
-  InitializationTimeout?: number;
-  ApplicationConfig?: ApplicationConfig;
-  IframeConfig?: IframeConfig;
-  ApplicationType?: ApplicationType;
-  AuthConfig?: AuthConfig;
+  Subscriptions?: Subscription[] | undefined;
+  Publications?: Publication[] | undefined;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Permissions?: string[] | undefined;
+  IsService?: boolean | undefined;
+  InitializationTimeout?: number | undefined;
+  ApplicationConfig?: ApplicationConfig | undefined;
+  IframeConfig?: IframeConfig | undefined;
+  ApplicationType?: ApplicationType | undefined;
+  AuthConfig?: AuthConfig | undefined;
 }
 export type UUID = string;
 export interface CreateApplicationResponse {
-  Arn?: string;
-  Id?: string;
+  Arn?: string | undefined;
+  Id?: string | undefined;
 }
 export type Name = string;
 export type NonBlankString = string;
 export type SourceURI = string;
 export interface ScheduleConfiguration {
-  FirstExecutionFrom?: string;
-  Object?: string;
+  FirstExecutionFrom?: string | undefined;
+  Object?: string | undefined;
   ScheduleExpression: string;
 }
 export type NonBlankLongString = string;
@@ -240,61 +242,66 @@ export type FieldsList = string[];
 export type FieldsMap = { [key: string]: string[] | undefined };
 export interface FileConfiguration {
   Folders: string[];
-  Filters?: { [key: string]: string[] | undefined };
+  Filters?: { [key: string]: string[] | undefined } | undefined;
 }
 export type ObjectConfiguration = {
   [key: string]: { [key: string]: string[] | undefined } | undefined;
 };
 export interface CreateDataIntegrationRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   KmsKey: string;
-  SourceURI?: string;
-  ScheduleConfig?: ScheduleConfiguration;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
-  FileConfiguration?: FileConfiguration;
-  ObjectConfiguration?: { [key: string]: { [key: string]: string[] | undefined } | undefined };
+  SourceURI?: string | undefined;
+  ScheduleConfig?: ScheduleConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
+  FileConfiguration?: FileConfiguration | undefined;
+  ObjectConfiguration?:
+    | { [key: string]: { [key: string]: string[] | undefined } | undefined }
+    | undefined;
 }
 export interface CreateDataIntegrationResponse {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  KmsKey?: string;
-  SourceURI?: string;
-  ScheduleConfiguration?: ScheduleConfiguration;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
-  FileConfiguration?: FileConfiguration;
-  ObjectConfiguration?: { [key: string]: { [key: string]: string[] | undefined } | undefined };
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  KmsKey?: string | undefined;
+  SourceURI?: string | undefined;
+  ScheduleConfiguration?: ScheduleConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
+  FileConfiguration?: FileConfiguration | undefined;
+  ObjectConfiguration?:
+    | { [key: string]: { [key: string]: string[] | undefined } | undefined }
+    | undefined;
 }
-export type Identifier = string;
 export type ClientId = string;
 export type DestinationURI = string;
 export type ClientAssociationMetadata = { [key: string]: string | undefined };
 export type ExecutionMode = "ON_DEMAND" | "SCHEDULED" | (string & {});
 export interface OnDemandConfiguration {
   StartTime: string;
-  EndTime?: string;
+  EndTime?: string | undefined;
 }
 export interface ExecutionConfiguration {
   ExecutionMode: ExecutionMode;
-  OnDemandConfiguration?: OnDemandConfiguration;
-  ScheduleConfiguration?: ScheduleConfiguration;
+  OnDemandConfiguration?: OnDemandConfiguration | undefined;
+  ScheduleConfiguration?: ScheduleConfiguration | undefined;
 }
 export interface CreateDataIntegrationAssociationRequest {
   DataIntegrationIdentifier: string;
-  ClientId?: string;
-  ObjectConfiguration?: { [key: string]: { [key: string]: string[] | undefined } | undefined };
-  DestinationURI?: string;
-  ClientAssociationMetadata?: { [key: string]: string | undefined };
-  ClientToken?: string;
-  ExecutionConfiguration?: ExecutionConfiguration;
+  ClientId?: string | undefined;
+  ObjectConfiguration?:
+    | { [key: string]: { [key: string]: string[] | undefined } | undefined }
+    | undefined;
+  DestinationURI?: string | undefined;
+  ClientAssociationMetadata?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
+  ExecutionConfiguration?: ExecutionConfiguration | undefined;
 }
 export interface CreateDataIntegrationAssociationResponse {
-  DataIntegrationAssociationId?: string;
-  DataIntegrationArn?: string;
+  DataIntegrationAssociationId?: string | undefined;
+  DataIntegrationArn?: string | undefined;
 }
 export type Source = string;
 export interface EventFilter {
@@ -303,19 +310,19 @@ export interface EventFilter {
 export type EventBridgeBus = string;
 export interface CreateEventIntegrationRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   EventFilter: EventFilter;
   EventBridgeBus: string;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateEventIntegrationResponse {
-  EventIntegrationArn?: string;
+  EventIntegrationArn?: string | undefined;
 }
 export type ArnOrUUID = string;
 export interface DeleteApplicationRequest {
   Arn: string;
-  Force?: boolean;
+  Force?: boolean | undefined;
 }
 export interface DeleteApplicationResponse {}
 export interface DeleteDataIntegrationRequest {
@@ -329,167 +336,172 @@ export interface DeleteEventIntegrationResponse {}
 export interface GetApplicationRequest {
   Arn: string;
 }
+export type RegionName = string;
 export interface GetApplicationResponse {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
-  Namespace?: string;
-  Description?: string;
-  ApplicationSourceConfig?: ApplicationSourceConfig;
-  Subscriptions?: Subscription[];
-  Publications?: Publication[];
-  CreatedTime?: Date;
-  LastModifiedTime?: Date;
-  Tags?: { [key: string]: string | undefined };
-  Permissions?: string[];
-  IsService?: boolean;
-  InitializationTimeout?: number;
-  ApplicationConfig?: ApplicationConfig;
-  IframeConfig?: IframeConfig;
-  ApplicationType?: ApplicationType;
-  AuthConfig?: AuthConfig;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Namespace?: string | undefined;
+  Description?: string | undefined;
+  ApplicationSourceConfig?: ApplicationSourceConfig | undefined;
+  Subscriptions?: Subscription[] | undefined;
+  Publications?: Publication[] | undefined;
+  CreatedTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Permissions?: string[] | undefined;
+  IsService?: boolean | undefined;
+  InitializationTimeout?: number | undefined;
+  ApplicationConfig?: ApplicationConfig | undefined;
+  IframeConfig?: IframeConfig | undefined;
+  ApplicationType?: ApplicationType | undefined;
+  AuthConfig?: AuthConfig | undefined;
 }
 export interface GetDataIntegrationRequest {
   Identifier: string;
 }
 export interface GetDataIntegrationResponse {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  KmsKey?: string;
-  SourceURI?: string;
-  ScheduleConfiguration?: ScheduleConfiguration;
-  Tags?: { [key: string]: string | undefined };
-  FileConfiguration?: FileConfiguration;
-  ObjectConfiguration?: { [key: string]: { [key: string]: string[] | undefined } | undefined };
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  KmsKey?: string | undefined;
+  SourceURI?: string | undefined;
+  ScheduleConfiguration?: ScheduleConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  FileConfiguration?: FileConfiguration | undefined;
+  ObjectConfiguration?:
+    | { [key: string]: { [key: string]: string[] | undefined } | undefined }
+    | undefined;
 }
 export interface GetEventIntegrationRequest {
   Name: string;
 }
 export interface GetEventIntegrationResponse {
-  Name?: string;
-  Description?: string;
-  EventIntegrationArn?: string;
-  EventBridgeBus?: string;
-  EventFilter?: EventFilter;
-  Tags?: { [key: string]: string | undefined };
+  Name?: string | undefined;
+  Description?: string | undefined;
+  EventIntegrationArn?: string | undefined;
+  EventBridgeBus?: string | undefined;
+  EventFilter?: EventFilter | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListApplicationAssociationsRequest {
   ApplicationId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ApplicationAssociationSummary {
-  ApplicationAssociationArn?: string;
-  ApplicationArn?: string;
-  ClientId?: string;
+  ApplicationAssociationArn?: string | undefined;
+  ApplicationArn?: string | undefined;
+  ClientId?: string | undefined;
 }
 export type ApplicationAssociationsList = ApplicationAssociationSummary[];
 export interface ListApplicationAssociationsResponse {
-  ApplicationAssociations?: ApplicationAssociationSummary[];
-  NextToken?: string;
+  ApplicationAssociations?: ApplicationAssociationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListApplicationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  ApplicationType?: ApplicationType;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ApplicationType?: ApplicationType | undefined;
 }
 export interface ApplicationSummary {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
-  Namespace?: string;
-  CreatedTime?: Date;
-  LastModifiedTime?: Date;
-  IsService?: boolean;
-  ApplicationType?: ApplicationType;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Namespace?: string | undefined;
+  CreatedTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
+  IsService?: boolean | undefined;
+  ApplicationType?: ApplicationType | undefined;
 }
 export type ApplicationsList = ApplicationSummary[];
 export interface ListApplicationsResponse {
-  Applications?: ApplicationSummary[];
-  NextToken?: string;
+  Applications?: ApplicationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDataIntegrationAssociationsRequest {
   DataIntegrationIdentifier: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ExecutionStatus = "COMPLETED" | "IN_PROGRESS" | "FAILED" | (string & {});
 export interface LastExecutionStatus {
-  ExecutionStatus?: ExecutionStatus;
-  StatusMessage?: string;
+  ExecutionStatus?: ExecutionStatus | undefined;
+  StatusMessage?: string | undefined;
 }
 export interface DataIntegrationAssociationSummary {
-  DataIntegrationAssociationArn?: string;
-  DataIntegrationArn?: string;
-  ClientId?: string;
-  DestinationURI?: string;
-  LastExecutionStatus?: LastExecutionStatus;
-  ExecutionConfiguration?: ExecutionConfiguration;
+  DataIntegrationAssociationArn?: string | undefined;
+  DataIntegrationArn?: string | undefined;
+  ClientId?: string | undefined;
+  DestinationURI?: string | undefined;
+  LastExecutionStatus?: LastExecutionStatus | undefined;
+  ExecutionConfiguration?: ExecutionConfiguration | undefined;
 }
 export type DataIntegrationAssociationsList = DataIntegrationAssociationSummary[];
 export interface ListDataIntegrationAssociationsResponse {
-  DataIntegrationAssociations?: DataIntegrationAssociationSummary[];
-  NextToken?: string;
+  DataIntegrationAssociations?: DataIntegrationAssociationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDataIntegrationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DataIntegrationSummary {
-  Arn?: string;
-  Name?: string;
-  SourceURI?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  SourceURI?: string | undefined;
 }
 export type DataIntegrationsList = DataIntegrationSummary[];
 export interface ListDataIntegrationsResponse {
-  DataIntegrations?: DataIntegrationSummary[];
-  NextToken?: string;
+  DataIntegrations?: DataIntegrationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEventIntegrationAssociationsRequest {
   EventIntegrationName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type EventBridgeRuleName = string;
 export interface EventIntegrationAssociation {
-  EventIntegrationAssociationArn?: string;
-  EventIntegrationAssociationId?: string;
-  EventIntegrationName?: string;
-  ClientId?: string;
-  EventBridgeRuleName?: string;
-  ClientAssociationMetadata?: { [key: string]: string | undefined };
+  EventIntegrationAssociationArn?: string | undefined;
+  EventIntegrationAssociationId?: string | undefined;
+  EventIntegrationName?: string | undefined;
+  ClientId?: string | undefined;
+  EventBridgeRuleName?: string | undefined;
+  ClientAssociationMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export type EventIntegrationAssociationsList = EventIntegrationAssociation[];
 export interface ListEventIntegrationAssociationsResponse {
-  EventIntegrationAssociations?: EventIntegrationAssociation[];
-  NextToken?: string;
+  EventIntegrationAssociations?: EventIntegrationAssociation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEventIntegrationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface EventIntegration {
-  EventIntegrationArn?: string;
-  Name?: string;
-  Description?: string;
-  EventFilter?: EventFilter;
-  EventBridgeBus?: string;
-  Tags?: { [key: string]: string | undefined };
+  EventIntegrationArn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  EventFilter?: EventFilter | undefined;
+  EventBridgeBus?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type EventIntegrationsList = EventIntegration[];
 export interface ListEventIntegrationsResponse {
-  EventIntegrations?: EventIntegration[];
-  NextToken?: string;
+  EventIntegrations?: EventIntegration[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -504,24 +516,24 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateApplicationRequest {
   Arn: string;
-  Name?: string;
-  Description?: string;
-  ApplicationSourceConfig?: ApplicationSourceConfig;
-  Subscriptions?: Subscription[];
-  Publications?: Publication[];
-  Permissions?: string[];
-  IsService?: boolean;
-  InitializationTimeout?: number;
-  ApplicationConfig?: ApplicationConfig;
-  IframeConfig?: IframeConfig;
-  ApplicationType?: ApplicationType;
-  AuthConfig?: AuthConfig;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ApplicationSourceConfig?: ApplicationSourceConfig | undefined;
+  Subscriptions?: Subscription[] | undefined;
+  Publications?: Publication[] | undefined;
+  Permissions?: string[] | undefined;
+  IsService?: boolean | undefined;
+  InitializationTimeout?: number | undefined;
+  ApplicationConfig?: ApplicationConfig | undefined;
+  IframeConfig?: IframeConfig | undefined;
+  ApplicationType?: ApplicationType | undefined;
+  AuthConfig?: AuthConfig | undefined;
 }
 export interface UpdateApplicationResponse {}
 export interface UpdateDataIntegrationRequest {
   Identifier: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateDataIntegrationResponse {}
 export interface UpdateDataIntegrationAssociationRequest {
@@ -532,7 +544,7 @@ export interface UpdateDataIntegrationAssociationRequest {
 export interface UpdateDataIntegrationAssociationResponse {}
 export interface UpdateEventIntegrationRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
 }
 export interface UpdateEventIntegrationResponse {}
 export type Message = string;
@@ -1155,6 +1167,7 @@ export const listEventIntegrations: API.PaginatedOperationMethod<
 })) as any;
 
 export type ListTagsForResourceError =
+  | AccessDeniedException
   | InternalServiceError
   | InvalidRequestException
   | ResourceNotFoundException
@@ -1173,6 +1186,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(400, __c25, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
+    AccessDeniedException,
     InternalServiceError,
     InvalidRequestException,
     ResourceNotFoundException,
@@ -1187,6 +1201,8 @@ export const listTagsForResource: API.OperationMethod<
 }));
 
 export type TagResourceError =
+  | AccessDeniedException
+  | ConflictException
   | InternalServiceError
   | InvalidRequestException
   | ResourceNotFoundException
@@ -1205,6 +1221,8 @@ export const tagResource: API.OperationMethod<
   input: __S(416, __c26, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
+    AccessDeniedException,
+    ConflictException,
     InternalServiceError,
     InvalidRequestException,
     ResourceNotFoundException,
@@ -1219,6 +1237,8 @@ export const tagResource: API.OperationMethod<
 }));
 
 export type UntagResourceError =
+  | AccessDeniedException
+  | ConflictException
   | InternalServiceError
   | InvalidRequestException
   | ResourceNotFoundException
@@ -1237,6 +1257,8 @@ export const untagResource: API.OperationMethod<
   input: __S(432, __c27, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
+    AccessDeniedException,
+    ConflictException,
     InternalServiceError,
     InvalidRequestException,
     ResourceNotFoundException,
@@ -1478,6 +1500,7 @@ function __c3(j: number): any {
         S.Struct({
           AuthType: S.optional(S.String),
           CredentialProviderIdentifier: S.optional(S.String),
+          AudienceOverride: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthConfig" });
   }
@@ -1723,6 +1746,7 @@ function __c16(j: number): any {
           Publications: S.optional(__S(53, __c3, 5)),
           CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastModifiedRegion: S.optional(S.String),
           Tags: S.optional(__S(16, __c1, 0)),
           Permissions: S.optional(__S(32, __c2, 0)),
           IsService: S.optional(S.Boolean),
@@ -1854,6 +1878,7 @@ function __c20(j: number): any {
           Namespace: S.optional(S.String),
           CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastModifiedRegion: S.optional(S.String),
           IsService: S.optional(S.Boolean),
           ApplicationType: S.optional(S.String),
         }),

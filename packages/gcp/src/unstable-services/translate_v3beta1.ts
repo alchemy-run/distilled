@@ -83,131 +83,127 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type StringList = Array<string>;
-/** Configures which glossary should be used for a specific target language, and defines options for applying that glossary. */
-export interface TranslateTextGlossaryConfig {
-  /** Optional. Indicates match is case-insensitive. Default value is false if missing. */
-  ignoreCase?: boolean;
-  /** Required. Specifies the glossary used for this translation. Use this format: projects/*\/locations/*\/glossaries/* */
-  glossary?: string;
-  /** Optional. If set to true, the glossary will be used for contextual translation. */
-  contextualTranslationEnabled?: boolean;
-}
-export type TranslateTextGlossaryConfigMap = {
-  [key: string]: TranslateTextGlossaryConfig | undefined;
-};
+export type StringMap = { [key: string]: string | undefined };
 /** The Google Cloud Storage location for the input content. */
 export interface GcsSource {
   /** Required. Source data URI. For example, `gs://my_bucket/my_object`. */
-  inputUri?: string;
+  inputUri?: string | undefined;
 }
 /** Input configuration for BatchTranslateDocument request. */
 export interface BatchDocumentInputConfig {
   /** Google Cloud Storage location for the source input. This can be a single file (for example, `gs://translation-test/input.docx`) or a wildcard (for example, `gs://translation-test/*`). File mime type is determined based on extension. Supported mime type includes: - `pdf`, application/pdf - `docx`, application/vnd.openxmlformats-officedocument.wordprocessingml.document - `pptx`, application/vnd.openxmlformats-officedocument.presentationml.presentation - `xlsx`, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet The max file size to support for `.docx`, `.pptx` and `.xlsx` is 100MB. The max file size to support for `.pdf` is 1GB and the max page limit is 1000 pages. The max file size to support for all input documents is 1GB. */
-  gcsSource?: GcsSource;
+  gcsSource?: GcsSource | undefined;
 }
 export type BatchDocumentInputConfigList = Array<BatchDocumentInputConfig>;
-export type StringMap = { [key: string]: string | undefined };
+export type StringList = Array<string>;
+/** Configures which glossary should be used for a specific target language, and defines options for applying that glossary. */
+export interface TranslateTextGlossaryConfig {
+  /** Required. Specifies the glossary used for this translation. Use this format: projects/*\/locations/*\/glossaries/* */
+  glossary?: string | undefined;
+  /** Optional. Indicates match is case-insensitive. Default value is false if missing. */
+  ignoreCase?: boolean | undefined;
+  /** Optional. If set to true, the glossary will be used for contextual translation. */
+  contextualTranslationEnabled?: boolean | undefined;
+}
+export type TranslateTextGlossaryConfigMap = {
+  [key: string]: TranslateTextGlossaryConfig | undefined;
+};
 /** The Google Cloud Storage location for the output content. */
 export interface GcsDestination {
   /** Required. There must be no files under 'output_uri_prefix'. 'output_uri_prefix' must end with "/" and start with "gs://", otherwise an INVALID_ARGUMENT (400) error is returned. */
-  outputUriPrefix?: string;
+  outputUriPrefix?: string | undefined;
 }
 /** Output configuration for BatchTranslateDocument request. */
 export interface BatchDocumentOutputConfig {
   /** Google Cloud Storage destination for output content. For every single input document (for example, gs://a/b/c.[extension]), we generate at most 2 * n output files. (n is the # of target_language_codes in the BatchTranslateDocumentRequest). While the input documents are being processed, we write/update an index file `index.csv` under `gcs_destination.output_uri_prefix` (for example, gs://translation_output/index.csv) The index file is generated/updated as new files are being translated. The format is: input_document,target_language_code,translation_output,error_output, glossary_translation_output,glossary_error_output `input_document` is one file we matched using gcs_source.input_uri. `target_language_code` is provided in the request. `translation_output` contains the translations. (details provided below) `error_output` contains the error message during processing of the file. Both translations_file and errors_file could be empty strings if we have no content to output. `glossary_translation_output` and `glossary_error_output` are the translated output/error when we apply glossaries. They could also be empty if we have no content to output. Once a row is present in index.csv, the input/output matching never changes. Callers should also expect all the content in input_file are processed and ready to be consumed (that is, no partial output file is written). Since index.csv will be keeping updated during the process, please make sure there is no custom retention policy applied on the output bucket that may avoid file updating. (https://cloud.google.com/storage/docs/bucket-lock#retention-policy) The naming format of translation output files follows (for target language code [trg]): `translation_output`: `gs://translation_output/a_b_c_[trg]_translation.[extension]` `glossary_translation_output`: `gs://translation_test/a_b_c_[trg]_glossary_translation.[extension]`. The output document will maintain the same file format as the input document. The naming format of error output files follows (for target language code [trg]): `error_output`: `gs://translation_test/a_b_c_[trg]_errors.txt` `glossary_error_output`: `gs://translation_test/a_b_c_[trg]_glossary_translation.txt` The error output is a txt file containing error details. */
-  gcsDestination?: GcsDestination;
+  gcsDestination?: GcsDestination | undefined;
 }
 /** The BatchTranslateDocument request. */
 export interface BatchTranslateDocumentRequest {
-  /** Required. The BCP-47 language code to use for translation of the input document. Specify up to 10 language codes here. Supported language codes are listed in [Language Support](https://cloud.google.com/translate/docs/languages). */
-  targetLanguageCodes?: StringList;
-  /** Optional. Glossaries to be applied. It's keyed by target language code. */
-  glossaries?: TranslateTextGlossaryConfigMap;
-  /** Required. Input configurations. The total number of files matched should be <= 100. The total content size to translate should be <= 100M Unicode codepoints. The files must use UTF-8 encoding. */
-  inputConfigs?: BatchDocumentInputConfigList;
-  /** Required. The BCP-47 language code of the input document if known, for example, "en-US" or "sr-Latn". Supported language codes are listed in [Language Support](https://cloud.google.com/translate/docs/languages). */
-  sourceLanguageCode?: string;
   /** Optional. The models to use for translation. Map's key is target language code. Map's value is the model name. Value can be a built-in general model, or an AutoML Translation model. The value format depends on model type: - AutoML Translation models: `projects/{project-number-or-id}/locations/{location-id}/models/{model-id}` - General (built-in) models: `projects/{project-number-or-id}/locations/{location-id}/models/general/nmt`, If the map is empty or a specific model is not requested for a language pair, then default google model (nmt) is used. */
-  models?: StringMap;
+  models?: StringMap | undefined;
   /** Optional. If true, use the text removal server to remove the shadow text on background image for native pdf translation. Shadow removal feature can only be enabled when is_translate_native_pdf_only: false && pdf_native_only: false */
-  enableShadowRemovalNativePdf?: boolean;
+  enableShadowRemovalNativePdf?: boolean | undefined;
+  /** Required. Input configurations. The total number of files matched should be <= 100. The total content size to translate should be <= 100M Unicode codepoints. The files must use UTF-8 encoding. */
+  inputConfigs?: BatchDocumentInputConfigList | undefined;
   /** Optional. If true, enable auto rotation correction in DVS. */
-  enableRotationCorrection?: boolean;
-  /** Optional. This flag is to support user customized attribution. If not provided, the default is `Machine Translated by Google`. Customized attribution should follow rules in https://cloud.google.com/translate/attribution#attribution_and_logos */
-  customizedAttribution?: string;
-  /** Optional. File format conversion map to be applied to all input files. Map's key is the original mime_type. Map's value is the target mime_type of translated documents. Supported file format conversion includes: - `application/pdf` to `application/vnd.openxmlformats-officedocument.wordprocessingml.document` If nothing specified, output files will be in the same format as the original file. */
-  formatConversions?: StringMap;
+  enableRotationCorrection?: boolean | undefined;
+  /** Required. The BCP-47 language code to use for translation of the input document. Specify up to 10 language codes here. Supported language codes are listed in [Language Support](https://cloud.google.com/translate/docs/languages). */
+  targetLanguageCodes?: StringList | undefined;
+  /** Optional. Glossaries to be applied. It's keyed by target language code. */
+  glossaries?: TranslateTextGlossaryConfigMap | undefined;
   /** Required. Output configuration. If 2 input configs match to the same file (that is, same input path), we don't generate output for duplicate inputs. */
-  outputConfig?: BatchDocumentOutputConfig;
+  outputConfig?: BatchDocumentOutputConfig | undefined;
+  /** Optional. This flag is to support user customized attribution. If not provided, the default is `Machine Translated by Google`. Customized attribution should follow rules in https://cloud.google.com/translate/attribution#attribution_and_logos */
+  customizedAttribution?: string | undefined;
+  /** Optional. File format conversion map to be applied to all input files. Map's key is the original mime_type. Map's value is the target mime_type of translated documents. Supported file format conversion includes: - `application/pdf` to `application/vnd.openxmlformats-officedocument.wordprocessingml.document` If nothing specified, output files will be in the same format as the original file. */
+  formatConversions?: StringMap | undefined;
   /** Optional. If true, only native pdf pages will be translated. */
-  pdfNativeOnly?: boolean;
+  pdfNativeOnly?: boolean | undefined;
+  /** Required. The BCP-47 language code of the input document if known, for example, "en-US" or "sr-Latn". Supported language codes are listed in [Language Support](https://cloud.google.com/translate/docs/languages). */
+  sourceLanguageCode?: string | undefined;
 }
-export interface BatchTranslateDocumentProjectsLocationsRequest {
+export interface BatchTranslateDocumentProjectsLocationsRequest extends BatchTranslateDocumentRequest {
   /** Required. Location to make a regional call. Format: `projects/{project-number-or-id}/locations/{location-id}`. The `global` location is not supported for batch translation. Only AutoML Translation models or glossaries within the same region (have the same location-id) can be used, otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
-  /** Request body */
-  body?: BatchTranslateDocumentRequest;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
 }
 /** Output configuration for BatchTranslateText request. */
 export interface OutputConfig {
   /** Google Cloud Storage destination for output content. For every single input file (for example, gs://a/b/c.[extension]), we generate at most 2 * n output files. (n is the # of target_language_codes in the BatchTranslateTextRequest). Output files (tsv) generated are compliant with RFC 4180 except that record delimiters are '\n' instead of '\r\n'. We don't provide any way to change record delimiters. While the input files are being processed, we write/update an index file 'index.csv' under 'output_uri_prefix' (for example, gs://translation-test/index.csv) The index file is generated/updated as new files are being translated. The format is: input_file,target_language_code,translations_file,errors_file, glossary_translations_file,glossary_errors_file input_file is one file we matched using gcs_source.input_uri. target_language_code is provided in the request. translations_file contains the translations. (details provided below) errors_file contains the errors during processing of the file. (details below). Both translations_file and errors_file could be empty strings if we have no content to output. glossary_translations_file and glossary_errors_file are always empty strings if the input_file is tsv. They could also be empty if we have no content to output. Once a row is present in index.csv, the input/output matching never changes. Callers should also expect all the content in input_file are processed and ready to be consumed (that is, no partial output file is written). Since index.csv will be keeping updated during the process, please make sure there is no custom retention policy applied on the output bucket that may avoid file updating. (https://cloud.google.com/storage/docs/bucket-lock#retention-policy) The format of translations_file (for target language code 'trg') is: `gs://translation_test/a_b_c_'trg'_translations.[extension]` If the input file extension is tsv, the output has the following columns: Column 1: ID of the request provided in the input, if it's not provided in the input, then the input row number is used (0-based). Column 2: source sentence. Column 3: translation without applying a glossary. Empty string if there is an error. Column 4 (only present if a glossary is provided in the request): translation after applying the glossary. Empty string if there is an error applying the glossary. Could be same string as column 3 if there is no glossary applied. If input file extension is a txt or html, the translation is directly written to the output file. If glossary is requested, a separate glossary_translations_file has format of `gs://translation_test/a_b_c_'trg'_glossary_translations.[extension]` The format of errors file (for target language code 'trg') is: `gs://translation_test/a_b_c_'trg'_errors.[extension]` If the input file extension is tsv, errors_file contains the following: Column 1: ID of the request provided in the input, if it's not provided in the input, then the input row number is used (0-based). Column 2: source sentence. Column 3: Error detail for the translation. Could be empty. Column 4 (only present if a glossary is provided in the request): Error when applying the glossary. If the input file extension is txt or html, glossary_error_file will be generated that contains error details. glossary_error_file has format of `gs://translation_test/a_b_c_'trg'_glossary_errors.[extension]` */
-  gcsDestination?: GcsDestination;
+  gcsDestination?: GcsDestination | undefined;
 }
 /** Input configuration for BatchTranslateText request. */
 export interface InputConfig {
-  /** Optional. Can be "text/plain" or "text/html". For `.tsv`, "text/html" is used if mime_type is missing. For `.html`, this field must be "text/html" or empty. For `.txt`, this field must be "text/plain" or empty. */
-  mimeType?: string;
   /** Required. Google Cloud Storage location for the source input. This can be a single file (for example, `gs://translation-test/input.tsv`) or a wildcard (for example, `gs://translation-test/*`). If a file extension is `.tsv`, it can contain either one or two columns. The first column (optional) is the id of the text request. If the first column is missing, we use the row number (0-based) from the input file as the ID in the output file. The second column is the actual text to be translated. We recommend each row be <= 10K Unicode codepoints, otherwise an error might be returned. Note that the input tsv must be RFC 4180 compliant. You could use https://github.com/Clever/csvlint to check potential formatting errors in your tsv file. csvlint --delimiter='\t' your_input_file.tsv The other supported file extensions are `.txt` or `.html`, which is treated as a single large chunk of text. */
-  gcsSource?: GcsSource;
+  gcsSource?: GcsSource | undefined;
+  /** Optional. Can be "text/plain" or "text/html". For `.tsv`, "text/html" is used if mime_type is missing. For `.html`, this field must be "text/html" or empty. For `.txt`, this field must be "text/plain" or empty. */
+  mimeType?: string | undefined;
 }
 export type InputConfigList = Array<InputConfig>;
 /** The batch translation request. */
 export interface BatchTranslateTextRequest {
-  /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. See https://cloud.google.com/translate/docs/labels for more information. */
-  labels?: StringMap;
-  /** Optional. The models to use for translation. Map's key is target language code. Map's value is model name. Value can be a built-in general model, or an AutoML Translation model. The value format depends on model type: - AutoML Translation models: `projects/{project-number-or-id}/locations/{location-id}/models/{model-id}` - General (built-in) models: `projects/{project-number-or-id}/locations/{location-id}/models/general/nmt`, If the map is empty or a specific model is not requested for a language pair, then default google model (nmt) is used. */
-  models?: StringMap;
   /** Required. Output configuration. If 2 input configs match to the same file (that is, same input path), we don't generate output for duplicate inputs. */
-  outputConfig?: OutputConfig;
-  /** Required. Source language code. Supported language codes are listed in [Language Support](https://cloud.google.com/translate/docs/languages). */
-  sourceLanguageCode?: string;
-  /** Optional. Glossaries to be applied for translation. It's keyed by target language code. */
-  glossaries?: TranslateTextGlossaryConfigMap;
-  /** Required. Specify up to 10 language codes here. Supported language codes are listed in [Language Support](https://cloud.google.com/translate/docs/languages). */
-  targetLanguageCodes?: StringList;
+  outputConfig?: OutputConfig | undefined;
+  /** Optional. The models to use for translation. Map's key is target language code. Map's value is model name. Value can be a built-in general model, or an AutoML Translation model. The value format depends on model type: - AutoML Translation models: `projects/{project-number-or-id}/locations/{location-id}/models/{model-id}` - General (built-in) models: `projects/{project-number-or-id}/locations/{location-id}/models/general/nmt`, If the map is empty or a specific model is not requested for a language pair, then default google model (nmt) is used. */
+  models?: StringMap | undefined;
   /** Required. Input configurations. The total number of files matched should be <= 100. The total content size should be <= 100M Unicode codepoints. The files must use UTF-8 encoding. */
-  inputConfigs?: InputConfigList;
+  inputConfigs?: InputConfigList | undefined;
+  /** Required. Specify up to 10 language codes here. Supported language codes are listed in [Language Support](https://cloud.google.com/translate/docs/languages). */
+  targetLanguageCodes?: StringList | undefined;
+  /** Required. Source language code. Supported language codes are listed in [Language Support](https://cloud.google.com/translate/docs/languages). */
+  sourceLanguageCode?: string | undefined;
+  /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. See https://cloud.google.com/translate/docs/labels for more information. */
+  labels?: StringMap | undefined;
+  /** Optional. Glossaries to be applied for translation. It's keyed by target language code. */
+  glossaries?: TranslateTextGlossaryConfigMap | undefined;
 }
-export interface BatchTranslateTextProjectsLocationsRequest {
+export interface BatchTranslateTextProjectsLocationsRequest extends BatchTranslateTextRequest {
   /** Required. Location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}/locations/{location-id}`. The `global` location is not supported for batch translation. Only AutoML Translation models or glossaries within the same region (have the same location-id) can be used, otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
-  /** Request body */
-  body?: BatchTranslateTextRequest;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -215,49 +211,47 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
+/** Used with unidirectional glossaries. */
+export interface LanguageCodePair {
+  /** Required. The BCP-47 language code for translation output, for example, "zh-CN". Expected to be an exact match for GlossaryTerm.language_code. */
+  targetLanguageCode?: string | undefined;
+  /** Required. The BCP-47 language code of the input text, for example, "en-US". Expected to be an exact match for GlossaryTerm.language_code. */
+  sourceLanguageCode?: string | undefined;
+}
 /** Input configuration for glossaries. */
 export interface GlossaryInputConfig {
   /** Required. Google Cloud Storage location of glossary data. File format is determined based on the filename extension. API returns [google.rpc.Code.INVALID_ARGUMENT] for unsupported URI-s and file formats. Wildcards are not allowed. This must be a single file in one of the following formats: For unidirectional glossaries: - TSV/CSV (`.tsv`/`.csv`): 2 column file, tab- or comma-separated. The first column is source text. The second column is target text. The file must not contain headers. That is, the first row is data, not column names. - TMX (`.tmx`): TMX file with parallel data defining source/target term pairs. For equivalent term sets glossaries: - CSV (`.csv`): Multi-column CSV file defining equivalent glossary terms in multiple languages. See documentation for more information - [glossaries](https://cloud.google.com/translate/docs/advanced/glossary). */
-  gcsSource?: GcsSource;
-}
-/** Used with unidirectional glossaries. */
-export interface LanguageCodePair {
-  /** Required. The BCP-47 language code of the input text, for example, "en-US". Expected to be an exact match for GlossaryTerm.language_code. */
-  sourceLanguageCode?: string;
-  /** Required. The BCP-47 language code for translation output, for example, "zh-CN". Expected to be an exact match for GlossaryTerm.language_code. */
-  targetLanguageCode?: string;
+  gcsSource?: GcsSource | undefined;
 }
 /** Used with equivalent term set glossaries. */
 export interface LanguageCodesSet {
   /** The BCP-47 language code(s) for terms defined in the glossary. All entries are unique. The list contains at least two entries. Expected to be an exact match for GlossaryTerm.language_code. */
-  languageCodes?: StringList;
+  languageCodes?: StringList | undefined;
 }
 /** Represents a glossary built from user provided data. */
 export interface Glossary {
   /** Output only. When CreateGlossary was called. */
-  submitTime?: string;
-  /** Required. Provides examples to build the glossary from. Total glossary must not exceed 10M Unicode codepoints. */
-  inputConfig?: GlossaryInputConfig;
-  /** Required. The resource name of the glossary. Glossary names have the form `projects/{project-number-or-id}/locations/{location-id}/glossaries/{glossary-id}`. */
-  name?: string;
+  submitTime?: string | undefined;
   /** Used with unidirectional glossaries. */
-  languagePair?: LanguageCodePair;
-  /** Output only. When the glossary creation was finished. */
-  endTime?: string;
+  languagePair?: LanguageCodePair | undefined;
   /** Output only. The number of entries defined in the glossary. */
-  entryCount?: number;
+  entryCount?: number | undefined;
+  /** Required. Provides examples to build the glossary from. Total glossary must not exceed 10M Unicode codepoints. */
+  inputConfig?: GlossaryInputConfig | undefined;
+  /** Output only. When the glossary creation was finished. */
+  endTime?: string | undefined;
   /** Used with equivalent term set glossaries. */
-  languageCodesSet?: LanguageCodesSet;
+  languageCodesSet?: LanguageCodesSet | undefined;
+  /** Required. The resource name of the glossary. Glossary names have the form `projects/{project-number-or-id}/locations/{location-id}/glossaries/{glossary-id}`. */
+  name?: string | undefined;
 }
-export interface CreateProjectsLocationsGlossariesRequest {
+export interface CreateProjectsLocationsGlossariesRequest extends Glossary {
   /** Required. The project name. */
   parent: string;
-  /** Request body */
-  body?: Glossary;
 }
 export interface DeleteProjectsLocationsGlossariesRequest {
   /** Required. The name of the glossary to delete. */
@@ -270,38 +264,34 @@ export interface DeleteProjectsLocationsOperationsRequest {
 /** The request message for language detection. */
 export interface DetectLanguageRequest {
   /** The content of the input stored as a string. */
-  content?: string;
-  /** Optional. The language detection model to be used. Format: `projects/{project-number-or-id}/locations/{location-id}/models/language-detection/{model-id}` Only one language detection model is currently supported: `projects/{project-number-or-id}/locations/{location-id}/models/language-detection/default`. If not specified, the default model is used. */
-  model?: string;
-  /** Optional. The format of the source text, for example, "text/html", "text/plain". If left blank, the MIME type defaults to "text/html". */
-  mimeType?: string;
+  content?: string | undefined;
   /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. See https://cloud.google.com/translate/docs/labels for more information. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
+  /** Optional. The format of the source text, for example, "text/html", "text/plain". If left blank, the MIME type defaults to "text/html". */
+  mimeType?: string | undefined;
+  /** Optional. The language detection model to be used. Format: `projects/{project-number-or-id}/locations/{location-id}/models/language-detection/{model-id}` Only one language detection model is currently supported: `projects/{project-number-or-id}/locations/{location-id}/models/language-detection/default`. If not specified, the default model is used. */
+  model?: string | undefined;
 }
-export interface DetectLanguageProjectsRequest {
+export interface DetectLanguageProjectsRequest extends DetectLanguageRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}/locations/{location-id}` or `projects/{project-number-or-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. Only models within the same region (has same location-id) can be used. Otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
-  /** Request body */
-  body?: DetectLanguageRequest;
 }
 /** The response message for language detection. */
 export interface DetectedLanguage {
   /** The confidence of the detection result for this language. */
-  confidence?: number;
+  confidence?: number | undefined;
   /** The BCP-47 language code of source content in the request, detected automatically. */
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
 export type DetectedLanguageList = Array<DetectedLanguage>;
 /** The response message for language detection. */
 export interface DetectLanguageResponse {
   /** A list of detected languages sorted by detection confidence in descending order. The most probable language first. */
-  languages?: DetectedLanguageList;
+  languages?: DetectedLanguageList | undefined;
 }
-export interface DetectLanguageProjectsLocationsRequest {
+export interface DetectLanguageProjectsLocationsRequest extends DetectLanguageRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}/locations/{location-id}` or `projects/{project-number-or-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. Only models within the same region (has same location-id) can be used. Otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
-  /** Request body */
-  body?: DetectLanguageRequest;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -309,16 +299,16 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  metadata?: DocumentMap | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string | undefined;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsGlossariesRequest {
   /** Required. The name of the glossary to retrieve. */
@@ -329,250 +319,240 @@ export interface GetProjectsLocationsOperationsRequest {
   name: string;
 }
 export interface GetSupportedLanguagesProjectsRequest {
-  /** Optional. Get supported languages of this model. The format depends on model type: - AutoML Translation models: `projects/{project-number-or-id}/locations/{location-id}/models/{model-id}` - General (built-in) models: `projects/{project-number-or-id}/locations/{location-id}/models/general/nmt`, Returns languages supported by the specified model. If missing, we get supported languages of Google general NMT model. */
-  model?: string;
-  /** Optional. The language to use to return localized, human readable names of supported languages. If missing, then display names are not returned in a response. */
-  displayLanguageCode?: string;
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}` or `projects/{project-number-or-id}/locations/{location-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. Non-global location is required for AutoML models. Only models within the same region (have same location-id) can be used, otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
+  /** Optional. Get supported languages of this model. The format depends on model type: - AutoML Translation models: `projects/{project-number-or-id}/locations/{location-id}/models/{model-id}` - General (built-in) models: `projects/{project-number-or-id}/locations/{location-id}/models/general/nmt`, Returns languages supported by the specified model. If missing, we get supported languages of Google general NMT model. */
+  model?: string | undefined;
+  /** Optional. The language to use to return localized, human readable names of supported languages. If missing, then display names are not returned in a response. */
+  displayLanguageCode?: string | undefined;
 }
 /** A single supported language response corresponds to information related to one supported language. */
 export interface SupportedLanguage {
-  /** Supported language code, generally consisting of its ISO 639-1 identifier, for example, 'en', 'ja'. In certain cases, BCP-47 codes including language and region identifiers are returned (for example, 'zh-TW' and 'zh-CN') */
-  languageCode?: string;
-  /** Human readable name of the language localized in the display language specified in the request. */
-  displayName?: string;
-  /** Can be used as source language. */
-  supportSource?: boolean;
   /** Can be used as target language. */
-  supportTarget?: boolean;
+  supportTarget?: boolean | undefined;
+  /** Human readable name of the language localized in the display language specified in the request. */
+  displayName?: string | undefined;
+  /** Can be used as source language. */
+  supportSource?: boolean | undefined;
+  /** Supported language code, generally consisting of its ISO 639-1 identifier, for example, 'en', 'ja'. In certain cases, BCP-47 codes including language and region identifiers are returned (for example, 'zh-TW' and 'zh-CN') */
+  languageCode?: string | undefined;
 }
 export type SupportedLanguageList = Array<SupportedLanguage>;
 /** The response message for discovering supported languages. */
 export interface SupportedLanguages {
   /** A list of supported language responses. This list contains an entry for each language the Translation API supports. */
-  languages?: SupportedLanguageList;
+  languages?: SupportedLanguageList | undefined;
 }
 export interface GetSupportedLanguagesProjectsLocationsRequest {
+  /** Optional. Get supported languages of this model. The format depends on model type: - AutoML Translation models: `projects/{project-number-or-id}/locations/{location-id}/models/{model-id}` - General (built-in) models: `projects/{project-number-or-id}/locations/{location-id}/models/general/nmt`, Returns languages supported by the specified model. If missing, we get supported languages of Google general NMT model. */
+  model?: string | undefined;
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}` or `projects/{project-number-or-id}/locations/{location-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. Non-global location is required for AutoML models. Only models within the same region (have same location-id) can be used, otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
   /** Optional. The language to use to return localized, human readable names of supported languages. If missing, then display names are not returned in a response. */
-  displayLanguageCode?: string;
-  /** Optional. Get supported languages of this model. The format depends on model type: - AutoML Translation models: `projects/{project-number-or-id}/locations/{location-id}/models/{model-id}` - General (built-in) models: `projects/{project-number-or-id}/locations/{location-id}/models/general/nmt`, Returns languages supported by the specified model. If missing, we get supported languages of Google general NMT model. */
-  model?: string;
+  displayLanguageCode?: string | undefined;
 }
 export interface ListProjectsLocationsRequest {
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsGlossariesRequest {
-  /** Optional. A token identifying a page of results the server should return. Typically, this is the value of [ListGlossariesResponse.next_page_token] returned from the previous call to `ListGlossaries` method. The first page is returned if `page_token`is empty or missing. */
-  pageToken?: string;
   /** Required. The name of the project from which to list all of the glossaries. */
   parent: string;
+  /** Optional. A token identifying a page of results the server should return. Typically, this is the value of [ListGlossariesResponse.next_page_token] returned from the previous call to `ListGlossaries` method. The first page is returned if `page_token`is empty or missing. */
+  pageToken?: string | undefined;
   /** Optional. Requested page size. The server may return fewer glossaries than requested. If unspecified, the server picks an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Filter specifying constraints of a list operation. Specify the constraint by the format of "key=value", where key must be "src" or "tgt", and the value must be a valid language code. For multiple restrictions, concatenate them by "AND" (uppercase only), such as: "src=en-US AND tgt=zh-CN". Notice that the exact match is used here, which means using 'en-US' and 'en' can lead to different results, which depends on the language code you used when you create the glossary. For the unidirectional glossaries, the "src" and "tgt" add restrictions on the source and target language code separately. For the equivalent term set glossaries, the "src" and/or "tgt" add restrictions on the term set. For example: "src=en-US AND tgt=zh-CN" will only pick the unidirectional glossaries which exactly match the source language code as "en-US" and the target language code "zh-CN", but all equivalent term set glossaries which contain "en-US" and "zh-CN" in their language set will be picked. If missing, no filtering is performed. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type GlossaryList = Array<Glossary>;
 /** Response message for ListGlossaries. */
 export interface ListGlossariesResponse {
   /** The list of glossaries for a project. */
-  glossaries?: GlossaryList;
+  glossaries?: GlossaryList | undefined;
   /** A token to retrieve a page of results. Pass this value in the [ListGlossariesRequest.page_token] field in the subsequent call to `ListGlossaries` method to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page token. */
-  pageToken?: string;
-  /** The standard list page size. */
-  pageSize?: number;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  pageToken?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList | undefined;
 }
 /** A single refinement entry for RefineTextRequest. */
 export interface RefinementEntry {
-  /** Required. The original translation of the source text. */
-  originalTranslation?: string;
   /** Required. The source text to be refined. */
-  sourceText?: string;
+  sourceText?: string | undefined;
+  /** Required. The original translation of the source text. */
+  originalTranslation?: string | undefined;
 }
 export type RefinementEntryList = Array<RefinementEntry>;
 /** Request message for RefineText. */
 export interface RefineTextRequest {
-  /** Required. The BCP-47 language code of the source text in the request, for example, "en-US". */
-  sourceLanguageCode?: string;
-  /** Required. The BCP-47 language code for translation output, for example, "zh-CN". */
-  targetLanguageCode?: string;
   /** Required. The source texts and original translations in the source and target languages. */
-  refinementEntries?: RefinementEntryList;
+  refinementEntries?: RefinementEntryList | undefined;
+  /** Required. The BCP-47 language code for translation output, for example, "zh-CN". */
+  targetLanguageCode?: string | undefined;
+  /** Required. The BCP-47 language code of the source text in the request, for example, "en-US". */
+  sourceLanguageCode?: string | undefined;
 }
-export interface RefineTextProjectsLocationsRequest {
+export interface RefineTextProjectsLocationsRequest extends RefineTextRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}/locations/{location-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. */
   parent: string;
-  /** Request body */
-  body?: RefineTextRequest;
 }
 /** Response message for RefineText. */
 export interface RefineTextResponse {
   /** The refined translations obtained from the original translations. */
-  refinedTranslations?: StringList;
-}
-/** A document translation request input config. */
-export interface DocumentInputConfig {
-  /** Document's content represented as a stream of bytes. */
-  content?: string;
-  /** Specifies the input document's mime_type. If not specified it will be determined using the file extension for gcs_source provided files. For a file provided through bytes content the mime_type must be provided. Currently supported mime types are: - application/pdf - application/vnd.openxmlformats-officedocument.wordprocessingml.document - application/vnd.openxmlformats-officedocument.presentationml.presentation - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet */
-  mimeType?: string;
-  /** Google Cloud Storage location. This must be a single file. For example: gs://example_bucket/example_file.pdf */
-  gcsSource?: GcsSource;
+  refinedTranslations?: StringList | undefined;
 }
 /** A document translation request output config. */
 export interface DocumentOutputConfig {
   /** Optional. Google Cloud Storage destination for the translation output, e.g., `gs://my_bucket/my_directory/`. The destination directory provided does not have to be empty, but the bucket must exist. If a file with the same name as the output file already exists in the destination an error will be returned. For a DocumentInputConfig.contents provided document, the output file will have the name "output_[trg]_translations.[ext]", where - [trg] corresponds to the translated file's language code, - [ext] corresponds to the translated file's extension according to its mime type. For a DocumentInputConfig.gcs_uri provided document, the output file will have a name according to its URI. For example: an input file with URI: `gs://a/b/c.[extension]` stored in a gcs_destination bucket with name "my_bucket" will have an output URI: `gs://my_bucket/a_b_c_[trg]_translations.[ext]`, where - [trg] corresponds to the translated file's language code, - [ext] corresponds to the translated file's extension according to its mime type. If the document was directly provided through the request, then the output document will have the format: `gs://my_bucket/translated_document_[trg]_translations.[ext]`, where - [trg] corresponds to the translated file's language code, - [ext] corresponds to the translated file's extension according to its mime type. If a glossary was provided, then the output URI for the glossary translation will be equal to the default output URI but have `glossary_translations` instead of `translations`. For the previous example, its glossary URI would be: `gs://my_bucket/a_b_c_[trg]_glossary_translations.[ext]`. Thus the max number of output files will be 2 (Translated document, Glossary translated document). Callers should expect no partial outputs. If there is any error during document translation, no output will be stored in the Cloud Storage bucket. */
-  gcsDestination?: GcsDestination;
+  gcsDestination?: GcsDestination | undefined;
   /** Optional. Specifies the translated document's mime_type. If not specified, the translated file's mime type will be the same as the input file's mime type. Currently only support the output mime type to be the same as input mime type. - application/pdf - application/vnd.openxmlformats-officedocument.wordprocessingml.document - application/vnd.openxmlformats-officedocument.presentationml.presentation - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet */
-  mimeType?: string;
+  mimeType?: string | undefined;
+}
+/** A document translation request input config. */
+export interface DocumentInputConfig {
+  /** Google Cloud Storage location. This must be a single file. For example: gs://example_bucket/example_file.pdf */
+  gcsSource?: GcsSource | undefined;
+  /** Specifies the input document's mime_type. If not specified it will be determined using the file extension for gcs_source provided files. For a file provided through bytes content the mime_type must be provided. Currently supported mime types are: - application/pdf - application/vnd.openxmlformats-officedocument.wordprocessingml.document - application/vnd.openxmlformats-officedocument.presentationml.presentation - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet */
+  mimeType?: string | undefined;
+  /** Document's content represented as a stream of bytes. */
+  content?: string | undefined;
 }
 /** A document translation request. */
 export interface TranslateDocumentRequest {
-  /** Optional. If true, use the text removal server to remove the shadow text on background image for native pdf translation. Shadow removal feature can only be enabled when is_translate_native_pdf_only: false && pdf_native_only: false */
-  enableShadowRemovalNativePdf?: boolean;
-  /** Required. The BCP-47 language code to use for translation of the input document, set to one of the language codes listed in [Language Support](https://cloud.google.com/translate/docs/languages). */
-  targetLanguageCode?: string;
-  /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. See https://cloud.google.com/translate/docs/advanced/labels for more information. */
-  labels?: StringMap;
-  /** Optional. is_translate_native_pdf_only field for external customers. If true, the page limit of online native pdf translation is 300 and only native pdf pages will be translated. */
-  isTranslateNativePdfOnly?: boolean;
-  /** Required. Input configurations. */
-  documentInputConfig?: DocumentInputConfig;
-  /** Optional. Glossary to be applied. The glossary must be within the same region (have the same location-id) as the model, otherwise an INVALID_ARGUMENT (400) error is returned. */
-  glossaryConfig?: TranslateTextGlossaryConfig;
-  /** Optional. This flag is to support user customized attribution. If not provided, the default is `Machine Translated by Google`. Customized attribution should follow rules in https://cloud.google.com/translate/attribution#attribution_and_logos */
-  customizedAttribution?: string;
-  /** Optional. Output configurations. Defines if the output file should be stored within Cloud Storage as well as the desired output format. If not provided the translated file will only be returned through a byte-stream and its output mime type will be the same as the input file's mime type. */
-  documentOutputConfig?: DocumentOutputConfig;
-  /** Optional. The `model` type requested for this translation. The format depends on model type: - AutoML Translation models: `projects/{project-number-or-id}/locations/{location-id}/models/{model-id}` - General (built-in) models: `projects/{project-number-or-id}/locations/{location-id}/models/general/nmt`, If not provided, the default Google model (NMT) will be used for translation. */
-  model?: string;
   /** Optional. The BCP-47 language code of the input document if known, for example, "en-US" or "sr-Latn". Supported language codes are listed in [Language Support](https://cloud.google.com/translate/docs/languages). If the source language isn't specified, the API attempts to identify the source language automatically and returns the source language within the response. Source language must be specified if the request contains a glossary or a custom model. */
-  sourceLanguageCode?: string;
+  sourceLanguageCode?: string | undefined;
+  /** Optional. The `model` type requested for this translation. The format depends on model type: - AutoML Translation models: `projects/{project-number-or-id}/locations/{location-id}/models/{model-id}` - General (built-in) models: `projects/{project-number-or-id}/locations/{location-id}/models/general/nmt`, If not provided, the default Google model (NMT) will be used for translation. */
+  model?: string | undefined;
+  /** Required. The BCP-47 language code to use for translation of the input document, set to one of the language codes listed in [Language Support](https://cloud.google.com/translate/docs/languages). */
+  targetLanguageCode?: string | undefined;
+  /** Optional. Glossary to be applied. The glossary must be within the same region (have the same location-id) as the model, otherwise an INVALID_ARGUMENT (400) error is returned. */
+  glossaryConfig?: TranslateTextGlossaryConfig | undefined;
+  /** Optional. Output configurations. Defines if the output file should be stored within Cloud Storage as well as the desired output format. If not provided the translated file will only be returned through a byte-stream and its output mime type will be the same as the input file's mime type. */
+  documentOutputConfig?: DocumentOutputConfig | undefined;
+  /** Optional. This flag is to support user customized attribution. If not provided, the default is `Machine Translated by Google`. Customized attribution should follow rules in https://cloud.google.com/translate/attribution#attribution_and_logos */
+  customizedAttribution?: string | undefined;
+  /** Optional. If true, use the text removal server to remove the shadow text on background image for native pdf translation. Shadow removal feature can only be enabled when is_translate_native_pdf_only: false && pdf_native_only: false */
+  enableShadowRemovalNativePdf?: boolean | undefined;
+  /** Optional. is_translate_native_pdf_only field for external customers. If true, the page limit of online native pdf translation is 300 and only native pdf pages will be translated. */
+  isTranslateNativePdfOnly?: boolean | undefined;
+  /** Required. Input configurations. */
+  documentInputConfig?: DocumentInputConfig | undefined;
+  /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. See https://cloud.google.com/translate/docs/advanced/labels for more information. */
+  labels?: StringMap | undefined;
   /** Optional. If true, enable auto rotation correction in DVS. */
-  enableRotationCorrection?: boolean;
+  enableRotationCorrection?: boolean | undefined;
 }
-export interface TranslateDocumentProjectsLocationsRequest {
+export interface TranslateDocumentProjectsLocationsRequest extends TranslateDocumentRequest {
   /** Required. Location to make a regional call. Format: `projects/{project-number-or-id}/locations/{location-id}`. For global calls, use `projects/{project-number-or-id}/locations/global`. Non-global location is required for requests using AutoML models or custom glossaries. Models and glossaries must be within the same region (have the same location-id), otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
-  /** Request body */
-  body?: TranslateDocumentRequest;
 }
 /** A translated document message. */
 export interface DocumentTranslation {
-  /** The translated document's mime type. */
-  mimeType?: string;
   /** The detected language for the input document. If the user did not provide the source language for the input document, this field will have the language code automatically detected. If the source language was passed, auto-detection of the language does not occur and this field is empty. */
-  detectedLanguageCode?: string;
+  detectedLanguageCode?: string | undefined;
   /** The array of translated documents. It is expected to be size 1 for now. We may produce multiple translated documents in the future for other type of file formats. */
-  byteStreamOutputs?: StringList;
+  byteStreamOutputs?: StringList | undefined;
+  /** The translated document's mime type. */
+  mimeType?: string | undefined;
 }
 /** A translated document response message. */
 export interface TranslateDocumentResponse {
   /** The document's translation output if a glossary is provided in the request. This can be the same as [TranslateDocumentResponse.document_translation] if no glossary terms apply. */
-  glossaryDocumentTranslation?: DocumentTranslation;
+  glossaryDocumentTranslation?: DocumentTranslation | undefined;
   /** Only present when 'model' is present in the request. 'model' is normalized to have a project number. For example: If the 'model' field in TranslateDocumentRequest is: `projects/{project-id}/locations/{location-id}/models/general/nmt` then `model` here would be normalized to `projects/{project-number}/locations/{location-id}/models/general/nmt`. */
-  model?: string;
+  model?: string | undefined;
   /** The `glossary_config` used for this translation. */
-  glossaryConfig?: TranslateTextGlossaryConfig;
+  glossaryConfig?: TranslateTextGlossaryConfig | undefined;
   /** Translated document. */
-  documentTranslation?: DocumentTranslation;
+  documentTranslation?: DocumentTranslation | undefined;
 }
 /** The request message for synchronous translation. */
 export interface TranslateTextRequest {
-  /** Optional. Glossary to be applied. The glossary must be within the same region (have the same location-id) as the model, otherwise an INVALID_ARGUMENT (400) error is returned. */
-  glossaryConfig?: TranslateTextGlossaryConfig;
-  /** Optional. The BCP-47 language code of the input text if known, for example, "en-US" or "sr-Latn". Supported language codes are listed in [Language Support](https://cloud.google.com/translate/docs/languages). If the source language isn't specified, the API attempts to identify the source language automatically and returns the source language within the response. */
-  sourceLanguageCode?: string;
   /** Required. The BCP-47 language code to use for translation of the input text, set to one of the language codes listed in [Language Support](https://cloud.google.com/translate/docs/languages). */
-  targetLanguageCode?: string;
-  /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. See https://cloud.google.com/translate/docs/labels for more information. */
-  labels?: StringMap;
+  targetLanguageCode?: string | undefined;
   /** Optional. The `model` type requested for this translation. The format depends on model type: - AutoML Translation models: `projects/{project-number-or-id}/locations/{location-id}/models/{model-id}` - General (built-in) models: `projects/{project-number-or-id}/locations/{location-id}/models/general/nmt`, For global (non-regionalized) requests, use `location-id` `global`. For example, `projects/{project-number-or-id}/locations/global/models/general/nmt`. If not provided, the default Google model (NMT) will be used */
-  model?: string;
-  /** Required. The content of the input in string format. We recommend the total content be less than 30k codepoints. The max length of this field is 1024. Use BatchTranslateText for larger text. */
-  contents?: StringList;
+  model?: string | undefined;
+  /** Optional. The BCP-47 language code of the input text if known, for example, "en-US" or "sr-Latn". Supported language codes are listed in [Language Support](https://cloud.google.com/translate/docs/languages). If the source language isn't specified, the API attempts to identify the source language automatically and returns the source language within the response. */
+  sourceLanguageCode?: string | undefined;
+  /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. See https://cloud.google.com/translate/docs/labels for more information. */
+  labels?: StringMap | undefined;
   /** Optional. The format of the source text, for example, "text/html", "text/plain". If left blank, the MIME type defaults to "text/html". */
-  mimeType?: string;
+  mimeType?: string | undefined;
+  /** Optional. Glossary to be applied. The glossary must be within the same region (have the same location-id) as the model, otherwise an INVALID_ARGUMENT (400) error is returned. */
+  glossaryConfig?: TranslateTextGlossaryConfig | undefined;
+  /** Required. The content of the input in string format. We recommend the total content be less than 30k codepoints. The max length of this field is 1024. Use BatchTranslateText for larger text. */
+  contents?: StringList | undefined;
 }
-export interface TranslateTextProjectsRequest {
+export interface TranslateTextProjectsRequest extends TranslateTextRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}` or `projects/{project-number-or-id}/locations/{location-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. Non-global location is required for requests using AutoML models or custom glossaries. Models and glossaries must be within the same region (have same location-id), otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
-  /** Request body */
-  body?: TranslateTextRequest;
 }
 /** A single translation response. */
 export interface Translation {
   /** Only present when `model` is present in the request. `model` here is normalized to have project number. For example: If the `model` requested in TranslationTextRequest is `projects/{project-id}/locations/{location-id}/models/general/nmt` then `model` here would be normalized to `projects/{project-number}/locations/{location-id}/models/general/nmt`. */
-  model?: string;
-  /** The BCP-47 language code of source text in the initial request, detected automatically, if no source language was passed within the initial request. If the source language was passed, auto-detection of the language does not occur and this field is empty. */
-  detectedLanguageCode?: string;
-  /** Text translated into the target language. If an error occurs during translation, this field might be excluded from the response. */
-  translatedText?: string;
+  model?: string | undefined;
   /** The `glossary_config` used for this translation. */
-  glossaryConfig?: TranslateTextGlossaryConfig;
+  glossaryConfig?: TranslateTextGlossaryConfig | undefined;
+  /** The BCP-47 language code of source text in the initial request, detected automatically, if no source language was passed within the initial request. If the source language was passed, auto-detection of the language does not occur and this field is empty. */
+  detectedLanguageCode?: string | undefined;
+  /** Text translated into the target language. If an error occurs during translation, this field might be excluded from the response. */
+  translatedText?: string | undefined;
 }
 export type TranslationList = Array<Translation>;
 export interface TranslateTextResponse {
   /** Text translation responses with no glossary applied. This field has the same length as `contents`. */
-  translations?: TranslationList;
+  translations?: TranslationList | undefined;
   /** Text translation responses if a glossary is provided in the request. This can be the same as `translations` if no terms apply. This field has the same length as `contents`. */
-  glossaryTranslations?: TranslationList;
+  glossaryTranslations?: TranslationList | undefined;
 }
-export interface TranslateTextProjectsLocationsRequest {
+export interface TranslateTextProjectsLocationsRequest extends TranslateTextRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}` or `projects/{project-number-or-id}/locations/{location-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. Non-global location is required for requests using AutoML models or custom glossaries. Models and glossaries must be within the same region (have same location-id), otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
-  /** Request body */
-  body?: TranslateTextRequest;
 }
 /** The request message for Operations.WaitOperation. */
 export interface WaitOperationRequest {
   /** The maximum duration to wait before timing out. If left blank, the wait will be at most the time permitted by the underlying HTTP/RPC protocol. If RPC context deadline is also specified, the shorter one will be used. */
-  timeout?: string;
+  timeout?: string | undefined;
 }
-export interface WaitProjectsLocationsOperationsRequest {
+export interface WaitProjectsLocationsOperationsRequest extends WaitOperationRequest {
   /** The name of the operation resource to wait on. */
   name: string;
-  /** Request body */
-  body?: WaitOperationRequest;
 }
 export type BatchTranslateDocumentProjectsLocationsError =
   | NotFound
@@ -997,10 +977,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3beta1/{+parent}:detectLanguage",
@@ -1016,9 +998,9 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           content: S.optional(S.String),
-          model: S.optional(S.String),
-          mimeType: S.optional(S.String),
           labels: S.optional(__S(168, __c21, 0)),
+          mimeType: S.optional(S.String),
+          model: S.optional(S.String),
         }),
       ).annotate({ identifier: "DetectLanguageRequest" });
     case 1:
@@ -1042,10 +1024,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3beta1/{+parent}:detectLanguage",
@@ -1076,11 +1060,11 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
           metadata: S.optional(__S(208, __c26, 0)),
-          locationId: S.optional(S.String),
           labels: S.optional(__S(168, __c21, 0)),
+          locationId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1122,9 +1106,9 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           model: S.optional(S.String.pipe(T.Query())),
           displayLanguageCode: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1140,10 +1124,10 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          languageCode: S.optional(S.String),
+          supportTarget: S.optional(S.Boolean),
           displayName: S.optional(S.String),
           supportSource: S.optional(S.Boolean),
-          supportTarget: S.optional(S.Boolean),
+          languageCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "SupportedLanguage" });
     case 1:
@@ -1161,9 +1145,9 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          model: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           displayLanguageCode: S.optional(S.String.pipe(T.Query())),
-          model: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1179,11 +1163,11 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           extraLocationTypes: S.optional(__S(192, __c24, 0).pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1197,8 +1181,8 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(81, __c10, 1)),
           nextPageToken: S.optional(S.String),
+          locations: S.optional(__S(81, __c10, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -1208,8 +1192,8 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -1236,11 +1220,11 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1254,9 +1238,9 @@ function __c12(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(192, __c24, 0)),
           operations: S.optional(__S(97, __c12, 1)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(192, __c24, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -1266,8 +1250,8 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          originalTranslation: S.optional(S.String),
           sourceText: S.optional(S.String),
+          originalTranslation: S.optional(S.String),
         }),
       ).annotate({ identifier: "RefinementEntry" });
     case 1:
@@ -1275,17 +1259,19 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sourceLanguageCode: S.optional(S.String),
-          targetLanguageCode: S.optional(S.String),
           refinementEntries: S.optional(__S(105, __c13, 1)),
+          targetLanguageCode: S.optional(S.String),
+          sourceLanguageCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "RefineTextRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(106, __c13, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(106, __c13, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3beta1/{+parent}:refineText",
@@ -1306,40 +1292,42 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(S.String),
-          mimeType: S.optional(S.String),
-          gcsSource: S.optional(__S(200, __c25, 0)),
-        }),
-      ).annotate({ identifier: "DocumentInputConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           gcsDestination: S.optional(__S(176, __c22, 0)),
           mimeType: S.optional(S.String),
         }),
       ).annotate({ identifier: "DocumentOutputConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          gcsSource: S.optional(__S(200, __c25, 0)),
+          mimeType: S.optional(S.String),
+          content: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DocumentInputConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          enableShadowRemovalNativePdf: S.optional(S.Boolean),
-          targetLanguageCode: S.optional(S.String),
-          labels: S.optional(__S(168, __c21, 0)),
-          isTranslateNativePdfOnly: S.optional(S.Boolean),
-          documentInputConfig: S.optional(__S(112, __c14, 0)),
-          glossaryConfig: S.optional(__S(184, __c23, 0)),
-          customizedAttribution: S.optional(S.String),
-          documentOutputConfig: S.optional(__S(113, __c14, 1)),
-          model: S.optional(S.String),
           sourceLanguageCode: S.optional(S.String),
+          model: S.optional(S.String),
+          targetLanguageCode: S.optional(S.String),
+          glossaryConfig: S.optional(__S(184, __c23, 0)),
+          documentOutputConfig: S.optional(__S(112, __c14, 0)),
+          customizedAttribution: S.optional(S.String),
+          enableShadowRemovalNativePdf: S.optional(S.Boolean),
+          isTranslateNativePdfOnly: S.optional(S.Boolean),
+          documentInputConfig: S.optional(__S(113, __c14, 1)),
+          labels: S.optional(__S(168, __c21, 0)),
           enableRotationCorrection: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TranslateDocumentRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(114, __c14, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(114, __c14, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3beta1/{+parent}:translateDocument",
@@ -1350,9 +1338,9 @@ function __c14(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          mimeType: S.optional(S.String),
           detectedLanguageCode: S.optional(S.String),
           byteStreamOutputs: S.optional(__S(192, __c24, 0)),
+          mimeType: S.optional(S.String),
         }),
       ).annotate({ identifier: "DocumentTranslation" });
     case 5:
@@ -1370,10 +1358,12 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3beta1/{+parent}:translateText",
@@ -1388,22 +1378,22 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          glossaryConfig: S.optional(__S(184, __c23, 0)),
-          sourceLanguageCode: S.optional(S.String),
           targetLanguageCode: S.optional(S.String),
-          labels: S.optional(__S(168, __c21, 0)),
           model: S.optional(S.String),
-          contents: S.optional(__S(192, __c24, 0)),
+          sourceLanguageCode: S.optional(S.String),
+          labels: S.optional(__S(168, __c21, 0)),
           mimeType: S.optional(S.String),
+          glossaryConfig: S.optional(__S(184, __c23, 0)),
+          contents: S.optional(__S(192, __c24, 0)),
         }),
       ).annotate({ identifier: "TranslateTextRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           model: S.optional(S.String),
+          glossaryConfig: S.optional(__S(184, __c23, 0)),
           detectedLanguageCode: S.optional(S.String),
           translatedText: S.optional(S.String),
-          glossaryConfig: S.optional(__S(184, __c23, 0)),
         }),
       ).annotate({ identifier: "Translation" });
     case 2:
@@ -1421,10 +1411,12 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3beta1/{+parent}:translateText",
@@ -1444,10 +1436,12 @@ function __c18(j: number): any {
       ).annotate({ identifier: "WaitOperationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c18, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3beta1/{+name}:wait",
@@ -1464,25 +1458,27 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          targetLanguageCodes: S.optional(__S(192, __c24, 0)),
-          glossaries: S.optional(__S(160, __c20, 0)),
-          inputConfigs: S.optional(__S(152, __c19, 0)),
-          sourceLanguageCode: S.optional(S.String),
           models: S.optional(__S(168, __c21, 0)),
           enableShadowRemovalNativePdf: S.optional(S.Boolean),
+          inputConfigs: S.optional(__S(152, __c19, 0)),
           enableRotationCorrection: S.optional(S.Boolean),
+          targetLanguageCodes: S.optional(__S(192, __c24, 0)),
+          glossaries: S.optional(__S(160, __c20, 0)),
+          outputConfig: S.optional(__S(161, __c20, 1)),
           customizedAttribution: S.optional(S.String),
           formatConversions: S.optional(__S(168, __c21, 0)),
-          outputConfig: S.optional(__S(161, __c20, 1)),
           pdfNativeOnly: S.optional(S.Boolean),
+          sourceLanguageCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchTranslateDocumentRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(153, __c19, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(153, __c19, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3beta1/{+parent}:batchTranslateDocument",
@@ -1525,8 +1521,8 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ignoreCase: S.optional(S.Boolean),
           glossary: S.optional(S.String),
+          ignoreCase: S.optional(S.Boolean),
           contextualTranslationEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TranslateTextGlossaryConfig" });
@@ -1561,19 +1557,19 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.Number),
           message: S.optional(S.String),
           details: S.optional(__S(216, __c27, 0)),
+          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(208, __c26, 0)),
-          error: S.optional(__S(217, __c27, 1)),
           name: S.optional(S.String),
+          metadata: S.optional(__S(208, __c26, 0)),
           response: S.optional(__S(208, __c26, 0)),
           done: S.optional(S.Boolean),
+          error: S.optional(__S(217, __c27, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -1593,8 +1589,8 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          mimeType: S.optional(S.String),
           gcsSource: S.optional(__S(200, __c25, 0)),
+          mimeType: S.optional(S.String),
         }),
       ).annotate({ identifier: "InputConfig" });
     case 1:
@@ -1602,21 +1598,23 @@ function __c29(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(168, __c21, 0)),
-          models: S.optional(__S(168, __c21, 0)),
           outputConfig: S.optional(__S(161, __c20, 1)),
-          sourceLanguageCode: S.optional(S.String),
-          glossaries: S.optional(__S(160, __c20, 0)),
-          targetLanguageCodes: S.optional(__S(192, __c24, 0)),
+          models: S.optional(__S(168, __c21, 0)),
           inputConfigs: S.optional(__S(233, __c29, 1)),
+          targetLanguageCodes: S.optional(__S(192, __c24, 0)),
+          sourceLanguageCode: S.optional(S.String),
+          labels: S.optional(__S(168, __c21, 0)),
+          glossaries: S.optional(__S(160, __c20, 0)),
         }),
       ).annotate({ identifier: "BatchTranslateTextRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(234, __c29, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(234, __c29, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3beta1/{+parent}:batchTranslateText",
@@ -1653,10 +1651,12 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(266, __c33, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(266, __c33, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3beta1/{+parent}/glossaries",
@@ -1671,8 +1671,8 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sourceLanguageCode: S.optional(S.String),
           targetLanguageCode: S.optional(S.String),
+          sourceLanguageCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "LanguageCodePair" });
     case 1:
@@ -1685,12 +1685,12 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           submitTime: S.optional(S.String),
-          inputConfig: S.optional(__S(224, __c28, 0)),
-          name: S.optional(S.String),
           languagePair: S.optional(__S(264, __c33, 0)),
-          endTime: S.optional(S.String),
           entryCount: S.optional(S.Number),
+          inputConfig: S.optional(__S(224, __c28, 0)),
+          endTime: S.optional(S.String),
           languageCodesSet: S.optional(__S(265, __c33, 1)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Glossary" });
   }

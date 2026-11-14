@@ -1,6 +1,11 @@
 import * as crypto from "node:crypto";
 import * as API from "@distilled.cloud/core/api";
-import { ConfigError, HTTP_STATUS_MAP, type InvalidInput } from "@distilled.cloud/core/errors";
+import {
+  ConfigError,
+  HTTP_STATUS_MAP,
+  InternalServerError,
+  type InvalidInput,
+} from "@distilled.cloud/core/errors";
 import { buildRequest, mapKeys } from "@distilled.cloud/core/protocol-http";
 import {
   unwrapRedactedDeep,
@@ -8,6 +13,7 @@ import {
   wrapSensitive,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * CoinbaseProtocol -- hand-written.
  *
@@ -77,7 +83,8 @@ export type CoinbaseOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Coinbase operation. */
 export type CoinbaseOpContext = Credentials | HttpClient.HttpClient;
@@ -339,9 +346,22 @@ const matchError = (
     return fail(new CoinbaseErrorClass(errorProps));
   }
 
-  // 5. Fall back to unknown error
+  // 5. Unmapped 5xx -> retryable server error, as in core's REST protocol.
+  if (status >= 500) {
+    return fail(
+      new InternalServerError({
+        message: message || `HTTP ${status}`,
+        retryAfter: parseRetryAfterForStatus(status, headers),
+      }),
+    );
+  }
+
+  // 6. Fall back to unknown error
   return fail(
     new UnknownCoinbaseError({
+      status,
+      code: parsed?.errorType,
+      message: parsed?.errorMessage,
       ...errorProps,
       body: errorBody,
     }),

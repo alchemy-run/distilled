@@ -76,34 +76,34 @@ export interface CreateSupportTicketRequest {
   /** Ticket message body */
   body: string;
   /** Ticket message category */
-  category?: SupportTicketCategoryEnum | (string & {});
+  category?: SupportTicketCategoryEnum | (string & {}) | undefined;
   /** Ticket impact (reserved for Business or Enterprise support level accounts) */
-  impact?: SupportTicketImpactUrgencyEnum | (string & {});
+  impact?: SupportTicketImpactUrgencyEnum | (string & {}) | undefined;
   /** Ticket message product */
-  product?: SupportTicketProductEnum | (string & {});
+  product?: SupportTicketProductEnum | (string & {}) | undefined;
   /** Ticket message service name */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Ticket message subcategory */
-  subcategory?: SupportTicketSubCategoryEnum | (string & {});
+  subcategory?: SupportTicketSubCategoryEnum | (string & {}) | undefined;
   /** Ticket message subject */
   subject: string;
   /** DEPRECATED - Ticket type (criticalIntervention requires VIP support level) */
-  type?: SupportTicketTypeEnum | (string & {});
+  type?: SupportTicketTypeEnum | (string & {}) | undefined;
   /** Ticket urgency (reserved for Business or Enterprise support level accounts) */
-  urgency?: SupportTicketImpactUrgencyEnum | (string & {});
+  urgency?: SupportTicketImpactUrgencyEnum | (string & {}) | undefined;
   /** List of e-mail addresses to notify on ticket updates (max. 10) */
-  watchers?: CreateSupportTicketRequestWatchersList;
+  watchers?: CreateSupportTicketRequestWatchersList | undefined;
 }
 /** Newly created support identifiers */
 export interface SupportNewMessageInfo {
   /** Notice or warning */
-  additionalNotice?: string | null;
+  additionalNotice?: string | null | undefined;
   /** Message identifier */
-  messageId?: number;
+  messageId?: number | undefined;
   /** Ticket identifier */
-  ticketId?: number;
+  ticketId?: number | undefined;
   /** Ticket external number */
-  ticketNumber?: number;
+  ticketNumber?: number | undefined;
 }
 export interface CreateSupportTicketCloseRequest {
   /** internal ticket identifier */
@@ -123,7 +123,7 @@ export interface CreateSupportTicketScoreRequest {
   /** ticket score */
   score: string;
   /** ticket comment about the score */
-  scoreComment?: string;
+  scoreComment?: string | undefined;
 }
 export interface CreateSupportTicketScoreResponse {}
 export interface GetSupportTicketRequest {
@@ -137,33 +137,33 @@ export type SupportTicketStatusEnum = "closed" | "open" | "unknown";
 /** Support Ticket */
 export interface SupportTicket {
   /** Customer account identifier */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Can this ticket be closed or not */
-  canBeClosed?: boolean;
+  canBeClosed?: boolean | undefined;
   /** Ticket request category */
-  category?: SupportTicketCategoryEnum | null;
+  category?: SupportTicketCategoryEnum | null | undefined;
   /** Ticket creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Sender type of last message */
-  lastMessageFrom?: SupportMessageSenderEnum;
+  lastMessageFrom?: SupportMessageSenderEnum | undefined;
   /** Product service concerned by ticket */
-  product?: SupportTicketProductEnum | null;
+  product?: SupportTicketProductEnum | null | undefined;
   /** Ticket score */
-  score?: string;
+  score?: string | undefined;
   /** Name of service concerned by ticket */
-  serviceName?: string | null;
+  serviceName?: string | null | undefined;
   /** State of ticket */
-  state?: SupportTicketStatusEnum;
+  state?: SupportTicketStatusEnum | undefined;
   /** Ticket subject */
-  subject?: string;
+  subject?: string | undefined;
   /** Ticket identifier */
-  ticketId?: number;
+  ticketId?: number | undefined;
   /** Ticket external number */
-  ticketNumber?: number;
+  ticketNumber?: number | undefined;
   /** Ticket type */
-  type?: SupportTicketTypeEnum;
+  type?: SupportTicketTypeEnum | undefined;
   /** Ticket last update date */
-  updateDate?: string;
+  updateDate?: string | undefined;
 }
 export interface GetSupportTicketCanBeScoredRequest {
   /** internal ticket identifier */
@@ -177,47 +177,47 @@ export interface ListSupportTicketMessagesRequest {
 /** Support ticket message */
 export interface SupportMessage {
   /** Message body */
-  body?: string;
+  body?: string | undefined;
   /** Message creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Message sender type */
-  from?: SupportMessageSenderEnum;
+  from?: SupportMessageSenderEnum | undefined;
   /** Message identifier */
-  messageId?: number;
+  messageId?: number | undefined;
   /** Ticket identifier */
-  ticketId?: number;
+  ticketId?: number | undefined;
   /** Message last update date */
-  updateDate?: string;
+  updateDate?: string | undefined;
 }
 export type ListSupportTicketMessagesResponseBodyList = Array<SupportMessage>;
 export type ListSupportTicketMessagesResponse = ListSupportTicketMessagesResponseBodyList;
 export interface ListSupportTicketsRequest {
   /** Search archived tickets */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Search by ticket category */
-  category?: SupportTicketCategoryEnum | (string & {});
+  category?: SupportTicketCategoryEnum | (string & {}) | undefined;
   /** Tickets pending a customer reply */
-  customerReplyNeeded?: boolean;
+  customerReplyNeeded?: boolean | undefined;
   /** Exclude auto-generated tickets */
-  excludeAutogenerated?: boolean;
+  excludeAutogenerated?: boolean | undefined;
   /** Maximum creation date */
-  maxCreationDate?: string;
+  maxCreationDate?: string | undefined;
   /** Minimum creation date */
-  minCreationDate?: string;
+  minCreationDate?: string | undefined;
   /** Page of tickets to fetch (only if pageSize is defined) */
-  page?: number;
+  page?: number | undefined;
   /** Number of ticket to fetch */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Search by ticket product */
-  product?: SupportTicketProductEnum | (string & {});
+  product?: SupportTicketProductEnum | (string & {}) | undefined;
   /** Ticket message service name */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Status of ticket */
-  status?: SupportTicketStatusEnum | (string & {});
+  status?: SupportTicketStatusEnum | (string & {}) | undefined;
   /** Search by ticket subject */
-  subject?: string;
+  subject?: string | undefined;
   /** Search by ticket number */
-  ticketNumber?: string;
+  ticketNumber?: string | undefined;
 }
 export type ListSupportTicketsResponseBodyList = Array<number>;
 export type ListSupportTicketsResponse = ListSupportTicketsResponseBodyList;

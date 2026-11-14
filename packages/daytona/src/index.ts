@@ -11,7 +11,9 @@
  * (`process`, `git`, `fileSystem`, `computerUse`, ...) hit the sandbox
  * toolbox proxy -- configure `sandboxId` on the credentials to call them.
  * Analytics tags (`telemetry`, `usage`) hit
- * `https://analytics.app.daytona.io`.
+ * `https://analytics.app.daytona.io`. `Toolbox` holds what the REST
+ * protocol can't carry: WebSocket streams (code runs, terminals, followed
+ * logs) and multipart bulk file transfer.
  *
  * @example
  * ```ts
@@ -26,4 +28,5 @@ export * as T from "./traits.ts";
 export { DaytonaProtocol, type DaytonaOpError, type DaytonaOpContext } from "./protocol.ts";
 export { paginateToken } from "./pagination.ts";
 export * as Retry from "./retry.ts";
+export * as Toolbox from "./toolbox.ts";
 export * from "./services/index.ts";

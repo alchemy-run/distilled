@@ -143,7 +143,7 @@ export type TrainedModelArn = string;
 export interface CancelTrainedModelRequest {
   membershipIdentifier: string;
   trainedModelArn: string;
-  versionIdentifier?: string;
+  versionIdentifier?: string | undefined;
 }
 export interface CancelTrainedModelResponse {}
 export type TrainedModelInferenceJobArn = string;
@@ -160,13 +160,13 @@ export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export type ResourceDescription = string;
 export interface CreateAudienceModelRequest {
-  trainingDataStartTime?: Date;
-  trainingDataEndTime?: Date;
+  trainingDataStartTime?: Date | undefined;
+  trainingDataEndTime?: Date | undefined;
   name: string;
   trainingDatasetArn: string;
-  kmsKeyArn?: string;
-  tags?: { [key: string]: string | undefined };
-  description?: string;
+  kmsKeyArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  description?: string | undefined;
 }
 export type AudienceModelArn = string;
 export interface CreateAudienceModelResponse {
@@ -199,12 +199,12 @@ export interface CreateConfiguredAudienceModelRequest {
   name: string;
   audienceModelArn: string;
   outputConfig: ConfiguredAudienceModelOutputConfig;
-  description?: string;
+  description?: string | undefined;
   sharedAudienceMetrics: SharedAudienceMetrics[];
-  minMatchingSeedSize?: number;
-  audienceSizeConfig?: AudienceSizeConfig;
-  tags?: { [key: string]: string | undefined };
-  childResourceTagOnCreatePolicy?: TagOnCreatePolicy;
+  minMatchingSeedSize?: number | undefined;
+  audienceSizeConfig?: AudienceSizeConfig | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  childResourceTagOnCreatePolicy?: TagOnCreatePolicy | undefined;
 }
 export type ConfiguredAudienceModelArn = string;
 export interface CreateConfiguredAudienceModelResponse {
@@ -224,21 +224,21 @@ export interface MetricDefinition {
 export type MetricDefinitionList = MetricDefinition[];
 export interface ContainerConfig {
   imageUri: string;
-  entrypoint?: string[];
-  arguments?: string[];
-  metricDefinitions?: MetricDefinition[];
+  entrypoint?: string[] | undefined;
+  arguments?: string[] | undefined;
+  metricDefinitions?: MetricDefinition[] | undefined;
 }
 export interface InferenceContainerConfig {
   imageUri: string;
 }
 export interface CreateConfiguredModelAlgorithmRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   roleArn: string;
-  trainingContainerConfig?: ContainerConfig;
-  inferenceContainerConfig?: InferenceContainerConfig;
-  tags?: { [key: string]: string | undefined };
-  kmsKeyArn?: string;
+  trainingContainerConfig?: ContainerConfig | undefined;
+  inferenceContainerConfig?: InferenceContainerConfig | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export type ConfiguredModelAlgorithmArn = string;
 export interface CreateConfiguredModelAlgorithmResponse {
@@ -259,13 +259,13 @@ export interface CustomEntityConfig {
 }
 export interface LogRedactionConfiguration {
   entitiesToRedact: EntityType[];
-  customEntityConfig?: CustomEntityConfig;
+  customEntityConfig?: CustomEntityConfig | undefined;
 }
 export interface LogsConfigurationPolicy {
   allowedAccountIds: string[];
-  filterPattern?: string;
-  logType?: LogType;
-  logRedactionConfiguration?: LogRedactionConfiguration;
+  filterPattern?: string | undefined;
+  logType?: LogType | undefined;
+  logRedactionConfiguration?: LogRedactionConfiguration | undefined;
 }
 export type LogsConfigurationPolicyList = LogsConfigurationPolicy[];
 export type NoiseLevelType = "HIGH" | "MEDIUM" | "LOW" | "NONE" | (string & {});
@@ -279,9 +279,9 @@ export interface TrainedModelArtifactMaxSize {
   value: number;
 }
 export interface TrainedModelsConfigurationPolicy {
-  containerLogs?: LogsConfigurationPolicy[];
-  containerMetrics?: MetricsConfigurationPolicy;
-  maxArtifactSize?: TrainedModelArtifactMaxSize;
+  containerLogs?: LogsConfigurationPolicy[] | undefined;
+  containerMetrics?: MetricsConfigurationPolicy | undefined;
+  maxArtifactSize?: TrainedModelArtifactMaxSize | undefined;
 }
 export type TrainedModelExportsMaxSizeUnitType = "GB" | (string & {});
 export type TrainedModelExportsMaxSizeValue = number;
@@ -302,13 +302,13 @@ export interface TrainedModelInferenceMaxOutputSize {
   value: number;
 }
 export interface TrainedModelInferenceJobsConfigurationPolicy {
-  containerLogs?: LogsConfigurationPolicy[];
-  maxOutputSize?: TrainedModelInferenceMaxOutputSize;
+  containerLogs?: LogsConfigurationPolicy[] | undefined;
+  maxOutputSize?: TrainedModelInferenceMaxOutputSize | undefined;
 }
 export interface PrivacyConfigurationPolicies {
-  trainedModels?: TrainedModelsConfigurationPolicy;
-  trainedModelExports?: TrainedModelExportsConfigurationPolicy;
-  trainedModelInferenceJobs?: TrainedModelInferenceJobsConfigurationPolicy;
+  trainedModels?: TrainedModelsConfigurationPolicy | undefined;
+  trainedModelExports?: TrainedModelExportsConfigurationPolicy | undefined;
+  trainedModelInferenceJobs?: TrainedModelInferenceJobsConfigurationPolicy | undefined;
 }
 export interface PrivacyConfiguration {
   policies: PrivacyConfigurationPolicies;
@@ -317,9 +317,9 @@ export interface CreateConfiguredModelAlgorithmAssociationRequest {
   membershipIdentifier: string;
   configuredModelAlgorithmArn: string;
   name: string;
-  description?: string;
-  privacyConfiguration?: PrivacyConfiguration;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  privacyConfiguration?: PrivacyConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ConfiguredModelAlgorithmAssociationArn = string;
 export interface CreateConfiguredModelAlgorithmAssociationResponse {
@@ -331,9 +331,9 @@ export type ParameterName = string;
 export type ParameterValue = string;
 export type ParameterMap = { [key: string]: string | undefined };
 export interface ProtectedQuerySQLParameters {
-  queryString?: string;
-  analysisTemplateArn?: string;
-  parameters?: { [key: string]: string | undefined };
+  queryString?: string | undefined;
+  analysisTemplateArn?: string | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type WorkerComputeType = "CR.1X" | "CR.4X" | "CR.8X" | (string & {});
 export type SparkPropertyKey = string;
@@ -341,16 +341,16 @@ export type SparkPropertyValue = string;
 export type SparkProperties = { [key: string]: string | undefined };
 export type WorkerComputeConfigurationProperties = { spark: { [key: string]: string | undefined } };
 export interface WorkerComputeConfiguration {
-  type?: WorkerComputeType;
-  number?: number;
-  properties?: WorkerComputeConfigurationProperties;
+  type?: WorkerComputeType | undefined;
+  number?: number | undefined;
+  properties?: WorkerComputeConfigurationProperties | undefined;
 }
 export type ComputeConfiguration = { worker: WorkerComputeConfiguration };
 export type ResultFormat = "CSV" | "PARQUET" | (string & {});
 export interface ProtectedQueryInputParameters {
   sqlParameters: ProtectedQuerySQLParameters;
-  computeConfiguration?: ComputeConfiguration;
-  resultFormat?: ResultFormat;
+  computeConfiguration?: ComputeConfiguration | undefined;
+  resultFormat?: ResultFormat | undefined;
 }
 export type InputChannelDataSource = {
   protectedQueryInputParameters: ProtectedQueryInputParameters;
@@ -361,8 +361,8 @@ export interface InputChannel {
 }
 export type AccountId = string;
 export interface PayerConfiguration {
-  computePayerAccountId?: string;
-  syntheticDataPayerAccountId?: string;
+  computePayerAccountId?: string | undefined;
+  syntheticDataPayerAccountId?: string | undefined;
 }
 export interface CreateMLInputChannelRequest {
   membershipIdentifier: string;
@@ -370,10 +370,10 @@ export interface CreateMLInputChannelRequest {
   inputChannel: InputChannel;
   name: string;
   retentionInDays: number;
-  description?: string;
-  kmsKeyArn?: string;
-  tags?: { [key: string]: string | undefined };
-  payerConfiguration?: PayerConfiguration;
+  description?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  payerConfiguration?: PayerConfiguration | undefined;
 }
 export type MLInputChannelArn = string;
 export interface CreateMLInputChannelResponse {
@@ -517,17 +517,17 @@ export type InstanceType =
   | "ml.p3dn.24xlarge"
   | (string & {});
 export interface ResourceConfig {
-  instanceCount?: number;
+  instanceCount?: number | undefined;
   instanceType: InstanceType;
   volumeSizeInGB: number;
 }
 export interface StoppingCondition {
-  maxRuntimeInSeconds?: number;
+  maxRuntimeInSeconds?: number | undefined;
 }
 export type ModelTrainingDataChannelName = string;
 export interface IncrementalTrainingDataChannel {
   trainedModelArn: string;
-  versionIdentifier?: string;
+  versionIdentifier?: string | undefined;
   channelName: string;
 }
 export type IncrementalTrainingDataChannels = IncrementalTrainingDataChannel[];
@@ -535,7 +535,7 @@ export type S3DataDistributionType = "FullyReplicated" | "ShardedByS3Key" | (str
 export interface ModelTrainingDataChannel {
   mlInputChannelArn: string;
   channelName: string;
-  s3DataDistributionType?: S3DataDistributionType;
+  s3DataDistributionType?: S3DataDistributionType | undefined;
 }
 export type ModelTrainingDataChannels = ModelTrainingDataChannel[];
 export type TrainingInputMode = "File" | "FastFile" | "Pipe" | (string & {});
@@ -543,21 +543,21 @@ export interface CreateTrainedModelRequest {
   membershipIdentifier: string;
   name: string;
   configuredModelAlgorithmAssociationArn: string;
-  hyperparameters?: { [key: string]: string | undefined };
-  environment?: { [key: string]: string | undefined };
+  hyperparameters?: { [key: string]: string | undefined } | undefined;
+  environment?: { [key: string]: string | undefined } | undefined;
   resourceConfig: ResourceConfig;
-  stoppingCondition?: StoppingCondition;
-  incrementalTrainingDataChannels?: IncrementalTrainingDataChannel[];
+  stoppingCondition?: StoppingCondition | undefined;
+  incrementalTrainingDataChannels?: IncrementalTrainingDataChannel[] | undefined;
   dataChannels: ModelTrainingDataChannel[];
-  trainingInputMode?: TrainingInputMode;
-  description?: string;
-  kmsKeyArn?: string;
-  tags?: { [key: string]: string | undefined };
-  mlModelTrainingPayerAccountId?: string;
+  trainingInputMode?: TrainingInputMode | undefined;
+  description?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  mlModelTrainingPayerAccountId?: string | undefined;
 }
 export interface CreateTrainedModelResponse {
   trainedModelArn: string;
-  versionIdentifier?: string;
+  versionIdentifier?: string | undefined;
 }
 export type DatasetType = "INTERACTIONS" | (string & {});
 export type ColumnName = string;
@@ -579,7 +579,7 @@ export type GlueDatabaseName = string;
 export interface GlueDataSource {
   tableName: string;
   databaseName: string;
-  catalogId?: string;
+  catalogId?: string | undefined;
 }
 export interface DataSource {
   glueDataSource: GlueDataSource;
@@ -597,8 +597,8 @@ export interface CreateTrainingDatasetRequest {
   name: string;
   roleArn: string;
   trainingData: Dataset[];
-  tags?: { [key: string]: string | undefined };
-  description?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  description?: string | undefined;
 }
 export interface CreateTrainingDatasetResponse {
   trainingDatasetArn: string;
@@ -641,7 +641,7 @@ export interface DeleteMLInputChannelDataResponse {}
 export interface DeleteTrainedModelOutputRequest {
   trainedModelArn: string;
   membershipIdentifier: string;
-  versionIdentifier?: string;
+  versionIdentifier?: string | undefined;
 }
 export interface DeleteTrainedModelOutputResponse {}
 export interface DeleteTrainingDatasetRequest {
@@ -661,14 +661,14 @@ export type AudienceGenerationJobStatus =
   | "DELETE_FAILED"
   | (string & {});
 export interface StatusDetails {
-  statusCode?: string;
-  message?: string;
+  statusCode?: string | undefined;
+  message?: string | undefined;
 }
 export interface AudienceGenerationJobDataSource {
-  dataSource?: S3ConfigMap;
+  dataSource?: S3ConfigMap | undefined;
   roleArn: string;
-  sqlParameters?: ProtectedQuerySQLParameters;
-  sqlComputeConfiguration?: ComputeConfiguration;
+  sqlParameters?: ProtectedQuerySQLParameters | undefined;
+  sqlComputeConfiguration?: ComputeConfiguration | undefined;
 }
 export interface AudienceSize {
   type: AudienceSizeType;
@@ -676,29 +676,29 @@ export interface AudienceSize {
 }
 export interface RelevanceMetric {
   audienceSize: AudienceSize;
-  score?: number;
+  score?: number | undefined;
 }
 export type RelevanceMetrics = RelevanceMetric[];
 export interface AudienceQualityMetrics {
   relevanceMetrics: RelevanceMetric[];
-  recallMetric?: number;
+  recallMetric?: number | undefined;
 }
 export interface GetAudienceGenerationJobResponse {
   createTime: Date;
   updateTime: Date;
   audienceGenerationJobArn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   status: AudienceGenerationJobStatus;
-  statusDetails?: StatusDetails;
+  statusDetails?: StatusDetails | undefined;
   configuredAudienceModelArn: string;
-  seedAudience?: AudienceGenerationJobDataSource;
-  includeSeedInOutput?: boolean;
-  collaborationId?: string;
-  metrics?: AudienceQualityMetrics;
-  startedBy?: string;
-  tags?: { [key: string]: string | undefined };
-  protectedQueryIdentifier?: string;
+  seedAudience?: AudienceGenerationJobDataSource | undefined;
+  includeSeedInOutput?: boolean | undefined;
+  collaborationId?: string | undefined;
+  metrics?: AudienceQualityMetrics | undefined;
+  startedBy?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  protectedQueryIdentifier?: string | undefined;
 }
 export interface GetAudienceModelRequest {
   audienceModelArn: string;
@@ -715,16 +715,16 @@ export type AudienceModelStatus =
 export interface GetAudienceModelResponse {
   createTime: Date;
   updateTime: Date;
-  trainingDataStartTime?: Date;
-  trainingDataEndTime?: Date;
+  trainingDataStartTime?: Date | undefined;
+  trainingDataEndTime?: Date | undefined;
   audienceModelArn: string;
   name: string;
   trainingDatasetArn: string;
   status: AudienceModelStatus;
-  statusDetails?: StatusDetails;
-  kmsKeyArn?: string;
-  tags?: { [key: string]: string | undefined };
-  description?: string;
+  statusDetails?: StatusDetails | undefined;
+  kmsKeyArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  description?: string | undefined;
 }
 export interface GetCollaborationConfiguredModelAlgorithmAssociationRequest {
   configuredModelAlgorithmAssociationArn: string;
@@ -738,9 +738,9 @@ export interface GetCollaborationConfiguredModelAlgorithmAssociationResponse {
   collaborationIdentifier: string;
   configuredModelAlgorithmArn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   creatorAccountId: string;
-  privacyConfiguration?: PrivacyConfiguration;
+  privacyConfiguration?: PrivacyConfiguration | undefined;
 }
 export interface GetCollaborationMLInputChannelRequest {
   mlInputChannelArn: string;
@@ -767,11 +767,11 @@ export type AccessBudgetType =
 export type AutoRefreshMode = "ENABLED" | "DISABLED" | (string & {});
 export interface AccessBudgetDetails {
   startTime: Date;
-  endTime?: Date;
+  endTime?: Date | undefined;
   remainingBudget: number;
   budget: number;
   budgetType: AccessBudgetType;
-  autoRefresh?: AutoRefreshMode;
+  autoRefresh?: AutoRefreshMode | undefined;
 }
 export type AccessBudgetDetailsList = AccessBudgetDetails[];
 export interface AccessBudget {
@@ -795,7 +795,7 @@ export interface ColumnClassificationDetails {
 export interface MLSyntheticDataParameters {
   epsilon: number;
   maxMembershipInferenceAttackScore: number;
-  columnClassification?: ColumnClassificationDetails;
+  columnClassification?: ColumnClassificationDetails | undefined;
 }
 export type MembershipInferenceAttackVersion = "DISTANCE_TO_CLOSEST_RECORD_V1" | (string & {});
 export interface MembershipInferenceAttackScore {
@@ -811,7 +811,7 @@ export interface SyntheticDataEvaluationScores {
 }
 export interface SyntheticDataConfiguration {
   syntheticDataParameters: MLSyntheticDataParameters;
-  syntheticDataEvaluationScores?: SyntheticDataEvaluationScores;
+  syntheticDataEvaluationScores?: SyntheticDataEvaluationScores | undefined;
 }
 export interface GetCollaborationMLInputChannelResponse {
   membershipIdentifier: string;
@@ -820,13 +820,13 @@ export interface GetCollaborationMLInputChannelResponse {
   name: string;
   configuredModelAlgorithmAssociations: string[];
   status: MLInputChannelStatus;
-  statusDetails?: StatusDetails;
+  statusDetails?: StatusDetails | undefined;
   retentionInDays: number;
-  numberOfRecords?: number;
-  privacyBudgets?: PrivacyBudgets;
-  description?: string;
-  syntheticDataConfiguration?: SyntheticDataConfiguration;
-  payerConfiguration?: PayerConfiguration;
+  numberOfRecords?: number | undefined;
+  privacyBudgets?: PrivacyBudgets | undefined;
+  description?: string | undefined;
+  syntheticDataConfiguration?: SyntheticDataConfiguration | undefined;
+  payerConfiguration?: PayerConfiguration | undefined;
   createTime: Date;
   updateTime: Date;
   creatorAccountId: string;
@@ -834,11 +834,11 @@ export interface GetCollaborationMLInputChannelResponse {
 export interface GetCollaborationTrainedModelRequest {
   trainedModelArn: string;
   collaborationIdentifier: string;
-  versionIdentifier?: string;
+  versionIdentifier?: string | undefined;
 }
 export interface IncrementalTrainingDataChannelOutput {
   channelName: string;
-  versionIdentifier?: string;
+  versionIdentifier?: string | undefined;
   modelName: string;
 }
 export type IncrementalTrainingDataChannelsOutput = IncrementalTrainingDataChannelOutput[];
@@ -861,22 +861,22 @@ export interface GetCollaborationTrainedModelResponse {
   membershipIdentifier: string;
   collaborationIdentifier: string;
   trainedModelArn: string;
-  versionIdentifier?: string;
-  incrementalTrainingDataChannels?: IncrementalTrainingDataChannelOutput[];
+  versionIdentifier?: string | undefined;
+  incrementalTrainingDataChannels?: IncrementalTrainingDataChannelOutput[] | undefined;
   name: string;
-  description?: string;
+  description?: string | undefined;
   status: TrainedModelStatus;
-  statusDetails?: StatusDetails;
+  statusDetails?: StatusDetails | undefined;
   configuredModelAlgorithmAssociationArn: string;
-  resourceConfig?: ResourceConfig;
-  trainingInputMode?: TrainingInputMode;
-  stoppingCondition?: StoppingCondition;
-  metricsStatus?: MetricsStatus;
-  metricsStatusDetails?: string;
-  logsStatus?: LogsStatus;
-  logsStatusDetails?: string;
-  trainingContainerImageDigest?: string;
-  mlModelTrainingPayerAccountId?: string;
+  resourceConfig?: ResourceConfig | undefined;
+  trainingInputMode?: TrainingInputMode | undefined;
+  stoppingCondition?: StoppingCondition | undefined;
+  metricsStatus?: MetricsStatus | undefined;
+  metricsStatusDetails?: string | undefined;
+  logsStatus?: LogsStatus | undefined;
+  logsStatusDetails?: string | undefined;
+  trainingContainerImageDigest?: string | undefined;
+  mlModelTrainingPayerAccountId?: string | undefined;
   createTime: Date;
   updateTime: Date;
   creatorAccountId: string;
@@ -892,13 +892,13 @@ export interface GetConfiguredAudienceModelResponse {
   name: string;
   audienceModelArn: string;
   outputConfig: ConfiguredAudienceModelOutputConfig;
-  description?: string;
+  description?: string | undefined;
   status: ConfiguredAudienceModelStatus;
   sharedAudienceMetrics: SharedAudienceMetrics[];
-  minMatchingSeedSize?: number;
-  audienceSizeConfig?: AudienceSizeConfig;
-  tags?: { [key: string]: string | undefined };
-  childResourceTagOnCreatePolicy?: TagOnCreatePolicy;
+  minMatchingSeedSize?: number | undefined;
+  audienceSizeConfig?: AudienceSizeConfig | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  childResourceTagOnCreatePolicy?: TagOnCreatePolicy | undefined;
 }
 export interface GetConfiguredAudienceModelPolicyRequest {
   configuredAudienceModelArn: string;
@@ -918,12 +918,12 @@ export interface GetConfiguredModelAlgorithmResponse {
   updateTime: Date;
   configuredModelAlgorithmArn: string;
   name: string;
-  trainingContainerConfig?: ContainerConfig;
-  inferenceContainerConfig?: InferenceContainerConfig;
+  trainingContainerConfig?: ContainerConfig | undefined;
+  inferenceContainerConfig?: InferenceContainerConfig | undefined;
   roleArn: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  kmsKeyArn?: string;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export interface GetConfiguredModelAlgorithmAssociationRequest {
   configuredModelAlgorithmAssociationArn: string;
@@ -937,9 +937,9 @@ export interface GetConfiguredModelAlgorithmAssociationResponse {
   collaborationIdentifier: string;
   configuredModelAlgorithmArn: string;
   name: string;
-  privacyConfiguration?: PrivacyConfiguration;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  privacyConfiguration?: PrivacyConfiguration | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetMLConfigurationRequest {
   membershipIdentifier: string;
@@ -948,7 +948,7 @@ export interface Destination {
   s3Destination: S3ConfigMap;
 }
 export interface MLOutputConfiguration {
-  destination?: Destination;
+  destination?: Destination | undefined;
   roleArn: string;
 }
 export interface GetMLConfigurationResponse {
@@ -968,53 +968,53 @@ export interface GetMLInputChannelResponse {
   name: string;
   configuredModelAlgorithmAssociations: string[];
   status: MLInputChannelStatus;
-  statusDetails?: StatusDetails;
+  statusDetails?: StatusDetails | undefined;
   retentionInDays: number;
-  numberOfRecords?: number;
-  privacyBudgets?: PrivacyBudgets;
-  description?: string;
-  syntheticDataConfiguration?: SyntheticDataConfiguration;
-  payerConfiguration?: PayerConfiguration;
+  numberOfRecords?: number | undefined;
+  privacyBudgets?: PrivacyBudgets | undefined;
+  description?: string | undefined;
+  syntheticDataConfiguration?: SyntheticDataConfiguration | undefined;
+  payerConfiguration?: PayerConfiguration | undefined;
   createTime: Date;
   updateTime: Date;
   inputChannel: InputChannel;
-  protectedQueryIdentifier?: string;
-  numberOfFiles?: number;
-  sizeInGb?: number;
-  kmsKeyArn?: string;
-  tags?: { [key: string]: string | undefined };
+  protectedQueryIdentifier?: string | undefined;
+  numberOfFiles?: number | undefined;
+  sizeInGb?: number | undefined;
+  kmsKeyArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetTrainedModelRequest {
   trainedModelArn: string;
   membershipIdentifier: string;
-  versionIdentifier?: string;
+  versionIdentifier?: string | undefined;
 }
 export interface GetTrainedModelResponse {
   membershipIdentifier: string;
   collaborationIdentifier: string;
   trainedModelArn: string;
-  versionIdentifier?: string;
-  incrementalTrainingDataChannels?: IncrementalTrainingDataChannelOutput[];
+  versionIdentifier?: string | undefined;
+  incrementalTrainingDataChannels?: IncrementalTrainingDataChannelOutput[] | undefined;
   name: string;
-  description?: string;
+  description?: string | undefined;
   status: TrainedModelStatus;
-  statusDetails?: StatusDetails;
+  statusDetails?: StatusDetails | undefined;
   configuredModelAlgorithmAssociationArn: string;
-  resourceConfig?: ResourceConfig;
-  trainingInputMode?: TrainingInputMode;
-  stoppingCondition?: StoppingCondition;
-  metricsStatus?: MetricsStatus;
-  metricsStatusDetails?: string;
-  logsStatus?: LogsStatus;
-  logsStatusDetails?: string;
-  trainingContainerImageDigest?: string;
-  mlModelTrainingPayerAccountId?: string;
+  resourceConfig?: ResourceConfig | undefined;
+  trainingInputMode?: TrainingInputMode | undefined;
+  stoppingCondition?: StoppingCondition | undefined;
+  metricsStatus?: MetricsStatus | undefined;
+  metricsStatusDetails?: string | undefined;
+  logsStatus?: LogsStatus | undefined;
+  logsStatusDetails?: string | undefined;
+  trainingContainerImageDigest?: string | undefined;
+  mlModelTrainingPayerAccountId?: string | undefined;
   createTime: Date;
   updateTime: Date;
-  hyperparameters?: { [key: string]: string | undefined };
-  environment?: { [key: string]: string | undefined };
-  kmsKeyArn?: string;
-  tags?: { [key: string]: string | undefined };
+  hyperparameters?: { [key: string]: string | undefined } | undefined;
+  environment?: { [key: string]: string | undefined } | undefined;
+  kmsKeyArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   dataChannels: ModelTrainingDataChannel[];
 }
 export interface GetTrainedModelInferenceJobRequest {
@@ -1129,48 +1129,48 @@ export type InferenceInstanceType =
   | (string & {});
 export interface InferenceResourceConfig {
   instanceType: InferenceInstanceType;
-  instanceCount?: number;
+  instanceCount?: number | undefined;
 }
 export interface InferenceReceiverMember {
   accountId: string;
 }
 export type InferenceReceiverMembers = InferenceReceiverMember[];
 export interface InferenceOutputConfiguration {
-  accept?: string;
+  accept?: string | undefined;
   members: InferenceReceiverMember[];
 }
 export interface ModelInferenceDataSource {
   mlInputChannelArn: string;
 }
 export interface InferenceContainerExecutionParameters {
-  maxPayloadInMB?: number;
+  maxPayloadInMB?: number | undefined;
 }
 export type InferenceEnvironmentMap = { [key: string]: string | undefined };
 export interface GetTrainedModelInferenceJobResponse {
   createTime: Date;
   updateTime: Date;
   trainedModelInferenceJobArn: string;
-  configuredModelAlgorithmAssociationArn?: string;
+  configuredModelAlgorithmAssociationArn?: string | undefined;
   name: string;
   status: TrainedModelInferenceJobStatus;
   trainedModelArn: string;
-  trainedModelVersionIdentifier?: string;
+  trainedModelVersionIdentifier?: string | undefined;
   resourceConfig: InferenceResourceConfig;
   outputConfiguration: InferenceOutputConfiguration;
   membershipIdentifier: string;
   dataSource: ModelInferenceDataSource;
-  containerExecutionParameters?: InferenceContainerExecutionParameters;
-  statusDetails?: StatusDetails;
-  description?: string;
-  inferenceContainerImageDigest?: string;
-  environment?: { [key: string]: string | undefined };
-  kmsKeyArn?: string;
-  metricsStatus?: MetricsStatus;
-  metricsStatusDetails?: string;
-  logsStatus?: LogsStatus;
-  logsStatusDetails?: string;
-  tags?: { [key: string]: string | undefined };
-  mlModelInferencePayerAccountId?: string;
+  containerExecutionParameters?: InferenceContainerExecutionParameters | undefined;
+  statusDetails?: StatusDetails | undefined;
+  description?: string | undefined;
+  inferenceContainerImageDigest?: string | undefined;
+  environment?: { [key: string]: string | undefined } | undefined;
+  kmsKeyArn?: string | undefined;
+  metricsStatus?: MetricsStatus | undefined;
+  metricsStatusDetails?: string | undefined;
+  logsStatus?: LogsStatus | undefined;
+  logsStatusDetails?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  mlModelInferencePayerAccountId?: string | undefined;
 }
 export interface GetTrainingDatasetRequest {
   trainingDatasetArn: string;
@@ -1184,15 +1184,15 @@ export interface GetTrainingDatasetResponse {
   trainingData: Dataset[];
   status: TrainingDatasetStatus;
   roleArn: string;
-  tags?: { [key: string]: string | undefined };
-  description?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  description?: string | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListAudienceExportJobsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  audienceGenerationJobArn?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  audienceGenerationJobArn?: string | undefined;
 }
 export type AudienceExportJobStatus =
   | "CREATE_PENDING"
@@ -1206,41 +1206,41 @@ export interface AudienceExportJobSummary {
   name: string;
   audienceGenerationJobArn: string;
   audienceSize: AudienceSize;
-  description?: string;
+  description?: string | undefined;
   status: AudienceExportJobStatus;
-  statusDetails?: StatusDetails;
-  outputLocation?: string;
+  statusDetails?: StatusDetails | undefined;
+  outputLocation?: string | undefined;
 }
 export type AudienceExportJobList = AudienceExportJobSummary[];
 export interface ListAudienceExportJobsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   audienceExportJobs: AudienceExportJobSummary[];
 }
 export interface ListAudienceGenerationJobsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  configuredAudienceModelArn?: string;
-  collaborationId?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  configuredAudienceModelArn?: string | undefined;
+  collaborationId?: string | undefined;
 }
 export interface AudienceGenerationJobSummary {
   createTime: Date;
   updateTime: Date;
   audienceGenerationJobArn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   status: AudienceGenerationJobStatus;
   configuredAudienceModelArn: string;
-  collaborationId?: string;
-  startedBy?: string;
+  collaborationId?: string | undefined;
+  startedBy?: string | undefined;
 }
 export type AudienceGenerationJobList = AudienceGenerationJobSummary[];
 export interface ListAudienceGenerationJobsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   audienceGenerationJobs: AudienceGenerationJobSummary[];
 }
 export interface ListAudienceModelsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AudienceModelSummary {
   createTime: Date;
@@ -1249,16 +1249,16 @@ export interface AudienceModelSummary {
   name: string;
   trainingDatasetArn: string;
   status: AudienceModelStatus;
-  description?: string;
+  description?: string | undefined;
 }
 export type AudienceModelList = AudienceModelSummary[];
 export interface ListAudienceModelsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   audienceModels: AudienceModelSummary[];
 }
 export interface ListCollaborationConfiguredModelAlgorithmAssociationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   collaborationIdentifier: string;
 }
 export interface CollaborationConfiguredModelAlgorithmAssociationSummary {
@@ -1266,7 +1266,7 @@ export interface CollaborationConfiguredModelAlgorithmAssociationSummary {
   updateTime: Date;
   configuredModelAlgorithmAssociationArn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   membershipIdentifier: string;
   collaborationIdentifier: string;
   configuredModelAlgorithmArn: string;
@@ -1275,12 +1275,12 @@ export interface CollaborationConfiguredModelAlgorithmAssociationSummary {
 export type CollaborationConfiguredModelAlgorithmAssociationList =
   CollaborationConfiguredModelAlgorithmAssociationSummary[];
 export interface ListCollaborationConfiguredModelAlgorithmAssociationsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   collaborationConfiguredModelAlgorithmAssociations: CollaborationConfiguredModelAlgorithmAssociationSummary[];
 }
 export interface ListCollaborationMLInputChannelsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   collaborationIdentifier: string;
 }
 export interface CollaborationMLInputChannelSummary {
@@ -1293,20 +1293,20 @@ export interface CollaborationMLInputChannelSummary {
   mlInputChannelArn: string;
   status: MLInputChannelStatus;
   creatorAccountId: string;
-  description?: string;
-  payerConfiguration?: PayerConfiguration;
+  description?: string | undefined;
+  payerConfiguration?: PayerConfiguration | undefined;
 }
 export type CollaborationMLInputChannelsList = CollaborationMLInputChannelSummary[];
 export interface ListCollaborationMLInputChannelsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   collaborationMLInputChannelsList: CollaborationMLInputChannelSummary[];
 }
 export interface ListCollaborationTrainedModelExportJobsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   collaborationIdentifier: string;
   trainedModelArn: string;
-  trainedModelVersionIdentifier?: string;
+  trainedModelVersionIdentifier?: string | undefined;
 }
 export interface TrainedModelExportReceiverMember {
   accountId: string;
@@ -1327,42 +1327,42 @@ export interface CollaborationTrainedModelExportJobSummary {
   name: string;
   outputConfiguration: TrainedModelExportOutputConfiguration;
   status: TrainedModelExportJobStatus;
-  statusDetails?: StatusDetails;
-  description?: string;
+  statusDetails?: StatusDetails | undefined;
+  description?: string | undefined;
   creatorAccountId: string;
   trainedModelArn: string;
-  trainedModelVersionIdentifier?: string;
+  trainedModelVersionIdentifier?: string | undefined;
   membershipIdentifier: string;
   collaborationIdentifier: string;
 }
 export type CollaborationTrainedModelExportJobList = CollaborationTrainedModelExportJobSummary[];
 export interface ListCollaborationTrainedModelExportJobsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   collaborationTrainedModelExportJobs: CollaborationTrainedModelExportJobSummary[];
 }
 export interface ListCollaborationTrainedModelInferenceJobsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   collaborationIdentifier: string;
-  trainedModelArn?: string;
-  trainedModelVersionIdentifier?: string;
+  trainedModelArn?: string | undefined;
+  trainedModelVersionIdentifier?: string | undefined;
 }
 export interface CollaborationTrainedModelInferenceJobSummary {
   trainedModelInferenceJobArn: string;
-  configuredModelAlgorithmAssociationArn?: string;
+  configuredModelAlgorithmAssociationArn?: string | undefined;
   membershipIdentifier: string;
   trainedModelArn: string;
-  trainedModelVersionIdentifier?: string;
+  trainedModelVersionIdentifier?: string | undefined;
   collaborationIdentifier: string;
   status: TrainedModelInferenceJobStatus;
   outputConfiguration: InferenceOutputConfiguration;
   name: string;
-  description?: string;
-  metricsStatus?: MetricsStatus;
-  metricsStatusDetails?: string;
-  logsStatus?: LogsStatus;
-  logsStatusDetails?: string;
-  mlModelInferencePayerAccountId?: string;
+  description?: string | undefined;
+  metricsStatus?: MetricsStatus | undefined;
+  metricsStatusDetails?: string | undefined;
+  logsStatus?: LogsStatus | undefined;
+  logsStatusDetails?: string | undefined;
+  mlModelInferencePayerAccountId?: string | undefined;
   createTime: Date;
   updateTime: Date;
   creatorAccountId: string;
@@ -1370,12 +1370,12 @@ export interface CollaborationTrainedModelInferenceJobSummary {
 export type CollaborationTrainedModelInferenceJobList =
   CollaborationTrainedModelInferenceJobSummary[];
 export interface ListCollaborationTrainedModelInferenceJobsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   collaborationTrainedModelInferenceJobs: CollaborationTrainedModelInferenceJobSummary[];
 }
 export interface ListCollaborationTrainedModelsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   collaborationIdentifier: string;
 }
 export interface CollaborationTrainedModelSummary {
@@ -1383,24 +1383,24 @@ export interface CollaborationTrainedModelSummary {
   updateTime: Date;
   trainedModelArn: string;
   name: string;
-  versionIdentifier?: string;
-  incrementalTrainingDataChannels?: IncrementalTrainingDataChannelOutput[];
-  description?: string;
+  versionIdentifier?: string | undefined;
+  incrementalTrainingDataChannels?: IncrementalTrainingDataChannelOutput[] | undefined;
+  description?: string | undefined;
   membershipIdentifier: string;
   collaborationIdentifier: string;
   status: TrainedModelStatus;
   configuredModelAlgorithmAssociationArn: string;
   creatorAccountId: string;
-  mlModelTrainingPayerAccountId?: string;
+  mlModelTrainingPayerAccountId?: string | undefined;
 }
 export type CollaborationTrainedModelList = CollaborationTrainedModelSummary[];
 export interface ListCollaborationTrainedModelsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   collaborationTrainedModels: CollaborationTrainedModelSummary[];
 }
 export interface ListConfiguredAudienceModelsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ConfiguredAudienceModelSummary {
   createTime: Date;
@@ -1408,18 +1408,18 @@ export interface ConfiguredAudienceModelSummary {
   name: string;
   audienceModelArn: string;
   outputConfig: ConfiguredAudienceModelOutputConfig;
-  description?: string;
+  description?: string | undefined;
   configuredAudienceModelArn: string;
   status: ConfiguredAudienceModelStatus;
 }
 export type ConfiguredAudienceModelList = ConfiguredAudienceModelSummary[];
 export interface ListConfiguredAudienceModelsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   configuredAudienceModels: ConfiguredAudienceModelSummary[];
 }
 export interface ListConfiguredModelAlgorithmAssociationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   membershipIdentifier: string;
 }
 export interface ConfiguredModelAlgorithmAssociationSummary {
@@ -1428,34 +1428,34 @@ export interface ConfiguredModelAlgorithmAssociationSummary {
   configuredModelAlgorithmAssociationArn: string;
   configuredModelAlgorithmArn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   membershipIdentifier: string;
   collaborationIdentifier: string;
 }
 export type ConfiguredModelAlgorithmAssociationList = ConfiguredModelAlgorithmAssociationSummary[];
 export interface ListConfiguredModelAlgorithmAssociationsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   configuredModelAlgorithmAssociations: ConfiguredModelAlgorithmAssociationSummary[];
 }
 export interface ListConfiguredModelAlgorithmsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ConfiguredModelAlgorithmSummary {
   createTime: Date;
   updateTime: Date;
   configuredModelAlgorithmArn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type ConfiguredModelAlgorithmList = ConfiguredModelAlgorithmSummary[];
 export interface ListConfiguredModelAlgorithmsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   configuredModelAlgorithms: ConfiguredModelAlgorithmSummary[];
 }
 export interface ListMLInputChannelsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   membershipIdentifier: string;
 }
 export interface MLInputChannelSummary {
@@ -1465,15 +1465,15 @@ export interface MLInputChannelSummary {
   collaborationIdentifier: string;
   name: string;
   configuredModelAlgorithmAssociations: string[];
-  protectedQueryIdentifier?: string;
+  protectedQueryIdentifier?: string | undefined;
   mlInputChannelArn: string;
   status: MLInputChannelStatus;
-  description?: string;
-  payerConfiguration?: PayerConfiguration;
+  description?: string | undefined;
+  payerConfiguration?: PayerConfiguration | undefined;
 }
 export type MLInputChannelsList = MLInputChannelSummary[];
 export interface ListMLInputChannelsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   mlInputChannelsList: MLInputChannelSummary[];
 }
 export type TaggableArn = string;
@@ -1484,74 +1484,74 @@ export interface ListTagsForResourceResponse {
   tags: { [key: string]: string | undefined };
 }
 export interface ListTrainedModelInferenceJobsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   membershipIdentifier: string;
-  trainedModelArn?: string;
-  trainedModelVersionIdentifier?: string;
+  trainedModelArn?: string | undefined;
+  trainedModelVersionIdentifier?: string | undefined;
 }
 export interface TrainedModelInferenceJobSummary {
   trainedModelInferenceJobArn: string;
-  configuredModelAlgorithmAssociationArn?: string;
+  configuredModelAlgorithmAssociationArn?: string | undefined;
   membershipIdentifier: string;
   trainedModelArn: string;
-  trainedModelVersionIdentifier?: string;
+  trainedModelVersionIdentifier?: string | undefined;
   collaborationIdentifier: string;
   status: TrainedModelInferenceJobStatus;
   outputConfiguration: InferenceOutputConfiguration;
   name: string;
-  description?: string;
-  metricsStatus?: MetricsStatus;
-  metricsStatusDetails?: string;
-  logsStatus?: LogsStatus;
-  logsStatusDetails?: string;
-  mlModelInferencePayerAccountId?: string;
+  description?: string | undefined;
+  metricsStatus?: MetricsStatus | undefined;
+  metricsStatusDetails?: string | undefined;
+  logsStatus?: LogsStatus | undefined;
+  logsStatusDetails?: string | undefined;
+  mlModelInferencePayerAccountId?: string | undefined;
   createTime: Date;
   updateTime: Date;
 }
 export type TrainedModelInferenceJobList = TrainedModelInferenceJobSummary[];
 export interface ListTrainedModelInferenceJobsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   trainedModelInferenceJobs: TrainedModelInferenceJobSummary[];
 }
 export interface ListTrainedModelsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   membershipIdentifier: string;
 }
 export interface TrainedModelSummary {
   createTime: Date;
   updateTime: Date;
   trainedModelArn: string;
-  versionIdentifier?: string;
-  incrementalTrainingDataChannels?: IncrementalTrainingDataChannelOutput[];
+  versionIdentifier?: string | undefined;
+  incrementalTrainingDataChannels?: IncrementalTrainingDataChannelOutput[] | undefined;
   name: string;
-  description?: string;
+  description?: string | undefined;
   membershipIdentifier: string;
   collaborationIdentifier: string;
   status: TrainedModelStatus;
   configuredModelAlgorithmAssociationArn: string;
-  mlModelTrainingPayerAccountId?: string;
+  mlModelTrainingPayerAccountId?: string | undefined;
 }
 export type TrainedModelList = TrainedModelSummary[];
 export interface ListTrainedModelsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   trainedModels: TrainedModelSummary[];
 }
 export interface ListTrainedModelVersionsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   membershipIdentifier: string;
   trainedModelArn: string;
-  status?: TrainedModelStatus;
+  status?: TrainedModelStatus | undefined;
 }
 export interface ListTrainedModelVersionsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   trainedModels: TrainedModelSummary[];
 }
 export interface ListTrainingDatasetsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface TrainingDatasetSummary {
   createTime: Date;
@@ -1559,11 +1559,11 @@ export interface TrainingDatasetSummary {
   trainingDatasetArn: string;
   name: string;
   status: TrainingDatasetStatus;
-  description?: string;
+  description?: string | undefined;
 }
 export type TrainingDatasetList = TrainingDatasetSummary[];
 export interface ListTrainingDatasetsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   trainingDatasets: TrainingDatasetSummary[];
 }
 export type PolicyExistenceCondition =
@@ -1573,8 +1573,8 @@ export type PolicyExistenceCondition =
 export interface PutConfiguredAudienceModelPolicyRequest {
   configuredAudienceModelArn: string;
   configuredAudienceModelPolicy: string;
-  previousPolicyHash?: string;
-  policyExistenceCondition?: PolicyExistenceCondition;
+  previousPolicyHash?: string | undefined;
+  policyExistenceCondition?: PolicyExistenceCondition | undefined;
 }
 export interface PutConfiguredAudienceModelPolicyResponse {
   configuredAudienceModelPolicy: string;
@@ -1589,17 +1589,17 @@ export interface StartAudienceExportJobRequest {
   name: string;
   audienceGenerationJobArn: string;
   audienceSize: AudienceSize;
-  description?: string;
+  description?: string | undefined;
 }
 export interface StartAudienceExportJobResponse {}
 export interface StartAudienceGenerationJobRequest {
   name: string;
   configuredAudienceModelArn: string;
   seedAudience: AudienceGenerationJobDataSource;
-  includeSeedInOutput?: boolean;
-  collaborationId?: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  includeSeedInOutput?: boolean | undefined;
+  collaborationId?: string | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartAudienceGenerationJobResponse {
   audienceGenerationJobArn: string;
@@ -1607,27 +1607,27 @@ export interface StartAudienceGenerationJobResponse {
 export interface StartTrainedModelExportJobRequest {
   name: string;
   trainedModelArn: string;
-  trainedModelVersionIdentifier?: string;
+  trainedModelVersionIdentifier?: string | undefined;
   membershipIdentifier: string;
   outputConfiguration: TrainedModelExportOutputConfiguration;
-  description?: string;
+  description?: string | undefined;
 }
 export interface StartTrainedModelExportJobResponse {}
 export interface StartTrainedModelInferenceJobRequest {
   membershipIdentifier: string;
   name: string;
   trainedModelArn: string;
-  trainedModelVersionIdentifier?: string;
-  configuredModelAlgorithmAssociationArn?: string;
+  trainedModelVersionIdentifier?: string | undefined;
+  configuredModelAlgorithmAssociationArn?: string | undefined;
   resourceConfig: InferenceResourceConfig;
   outputConfiguration: InferenceOutputConfiguration;
   dataSource: ModelInferenceDataSource;
-  description?: string;
-  containerExecutionParameters?: InferenceContainerExecutionParameters;
-  environment?: { [key: string]: string | undefined };
-  kmsKeyArn?: string;
-  tags?: { [key: string]: string | undefined };
-  mlModelInferencePayerAccountId?: string;
+  description?: string | undefined;
+  containerExecutionParameters?: InferenceContainerExecutionParameters | undefined;
+  environment?: { [key: string]: string | undefined } | undefined;
+  kmsKeyArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  mlModelInferencePayerAccountId?: string | undefined;
 }
 export interface StartTrainedModelInferenceJobResponse {
   trainedModelInferenceJobArn: string;
@@ -1645,12 +1645,12 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateConfiguredAudienceModelRequest {
   configuredAudienceModelArn: string;
-  outputConfig?: ConfiguredAudienceModelOutputConfig;
-  audienceModelArn?: string;
-  sharedAudienceMetrics?: SharedAudienceMetrics[];
-  minMatchingSeedSize?: number;
-  audienceSizeConfig?: AudienceSizeConfig;
-  description?: string;
+  outputConfig?: ConfiguredAudienceModelOutputConfig | undefined;
+  audienceModelArn?: string | undefined;
+  sharedAudienceMetrics?: SharedAudienceMetrics[] | undefined;
+  minMatchingSeedSize?: number | undefined;
+  audienceSizeConfig?: AudienceSizeConfig | undefined;
+  description?: string | undefined;
 }
 export interface UpdateConfiguredAudienceModelResponse {
   configuredAudienceModelArn: string;

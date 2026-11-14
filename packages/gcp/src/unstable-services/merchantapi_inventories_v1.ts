@@ -93,54 +93,12 @@ export interface DeleteAccountsProductsRegionalInventoriesRequest {
   /** Required. The name of the `RegionalInventory` resource to delete. Format: `accounts/{account}/products/{product}/regionalInventories/{region}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an **unpadded base64url** encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123` for `region` "region123", the `{product}` segment must be the unpadded base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the regional inventory would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw/regionalInventories/region123`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
   name: string;
 }
-/** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive). The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
-export interface Interval {
-  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  startTime?: string;
-  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  endTime?: string;
-}
-export type LocalInventoryAttributesPickupMethodEnum =
-  | "PICKUP_METHOD_UNSPECIFIED"
-  | "BUY"
-  | "RESERVE"
-  | "SHIP_TO_STORE"
-  | "NOT_SUPPORTED";
-/** The price represented as a number and currency. */
-export interface Price {
-  /** The price represented as a number in micros (1 million micros is an equivalent to one's currency standard unit, for example, 1 USD = 1000000 micros). */
-  amountMicros?: string;
-  /** The currency of the price using three-letter acronyms according to [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217). */
-  currencyCode?: string;
-}
-/** A message that represents custom attributes. Exactly one of `value` or `group_values` must not be empty. */
-export interface CustomAttribute {
-  /** The name of the attribute. */
-  name?: string;
-  /** Subattributes within this attribute group. If `group_values` is not empty, `value` must be empty. */
-  groupValues?: CustomAttributeList;
-  /** The value of the attribute. If `value` is not empty, `group_values` must be empty. */
-  value?: string;
-}
-export type CustomAttributeList = Array<CustomAttribute>;
-/** A message that represents loyalty program. */
-export interface InventoryLoyaltyProgram {
-  /** The label of the loyalty program. This is an internal label that uniquely identifies the relationship between a business entity and a loyalty program entity. The label must be provided if there are multiple loyalty programs available for the merchant, so that the system can associate the assets below (for example, price and points) with the correct business. The corresponding program must be linked to the Merchant Center account. */
-  programLabel?: string;
-  /** The label of the tier within the loyalty program. Must match one of the labels within the program. */
-  tierLabel?: string;
-  /** The label of the shipping benefit. If the field has value, this offer has loyalty shipping benefit. If the field value isn't provided, the item is not eligible for loyalty shipping for the given loyalty tier. */
-  shippingLabel?: string;
-  /** The amount of loyalty points earned on a purchase. */
-  loyaltyPoints?: string;
-  /** A date range during which the item is eligible for member price. If not specified, the member price is always applicable. The date range is represented by a pair of ISO 8601 dates separated by a space, comma, or slash. */
-  memberPriceEffectiveInterval?: Interval;
-  /** The price for members of the given tier, that is, the instant discount price. Must be smaller or equal to the regular price. */
-  price?: Price;
-  /** The cashback that can be used for future purchases. */
-  cashbackForFutureUse?: Price;
-}
-export type InventoryLoyaltyProgramList = Array<InventoryLoyaltyProgram>;
+export type LocalInventoryAttributesAvailabilityEnum =
+  | "LOCAL_INVENTORY_AVAILABILITY_UNSPECIFIED"
+  | "IN_STOCK"
+  | "LIMITED_AVAILABILITY"
+  | "ON_DISPLAY_TO_ORDER"
+  | "OUT_OF_STOCK";
 export type LocalInventoryAttributesPickupSlaEnum =
   | "PICKUP_SLA_UNSPECIFIED"
   | "SAME_DAY"
@@ -152,55 +110,95 @@ export type LocalInventoryAttributesPickupSlaEnum =
   | "SIX_DAY"
   | "SEVEN_DAY"
   | "MULTI_WEEK";
-export type LocalInventoryAttributesAvailabilityEnum =
-  | "LOCAL_INVENTORY_AVAILABILITY_UNSPECIFIED"
-  | "IN_STOCK"
-  | "LIMITED_AVAILABILITY"
-  | "ON_DISPLAY_TO_ORDER"
-  | "OUT_OF_STOCK";
+export type LocalInventoryAttributesPickupMethodEnum =
+  | "PICKUP_METHOD_UNSPECIFIED"
+  | "BUY"
+  | "RESERVE"
+  | "SHIP_TO_STORE"
+  | "NOT_SUPPORTED";
+/** The price represented as a number and currency. */
+export interface Price {
+  /** The currency of the price using three-letter acronyms according to [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217). */
+  currencyCode?: string | undefined;
+  /** The price represented as a number in micros (1 million micros is an equivalent to one's currency standard unit, for example, 1 USD = 1000000 micros). */
+  amountMicros?: string | undefined;
+}
+/** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive). The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
+export interface Interval {
+  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
+  startTime?: string | undefined;
+  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
+  endTime?: string | undefined;
+}
+/** A message that represents loyalty program. */
+export interface InventoryLoyaltyProgram {
+  /** A date range during which the item is eligible for member price. If not specified, the member price is always applicable. The date range is represented by a pair of ISO 8601 dates separated by a space, comma, or slash. */
+  memberPriceEffectiveInterval?: Interval | undefined;
+  /** The price for members of the given tier, that is, the instant discount price. Must be smaller or equal to the regular price. */
+  price?: Price | undefined;
+  /** The label of the tier within the loyalty program. Must match one of the labels within the program. */
+  tierLabel?: string | undefined;
+  /** The cashback that can be used for future purchases. */
+  cashbackForFutureUse?: Price | undefined;
+  /** The label of the loyalty program. This is an internal label that uniquely identifies the relationship between a business entity and a loyalty program entity. The label must be provided if there are multiple loyalty programs available for the merchant, so that the system can associate the assets below (for example, price and points) with the correct business. The corresponding program must be linked to the Merchant Center account. */
+  programLabel?: string | undefined;
+  /** The amount of loyalty points earned on a purchase. */
+  loyaltyPoints?: string | undefined;
+  /** The label of the shipping benefit. If the field has value, this offer has loyalty shipping benefit. If the field value isn't provided, the item is not eligible for loyalty shipping for the given loyalty tier. */
+  shippingLabel?: string | undefined;
+}
+export type InventoryLoyaltyProgramList = Array<InventoryLoyaltyProgram>;
+/** A message that represents custom attributes. Exactly one of `value` or `group_values` must not be empty. */
+export interface CustomAttribute {
+  /** The value of the attribute. If `value` is not empty, `group_values` must be empty. */
+  value?: string | undefined;
+  /** Subattributes within this attribute group. If `group_values` is not empty, `value` must be empty. */
+  groupValues?: CustomAttributeList | undefined;
+  /** The name of the attribute. */
+  name?: string | undefined;
+}
+export type CustomAttributeList = Array<CustomAttribute>;
 /** Local inventory attributes. */
 export interface LocalInventoryAttributes {
-  /** Optional. The `TimePeriod` of the sale at this store. */
-  salePriceEffectiveDate?: Interval;
-  /** Optional. Supported [pickup method](https://support.google.com/merchants/answer/3061342) for this product. Unless the value is `"not supported"`, this field must be submitted together with `pickupSla`. */
-  pickupMethod?: LocalInventoryAttributesPickupMethodEnum | (string & {});
-  /** Optional. Price of the product at this store. */
-  price?: Price;
-  /** Optional. A list of custom (merchant-provided) attributes. It can also be used for submitting any attribute of the data specification in its generic form (for example, `{ "name": "size type", "value": "regular" }`). This is useful for submitting attributes not explicitly exposed by the API. Maximum allowed number of characters for each custom attribute is 10240 (represents sum of characters for name and value). Maximum 2500 custom attributes can be set, with total size of 102.4kB. Underscores in custom attribute names are replaced by spaces upon insertion. */
-  customAttributes?: CustomAttributeList;
-  /** Optional. Specifies a label associated with the shipping for the `LocalInventory` resource. Can be used to group local shipping services to this particular inventory item. For accepted field format, see the [Local delivery](https://support.google.com/merchants/answer/14819809#localdelivery) */
-  localShippingLabel?: string;
-  /** Optional. Quantity of the product available at this store. Must be greater than or equal to zero. */
-  quantity?: string;
-  /** Optional. An optional list of loyalty programs containing applicable loyalty member prices for this product at this store. This field is used to show store-specific member prices on Local Inventory Ads (LIA). To use this, the loyalty program must be configured in Google Merchant Center. The benefits provided must match the merchant's website and be clear to members. This is only applicable for merchants in supported countries. See [Loyalty program](https://support.google.com/merchants/answer/12922446) for details on supported countries and loyalty program configuration. For local inventory specific details, see the [Local inventory data specification](https://support.google.com/merchants/answer/3061342). */
-  loyaltyPrograms?: InventoryLoyaltyProgramList;
-  /** Optional. Sale price of the product at this store. Mandatory if `salePriceEffectiveDate` is defined. */
-  salePrice?: Price;
-  /** Optional. Relative time period from the order date for an order for this product, from this store, to be ready for pickup. Must be submitted with `pickupMethod`. See more details [here](https://support.google.com/merchants/answer/3061342). */
-  pickupSla?: LocalInventoryAttributesPickupSlaEnum | (string & {});
   /** [Availability](https://support.google.com/merchants/answer/3061342) of the product at this store. */
-  availability?: LocalInventoryAttributesAvailabilityEnum | (string & {});
+  availability?: LocalInventoryAttributesAvailabilityEnum | (string & {}) | undefined;
   /** Optional. Location of the product inside the store. Maximum length is 20 bytes. */
-  instoreProductLocation?: string;
+  instoreProductLocation?: string | undefined;
+  /** Optional. Relative time period from the order date for an order for this product, from this store, to be ready for pickup. Must be submitted with `pickupMethod`. See more details [here](https://support.google.com/merchants/answer/3061342). */
+  pickupSla?: LocalInventoryAttributesPickupSlaEnum | (string & {}) | undefined;
+  /** Optional. Specifies a label associated with the shipping for the `LocalInventory` resource. Can be used to group local shipping services to this particular inventory item. For accepted field format, see the [Local delivery](https://support.google.com/merchants/answer/14819809#localdelivery) */
+  localShippingLabel?: string | undefined;
+  /** Optional. Supported [pickup method](https://support.google.com/merchants/answer/3061342) for this product. Unless the value is `"not supported"`, this field must be submitted together with `pickupSla`. */
+  pickupMethod?: LocalInventoryAttributesPickupMethodEnum | (string & {}) | undefined;
+  /** Optional. Sale price of the product at this store. Mandatory if `salePriceEffectiveDate` is defined. */
+  salePrice?: Price | undefined;
+  /** Optional. Price of the product at this store. */
+  price?: Price | undefined;
+  /** Optional. The `TimePeriod` of the sale at this store. */
+  salePriceEffectiveDate?: Interval | undefined;
+  /** Optional. An optional list of loyalty programs containing applicable loyalty member prices for this product at this store. This field is used to show store-specific member prices on Local Inventory Ads (LIA). To use this, the loyalty program must be configured in Google Merchant Center. The benefits provided must match the merchant's website and be clear to members. This is only applicable for merchants in supported countries. See [Loyalty program](https://support.google.com/merchants/answer/12922446) for details on supported countries and loyalty program configuration. For local inventory specific details, see the [Local inventory data specification](https://support.google.com/merchants/answer/3061342). */
+  loyaltyPrograms?: InventoryLoyaltyProgramList | undefined;
+  /** Optional. A list of custom (merchant-provided) attributes. It can also be used for submitting any attribute of the data specification in its generic form (for example, `{ "name": "size type", "value": "regular" }`). This is useful for submitting attributes not explicitly exposed by the API. Maximum allowed number of characters for each custom attribute is 10240 (represents sum of characters for name and value). Maximum 2500 custom attributes can be set, with total size of 102.4kB. Underscores in custom attribute names are replaced by spaces upon insertion. */
+  customAttributes?: CustomAttributeList | undefined;
+  /** Optional. Quantity of the product available at this store. Must be greater than or equal to zero. */
+  quantity?: string | undefined;
 }
 /** Local inventory information for the product. Represents in-store information for a specific product at the store specified by `storeCode`. For a list of all accepted attribute values, see the [local product inventory data specification](https://support.google.com/merchants/answer/3061342). */
 export interface LocalInventory {
   /** Output only. The account that owns the product. This field will be ignored if set by the client. */
-  account?: string;
-  /** Output only. The name of the `LocalInventory` resource. Format: `accounts/{account}/products/{product}/localInventories/{store_code}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123` for `store_code` "store123", the `{product}` segment must be the base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the local inventory would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw/localInventories/store123`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
-  name?: string;
-  /** Required. Immutable. Store code (the store ID from your Business Profile) of the physical store the product is sold in. See the [Local product inventory data specification](https://support.google.com/merchants/answer/3061342) for more information. */
-  storeCode?: string;
-  /** Output only. The unpadded base64url encoded name of the `LocalInventory` resource. Format: `accounts/{account}/products/{product}/localInventories/{store_code}` where the `{product}` segment is the unpadded base64url encoded value of the identifier of the form `content_language~feed_label~offer_id`. Example: `accounts/123/products/ZW5-VVN-c2t1LzEyMw/localInventories/store123` for the decoded product ID `en~US~sku/123` and `store_code` "store123". Can be used directly as input to the API methods that require the local product identifier within the local inventory name to be encoded if it contains special characters, for example [`GetLocalInventory`](https://developers.google.com/merchant/api/reference/rest/inventories_v1/accounts.products.localInventories/get). */
-  base64EncodedName?: string;
+  account?: string | undefined;
   /** Optional. A list of local inventory attributes. */
-  localInventoryAttributes?: LocalInventoryAttributes;
+  localInventoryAttributes?: LocalInventoryAttributes | undefined;
+  /** Output only. The unpadded base64url encoded name of the `LocalInventory` resource. Format: `accounts/{account}/products/{product}/localInventories/{store_code}` where the `{product}` segment is the unpadded base64url encoded value of the identifier of the form `content_language~feed_label~offer_id`. Example: `accounts/123/products/ZW5-VVN-c2t1LzEyMw/localInventories/store123` for the decoded product ID `en~US~sku/123` and `store_code` "store123". Can be used directly as input to the API methods that require the local product identifier within the local inventory name to be encoded if it contains special characters, for example [`GetLocalInventory`](https://developers.google.com/merchant/api/reference/rest/inventories_v1/accounts.products.localInventories/get). */
+  base64EncodedName?: string | undefined;
+  /** Output only. The name of the `LocalInventory` resource. Format: `accounts/{account}/products/{product}/localInventories/{store_code}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123` for `store_code` "store123", the `{product}` segment must be the base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the local inventory would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw/localInventories/store123`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
+  name?: string | undefined;
+  /** Required. Immutable. Store code (the store ID from your Business Profile) of the physical store the product is sold in. See the [Local product inventory data specification](https://support.google.com/merchants/answer/3061342) for more information. */
+  storeCode?: string | undefined;
 }
-export interface InsertAccountsProductsLocalInventoriesRequest {
+export interface InsertAccountsProductsLocalInventoriesRequest extends LocalInventory {
   /** Required. The account and product where this inventory will be inserted. Format: `accounts/{account}/products/{product}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{product}` segment must be the unpadded base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the product would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
   parent: string;
-  /** Request body */
-  body?: LocalInventory;
 }
 export type RegionalInventoryAttributesAvailabilityEnum =
   | "REGIONAL_INVENTORY_AVAILABILITY_UNSPECIFIED"
@@ -209,66 +207,64 @@ export type RegionalInventoryAttributesAvailabilityEnum =
 /** Regional inventory attributes. */
 export interface RegionalInventoryAttributes {
   /** Optional. [Availability](https://support.google.com/merchants/answer/14644124) of the product in this region. */
-  availability?: RegionalInventoryAttributesAvailabilityEnum | (string & {});
-  /** Optional. An optional list of loyalty programs containing applicable loyalty member prices for this product in this region. This field is used to show region-specific member prices on Product Listing Ads (PLA). To use this, the loyalty program must be configured in Google Merchant Center, and the merchant must be using the Regional Availability and Pricing (RAAP) feature. The benefits provided must match the merchant's website and be clear to members. This is only applicable for merchants in supported countries. See [Loyalty program](https://support.google.com/merchants/answer/12922446) for details on supported countries and loyalty program configuration. Also see [Regional availability and pricing](https://support.google.com/merchants/answer/14644124) and [How to set up regional member pricing](https://support.google.com/merchants/answer/16388178) for more information. */
-  loyaltyPrograms?: InventoryLoyaltyProgramList;
+  availability?: RegionalInventoryAttributesAvailabilityEnum | (string & {}) | undefined;
   /** Optional. Sale price of the product in this region. Mandatory if `salePriceEffectiveDate` is defined. */
-  salePrice?: Price;
-  /** Optional. The `TimePeriod` of the sale price in this region. */
-  salePriceEffectiveDate?: Interval;
+  salePrice?: Price | undefined;
   /** Optional. Price of the product in this region. */
-  price?: Price;
+  price?: Price | undefined;
+  /** Optional. The `TimePeriod` of the sale price in this region. */
+  salePriceEffectiveDate?: Interval | undefined;
+  /** Optional. An optional list of loyalty programs containing applicable loyalty member prices for this product in this region. This field is used to show region-specific member prices on Product Listing Ads (PLA). To use this, the loyalty program must be configured in Google Merchant Center, and the merchant must be using the Regional Availability and Pricing (RAAP) feature. The benefits provided must match the merchant's website and be clear to members. This is only applicable for merchants in supported countries. See [Loyalty program](https://support.google.com/merchants/answer/12922446) for details on supported countries and loyalty program configuration. Also see [Regional availability and pricing](https://support.google.com/merchants/answer/14644124) and [How to set up regional member pricing](https://support.google.com/merchants/answer/16388178) for more information. */
+  loyaltyPrograms?: InventoryLoyaltyProgramList | undefined;
 }
 /** Regional inventory information for the product. Represents specific information like price and availability for a given product in a specific `region`. For a list of all accepted attribute values, see the [regional product inventory data specification](https://support.google.com/merchants/answer/9698880). */
 export interface RegionalInventory {
-  /** Required. Immutable. ID of the region for this `RegionalInventory` resource. See the [Regional availability and pricing](https://support.google.com/merchants/answer/9698880) for more details. */
-  region?: string;
-  /** Output only. The account that owns the product. This field will be ignored if set by the client. */
-  account?: string;
-  /** Output only. The unpadded base64url encoded name of the `RegionalInventory` resource. Format: `accounts/{account}/products/{product}/regionalInventories/{region}` where the `{product}` segment is the unpadded base64url encoded value of the identifier of the form `content_language~feed_label~offer_id`. Example: `accounts/123/products/ZW5-VVN-c2t1LzEyMw/regionalInventories/region123` for the decoded product ID `en~US~sku/123` and `region` "region123". Can be used directly as input to the API methods that require the product identifier within the regional inventory name to be encoded if it contains special characters, for example [`GetRegionalInventory`](https://developers.google.com/merchant/api/reference/rest/inventories_v1/accounts.products.regionalInventories/get). */
-  base64EncodedName?: string;
   /** Optional. A list of regional inventory attributes. */
-  regionalInventoryAttributes?: RegionalInventoryAttributes;
+  regionalInventoryAttributes?: RegionalInventoryAttributes | undefined;
   /** Output only. The name of the `RegionalInventory` resource. Format: `accounts/{account}/products/{product}/regionalInventories/{region}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an **unpadded base64url** encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123` for `region` "region123", the `{product}` segment must be the unpadded base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the regional inventory would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw/regionalInventories/region123`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
-  name?: string;
+  name?: string | undefined;
+  /** Output only. The unpadded base64url encoded name of the `RegionalInventory` resource. Format: `accounts/{account}/products/{product}/regionalInventories/{region}` where the `{product}` segment is the unpadded base64url encoded value of the identifier of the form `content_language~feed_label~offer_id`. Example: `accounts/123/products/ZW5-VVN-c2t1LzEyMw/regionalInventories/region123` for the decoded product ID `en~US~sku/123` and `region` "region123". Can be used directly as input to the API methods that require the product identifier within the regional inventory name to be encoded if it contains special characters, for example [`GetRegionalInventory`](https://developers.google.com/merchant/api/reference/rest/inventories_v1/accounts.products.regionalInventories/get). */
+  base64EncodedName?: string | undefined;
+  /** Required. Immutable. ID of the region for this `RegionalInventory` resource. See the [Regional availability and pricing](https://support.google.com/merchants/answer/9698880) for more details. */
+  region?: string | undefined;
+  /** Output only. The account that owns the product. This field will be ignored if set by the client. */
+  account?: string | undefined;
 }
-export interface InsertAccountsProductsRegionalInventoriesRequest {
+export interface InsertAccountsProductsRegionalInventoriesRequest extends RegionalInventory {
   /** Required. The account and product where this inventory will be inserted. Format: `accounts/{account}/products/{product}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an **unpadded base64url** encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{product}` segment must be the unpadded base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the product would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
   parent: string;
-  /** Request body */
-  body?: RegionalInventory;
 }
 export interface ListAccountsProductsLocalInventoriesRequest {
+  /** A page token, received from a previous `ListLocalInventories` call. Provide the page token to retrieve the subsequent page. When paginating, all other parameters provided to `ListLocalInventories` must match the call that provided the page token. The token returned as nextPageToken in the response to the previous request. */
+  pageToken?: string | undefined;
+  /** The maximum number of `LocalInventory` resources for the given product to return. The service returns fewer than this value if the number of inventories for the given product is less that than the `pageSize`. The default value is 25000. The maximum value is 25000; If a value higher than the maximum is specified, then the `pageSize` will default to the maximum */
+  pageSize?: number | undefined;
   /** Required. The `name` of the parent product to list local inventories for. Format: `accounts/{account}/products/{product}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{product}` segment must be the unpadded base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the product would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
   parent: string;
-  /** A page token, received from a previous `ListLocalInventories` call. Provide the page token to retrieve the subsequent page. When paginating, all other parameters provided to `ListLocalInventories` must match the call that provided the page token. The token returned as nextPageToken in the response to the previous request. */
-  pageToken?: string;
-  /** The maximum number of `LocalInventory` resources for the given product to return. The service returns fewer than this value if the number of inventories for the given product is less that than the `pageSize`. The default value is 25000. The maximum value is 25000; If a value higher than the maximum is specified, then the `pageSize` will default to the maximum */
-  pageSize?: number;
 }
 export type LocalInventoryList = Array<LocalInventory>;
 /** Response message for the `ListLocalInventories` method. */
 export interface ListLocalInventoriesResponse {
   /** A token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The `LocalInventory` resources for the given product from the specified account. */
-  localInventories?: LocalInventoryList;
+  localInventories?: LocalInventoryList | undefined;
 }
 export interface ListAccountsProductsRegionalInventoriesRequest {
   /** A page token, received from a previous `ListRegionalInventories` call. Provide the page token to retrieve the subsequent page. When paginating, all other parameters provided to `ListRegionalInventories` must match the call that provided the page token. The token returned as nextPageToken in the response to the previous request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The `name` of the parent product to list `RegionalInventory` resources for. Format: `accounts/{account}/products/{product}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an **unpadded base64url** encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{product}` segment must be the unpadded base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the product would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
   parent: string;
   /** The maximum number of `RegionalInventory` resources for the given product to return. The service returns fewer than this value if the number of inventories for the given product is less that than the `pageSize`. The default value is 25000. The maximum value is 100000; If a value higher than the maximum is specified, then the `pageSize` will default to the maximum. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type RegionalInventoryList = Array<RegionalInventory>;
 /** Response message for the `ListRegionalInventories` method. */
 export interface ListRegionalInventoriesResponse {
-  /** A token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** The `RegionalInventory` resources for the given product from the specified account. */
-  regionalInventories?: RegionalInventoryList;
+  regionalInventories?: RegionalInventoryList | undefined;
+  /** A token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export type DeleteAccountsProductsLocalInventoriesError =
   | NotFound
@@ -439,10 +435,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(23, __c5, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(23, __c5, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "inventories/v1/{+parent}/localInventories:insert",
@@ -457,27 +455,27 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          currencyCode: S.optional(S.String),
+          amountMicros: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Price" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Interval" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          amountMicros: S.optional(S.String),
-          currencyCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Price" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          programLabel: S.optional(S.String),
+          memberPriceEffectiveInterval: S.optional(__S(17, __c4, 1)),
+          price: S.optional(__S(16, __c4, 0)),
           tierLabel: S.optional(S.String),
-          shippingLabel: S.optional(S.String),
+          cashbackForFutureUse: S.optional(__S(16, __c4, 0)),
+          programLabel: S.optional(S.String),
           loyaltyPoints: S.optional(S.String),
-          memberPriceEffectiveInterval: S.optional(__S(16, __c4, 0)),
-          price: S.optional(__S(17, __c4, 1)),
-          cashbackForFutureUse: S.optional(__S(17, __c4, 1)),
+          shippingLabel: S.optional(S.String),
         }),
       ).annotate({ identifier: "InventoryLoyaltyProgram" });
     case 3:
@@ -489,9 +487,9 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          groupValues: S.optional(S.suspend(() => __S(21, __c5, 1))),
           value: S.optional(S.String),
+          groupValues: S.optional(S.suspend(() => __S(21, __c5, 1))),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomAttribute" });
     case 1:
@@ -499,27 +497,27 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          salePriceEffectiveDate: S.optional(__S(16, __c4, 0)),
-          pickupMethod: S.optional(S.String),
-          price: S.optional(__S(17, __c4, 1)),
-          customAttributes: S.optional(__S(21, __c5, 1)),
-          localShippingLabel: S.optional(S.String),
-          quantity: S.optional(S.String),
-          loyaltyPrograms: S.optional(__S(19, __c4, 3)),
-          salePrice: S.optional(__S(17, __c4, 1)),
-          pickupSla: S.optional(S.String),
           availability: S.optional(S.String),
           instoreProductLocation: S.optional(S.String),
+          pickupSla: S.optional(S.String),
+          localShippingLabel: S.optional(S.String),
+          pickupMethod: S.optional(S.String),
+          salePrice: S.optional(__S(16, __c4, 0)),
+          price: S.optional(__S(16, __c4, 0)),
+          salePriceEffectiveDate: S.optional(__S(17, __c4, 1)),
+          loyaltyPrograms: S.optional(__S(19, __c4, 3)),
+          customAttributes: S.optional(__S(21, __c5, 1)),
+          quantity: S.optional(S.String),
         }),
       ).annotate({ identifier: "LocalInventoryAttributes" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           account: S.optional(S.String),
+          localInventoryAttributes: S.optional(__S(22, __c5, 2)),
+          base64EncodedName: S.optional(S.String),
           name: S.optional(S.String),
           storeCode: S.optional(S.String),
-          base64EncodedName: S.optional(S.String),
-          localInventoryAttributes: S.optional(__S(22, __c5, 2)),
         }),
       ).annotate({ identifier: "LocalInventory" });
   }
@@ -528,10 +526,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(29, __c7, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29, __c7, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "inventories/v1/{+parent}/regionalInventories:insert",
@@ -547,20 +547,20 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           availability: S.optional(S.String),
+          salePrice: S.optional(__S(16, __c4, 0)),
+          price: S.optional(__S(16, __c4, 0)),
+          salePriceEffectiveDate: S.optional(__S(17, __c4, 1)),
           loyaltyPrograms: S.optional(__S(19, __c4, 3)),
-          salePrice: S.optional(__S(17, __c4, 1)),
-          salePriceEffectiveDate: S.optional(__S(16, __c4, 0)),
-          price: S.optional(__S(17, __c4, 1)),
         }),
       ).annotate({ identifier: "RegionalInventoryAttributes" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          region: S.optional(S.String),
-          account: S.optional(S.String),
-          base64EncodedName: S.optional(S.String),
           regionalInventoryAttributes: S.optional(__S(28, __c7, 0)),
           name: S.optional(S.String),
+          base64EncodedName: S.optional(S.String),
+          region: S.optional(S.String),
+          account: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegionalInventory" });
   }
@@ -570,9 +570,9 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -613,8 +613,8 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           regionalInventories: S.optional(__S(37, __c9, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRegionalInventoriesResponse" });
   }

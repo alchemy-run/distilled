@@ -130,7 +130,7 @@ export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
     message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
     fieldList: /*@__PURE__*/ S.optional(
-      /*@__PURE__*/ S.suspend(() => __S(1281, __c80, 1)).annotate({
+      /*@__PURE__*/ S.suspend(() => __S(1329, __c83, 1)).annotate({
         identifier: "ValidationExceptionFieldList",
       }),
     ),
@@ -164,7 +164,7 @@ export interface CreateSecurityRequirementEntry {
   description: string;
   domain: string;
   evaluation: string;
-  remediation?: string;
+  remediation?: string | undefined;
 }
 export type CreateSecurityRequirementEntryList = CreateSecurityRequirementEntry[];
 export interface BatchCreateSecurityRequirementsInput {
@@ -177,7 +177,7 @@ export interface BatchCreateSecurityRequirementResult {
   description: string;
   domain: string;
   evaluation: string;
-  remediation?: string;
+  remediation?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -198,13 +198,13 @@ export interface BatchDeleteCodeReviewsInput {
   agentSpaceId: string;
 }
 export interface DeleteCodeReviewFailure {
-  codeReviewId?: string;
-  reason?: string;
+  codeReviewId?: string | undefined;
+  reason?: string | undefined;
 }
 export type DeleteCodeReviewFailureList = DeleteCodeReviewFailure[];
 export interface BatchDeleteCodeReviewsOutput {
-  deleted?: string[];
-  failed?: DeleteCodeReviewFailure[];
+  deleted?: string[] | undefined;
+  failed?: DeleteCodeReviewFailure[] | undefined;
 }
 export type PentestIdList = string[];
 export interface BatchDeletePentestsInput {
@@ -212,9 +212,9 @@ export interface BatchDeletePentestsInput {
   agentSpaceId: string;
 }
 export interface Endpoint {
-  uri?: string;
+  uri?: string | undefined;
 }
-const Endpoint = /*@__PURE__*/ __L.at(__c93, 0) as any as S.Schema<Endpoint>;
+const Endpoint = /*@__PURE__*/ __L.at(__c96, 0) as any as S.Schema<Endpoint>;
 export type EndpointList = Endpoint[];
 export type UriList = string[];
 export type AuthenticationProviderType =
@@ -224,17 +224,17 @@ export type AuthenticationProviderType =
   | "AWS_INTERNAL"
   | (string & {});
 export interface Authentication {
-  providerType?: AuthenticationProviderType;
-  value?: string;
+  providerType?: AuthenticationProviderType | undefined;
+  value?: string | undefined;
 }
 export type SensitiveEmailAddress = string | redacted.Redacted<string>;
 export interface Actor {
-  identifier?: string;
-  uris?: string[];
-  authentication?: Authentication;
-  description?: string;
-  enableEmailMfa?: boolean;
-  mfaForwardingAddress?: string | redacted.Redacted<string>;
+  identifier?: string | undefined;
+  uris?: string[] | undefined;
+  authentication?: Authentication | undefined;
+  description?: string | undefined;
+  enableEmailMfa?: boolean | undefined;
+  mfaForwardingAddress?: string | redacted.Redacted<string> | undefined;
 }
 export type ActorList = Actor[];
 export interface IntegratedDocument {
@@ -242,37 +242,50 @@ export interface IntegratedDocument {
   resourceId: string;
 }
 export interface DocumentInfo {
-  s3Location?: string;
-  artifactId?: string;
-  integratedDocument?: IntegratedDocument;
+  s3Location?: string | undefined;
+  artifactId?: string | undefined;
+  integratedDocument?: IntegratedDocument | undefined;
 }
 export type DocumentList = DocumentInfo[];
 export interface SourceCodeRepository {
-  s3Location?: string;
+  s3Location?: string | undefined;
 }
 export type SourceCodeRepositoryList = SourceCodeRepository[];
 export interface IntegratedRepository {
   integrationId: string;
   providerResourceId: string;
-  branch?: string;
+  branch?: string | undefined;
 }
 export type IntegratedRepositoryList = IntegratedRepository[];
 export type CaCertificatePem = string | redacted.Redacted<string>;
 export type CaCertificateSource =
-  | { inlinePem: string | redacted.Redacted<string>; artifactId?: never; s3Location?: never }
-  | { inlinePem?: never; artifactId: string; s3Location?: never }
-  | { inlinePem?: never; artifactId?: never; s3Location: string };
+  | {
+      inlinePem: string | redacted.Redacted<string>;
+      artifactId?: undefined;
+      s3Location?: undefined;
+    }
+  | { inlinePem?: undefined; artifactId: string; s3Location?: undefined }
+  | { inlinePem?: undefined; artifactId?: undefined; s3Location: string };
 export interface TrustedCaCertificate {
   source: CaCertificateSource;
 }
 export type TrustedCaCertificateList = TrustedCaCertificate[];
+export type ClientCertificateName = string;
+export type ClientCertificateOriginList = string[];
+export interface ClientCertificate {
+  name: string;
+  secretArn: string;
+  origins: string[];
+}
+export type ClientCertificateList = ClientCertificate[];
 export interface Assets {
-  endpoints?: Endpoint[];
-  actors?: Actor[];
-  documents?: DocumentInfo[];
-  sourceCode?: SourceCodeRepository[];
-  integratedRepositories?: IntegratedRepository[];
-  trustedCaCertificates?: TrustedCaCertificate[];
+  endpoints?: Endpoint[] | undefined;
+  actors?: Actor[] | undefined;
+  documents?: DocumentInfo[] | undefined;
+  sourceCode?: SourceCodeRepository[] | undefined;
+  integratedRepositories?: IntegratedRepository[] | undefined;
+  trustedCaCertificates?: TrustedCaCertificate[] | undefined;
+  clientCertificates?: ClientCertificate[] | undefined;
 }
 export type RiskType =
   | "CROSS_SITE_SCRIPTING"
@@ -307,8 +320,8 @@ export type RiskType =
 export type RiskTypeList = RiskType[];
 export type ServiceRole = string;
 export interface CloudWatchLog {
-  logGroup?: string;
-  logStream?: string;
+  logGroup?: string | undefined;
+  logStream?: string | undefined;
 }
 export type VpcArn = string;
 export type SecurityGroupArn = string;
@@ -316,26 +329,26 @@ export type SecurityGroupArns = string[];
 export type SubnetArn = string;
 export type SubnetArns = string[];
 export interface VpcConfig {
-  vpcArn?: string;
-  securityGroupArns?: string[];
-  subnetArns?: string[];
+  vpcArn?: string | undefined;
+  securityGroupArns?: string[] | undefined;
+  subnetArns?: string[] | undefined;
 }
 export type NetworkTrafficRuleEffect = "ALLOW" | "DENY" | (string & {});
 export type NetworkTrafficRuleType = "URL" | (string & {});
 export interface NetworkTrafficRule {
-  effect?: NetworkTrafficRuleEffect;
-  pattern?: string;
-  networkTrafficRuleType?: NetworkTrafficRuleType;
+  effect?: NetworkTrafficRuleEffect | undefined;
+  pattern?: string | undefined;
+  networkTrafficRuleType?: NetworkTrafficRuleType | undefined;
 }
 export type NetworkTrafficRuleList = NetworkTrafficRule[];
 export interface CustomHeader {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type CustomHeaderList = CustomHeader[];
 export interface NetworkTrafficConfig {
-  rules?: NetworkTrafficRule[];
-  customHeaders?: CustomHeader[];
+  rules?: NetworkTrafficRule[] | undefined;
+  customHeaders?: CustomHeader[] | undefined;
 }
 export type CodeRemediationStrategy = "AUTOMATIC" | "DISABLED" | (string & {});
 export type CleanUpStrategy = "BEST_EFFORT_DELETE" | "RETAIN_ALL" | (string & {});
@@ -344,8 +357,8 @@ export type SkillTypeList = SkillType[];
 export interface ReportDestination {
   integrationId: string;
   containerId: string;
-  parentId?: string;
-  documentId?: string;
+  parentId?: string | undefined;
+  documentId?: string | undefined;
 }
 export type RiskLevel =
   | "UNKNOWN"
@@ -378,47 +391,52 @@ export type TaskExecutionStatus =
   | (string & {});
 export type TaskExecutionStatusFilterList = TaskExecutionStatus[];
 export interface ReportFilters {
-  riskLevels?: RiskLevel[];
-  confidenceLevels?: ConfidenceLevel[];
-  statuses?: FindingStatus[];
-  riskTypes?: RiskType[];
-  findingTypes?: string[];
-  taskStatuses?: TaskExecutionStatus[];
-  annotationNotes?: boolean;
-  complianceReport?: boolean;
+  riskLevels?: RiskLevel[] | undefined;
+  confidenceLevels?: ConfidenceLevel[] | undefined;
+  statuses?: FindingStatus[] | undefined;
+  riskTypes?: RiskType[] | undefined;
+  findingTypes?: string[] | undefined;
+  taskStatuses?: TaskExecutionStatus[] | undefined;
+  annotationNotes?: boolean | undefined;
+  complianceReport?: boolean | undefined;
 }
 export interface CiCdConfiguration {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
+}
+export type TestScopeType = "WEB_APP" | "GENERATIVE_AI_APP" | (string & {});
+export interface TestScope {
+  type: TestScopeType;
 }
 export interface Pentest {
   pentestId: string;
   agentSpaceId: string;
   title: string;
   assets: Assets;
-  excludeRiskTypes?: RiskType[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  vpcConfig?: VpcConfig;
-  networkTrafficConfig?: NetworkTrafficConfig;
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  cleanUpStrategy?: CleanUpStrategy;
-  disableManagedSkills?: SkillType[];
-  maxTaskHours?: number;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
-  cicdConfiguration?: CiCdConfiguration;
-  createdAt?: Date;
-  updatedAt?: Date;
+  excludeRiskTypes?: RiskType[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  networkTrafficConfig?: NetworkTrafficConfig | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  cleanUpStrategy?: CleanUpStrategy | undefined;
+  disableManagedSkills?: SkillType[] | undefined;
+  maxTaskHours?: number | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
+  cicdConfiguration?: CiCdConfiguration | undefined;
+  testScope?: TestScope | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type PentestList = Pentest[];
 export interface DeletePentestFailure {
-  pentestId?: string;
-  reason?: string;
+  pentestId?: string | undefined;
+  reason?: string | undefined;
 }
 export type DeletePentestFailureList = DeletePentestFailure[];
 export interface BatchDeletePentestsOutput {
-  deleted?: Pentest[];
-  failed?: DeletePentestFailure[];
+  deleted?: Pentest[] | undefined;
+  failed?: DeletePentestFailure[] | undefined;
 }
 export type SecurityRequirementNameList = string[];
 export interface BatchDeleteSecurityRequirementsInput {
@@ -435,13 +453,73 @@ export interface BatchDeleteThreatModelsInput {
   agentSpaceId: string;
 }
 export interface DeleteThreatModelFailure {
-  threatModelId?: string;
-  reason?: string;
+  threatModelId?: string | undefined;
+  reason?: string | undefined;
 }
 export type DeleteThreatModelFailureList = DeleteThreatModelFailure[];
 export interface BatchDeleteThreatModelsOutput {
-  deleted?: string[];
-  failed?: DeleteThreatModelFailure[];
+  deleted?: string[] | undefined;
+  failed?: DeleteThreatModelFailure[] | undefined;
+}
+export type FindingIdList = string[];
+export interface BatchDisassociateFindingIssueInput {
+  agentSpaceId: string;
+  pentestJobId?: string | undefined;
+  codeReviewJobId?: string | undefined;
+  findingIds: string[];
+}
+export type ErrorCode = "CLIENT_ERROR" | "INTERNAL_ERROR" | "STOPPED_BY_USER" | (string & {});
+export interface BatchDisassociateFindingIssueError_ {
+  findingId: string;
+  code: ErrorCode;
+  message: string;
+}
+export type BatchDisassociateFindingIssueErrors = BatchDisassociateFindingIssueError_[];
+export interface BatchDisassociateFindingIssueOutput {
+  errors: BatchDisassociateFindingIssueError_[];
+}
+export interface IssueDestination {
+  integrationId: string;
+  projectKey: string;
+}
+export interface BatchExportFindingsInput {
+  agentSpaceId: string;
+  pentestJobId?: string | undefined;
+  codeReviewJobId?: string | undefined;
+  issueDestination: IssueDestination;
+  findingIds: string[];
+}
+export type Provider =
+  | "GITHUB"
+  | "GITLAB"
+  | "BITBUCKET"
+  | "CONFLUENCE"
+  | "AZURE_DEVOPS"
+  | "JIRA"
+  | (string & {});
+export interface LinkedIssue {
+  provider?: Provider | undefined;
+  integrationId?: string | undefined;
+  projectKey?: string | undefined;
+  issueKey?: string | undefined;
+  issueId?: string | undefined;
+  issueUrl?: string | undefined;
+  siteUrl?: string | undefined;
+}
+export interface BatchExportFindingResult {
+  findingId: string;
+  linkedIssue: LinkedIssue;
+}
+export type BatchExportFindingResultList = BatchExportFindingResult[];
+export interface BatchExportFindingError {
+  findingId: string;
+  code: ErrorCode;
+  message: string;
+}
+export type BatchExportFindingErrorList = BatchExportFindingError[];
+export interface BatchExportFindingsOutput {
+  results: BatchExportFindingResult[];
+  errors: BatchExportFindingError[];
 }
 export type AgentSpaceIdList = string[];
 export interface BatchGetAgentSpacesInput {
@@ -458,12 +536,12 @@ export type LambdaFunctionArn = string;
 export type LambdaFunctionArns = string[];
 export type IamRoles = string[];
 export interface AWSResources {
-  vpcs?: VpcConfig[];
-  logGroups?: string[];
-  s3Buckets?: string[];
-  secretArns?: string[];
-  lambdaFunctionArns?: string[];
-  iamRoles?: string[];
+  vpcs?: VpcConfig[] | undefined;
+  logGroups?: string[] | undefined;
+  s3Buckets?: string[] | undefined;
+  secretArns?: string[] | undefined;
+  lambdaFunctionArns?: string[] | undefined;
+  iamRoles?: string[] | undefined;
 }
 export type TargetDomainIdList = string[];
 export interface CodeReviewSettings {
@@ -474,18 +552,18 @@ export type KmsKeyId = string;
 export interface AgentSpace {
   agentSpaceId: string;
   name: string;
-  description?: string;
-  awsResources?: AWSResources;
-  targetDomainIds?: string[];
-  codeReviewSettings?: CodeReviewSettings;
-  kmsKeyId?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  description?: string | undefined;
+  awsResources?: AWSResources | undefined;
+  targetDomainIds?: string[] | undefined;
+  codeReviewSettings?: CodeReviewSettings | undefined;
+  kmsKeyId?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type AgentSpaceList = AgentSpace[];
 export interface BatchGetAgentSpacesOutput {
-  agentSpaces?: AgentSpace[];
-  notFound?: string[];
+  agentSpaces?: AgentSpace[] | undefined;
+  notFound?: string[] | undefined;
 }
 export type ArtifactIds = string[];
 export interface BatchGetArtifactMetadataInput {
@@ -529,48 +607,47 @@ export type StepStatus =
   | "STOPPED"
   | (string & {});
 export interface Step {
-  name?: StepName;
-  status?: StepStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
+  name?: StepName | undefined;
+  status?: StepStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type StepList = Step[];
 export type ContextType = "ERROR" | "CLIENT_ERROR" | "WARNING" | "INFO" | (string & {});
 export interface ExecutionContext {
-  contextType?: ContextType;
-  context?: string;
-  timestamp?: Date;
+  contextType?: ContextType | undefined;
+  context?: string | undefined;
+  timestamp?: Date | undefined;
 }
 export type ExecutionContextList = ExecutionContext[];
-export type ErrorCode = "CLIENT_ERROR" | "INTERNAL_ERROR" | "STOPPED_BY_USER" | (string & {});
 export interface ErrorInformation {
-  code?: ErrorCode;
-  message?: string;
+  code?: ErrorCode | undefined;
+  message?: string | undefined;
 }
 export interface CodeReviewJob {
-  codeReviewJobId?: string;
-  codeReviewId?: string;
-  title?: string;
-  overview?: string;
-  status?: JobStatus;
-  documents?: DocumentInfo[];
-  sourceCode?: SourceCodeRepository[];
-  steps?: Step[];
-  executionContext?: ExecutionContext[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  errorInformation?: ErrorInformation;
-  integratedRepositories?: IntegratedRepository[];
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  maxTaskHours?: number;
-  reportDestination?: ReportDestination;
-  createdAt?: Date;
-  updatedAt?: Date;
+  codeReviewJobId?: string | undefined;
+  codeReviewId?: string | undefined;
+  title?: string | undefined;
+  overview?: string | undefined;
+  status?: JobStatus | undefined;
+  documents?: DocumentInfo[] | undefined;
+  sourceCode?: SourceCodeRepository[] | undefined;
+  steps?: Step[] | undefined;
+  executionContext?: ExecutionContext[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  errorInformation?: ErrorInformation | undefined;
+  integratedRepositories?: IntegratedRepository[] | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  maxTaskHours?: number | undefined;
+  reportDestination?: ReportDestination | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type CodeReviewJobList = CodeReviewJob[];
 export interface BatchGetCodeReviewJobsOutput {
-  codeReviewJobs?: CodeReviewJob[];
-  notFound?: string[];
+  codeReviewJobs?: CodeReviewJob[] | undefined;
+  notFound?: string[] | undefined;
 }
 export type TaskIdList = string[];
 export interface BatchGetCodeReviewJobTasksInput {
@@ -578,33 +655,33 @@ export interface BatchGetCodeReviewJobTasksInput {
   codeReviewJobTaskIds: string[];
 }
 export interface Category {
-  name?: string;
-  isPrimary?: boolean;
+  name?: string | undefined;
+  isPrimary?: boolean | undefined;
 }
 export type CategoryList = Category[];
 export type LogType = "CLOUDWATCH" | (string & {});
 export interface LogLocation {
-  logType?: LogType;
-  cloudWatchLog?: CloudWatchLog;
+  logType?: LogType | undefined;
+  cloudWatchLog?: CloudWatchLog | undefined;
 }
 export interface CodeReviewJobTask {
   taskId: string;
-  codeReviewId?: string;
-  codeReviewJobId?: string;
-  agentSpaceId?: string;
-  title?: string;
-  description?: string;
-  categories?: Category[];
-  riskType?: RiskType;
-  executionStatus?: TaskExecutionStatus;
-  logsLocation?: LogLocation;
-  createdAt?: Date;
-  updatedAt?: Date;
+  codeReviewId?: string | undefined;
+  codeReviewJobId?: string | undefined;
+  agentSpaceId?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  categories?: Category[] | undefined;
+  riskType?: RiskType | undefined;
+  executionStatus?: TaskExecutionStatus | undefined;
+  logsLocation?: LogLocation | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type CodeReviewJobTaskList = CodeReviewJobTask[];
 export interface BatchGetCodeReviewJobTasksOutput {
-  codeReviewJobTasks?: CodeReviewJobTask[];
-  notFound?: string[];
+  codeReviewJobTasks?: CodeReviewJobTask[] | undefined;
+  notFound?: string[] | undefined;
 }
 export interface BatchGetCodeReviewsInput {
   codeReviewIds: string[];
@@ -616,22 +693,21 @@ export interface CodeReview {
   agentSpaceId: string;
   title: string;
   assets: Assets;
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  validationMode?: ValidationMode;
-  maxTaskHours?: number;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
-  createdAt?: Date;
-  updatedAt?: Date;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  validationMode?: ValidationMode | undefined;
+  maxTaskHours?: number | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type CodeReviewList = CodeReview[];
 export interface BatchGetCodeReviewsOutput {
-  codeReviews?: CodeReview[];
-  notFound?: string[];
+  codeReviews?: CodeReview[] | undefined;
+  notFound?: string[] | undefined;
 }
-export type FindingIdList = string[];
 export interface BatchGetFindingsInput {
   findingIds: string[];
   agentSpaceId: string;
@@ -645,68 +721,70 @@ export type ValidationStatus =
   | (string & {});
 export type CodeRemediationTaskStatus = "IN_PROGRESS" | "COMPLETED" | "FAILED" | (string & {});
 export interface CodeRemediationTaskDetails {
-  repoName?: string;
-  codeDiffLink?: string;
-  pullRequestLink?: string;
+  repoName?: string | undefined;
+  codeDiffLink?: string | undefined;
+  pullRequestLink?: string | undefined;
 }
 export type CodeRemediationTaskDetailsList = CodeRemediationTaskDetails[];
 export interface CodeRemediationTask {
   status: CodeRemediationTaskStatus;
-  statusReason?: string;
-  taskDetails?: CodeRemediationTaskDetails[];
+  statusReason?: string | undefined;
+  taskDetails?: CodeRemediationTaskDetails[] | undefined;
 }
 export interface CodeLocation {
   filePath: string;
-  lineStart?: number;
-  lineEnd?: number;
-  label?: string;
+  lineStart?: number | undefined;
+  lineEnd?: number | undefined;
+  label?: string | undefined;
 }
 export type CodeLocationList = CodeLocation[];
 export interface VerificationScriptEnvVar {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type VerificationScriptEnvVarList = VerificationScriptEnvVar[];
 export interface VerificationScript {
-  scriptType?: string;
-  scriptUrl?: string;
-  instructions?: string;
-  envVars?: VerificationScriptEnvVar[];
+  scriptType?: string | undefined;
+  scriptUrl?: string | undefined;
+  instructions?: string | undefined;
+  envVars?: VerificationScriptEnvVar[] | undefined;
 }
 export type StringList = string[];
 export interface Finding {
   findingId: string;
   agentSpaceId: string;
-  pentestId?: string;
-  pentestJobId?: string;
-  codeReviewId?: string;
-  codeReviewJobId?: string;
-  taskId?: string;
-  name?: string;
-  description?: string;
-  status?: FindingStatus;
-  riskType?: string;
-  riskLevel?: RiskLevel;
-  riskScore?: string;
-  reasoning?: string;
-  confidence?: ConfidenceLevel;
-  validationStatus?: ValidationStatus;
-  attackScript?: string;
-  codeRemediationTask?: CodeRemediationTask;
-  lastUpdatedBy?: string;
-  customerNote?: string;
-  codeLocations?: CodeLocation[];
-  verificationScript?: VerificationScript;
-  alignmentRationale?: string;
-  revalidationJobIds?: string[];
-  originalFindingId?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  pentestId?: string | undefined;
+  pentestJobId?: string | undefined;
+  codeReviewId?: string | undefined;
+  codeReviewJobId?: string | undefined;
+  taskId?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  status?: FindingStatus | undefined;
+  riskType?: string | undefined;
+  riskLevel?: RiskLevel | undefined;
+  riskScore?: string | undefined;
+  reasoning?: string | undefined;
+  confidence?: ConfidenceLevel | undefined;
+  validationStatus?: ValidationStatus | undefined;
+  attackScript?: string | undefined;
+  remediationCode?: string | undefined;
+  codeRemediationTask?: CodeRemediationTask | undefined;
+  lastUpdatedBy?: string | undefined;
+  customerNote?: string | undefined;
+  codeLocations?: CodeLocation[] | undefined;
+  verificationScript?: VerificationScript | undefined;
+  alignmentRationale?: string | undefined;
+  revalidationJobIds?: string[] | undefined;
+  originalFindingId?: string | undefined;
+  linkedIssue?: LinkedIssue | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type FindingList = Finding[];
 export interface BatchGetFindingsOutput {
-  findings?: Finding[];
-  notFound?: string[];
+  findings?: Finding[] | undefined;
+  notFound?: string[] | undefined;
 }
 export type PentestJobIdList = string[];
 export interface BatchGetPentestJobsInput {
@@ -722,51 +800,53 @@ export interface ScopeResult {
 export interface ScopeChange {
   integrationId: string;
   providerResourceId: string;
-  baseCommitSha?: string;
+  baseCommitSha?: string | undefined;
   headCommitSha: string;
-  triggerRunId?: string;
+  triggerRunId?: string | undefined;
 }
 export type ScopeChangeList = ScopeChange[];
 export interface PentestJob {
-  pentestJobId?: string;
-  pentestId?: string;
-  title?: string;
-  overview?: string;
-  status?: JobStatus;
-  endpoints?: Endpoint[];
-  actors?: Actor[];
-  documents?: DocumentInfo[];
-  sourceCode?: SourceCodeRepository[];
-  excludePaths?: Endpoint[];
-  allowedDomains?: Endpoint[];
-  excludeRiskTypes?: RiskType[];
-  steps?: Step[];
-  executionContext?: ExecutionContext[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  vpcConfig?: VpcConfig;
-  networkTrafficConfig?: NetworkTrafficConfig;
-  errorInformation?: ErrorInformation;
-  integratedRepositories?: IntegratedRepository[];
-  trustedCaCertificates?: TrustedCaCertificate[];
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  cleanUpStrategy?: CleanUpStrategy;
-  disableManagedSkills?: SkillType[];
-  maxTaskHours?: number;
-  jobType?: JobType;
-  selectedFindingIds?: string[];
-  reportDestination?: ReportDestination;
-  reportUrl?: string;
-  scopeResult?: ScopeResult;
-  scopeChanges?: ScopeChange[];
-  cicdConfiguration?: CiCdConfiguration;
-  createdAt?: Date;
-  updatedAt?: Date;
+  pentestJobId?: string | undefined;
+  pentestId?: string | undefined;
+  title?: string | undefined;
+  overview?: string | undefined;
+  status?: JobStatus | undefined;
+  endpoints?: Endpoint[] | undefined;
+  actors?: Actor[] | undefined;
+  documents?: DocumentInfo[] | undefined;
+  sourceCode?: SourceCodeRepository[] | undefined;
+  excludePaths?: Endpoint[] | undefined;
+  allowedDomains?: Endpoint[] | undefined;
+  excludeRiskTypes?: RiskType[] | undefined;
+  steps?: Step[] | undefined;
+  executionContext?: ExecutionContext[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  networkTrafficConfig?: NetworkTrafficConfig | undefined;
+  errorInformation?: ErrorInformation | undefined;
+  integratedRepositories?: IntegratedRepository[] | undefined;
+  trustedCaCertificates?: TrustedCaCertificate[] | undefined;
+  clientCertificates?: ClientCertificate[] | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  cleanUpStrategy?: CleanUpStrategy | undefined;
+  disableManagedSkills?: SkillType[] | undefined;
+  maxTaskHours?: number | undefined;
+  jobType?: JobType | undefined;
+  selectedFindingIds?: string[] | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportUrl?: string | undefined;
+  scopeResult?: ScopeResult | undefined;
+  scopeChanges?: ScopeChange[] | undefined;
+  cicdConfiguration?: CiCdConfiguration | undefined;
+  testScope?: TestScope | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type PentestJobList = PentestJob[];
 export interface BatchGetPentestJobsOutput {
-  pentestJobs?: PentestJob[];
-  notFound?: string[];
+  pentestJobs?: PentestJob[] | undefined;
+  notFound?: string[] | undefined;
 }
 export interface BatchGetPentestJobTasksInput {
   agentSpaceId: string;
@@ -774,32 +854,32 @@ export interface BatchGetPentestJobTasksInput {
 }
 export interface Task {
   taskId: string;
-  pentestId?: string;
-  pentestJobId?: string;
-  agentSpaceId?: string;
-  title?: string;
-  description?: string;
-  categories?: Category[];
-  riskType?: RiskType;
-  targetEndpoint?: Endpoint;
-  executionStatus?: TaskExecutionStatus;
-  logsLocation?: LogLocation;
-  taskHours?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
+  pentestId?: string | undefined;
+  pentestJobId?: string | undefined;
+  agentSpaceId?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  categories?: Category[] | undefined;
+  riskType?: RiskType | undefined;
+  targetEndpoint?: Endpoint | undefined;
+  executionStatus?: TaskExecutionStatus | undefined;
+  logsLocation?: LogLocation | undefined;
+  taskHours?: number | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type TaskList = Task[];
 export interface BatchGetPentestJobTasksOutput {
-  tasks?: Task[];
-  notFound?: string[];
+  tasks?: Task[] | undefined;
+  notFound?: string[] | undefined;
 }
 export interface BatchGetPentestsInput {
   pentestIds: string[];
   agentSpaceId: string;
 }
 export interface BatchGetPentestsOutput {
-  pentests?: Pentest[];
-  notFound?: string[];
+  pentests?: Pentest[] | undefined;
+  notFound?: string[] | undefined;
 }
 export interface BatchGetSecurityRequirementsInput {
   packId: string;
@@ -811,7 +891,7 @@ export interface BatchGetSecurityRequirementResult {
   description: string;
   domain: string;
   evaluation: string;
-  remediation?: string;
+  remediation?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -828,32 +908,32 @@ export type TargetDomainStatus = "PENDING" | "VERIFIED" | "FAILED" | "UNREACHABL
 export type DomainVerificationMethod = "DNS_TXT" | "HTTP_ROUTE" | "PRIVATE_VPC" | (string & {});
 export type DNSRecordType = "TXT" | (string & {});
 export interface DnsVerification {
-  token?: string;
-  dnsRecordName?: string;
-  dnsRecordType?: DNSRecordType;
+  token?: string | undefined;
+  dnsRecordName?: string | undefined;
+  dnsRecordType?: DNSRecordType | undefined;
 }
 export interface HttpVerification {
-  token?: string;
-  routePath?: string;
+  token?: string | undefined;
+  routePath?: string | undefined;
 }
 export interface VerificationDetails {
-  method?: DomainVerificationMethod;
-  dnsTxt?: DnsVerification;
-  httpRoute?: HttpVerification;
+  method?: DomainVerificationMethod | undefined;
+  dnsTxt?: DnsVerification | undefined;
+  httpRoute?: HttpVerification | undefined;
 }
 export interface TargetDomain {
   targetDomainId: string;
   domainName: string;
-  verificationStatus?: TargetDomainStatus;
-  verificationStatusReason?: string;
-  verificationDetails?: VerificationDetails;
-  createdAt?: Date;
-  verifiedAt?: Date;
+  verificationStatus?: TargetDomainStatus | undefined;
+  verificationStatusReason?: string | undefined;
+  verificationDetails?: VerificationDetails | undefined;
+  createdAt?: Date | undefined;
+  verifiedAt?: Date | undefined;
 }
 export type TargetDomainList = TargetDomain[];
 export interface BatchGetTargetDomainsOutput {
-  targetDomains?: TargetDomain[];
-  notFound?: string[];
+  targetDomains?: TargetDomain[] | undefined;
+  notFound?: string[] | undefined;
 }
 export type ThreatModelJobIdList = string[];
 export interface BatchGetThreatModelJobsInput {
@@ -861,27 +941,27 @@ export interface BatchGetThreatModelJobsInput {
   agentSpaceId: string;
 }
 export interface ThreatModelJob {
-  threatModelJobId?: string;
-  threatModelId?: string;
-  agentSpaceId?: string;
-  title?: string;
-  status?: JobStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-  executionStartTime?: Date;
-  executionEndTime?: Date;
-  sourceCode?: SourceCodeRepository[];
-  integratedRepositories?: IntegratedRepository[];
-  documents?: DocumentInfo[];
-  scopeDocs?: DocumentInfo[];
-  errorInformation?: ErrorInformation;
-  systemOverview?: string;
-  reportDestination?: ReportDestination;
+  threatModelJobId?: string | undefined;
+  threatModelId?: string | undefined;
+  agentSpaceId?: string | undefined;
+  title?: string | undefined;
+  status?: JobStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  executionStartTime?: Date | undefined;
+  executionEndTime?: Date | undefined;
+  sourceCode?: SourceCodeRepository[] | undefined;
+  integratedRepositories?: IntegratedRepository[] | undefined;
+  documents?: DocumentInfo[] | undefined;
+  scopeDocs?: DocumentInfo[] | undefined;
+  errorInformation?: ErrorInformation | undefined;
+  systemOverview?: string | undefined;
+  reportDestination?: ReportDestination | undefined;
 }
 export type ThreatModelJobList = ThreatModelJob[];
 export interface BatchGetThreatModelJobsOutput {
-  threatModelJobs?: ThreatModelJob[];
-  notFound?: string[];
+  threatModelJobs?: ThreatModelJob[] | undefined;
+  notFound?: string[] | undefined;
 }
 export interface BatchGetThreatModelJobTasksInput {
   agentSpaceId: string;
@@ -889,20 +969,20 @@ export interface BatchGetThreatModelJobTasksInput {
 }
 export interface ThreatModelJobTask {
   taskId: string;
-  threatModelId?: string;
-  threatModelJobId?: string;
-  agentSpaceId?: string;
-  title?: string;
-  description?: string;
-  executionStatus?: TaskExecutionStatus;
-  logsLocation?: LogLocation;
-  createdAt?: Date;
-  updatedAt?: Date;
+  threatModelId?: string | undefined;
+  threatModelJobId?: string | undefined;
+  agentSpaceId?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  executionStatus?: TaskExecutionStatus | undefined;
+  logsLocation?: LogLocation | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type ThreatModelJobTaskList = ThreatModelJobTask[];
 export interface BatchGetThreatModelJobTasksOutput {
-  threatModelJobTasks?: ThreatModelJobTask[];
-  notFound?: string[];
+  threatModelJobTasks?: ThreatModelJobTask[] | undefined;
+  notFound?: string[] | undefined;
 }
 export interface BatchGetThreatModelsInput {
   threatModelIds: string[];
@@ -912,19 +992,19 @@ export interface ThreatModel {
   threatModelId: string;
   agentSpaceId: string;
   title: string;
-  description?: string;
+  description?: string | undefined;
   assets: Assets;
-  scopeDocs?: DocumentInfo[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  reportDestination?: ReportDestination;
-  createdAt?: Date;
-  updatedAt?: Date;
+  scopeDocs?: DocumentInfo[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  reportDestination?: ReportDestination | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type ThreatModelList = ThreatModel[];
 export interface BatchGetThreatModelsOutput {
-  threatModels?: ThreatModel[];
-  notFound?: string[];
+  threatModels?: ThreatModel[] | undefined;
+  notFound?: string[] | undefined;
 }
 export type ThreatIdList = string[];
 export interface BatchGetThreatsInput {
@@ -934,13 +1014,13 @@ export interface BatchGetThreatsInput {
 export type ThreatSeverity = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "INFO" | (string & {});
 export type ThreatStatus = "OPEN" | "RESOLVED" | "DISMISSED" | (string & {});
 export interface ThreatAnchorShape {
-  kind?: string;
-  id?: string;
-  packageId?: string;
+  kind?: string | undefined;
+  id?: string | undefined;
+  packageId?: string | undefined;
 }
 export interface ThreatEvidenceShape {
-  packageId?: string;
-  path?: string;
+  packageId?: string | undefined;
+  path?: string | undefined;
 }
 export type ThreatEvidenceList = ThreatEvidenceShape[];
 export type StrideCategory =
@@ -954,39 +1034,39 @@ export type StrideCategory =
 export type StrideCategoryList = StrideCategory[];
 export type ThreatActor = "CUSTOMER" | "AGENT" | (string & {});
 export interface Threat {
-  threatId?: string;
-  threatJobId?: string;
-  title?: string;
-  statement?: string;
-  severity?: ThreatSeverity;
-  status?: ThreatStatus;
-  comments?: string;
-  threatSource?: string;
-  prerequisites?: string;
-  threatAction?: string;
-  threatImpact?: string;
-  impactedGoal?: string[];
-  impactedAssets?: string[];
-  anchor?: ThreatAnchorShape;
-  evidence?: ThreatEvidenceShape[];
-  stride?: StrideCategory[];
-  recommendation?: string;
-  createdBy?: ThreatActor;
-  updatedBy?: ThreatActor;
-  createdAt?: Date;
-  updatedAt?: Date;
+  threatId?: string | undefined;
+  threatJobId?: string | undefined;
+  title?: string | undefined;
+  statement?: string | undefined;
+  severity?: ThreatSeverity | undefined;
+  status?: ThreatStatus | undefined;
+  comments?: string | undefined;
+  threatSource?: string | undefined;
+  prerequisites?: string | undefined;
+  threatAction?: string | undefined;
+  threatImpact?: string | undefined;
+  impactedGoal?: string[] | undefined;
+  impactedAssets?: string[] | undefined;
+  anchor?: ThreatAnchorShape | undefined;
+  evidence?: ThreatEvidenceShape[] | undefined;
+  stride?: StrideCategory[] | undefined;
+  recommendation?: string | undefined;
+  createdBy?: ThreatActor | undefined;
+  updatedBy?: ThreatActor | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type ThreatList = Threat[];
 export interface BatchGetThreatsOutput {
-  threats?: Threat[];
-  notFound?: string[];
+  threats?: Threat[] | undefined;
+  notFound?: string[] | undefined;
 }
 export interface UpdateSecurityRequirementEntry {
   name: string;
-  description?: string;
-  domain?: string;
-  evaluation?: string;
-  remediation?: string;
+  description?: string | undefined;
+  domain?: string | undefined;
+  evaluation?: string | undefined;
+  remediation?: string | undefined;
 }
 export type UpdateSecurityRequirementEntryList = UpdateSecurityRequirementEntry[];
 export interface BatchUpdateSecurityRequirementsInput {
@@ -1003,32 +1083,32 @@ export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateAgentSpaceInput {
   name: string;
-  description?: string;
-  awsResources?: AWSResources;
-  targetDomainIds?: string[];
-  codeReviewSettings?: CodeReviewSettings;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  awsResources?: AWSResources | undefined;
+  targetDomainIds?: string[] | undefined;
+  codeReviewSettings?: CodeReviewSettings | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateAgentSpaceOutput {
   agentSpaceId: string;
   name: string;
-  description?: string;
-  awsResources?: AWSResources;
-  targetDomainIds?: string[];
-  codeReviewSettings?: CodeReviewSettings;
-  kmsKeyId?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  description?: string | undefined;
+  awsResources?: AWSResources | undefined;
+  targetDomainIds?: string[] | undefined;
+  codeReviewSettings?: CodeReviewSettings | undefined;
+  kmsKeyId?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type IdCInstanceArn = string;
 export type RoleArn = string;
 export type DefaultKmsKeyId = string;
 export interface CreateApplicationRequest {
-  idcInstanceArn?: string;
-  roleArn?: string;
-  defaultKmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
+  idcInstanceArn?: string | undefined;
+  roleArn?: string | undefined;
+  defaultKmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ApplicationId = string;
 export interface CreateApplicationResponse {
@@ -1038,53 +1118,46 @@ export interface CreateCodeReviewInput {
   title: string;
   agentSpaceId: string;
   assets: Assets;
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  validationMode?: ValidationMode;
-  maxTaskHours?: number;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  validationMode?: ValidationMode | undefined;
+  maxTaskHours?: number | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
 }
 export interface CreateCodeReviewOutput {
   codeReviewId: string;
-  title?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  assets?: Assets;
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  agentSpaceId?: string;
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  validationMode?: ValidationMode;
-  maxTaskHours?: number;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
+  title?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  assets?: Assets | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  agentSpaceId?: string | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  validationMode?: ValidationMode | undefined;
+  maxTaskHours?: number | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
 }
-export type Provider =
-  | "GITHUB"
-  | "GITLAB"
-  | "BITBUCKET"
-  | "CONFLUENCE"
-  | "AZURE_DEVOPS"
-  | (string & {});
 export type AuthCode = string;
 export type CsrfState = string;
 export type TargetUrl = string;
 export interface GitHubIntegrationInput {
   code: string;
   state: string;
-  organizationName?: string;
-  targetUrl?: string;
-  installationId?: string;
+  organizationName?: string | undefined;
+  targetUrl?: string | undefined;
+  installationId?: string | undefined;
 }
 export type AccessToken = string | redacted.Redacted<string>;
 export type GitLabTokenType = "PERSONAL" | "GROUP" | (string & {});
 export interface GitLabIntegrationInput {
   accessToken: string | redacted.Redacted<string>;
-  targetUrl?: string;
+  targetUrl?: string | undefined;
   tokenType: GitLabTokenType;
-  groupId?: string;
+  groupId?: string | undefined;
 }
 export type BitbucketInstallationId = string;
 export type BitbucketWorkspace = string;
@@ -1112,73 +1185,96 @@ export interface BitbucketDataCenterIntegrationInput {
   code: string;
   state: string;
 }
+export type JiraInstallationId = string;
+export type JiraSiteUrl = string;
+export interface JiraIntegrationInput {
+  installationId: string;
+  code: string;
+  state: string;
+  siteUrl: string;
+}
 export type ProviderInput =
   | {
       github: GitHubIntegrationInput;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
-      bitbucketDataCenter?: never;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      bitbucketDataCenter?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
+      github?: undefined;
       gitlab: GitLabIntegrationInput;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
-      bitbucketDataCenter?: never;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      bitbucketDataCenter?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
+      github?: undefined;
+      gitlab?: undefined;
       bitbucket: BitbucketIntegrationInput;
-      confluence?: never;
-      azureDevOps?: never;
-      bitbucketDataCenter?: never;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      bitbucketDataCenter?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
       confluence: ConfluenceIntegrationInput;
-      azureDevOps?: never;
-      bitbucketDataCenter?: never;
+      azureDevOps?: undefined;
+      bitbucketDataCenter?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
       azureDevOps: AzureDevOpsIntegrationInput;
-      bitbucketDataCenter?: never;
+      bitbucketDataCenter?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
       bitbucketDataCenter: BitbucketDataCenterIntegrationInput;
+      jira?: undefined;
+    }
+  | {
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      bitbucketDataCenter?: undefined;
+      jira: JiraIntegrationInput;
     };
 export type PrivateConnectionName = string;
 export interface CreateIntegrationInput {
   provider: Provider;
   input: ProviderInput;
   integrationDisplayName: string;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
-  privateConnectionName?: string;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  privateConnectionName?: string | undefined;
 }
 export type IntegrationId = string;
 export interface CreateIntegrationOutput {
   integrationId: string;
 }
 export type MembershipId = string;
-export type MembershipType = "USER" | (string & {});
+export type MembershipType = "USER" | "GROUP" | (string & {});
 export type UserRole = "MEMBER" | (string & {});
 export interface UserConfig {
-  role?: UserRole;
+  role?: UserRole | undefined;
 }
 export type MembershipConfig = { user: UserConfig };
 export interface CreateMembershipRequest {
@@ -1186,38 +1282,40 @@ export interface CreateMembershipRequest {
   agentSpaceId: string;
   membershipId: string;
   memberType: MembershipType;
-  config?: MembershipConfig;
+  config?: MembershipConfig | undefined;
 }
 export interface CreateMembershipResponse {}
 export interface CreatePentestInput {
   title: string;
   agentSpaceId: string;
-  assets?: Assets;
-  excludeRiskTypes?: RiskType[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  vpcConfig?: VpcConfig;
-  networkTrafficConfig?: NetworkTrafficConfig;
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  disableManagedSkills?: SkillType[];
-  maxTaskHours?: number;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
-  cicdConfiguration?: CiCdConfiguration;
+  assets?: Assets | undefined;
+  excludeRiskTypes?: RiskType[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  networkTrafficConfig?: NetworkTrafficConfig | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  disableManagedSkills?: SkillType[] | undefined;
+  maxTaskHours?: number | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
+  cicdConfiguration?: CiCdConfiguration | undefined;
+  testScope?: TestScope | undefined;
 }
 export interface CreatePentestOutput {
-  pentestId?: string;
-  title?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  assets?: Assets;
-  excludeRiskTypes?: RiskType[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  agentSpaceId?: string;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
-  cicdConfiguration?: CiCdConfiguration;
+  pentestId?: string | undefined;
+  title?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  assets?: Assets | undefined;
+  excludeRiskTypes?: RiskType[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  agentSpaceId?: string | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
+  cicdConfiguration?: CiCdConfiguration | undefined;
+  testScope?: TestScope | undefined;
 }
 export type HostAddress = string;
 export type PrivateConnectionVpcId = string;
@@ -1235,25 +1333,25 @@ export interface ServiceManagedInput {
   hostAddress: string;
   vpcId: string;
   subnetIds: string[];
-  securityGroupIds?: string[];
-  ipAddressType?: IpAddressType;
-  ipv4AddressesPerEni?: number;
-  portRanges?: string[];
-  certificate?: string | redacted.Redacted<string>;
-  dnsResolution?: ResourceConfigDnsResolution;
+  securityGroupIds?: string[] | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  ipv4AddressesPerEni?: number | undefined;
+  portRanges?: string[] | undefined;
+  certificate?: string | redacted.Redacted<string> | undefined;
+  dnsResolution?: ResourceConfigDnsResolution | undefined;
 }
 export type ResourceConfigurationId = string;
 export interface SelfManagedInput {
   resourceConfigurationId: string;
-  certificate?: string | redacted.Redacted<string>;
+  certificate?: string | redacted.Redacted<string> | undefined;
 }
 export type PrivateConnectionMode =
-  | { serviceManaged: ServiceManagedInput; selfManaged?: never }
-  | { serviceManaged?: never; selfManaged: SelfManagedInput };
+  | { serviceManaged: ServiceManagedInput; selfManaged?: undefined }
+  | { serviceManaged?: undefined; selfManaged: SelfManagedInput };
 export interface CreatePrivateConnectionInput {
   privateConnectionName: string;
   mode: PrivateConnectionMode;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type PrivateConnectionType = "SERVICE_MANAGED" | "SELF_MANAGED" | (string & {});
 export type PrivateConnectionStatus =
@@ -1268,112 +1366,112 @@ export interface CreatePrivateConnectionOutput {
   name: string;
   type: PrivateConnectionType;
   status: PrivateConnectionStatus;
-  resourceGatewayId?: string;
-  hostAddress?: string;
-  vpcId?: string;
-  resourceConfigurationId?: string;
-  certificateExpiryTime?: Date;
-  dnsResolution?: ResourceConfigDnsResolution;
-  failureMessage?: string;
-  tags?: { [key: string]: string | undefined };
+  resourceGatewayId?: string | undefined;
+  hostAddress?: string | undefined;
+  vpcId?: string | undefined;
+  resourceConfigurationId?: string | undefined;
+  certificateExpiryTime?: Date | undefined;
+  dnsResolution?: ResourceConfigDnsResolution | undefined;
+  failureMessage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SecurityRequirementPackName = string;
 export type SecurityRequirementPackStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface CreateSecurityRequirementPackInput {
   name: string;
-  description?: string;
-  status?: SecurityRequirementPackStatus;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  status?: SecurityRequirementPackStatus | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateSecurityRequirementPackOutput {
   packId: string;
   status: SecurityRequirementPackStatus;
-  kmsKeyId?: string;
+  kmsKeyId?: string | undefined;
 }
 export interface CreateTargetDomainInput {
   targetDomainName: string;
   verificationMethod: DomainVerificationMethod;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateTargetDomainOutput {
   targetDomainId: string;
   domainName: string;
   verificationStatus: TargetDomainStatus;
-  verificationStatusReason?: string;
-  verificationDetails?: VerificationDetails;
-  createdAt?: Date;
-  verifiedAt?: Date;
+  verificationStatusReason?: string | undefined;
+  verificationDetails?: VerificationDetails | undefined;
+  createdAt?: Date | undefined;
+  verifiedAt?: Date | undefined;
 }
 export interface CreateThreatInput {
   agentSpaceId: string;
   threatJobId: string;
-  title?: string;
-  statement?: string;
-  severity?: ThreatSeverity;
-  comments?: string;
-  stride?: StrideCategory[];
-  threatSource?: string;
-  prerequisites?: string;
-  threatAction?: string;
-  threatImpact?: string;
-  impactedGoal?: string[];
-  impactedAssets?: string[];
-  anchor?: ThreatAnchorShape;
-  evidence?: ThreatEvidenceShape[];
-  recommendation?: string;
+  title?: string | undefined;
+  statement?: string | undefined;
+  severity?: ThreatSeverity | undefined;
+  comments?: string | undefined;
+  stride?: StrideCategory[] | undefined;
+  threatSource?: string | undefined;
+  prerequisites?: string | undefined;
+  threatAction?: string | undefined;
+  threatImpact?: string | undefined;
+  impactedGoal?: string[] | undefined;
+  impactedAssets?: string[] | undefined;
+  anchor?: ThreatAnchorShape | undefined;
+  evidence?: ThreatEvidenceShape[] | undefined;
+  recommendation?: string | undefined;
 }
 export interface CreateThreatOutput {
   threatId: string;
   threatJobId: string;
-  title?: string;
-  statement?: string;
-  severity?: ThreatSeverity;
-  status?: ThreatStatus;
-  comments?: string;
-  stride?: StrideCategory[];
-  threatSource?: string;
-  prerequisites?: string;
-  threatAction?: string;
-  threatImpact?: string;
-  impactedGoal?: string[];
-  impactedAssets?: string[];
-  anchor?: ThreatAnchorShape;
-  evidence?: ThreatEvidenceShape[];
-  recommendation?: string;
-  createdBy?: ThreatActor;
-  updatedBy?: ThreatActor;
-  createdAt?: Date;
-  updatedAt?: Date;
+  title?: string | undefined;
+  statement?: string | undefined;
+  severity?: ThreatSeverity | undefined;
+  status?: ThreatStatus | undefined;
+  comments?: string | undefined;
+  stride?: StrideCategory[] | undefined;
+  threatSource?: string | undefined;
+  prerequisites?: string | undefined;
+  threatAction?: string | undefined;
+  threatImpact?: string | undefined;
+  impactedGoal?: string[] | undefined;
+  impactedAssets?: string[] | undefined;
+  anchor?: ThreatAnchorShape | undefined;
+  evidence?: ThreatEvidenceShape[] | undefined;
+  recommendation?: string | undefined;
+  createdBy?: ThreatActor | undefined;
+  updatedBy?: ThreatActor | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CreateThreatModelInput {
   title: string;
   agentSpaceId: string;
-  description?: string;
-  assets?: Assets;
-  scopeDocs?: DocumentInfo[];
+  description?: string | undefined;
+  assets?: Assets | undefined;
+  scopeDocs?: DocumentInfo[] | undefined;
   serviceRole: string;
-  logConfig?: CloudWatchLog;
-  reportDestination?: ReportDestination;
+  logConfig?: CloudWatchLog | undefined;
+  reportDestination?: ReportDestination | undefined;
 }
 export interface CreateThreatModelOutput {
   threatModelId: string;
-  title?: string;
-  agentSpaceId?: string;
-  description?: string;
-  assets?: Assets;
-  scopeDocs?: DocumentInfo[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  createdAt?: Date;
-  updatedAt?: Date;
-  reportDestination?: ReportDestination;
+  title?: string | undefined;
+  agentSpaceId?: string | undefined;
+  description?: string | undefined;
+  assets?: Assets | undefined;
+  scopeDocs?: DocumentInfo[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  reportDestination?: ReportDestination | undefined;
 }
 export interface DeleteAgentSpaceInput {
   agentSpaceId: string;
 }
 export interface DeleteAgentSpaceOutput {
-  agentSpaceId?: string;
+  agentSpaceId?: string | undefined;
 }
 export interface DeleteApplicationRequest {
   applicationId: string;
@@ -1392,7 +1490,7 @@ export interface DeleteMembershipRequest {
   applicationId: string;
   agentSpaceId: string;
   membershipId: string;
-  memberType?: MembershipType;
+  memberType?: MembershipType | undefined;
 }
 export interface DeleteMembershipResponse {}
 export interface DeletePrivateConnectionInput {
@@ -1402,14 +1500,14 @@ export interface DeletePrivateConnectionOutput {
   name: string;
   type: PrivateConnectionType;
   status: PrivateConnectionStatus;
-  resourceGatewayId?: string;
-  hostAddress?: string;
-  vpcId?: string;
-  resourceConfigurationId?: string;
-  certificateExpiryTime?: Date;
-  dnsResolution?: ResourceConfigDnsResolution;
-  failureMessage?: string;
-  tags?: { [key: string]: string | undefined };
+  resourceGatewayId?: string | undefined;
+  hostAddress?: string | undefined;
+  vpcId?: string | undefined;
+  resourceConfigurationId?: string | undefined;
+  certificateExpiryTime?: Date | undefined;
+  dnsResolution?: ResourceConfigDnsResolution | undefined;
+  failureMessage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteSecurityRequirementPackInput {
   packId: string;
@@ -1419,7 +1517,7 @@ export interface DeleteTargetDomainInput {
   targetDomainId: string;
 }
 export interface DeleteTargetDomainOutput {
-  targetDomainId?: string;
+  targetDomainId?: string | undefined;
 }
 export interface DescribePrivateConnectionInput {
   privateConnectionName: string;
@@ -1428,14 +1526,14 @@ export interface DescribePrivateConnectionOutput {
   name: string;
   type: PrivateConnectionType;
   status: PrivateConnectionStatus;
-  resourceGatewayId?: string;
-  hostAddress?: string;
-  vpcId?: string;
-  resourceConfigurationId?: string;
-  certificateExpiryTime?: Date;
-  dnsResolution?: ResourceConfigDnsResolution;
-  failureMessage?: string;
-  tags?: { [key: string]: string | undefined };
+  resourceGatewayId?: string | undefined;
+  hostAddress?: string | undefined;
+  vpcId?: string | undefined;
+  resourceConfigurationId?: string | undefined;
+  certificateExpiryTime?: Date | undefined;
+  dnsResolution?: ResourceConfigDnsResolution | undefined;
+  failureMessage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetApplicationRequest {
   applicationId: string;
@@ -1443,16 +1541,16 @@ export interface GetApplicationRequest {
 export type ApplicationDomain = string;
 export type IdCApplicationArn = string;
 export interface IdCConfiguration {
-  idcApplicationArn?: string;
-  idcInstanceArn?: string;
+  idcApplicationArn?: string | undefined;
+  idcInstanceArn?: string | undefined;
 }
 export interface GetApplicationResponse {
   applicationId: string;
   domain: string;
-  applicationName?: string;
-  idcConfiguration?: IdCConfiguration;
-  roleArn?: string;
-  defaultKmsKeyId?: string;
+  applicationName?: string | undefined;
+  idcConfiguration?: IdCConfiguration | undefined;
+  roleArn?: string | undefined;
+  defaultKmsKeyId?: string | undefined;
 }
 export interface GetArtifactInput {
   agentSpaceId: string;
@@ -1472,17 +1570,18 @@ export interface GetArtifactOutput {
 export interface GetIntegrationInput {
   integrationId: string;
 }
-export type ProviderType = "SOURCE_CODE" | "DOCUMENTATION" | (string & {});
+export type ProviderType = "SOURCE_CODE" | "DOCUMENTATION" | "ISSUE_TRACKING" | (string & {});
 export interface GetIntegrationOutput {
   integrationId: string;
   installationId: string;
   provider: Provider;
   providerType: ProviderType;
-  displayName?: string;
-  kmsKeyId?: string;
-  targetUrl?: string;
-  webhookUrl?: string;
-  privateConnectionName?: string;
+  displayName?: string | undefined;
+  kmsKeyId?: string | undefined;
+  targetUrl?: string | undefined;
+  siteUrl?: string | undefined;
+  webhookUrl?: string | undefined;
+  privateConnectionName?: string | undefined;
 }
 export interface GetSecurityRequirementPackInput {
   packId: string;
@@ -1497,14 +1596,14 @@ export type SecurityRequirementPackImportStatus =
 export interface GetSecurityRequirementPackOutput {
   packId: string;
   name: string;
-  description?: string;
-  vendorName?: string;
+  description?: string | undefined;
+  vendorName?: string | undefined;
   managementType: ManagementType;
   status: SecurityRequirementPackStatus;
-  importStatus?: SecurityRequirementPackImportStatus;
+  importStatus?: SecurityRequirementPackImportStatus | undefined;
   createdAt: Date;
   updatedAt: Date;
-  kmsKeyId?: string;
+  kmsKeyId?: string | undefined;
 }
 export type SecurityRequirementArtifactName = string;
 export type SecurityRequirementArtifactFormat =
@@ -1534,10 +1633,10 @@ export type ClientId = string;
 export type ClientSecret = string | redacted.Redacted<string>;
 export interface InitiateProviderRegistrationInput {
   provider: Provider;
-  targetUrl?: string;
-  organizationName?: string;
-  clientId?: string;
-  clientSecret?: string | redacted.Redacted<string>;
+  targetUrl?: string | undefined;
+  organizationName?: string | undefined;
+  clientId?: string | undefined;
+  clientSecret?: string | redacted.Redacted<string> | undefined;
 }
 export type Location = string;
 export interface InitiateProviderRegistrationOutput {
@@ -1547,8 +1646,8 @@ export interface InitiateProviderRegistrationOutput {
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListActorMessagesInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   agentSpaceId: string;
   pentestId: string;
   actorIdentifier: string;
@@ -1557,50 +1656,50 @@ export type SensitiveMessageSender = string | redacted.Redacted<string>;
 export type SensitiveMessageSubject = string | redacted.Redacted<string>;
 export type SensitiveMessageBody = string | redacted.Redacted<string>;
 export interface ActorMessage {
-  sender?: string | redacted.Redacted<string>;
-  subject?: string | redacted.Redacted<string>;
-  body?: string | redacted.Redacted<string>;
-  receivedAt?: Date;
+  sender?: string | redacted.Redacted<string> | undefined;
+  subject?: string | redacted.Redacted<string> | undefined;
+  body?: string | redacted.Redacted<string> | undefined;
+  receivedAt?: Date | undefined;
 }
 export type ActorMessageList = ActorMessage[];
 export interface ListActorMessagesOutput {
-  messages?: ActorMessage[];
-  nextToken?: string;
+  messages?: ActorMessage[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAgentSpacesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AgentSpaceSummary {
   agentSpaceId: string;
   name: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type AgentSpaceSummaryList = AgentSpaceSummary[];
 export interface ListAgentSpacesOutput {
-  agentSpaceSummaries?: AgentSpaceSummary[];
-  nextToken?: string;
+  agentSpaceSummaries?: AgentSpaceSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListApplicationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ApplicationSummary {
   applicationId: string;
   applicationName: string;
   domain: string;
-  defaultKmsKeyId?: string;
+  defaultKmsKeyId?: string | undefined;
 }
 export type ApplicationSummaryList = ApplicationSummary[];
 export interface ListApplicationsResponse {
   applicationSummaries: ApplicationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListArtifactsInput {
   agentSpaceId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ArtifactSummary {
   artifactId: string;
@@ -1610,129 +1709,129 @@ export interface ArtifactSummary {
 export type ArtifactSummaryList = ArtifactSummary[];
 export interface ListArtifactsOutput {
   artifactSummaries: ArtifactSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListCodeReviewJobsForCodeReviewInput {
-  maxResults?: number;
+  maxResults?: number | undefined;
   codeReviewId: string;
   agentSpaceId: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface CodeReviewJobSummary {
   codeReviewJobId: string;
   codeReviewId: string;
-  title?: string;
-  status?: JobStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
+  title?: string | undefined;
+  status?: JobStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type CodeReviewJobSummaryList = CodeReviewJobSummary[];
 export interface ListCodeReviewJobsForCodeReviewOutput {
-  codeReviewJobSummaries?: CodeReviewJobSummary[];
-  nextToken?: string;
+  codeReviewJobSummaries?: CodeReviewJobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCodeReviewJobTasksInput {
   agentSpaceId: string;
-  maxResults?: number;
-  codeReviewJobId?: string;
-  stepName?: StepName;
-  categoryName?: string;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  codeReviewJobId?: string | undefined;
+  stepName?: StepName | undefined;
+  categoryName?: string | undefined;
+  nextToken?: string | undefined;
 }
 export interface CodeReviewJobTaskSummary {
   taskId: string;
-  codeReviewId?: string;
-  codeReviewJobId?: string;
-  agentSpaceId?: string;
-  title?: string;
-  riskType?: RiskType;
-  executionStatus?: TaskExecutionStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
+  codeReviewId?: string | undefined;
+  codeReviewJobId?: string | undefined;
+  agentSpaceId?: string | undefined;
+  title?: string | undefined;
+  riskType?: RiskType | undefined;
+  executionStatus?: TaskExecutionStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type CodeReviewJobTaskSummaryList = CodeReviewJobTaskSummary[];
 export interface ListCodeReviewJobTasksOutput {
-  codeReviewJobTaskSummaries?: CodeReviewJobTaskSummary[];
-  nextToken?: string;
+  codeReviewJobTaskSummaries?: CodeReviewJobTaskSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCodeReviewsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   agentSpaceId: string;
 }
 export interface CodeReviewSummary {
   codeReviewId: string;
   agentSpaceId: string;
   title: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type CodeReviewSummaryList = CodeReviewSummary[];
 export interface ListCodeReviewsOutput {
-  codeReviewSummaries?: CodeReviewSummary[];
-  nextToken?: string;
+  codeReviewSummaries?: CodeReviewSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDiscoveredEndpointsInput {
-  maxResults?: number;
+  maxResults?: number | undefined;
   pentestJobId: string;
   agentSpaceId: string;
-  prefix?: string;
-  nextToken?: string;
+  prefix?: string | undefined;
+  nextToken?: string | undefined;
 }
 export interface DiscoveredEndpoint {
   uri: string;
   pentestJobId: string;
   taskId: string;
   agentSpaceId: string;
-  evidence?: string;
-  operation?: string;
-  description?: string;
+  evidence?: string | undefined;
+  operation?: string | undefined;
+  description?: string | undefined;
 }
 export type DiscoveredEndpointList = DiscoveredEndpoint[];
 export interface ListDiscoveredEndpointsOutput {
-  discoveredEndpoints?: DiscoveredEndpoint[];
-  nextToken?: string;
+  discoveredEndpoints?: DiscoveredEndpoint[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListFindingsInput {
-  maxResults?: number;
-  pentestJobId?: string;
-  codeReviewJobId?: string;
+  maxResults?: number | undefined;
+  pentestJobId?: string | undefined;
+  codeReviewJobId?: string | undefined;
   agentSpaceId: string;
-  nextToken?: string;
-  riskType?: string;
-  riskLevel?: RiskLevel;
-  status?: FindingStatus;
-  confidence?: ConfidenceLevel;
-  name?: string;
+  nextToken?: string | undefined;
+  riskType?: string | undefined;
+  riskLevel?: RiskLevel | undefined;
+  status?: FindingStatus | undefined;
+  confidence?: ConfidenceLevel | undefined;
+  name?: string | undefined;
 }
 export interface FindingSummary {
   findingId: string;
   agentSpaceId: string;
-  pentestId?: string;
-  pentestJobId?: string;
-  codeReviewId?: string;
-  codeReviewJobId?: string;
-  name?: string;
-  status?: FindingStatus;
-  riskType?: string;
-  riskLevel?: RiskLevel;
-  confidence?: ConfidenceLevel;
-  validationStatus?: ValidationStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
+  pentestId?: string | undefined;
+  pentestJobId?: string | undefined;
+  codeReviewId?: string | undefined;
+  codeReviewJobId?: string | undefined;
+  name?: string | undefined;
+  status?: FindingStatus | undefined;
+  riskType?: string | undefined;
+  riskLevel?: RiskLevel | undefined;
+  confidence?: ConfidenceLevel | undefined;
+  validationStatus?: ValidationStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type FindingSummaryList = FindingSummary[];
 export interface ListFindingsOutput {
-  findingsSummaries?: FindingSummary[];
-  nextToken?: string;
+  findingsSummaries?: FindingSummary[] | undefined;
+  nextToken?: string | undefined;
 }
-export type ResourceType = "CODE_REPOSITORY" | "DOCUMENT" | (string & {});
+export type ResourceType = "CODE_REPOSITORY" | "DOCUMENT" | "PROJECT" | (string & {});
 export interface ListIntegratedResourcesInput {
   agentSpaceId: string;
-  integrationId?: string;
-  resourceType?: ResourceType;
-  nextToken?: string;
-  maxResults?: number;
+  integrationId?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ProviderResourceName = string;
 export type ProviderResourceId = string;
@@ -1742,73 +1841,93 @@ export interface GitHubRepositoryMetadata {
   name: string;
   providerResourceId: string;
   owner: string;
-  accessType?: AccessType;
+  accessType?: AccessType | undefined;
 }
 export type GitLabNamespace = string;
 export interface GitLabRepositoryMetadata {
   name: string;
   providerResourceId: string;
   namespace: string;
-  accessType?: AccessType;
+  accessType?: AccessType | undefined;
 }
 export interface BitbucketRepositoryMetadata {
   name: string;
   providerResourceId: string;
   workspace: string;
-  accessType?: AccessType;
+  accessType?: AccessType | undefined;
 }
 export interface ConfluenceDocumentMetadata {
   name: string;
   providerResourceId: string;
   spaceKey: string;
   pageId: string;
-  title?: string;
-  spaceTitle?: string;
+  title?: string | undefined;
+  spaceTitle?: string | undefined;
 }
 export type AzureDevOpsOrganization = string;
 export interface AzureDevOpsRepositoryMetadata {
   name: string;
   providerResourceId: string;
   organization: string;
-  project?: string;
-  projectId?: string;
-  accessType?: AccessType;
+  project?: string | undefined;
+  projectId?: string | undefined;
+  accessType?: AccessType | undefined;
+}
+export interface JiraProjectMetadata {
+  name: string;
+  providerResourceId: string;
+  projectKey: string;
+  projectId: string;
+  projectName?: string | undefined;
 }
 export type IntegratedResourceMetadata =
   | {
       githubRepository: GitHubRepositoryMetadata;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
+      githubRepository?: undefined;
       gitlabRepository: GitLabRepositoryMetadata;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
       bitbucketRepository: BitbucketRepositoryMetadata;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
       confluenceDocument: ConfluenceDocumentMetadata;
-      azureDevOpsRepository?: never;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
       azureDevOpsRepository: AzureDevOpsRepositoryMetadata;
+      jiraProject?: undefined;
+    }
+  | {
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject: JiraProjectMetadata;
     };
 export type TriggerEvent =
   | "PULL_REQUEST_READY_FOR_REVIEW"
@@ -1823,92 +1942,109 @@ export type TriggerFilterMatchMode = "INCLUDE" | "EXCLUDE" | (string & {});
 export interface TriggerFilter {
   type: TriggerFilterType;
   patterns: string[];
-  matchMode?: TriggerFilterMatchMode;
+  matchMode?: TriggerFilterMatchMode | undefined;
 }
 export type TriggerFilterList = TriggerFilter[];
 export interface TriggerFilterGroup {
-  events?: TriggerEvent[];
-  filters?: TriggerFilter[];
+  events?: TriggerEvent[] | undefined;
+  filters?: TriggerFilter[] | undefined;
 }
 export type TriggerFilterGroups = TriggerFilterGroup[];
 export interface GitHubResourceCapabilities {
-  triggerFilterGroups?: TriggerFilterGroup[];
-  leaveComments?: boolean;
-  remediateCode?: boolean;
+  triggerFilterGroups?: TriggerFilterGroup[] | undefined;
+  leaveComments?: boolean | undefined;
+  remediateCode?: boolean | undefined;
 }
 export interface GitLabResourceCapabilities {
-  triggerFilterGroups?: TriggerFilterGroup[];
-  leaveComments?: boolean;
-  remediateCode?: boolean;
+  triggerFilterGroups?: TriggerFilterGroup[] | undefined;
+  leaveComments?: boolean | undefined;
+  remediateCode?: boolean | undefined;
 }
 export interface BitbucketResourceCapabilities {
-  triggerFilterGroups?: TriggerFilterGroup[];
-  leaveComments?: boolean;
-  remediateCode?: boolean;
+  triggerFilterGroups?: TriggerFilterGroup[] | undefined;
+  leaveComments?: boolean | undefined;
+  remediateCode?: boolean | undefined;
 }
 export interface ConfluenceResourceCapabilities {
-  fetchDocument?: boolean;
-  createDocument?: boolean;
-  updateDocument?: boolean;
+  fetchDocument?: boolean | undefined;
+  createDocument?: boolean | undefined;
+  updateDocument?: boolean | undefined;
 }
 export interface AzureDevOpsResourceCapabilities {
-  triggerFilterGroups?: TriggerFilterGroup[];
-  leaveComments?: boolean;
-  remediateCode?: boolean;
+  triggerFilterGroups?: TriggerFilterGroup[] | undefined;
+  leaveComments?: boolean | undefined;
+  remediateCode?: boolean | undefined;
+}
+export interface JiraResourceCapabilities {
+  createIssue?: boolean | undefined;
+  commentIssue?: boolean | undefined;
 }
 export type ProviderResourceCapabilities =
   | {
       github: GitHubResourceCapabilities;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
+      github?: undefined;
       gitlab: GitLabResourceCapabilities;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
+      github?: undefined;
+      gitlab?: undefined;
       bitbucket: BitbucketResourceCapabilities;
-      confluence?: never;
-      azureDevOps?: never;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
       confluence: ConfluenceResourceCapabilities;
-      azureDevOps?: never;
+      azureDevOps?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
       azureDevOps: AzureDevOpsResourceCapabilities;
+      jira?: undefined;
+    }
+  | {
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      jira: JiraResourceCapabilities;
     };
 export interface IntegratedResourceSummary {
   integrationId: string;
   resource: IntegratedResourceMetadata;
-  capabilities?: ProviderResourceCapabilities;
+  capabilities?: ProviderResourceCapabilities | undefined;
 }
 export type IntegratedResourceSummaryList = IntegratedResourceSummary[];
 export interface ListIntegratedResourcesOutput {
   integratedResourceSummaries: IntegratedResourceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type IntegrationFilter =
-  | { provider: Provider; providerType?: never }
-  | { provider?: never; providerType: ProviderType };
+  | { provider: Provider; providerType?: undefined }
+  | { provider?: undefined; providerType: ProviderType };
 export interface ListIntegrationsInput {
-  filter?: IntegrationFilter;
-  nextToken?: string;
-  maxResults?: number;
+  filter?: IntegrationFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface IntegrationSummary {
   integrationId: string;
@@ -1916,36 +2052,42 @@ export interface IntegrationSummary {
   provider: Provider;
   providerType: ProviderType;
   displayName: string;
-  targetUrl?: string;
-  webhookUrl?: string;
-  privateConnectionName?: string;
+  targetUrl?: string | undefined;
+  webhookUrl?: string | undefined;
+  privateConnectionName?: string | undefined;
 }
 export type IntegrationSummaryList = IntegrationSummary[];
 export interface ListIntegrationsOutput {
   integrationSummaries: IntegrationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export type MembershipTypeFilter = "USER" | "ALL" | (string & {});
+export type MembershipTypeFilter = "USER" | "GROUP" | "ALL" | (string & {});
 export interface ListMembershipsRequest {
   applicationId: string;
   agentSpaceId: string;
-  memberType?: MembershipTypeFilter;
-  maxResults?: number;
-  nextToken?: string;
+  memberType?: MembershipTypeFilter | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type SensitiveEmail = string;
 export interface UserMetadata {
   username: string;
   email: string;
 }
-export type MemberMetadata = { user: UserMetadata };
+export interface GroupMetadata {
+  displayName?: string | undefined;
+  description?: string | undefined;
+}
+export type MemberMetadata =
+  | { user: UserMetadata; group?: undefined }
+  | { user?: undefined; group: GroupMetadata };
 export interface MembershipSummary {
   membershipId: string;
   applicationId: string;
   agentSpaceId: string;
   memberType: MembershipType;
-  config?: MembershipConfig;
-  metadata?: MemberMetadata;
+  config?: MembershipConfig | undefined;
+  metadata?: MemberMetadata | undefined;
   createdAt: Date;
   updatedAt: Date;
   createdBy: string;
@@ -1954,108 +2096,108 @@ export interface MembershipSummary {
 export type MembershipSummaryList = MembershipSummary[];
 export interface ListMembershipsResponse {
   membershipSummaries: MembershipSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListPentestJobsForPentestInput {
-  maxResults?: number;
+  maxResults?: number | undefined;
   pentestId: string;
   agentSpaceId: string;
-  nextToken?: string;
-  jobType?: JobType;
+  nextToken?: string | undefined;
+  jobType?: JobType | undefined;
 }
 export interface PentestJobSummary {
   pentestJobId: string;
   pentestId: string;
-  title?: string;
-  status?: JobStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-  jobType?: JobType;
-  reportUrl?: string;
+  title?: string | undefined;
+  status?: JobStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  jobType?: JobType | undefined;
+  reportUrl?: string | undefined;
 }
 export type PentestJobSummaryList = PentestJobSummary[];
 export interface ListPentestJobsForPentestOutput {
-  pentestJobSummaries?: PentestJobSummary[];
-  nextToken?: string;
+  pentestJobSummaries?: PentestJobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPentestJobTasksInput {
   agentSpaceId: string;
-  maxResults?: number;
-  pentestJobId?: string;
-  stepName?: StepName;
-  categoryName?: string;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  pentestJobId?: string | undefined;
+  stepName?: StepName | undefined;
+  categoryName?: string | undefined;
+  nextToken?: string | undefined;
 }
 export interface TaskSummary {
   taskId: string;
-  pentestId?: string;
-  pentestJobId?: string;
-  agentSpaceId?: string;
-  title?: string;
-  riskType?: RiskType;
-  executionStatus?: TaskExecutionStatus;
-  taskHours?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
+  pentestId?: string | undefined;
+  pentestJobId?: string | undefined;
+  agentSpaceId?: string | undefined;
+  title?: string | undefined;
+  riskType?: RiskType | undefined;
+  executionStatus?: TaskExecutionStatus | undefined;
+  taskHours?: number | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type TaskSummaryList = TaskSummary[];
 export interface ListPentestJobTasksOutput {
-  taskSummaries?: TaskSummary[];
-  nextToken?: string;
+  taskSummaries?: TaskSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPentestsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   agentSpaceId: string;
 }
 export interface PentestSummary {
   pentestId: string;
   agentSpaceId: string;
   title: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type PentestSummaryList = PentestSummary[];
 export interface ListPentestsOutput {
-  pentestSummaries?: PentestSummary[];
-  nextToken?: string;
+  pentestSummaries?: PentestSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPrivateConnectionsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface PrivateConnectionSummary {
   name: string;
   type: PrivateConnectionType;
   status: PrivateConnectionStatus;
-  resourceGatewayId?: string;
-  hostAddress?: string;
-  vpcId?: string;
-  resourceConfigurationId?: string;
-  certificateExpiryTime?: Date;
-  dnsResolution?: ResourceConfigDnsResolution;
-  failureMessage?: string;
-  tags?: { [key: string]: string | undefined };
+  resourceGatewayId?: string | undefined;
+  hostAddress?: string | undefined;
+  vpcId?: string | undefined;
+  resourceConfigurationId?: string | undefined;
+  certificateExpiryTime?: Date | undefined;
+  dnsResolution?: ResourceConfigDnsResolution | undefined;
+  failureMessage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type PrivateConnectionList = PrivateConnectionSummary[];
 export interface ListPrivateConnectionsOutput {
   privateConnections: PrivateConnectionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSecurityRequirementPackFilter {
-  managementType?: ManagementType;
-  status?: SecurityRequirementPackStatus;
+  managementType?: ManagementType | undefined;
+  status?: SecurityRequirementPackStatus | undefined;
 }
 export interface ListSecurityRequirementPacksInput {
-  filter?: ListSecurityRequirementPackFilter;
-  nextToken?: string;
-  maxResults?: number;
+  filter?: ListSecurityRequirementPackFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SecurityRequirementPackSummary {
   packId: string;
   name: string;
-  description?: string;
-  vendorName?: string;
+  description?: string | undefined;
+  vendorName?: string | undefined;
   managementType: ManagementType;
   status: SecurityRequirementPackStatus;
   createdAt: Date;
@@ -2064,12 +2206,12 @@ export interface SecurityRequirementPackSummary {
 export type SecurityRequirementPackSummaryList = SecurityRequirementPackSummary[];
 export interface ListSecurityRequirementPacksOutput {
   securityRequirementPackSummaries: SecurityRequirementPackSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSecurityRequirementsInput {
   packId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SecurityRequirementSummary {
   packId: string;
@@ -2081,115 +2223,115 @@ export interface SecurityRequirementSummary {
 export type SecurityRequirementSummaryList = SecurityRequirementSummary[];
 export interface ListSecurityRequirementsOutput {
   securityRequirementSummaries: SecurityRequirementSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTargetDomainsInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface TargetDomainSummary {
   targetDomainId: string;
   domainName: string;
-  verificationStatus?: TargetDomainStatus;
+  verificationStatus?: TargetDomainStatus | undefined;
 }
 export type TargetDomainSummaryList = TargetDomainSummary[];
 export interface ListTargetDomainsOutput {
-  targetDomainSummaries?: TargetDomainSummary[];
-  nextToken?: string;
+  targetDomainSummaries?: TargetDomainSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListThreatModelJobsInput {
-  maxResults?: number;
+  maxResults?: number | undefined;
   threatModelId: string;
   agentSpaceId: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ThreatModelJobSummary {
   threatModelJobId: string;
   threatModelId: string;
-  agentSpaceId?: string;
-  title?: string;
-  status?: JobStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
+  agentSpaceId?: string | undefined;
+  title?: string | undefined;
+  status?: JobStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type ThreatModelJobSummaryList = ThreatModelJobSummary[];
 export interface ListThreatModelJobsOutput {
-  threatModelJobSummaries?: ThreatModelJobSummary[];
-  nextToken?: string;
+  threatModelJobSummaries?: ThreatModelJobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListThreatModelJobTasksInput {
   agentSpaceId: string;
-  maxResults?: number;
+  maxResults?: number | undefined;
   threatModelJobId: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ThreatModelJobTaskSummary {
   taskId: string;
-  threatModelId?: string;
-  threatModelJobId?: string;
-  agentSpaceId?: string;
-  title?: string;
-  executionStatus?: TaskExecutionStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
+  threatModelId?: string | undefined;
+  threatModelJobId?: string | undefined;
+  agentSpaceId?: string | undefined;
+  title?: string | undefined;
+  executionStatus?: TaskExecutionStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type ThreatModelJobTaskSummaryList = ThreatModelJobTaskSummary[];
 export interface ListThreatModelJobTasksOutput {
-  threatModelJobTaskSummaries?: ThreatModelJobTaskSummary[];
-  nextToken?: string;
+  threatModelJobTaskSummaries?: ThreatModelJobTaskSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListThreatModelsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   agentSpaceId: string;
 }
 export interface ThreatModelSummary {
   threatModelId: string;
   agentSpaceId: string;
   title: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type ThreatModelSummaryList = ThreatModelSummary[];
 export interface ListThreatModelsOutput {
-  threatModelSummaries?: ThreatModelSummary[];
-  nextToken?: string;
+  threatModelSummaries?: ThreatModelSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListThreatsInput {
   threatJobId: string;
   agentSpaceId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ThreatSummary {
-  threatId?: string;
-  threatJobId?: string;
-  title?: string;
-  statement?: string;
-  severity?: ThreatSeverity;
-  status?: ThreatStatus;
-  stride?: StrideCategory[];
-  createdBy?: ThreatActor;
-  updatedBy?: ThreatActor;
-  createdAt?: Date;
-  updatedAt?: Date;
+  threatId?: string | undefined;
+  threatJobId?: string | undefined;
+  title?: string | undefined;
+  statement?: string | undefined;
+  severity?: ThreatSeverity | undefined;
+  status?: ThreatStatus | undefined;
+  stride?: StrideCategory[] | undefined;
+  createdBy?: ThreatActor | undefined;
+  updatedBy?: ThreatActor | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type ThreatSummaryList = ThreatSummary[];
 export interface ListThreatsOutput {
-  threats?: ThreatSummary[];
-  nextToken?: string;
+  threats?: ThreatSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface StartCodeRemediationInput {
   agentSpaceId: string;
-  pentestJobId?: string;
-  codeReviewJobId?: string;
+  pentestJobId?: string | undefined;
+  codeReviewJobId?: string | undefined;
   findingIds: string[];
 }
 export interface StartCodeRemediationOutput {}
@@ -2197,45 +2339,45 @@ export type DiffSource = { s3Uri: string };
 export interface StartCodeReviewJobInput {
   agentSpaceId: string;
   codeReviewId: string;
-  diffSource?: DiffSource;
+  diffSource?: DiffSource | undefined;
 }
 export interface StartCodeReviewJobOutput {
-  title?: string;
-  status?: JobStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
+  title?: string | undefined;
+  status?: JobStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   codeReviewId: string;
   codeReviewJobId: string;
-  agentSpaceId?: string;
+  agentSpaceId?: string | undefined;
 }
 export interface StartPentestJobInput {
   agentSpaceId: string;
   pentestId: string;
-  jobType?: JobType;
-  selectedFindingIds?: string[];
-  scopeChanges?: ScopeChange[];
+  jobType?: JobType | undefined;
+  selectedFindingIds?: string[] | undefined;
+  scopeChanges?: ScopeChange[] | undefined;
 }
 export interface StartPentestJobOutput {
-  title?: string;
-  status?: JobStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-  pentestId?: string;
-  pentestJobId?: string;
-  agentSpaceId?: string;
+  title?: string | undefined;
+  status?: JobStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  pentestId?: string | undefined;
+  pentestJobId?: string | undefined;
+  agentSpaceId?: string | undefined;
 }
 export interface StartThreatModelJobInput {
   agentSpaceId: string;
   threatModelId: string;
 }
 export interface StartThreatModelJobOutput {
-  title?: string;
-  status?: JobStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-  threatModelId?: string;
+  title?: string | undefined;
+  status?: JobStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  threatModelId?: string | undefined;
   threatModelJobId: string;
-  agentSpaceId?: string;
+  agentSpaceId?: string | undefined;
 }
 export interface StopCodeReviewJobInput {
   agentSpaceId: string;
@@ -2265,26 +2407,26 @@ export interface UntagResourceInput {
 export interface UntagResourceOutput {}
 export interface UpdateAgentSpaceInput {
   agentSpaceId: string;
-  name?: string;
-  description?: string;
-  awsResources?: AWSResources;
-  targetDomainIds?: string[];
-  codeReviewSettings?: CodeReviewSettings;
+  name?: string | undefined;
+  description?: string | undefined;
+  awsResources?: AWSResources | undefined;
+  targetDomainIds?: string[] | undefined;
+  codeReviewSettings?: CodeReviewSettings | undefined;
 }
 export interface UpdateAgentSpaceOutput {
   agentSpaceId: string;
   name: string;
-  description?: string;
-  awsResources?: AWSResources;
-  targetDomainIds?: string[];
-  codeReviewSettings?: CodeReviewSettings;
-  createdAt?: Date;
-  updatedAt?: Date;
+  description?: string | undefined;
+  awsResources?: AWSResources | undefined;
+  targetDomainIds?: string[] | undefined;
+  codeReviewSettings?: CodeReviewSettings | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface UpdateApplicationRequest {
   applicationId: string;
-  roleArn?: string;
-  defaultKmsKeyId?: string;
+  roleArn?: string | undefined;
+  defaultKmsKeyId?: string | undefined;
 }
 export interface UpdateApplicationResponse {
   applicationId: string;
@@ -2292,43 +2434,43 @@ export interface UpdateApplicationResponse {
 export interface UpdateCodeReviewInput {
   codeReviewId: string;
   agentSpaceId: string;
-  title?: string;
-  assets?: Assets;
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  validationMode?: ValidationMode;
-  maxTaskHours?: number;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
+  title?: string | undefined;
+  assets?: Assets | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  validationMode?: ValidationMode | undefined;
+  maxTaskHours?: number | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
 }
 export interface UpdateCodeReviewOutput {
   codeReviewId: string;
-  title?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  assets?: Assets;
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  agentSpaceId?: string;
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  validationMode?: ValidationMode;
-  maxTaskHours?: number;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
+  title?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  assets?: Assets | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  agentSpaceId?: string | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  validationMode?: ValidationMode | undefined;
+  maxTaskHours?: number | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
 }
 export interface UpdateFindingInput {
   findingId: string;
   agentSpaceId: string;
-  name?: string;
-  description?: string;
-  riskType?: string;
-  riskLevel?: RiskLevel;
-  riskScore?: string;
-  attackScript?: string;
-  reasoning?: string;
-  status?: FindingStatus;
-  customerNote?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  riskType?: string | undefined;
+  riskLevel?: RiskLevel | undefined;
+  riskScore?: string | undefined;
+  attackScript?: string | undefined;
+  reasoning?: string | undefined;
+  status?: FindingStatus | undefined;
+  customerNote?: string | undefined;
 }
 export interface UpdateFindingOutput {}
 export interface GitHubRepositoryResource {
@@ -2347,53 +2489,72 @@ export interface ConfluenceDocumentResource {
   name: string;
   spaceKey: string;
   pageId: string;
-  title?: string;
-  spaceTitle?: string;
+  title?: string | undefined;
+  spaceTitle?: string | undefined;
 }
 export interface AzureDevOpsRepositoryResource {
   name: string;
   organization: string;
-  project?: string;
+  project?: string | undefined;
+}
+export interface JiraProjectResource {
+  name: string;
+  projectKey: string;
+  projectId: string;
+  projectName?: string | undefined;
 }
 export type IntegratedResource =
   | {
       githubRepository: GitHubRepositoryResource;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
+      githubRepository?: undefined;
       gitlabRepository: GitLabRepositoryResource;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
       bitbucketRepository: BitbucketRepositoryResource;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
       confluenceDocument: ConfluenceDocumentResource;
-      azureDevOpsRepository?: never;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
       azureDevOpsRepository: AzureDevOpsRepositoryResource;
+      jiraProject?: undefined;
+    }
+  | {
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject: JiraProjectResource;
     };
 export interface IntegratedResourceInputItem {
   resource: IntegratedResource;
-  capabilities?: ProviderResourceCapabilities;
+  capabilities?: ProviderResourceCapabilities | undefined;
 }
 export type IntegratedResourceInputItemList = IntegratedResourceInputItem[];
 export interface UpdateIntegratedResourcesInput {
@@ -2410,39 +2571,41 @@ export interface UpdateIntegrationInput {
 export type WebhookSecret = string | redacted.Redacted<string>;
 export interface UpdateIntegrationOutput {
   integrationId: string;
-  webhookUrl?: string;
-  secret?: string | redacted.Redacted<string>;
+  webhookUrl?: string | undefined;
+  secret?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdatePentestInput {
   pentestId: string;
   agentSpaceId: string;
-  title?: string;
-  assets?: Assets;
-  excludeRiskTypes?: RiskType[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  vpcConfig?: VpcConfig;
-  networkTrafficConfig?: NetworkTrafficConfig;
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  disableManagedSkills?: SkillType[];
-  maxTaskHours?: number;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
-  cicdConfiguration?: CiCdConfiguration;
+  title?: string | undefined;
+  assets?: Assets | undefined;
+  excludeRiskTypes?: RiskType[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  networkTrafficConfig?: NetworkTrafficConfig | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  disableManagedSkills?: SkillType[] | undefined;
+  maxTaskHours?: number | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
+  cicdConfiguration?: CiCdConfiguration | undefined;
+  testScope?: TestScope | undefined;
 }
 export interface UpdatePentestOutput {
-  pentestId?: string;
-  title?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  assets?: Assets;
-  excludeRiskTypes?: RiskType[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  agentSpaceId?: string;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
-  cicdConfiguration?: CiCdConfiguration;
+  pentestId?: string | undefined;
+  title?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  assets?: Assets | undefined;
+  excludeRiskTypes?: RiskType[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  agentSpaceId?: string | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
+  cicdConfiguration?: CiCdConfiguration | undefined;
+  testScope?: TestScope | undefined;
 }
 export interface UpdatePrivateConnectionCertificateInput {
   privateConnectionName: string;
@@ -2452,26 +2615,26 @@ export interface UpdatePrivateConnectionCertificateOutput {
   name: string;
   type: PrivateConnectionType;
   status: PrivateConnectionStatus;
-  resourceGatewayId?: string;
-  hostAddress?: string;
-  vpcId?: string;
-  resourceConfigurationId?: string;
-  certificateExpiryTime?: Date;
-  dnsResolution?: ResourceConfigDnsResolution;
-  failureMessage?: string;
-  tags?: { [key: string]: string | undefined };
+  resourceGatewayId?: string | undefined;
+  hostAddress?: string | undefined;
+  vpcId?: string | undefined;
+  resourceConfigurationId?: string | undefined;
+  certificateExpiryTime?: Date | undefined;
+  dnsResolution?: ResourceConfigDnsResolution | undefined;
+  failureMessage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateSecurityRequirementPackInput {
   packId: string;
-  name?: string;
-  description?: string;
-  status?: SecurityRequirementPackStatus;
+  name?: string | undefined;
+  description?: string | undefined;
+  status?: SecurityRequirementPackStatus | undefined;
 }
 export interface UpdateSecurityRequirementPackOutput {
   packId: string;
-  name?: string;
-  description?: string;
-  status?: SecurityRequirementPackStatus;
+  name?: string | undefined;
+  description?: string | undefined;
+  status?: SecurityRequirementPackStatus | undefined;
 }
 export interface UpdateTargetDomainInput {
   targetDomainId: string;
@@ -2481,87 +2644,87 @@ export interface UpdateTargetDomainOutput {
   targetDomainId: string;
   domainName: string;
   verificationStatus: TargetDomainStatus;
-  verificationStatusReason?: string;
-  verificationDetails?: VerificationDetails;
-  createdAt?: Date;
-  verifiedAt?: Date;
+  verificationStatusReason?: string | undefined;
+  verificationDetails?: VerificationDetails | undefined;
+  createdAt?: Date | undefined;
+  verifiedAt?: Date | undefined;
 }
 export interface UpdateThreatInput {
   threatId: string;
   agentSpaceId: string;
-  title?: string;
-  status?: ThreatStatus;
-  comments?: string;
-  statement?: string;
-  severity?: ThreatSeverity;
-  threatSource?: string;
-  prerequisites?: string;
-  threatAction?: string;
-  threatImpact?: string;
-  impactedGoal?: string[];
-  impactedAssets?: string[];
-  anchor?: ThreatAnchorShape;
-  evidence?: ThreatEvidenceShape[];
-  recommendation?: string;
+  title?: string | undefined;
+  status?: ThreatStatus | undefined;
+  comments?: string | undefined;
+  statement?: string | undefined;
+  severity?: ThreatSeverity | undefined;
+  threatSource?: string | undefined;
+  prerequisites?: string | undefined;
+  threatAction?: string | undefined;
+  threatImpact?: string | undefined;
+  impactedGoal?: string[] | undefined;
+  impactedAssets?: string[] | undefined;
+  anchor?: ThreatAnchorShape | undefined;
+  evidence?: ThreatEvidenceShape[] | undefined;
+  recommendation?: string | undefined;
 }
 export interface UpdateThreatOutput {
   threatId: string;
   threatJobId: string;
-  title?: string;
-  statement?: string;
-  severity?: ThreatSeverity;
-  status?: ThreatStatus;
-  comments?: string;
-  stride?: StrideCategory[];
-  threatSource?: string;
-  prerequisites?: string;
-  threatAction?: string;
-  threatImpact?: string;
-  impactedGoal?: string[];
-  impactedAssets?: string[];
-  anchor?: ThreatAnchorShape;
-  evidence?: ThreatEvidenceShape[];
-  recommendation?: string;
-  createdBy?: ThreatActor;
-  updatedBy?: ThreatActor;
-  createdAt?: Date;
-  updatedAt?: Date;
+  title?: string | undefined;
+  statement?: string | undefined;
+  severity?: ThreatSeverity | undefined;
+  status?: ThreatStatus | undefined;
+  comments?: string | undefined;
+  stride?: StrideCategory[] | undefined;
+  threatSource?: string | undefined;
+  prerequisites?: string | undefined;
+  threatAction?: string | undefined;
+  threatImpact?: string | undefined;
+  impactedGoal?: string[] | undefined;
+  impactedAssets?: string[] | undefined;
+  anchor?: ThreatAnchorShape | undefined;
+  evidence?: ThreatEvidenceShape[] | undefined;
+  recommendation?: string | undefined;
+  createdBy?: ThreatActor | undefined;
+  updatedBy?: ThreatActor | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface UpdateThreatModelInput {
   threatModelId: string;
   agentSpaceId: string;
-  title?: string;
-  description?: string;
-  assets?: Assets;
-  scopeDocs?: DocumentInfo[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  reportDestination?: ReportDestination;
+  title?: string | undefined;
+  description?: string | undefined;
+  assets?: Assets | undefined;
+  scopeDocs?: DocumentInfo[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  reportDestination?: ReportDestination | undefined;
 }
 export interface UpdateThreatModelOutput {
   threatModelId: string;
-  title?: string;
-  agentSpaceId?: string;
-  description?: string;
-  assets?: Assets;
-  scopeDocs?: DocumentInfo[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  createdAt?: Date;
-  updatedAt?: Date;
-  reportDestination?: ReportDestination;
+  title?: string | undefined;
+  agentSpaceId?: string | undefined;
+  description?: string | undefined;
+  assets?: Assets | undefined;
+  scopeDocs?: DocumentInfo[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  reportDestination?: ReportDestination | undefined;
 }
 export interface VerifyTargetDomainInput {
   targetDomainId: string;
 }
 export interface VerifyTargetDomainOutput {
-  targetDomainId?: string;
-  domainName?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  verifiedAt?: Date;
-  status?: TargetDomainStatus;
-  verificationStatusReason?: string;
+  targetDomainId?: string | undefined;
+  domainName?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  verifiedAt?: Date | undefined;
+  status?: TargetDomainStatus | undefined;
+  verificationStatusReason?: string | undefined;
 }
 export interface ValidationExceptionField {
   path: string;
@@ -2584,8 +2747,8 @@ export const addArtifact: API.OperationMethod<
   AddArtifactError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<AddArtifactInput>,
-  output: __S(1473, __c92, 1) as any as S.Schema<AddArtifactOutput>,
+  input: __S(1520, __c95, 0) as any as S.Schema<AddArtifactInput>,
+  output: __S(1521, __c95, 1) as any as S.Schema<AddArtifactOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2618,8 +2781,8 @@ export const batchCreateSecurityRequirements: API.OperationMethod<
   BatchCreateSecurityRequirementsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1666, __c104, 2) as any as S.Schema<BatchCreateSecurityRequirementsInput>,
-  output: __S(1698, __c106, 2) as any as S.Schema<BatchCreateSecurityRequirementsOutput>,
+  input: __S(1714, __c107, 2) as any as S.Schema<BatchCreateSecurityRequirementsInput>,
+  output: __S(1746, __c109, 2) as any as S.Schema<BatchCreateSecurityRequirementsOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2646,8 +2809,8 @@ export const batchDeleteCodeReviews: API.OperationMethod<
   BatchDeleteCodeReviewsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<BatchDeleteCodeReviewsInput>,
-  output: __S(1875, __c117, 3) as any as S.Schema<BatchDeleteCodeReviewsOutput>,
+  input: __S(1920, __c120, 0) as any as S.Schema<BatchDeleteCodeReviewsInput>,
+  output: __S(1923, __c120, 3) as any as S.Schema<BatchDeleteCodeReviewsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2693,8 +2856,8 @@ export const batchDeleteSecurityRequirements: API.OperationMethod<
   BatchDeleteSecurityRequirementsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<BatchDeleteSecurityRequirementsInput>,
-  output: __S(193, __c12, 1) as any as S.Schema<BatchDeleteSecurityRequirementsOutput>,
+  input: __S(224, __c14, 0) as any as S.Schema<BatchDeleteSecurityRequirementsInput>,
+  output: __S(225, __c14, 1) as any as S.Schema<BatchDeleteSecurityRequirementsOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2720,14 +2883,86 @@ export const batchDeleteThreatModels: API.OperationMethod<
   BatchDeleteThreatModelsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<BatchDeleteThreatModelsInput>,
-  output: __S(211, __c13, 3) as any as S.Schema<BatchDeleteThreatModelsOutput>,
+  input: __S(240, __c15, 0) as any as S.Schema<BatchDeleteThreatModelsInput>,
+  output: __S(243, __c15, 3) as any as S.Schema<BatchDeleteThreatModelsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteThreatModels",
   telemetry: TELEMETRY,
   span: "BatchDeleteThreatModels",
+}));
+
+export type BatchDisassociateFindingIssueError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Disassociates a batch of findings from their linked issues.
+ */
+export const batchDisassociateFindingIssue: API.OperationMethod<
+  BatchDisassociateFindingIssueInput & RegionInput,
+  BatchDisassociateFindingIssueOutput,
+  BatchDisassociateFindingIssueError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(256, __c16, 0) as any as S.Schema<BatchDisassociateFindingIssueInput>,
+  output: __S(259, __c16, 3) as any as S.Schema<BatchDisassociateFindingIssueOutput>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "BatchDisassociateFindingIssue",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateFindingIssue",
+}));
+
+export type BatchExportFindingsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Exports a batch of findings to the connected issue tracker as issues.
+ */
+export const batchExportFindings: API.OperationMethod<
+  BatchExportFindingsInput & RegionInput,
+  BatchExportFindingsOutput,
+  BatchExportFindingsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(273, __c17, 1) as any as S.Schema<BatchExportFindingsInput>,
+  output: __S(278, __c17, 6) as any as S.Schema<BatchExportFindingsOutput>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "BatchExportFindings",
+  telemetry: TELEMETRY,
+  span: "BatchExportFindings",
 }));
 
 export type BatchGetAgentSpacesError = CommonErrors;
@@ -2740,8 +2975,8 @@ export const batchGetAgentSpaces: API.OperationMethod<
   BatchGetAgentSpacesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<BatchGetAgentSpacesInput>,
-  output: __S(226, __c14, 2) as any as S.Schema<BatchGetAgentSpacesOutput>,
+  input: __S(304, __c19, 0) as any as S.Schema<BatchGetAgentSpacesInput>,
+  output: __S(306, __c19, 2) as any as S.Schema<BatchGetAgentSpacesOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2766,8 +3001,8 @@ export const batchGetArtifactMetadata: API.OperationMethod<
   BatchGetArtifactMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<BatchGetArtifactMetadataInput>,
-  output: __S(275, __c17, 3) as any as S.Schema<BatchGetArtifactMetadataOutput>,
+  input: __S(352, __c22, 0) as any as S.Schema<BatchGetArtifactMetadataInput>,
+  output: __S(355, __c22, 3) as any as S.Schema<BatchGetArtifactMetadataOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2792,8 +3027,8 @@ export const batchGetCodeReviewJobs: API.OperationMethod<
   BatchGetCodeReviewJobsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<BatchGetCodeReviewJobsInput>,
-  output: __S(291, __c18, 3) as any as S.Schema<BatchGetCodeReviewJobsOutput>,
+  input: __S(368, __c23, 0) as any as S.Schema<BatchGetCodeReviewJobsInput>,
+  output: __S(371, __c23, 3) as any as S.Schema<BatchGetCodeReviewJobsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2812,8 +3047,8 @@ export const batchGetCodeReviewJobTasks: API.OperationMethod<
   BatchGetCodeReviewJobTasksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<BatchGetCodeReviewJobTasksInput>,
-  output: __S(339, __c21, 3) as any as S.Schema<BatchGetCodeReviewJobTasksOutput>,
+  input: __S(416, __c26, 0) as any as S.Schema<BatchGetCodeReviewJobTasksInput>,
+  output: __S(419, __c26, 3) as any as S.Schema<BatchGetCodeReviewJobTasksOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2832,8 +3067,8 @@ export const batchGetCodeReviews: API.OperationMethod<
   BatchGetCodeReviewsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<BatchGetCodeReviewsInput>,
-  output: __S(387, __c24, 3) as any as S.Schema<BatchGetCodeReviewsOutput>,
+  input: __S(464, __c29, 0) as any as S.Schema<BatchGetCodeReviewsInput>,
+  output: __S(467, __c29, 3) as any as S.Schema<BatchGetCodeReviewsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2852,8 +3087,8 @@ export const batchGetFindings: API.OperationMethod<
   BatchGetFindingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<BatchGetFindingsInput>,
-  output: __S(409, __c25, 9) as any as S.Schema<BatchGetFindingsOutput>,
+  input: __S(480, __c30, 0) as any as S.Schema<BatchGetFindingsInput>,
+  output: __S(489, __c30, 9) as any as S.Schema<BatchGetFindingsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2872,8 +3107,8 @@ export const batchGetPentestJobs: API.OperationMethod<
   BatchGetPentestJobsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<BatchGetPentestJobsInput>,
-  output: __S(420, __c26, 4) as any as S.Schema<BatchGetPentestJobsOutput>,
+  input: __S(496, __c31, 0) as any as S.Schema<BatchGetPentestJobsInput>,
+  output: __S(500, __c31, 4) as any as S.Schema<BatchGetPentestJobsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2892,8 +3127,8 @@ export const batchGetPentestJobTasks: API.OperationMethod<
   BatchGetPentestJobTasksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<BatchGetPentestJobTasksInput>,
-  output: __S(451, __c28, 3) as any as S.Schema<BatchGetPentestJobTasksOutput>,
+  input: __S(528, __c33, 0) as any as S.Schema<BatchGetPentestJobTasksInput>,
+  output: __S(531, __c33, 3) as any as S.Schema<BatchGetPentestJobTasksOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2912,8 +3147,8 @@ export const batchGetPentests: API.OperationMethod<
   BatchGetPentestsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<BatchGetPentestsInput>,
-  output: __S(465, __c29, 1) as any as S.Schema<BatchGetPentestsOutput>,
+  input: __S(544, __c34, 0) as any as S.Schema<BatchGetPentestsInput>,
+  output: __S(545, __c34, 1) as any as S.Schema<BatchGetPentestsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2938,8 +3173,8 @@ export const batchGetSecurityRequirements: API.OperationMethod<
   BatchGetSecurityRequirementsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<BatchGetSecurityRequirementsInput>,
-  output: __S(1698, __c106, 2) as any as S.Schema<BatchGetSecurityRequirementsOutput>,
+  input: __S(560, __c35, 0) as any as S.Schema<BatchGetSecurityRequirementsInput>,
+  output: __S(1746, __c109, 2) as any as S.Schema<BatchGetSecurityRequirementsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2964,8 +3199,8 @@ export const batchGetTargetDomains: API.OperationMethod<
   BatchGetTargetDomainsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<BatchGetTargetDomainsInput>,
-  output: __S(499, __c31, 3) as any as S.Schema<BatchGetTargetDomainsOutput>,
+  input: __S(576, __c36, 0) as any as S.Schema<BatchGetTargetDomainsInput>,
+  output: __S(579, __c36, 3) as any as S.Schema<BatchGetTargetDomainsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2984,8 +3219,8 @@ export const batchGetThreatModelJobs: API.OperationMethod<
   BatchGetThreatModelJobsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<BatchGetThreatModelJobsInput>,
-  output: __S(531, __c33, 3) as any as S.Schema<BatchGetThreatModelJobsOutput>,
+  input: __S(608, __c38, 0) as any as S.Schema<BatchGetThreatModelJobsInput>,
+  output: __S(611, __c38, 3) as any as S.Schema<BatchGetThreatModelJobsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3004,8 +3239,8 @@ export const batchGetThreatModelJobTasks: API.OperationMethod<
   BatchGetThreatModelJobTasksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<BatchGetThreatModelJobTasksInput>,
-  output: __S(547, __c34, 3) as any as S.Schema<BatchGetThreatModelJobTasksOutput>,
+  input: __S(624, __c39, 0) as any as S.Schema<BatchGetThreatModelJobTasksInput>,
+  output: __S(627, __c39, 3) as any as S.Schema<BatchGetThreatModelJobTasksOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3024,8 +3259,8 @@ export const batchGetThreatModels: API.OperationMethod<
   BatchGetThreatModelsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<BatchGetThreatModelsInput>,
-  output: __S(563, __c35, 3) as any as S.Schema<BatchGetThreatModelsOutput>,
+  input: __S(640, __c40, 0) as any as S.Schema<BatchGetThreatModelsInput>,
+  output: __S(643, __c40, 3) as any as S.Schema<BatchGetThreatModelsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3044,8 +3279,8 @@ export const batchGetThreats: API.OperationMethod<
   BatchGetThreatsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<BatchGetThreatsInput>,
-  output: __S(579, __c36, 3) as any as S.Schema<BatchGetThreatsOutput>,
+  input: __S(656, __c41, 0) as any as S.Schema<BatchGetThreatsInput>,
+  output: __S(659, __c41, 3) as any as S.Schema<BatchGetThreatsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3071,8 +3306,8 @@ export const batchUpdateSecurityRequirements: API.OperationMethod<
   BatchUpdateSecurityRequirementsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(610, __c38, 2) as any as S.Schema<BatchUpdateSecurityRequirementsInput>,
-  output: __S(611, __c38, 3) as any as S.Schema<BatchUpdateSecurityRequirementsOutput>,
+  input: __S(690, __c43, 2) as any as S.Schema<BatchUpdateSecurityRequirementsInput>,
+  output: __S(691, __c43, 3) as any as S.Schema<BatchUpdateSecurityRequirementsOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3098,8 +3333,8 @@ export const createAgentSpace: API.OperationMethod<
   CreateAgentSpaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<CreateAgentSpaceInput>,
-  output: __S(240, __c15, 0) as any as S.Schema<CreateAgentSpaceOutput>,
+  input: __S(704, __c44, 0) as any as S.Schema<CreateAgentSpaceInput>,
+  output: __S(320, __c20, 0) as any as S.Schema<CreateAgentSpaceOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3118,8 +3353,8 @@ export const createApplication: API.OperationMethod<
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<CreateApplicationRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<CreateApplicationResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<CreateApplicationRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<CreateApplicationResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3138,8 +3373,8 @@ export const createCodeReview: API.OperationMethod<
   CreateCodeReviewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<CreateCodeReviewInput>,
-  output: __S(704, __c44, 0) as any as S.Schema<CreateCodeReviewOutput>,
+  input: __S(768, __c48, 0) as any as S.Schema<CreateCodeReviewInput>,
+  output: __S(784, __c49, 0) as any as S.Schema<CreateCodeReviewOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3165,8 +3400,8 @@ export const createIntegration: API.OperationMethod<
   CreateIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(727, __c45, 7) as any as S.Schema<CreateIntegrationInput>,
-  output: __S(728, __c45, 8) as any as S.Schema<CreateIntegrationOutput>,
+  input: __S(807, __c50, 7) as any as S.Schema<CreateIntegrationInput>,
+  output: __S(808, __c50, 8) as any as S.Schema<CreateIntegrationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3184,7 +3419,7 @@ export const createIntegration: API.OperationMethod<
 
 export type CreateMembershipError = CommonErrors;
 /**
- * Creates a new membership, granting a user access to an agent space within an application.
+ * Creates a new membership, granting a user or group access to an agent space within an application.
  */
 export const createMembership: API.OperationMethod<
   CreateMembershipRequest & RegionInput,
@@ -3192,8 +3427,8 @@ export const createMembership: API.OperationMethod<
   CreateMembershipError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<CreateMembershipRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<CreateMembershipResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<CreateMembershipRequest>,
+  output: __S(832, __c52, 0) as any as S.Schema<CreateMembershipResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3212,8 +3447,8 @@ export const createPentest: API.OperationMethod<
   CreatePentestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<CreatePentestInput>,
-  output: __S(800, __c50, 0) as any as S.Schema<CreatePentestOutput>,
+  input: __S(864, __c54, 0) as any as S.Schema<CreatePentestInput>,
+  output: __S(880, __c55, 0) as any as S.Schema<CreatePentestOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3239,8 +3474,8 @@ export const createPrivateConnection: API.OperationMethod<
   CreatePrivateConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(819, __c51, 3) as any as S.Schema<CreatePrivateConnectionInput>,
-  output: __S(832, __c52, 0) as any as S.Schema<CreatePrivateConnectionOutput>,
+  input: __S(899, __c56, 3) as any as S.Schema<CreatePrivateConnectionInput>,
+  output: __S(912, __c57, 0) as any as S.Schema<CreatePrivateConnectionOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3273,8 +3508,8 @@ export const createSecurityRequirementPack: API.OperationMethod<
   CreateSecurityRequirementPackError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<CreateSecurityRequirementPackInput>,
-  output: __S(849, __c53, 1) as any as S.Schema<CreateSecurityRequirementPackOutput>,
+  input: __S(928, __c58, 0) as any as S.Schema<CreateSecurityRequirementPackInput>,
+  output: __S(929, __c58, 1) as any as S.Schema<CreateSecurityRequirementPackOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3300,8 +3535,8 @@ export const createTargetDomain: API.OperationMethod<
   CreateTargetDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<CreateTargetDomainInput>,
-  output: __S(880, __c55, 0) as any as S.Schema<CreateTargetDomainOutput>,
+  input: __S(944, __c59, 0) as any as S.Schema<CreateTargetDomainInput>,
+  output: __S(960, __c60, 0) as any as S.Schema<CreateTargetDomainOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3320,8 +3555,8 @@ export const createThreat: API.OperationMethod<
   CreateThreatError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<CreateThreatInput>,
-  output: __S(912, __c57, 0) as any as S.Schema<CreateThreatOutput>,
+  input: __S(976, __c61, 0) as any as S.Schema<CreateThreatInput>,
+  output: __S(992, __c62, 0) as any as S.Schema<CreateThreatOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3340,8 +3575,8 @@ export const createThreatModel: API.OperationMethod<
   CreateThreatModelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<CreateThreatModelInput>,
-  output: __S(944, __c59, 0) as any as S.Schema<CreateThreatModelOutput>,
+  input: __S(1008, __c63, 0) as any as S.Schema<CreateThreatModelInput>,
+  output: __S(1024, __c64, 0) as any as S.Schema<CreateThreatModelOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3360,8 +3595,8 @@ export const deleteAgentSpace: API.OperationMethod<
   DeleteAgentSpaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<DeleteAgentSpaceInput>,
-  output: __S(961, __c60, 1) as any as S.Schema<DeleteAgentSpaceOutput>,
+  input: __S(1040, __c65, 0) as any as S.Schema<DeleteAgentSpaceInput>,
+  output: __S(1041, __c65, 1) as any as S.Schema<DeleteAgentSpaceOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3380,8 +3615,8 @@ export const deleteApplication: API.OperationMethod<
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<DeleteApplicationRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<DeleteApplicationResponse>,
+  input: __S(1056, __c66, 0) as any as S.Schema<DeleteApplicationRequest>,
+  output: __S(832, __c52, 0) as any as S.Schema<DeleteApplicationResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3406,8 +3641,8 @@ export const deleteArtifact: API.OperationMethod<
   DeleteArtifactError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<DeleteArtifactInput>,
-  output: __S(752, __c47, 0) as any as S.Schema<DeleteArtifactOutput>,
+  input: __S(1072, __c67, 0) as any as S.Schema<DeleteArtifactInput>,
+  output: __S(832, __c52, 0) as any as S.Schema<DeleteArtifactOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3439,8 +3674,8 @@ export const deleteIntegration: API.OperationMethod<
   DeleteIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<DeleteIntegrationInput>,
-  output: __S(752, __c47, 0) as any as S.Schema<DeleteIntegrationOutput>,
+  input: __S(1088, __c68, 0) as any as S.Schema<DeleteIntegrationInput>,
+  output: __S(832, __c52, 0) as any as S.Schema<DeleteIntegrationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3458,7 +3693,7 @@ export const deleteIntegration: API.OperationMethod<
 
 export type DeleteMembershipError = CommonErrors;
 /**
- * Deletes a membership, revoking a user's access to an agent space.
+ * Deletes a membership, revoking a user's or group's access to an agent space.
  */
 export const deleteMembership: API.OperationMethod<
   DeleteMembershipRequest & RegionInput,
@@ -3466,8 +3701,8 @@ export const deleteMembership: API.OperationMethod<
   DeleteMembershipError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<DeleteMembershipRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<DeleteMembershipResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<DeleteMembershipRequest>,
+  output: __S(832, __c52, 0) as any as S.Schema<DeleteMembershipResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3493,8 +3728,8 @@ export const deletePrivateConnection: API.OperationMethod<
   DeletePrivateConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<DeletePrivateConnectionInput>,
-  output: __S(832, __c52, 0) as any as S.Schema<DeletePrivateConnectionOutput>,
+  input: __S(1120, __c70, 0) as any as S.Schema<DeletePrivateConnectionInput>,
+  output: __S(912, __c57, 0) as any as S.Schema<DeletePrivateConnectionOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3527,8 +3762,8 @@ export const deleteSecurityRequirementPack: API.OperationMethod<
   DeleteSecurityRequirementPackError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<DeleteSecurityRequirementPackInput>,
-  output: __S(752, __c47, 0) as any as S.Schema<DeleteSecurityRequirementPackOutput>,
+  input: __S(1136, __c71, 0) as any as S.Schema<DeleteSecurityRequirementPackInput>,
+  output: __S(832, __c52, 0) as any as S.Schema<DeleteSecurityRequirementPackOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3554,8 +3789,8 @@ export const deleteTargetDomain: API.OperationMethod<
   DeleteTargetDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<DeleteTargetDomainInput>,
-  output: __S(1073, __c67, 1) as any as S.Schema<DeleteTargetDomainOutput>,
+  input: __S(1152, __c72, 0) as any as S.Schema<DeleteTargetDomainInput>,
+  output: __S(1153, __c72, 1) as any as S.Schema<DeleteTargetDomainOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3580,8 +3815,8 @@ export const describePrivateConnection: API.OperationMethod<
   DescribePrivateConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<DescribePrivateConnectionInput>,
-  output: __S(832, __c52, 0) as any as S.Schema<DescribePrivateConnectionOutput>,
+  input: __S(1168, __c73, 0) as any as S.Schema<DescribePrivateConnectionInput>,
+  output: __S(912, __c57, 0) as any as S.Schema<DescribePrivateConnectionOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3606,8 +3841,8 @@ export const getApplication: API.OperationMethod<
   GetApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<GetApplicationRequest>,
-  output: __S(1106, __c69, 2) as any as S.Schema<GetApplicationResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<GetApplicationRequest>,
+  output: __S(1186, __c74, 2) as any as S.Schema<GetApplicationResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3632,8 +3867,8 @@ export const getArtifact: API.OperationMethod<
   GetArtifactError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<GetArtifactInput>,
-  output: __S(1122, __c70, 2) as any as S.Schema<GetArtifactOutput>,
+  input: __S(1200, __c75, 0) as any as S.Schema<GetArtifactInput>,
+  output: __S(1202, __c75, 2) as any as S.Schema<GetArtifactOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3664,8 +3899,8 @@ export const getIntegration: API.OperationMethod<
   GetIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<GetIntegrationInput>,
-  output: __S(1137, __c71, 1) as any as S.Schema<GetIntegrationOutput>,
+  input: __S(1216, __c76, 0) as any as S.Schema<GetIntegrationInput>,
+  output: __S(1217, __c76, 1) as any as S.Schema<GetIntegrationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3696,8 +3931,8 @@ export const getSecurityRequirementPack: API.OperationMethod<
   GetSecurityRequirementPackError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<GetSecurityRequirementPackInput>,
-  output: __S(1153, __c72, 1) as any as S.Schema<GetSecurityRequirementPackOutput>,
+  input: __S(1232, __c77, 0) as any as S.Schema<GetSecurityRequirementPackInput>,
+  output: __S(1233, __c77, 1) as any as S.Schema<GetSecurityRequirementPackOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3730,8 +3965,8 @@ export const importSecurityRequirements: API.OperationMethod<
   ImportSecurityRequirementsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1171, __c73, 3) as any as S.Schema<ImportSecurityRequirementsInput>,
-  output: __S(1172, __c73, 4) as any as S.Schema<ImportSecurityRequirementsOutput>,
+  input: __S(1251, __c78, 3) as any as S.Schema<ImportSecurityRequirementsInput>,
+  output: __S(1252, __c78, 4) as any as S.Schema<ImportSecurityRequirementsOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3765,8 +4000,8 @@ export const initiateProviderRegistration: API.OperationMethod<
   InitiateProviderRegistrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<InitiateProviderRegistrationInput>,
-  output: __S(1185, __c74, 1) as any as S.Schema<InitiateProviderRegistrationOutput>,
+  input: __S(1264, __c79, 0) as any as S.Schema<InitiateProviderRegistrationInput>,
+  output: __S(1265, __c79, 1) as any as S.Schema<InitiateProviderRegistrationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3793,8 +4028,8 @@ export const listActorMessages: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ActorMessage
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<ListActorMessagesInput>,
-  output: __S(1203, __c75, 3) as any as S.Schema<ListActorMessagesOutput>,
+  input: __S(1280, __c80, 0) as any as S.Schema<ListActorMessagesInput>,
+  output: __S(1283, __c80, 3) as any as S.Schema<ListActorMessagesOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3820,8 +4055,8 @@ export const listAgentSpaces: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AgentSpaceSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<ListAgentSpacesInput>,
-  output: __S(1219, __c76, 3) as any as S.Schema<ListAgentSpacesOutput>,
+  input: __S(1296, __c81, 0) as any as S.Schema<ListAgentSpacesInput>,
+  output: __S(1299, __c81, 3) as any as S.Schema<ListAgentSpacesOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3847,8 +4082,8 @@ export const listApplications: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ApplicationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<ListApplicationsRequest>,
-  output: __S(1235, __c77, 3) as any as S.Schema<ListApplicationsResponse>,
+  input: __S(1312, __c82, 0) as any as S.Schema<ListApplicationsRequest>,
+  output: __S(1315, __c82, 3) as any as S.Schema<ListApplicationsResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3880,8 +4115,8 @@ export const listArtifacts: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ArtifactSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<ListArtifactsInput>,
-  output: __S(1251, __c78, 3) as any as S.Schema<ListArtifactsOutput>,
+  input: __S(1344, __c84, 0) as any as S.Schema<ListArtifactsInput>,
+  output: __S(1347, __c84, 3) as any as S.Schema<ListArtifactsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3913,8 +4148,8 @@ export const listCodeReviewJobsForCodeReview: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CodeReviewJobSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<ListCodeReviewJobsForCodeReviewInput>,
-  output: __S(1267, __c79, 3) as any as S.Schema<ListCodeReviewJobsForCodeReviewOutput>,
+  input: __S(1360, __c85, 0) as any as S.Schema<ListCodeReviewJobsForCodeReviewInput>,
+  output: __S(1363, __c85, 3) as any as S.Schema<ListCodeReviewJobsForCodeReviewOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3940,8 +4175,8 @@ export const listCodeReviewJobTasks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CodeReviewJobTaskSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<ListCodeReviewJobTasksInput>,
-  output: __S(1299, __c81, 3) as any as S.Schema<ListCodeReviewJobTasksOutput>,
+  input: __S(1376, __c86, 0) as any as S.Schema<ListCodeReviewJobTasksInput>,
+  output: __S(1379, __c86, 3) as any as S.Schema<ListCodeReviewJobTasksOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3967,8 +4202,8 @@ export const listCodeReviews: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CodeReviewSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<ListCodeReviewsInput>,
-  output: __S(1315, __c82, 3) as any as S.Schema<ListCodeReviewsOutput>,
+  input: __S(1392, __c87, 0) as any as S.Schema<ListCodeReviewsInput>,
+  output: __S(1395, __c87, 3) as any as S.Schema<ListCodeReviewsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3994,8 +4229,8 @@ export const listDiscoveredEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DiscoveredEndpoint
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<ListDiscoveredEndpointsInput>,
-  output: __S(1331, __c83, 3) as any as S.Schema<ListDiscoveredEndpointsOutput>,
+  input: __S(1408, __c88, 0) as any as S.Schema<ListDiscoveredEndpointsInput>,
+  output: __S(1411, __c88, 3) as any as S.Schema<ListDiscoveredEndpointsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4021,8 +4256,8 @@ export const listFindings: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FindingSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<ListFindingsInput>,
-  output: __S(1347, __c84, 3) as any as S.Schema<ListFindingsOutput>,
+  input: __S(1424, __c89, 0) as any as S.Schema<ListFindingsInput>,
+  output: __S(1427, __c89, 3) as any as S.Schema<ListFindingsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4054,8 +4289,8 @@ export const listIntegratedResources: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   IntegratedResourceSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<ListIntegratedResourcesInput>,
-  output: __S(1369, __c85, 9) as any as S.Schema<ListIntegratedResourcesOutput>,
+  input: __S(1440, __c90, 0) as any as S.Schema<ListIntegratedResourcesInput>,
+  output: __S(1450, __c90, 10) as any as S.Schema<ListIntegratedResourcesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4093,8 +4328,8 @@ export const listIntegrations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   IntegrationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1393, __c87, 1) as any as S.Schema<ListIntegrationsInput>,
-  output: __S(1396, __c87, 4) as any as S.Schema<ListIntegrationsOutput>,
+  input: __S(1473, __c92, 1) as any as S.Schema<ListIntegrationsInput>,
+  output: __S(1476, __c92, 4) as any as S.Schema<ListIntegrationsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4126,8 +4361,8 @@ export const listMemberships: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MembershipSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<ListMembershipsRequest>,
-  output: __S(1413, __c88, 5) as any as S.Schema<ListMembershipsResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<ListMembershipsRequest>,
+  output: __S(1494, __c93, 6) as any as S.Schema<ListMembershipsResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4153,8 +4388,8 @@ export const listPentestJobsForPentest: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PentestJobSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<ListPentestJobsForPentestInput>,
-  output: __S(1427, __c89, 3) as any as S.Schema<ListPentestJobsForPentestOutput>,
+  input: __S(1504, __c94, 0) as any as S.Schema<ListPentestJobsForPentestInput>,
+  output: __S(1507, __c94, 3) as any as S.Schema<ListPentestJobsForPentestOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4180,8 +4415,8 @@ export const listPentestJobTasks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TaskSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<ListPentestJobTasksInput>,
-  output: __S(1443, __c90, 3) as any as S.Schema<ListPentestJobTasksOutput>,
+  input: __S(1552, __c97, 0) as any as S.Schema<ListPentestJobTasksInput>,
+  output: __S(1555, __c97, 3) as any as S.Schema<ListPentestJobTasksOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4207,8 +4442,8 @@ export const listPentests: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PentestSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<ListPentestsInput>,
-  output: __S(1459, __c91, 3) as any as S.Schema<ListPentestsOutput>,
+  input: __S(1568, __c98, 0) as any as S.Schema<ListPentestsInput>,
+  output: __S(1571, __c98, 3) as any as S.Schema<ListPentestsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4239,8 +4474,8 @@ export const listPrivateConnections: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PrivateConnectionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<ListPrivateConnectionsInput>,
-  output: __S(1506, __c94, 2) as any as S.Schema<ListPrivateConnectionsOutput>,
+  input: __S(1584, __c99, 0) as any as S.Schema<ListPrivateConnectionsInput>,
+  output: __S(1586, __c99, 2) as any as S.Schema<ListPrivateConnectionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4276,8 +4511,8 @@ export const listSecurityRequirementPacks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SecurityRequirementPackSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1521, __c95, 1) as any as S.Schema<ListSecurityRequirementPacksInput>,
-  output: __S(1524, __c95, 4) as any as S.Schema<ListSecurityRequirementPacksOutput>,
+  input: __S(1601, __c100, 1) as any as S.Schema<ListSecurityRequirementPacksInput>,
+  output: __S(1604, __c100, 4) as any as S.Schema<ListSecurityRequirementPacksOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4314,8 +4549,8 @@ export const listSecurityRequirements: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SecurityRequirementSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<ListSecurityRequirementsInput>,
-  output: __S(1539, __c96, 3) as any as S.Schema<ListSecurityRequirementsOutput>,
+  input: __S(1616, __c101, 0) as any as S.Schema<ListSecurityRequirementsInput>,
+  output: __S(1619, __c101, 3) as any as S.Schema<ListSecurityRequirementsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4346,8 +4581,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<ListTagsForResourceInput>,
-  output: __S(1553, __c97, 1) as any as S.Schema<ListTagsForResourceOutput>,
+  input: __S(1632, __c102, 0) as any as S.Schema<ListTagsForResourceInput>,
+  output: __S(1633, __c102, 1) as any as S.Schema<ListTagsForResourceOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4367,8 +4602,8 @@ export const listTargetDomains: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TargetDomainSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<ListTargetDomainsInput>,
-  output: __S(1571, __c98, 3) as any as S.Schema<ListTargetDomainsOutput>,
+  input: __S(1648, __c103, 0) as any as S.Schema<ListTargetDomainsInput>,
+  output: __S(1651, __c103, 3) as any as S.Schema<ListTargetDomainsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4394,8 +4629,8 @@ export const listThreatModelJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ThreatModelJobSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<ListThreatModelJobsInput>,
-  output: __S(1587, __c99, 3) as any as S.Schema<ListThreatModelJobsOutput>,
+  input: __S(1664, __c104, 0) as any as S.Schema<ListThreatModelJobsInput>,
+  output: __S(1667, __c104, 3) as any as S.Schema<ListThreatModelJobsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4421,8 +4656,8 @@ export const listThreatModelJobTasks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ThreatModelJobTaskSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<ListThreatModelJobTasksInput>,
-  output: __S(1603, __c100, 3) as any as S.Schema<ListThreatModelJobTasksOutput>,
+  input: __S(1680, __c105, 0) as any as S.Schema<ListThreatModelJobTasksInput>,
+  output: __S(1683, __c105, 3) as any as S.Schema<ListThreatModelJobTasksOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4448,8 +4683,8 @@ export const listThreatModels: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ThreatModelSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<ListThreatModelsInput>,
-  output: __S(1619, __c101, 3) as any as S.Schema<ListThreatModelsOutput>,
+  input: __S(1696, __c106, 0) as any as S.Schema<ListThreatModelsInput>,
+  output: __S(1699, __c106, 3) as any as S.Schema<ListThreatModelsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4475,8 +4710,8 @@ export const listThreats: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ThreatSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<ListThreatsInput>,
-  output: __S(1635, __c102, 3) as any as S.Schema<ListThreatsOutput>,
+  input: __S(1760, __c110, 0) as any as S.Schema<ListThreatsInput>,
+  output: __S(1763, __c110, 3) as any as S.Schema<ListThreatsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4501,8 +4736,8 @@ export const startCodeRemediation: API.OperationMethod<
   StartCodeRemediationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<StartCodeRemediationInput>,
-  output: __S(752, __c47, 0) as any as S.Schema<StartCodeRemediationOutput>,
+  input: __S(1776, __c111, 0) as any as S.Schema<StartCodeRemediationInput>,
+  output: __S(832, __c52, 0) as any as S.Schema<StartCodeRemediationOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4521,8 +4756,8 @@ export const startCodeReviewJob: API.OperationMethod<
   StartCodeReviewJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1713, __c107, 1) as any as S.Schema<StartCodeReviewJobInput>,
-  output: __S(1714, __c107, 2) as any as S.Schema<StartCodeReviewJobOutput>,
+  input: __S(1793, __c112, 1) as any as S.Schema<StartCodeReviewJobInput>,
+  output: __S(1794, __c112, 2) as any as S.Schema<StartCodeReviewJobOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4541,8 +4776,8 @@ export const startPentestJob: API.OperationMethod<
   StartPentestJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<StartPentestJobInput>,
-  output: __S(1729, __c108, 1) as any as S.Schema<StartPentestJobOutput>,
+  input: __S(1808, __c113, 0) as any as S.Schema<StartPentestJobInput>,
+  output: __S(1809, __c113, 1) as any as S.Schema<StartPentestJobOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4561,8 +4796,8 @@ export const startThreatModelJob: API.OperationMethod<
   StartThreatModelJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<StartThreatModelJobInput>,
-  output: __S(1745, __c109, 1) as any as S.Schema<StartThreatModelJobOutput>,
+  input: __S(1824, __c114, 0) as any as S.Schema<StartThreatModelJobInput>,
+  output: __S(1825, __c114, 1) as any as S.Schema<StartThreatModelJobOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4581,8 +4816,8 @@ export const stopCodeReviewJob: API.OperationMethod<
   StopCodeReviewJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<StopCodeReviewJobInput>,
-  output: __S(752, __c47, 0) as any as S.Schema<StopCodeReviewJobOutput>,
+  input: __S(1840, __c115, 0) as any as S.Schema<StopCodeReviewJobInput>,
+  output: __S(832, __c52, 0) as any as S.Schema<StopCodeReviewJobOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4601,8 +4836,8 @@ export const stopPentestJob: API.OperationMethod<
   StopPentestJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<StopPentestJobInput>,
-  output: __S(752, __c47, 0) as any as S.Schema<StopPentestJobOutput>,
+  input: __S(1856, __c116, 0) as any as S.Schema<StopPentestJobInput>,
+  output: __S(832, __c52, 0) as any as S.Schema<StopPentestJobOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4621,8 +4856,8 @@ export const stopThreatModelJob: API.OperationMethod<
   StopThreatModelJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<StopThreatModelJobInput>,
-  output: __S(752, __c47, 0) as any as S.Schema<StopThreatModelJobOutput>,
+  input: __S(1872, __c117, 0) as any as S.Schema<StopThreatModelJobInput>,
+  output: __S(832, __c52, 0) as any as S.Schema<StopThreatModelJobOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4641,8 +4876,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<TagResourceInput>,
-  output: __S(752, __c47, 0) as any as S.Schema<TagResourceOutput>,
+  input: __S(1888, __c118, 0) as any as S.Schema<TagResourceInput>,
+  output: __S(832, __c52, 0) as any as S.Schema<TagResourceOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4661,8 +4896,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<UntagResourceInput>,
-  output: __S(752, __c47, 0) as any as S.Schema<UntagResourceOutput>,
+  input: __S(1904, __c119, 0) as any as S.Schema<UntagResourceInput>,
+  output: __S(832, __c52, 0) as any as S.Schema<UntagResourceOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4681,8 +4916,8 @@ export const updateAgentSpace: API.OperationMethod<
   UpdateAgentSpaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<UpdateAgentSpaceInput>,
-  output: __S(1841, __c115, 1) as any as S.Schema<UpdateAgentSpaceOutput>,
+  input: __S(1952, __c122, 0) as any as S.Schema<UpdateAgentSpaceInput>,
+  output: __S(1953, __c122, 1) as any as S.Schema<UpdateAgentSpaceOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4701,8 +4936,8 @@ export const updateApplication: API.OperationMethod<
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<UpdateApplicationRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<UpdateApplicationResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<UpdateApplicationRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<UpdateApplicationResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4721,8 +4956,8 @@ export const updateCodeReview: API.OperationMethod<
   UpdateCodeReviewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<UpdateCodeReviewInput>,
-  output: __S(704, __c44, 0) as any as S.Schema<UpdateCodeReviewOutput>,
+  input: __S(1984, __c124, 0) as any as S.Schema<UpdateCodeReviewInput>,
+  output: __S(784, __c49, 0) as any as S.Schema<UpdateCodeReviewOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4741,8 +4976,8 @@ export const updateFinding: API.OperationMethod<
   UpdateFindingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<UpdateFindingInput>,
-  output: __S(752, __c47, 0) as any as S.Schema<UpdateFindingOutput>,
+  input: __S(2000, __c125, 0) as any as S.Schema<UpdateFindingInput>,
+  output: __S(832, __c52, 0) as any as S.Schema<UpdateFindingOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4768,8 +5003,8 @@ export const updateIntegratedResources: API.OperationMethod<
   UpdateIntegratedResourcesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1944, __c121, 8) as any as S.Schema<UpdateIntegratedResourcesInput>,
-  output: __S(752, __c47, 0) as any as S.Schema<UpdateIntegratedResourcesOutput>,
+  input: __S(2025, __c126, 9) as any as S.Schema<UpdateIntegratedResourcesInput>,
+  output: __S(832, __c52, 0) as any as S.Schema<UpdateIntegratedResourcesOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4802,8 +5037,8 @@ export const updateIntegration: API.OperationMethod<
   UpdateIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<UpdateIntegrationInput>,
-  output: __S(1953, __c122, 1) as any as S.Schema<UpdateIntegrationOutput>,
+  input: __S(2032, __c127, 0) as any as S.Schema<UpdateIntegrationInput>,
+  output: __S(2033, __c127, 1) as any as S.Schema<UpdateIntegrationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4829,8 +5064,8 @@ export const updatePentest: API.OperationMethod<
   UpdatePentestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<UpdatePentestInput>,
-  output: __S(800, __c50, 0) as any as S.Schema<UpdatePentestOutput>,
+  input: __S(2048, __c128, 0) as any as S.Schema<UpdatePentestInput>,
+  output: __S(880, __c55, 0) as any as S.Schema<UpdatePentestOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4856,8 +5091,8 @@ export const updatePrivateConnectionCertificate: API.OperationMethod<
   UpdatePrivateConnectionCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<UpdatePrivateConnectionCertificateInput>,
-  output: __S(832, __c52, 0) as any as S.Schema<UpdatePrivateConnectionCertificateOutput>,
+  input: __S(2064, __c129, 0) as any as S.Schema<UpdatePrivateConnectionCertificateInput>,
+  output: __S(912, __c57, 0) as any as S.Schema<UpdatePrivateConnectionCertificateOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4890,8 +5125,8 @@ export const updateSecurityRequirementPack: API.OperationMethod<
   UpdateSecurityRequirementPackError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<UpdateSecurityRequirementPackInput>,
-  output: __S(2001, __c125, 1) as any as S.Schema<UpdateSecurityRequirementPackOutput>,
+  input: __S(2080, __c130, 0) as any as S.Schema<UpdateSecurityRequirementPackInput>,
+  output: __S(2081, __c130, 1) as any as S.Schema<UpdateSecurityRequirementPackOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4917,8 +5152,8 @@ export const updateTargetDomain: API.OperationMethod<
   UpdateTargetDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<UpdateTargetDomainInput>,
-  output: __S(880, __c55, 0) as any as S.Schema<UpdateTargetDomainOutput>,
+  input: __S(2096, __c131, 0) as any as S.Schema<UpdateTargetDomainInput>,
+  output: __S(960, __c60, 0) as any as S.Schema<UpdateTargetDomainOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4937,8 +5172,8 @@ export const updateThreat: API.OperationMethod<
   UpdateThreatError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<UpdateThreatInput>,
-  output: __S(912, __c57, 0) as any as S.Schema<UpdateThreatOutput>,
+  input: __S(176, __c11, 0) as any as S.Schema<UpdateThreatInput>,
+  output: __S(992, __c62, 0) as any as S.Schema<UpdateThreatOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4957,8 +5192,8 @@ export const updateThreatModel: API.OperationMethod<
   UpdateThreatModelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<UpdateThreatModelInput>,
-  output: __S(944, __c59, 0) as any as S.Schema<UpdateThreatModelOutput>,
+  input: __S(192, __c12, 0) as any as S.Schema<UpdateThreatModelInput>,
+  output: __S(1024, __c64, 0) as any as S.Schema<UpdateThreatModelOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4977,8 +5212,8 @@ export const verifyTargetDomain: API.OperationMethod<
   VerifyTargetDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<VerifyTargetDomainInput>,
-  output: __S(177, __c11, 1) as any as S.Schema<VerifyTargetDomainOutput>,
+  input: __S(208, __c13, 0) as any as S.Schema<VerifyTargetDomainInput>,
+  output: __S(209, __c13, 1) as any as S.Schema<VerifyTargetDomainOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4992,7 +5227,7 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ pentestIds: __S(1888, __c118, 0), agentSpaceId: S.String }).pipe(
+        S.Struct({ pentestIds: __S(1936, __c121, 0), agentSpaceId: S.String }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/BatchDeletePentests" }),
             svc,
@@ -5021,8 +5256,8 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           vpcArn: S.optional(S.String),
-          securityGroupArns: S.optional(__S(1888, __c118, 0)),
-          subnetArns: S.optional(__S(1888, __c118, 0)),
+          securityGroupArns: S.optional(__S(1936, __c121, 0)),
+          subnetArns: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "VpcConfig" });
   }
@@ -5090,7 +5325,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           identifier: S.optional(S.String),
-          uris: S.optional(__S(1888, __c118, 0)),
+          uris: S.optional(__S(1936, __c121, 0)),
           authentication: S.optional(__S(65, __c4, 1)),
           description: S.optional(S.String),
           enableEmailMfa: S.optional(S.Boolean),
@@ -5111,6 +5346,12 @@ function __c4(j: number): any {
       });
     case 6:
       return S.Array(__S(69, __c4, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ name: S.String, secretArn: S.String, origins: __S(1936, __c121, 0) }),
+      ).annotate({ identifier: "ClientCertificate" });
+    case 8:
+      return S.Array(__S(71, __c4, 7));
   }
 }
 function __c5(j: number): any {
@@ -5130,6 +5371,7 @@ function __c6(j: number): any {
           sourceCode: S.optional(__S(52, __c3, 4)),
           integratedRepositories: S.optional(__S(54, __c3, 6)),
           trustedCaCertificates: S.optional(__S(70, __c4, 6)),
+          clientCertificates: S.optional(__S(72, __c4, 8)),
         }),
       ).annotate({ identifier: "Assets" });
   }
@@ -5143,7 +5385,7 @@ function __c7(j: number): any {
           confidenceLevels: S.optional(__S(80, __c5, 0)),
           statuses: S.optional(__S(80, __c5, 0)),
           riskTypes: S.optional(__S(80, __c5, 0)),
-          findingTypes: S.optional(__S(1888, __c118, 0)),
+          findingTypes: S.optional(__S(1936, __c121, 0)),
           taskStatuses: S.optional(__S(80, __c5, 0)),
           annotationNotes: S.optional(S.Boolean),
           complianceReport: S.optional(S.Boolean),
@@ -5184,6 +5426,8 @@ function __c9(j: number): any {
       return S.suspend(() => S.Struct({ enabled: S.optional(S.Boolean) })).annotate({
         identifier: "CiCdConfiguration",
       });
+    case 4:
+      return S.suspend(() => S.Struct({ type: S.String })).annotate({ identifier: "TestScope" });
   }
 }
 function __c10(j: number): any {
@@ -5207,6 +5451,7 @@ function __c10(j: number): any {
           reportDestination: S.optional(__S(55, __c3, 7)),
           reportFilters: S.optional(__S(112, __c7, 0)),
           cicdConfiguration: S.optional(__S(147, __c9, 3)),
+          testScope: S.optional(__S(148, __c9, 4)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
@@ -5216,6 +5461,60 @@ function __c10(j: number): any {
   }
 }
 function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          threatId: S.String,
+          agentSpaceId: S.String,
+          title: S.optional(S.String),
+          status: S.optional(S.String),
+          comments: S.optional(S.String),
+          statement: S.optional(S.String),
+          severity: S.optional(S.String),
+          threatSource: S.optional(S.String),
+          prerequisites: S.optional(S.String),
+          threatAction: S.optional(S.String),
+          threatImpact: S.optional(S.String),
+          impactedGoal: S.optional(__S(1936, __c121, 0)),
+          impactedAssets: S.optional(__S(1936, __c121, 0)),
+          anchor: S.optional(__S(672, __c42, 0)),
+          evidence: S.optional(__S(674, __c42, 2)),
+          recommendation: S.optional(S.String),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/UpdateThreat" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateThreatInput" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          threatModelId: S.String,
+          agentSpaceId: S.String,
+          title: S.optional(S.String),
+          description: S.optional(S.String),
+          assets: S.optional(__S(96, __c6, 0)),
+          scopeDocs: S.optional(__S(50, __c3, 2)),
+          serviceRole: S.optional(S.String),
+          logConfig: S.optional(__S(32, __c2, 0)),
+          reportDestination: S.optional(__S(55, __c3, 7)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/UpdateThreatModel" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateThreatModelInput" });
+  }
+}
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5244,11 +5543,11 @@ function __c11(j: number): any {
       ).annotate({ identifier: "VerifyTargetDomainOutput" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ packId: S.String, securityRequirementNames: __S(1888, __c118, 0) }).pipe(
+        S.Struct({ packId: S.String, securityRequirementNames: __S(1936, __c121, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/BatchDeleteSecurityRequirements" }),
             svc,
@@ -5262,17 +5561,17 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          deletedSecurityRequirementNames: __S(1888, __c118, 0),
-          errors: __S(1681, __c105, 1),
+          deletedSecurityRequirementNames: __S(1936, __c121, 0),
+          errors: __S(1729, __c108, 1),
         }),
       ).annotate({ identifier: "BatchDeleteSecurityRequirementsOutput" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ threatModelIds: __S(1888, __c118, 0), agentSpaceId: S.String }).pipe(
+        S.Struct({ threatModelIds: __S(1936, __c121, 0), agentSpaceId: S.String }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/BatchDeleteThreatModels" }),
             svc,
@@ -5288,21 +5587,112 @@ function __c13(j: number): any {
         S.Struct({ threatModelId: S.optional(S.String), reason: S.optional(S.String) }),
       ).annotate({ identifier: "DeleteThreatModelFailure" });
     case 2:
-      return S.Array(__S(209, __c13, 1));
+      return S.Array(__S(241, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          deleted: S.optional(__S(1888, __c118, 0)),
-          failed: S.optional(__S(210, __c13, 2)),
+          deleted: S.optional(__S(1936, __c121, 0)),
+          failed: S.optional(__S(242, __c15, 2)),
         }),
       ).annotate({ identifier: "BatchDeleteThreatModelsOutput" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ agentSpaceIds: __S(1888, __c118, 0) }).pipe(
+        S.Struct({
+          agentSpaceId: S.String,
+          pentestJobId: S.optional(S.String),
+          codeReviewJobId: S.optional(S.String),
+          findingIds: __S(1936, __c121, 0),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/BatchDisassociateFindingIssue" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "BatchDisassociateFindingIssueInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ findingId: S.String, code: S.String, message: S.String }),
+      ).annotate({ identifier: "BatchDisassociateFindingIssueError" });
+    case 2:
+      return S.Array(__S(257, __c16, 1));
+    case 3:
+      return S.suspend(() => S.Struct({ errors: __S(258, __c16, 2) })).annotate({
+        identifier: "BatchDisassociateFindingIssueOutput",
+      });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ integrationId: S.String, projectKey: S.String })).annotate({
+        identifier: "IssueDestination",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          agentSpaceId: S.String,
+          pentestJobId: S.optional(S.String),
+          codeReviewJobId: S.optional(S.String),
+          issueDestination: __S(272, __c17, 0),
+          findingIds: __S(1936, __c121, 0),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/BatchExportFindings" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "BatchExportFindingsInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ findingId: S.String, linkedIssue: __S(288, __c18, 0) }),
+      ).annotate({ identifier: "BatchExportFindingResult" });
+    case 3:
+      return S.Array(__S(274, __c17, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ findingId: S.String, code: S.String, message: S.String }),
+      ).annotate({ identifier: "BatchExportFindingError" });
+    case 5:
+      return S.Array(__S(276, __c17, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({ results: __S(275, __c17, 3), errors: __S(277, __c17, 5) }),
+      ).annotate({ identifier: "BatchExportFindingsOutput" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          provider: S.optional(S.String),
+          integrationId: S.optional(S.String),
+          projectKey: S.optional(S.String),
+          issueKey: S.optional(S.String),
+          issueId: S.optional(S.String),
+          issueUrl: S.optional(S.String),
+          siteUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LinkedIssue" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ agentSpaceIds: __S(1936, __c121, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/BatchGetAgentSpaces" }),
             svc,
@@ -5314,17 +5704,17 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "BatchGetAgentSpacesInput" });
     case 1:
-      return S.Array(__S(240, __c15, 0));
+      return S.Array(__S(320, __c20, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          agentSpaces: S.optional(__S(225, __c14, 1)),
-          notFound: S.optional(__S(1888, __c118, 0)),
+          agentSpaces: S.optional(__S(305, __c19, 1)),
+          notFound: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "BatchGetAgentSpacesOutput" });
   }
 }
-function __c15(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5332,9 +5722,9 @@ function __c15(j: number): any {
           agentSpaceId: S.String,
           name: S.String,
           description: S.optional(S.String),
-          awsResources: S.optional(__S(257, __c16, 1)),
-          targetDomainIds: S.optional(__S(1888, __c118, 0)),
-          codeReviewSettings: S.optional(__S(258, __c16, 2)),
+          awsResources: S.optional(__S(337, __c21, 1)),
+          targetDomainIds: S.optional(__S(1936, __c121, 0)),
+          codeReviewSettings: S.optional(__S(338, __c21, 2)),
           kmsKeyId: S.optional(S.String),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -5342,19 +5732,19 @@ function __c15(j: number): any {
       ).annotate({ identifier: "AgentSpace" });
   }
 }
-function __c16(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(16, __c1, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          vpcs: S.optional(__S(256, __c16, 0)),
-          logGroups: S.optional(__S(1888, __c118, 0)),
-          s3Buckets: S.optional(__S(1888, __c118, 0)),
-          secretArns: S.optional(__S(1888, __c118, 0)),
-          lambdaFunctionArns: S.optional(__S(1888, __c118, 0)),
-          iamRoles: S.optional(__S(1888, __c118, 0)),
+          vpcs: S.optional(__S(336, __c21, 0)),
+          logGroups: S.optional(__S(1936, __c121, 0)),
+          s3Buckets: S.optional(__S(1936, __c121, 0)),
+          secretArns: S.optional(__S(1936, __c121, 0)),
+          lambdaFunctionArns: S.optional(__S(1936, __c121, 0)),
+          iamRoles: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "AWSResources" });
     case 2:
@@ -5363,11 +5753,11 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CodeReviewSettings" });
   }
 }
-function __c17(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ agentSpaceId: S.String, artifactIds: __S(1888, __c118, 0) }).pipe(
+        S.Struct({ agentSpaceId: S.String, artifactIds: __S(1936, __c121, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/BatchGetArtifactMetadata" }),
             svc,
@@ -5388,18 +5778,18 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "ArtifactMetadataItem" });
     case 2:
-      return S.Array(__S(273, __c17, 1));
+      return S.Array(__S(353, __c22, 1));
     case 3:
-      return S.suspend(() => S.Struct({ artifactMetadataList: __S(274, __c17, 2) })).annotate({
+      return S.suspend(() => S.Struct({ artifactMetadataList: __S(354, __c22, 2) })).annotate({
         identifier: "BatchGetArtifactMetadataOutput",
       });
   }
 }
-function __c18(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ codeReviewJobIds: __S(1888, __c118, 0), agentSpaceId: S.String }).pipe(
+        S.Struct({ codeReviewJobIds: __S(1936, __c121, 0), agentSpaceId: S.String }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/BatchGetCodeReviewJobs" }),
             svc,
@@ -5420,11 +5810,11 @@ function __c18(j: number): any {
           status: S.optional(S.String),
           documents: S.optional(__S(50, __c3, 2)),
           sourceCode: S.optional(__S(52, __c3, 4)),
-          steps: S.optional(__S(305, __c19, 1)),
-          executionContext: S.optional(__S(307, __c19, 3)),
+          steps: S.optional(__S(385, __c24, 1)),
+          executionContext: S.optional(__S(387, __c24, 3)),
           serviceRole: S.optional(S.String),
           logConfig: S.optional(__S(32, __c2, 0)),
-          errorInformation: S.optional(__S(320, __c20, 0)),
+          errorInformation: S.optional(__S(400, __c25, 0)),
           integratedRepositories: S.optional(__S(54, __c3, 6)),
           codeRemediationStrategy: S.optional(S.String),
           maxTaskHours: S.optional(S.Number),
@@ -5434,17 +5824,17 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "CodeReviewJob" });
     case 2:
-      return S.Array(__S(289, __c18, 1));
+      return S.Array(__S(369, __c23, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          codeReviewJobs: S.optional(__S(290, __c18, 2)),
-          notFound: S.optional(__S(1888, __c118, 0)),
+          codeReviewJobs: S.optional(__S(370, __c23, 2)),
+          notFound: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "BatchGetCodeReviewJobsOutput" });
   }
 }
-function __c19(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5456,7 +5846,7 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "Step" });
     case 1:
-      return S.Array(__S(304, __c19, 0));
+      return S.Array(__S(384, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5466,10 +5856,10 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "ExecutionContext" });
     case 3:
-      return S.Array(__S(306, __c19, 2));
+      return S.Array(__S(386, __c24, 2));
   }
 }
-function __c20(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5477,11 +5867,11 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ErrorInformation" });
   }
 }
-function __c21(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ agentSpaceId: S.String, codeReviewJobTaskIds: __S(1888, __c118, 0) }).pipe(
+        S.Struct({ agentSpaceId: S.String, codeReviewJobTaskIds: __S(1936, __c121, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/BatchGetCodeReviewJobTasks" }),
             svc,
@@ -5501,36 +5891,36 @@ function __c21(j: number): any {
           agentSpaceId: S.optional(S.String),
           title: S.optional(S.String),
           description: S.optional(S.String),
-          categories: S.optional(__S(353, __c22, 1)),
+          categories: S.optional(__S(433, __c27, 1)),
           riskType: S.optional(S.String),
           executionStatus: S.optional(S.String),
-          logsLocation: S.optional(__S(368, __c23, 0)),
+          logsLocation: S.optional(__S(448, __c28, 0)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "CodeReviewJobTask" });
     case 2:
-      return S.Array(__S(337, __c21, 1));
+      return S.Array(__S(417, __c26, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          codeReviewJobTasks: S.optional(__S(338, __c21, 2)),
-          notFound: S.optional(__S(1888, __c118, 0)),
+          codeReviewJobTasks: S.optional(__S(418, __c26, 2)),
+          notFound: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "BatchGetCodeReviewJobTasksOutput" });
   }
 }
-function __c22(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ name: S.optional(S.String), isPrimary: S.optional(S.Boolean) }),
       ).annotate({ identifier: "Category" });
     case 1:
-      return S.Array(__S(352, __c22, 0));
+      return S.Array(__S(432, __c27, 0));
   }
 }
-function __c23(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5538,11 +5928,11 @@ function __c23(j: number): any {
       ).annotate({ identifier: "LogLocation" });
   }
 }
-function __c24(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ codeReviewIds: __S(1888, __c118, 0), agentSpaceId: S.String }).pipe(
+        S.Struct({ codeReviewIds: __S(1936, __c121, 0), agentSpaceId: S.String }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/BatchGetCodeReviews" }),
             svc,
@@ -5572,21 +5962,21 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "CodeReview" });
     case 2:
-      return S.Array(__S(385, __c24, 1));
+      return S.Array(__S(465, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          codeReviews: S.optional(__S(386, __c24, 2)),
-          notFound: S.optional(__S(1888, __c118, 0)),
+          codeReviews: S.optional(__S(466, __c29, 2)),
+          notFound: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "BatchGetCodeReviewsOutput" });
   }
 }
-function __c25(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ findingIds: __S(1888, __c118, 0), agentSpaceId: S.String }).pipe(
+        S.Struct({ findingIds: __S(1936, __c121, 0), agentSpaceId: S.String }).pipe(
           T.all(T.Http({ method: "POST", uri: "/BatchGetFindings" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetFindingsInput" });
@@ -5599,13 +5989,13 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "CodeRemediationTaskDetails" });
     case 2:
-      return S.Array(__S(401, __c25, 1));
+      return S.Array(__S(481, __c30, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
           statusReason: S.optional(S.String),
-          taskDetails: S.optional(__S(402, __c25, 2)),
+          taskDetails: S.optional(__S(482, __c30, 2)),
         }),
       ).annotate({ identifier: "CodeRemediationTask" });
     case 4:
@@ -5618,7 +6008,7 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "CodeLocation" });
     case 5:
-      return S.Array(__S(404, __c25, 4));
+      return S.Array(__S(484, __c30, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -5648,34 +6038,36 @@ function __c25(j: number): any {
           confidence: S.optional(S.String),
           validationStatus: S.optional(S.String),
           attackScript: S.optional(S.String),
-          codeRemediationTask: S.optional(__S(403, __c25, 3)),
+          remediationCode: S.optional(S.String),
+          codeRemediationTask: S.optional(__S(483, __c30, 3)),
           lastUpdatedBy: S.optional(S.String),
           customerNote: S.optional(S.String),
-          codeLocations: S.optional(__S(405, __c25, 5)),
-          verificationScript: S.optional(__S(406, __c25, 6)),
+          codeLocations: S.optional(__S(485, __c30, 5)),
+          verificationScript: S.optional(__S(486, __c30, 6)),
           alignmentRationale: S.optional(S.String),
-          revalidationJobIds: S.optional(__S(1888, __c118, 0)),
+          revalidationJobIds: S.optional(__S(1936, __c121, 0)),
           originalFindingId: S.optional(S.String),
+          linkedIssue: S.optional(__S(288, __c18, 0)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "Finding" });
     case 8:
-      return S.Array(__S(407, __c25, 7));
+      return S.Array(__S(487, __c30, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          findings: S.optional(__S(408, __c25, 8)),
-          notFound: S.optional(__S(1888, __c118, 0)),
+          findings: S.optional(__S(488, __c30, 8)),
+          notFound: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "BatchGetFindingsOutput" });
   }
 }
-function __c26(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ pentestJobIds: __S(1888, __c118, 0), agentSpaceId: S.String }).pipe(
+        S.Struct({ pentestJobIds: __S(1936, __c121, 0), agentSpaceId: S.String }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/BatchGetPentestJobs" }),
             svc,
@@ -5705,42 +6097,44 @@ function __c26(j: number): any {
           excludePaths: S.optional(__S(64, __c4, 0)),
           allowedDomains: S.optional(__S(64, __c4, 0)),
           excludeRiskTypes: S.optional(__S(80, __c5, 0)),
-          steps: S.optional(__S(305, __c19, 1)),
-          executionContext: S.optional(__S(307, __c19, 3)),
+          steps: S.optional(__S(385, __c24, 1)),
+          executionContext: S.optional(__S(387, __c24, 3)),
           serviceRole: S.optional(S.String),
           logConfig: S.optional(__S(32, __c2, 0)),
           vpcConfig: S.optional(__S(16, __c1, 0)),
           networkTrafficConfig: S.optional(__S(146, __c9, 2)),
-          errorInformation: S.optional(__S(320, __c20, 0)),
+          errorInformation: S.optional(__S(400, __c25, 0)),
           integratedRepositories: S.optional(__S(54, __c3, 6)),
           trustedCaCertificates: S.optional(__S(70, __c4, 6)),
+          clientCertificates: S.optional(__S(72, __c4, 8)),
           codeRemediationStrategy: S.optional(S.String),
           cleanUpStrategy: S.optional(S.String),
           disableManagedSkills: S.optional(__S(80, __c5, 0)),
           maxTaskHours: S.optional(S.Number),
           jobType: S.optional(S.String),
-          selectedFindingIds: S.optional(__S(1888, __c118, 0)),
+          selectedFindingIds: S.optional(__S(1936, __c121, 0)),
           reportDestination: S.optional(__S(55, __c3, 7)),
           reportUrl: S.optional(S.String),
-          scopeResult: S.optional(__S(417, __c26, 1)),
-          scopeChanges: S.optional(__S(433, __c27, 1)),
+          scopeResult: S.optional(__S(497, __c31, 1)),
+          scopeChanges: S.optional(__S(513, __c32, 1)),
           cicdConfiguration: S.optional(__S(147, __c9, 3)),
+          testScope: S.optional(__S(148, __c9, 4)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "PentestJob" });
     case 3:
-      return S.Array(__S(418, __c26, 2));
+      return S.Array(__S(498, __c31, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          pentestJobs: S.optional(__S(419, __c26, 3)),
-          notFound: S.optional(__S(1888, __c118, 0)),
+          pentestJobs: S.optional(__S(499, __c31, 3)),
+          notFound: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "BatchGetPentestJobsOutput" });
   }
 }
-function __c27(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5753,14 +6147,14 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "ScopeChange" });
     case 1:
-      return S.Array(__S(432, __c27, 0));
+      return S.Array(__S(512, __c32, 0));
   }
 }
-function __c28(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ agentSpaceId: S.String, taskIds: __S(1888, __c118, 0) }).pipe(
+        S.Struct({ agentSpaceId: S.String, taskIds: __S(1936, __c121, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/BatchGetPentestJobTasks" }),
             svc,
@@ -5780,32 +6174,32 @@ function __c28(j: number): any {
           agentSpaceId: S.optional(S.String),
           title: S.optional(S.String),
           description: S.optional(S.String),
-          categories: S.optional(__S(353, __c22, 1)),
+          categories: S.optional(__S(433, __c27, 1)),
           riskType: S.optional(S.String),
           targetEndpoint: S.optional(Endpoint),
           executionStatus: S.optional(S.String),
-          logsLocation: S.optional(__S(368, __c23, 0)),
+          logsLocation: S.optional(__S(448, __c28, 0)),
           taskHours: S.optional(S.Number),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "Task" });
     case 2:
-      return S.Array(__S(449, __c28, 1));
+      return S.Array(__S(529, __c33, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tasks: S.optional(__S(450, __c28, 2)),
-          notFound: S.optional(__S(1888, __c118, 0)),
+          tasks: S.optional(__S(530, __c33, 2)),
+          notFound: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "BatchGetPentestJobTasksOutput" });
   }
 }
-function __c29(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ pentestIds: __S(1888, __c118, 0), agentSpaceId: S.String }).pipe(
+        S.Struct({ pentestIds: __S(1936, __c121, 0), agentSpaceId: S.String }).pipe(
           T.all(T.Http({ method: "POST", uri: "/BatchGetPentests" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetPentestsInput" });
@@ -5813,16 +6207,16 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pentests: S.optional(__S(161, __c10, 1)),
-          notFound: S.optional(__S(1888, __c118, 0)),
+          notFound: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "BatchGetPentestsOutput" });
   }
 }
-function __c30(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ packId: S.String, securityRequirementNames: __S(1888, __c118, 0) }).pipe(
+        S.Struct({ packId: S.String, securityRequirementNames: __S(1936, __c121, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/BatchGetSecurityRequirements" }),
             svc,
@@ -5835,11 +6229,11 @@ function __c30(j: number): any {
       ).annotate({ identifier: "BatchGetSecurityRequirementsInput" });
   }
 }
-function __c31(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ targetDomainIds: __S(1888, __c118, 0) }).pipe(
+        S.Struct({ targetDomainIds: __S(1936, __c121, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/BatchGetTargetDomains" }),
             svc,
@@ -5857,23 +6251,23 @@ function __c31(j: number): any {
           domainName: S.String,
           verificationStatus: S.optional(S.String),
           verificationStatusReason: S.optional(S.String),
-          verificationDetails: S.optional(__S(514, __c32, 2)),
+          verificationDetails: S.optional(__S(594, __c37, 2)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           verifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "TargetDomain" });
     case 2:
-      return S.Array(__S(497, __c31, 1));
+      return S.Array(__S(577, __c36, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          targetDomains: S.optional(__S(498, __c31, 2)),
-          notFound: S.optional(__S(1888, __c118, 0)),
+          targetDomains: S.optional(__S(578, __c36, 2)),
+          notFound: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "BatchGetTargetDomainsOutput" });
   }
 }
-function __c32(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5891,17 +6285,17 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           method: S.optional(S.String),
-          dnsTxt: S.optional(__S(512, __c32, 0)),
-          httpRoute: S.optional(__S(513, __c32, 1)),
+          dnsTxt: S.optional(__S(592, __c37, 0)),
+          httpRoute: S.optional(__S(593, __c37, 1)),
         }),
       ).annotate({ identifier: "VerificationDetails" });
   }
 }
-function __c33(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ threatModelJobIds: __S(1888, __c118, 0), agentSpaceId: S.String }).pipe(
+        S.Struct({ threatModelJobIds: __S(1936, __c121, 0), agentSpaceId: S.String }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/BatchGetThreatModelJobs" }),
             svc,
@@ -5928,27 +6322,27 @@ function __c33(j: number): any {
           integratedRepositories: S.optional(__S(54, __c3, 6)),
           documents: S.optional(__S(50, __c3, 2)),
           scopeDocs: S.optional(__S(50, __c3, 2)),
-          errorInformation: S.optional(__S(320, __c20, 0)),
+          errorInformation: S.optional(__S(400, __c25, 0)),
           systemOverview: S.optional(S.String),
           reportDestination: S.optional(__S(55, __c3, 7)),
         }),
       ).annotate({ identifier: "ThreatModelJob" });
     case 2:
-      return S.Array(__S(529, __c33, 1));
+      return S.Array(__S(609, __c38, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          threatModelJobs: S.optional(__S(530, __c33, 2)),
-          notFound: S.optional(__S(1888, __c118, 0)),
+          threatModelJobs: S.optional(__S(610, __c38, 2)),
+          notFound: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "BatchGetThreatModelJobsOutput" });
   }
 }
-function __c34(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ agentSpaceId: S.String, threatModelJobTaskIds: __S(1888, __c118, 0) }).pipe(
+        S.Struct({ agentSpaceId: S.String, threatModelJobTaskIds: __S(1936, __c121, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/BatchGetThreatModelJobTasks" }),
             svc,
@@ -5969,27 +6363,27 @@ function __c34(j: number): any {
           title: S.optional(S.String),
           description: S.optional(S.String),
           executionStatus: S.optional(S.String),
-          logsLocation: S.optional(__S(368, __c23, 0)),
+          logsLocation: S.optional(__S(448, __c28, 0)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "ThreatModelJobTask" });
     case 2:
-      return S.Array(__S(545, __c34, 1));
+      return S.Array(__S(625, __c39, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          threatModelJobTasks: S.optional(__S(546, __c34, 2)),
-          notFound: S.optional(__S(1888, __c118, 0)),
+          threatModelJobTasks: S.optional(__S(626, __c39, 2)),
+          notFound: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "BatchGetThreatModelJobTasksOutput" });
   }
 }
-function __c35(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ threatModelIds: __S(1888, __c118, 0), agentSpaceId: S.String }).pipe(
+        S.Struct({ threatModelIds: __S(1936, __c121, 0), agentSpaceId: S.String }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/BatchGetThreatModels" }),
             svc,
@@ -6017,21 +6411,21 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "ThreatModel" });
     case 2:
-      return S.Array(__S(561, __c35, 1));
+      return S.Array(__S(641, __c40, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          threatModels: S.optional(__S(562, __c35, 2)),
-          notFound: S.optional(__S(1888, __c118, 0)),
+          threatModels: S.optional(__S(642, __c40, 2)),
+          notFound: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "BatchGetThreatModelsOutput" });
   }
 }
-function __c36(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ threatIds: __S(1888, __c118, 0), agentSpaceId: S.String }).pipe(
+        S.Struct({ threatIds: __S(1936, __c121, 0), agentSpaceId: S.String }).pipe(
           T.all(T.Http({ method: "POST", uri: "/BatchGetThreats" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetThreatsInput" });
@@ -6049,10 +6443,10 @@ function __c36(j: number): any {
           prerequisites: S.optional(S.String),
           threatAction: S.optional(S.String),
           threatImpact: S.optional(S.String),
-          impactedGoal: S.optional(__S(1888, __c118, 0)),
-          impactedAssets: S.optional(__S(1888, __c118, 0)),
-          anchor: S.optional(__S(592, __c37, 0)),
-          evidence: S.optional(__S(594, __c37, 2)),
+          impactedGoal: S.optional(__S(1936, __c121, 0)),
+          impactedAssets: S.optional(__S(1936, __c121, 0)),
+          anchor: S.optional(__S(672, __c42, 0)),
+          evidence: S.optional(__S(674, __c42, 2)),
           stride: S.optional(__S(80, __c5, 0)),
           recommendation: S.optional(S.String),
           createdBy: S.optional(S.String),
@@ -6062,17 +6456,17 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "Threat" });
     case 2:
-      return S.Array(__S(577, __c36, 1));
+      return S.Array(__S(657, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          threats: S.optional(__S(578, __c36, 2)),
-          notFound: S.optional(__S(1888, __c118, 0)),
+          threats: S.optional(__S(658, __c41, 2)),
+          notFound: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "BatchGetThreatsOutput" });
   }
 }
-function __c37(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6087,10 +6481,10 @@ function __c37(j: number): any {
         S.Struct({ packageId: S.optional(S.String), path: S.optional(S.String) }),
       ).annotate({ identifier: "ThreatEvidenceShape" });
     case 2:
-      return S.Array(__S(593, __c37, 1));
+      return S.Array(__S(673, __c42, 1));
   }
 }
-function __c38(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6103,10 +6497,10 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "UpdateSecurityRequirementEntry" });
     case 1:
-      return S.Array(__S(608, __c38, 0));
+      return S.Array(__S(688, __c43, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ packId: S.String, securityRequirements: __S(609, __c38, 1) }).pipe(
+        S.Struct({ packId: S.String, securityRequirements: __S(689, __c43, 1) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/BatchUpdateSecurityRequirements" }),
             svc,
@@ -6120,37 +6514,37 @@ function __c38(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          updatedSecurityRequirementNames: __S(1888, __c118, 0),
-          errors: __S(1681, __c105, 1),
+          updatedSecurityRequirementNames: __S(1936, __c121, 0),
+          errors: __S(1729, __c108, 1),
         }),
       ).annotate({ identifier: "BatchUpdateSecurityRequirementsOutput" });
   }
 }
-function __c39(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
-          awsResources: S.optional(__S(257, __c16, 1)),
-          targetDomainIds: S.optional(__S(1888, __c118, 0)),
-          codeReviewSettings: S.optional(__S(258, __c16, 2)),
+          awsResources: S.optional(__S(337, __c21, 1)),
+          targetDomainIds: S.optional(__S(1936, __c121, 0)),
+          codeReviewSettings: S.optional(__S(338, __c21, 2)),
           kmsKeyId: S.optional(S.String),
-          tags: S.optional(__S(640, __c40, 0)),
+          tags: S.optional(__S(720, __c45, 0)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/CreateAgentSpace" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "CreateAgentSpaceInput" });
   }
 }
-function __c40(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c41(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6158,7 +6552,7 @@ function __c41(j: number): any {
           idcInstanceArn: S.optional(S.String),
           roleArn: S.optional(S.String),
           defaultKmsKeyId: S.optional(S.String),
-          tags: S.optional(__S(640, __c40, 0)),
+          tags: S.optional(__S(720, __c45, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/CreateApplication" }),
@@ -6172,7 +6566,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CreateApplicationRequest" });
   }
 }
-function __c42(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ applicationId: S.String })).annotate({
@@ -6180,7 +6574,7 @@ function __c42(j: number): any {
       });
   }
 }
-function __c43(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6201,7 +6595,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CreateCodeReviewInput" });
   }
 }
-function __c44(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6223,7 +6617,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "CreateCodeReviewOutput" });
   }
 }
-function __c45(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6267,21 +6661,22 @@ function __c45(j: number): any {
       ).annotate({ identifier: "BitbucketDataCenterIntegrationInput" });
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ github: __S(720, __c45, 0) }),
-        /*@__PURE__*/ S.Struct({ gitlab: __S(721, __c45, 1) }),
-        /*@__PURE__*/ S.Struct({ bitbucket: __S(722, __c45, 2) }),
-        /*@__PURE__*/ S.Struct({ confluence: __S(723, __c45, 3) }),
-        /*@__PURE__*/ S.Struct({ azureDevOps: __S(724, __c45, 4) }),
-        /*@__PURE__*/ S.Struct({ bitbucketDataCenter: __S(725, __c45, 5) }),
+        /*@__PURE__*/ S.Struct({ github: __S(800, __c50, 0) }),
+        /*@__PURE__*/ S.Struct({ gitlab: __S(801, __c50, 1) }),
+        /*@__PURE__*/ S.Struct({ bitbucket: __S(802, __c50, 2) }),
+        /*@__PURE__*/ S.Struct({ confluence: __S(803, __c50, 3) }),
+        /*@__PURE__*/ S.Struct({ azureDevOps: __S(804, __c50, 4) }),
+        /*@__PURE__*/ S.Struct({ bitbucketDataCenter: __S(805, __c50, 5) }),
+        /*@__PURE__*/ S.Struct({ jira: __S(803, __c50, 3) }),
       ]);
     case 7:
       return S.suspend(() =>
         S.Struct({
           provider: S.String,
-          input: __S(726, __c45, 6),
+          input: __S(806, __c50, 6),
           integrationDisplayName: S.String,
           kmsKeyId: S.optional(S.String),
-          tags: S.optional(__S(640, __c40, 0)),
+          tags: S.optional(__S(720, __c45, 0)),
           privateConnectionName: S.optional(S.String),
         }).pipe(
           T.all(
@@ -6300,7 +6695,7 @@ function __c45(j: number): any {
       });
   }
 }
-function __c46(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6309,30 +6704,30 @@ function __c46(j: number): any {
           agentSpaceId: S.String,
           membershipId: S.String,
           memberType: S.String,
-          config: S.optional(__S(769, __c48, 1)),
+          config: S.optional(__S(849, __c53, 1)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/CreateMembership" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "CreateMembershipRequest" });
   }
 }
-function __c47(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateMembershipResponse" });
   }
 }
-function __c48(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ role: S.optional(S.String) })).annotate({
         identifier: "UserConfig",
       });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ user: __S(768, __c48, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ user: __S(848, __c53, 0) })]);
   }
 }
-function __c49(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6351,13 +6746,14 @@ function __c49(j: number): any {
           reportDestination: S.optional(__S(55, __c3, 7)),
           reportFilters: S.optional(__S(112, __c7, 0)),
           cicdConfiguration: S.optional(__S(147, __c9, 3)),
+          testScope: S.optional(__S(148, __c9, 4)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/CreatePentest" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "CreatePentestInput" });
   }
 }
-function __c50(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6374,22 +6770,23 @@ function __c50(j: number): any {
           reportDestination: S.optional(__S(55, __c3, 7)),
           reportFilters: S.optional(__S(112, __c7, 0)),
           cicdConfiguration: S.optional(__S(147, __c9, 3)),
+          testScope: S.optional(__S(148, __c9, 4)),
         }),
       ).annotate({ identifier: "CreatePentestOutput" });
   }
 }
-function __c51(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           hostAddress: S.String,
           vpcId: S.String,
-          subnetIds: __S(1888, __c118, 0),
-          securityGroupIds: S.optional(__S(1888, __c118, 0)),
+          subnetIds: __S(1936, __c121, 0),
+          securityGroupIds: S.optional(__S(1936, __c121, 0)),
           ipAddressType: S.optional(S.String),
           ipv4AddressesPerEni: S.optional(S.Number),
-          portRanges: S.optional(__S(1888, __c118, 0)),
+          portRanges: S.optional(__S(1936, __c121, 0)),
           certificate: S.optional(SensitiveString),
           dnsResolution: S.optional(S.String),
         }),
@@ -6400,15 +6797,15 @@ function __c51(j: number): any {
       ).annotate({ identifier: "SelfManagedInput" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ serviceManaged: __S(816, __c51, 0) }),
-        /*@__PURE__*/ S.Struct({ selfManaged: __S(817, __c51, 1) }),
+        /*@__PURE__*/ S.Struct({ serviceManaged: __S(896, __c56, 0) }),
+        /*@__PURE__*/ S.Struct({ selfManaged: __S(897, __c56, 1) }),
       ]);
     case 3:
       return S.suspend(() =>
         S.Struct({
           privateConnectionName: S.String,
-          mode: __S(818, __c51, 2),
-          tags: S.optional(__S(640, __c40, 0)),
+          mode: __S(898, __c56, 2),
+          tags: S.optional(__S(720, __c45, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/CreatePrivateConnection" }),
@@ -6422,7 +6819,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "CreatePrivateConnectionInput" });
   }
 }
-function __c52(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6437,12 +6834,12 @@ function __c52(j: number): any {
           certificateExpiryTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           dnsResolution: S.optional(S.String),
           failureMessage: S.optional(S.String),
-          tags: S.optional(__S(640, __c40, 0)),
+          tags: S.optional(__S(720, __c45, 0)),
         }),
       ).annotate({ identifier: "CreatePrivateConnectionOutput" });
   }
 }
-function __c53(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6451,7 +6848,7 @@ function __c53(j: number): any {
           description: S.optional(S.String),
           status: S.optional(S.String),
           kmsKeyId: S.optional(S.String),
-          tags: S.optional(__S(640, __c40, 0)),
+          tags: S.optional(__S(720, __c45, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/CreateSecurityRequirementPack" }),
@@ -6469,14 +6866,14 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CreateSecurityRequirementPackOutput" });
   }
 }
-function __c54(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           targetDomainName: S.String,
           verificationMethod: S.String,
-          tags: S.optional(__S(640, __c40, 0)),
+          tags: S.optional(__S(720, __c45, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/CreateTargetDomain" }),
@@ -6490,7 +6887,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "CreateTargetDomainInput" });
   }
 }
-function __c55(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6499,14 +6896,14 @@ function __c55(j: number): any {
           domainName: S.String,
           verificationStatus: S.String,
           verificationStatusReason: S.optional(S.String),
-          verificationDetails: S.optional(__S(514, __c32, 2)),
+          verificationDetails: S.optional(__S(594, __c37, 2)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           verifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "CreateTargetDomainOutput" });
   }
 }
-function __c56(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6522,10 +6919,10 @@ function __c56(j: number): any {
           prerequisites: S.optional(S.String),
           threatAction: S.optional(S.String),
           threatImpact: S.optional(S.String),
-          impactedGoal: S.optional(__S(1888, __c118, 0)),
-          impactedAssets: S.optional(__S(1888, __c118, 0)),
-          anchor: S.optional(__S(592, __c37, 0)),
-          evidence: S.optional(__S(594, __c37, 2)),
+          impactedGoal: S.optional(__S(1936, __c121, 0)),
+          impactedAssets: S.optional(__S(1936, __c121, 0)),
+          anchor: S.optional(__S(672, __c42, 0)),
+          evidence: S.optional(__S(674, __c42, 2)),
           recommendation: S.optional(S.String),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/CreateThreat" }), svc, auth, proto, ver, rules),
@@ -6533,7 +6930,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CreateThreatInput" });
   }
 }
-function __c57(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6550,10 +6947,10 @@ function __c57(j: number): any {
           prerequisites: S.optional(S.String),
           threatAction: S.optional(S.String),
           threatImpact: S.optional(S.String),
-          impactedGoal: S.optional(__S(1888, __c118, 0)),
-          impactedAssets: S.optional(__S(1888, __c118, 0)),
-          anchor: S.optional(__S(592, __c37, 0)),
-          evidence: S.optional(__S(594, __c37, 2)),
+          impactedGoal: S.optional(__S(1936, __c121, 0)),
+          impactedAssets: S.optional(__S(1936, __c121, 0)),
+          anchor: S.optional(__S(672, __c42, 0)),
+          evidence: S.optional(__S(674, __c42, 2)),
           recommendation: S.optional(S.String),
           createdBy: S.optional(S.String),
           updatedBy: S.optional(S.String),
@@ -6563,7 +6960,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CreateThreatOutput" });
   }
 }
-function __c58(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6589,7 +6986,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "CreateThreatModelInput" });
   }
 }
-function __c59(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6609,7 +7006,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "CreateThreatModelOutput" });
   }
 }
-function __c60(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6623,7 +7020,7 @@ function __c60(j: number): any {
       });
   }
 }
-function __c61(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6640,7 +7037,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "DeleteApplicationRequest" });
   }
 }
-function __c62(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6650,7 +7047,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "DeleteArtifactInput" });
   }
 }
-function __c63(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6667,7 +7064,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationInput" });
   }
 }
-function __c64(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6682,7 +7079,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "DeleteMembershipRequest" });
   }
 }
-function __c65(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6699,7 +7096,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "DeletePrivateConnectionInput" });
   }
 }
-function __c66(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6716,7 +7113,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "DeleteSecurityRequirementPackInput" });
   }
 }
-function __c67(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6737,7 +7134,7 @@ function __c67(j: number): any {
       });
   }
 }
-function __c68(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6754,7 +7151,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "DescribePrivateConnectionInput" });
   }
 }
-function __c69(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6772,14 +7169,14 @@ function __c69(j: number): any {
           applicationId: S.String,
           domain: S.String,
           applicationName: S.optional(S.String),
-          idcConfiguration: S.optional(__S(1105, __c69, 1)),
+          idcConfiguration: S.optional(__S(1185, __c74, 1)),
           roleArn: S.optional(S.String),
           defaultKmsKeyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetApplicationResponse" });
   }
 }
-function __c70(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6796,14 +7193,14 @@ function __c70(j: number): any {
         S.Struct({
           agentSpaceId: S.String,
           artifactId: S.String,
-          artifact: __S(1121, __c70, 1),
+          artifact: __S(1201, __c75, 1),
           fileName: S.String,
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
         }),
       ).annotate({ identifier: "GetArtifactOutput" });
   }
 }
-function __c71(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6821,13 +7218,14 @@ function __c71(j: number): any {
           displayName: S.optional(S.String),
           kmsKeyId: S.optional(S.String),
           targetUrl: S.optional(S.String),
+          siteUrl: S.optional(S.String),
           webhookUrl: S.optional(S.String),
           privateConnectionName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetIntegrationOutput" });
   }
 }
-function __c72(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6859,19 +7257,19 @@ function __c72(j: number): any {
       ).annotate({ identifier: "GetSecurityRequirementPackOutput" });
   }
 }
-function __c73(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ name: S.String, format: S.String, content: SensitiveBlob }),
       ).annotate({ identifier: "SecurityRequirementArtifact" });
     case 1:
-      return S.Array(__S(1168, __c73, 0));
+      return S.Array(__S(1248, __c78, 0));
     case 2:
-      return S.Union([/*@__PURE__*/ S.Struct({ documents: __S(1169, __c73, 1) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ documents: __S(1249, __c78, 1) })]);
     case 3:
       return S.suspend(() =>
-        S.Struct({ packId: S.String, input: __S(1170, __c73, 2) }).pipe(
+        S.Struct({ packId: S.String, input: __S(1250, __c78, 2) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ImportSecurityRequirements" }),
             svc,
@@ -6888,7 +7286,7 @@ function __c73(j: number): any {
       });
   }
 }
-function __c74(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6915,7 +7313,7 @@ function __c74(j: number): any {
       });
   }
 }
-function __c75(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6946,14 +7344,14 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "ActorMessage" });
     case 2:
-      return S.Array(__S(1201, __c75, 1));
+      return S.Array(__S(1281, __c80, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ messages: S.optional(__S(1202, __c75, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ messages: S.optional(__S(1282, __c80, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListActorMessagesOutput" });
   }
 }
-function __c76(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6971,17 +7369,17 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "AgentSpaceSummary" });
     case 2:
-      return S.Array(__S(1217, __c76, 1));
+      return S.Array(__S(1297, __c81, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          agentSpaceSummaries: S.optional(__S(1218, __c76, 2)),
+          agentSpaceSummaries: S.optional(__S(1298, __c81, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAgentSpacesOutput" });
   }
 }
-function __c77(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6999,14 +7397,24 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "ApplicationSummary" });
     case 2:
-      return S.Array(__S(1233, __c77, 1));
+      return S.Array(__S(1313, __c82, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ applicationSummaries: __S(1234, __c77, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ applicationSummaries: __S(1314, __c82, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListApplicationsResponse" });
   }
 }
-function __c78(j: number): any {
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ path: S.String, message: S.String })).annotate({
+        identifier: "ValidationExceptionField",
+      });
+    case 1:
+      return S.Array(__S(1328, __c83, 0));
+  }
+}
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7023,14 +7431,14 @@ function __c78(j: number): any {
         S.Struct({ artifactId: S.String, fileName: S.String, artifactType: S.String }),
       ).annotate({ identifier: "ArtifactSummary" });
     case 2:
-      return S.Array(__S(1249, __c78, 1));
+      return S.Array(__S(1345, __c84, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ artifactSummaries: __S(1250, __c78, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ artifactSummaries: __S(1346, __c84, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListArtifactsOutput" });
   }
 }
-function __c79(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7062,27 +7470,17 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "CodeReviewJobSummary" });
     case 2:
-      return S.Array(__S(1265, __c79, 1));
+      return S.Array(__S(1361, __c85, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          codeReviewJobSummaries: S.optional(__S(1266, __c79, 2)),
+          codeReviewJobSummaries: S.optional(__S(1362, __c85, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCodeReviewJobsForCodeReviewOutput" });
   }
 }
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ path: S.String, message: S.String })).annotate({
-        identifier: "ValidationExceptionField",
-      });
-    case 1:
-      return S.Array(__S(1280, __c80, 0));
-  }
-}
-function __c81(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7119,17 +7517,17 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "CodeReviewJobTaskSummary" });
     case 2:
-      return S.Array(__S(1297, __c81, 1));
+      return S.Array(__S(1377, __c86, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          codeReviewJobTaskSummaries: S.optional(__S(1298, __c81, 2)),
+          codeReviewJobTaskSummaries: S.optional(__S(1378, __c86, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCodeReviewJobTasksOutput" });
   }
 }
-function __c82(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7152,17 +7550,17 @@ function __c82(j: number): any {
         }),
       ).annotate({ identifier: "CodeReviewSummary" });
     case 2:
-      return S.Array(__S(1313, __c82, 1));
+      return S.Array(__S(1393, __c87, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          codeReviewSummaries: S.optional(__S(1314, __c82, 2)),
+          codeReviewSummaries: S.optional(__S(1394, __c87, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCodeReviewsOutput" });
   }
 }
-function __c83(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7196,17 +7594,17 @@ function __c83(j: number): any {
         }),
       ).annotate({ identifier: "DiscoveredEndpoint" });
     case 2:
-      return S.Array(__S(1329, __c83, 1));
+      return S.Array(__S(1409, __c88, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          discoveredEndpoints: S.optional(__S(1330, __c83, 2)),
+          discoveredEndpoints: S.optional(__S(1410, __c88, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDiscoveredEndpointsOutput" });
   }
 }
-function __c84(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7245,17 +7643,17 @@ function __c84(j: number): any {
         }),
       ).annotate({ identifier: "FindingSummary" });
     case 2:
-      return S.Array(__S(1345, __c84, 1));
+      return S.Array(__S(1425, __c89, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          findingsSummaries: S.optional(__S(1346, __c84, 2)),
+          findingsSummaries: S.optional(__S(1426, __c89, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListFindingsOutput" });
   }
 }
-function __c85(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7326,57 +7724,68 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "AzureDevOpsRepositoryMetadata" });
     case 6:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ githubRepository: __S(1361, __c85, 1) }),
-        /*@__PURE__*/ S.Struct({ gitlabRepository: __S(1362, __c85, 2) }),
-        /*@__PURE__*/ S.Struct({ bitbucketRepository: __S(1363, __c85, 3) }),
-        /*@__PURE__*/ S.Struct({ confluenceDocument: __S(1364, __c85, 4) }),
-        /*@__PURE__*/ S.Struct({ azureDevOpsRepository: __S(1365, __c85, 5) }),
-      ]);
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          providerResourceId: S.String,
+          projectKey: S.String,
+          projectId: S.String,
+          projectName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JiraProjectMetadata" });
     case 7:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ githubRepository: __S(1441, __c90, 1) }),
+        /*@__PURE__*/ S.Struct({ gitlabRepository: __S(1442, __c90, 2) }),
+        /*@__PURE__*/ S.Struct({ bitbucketRepository: __S(1443, __c90, 3) }),
+        /*@__PURE__*/ S.Struct({ confluenceDocument: __S(1444, __c90, 4) }),
+        /*@__PURE__*/ S.Struct({ azureDevOpsRepository: __S(1445, __c90, 5) }),
+        /*@__PURE__*/ S.Struct({ jiraProject: __S(1446, __c90, 6) }),
+      ]);
+    case 8:
       return S.suspend(() =>
         S.Struct({
           integrationId: S.String,
-          resource: __S(1366, __c85, 6),
-          capabilities: S.optional(__S(1382, __c86, 6)),
+          resource: __S(1447, __c90, 7),
+          capabilities: S.optional(__S(1463, __c91, 7)),
         }),
       ).annotate({ identifier: "IntegratedResourceSummary" });
-    case 8:
-      return S.Array(__S(1367, __c85, 7));
     case 9:
+      return S.Array(__S(1448, __c90, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          integratedResourceSummaries: __S(1368, __c85, 8),
+          integratedResourceSummaries: __S(1449, __c90, 9),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListIntegratedResourcesOutput" });
   }
 }
-function __c86(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          patterns: __S(1888, __c118, 0),
+          patterns: __S(1936, __c121, 0),
           matchMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "TriggerFilter" });
     case 1:
-      return S.Array(__S(1376, __c86, 0));
+      return S.Array(__S(1456, __c91, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           events: S.optional(__S(80, __c5, 0)),
-          filters: S.optional(__S(1377, __c86, 1)),
+          filters: S.optional(__S(1457, __c91, 1)),
         }),
       ).annotate({ identifier: "TriggerFilterGroup" });
     case 3:
-      return S.Array(__S(1378, __c86, 2));
+      return S.Array(__S(1458, __c91, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          triggerFilterGroups: S.optional(__S(1379, __c86, 3)),
+          triggerFilterGroups: S.optional(__S(1459, __c91, 3)),
           leaveComments: S.optional(S.Boolean),
           remediateCode: S.optional(S.Boolean),
         }),
@@ -7390,16 +7799,21 @@ function __c86(j: number): any {
         }),
       ).annotate({ identifier: "ConfluenceResourceCapabilities" });
     case 6:
+      return S.suspend(() =>
+        S.Struct({ createIssue: S.optional(S.Boolean), commentIssue: S.optional(S.Boolean) }),
+      ).annotate({ identifier: "JiraResourceCapabilities" });
+    case 7:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ github: __S(1380, __c86, 4) }),
-        /*@__PURE__*/ S.Struct({ gitlab: __S(1380, __c86, 4) }),
-        /*@__PURE__*/ S.Struct({ bitbucket: __S(1380, __c86, 4) }),
-        /*@__PURE__*/ S.Struct({ confluence: __S(1381, __c86, 5) }),
-        /*@__PURE__*/ S.Struct({ azureDevOps: __S(1380, __c86, 4) }),
+        /*@__PURE__*/ S.Struct({ github: __S(1460, __c91, 4) }),
+        /*@__PURE__*/ S.Struct({ gitlab: __S(1460, __c91, 4) }),
+        /*@__PURE__*/ S.Struct({ bitbucket: __S(1460, __c91, 4) }),
+        /*@__PURE__*/ S.Struct({ confluence: __S(1461, __c91, 5) }),
+        /*@__PURE__*/ S.Struct({ azureDevOps: __S(1460, __c91, 4) }),
+        /*@__PURE__*/ S.Struct({ jira: __S(1462, __c91, 6) }),
       ]);
   }
 }
-function __c87(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
@@ -7409,7 +7823,7 @@ function __c87(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(__S(1392, __c87, 0)),
+          filter: S.optional(__S(1472, __c92, 0)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(
@@ -7430,14 +7844,14 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "IntegrationSummary" });
     case 3:
-      return S.Array(__S(1394, __c87, 2));
+      return S.Array(__S(1474, __c92, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ integrationSummaries: __S(1395, __c87, 3), nextToken: S.optional(S.String) }),
+        S.Struct({ integrationSummaries: __S(1475, __c92, 3), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListIntegrationsOutput" });
   }
 }
-function __c88(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7456,31 +7870,38 @@ function __c88(j: number): any {
         identifier: "UserMetadata",
       });
     case 2:
-      return S.Union([/*@__PURE__*/ S.Struct({ user: __S(1409, __c88, 1) })]);
+      return S.suspend(() =>
+        S.Struct({ displayName: S.optional(S.String), description: S.optional(S.String) }),
+      ).annotate({ identifier: "GroupMetadata" });
     case 3:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ user: __S(1489, __c93, 1) }),
+        /*@__PURE__*/ S.Struct({ group: __S(1490, __c93, 2) }),
+      ]);
+    case 4:
       return S.suspend(() =>
         S.Struct({
           membershipId: S.String,
           applicationId: S.String,
           agentSpaceId: S.String,
           memberType: S.String,
-          config: S.optional(__S(769, __c48, 1)),
-          metadata: S.optional(__S(1410, __c88, 2)),
+          config: S.optional(__S(849, __c53, 1)),
+          metadata: S.optional(__S(1491, __c93, 3)),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           createdBy: S.String,
           updatedBy: S.String,
         }),
       ).annotate({ identifier: "MembershipSummary" });
-    case 4:
-      return S.Array(__S(1411, __c88, 3));
     case 5:
+      return S.Array(__S(1492, __c93, 4));
+    case 6:
       return S.suspend(() =>
-        S.Struct({ membershipSummaries: __S(1412, __c88, 4), nextToken: S.optional(S.String) }),
+        S.Struct({ membershipSummaries: __S(1493, __c93, 5), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListMembershipsResponse" });
   }
 }
-function __c89(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7515,17 +7936,44 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "PentestJobSummary" });
     case 2:
-      return S.Array(__S(1425, __c89, 1));
+      return S.Array(__S(1505, __c94, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          pentestJobSummaries: S.optional(__S(1426, __c89, 2)),
+          pentestJobSummaries: S.optional(__S(1506, __c94, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPentestJobsForPentestOutput" });
   }
 }
-function __c90(j: number): any {
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          agentSpaceId: S.String,
+          artifactContent: T.Blob,
+          artifactType: S.String,
+          fileName: S.String,
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/AddArtifact" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AddArtifactInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ artifactId: S.String })).annotate({
+        identifier: "AddArtifactOutput",
+      });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ uri: S.optional(S.String) })).annotate({
+        identifier: "Endpoint",
+      });
+  }
+}
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7563,17 +8011,17 @@ function __c90(j: number): any {
         }),
       ).annotate({ identifier: "TaskSummary" });
     case 2:
-      return S.Array(__S(1441, __c90, 1));
+      return S.Array(__S(1553, __c97, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          taskSummaries: S.optional(__S(1442, __c90, 2)),
+          taskSummaries: S.optional(__S(1554, __c97, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPentestJobTasksOutput" });
   }
 }
-function __c91(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7596,44 +8044,17 @@ function __c91(j: number): any {
         }),
       ).annotate({ identifier: "PentestSummary" });
     case 2:
-      return S.Array(__S(1457, __c91, 1));
+      return S.Array(__S(1569, __c98, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          pentestSummaries: S.optional(__S(1458, __c91, 2)),
+          pentestSummaries: S.optional(__S(1570, __c98, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPentestsOutput" });
   }
 }
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          agentSpaceId: S.String,
-          artifactContent: T.Blob,
-          artifactType: S.String,
-          fileName: S.String,
-        }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/AddArtifact" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "AddArtifactInput" });
-    case 1:
-      return S.suspend(() => S.Struct({ artifactId: S.String })).annotate({
-        identifier: "AddArtifactOutput",
-      });
-  }
-}
-function __c93(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ uri: S.optional(S.String) })).annotate({
-        identifier: "Endpoint",
-      });
-  }
-}
-function __c94(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7649,14 +8070,14 @@ function __c94(j: number): any {
         ),
       ).annotate({ identifier: "ListPrivateConnectionsInput" });
     case 1:
-      return S.Array(__S(832, __c52, 0));
+      return S.Array(__S(912, __c57, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ privateConnections: __S(1505, __c94, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ privateConnections: __S(1585, __c99, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListPrivateConnectionsOutput" });
   }
 }
-function __c95(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7665,7 +8086,7 @@ function __c95(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(__S(1520, __c95, 0)),
+          filter: S.optional(__S(1600, __c100, 0)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(
@@ -7693,17 +8114,17 @@ function __c95(j: number): any {
         }),
       ).annotate({ identifier: "SecurityRequirementPackSummary" });
     case 3:
-      return S.Array(__S(1522, __c95, 2));
+      return S.Array(__S(1602, __c100, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          securityRequirementPackSummaries: __S(1523, __c95, 3),
+          securityRequirementPackSummaries: __S(1603, __c100, 3),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSecurityRequirementPacksOutput" });
   }
 }
-function __c96(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7733,17 +8154,17 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "SecurityRequirementSummary" });
     case 2:
-      return S.Array(__S(1537, __c96, 1));
+      return S.Array(__S(1617, __c101, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          securityRequirementSummaries: __S(1538, __c96, 2),
+          securityRequirementSummaries: __S(1618, __c101, 2),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSecurityRequirementsOutput" });
   }
 }
-function __c97(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7759,12 +8180,12 @@ function __c97(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceInput" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(640, __c40, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(720, __c45, 0)) })).annotate({
         identifier: "ListTagsForResourceOutput",
       });
   }
 }
-function __c98(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7788,17 +8209,17 @@ function __c98(j: number): any {
         }),
       ).annotate({ identifier: "TargetDomainSummary" });
     case 2:
-      return S.Array(__S(1569, __c98, 1));
+      return S.Array(__S(1649, __c103, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          targetDomainSummaries: S.optional(__S(1570, __c98, 2)),
+          targetDomainSummaries: S.optional(__S(1650, __c103, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTargetDomainsOutput" });
   }
 }
-function __c99(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7831,17 +8252,17 @@ function __c99(j: number): any {
         }),
       ).annotate({ identifier: "ThreatModelJobSummary" });
     case 2:
-      return S.Array(__S(1585, __c99, 1));
+      return S.Array(__S(1665, __c104, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          threatModelJobSummaries: S.optional(__S(1586, __c99, 2)),
+          threatModelJobSummaries: S.optional(__S(1666, __c104, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListThreatModelJobsOutput" });
   }
 }
-function __c100(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7875,17 +8296,17 @@ function __c100(j: number): any {
         }),
       ).annotate({ identifier: "ThreatModelJobTaskSummary" });
     case 2:
-      return S.Array(__S(1601, __c100, 1));
+      return S.Array(__S(1681, __c105, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          threatModelJobTaskSummaries: S.optional(__S(1602, __c100, 2)),
+          threatModelJobTaskSummaries: S.optional(__S(1682, __c105, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListThreatModelJobTasksOutput" });
   }
 }
-function __c101(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7908,17 +8329,79 @@ function __c101(j: number): any {
         }),
       ).annotate({ identifier: "ThreatModelSummary" });
     case 2:
-      return S.Array(__S(1617, __c101, 1));
+      return S.Array(__S(1697, __c106, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          threatModelSummaries: S.optional(__S(1618, __c101, 2)),
+          threatModelSummaries: S.optional(__S(1698, __c106, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListThreatModelsOutput" });
   }
 }
-function __c102(j: number): any {
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.String,
+          domain: S.String,
+          evaluation: S.String,
+          remediation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateSecurityRequirementEntry" });
+    case 1:
+      return S.Array(__S(1712, __c107, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ packId: S.String, securityRequirements: __S(1713, __c107, 1) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/BatchCreateSecurityRequirements" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "BatchCreateSecurityRequirementsInput" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ securityRequirementName: S.String, code: S.String, message: S.String }),
+      ).annotate({ identifier: "BatchSecurityRequirementError" });
+    case 1:
+      return S.Array(__S(1728, __c108, 0));
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          packId: S.String,
+          name: S.String,
+          description: S.String,
+          domain: S.String,
+          evaluation: S.String,
+          remediation: S.optional(S.String),
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "BatchCreateSecurityRequirementResult" });
+    case 1:
+      return S.Array(__S(1744, __c109, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ securityRequirements: __S(1745, __c109, 1), errors: __S(1729, __c108, 1) }),
+      ).annotate({ identifier: "BatchCreateSecurityRequirementsOutput" });
+  }
+}
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7948,14 +8431,14 @@ function __c102(j: number): any {
         }),
       ).annotate({ identifier: "ThreatSummary" });
     case 2:
-      return S.Array(__S(1633, __c102, 1));
+      return S.Array(__S(1761, __c110, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ threats: S.optional(__S(1634, __c102, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ threats: S.optional(__S(1762, __c110, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListThreatsOutput" });
   }
 }
-function __c103(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7963,7 +8446,7 @@ function __c103(j: number): any {
           agentSpaceId: S.String,
           pentestJobId: S.optional(S.String),
           codeReviewJobId: S.optional(S.String),
-          findingIds: __S(1888, __c118, 0),
+          findingIds: __S(1936, __c121, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/StartCodeRemediation" }),
@@ -7977,69 +8460,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "StartCodeRemediationInput" });
   }
 }
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.String,
-          domain: S.String,
-          evaluation: S.String,
-          remediation: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateSecurityRequirementEntry" });
-    case 1:
-      return S.Array(__S(1664, __c104, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({ packId: S.String, securityRequirements: __S(1665, __c104, 1) }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/BatchCreateSecurityRequirements" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "BatchCreateSecurityRequirementsInput" });
-  }
-}
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ securityRequirementName: S.String, code: S.String, message: S.String }),
-      ).annotate({ identifier: "BatchSecurityRequirementError" });
-    case 1:
-      return S.Array(__S(1680, __c105, 0));
-  }
-}
-function __c106(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          packId: S.String,
-          name: S.String,
-          description: S.String,
-          domain: S.String,
-          evaluation: S.String,
-          remediation: S.optional(S.String),
-          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-        }),
-      ).annotate({ identifier: "BatchCreateSecurityRequirementResult" });
-    case 1:
-      return S.Array(__S(1696, __c106, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({ securityRequirements: __S(1697, __c106, 1), errors: __S(1681, __c105, 1) }),
-      ).annotate({ identifier: "BatchCreateSecurityRequirementsOutput" });
-  }
-}
-function __c107(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.Union([/*@__PURE__*/ S.Struct({ s3Uri: S.String })]);
@@ -8048,7 +8469,7 @@ function __c107(j: number): any {
         S.Struct({
           agentSpaceId: S.String,
           codeReviewId: S.String,
-          diffSource: S.optional(__S(1712, __c107, 0)),
+          diffSource: S.optional(__S(1792, __c112, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/StartCodeReviewJob" }),
@@ -8074,7 +8495,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "StartCodeReviewJobOutput" });
   }
 }
-function __c108(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8082,8 +8503,8 @@ function __c108(j: number): any {
           agentSpaceId: S.String,
           pentestId: S.String,
           jobType: S.optional(S.String),
-          selectedFindingIds: S.optional(__S(1888, __c118, 0)),
-          scopeChanges: S.optional(__S(433, __c27, 1)),
+          selectedFindingIds: S.optional(__S(1936, __c121, 0)),
+          scopeChanges: S.optional(__S(513, __c32, 1)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/StartPentestJob" }), svc, auth, proto, ver, rules),
         ),
@@ -8102,7 +8523,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "StartPentestJobOutput" });
   }
 }
-function __c109(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8131,7 +8552,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "StartThreatModelJobOutput" });
   }
 }
-function __c110(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8148,7 +8569,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "StopCodeReviewJobInput" });
   }
 }
-function __c111(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8158,7 +8579,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "StopPentestJobInput" });
   }
 }
-function __c112(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8175,13 +8596,13 @@ function __c112(j: number): any {
       ).annotate({ identifier: "StopThreatModelJobInput" });
   }
 }
-function __c113(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tags: __S(640, __c40, 0),
+          tags: __S(720, __c45, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
@@ -8195,13 +8616,13 @@ function __c113(j: number): any {
       ).annotate({ identifier: "TagResourceInput" });
   }
 }
-function __c114(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(1888, __c118, 0).pipe(T.HttpQuery("tagKeys")),
+          tagKeys: __S(1936, __c121, 0).pipe(T.HttpQuery("tagKeys")),
         }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
@@ -8215,7 +8636,43 @@ function __c114(j: number): any {
       ).annotate({ identifier: "UntagResourceInput" });
   }
 }
-function __c115(j: number): any {
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ codeReviewIds: __S(1936, __c121, 0), agentSpaceId: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/BatchDeleteCodeReviews" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "BatchDeleteCodeReviewsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ codeReviewId: S.optional(S.String), reason: S.optional(S.String) }),
+      ).annotate({ identifier: "DeleteCodeReviewFailure" });
+    case 2:
+      return S.Array(__S(1921, __c120, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          deleted: S.optional(__S(1936, __c121, 0)),
+          failed: S.optional(__S(1922, __c120, 2)),
+        }),
+      ).annotate({ identifier: "BatchDeleteCodeReviewsOutput" });
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8223,9 +8680,9 @@ function __c115(j: number): any {
           agentSpaceId: S.String,
           name: S.optional(S.String),
           description: S.optional(S.String),
-          awsResources: S.optional(__S(257, __c16, 1)),
-          targetDomainIds: S.optional(__S(1888, __c118, 0)),
-          codeReviewSettings: S.optional(__S(258, __c16, 2)),
+          awsResources: S.optional(__S(337, __c21, 1)),
+          targetDomainIds: S.optional(__S(1936, __c121, 0)),
+          codeReviewSettings: S.optional(__S(338, __c21, 2)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/UpdateAgentSpace" }), svc, auth, proto, ver, rules),
         ),
@@ -8236,16 +8693,16 @@ function __c115(j: number): any {
           agentSpaceId: S.String,
           name: S.String,
           description: S.optional(S.String),
-          awsResources: S.optional(__S(257, __c16, 1)),
-          targetDomainIds: S.optional(__S(1888, __c118, 0)),
-          codeReviewSettings: S.optional(__S(258, __c16, 2)),
+          awsResources: S.optional(__S(337, __c21, 1)),
+          targetDomainIds: S.optional(__S(1936, __c121, 0)),
+          codeReviewSettings: S.optional(__S(338, __c21, 2)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "UpdateAgentSpaceOutput" });
   }
 }
-function __c116(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8266,43 +8723,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "UpdateApplicationRequest" });
   }
 }
-function __c117(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ codeReviewIds: __S(1888, __c118, 0), agentSpaceId: S.String }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/BatchDeleteCodeReviews" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "BatchDeleteCodeReviewsInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ codeReviewId: S.optional(S.String), reason: S.optional(S.String) }),
-      ).annotate({ identifier: "DeleteCodeReviewFailure" });
-    case 2:
-      return S.Array(__S(1873, __c117, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          deleted: S.optional(__S(1888, __c118, 0)),
-          failed: S.optional(__S(1874, __c117, 2)),
-        }),
-      ).annotate({ identifier: "BatchDeleteCodeReviewsOutput" });
-  }
-}
-function __c118(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c119(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8324,7 +8745,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "UpdateCodeReviewInput" });
   }
 }
-function __c120(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8346,7 +8767,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "UpdateFindingInput" });
   }
 }
-function __c121(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ name: S.String, owner: S.String })).annotate({
@@ -8375,25 +8796,35 @@ function __c121(j: number): any {
         S.Struct({ name: S.String, organization: S.String, project: S.optional(S.String) }),
       ).annotate({ identifier: "AzureDevOpsRepositoryResource" });
     case 5:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ githubRepository: __S(1936, __c121, 0) }),
-        /*@__PURE__*/ S.Struct({ gitlabRepository: __S(1937, __c121, 1) }),
-        /*@__PURE__*/ S.Struct({ bitbucketRepository: __S(1938, __c121, 2) }),
-        /*@__PURE__*/ S.Struct({ confluenceDocument: __S(1939, __c121, 3) }),
-        /*@__PURE__*/ S.Struct({ azureDevOpsRepository: __S(1940, __c121, 4) }),
-      ]);
-    case 6:
       return S.suspend(() =>
-        S.Struct({ resource: __S(1941, __c121, 5), capabilities: S.optional(__S(1382, __c86, 6)) }),
-      ).annotate({ identifier: "IntegratedResourceInputItem" });
+        S.Struct({
+          name: S.String,
+          projectKey: S.String,
+          projectId: S.String,
+          projectName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JiraProjectResource" });
+    case 6:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ githubRepository: __S(2016, __c126, 0) }),
+        /*@__PURE__*/ S.Struct({ gitlabRepository: __S(2017, __c126, 1) }),
+        /*@__PURE__*/ S.Struct({ bitbucketRepository: __S(2018, __c126, 2) }),
+        /*@__PURE__*/ S.Struct({ confluenceDocument: __S(2019, __c126, 3) }),
+        /*@__PURE__*/ S.Struct({ azureDevOpsRepository: __S(2020, __c126, 4) }),
+        /*@__PURE__*/ S.Struct({ jiraProject: __S(2021, __c126, 5) }),
+      ]);
     case 7:
-      return S.Array(__S(1942, __c121, 6));
+      return S.suspend(() =>
+        S.Struct({ resource: __S(2022, __c126, 6), capabilities: S.optional(__S(1463, __c91, 7)) }),
+      ).annotate({ identifier: "IntegratedResourceInputItem" });
     case 8:
+      return S.Array(__S(2023, __c126, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           agentSpaceId: S.String,
           integrationId: S.String,
-          items: __S(1943, __c121, 7),
+          items: __S(2024, __c126, 8),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/UpdateIntegratedResources" }),
@@ -8407,7 +8838,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "UpdateIntegratedResourcesInput" });
   }
 }
-function __c122(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8432,7 +8863,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "UpdateIntegrationOutput" });
   }
 }
-function __c123(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8452,13 +8883,14 @@ function __c123(j: number): any {
           reportDestination: S.optional(__S(55, __c3, 7)),
           reportFilters: S.optional(__S(112, __c7, 0)),
           cicdConfiguration: S.optional(__S(147, __c9, 3)),
+          testScope: S.optional(__S(148, __c9, 4)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/UpdatePentest" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UpdatePentestInput" });
   }
 }
-function __c124(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8475,7 +8907,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "UpdatePrivateConnectionCertificateInput" });
   }
 }
-function __c125(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8506,7 +8938,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "UpdateSecurityRequirementPackOutput" });
   }
 }
-function __c126(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8521,60 +8953,6 @@ function __c126(j: number): any {
           ),
         ),
       ).annotate({ identifier: "UpdateTargetDomainInput" });
-  }
-}
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          threatId: S.String,
-          agentSpaceId: S.String,
-          title: S.optional(S.String),
-          status: S.optional(S.String),
-          comments: S.optional(S.String),
-          statement: S.optional(S.String),
-          severity: S.optional(S.String),
-          threatSource: S.optional(S.String),
-          prerequisites: S.optional(S.String),
-          threatAction: S.optional(S.String),
-          threatImpact: S.optional(S.String),
-          impactedGoal: S.optional(__S(1888, __c118, 0)),
-          impactedAssets: S.optional(__S(1888, __c118, 0)),
-          anchor: S.optional(__S(592, __c37, 0)),
-          evidence: S.optional(__S(594, __c37, 2)),
-          recommendation: S.optional(S.String),
-        }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/UpdateThreat" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "UpdateThreatInput" });
-  }
-}
-function __c128(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          threatModelId: S.String,
-          agentSpaceId: S.String,
-          title: S.optional(S.String),
-          description: S.optional(S.String),
-          assets: S.optional(__S(96, __c6, 0)),
-          scopeDocs: S.optional(__S(50, __c3, 2)),
-          serviceRole: S.optional(S.String),
-          logConfig: S.optional(__S(32, __c2, 0)),
-          reportDestination: S.optional(__S(55, __c3, 7)),
-        }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/UpdateThreatModel" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateThreatModelInput" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

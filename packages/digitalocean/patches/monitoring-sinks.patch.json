@@ -1,0 +1,54 @@
+{
+  "description": "Monitoring sinks: POST /v2/monitoring/sinks returns `{ uuid, destination_uuid, resources }` (live; the spec declares no response), and GET /v2/monitoring/sinks and /v2/monitoring/sinks/{sink_uuid} return each sink with its `id` (live: `{ sink: { id, resources, destination } }`), which the spec omits. Without them a sink cannot be addressed for delete.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#SinkCreated",
+      "value": {
+        "type": "structure",
+        "members": {
+          "uuid": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The sink's id."
+            }
+          },
+          "destination_uuid": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The destination the sink forwards to."
+            }
+          },
+          "resources": {
+            "target": "com.digitalocean.api#SinksResponseResourcesList",
+            "traits": {
+              "smithy.api#documentation": "Resources whose logs the sink forwards."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.digitalocean.api#MonitoringCreateSink/output",
+      "value": {
+        "target": "com.digitalocean.api#SinkCreated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#SinksResponse/members/id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The sink's id."
+        }
+      }
+    }
+  ]
+}

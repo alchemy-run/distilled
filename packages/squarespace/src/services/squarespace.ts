@@ -70,9 +70,9 @@ export class NotFound
 /** Optional; array of objects. Sets the exact stock quantity for InventoryItems. */
 export interface InventoryQuantityExpression {
   /** Quantity value for the inventory operation. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Unique id for the InventoryItem. */
-  variantId?: string;
+  variantId?: string | undefined;
 }
 /** Optional; array of objects. Subtracts stock quantity for InventoryItems. */
 export type AdjustInventoryStockLevelsRequestDecrementOperationsList =
@@ -89,19 +89,19 @@ export interface AdjustInventoryStockLevelsRequest {
   /** Required for idempotent requests. Refer to the idempotency key guide for requirements. */
   idempotencyKey: string;
   /** Optional; array of objects. Subtracts stock quantity for InventoryItems. */
-  decrementOperations?: AdjustInventoryStockLevelsRequestDecrementOperationsList;
+  decrementOperations?: AdjustInventoryStockLevelsRequestDecrementOperationsList | undefined;
   /** Optional; array of objects. Increments stock quantity for InventoryItems. */
-  incrementOperations?: AdjustInventoryStockLevelsRequestIncrementOperationsList;
+  incrementOperations?: AdjustInventoryStockLevelsRequestIncrementOperationsList | undefined;
   /** Optional; array of objects. Sets the exact stock quantity for InventoryItems. */
-  setFiniteOperations?: AdjustInventoryStockLevelsRequestSetFiniteOperationsList;
+  setFiniteOperations?: AdjustInventoryStockLevelsRequestSetFiniteOperationsList | undefined;
   /** Optional; array of InventoryItem ids. Marks stock quantity as "unlimited" for the given InventoryItems. */
-  setUnlimitedOperations?: AdjustInventoryStockLevelsRequestSetUnlimitedOperationsList;
+  setUnlimitedOperations?: AdjustInventoryStockLevelsRequestSetUnlimitedOperationsList | undefined;
 }
 export interface AdjustInventoryStockLevelsResponse {}
 /** Optional; HTTPS URL to receive webhook notifications. */
 export interface ChangeString {
-  present?: boolean;
-  value?: string;
+  present?: boolean | undefined;
+  value?: string | undefined;
 }
 export interface AssociateProductVariantImageRequest {
   productId: string;
@@ -365,46 +365,46 @@ export type ContactAddressCountryCode =
 /** Address properties for a contact. */
 export interface ContactAddress {
   /** Address' city */
-  city?: string;
+  city?: string | undefined;
   /** ISO 3166 alpha-2 country code string. */
   countryCode: ContactAddressCountryCode | (string & {});
   /** Contact's first name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Contact's last name */
-  lastName?: string;
+  lastName?: string | undefined;
   /** First line of address */
-  line1?: string;
+  line1?: string | undefined;
   /** Second line of address */
-  line2?: string;
+  line2?: string | undefined;
   /** Contact's phone number */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** zip/postal code */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** General region (State, Province, County, etc...) */
-  region?: string;
+  region?: string | undefined;
 }
 export interface CreateAddressBookEntryRequest {
   /** The contact's ID. */
   contactId: string;
   address: ContactAddress;
   /** Whether this entry should be the default shipping address. If this is the only address book entry for the contact after creation, it becomes the default even when set to false. */
-  defaultShipping?: boolean;
+  defaultShipping?: boolean | undefined;
 }
 /** An address book entry for a contact. */
 export interface AddressBookEntry {
-  address?: ContactAddress;
+  address?: ContactAddress | undefined;
   /** Whether this entry is the current default shipping address. When the contact has any address book entries, exactly one entry has this value set to true. */
-  defaultShipping?: boolean;
+  defaultShipping?: boolean | undefined;
   /** The address book entry's ID. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface CreateAddressBookEntryResponse {
-  addressBookEntry?: AddressBookEntry;
+  addressBookEntry?: AddressBookEntry | undefined;
 }
 /** Primary email supplied when creating a contact. */
 export interface CreateEmail {
   /** If contact's email accepts marketing */
-  acceptsMarketing?: boolean;
+  acceptsMarketing?: boolean | undefined;
   /** The email address. */
   email: string;
 }
@@ -420,37 +420,37 @@ export interface CreateContactRequest {
 /** Marketing subscription state for the contact's email. */
 export interface AcceptsMarketing {
   /** Whether the contact accepts marketing email. */
-  acceptsMarketing?: boolean;
+  acceptsMarketing?: boolean | undefined;
   /** The date and time the contact was added to the marketing list.The value returned in the creation response is a near-real-time estimate; the Get Contact endpoint should be used to verify the exact persisted timestamp. */
-  joinedOn?: string;
+  joinedOn?: string | undefined;
   /** The date and time the contact left Marketing list */
-  leftOn?: string;
+  leftOn?: string | undefined;
 }
 /** The contact's primary email. */
 export interface Email {
-  acceptsMarketing?: AcceptsMarketing;
+  acceptsMarketing?: AcceptsMarketing | undefined;
   /** The date and time when the email was created. */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** The email address. */
-  email?: string;
+  email?: string | undefined;
 }
 /** A contact. */
 export interface Contact {
   /** The date and time when the contact was created. */
-  createdOn?: string;
-  defaultShippingAddress?: AddressBookEntry;
+  createdOn?: string | undefined;
+  defaultShippingAddress?: AddressBookEntry | undefined;
   /** The contact's first name. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** The contact's ID. */
-  id?: string;
+  id?: string | undefined;
   /** The contact's last name. */
-  lastName?: string;
+  lastName?: string | undefined;
   /** The contact's locale. */
-  locale?: string;
-  primaryEmail?: Email;
+  locale?: string | undefined;
+  primaryEmail?: Email | undefined;
 }
 export interface CreateContactResponse {
-  contact?: Contact;
+  contact?: Contact | undefined;
 }
 /** Discount applies to any order. No additional conditions. */
 export interface AnyOrderCriteria {
@@ -468,33 +468,33 @@ export type BuyXGetYCriteriaRewardProductIdsList = Array<string>;
 export interface BuyXGetYCriteria {
   type: string;
   /** Specifies the possible targets for a BuyXGetYCriteria buy-side. */
-  criteriaAppliesTo?: BuyXGetYCriteriaCriteriaAppliesTo | (string & {});
+  criteriaAppliesTo?: BuyXGetYCriteriaCriteriaAppliesTo | (string & {}) | undefined;
   /** Product ids the cart must contain. Required if criteriaAppliesTo=PRODUCT. */
-  criteriaProductIds?: BuyXGetYCriteriaCriteriaProductIdsList;
+  criteriaProductIds?: BuyXGetYCriteriaCriteriaProductIdsList | undefined;
   /** Quantity of eligible items the discount applies to. */
   eligibleForDiscountQuantity: number;
   /** Quantity of qualifying items required at full price. */
   requiredFullPriceQuantity: number;
   /** Specifies the possible targets for a BuyXGetYCriteria reward-side. */
-  rewardAppliesTo?: BuyXGetYCriteriaRewardAppliesTo | (string & {});
+  rewardAppliesTo?: BuyXGetYCriteriaRewardAppliesTo | (string & {}) | undefined;
   /** Product ids eligible for the reward. Required if rewardAppliesTo=PRODUCT. */
-  rewardProductIds?: BuyXGetYCriteriaRewardProductIdsList;
+  rewardProductIds?: BuyXGetYCriteriaRewardProductIdsList | undefined;
 }
 /** ISO 4217 currency code. */
 export interface MonetaryAmountCurrency {
-  currencyCode?: string;
-  defaultFractionDigits?: number;
-  displayName?: string;
-  numericCode?: number;
-  numericCodeAsString?: string;
-  symbol?: string;
+  currencyCode?: string | undefined;
+  defaultFractionDigits?: number | undefined;
+  displayName?: string | undefined;
+  numericCode?: number | undefined;
+  numericCodeAsString?: string | undefined;
+  symbol?: string | undefined;
 }
 /** A monetary amount with currency code and decimal value. */
 export interface MonetaryAmount {
   /** ISO 4217 currency code. */
-  currency?: MonetaryAmountCurrency;
+  currency?: MonetaryAmountCurrency | undefined;
   /** Decimal monetary value. */
-  value?: number;
+  value?: number | undefined;
 }
 /** Discount applies when the cart total meets or exceeds a minimum. */
 export interface CartTotalCriteria {
@@ -505,9 +505,9 @@ export interface CartTotalCriteria {
 export interface ProductCriteria {
   type: string;
   /** Identifier of the product the discount targets. */
-  productId?: string;
+  productId?: string | undefined;
   /** Display-time snapshot of the product name at the time the discount was created. */
-  productName?: string;
+  productName?: string | undefined;
 }
 export type CreateDiscountRequestCriteria =
   | AnyOrderCriteria
@@ -533,7 +533,7 @@ export interface BuyXGetYFixedAmountTemplate {
   type: string;
   discountAmount: MonetaryAmount;
   /** Caps how many times the discount can be applied per cart. 0 means unlimited. */
-  maxApplicationsPerCart?: number;
+  maxApplicationsPerCart?: number | undefined;
 }
 /** Apply a percentage discount off each reward item in a BUY_X_GET_Y discount. */
 export interface BuyXGetYPercentageTemplate {
@@ -541,7 +541,7 @@ export interface BuyXGetYPercentageTemplate {
   /** Percentage to subtract from each reward item. Range (0, 100]. */
   discountPercentage: number;
   /** Caps how many times the discount can be applied per cart. 0 means unlimited. */
-  maxApplicationsPerCart?: number;
+  maxApplicationsPerCart?: number | undefined;
 }
 /** Apply a fixed monetary amount off the cart total. */
 export interface FixedAmountTemplate {
@@ -578,9 +578,9 @@ export type SelectedShippingOptionSelectedService =
 /** A shipping option targeted by a free-shipping discount. */
 export interface SelectedShippingOption {
   /** If true, all services within the shipping option are eligible. */
-  isAllServicesSelected?: boolean;
+  isAllServicesSelected?: boolean | undefined;
   /** Carrier service eligible for a free-shipping discount. */
-  selectedService?: SelectedShippingOptionSelectedService | (string & {});
+  selectedService?: SelectedShippingOptionSelectedService | (string & {}) | undefined;
   /** Identifier of the shipping option. */
   shippingOptionId: string;
   /** Display-time snapshot of the shipping option name. */
@@ -592,8 +592,9 @@ export interface FreeShippingTemplate {
   /** Fulfillment channel a free-shipping discount applies to. */
   appliesToFulfillmentOptionType?:
     | FreeShippingTemplateAppliesToFulfillmentOptionType
-    | (string & {});
-  selectedShippingOption?: SelectedShippingOption;
+    | (string & {})
+    | undefined;
+  selectedShippingOption?: SelectedShippingOption | undefined;
 }
 /** Apply a percentage discount off the cart total. */
 export interface PercentageTemplate {
@@ -619,21 +620,21 @@ export type CreateDiscountRequestTrigger = AnyOrderCriteria | PromoCodeTrigger;
 export interface CreateDiscountRequest {
   criteria: CreateDiscountRequestCriteria;
   /** If true, the discount can only be used `maxUsesAllowed` times site-wide. */
-  isLimitedUses?: boolean;
+  isLimitedUses?: boolean | undefined;
   /** If true, a given customer can only use this discount once. */
-  isOncePerCustomer?: boolean;
+  isOncePerCustomer?: boolean | undefined;
   /** Maximum site-wide redemptions. Required when isLimitedUses=true; null otherwise. */
-  maxUsesAllowed?: number;
+  maxUsesAllowed?: number | undefined;
   /** Display name for the discount. */
   name: string;
-  paymentPlanOptions?: PaymentPlanOptions;
-  subscriptionOptions?: SubscriptionOptions;
+  paymentPlanOptions?: PaymentPlanOptions | undefined;
+  subscriptionOptions?: SubscriptionOptions | undefined;
   template: CreateDiscountRequestTemplate;
   trigger: CreateDiscountRequestTrigger;
   /** When the discount becomes active. */
   validFrom: string;
   /** When the discount expires. Null = no expiry. */
-  validTo?: string;
+  validTo?: string | undefined;
 }
 export type DiscountCriteria =
   | AnyOrderCriteria
@@ -653,31 +654,31 @@ export type DiscountTrigger = AnyOrderCriteria | PromoCodeTrigger;
 export interface Discount {
   criteria: DiscountCriteria;
   /** Discount id. */
-  id?: string;
+  id?: string | undefined;
   /** If true, the discount can only be used `maxUsesAllowed` times site-wide. */
-  isLimitedUses?: boolean;
+  isLimitedUses?: boolean | undefined;
   /** If true, a given customer can only use this discount once. */
-  isOncePerCustomer?: boolean;
+  isOncePerCustomer?: boolean | undefined;
   /** Timestamp of the most recent redemption. Null if never redeemed. */
-  lastRedeemedAt?: string;
+  lastRedeemedAt?: string | undefined;
   /** Maximum site-wide redemptions. Required when isLimitedUses=true; null otherwise. */
-  maxUsesAllowed?: number;
+  maxUsesAllowed?: number | undefined;
   /** Display name for the discount. */
   name: string;
   /** Number of times this discount has been redeemed. */
-  numberOfUses?: number;
-  paymentPlanOptions?: PaymentPlanOptions;
+  numberOfUses?: number | undefined;
+  paymentPlanOptions?: PaymentPlanOptions | undefined;
   /** Defines the lifecycle status of a discount. */
-  status?: DiscountStatus;
-  subscriptionOptions?: SubscriptionOptions;
+  status?: DiscountStatus | undefined;
+  subscriptionOptions?: SubscriptionOptions | undefined;
   template: DiscountTemplate;
   trigger: DiscountTrigger;
   /** When the discount becomes active. */
   validFrom: string;
   /** When the discount expires. Null = no expiry. */
-  validTo?: string;
+  validTo?: string | undefined;
   /** 24-char website id. */
-  websiteId?: string;
+  websiteId?: string | undefined;
 }
 /** Envelope for a single discount response. */
 export interface DiscountResponse {
@@ -685,21 +686,21 @@ export interface DiscountResponse {
 }
 /** Customer's shipping address. */
 export interface AddressRequest {
-  address1?: string;
-  address2?: string;
-  city?: string;
-  countryCode?: string;
-  firstName?: string;
-  lastName?: string;
-  phone?: string;
-  postalCode?: string;
-  state?: string;
+  address1?: string | undefined;
+  address2?: string | undefined;
+  city?: string | undefined;
+  countryCode?: string | undefined;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  phone?: string | undefined;
+  postalCode?: string | undefined;
+  state?: string | undefined;
 }
 /** Array of discount line items. Describes the promotions redeemed during checkout. */
 export interface CreateDiscountLineRequest {
-  amount?: MonetaryAmount;
-  name?: string;
-  promoCode?: string;
+  amount?: MonetaryAmount | undefined;
+  name?: string | undefined;
+  promoCode?: string | undefined;
 }
 /** Array of discount line items. Describes the promotions redeemed during checkout. */
 export type CreateOrderRequestDiscountLinesList = Array<CreateDiscountLineRequest>;
@@ -716,7 +717,7 @@ export interface CreateOrderShipmentRequest {
   /** Carrier's parcel tracking number. */
   trackingNumber: string;
   /** URL provided by carrier to track the shipment; must adhere to valid URL formatting. */
-  trackingUrl?: string;
+  trackingUrl?: string | undefined;
 }
 /** Array of shipping fulfillments; up to 100 entries. Describes shipment information for the order. */
 export type CreateOrderRequestFulfillmentsList = Array<CreateOrderShipmentRequest>;
@@ -727,14 +728,14 @@ export type OrderCreateLineItemType = "PHYSICAL_PRODUCT" | "CUSTOM";
 /** Array of purchased line items; cannot be empty. */
 export interface CreateLineItemRequest {
   lineItemType: OrderCreateLineItemType | (string & {});
-  nonSaleUnitPrice?: MonetaryAmount;
+  nonSaleUnitPrice?: MonetaryAmount | undefined;
   /** Amount of the item purchased. 1,000,000 limit. */
   quantity: number;
   /** Title of the custom line item. */
-  title?: string;
+  title?: string | undefined;
   unitPricePaid: MonetaryAmount;
   /** Required if lineItemType is PHYSICAL_PRODUCT. Unique id of the ProductVariant sold. */
-  variantId?: string;
+  variantId?: string | undefined;
 }
 /** Array of purchased line items; cannot be empty. */
 export type CreateOrderRequestLineItemsList = Array<CreateLineItemRequest>;
@@ -753,75 +754,78 @@ export type ShopperFulfillmentNotificationBehavior = "SEND" | "SKIP";
 export interface CreateOrderRequest {
   /** Idempotency key to prevent duplicate order creation. */
   idempotencyKey: string;
-  billingAddress?: AddressRequest;
+  billingAddress?: AddressRequest | undefined;
   /** Name of third-party sales channel. */
   channelName: string;
   /** ISO 8601 UTC date and time string. Represents the date and time when the order was placed through the third-party sales channel. */
   createdOn: string;
   /** Email address provided at checkout on the third-party sales channel. */
-  customerEmail?: string;
+  customerEmail?: string | undefined;
   /** Array of discount line items. Describes the promotions redeemed during checkout. */
-  discountLines?: CreateOrderRequestDiscountLinesList;
-  discountTotal?: MonetaryAmount;
+  discountLines?: CreateOrderRequestDiscountLinesList | undefined;
+  discountTotal?: MonetaryAmount | undefined;
   /** Order reference identifier used by the third-party sales channel. */
   externalOrderReference: string;
   /** ISO 8601 UTC date and time string. Represents the moment the order was fulfilled. Required if fulfillmentStatus is FULFILLED. */
-  fulfilledOn?: string;
-  fulfillmentStatus?: OrderCreateFulfillmentStatus | (string & {});
+  fulfilledOn?: string | undefined;
+  fulfillmentStatus?: OrderCreateFulfillmentStatus | (string & {}) | undefined;
   /** Array of shipping fulfillments; up to 100 entries. Describes shipment information for the order. */
   fulfillments: CreateOrderRequestFulfillmentsList;
   grandTotal: MonetaryAmount;
-  inventoryBehavior?: CreateOrderInventoryBehavior | (string & {});
+  inventoryBehavior?: CreateOrderInventoryBehavior | (string & {}) | undefined;
   /** Array of purchased line items; cannot be empty. */
   lineItems: CreateOrderRequestLineItemsList;
   priceTaxInterpretation: TaxInterpretation | (string & {});
-  shippingAddress?: AddressRequest;
+  shippingAddress?: AddressRequest | undefined;
   /** Array of shipping line items. Describes the shipping options chosen at checkout. Currently accepts only one shipping entry. */
-  shippingLines?: CreateOrderRequestShippingLinesList;
-  shippingTotal?: MonetaryAmount;
-  shopperFulfillmentNotificationBehavior?: ShopperFulfillmentNotificationBehavior | (string & {});
-  subtotal?: MonetaryAmount;
-  taxTotal?: MonetaryAmount;
+  shippingLines?: CreateOrderRequestShippingLinesList | undefined;
+  shippingTotal?: MonetaryAmount | undefined;
+  shopperFulfillmentNotificationBehavior?:
+    | ShopperFulfillmentNotificationBehavior
+    | (string & {})
+    | undefined;
+  subtotal?: MonetaryAmount | undefined;
+  taxTotal?: MonetaryAmount | undefined;
 }
 /** Customer's shipping address provided at checkout or, for recurring subscription orders, the customer's current mailing address. */
 export interface Address {
   /** Primary street address */
-  address1?: string;
+  address1?: string | undefined;
   /** Secondary address line */
-  address2?: string;
+  address2?: string | undefined;
   /** City */
-  city?: string;
+  city?: string | undefined;
   /** ISO 3166-1 alpha-2 country code */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** First name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Last name */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Phone number */
-  phone?: string;
+  phone?: string | undefined;
   /** Postal or ZIP code */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** State or province */
-  state?: string;
+  state?: string | undefined;
 }
 /** Array of discount line items; describes the promotions redeemed during checkout. */
 export interface DiscountLine {
-  amount?: MonetaryAmount;
+  amount?: MonetaryAmount | undefined;
   /** A plain-English description of the promotion */
-  description?: string;
+  description?: string | undefined;
   /** Name of the promotion */
-  name?: string;
+  name?: string | undefined;
   /** The user-entered promo code that triggered the discount */
-  promoCode?: string;
+  promoCode?: string | undefined;
 }
 /** Array of discount line items; describes the promotions redeemed during checkout. */
 export type OrderDiscountLinesList = Array<DiscountLine>;
 /** Array of form data submitted via the checkout page. */
 export interface FormItem {
   /** The name of the form field */
-  label?: string;
+  label?: string | undefined;
   /** The value of the field, as entered by the shopper */
-  value?: string;
+  value?: string | undefined;
 }
 /** Array of form data submitted via the checkout page. */
 export type OrderFormSubmissionList = Array<FormItem>;
@@ -830,22 +834,22 @@ export type FulfillmentStatus = "PENDING" | "FULFILLED" | "CANCELED";
 /** Array of shipping fulfillments; describes shipment information for the order. */
 export interface Fulfillment {
   /** Name of the carrier handling the shipment. */
-  carrierName?: string;
+  carrierName?: string | undefined;
   /** Carrier's level of service for shipping. */
-  service?: string;
+  service?: string | undefined;
   /** ISO 8601 UTC date and time string; represents the moment the fulfillment was shipped. */
-  shipDate?: string;
+  shipDate?: string | undefined;
   /** Carrier's parcel tracking number. */
-  trackingNumber?: string;
+  trackingNumber?: string | undefined;
   /** URL provided by the carrier to track the shipment. */
-  trackingUrl?: string;
+  trackingUrl?: string | undefined;
 }
 /** Array of shipping fulfillments; describes shipment information for the order. */
 export type OrderFulfillmentsList = Array<Fulfillment>;
 /** Array of internal notes added to the order by the merchant. */
 export interface OrderNote {
   /** Content for the note */
-  content?: string;
+  content?: string | undefined;
 }
 /** Array of internal notes added to the order by the merchant. */
 export type OrderInternalNotesList = Array<OrderNote>;
@@ -854,43 +858,43 @@ export type LineItemCustomizationsList = Array<FormItem>;
 /** Array of variant options; represents variant choices made by the customer. Null for download and gift card products. */
 export interface VariantOption {
   /** The name of the option (e.g. color, size, material) */
-  optionName?: string;
+  optionName?: string | undefined;
   /** The shopper-selected value for the option (e.g. red, small, cotton) */
-  value?: string;
+  value?: string | undefined;
 }
 /** Array of variant options; represents variant choices made by the customer. Null for download and gift card products. */
 export type LineItemVariantOptionsList = Array<VariantOption>;
 /** Array of purchased line items; line items describe what product or product variant was purchased, how many of that item were purchased, and additional details. */
 export interface LineItem {
   /** Array of form data submitted via a product's custom form prior to being added to the cart. */
-  customizations?: LineItemCustomizationsList;
+  customizations?: LineItemCustomizationsList | undefined;
   /** Shipping height of the physical product variant. 0.0 when not specified or when the variant is not a physical product. */
-  height?: number;
+  height?: number | undefined;
   /** Unique line item id. */
-  id?: string;
+  id?: string | undefined;
   /** URL of the primary image for the item. */
-  imageUrl?: string;
+  imageUrl?: string | undefined;
   /** Shipping length of the physical product variant. 0.0 when not specified or when the variant is not a physical product. */
-  length?: number;
+  length?: number | undefined;
   /** Product type of the item. */
-  lineItemType?: string;
+  lineItemType?: string | undefined;
   /** Unique product id; unless null, every line item with a variantId is a variant of a product with productId. */
-  productId?: string;
+  productId?: string | undefined;
   /** Name of the purchased product. */
-  productName?: string;
+  productName?: string | undefined;
   /** Amount of the item purchased. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Stock keeping unit (SKU) code assigned by the Squarespace merchant for a variant. Null for digital products. */
-  sku?: string;
-  unitPricePaid?: MonetaryAmount;
+  sku?: string | undefined;
+  unitPricePaid?: MonetaryAmount | undefined;
   /** Unique id of the ProductVariant sold. Populated for physical, service, or gift card line items created on or after May 28, 2019. */
-  variantId?: string;
+  variantId?: string | undefined;
   /** Array of variant options; represents variant choices made by the customer. Null for download and gift card products. */
-  variantOptions?: LineItemVariantOptionsList;
+  variantOptions?: LineItemVariantOptionsList | undefined;
   /** Shipping weight of the physical product variant. 0.0 when not specified or when the variant is not a physical product. */
-  weight?: number;
+  weight?: number | undefined;
   /** Shipping width of the physical product variant. 0.0 when not specified or when the variant is not a physical product. */
-  width?: number;
+  width?: number | undefined;
 }
 /** Array of purchased line items; line items describe what product or product variant was purchased, how many of that item were purchased, and additional details. */
 export type OrderLineItemsList = Array<LineItem>;
@@ -907,9 +911,9 @@ export type PaymentState =
   | "PARTIALLY_PAID";
 /** Array of shipping line items; describes the shipping options chosen at checkout. */
 export interface ShippingLine {
-  amount?: MonetaryAmount;
+  amount?: MonetaryAmount | undefined;
   /** Description of the shipping option */
-  method?: string;
+  method?: string | undefined;
 }
 /** Array of shipping line items; describes the shipping options chosen at checkout. */
 export type OrderShippingLinesList = Array<ShippingLine>;
@@ -950,76 +954,76 @@ export type OrderShippingOptionServiceType =
   | "USPS_ONLINE"
   | "OTHER";
 export interface Order {
-  billingAddress?: Address;
+  billingAddress?: Address | undefined;
   /** Where the order originated; possible values are: web and pos. */
-  channel?: string;
+  channel?: string | undefined;
   /** Name of the third-party sales channel. */
-  channelName?: string;
+  channelName?: string | undefined;
   /** ISO 8601 UTC date and time string; represents the moment when the order was placed. */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** Email address entered at checkout or, for recurring subscription orders, the customer's current email address. */
-  customerEmail?: string;
+  customerEmail?: string | undefined;
   /** Unique customer id. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Array of discount line items; describes the promotions redeemed during checkout. */
-  discountLines?: OrderDiscountLinesList;
-  discountTotal?: MonetaryAmount;
+  discountLines?: OrderDiscountLinesList | undefined;
+  discountTotal?: MonetaryAmount | undefined;
   /** Order reference identifier used by the third-party sales channel. */
-  externalOrderReference?: string;
+  externalOrderReference?: string | undefined;
   /** Array of form data submitted via the checkout page. */
-  formSubmission?: OrderFormSubmissionList;
+  formSubmission?: OrderFormSubmissionList | undefined;
   /** ISO 8601 UTC date and time string; represents the moment the order was fulfilled. */
-  fulfilledOn?: string;
-  fulfillmentStatus?: FulfillmentStatus;
+  fulfilledOn?: string | undefined;
+  fulfillmentStatus?: FulfillmentStatus | undefined;
   /** Array of shipping fulfillments; describes shipment information for the order. */
-  fulfillments?: OrderFulfillmentsList;
-  grandTotal?: MonetaryAmount;
+  fulfillments?: OrderFulfillmentsList | undefined;
+  grandTotal?: MonetaryAmount | undefined;
   /** Unique Order id. */
-  id?: string;
+  id?: string | undefined;
   /** Array of internal notes added to the order by the merchant. */
-  internalNotes?: OrderInternalNotesList;
+  internalNotes?: OrderInternalNotesList | undefined;
   /** Array of purchased line items; line items describe what product or product variant was purchased, how many of that item were purchased, and additional details. */
-  lineItems?: OrderLineItemsList;
+  lineItems?: OrderLineItemsList | undefined;
   /** ISO 8601 UTC date and time string; represents when the order was last modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
   /** Unique, sequential number for the Order. */
-  orderNumber?: string;
-  paymentState?: PaymentState;
+  orderNumber?: string | undefined;
+  paymentState?: PaymentState | undefined;
   /** Indicates whether lineItems.unitPricePaid includes tax. Values may be EXCLUSIVE or INCLUSIVE. */
-  priceTaxInterpretation?: string;
-  refundedTotal?: MonetaryAmount;
-  shippingAddress?: Address;
+  priceTaxInterpretation?: string | undefined;
+  refundedTotal?: MonetaryAmount | undefined;
+  shippingAddress?: Address | undefined;
   /** Array of shipping line items; describes the shipping options chosen at checkout. */
-  shippingLines?: OrderShippingLinesList;
+  shippingLines?: OrderShippingLinesList | undefined;
   /** the specific shipping service name selected at checkout (e.g. "USPS Ground Advantage", "Royal Mail Tracked 48"). */
-  shippingOptionName?: string;
+  shippingOptionName?: string | undefined;
   /** The carrier service type identifier. */
-  shippingOptionServiceType?: OrderShippingOptionServiceType;
-  shippingTotal?: MonetaryAmount;
-  subtotal?: MonetaryAmount;
-  taxTotal?: MonetaryAmount;
+  shippingOptionServiceType?: OrderShippingOptionServiceType | undefined;
+  shippingTotal?: MonetaryAmount | undefined;
+  subtotal?: MonetaryAmount | undefined;
+  taxTotal?: MonetaryAmount | undefined;
   /** If true, the order is a test order created using a payment method in test mode. */
-  testmode?: boolean;
+  testmode?: boolean | undefined;
 }
 export type CreateGiftCardProductRequestTagsList = Array<string>;
 export interface SimpleProductPricing {
-  basePrice?: MonetaryAmount;
+  basePrice?: MonetaryAmount | undefined;
 }
 export interface CreateGiftCardProductVariantRequest {
-  pricing?: SimpleProductPricing;
-  sku?: string;
+  pricing?: SimpleProductPricing | undefined;
+  sku?: string | undefined;
 }
 export type CreateGiftCardProductRequestVariantsList = Array<CreateGiftCardProductVariantRequest>;
 /** Request payload to create a GIFT_CARD product. */
 export interface CreateGiftCardProductRequest {
-  description?: string;
-  isVisible?: boolean;
-  name?: string;
-  storePageId?: string;
-  tags?: CreateGiftCardProductRequestTagsList;
-  type?: string;
-  urlSlug?: string;
-  variants?: CreateGiftCardProductRequestVariantsList;
+  description?: string | undefined;
+  isVisible?: boolean | undefined;
+  name?: string | undefined;
+  storePageId?: string | undefined;
+  tags?: CreateGiftCardProductRequestTagsList | undefined;
+  type?: string | undefined;
+  urlSlug?: string | undefined;
+  variants?: CreateGiftCardProductRequestVariantsList | undefined;
 }
 export type CreatePhysicalProductRequestTagsList = Array<string>;
 export type CreatePhysicalProductRequestVariantAttributesList = Array<string>;
@@ -1027,87 +1031,87 @@ export type CreatePhysicalProductVariantRequestAttributesMap = {
   [key: string]: string | undefined;
 };
 export interface FullProductPricing {
-  basePrice?: MonetaryAmount;
-  onSale?: boolean;
-  salePrice?: MonetaryAmount;
+  basePrice?: MonetaryAmount | undefined;
+  onSale?: boolean | undefined;
+  salePrice?: MonetaryAmount | undefined;
 }
 /** Unit of measurement. Supported values: `INCH`, `CENTIMETER`. */
 export type ProductDimensionsUnit = "CENTIMETER" | "INCH";
 /** Physical dimensions of the variant. */
 export interface ProductDimensions {
   /** Height of the variant. */
-  height?: number;
+  height?: number | undefined;
   /** Length of the variant. */
-  length?: number;
-  unit?: ProductDimensionsUnit | (string & {});
+  length?: number | undefined;
+  unit?: ProductDimensionsUnit | (string & {}) | undefined;
   /** Width of the variant. */
-  width?: number;
+  width?: number | undefined;
 }
 /** Unit of measurement. Supported values: `KILOGRAM`, `POUND`. */
 export type ProductWeightUnit = "KILOGRAM" | "POUND";
 /** Weight of the variant. */
 export interface ProductWeight {
-  unit?: ProductWeightUnit | (string & {});
+  unit?: ProductWeightUnit | (string & {}) | undefined;
   /** Weight amount. */
-  value?: number;
+  value?: number | undefined;
 }
 /** Measurements of the variant when it's shipped. Present for PHYSICAL products only. */
 export interface ProductMeasurements {
-  dimensions?: ProductDimensions;
-  weight?: ProductWeight;
+  dimensions?: ProductDimensions | undefined;
+  weight?: ProductWeight | undefined;
 }
 /** Available stock for the variant. Present for PHYSICAL products only. */
 export interface ProductStock {
   /** Number of units that can be purchased. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Indicates whether the variant has unlimited stock. */
-  unlimited?: boolean;
+  unlimited?: boolean | undefined;
 }
 export interface CreatePhysicalProductVariantRequest {
-  attributes?: CreatePhysicalProductVariantRequestAttributesMap;
+  attributes?: CreatePhysicalProductVariantRequestAttributesMap | undefined;
   /** Global Trade Item Number (GTIN). Optional. Must be 8, 12, 13, or 14 numeric digits. Whitespace, hyphens, and underscores are stripped before validation. */
-  gtin?: string;
+  gtin?: string | undefined;
   /** Manufacturer Part Number (MPN). Optional. Must be alphanumeric and 70 characters or fewer. Whitespace, hyphens, and underscores are stripped before validation. */
-  mpn?: string;
-  pricing?: FullProductPricing;
-  shippingMeasurements?: ProductMeasurements;
-  sku?: string;
-  stock?: ProductStock;
+  mpn?: string | undefined;
+  pricing?: FullProductPricing | undefined;
+  shippingMeasurements?: ProductMeasurements | undefined;
+  sku?: string | undefined;
+  stock?: ProductStock | undefined;
 }
 export type CreatePhysicalProductRequestVariantsList = Array<CreatePhysicalProductVariantRequest>;
 /** Request payload to create a PHYSICAL product. */
 export interface CreatePhysicalProductRequest {
-  description?: string;
-  isVisible?: boolean;
-  name?: string;
-  storePageId?: string;
-  tags?: CreatePhysicalProductRequestTagsList;
-  type?: string;
-  urlSlug?: string;
-  variantAttributes?: CreatePhysicalProductRequestVariantAttributesList;
-  variants?: CreatePhysicalProductRequestVariantsList;
+  description?: string | undefined;
+  isVisible?: boolean | undefined;
+  name?: string | undefined;
+  storePageId?: string | undefined;
+  tags?: CreatePhysicalProductRequestTagsList | undefined;
+  type?: string | undefined;
+  urlSlug?: string | undefined;
+  variantAttributes?: CreatePhysicalProductRequestVariantAttributesList | undefined;
+  variants?: CreatePhysicalProductRequestVariantsList | undefined;
 }
 export type CreateServiceProductRequestTagsList = Array<string>;
 export type CreateServiceProductRequestVariantAttributesList = Array<string>;
 export type CreateServiceProductVariantRequestAttributesMap = { [key: string]: string | undefined };
 export interface CreateServiceProductVariantRequest {
-  attributes?: CreateServiceProductVariantRequestAttributesMap;
-  pricing?: FullProductPricing;
-  sku?: string;
-  stock?: ProductStock;
+  attributes?: CreateServiceProductVariantRequestAttributesMap | undefined;
+  pricing?: FullProductPricing | undefined;
+  sku?: string | undefined;
+  stock?: ProductStock | undefined;
 }
 export type CreateServiceProductRequestVariantsList = Array<CreateServiceProductVariantRequest>;
 /** Request payload to create a SERVICE product. */
 export interface CreateServiceProductRequest {
-  description?: string;
-  isVisible?: boolean;
-  name?: string;
-  storePageId?: string;
-  tags?: CreateServiceProductRequestTagsList;
-  type?: string;
-  urlSlug?: string;
-  variantAttributes?: CreateServiceProductRequestVariantAttributesList;
-  variants?: CreateServiceProductRequestVariantsList;
+  description?: string | undefined;
+  isVisible?: boolean | undefined;
+  name?: string | undefined;
+  storePageId?: string | undefined;
+  tags?: CreateServiceProductRequestTagsList | undefined;
+  type?: string | undefined;
+  urlSlug?: string | undefined;
+  variantAttributes?: CreateServiceProductRequestVariantAttributesList | undefined;
+  variants?: CreateServiceProductRequestVariantsList | undefined;
 }
 export type CreateProductRequestBody =
   | CreateGiftCardProductRequest
@@ -1121,93 +1125,93 @@ export type ProductImageAvailableFormatsList = Array<string>;
 /** Product image assigned to the variant. */
 export interface ProductImage {
   /** Alt text for the image; impacts SEO and appears in search results. */
-  altText?: string;
+  altText?: string | undefined;
   /** Available image sizes. Use with `images.url` and a `format` query parameter to retrieve the image at a particular width. */
-  availableFormats?: ProductImageAvailableFormatsList;
+  availableFormats?: ProductImageAvailableFormatsList | undefined;
   /** Unique ProductImage id. */
-  id?: string;
+  id?: string | undefined;
   /** Position of the image in the product's image list. */
-  orderIndex?: number;
+  orderIndex?: number | undefined;
   /** Image size when first uploaded. */
-  originalSize?: unknown;
+  originalSize?: unknown | undefined;
   /** Absolute URL of the image hosted on Squarespace. */
-  url?: string;
+  url?: string | undefined;
 }
 export type ProductV2ImagesList = Array<ProductImage>;
 /** Options for search engine optimization. */
 export interface SeoOptions {
-  description?: string;
-  title?: string;
+  description?: string | undefined;
+  title?: string | undefined;
 }
 export type ProductV2TagsList = Array<string>;
 export type ProductTypeV2 = "PHYSICAL" | "SERVICE" | "GIFT_CARD" | "DIGITAL";
 export interface ProductV2 {
   createdOn: string;
-  description?: string;
+  description?: string | undefined;
   id: string;
-  images?: ProductV2ImagesList;
-  isVisible?: boolean;
+  images?: ProductV2ImagesList | undefined;
+  isVisible?: boolean | undefined;
   modifiedOn: string;
-  name?: string;
-  seoOptions?: SeoOptions;
+  name?: string | undefined;
+  seoOptions?: SeoOptions | undefined;
   storePageId: string;
-  tags?: ProductV2TagsList;
+  tags?: ProductV2TagsList | undefined;
   type: ProductTypeV2;
-  url?: string;
-  urlSlug?: string;
+  url?: string | undefined;
+  urlSlug?: string | undefined;
 }
 /** Specifies attribute-value pairs for the variant. 100 char limit per key and per value with no more than six key-value pairs. Supported for PHYSICAL products only. */
 export type CreateProductVariantRequestAttributesMap = { [key: string]: string | undefined };
 /** Present for DIGITAL products only. Digital products don't have variants, so pricing is at the product level. */
 export interface ProductPricing {
-  basePrice?: MonetaryAmount;
+  basePrice?: MonetaryAmount | undefined;
   /** Indicates whether the variant is sold according to its sale price. Present for PHYSICAL products only. */
-  onSale?: boolean;
-  salePrice?: MonetaryAmount;
+  onSale?: boolean | undefined;
+  salePrice?: MonetaryAmount | undefined;
 }
 export interface CreateProductVariantRequest {
   productId: string;
   /** Specifies attribute-value pairs for the variant. 100 char limit per key and per value with no more than six key-value pairs. Supported for PHYSICAL products only. */
-  attributes?: CreateProductVariantRequestAttributesMap;
+  attributes?: CreateProductVariantRequestAttributesMap | undefined;
   /** Global Trade Item Number (GTIN). Optional. Must be 8, 12, 13, or 14 numeric digits. Whitespace, hyphens, and underscores are stripped before validation. Supported for PHYSICAL products only. */
-  gtin?: string;
+  gtin?: string | undefined;
   /** Manufacturer Part Number (MPN). Optional. Must be alphanumeric and 70 characters or fewer. Whitespace, hyphens, and underscores are stripped before validation. Supported for PHYSICAL products only. */
-  mpn?: string;
+  mpn?: string | undefined;
   pricing: ProductPricing;
-  shippingMeasurements?: ProductMeasurements;
+  shippingMeasurements?: ProductMeasurements | undefined;
   /** Merchant-defined code that identifies the product variant. Value must be unique among variants. Leading and trailing whitespace is removed. */
   sku: string;
-  stock?: ProductStock;
+  stock?: ProductStock | undefined;
 }
 export type PhysicalProductVariantAttributesMap = { [key: string]: string | undefined };
 /** A variant of a PHYSICAL product. */
 export interface PhysicalProductVariant {
-  attributes?: PhysicalProductVariantAttributesMap;
-  gtin?: string;
-  id?: string;
-  image?: ProductImage;
-  mpn?: string;
-  pricing?: FullProductPricing;
-  shippingMeasurements?: ProductMeasurements;
-  sku?: string;
-  stock?: ProductStock;
+  attributes?: PhysicalProductVariantAttributesMap | undefined;
+  gtin?: string | undefined;
+  id?: string | undefined;
+  image?: ProductImage | undefined;
+  mpn?: string | undefined;
+  pricing?: FullProductPricing | undefined;
+  shippingMeasurements?: ProductMeasurements | undefined;
+  sku?: string | undefined;
+  stock?: ProductStock | undefined;
 }
 /** A variant of a GIFT_CARD product. */
 export interface GiftCardProductVariant {
-  id?: string;
-  image?: ProductImage;
-  pricing?: SimpleProductPricing;
-  sku?: string;
+  id?: string | undefined;
+  image?: ProductImage | undefined;
+  pricing?: SimpleProductPricing | undefined;
+  sku?: string | undefined;
 }
 export type ServiceProductVariantAttributesMap = { [key: string]: string | undefined };
 /** A variant of a SERVICE product. */
 export interface ServiceProductVariant {
-  attributes?: ServiceProductVariantAttributesMap;
-  id?: string;
-  image?: ProductImage;
-  pricing?: FullProductPricing;
-  sku?: string;
-  stock?: ProductStock;
+  attributes?: ServiceProductVariantAttributesMap | undefined;
+  id?: string | undefined;
+  image?: ProductImage | undefined;
+  pricing?: FullProductPricing | undefined;
+  sku?: string | undefined;
+  stock?: ProductStock | undefined;
 }
 /** A product variant. The shape depends on the product type. */
 export type ProductVariantV2 =
@@ -1233,7 +1237,7 @@ export interface CreateWebhookSubscriptionRequest {
   /** HTTPS URL to POST webhook notifications. */
   endpointUrl: string;
   /** List of event topics that trigger a webhook notification. */
-  topics?: CreateWebhookSubscriptionRequestTopicsList;
+  topics?: CreateWebhookSubscriptionRequestTopicsList | undefined;
 }
 /** Description of the event that triggered the notification. * `order.create` - always value for OrderCreatePayload.topic ref * `order.update` - always value for OrderUpdatePayload.topic * `extension.uninstall` - always value for ExtensionUninstallPayload.topic * `contact.create` - always value for ContactCreatePayload.topic * `contact.update` - always value for ContactUpdatePayload.topic * `contact.delete` - always value for ContactDeletePayload.topic * `address.create` - always value for AddressCreatePayload.topic * `address.update` - always value for AddressUpdatePayload.topic * `address.delete` - always value for AddressDeletePayload.topic */
 export type ExternalCreateWebhookSubscriptionResponseTopicsItem =
@@ -1261,7 +1265,7 @@ export interface ExternalCreateWebhookSubscriptionResponse {
   /** Hexadecimal value used to generate a signature for a webhook notification; field is only returned when creating a new subscription or rotating a secret. Store the secret in a safe location to verify notifications from Squarespace. See the 'Verifying notifications' guide under Webhooks for details. */
   secret: string | Redacted.Redacted<string>;
   /** List of event topics that trigger a webhook notification. */
-  topics?: ExternalCreateWebhookSubscriptionResponseTopicsList;
+  topics?: ExternalCreateWebhookSubscriptionResponseTopicsList | undefined;
   /** ISO 8601 UTC date and time string; represents when the webhook subscription was last modified. */
   updatedOn: string;
   /** Unique Webhook Subscription id. */
@@ -1309,36 +1313,36 @@ export interface FulfillOrderRequest {
   /** Specifies the Order to update. */
   id: string;
   /** Array of shipment data. */
-  shipments?: FulfillOrderRequestShipmentsList;
+  shipments?: FulfillOrderRequestShipmentsList | undefined;
   /** Indicates whether the customer should receive an email notification about the added shipments. */
-  shouldSendNotification?: boolean;
+  shouldSendNotification?: boolean | undefined;
 }
 export interface FulfillOrderResponse {}
 export interface GetAddressBookRequest {
   /** The contact's ID. */
   contactId: string;
   /** number of contacts to retrieve per request */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** where next page of results begins. should be {pagination.nextPageCursor} from previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** List of Address Book Entries */
 export type AddressBookAddressBookEntriesList = Array<AddressBookEntry>;
 /** Address settings for a contact. When there is at least one address book entry, exactly one is the default shipping address; default shipping address is always returned on the first page of paginated results). */
 export interface AddressBook {
   /** List of Address Book Entries */
-  addressBookEntries?: AddressBookAddressBookEntriesList;
+  addressBookEntries?: AddressBookAddressBookEntriesList | undefined;
   /** The id of the address book entry that is the default shipping address. */
-  defaultShippingAddressId?: string;
+  defaultShippingAddressId?: string | undefined;
 }
 export interface PaginationDetails {
-  hasNextPage?: boolean;
-  nextPageCursor?: string;
-  nextPageUrl?: string;
+  hasNextPage?: boolean | undefined;
+  nextPageCursor?: string | undefined;
+  nextPageUrl?: string | undefined;
 }
 export interface GetAddressBookResponse {
-  addressBook?: AddressBook;
-  pagination?: PaginationDetails;
+  addressBook?: AddressBook | undefined;
+  pagination?: PaginationDetails | undefined;
 }
 export interface GetAddressBookEntryRequest {
   /** The contact's ID. */
@@ -1347,20 +1351,20 @@ export interface GetAddressBookEntryRequest {
   addressBookEntryId: string;
 }
 export interface GetAddressBookEntryResponse {
-  addressBookEntry?: AddressBookEntry;
+  addressBookEntry?: AddressBookEntry | undefined;
 }
 export interface GetContactRequest {
   /** The contact's ID. */
   contactId: string;
 }
 export interface GetContactResponse {
-  contact?: Contact;
+  contact?: Contact | undefined;
 }
 export interface GetContactsRequest {
   /** number of contacts to retrieve per request */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** where next page of results begins. should be {pagination.nextPageCursor} from previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** paginated list of contacts retrieved */
 export type PaginatedGetContactsResponseContactsList = Array<Contact>;
@@ -1368,7 +1372,7 @@ export type PaginatedGetContactsResponsePagination = PaginationDetails;
 export interface PaginatedGetContactsResponse {
   /** paginated list of contacts retrieved */
   contacts: PaginatedGetContactsResponseContactsList;
-  pagination?: PaginationDetails;
+  pagination?: PaginationDetails | undefined;
 }
 export interface GetDiscountRequest {
   /** The discount's ID */
@@ -1380,11 +1384,11 @@ export interface GetDocumentsByIdRequest {
 }
 /** Array of discounts for an order payment transaction; empty for donations. */
 export interface TransactionDiscount {
-  amount?: MonetaryAmount;
+  amount?: MonetaryAmount | undefined;
   /** Discount description. */
-  description?: string;
+  description?: string | undefined;
   /** Discount name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Array of discounts for an order payment transaction; empty for donations. */
 export type TransactionDocumentDiscountsList = Array<TransactionDiscount>;
@@ -1395,106 +1399,106 @@ export type PaymentGatewayError =
   | "GATEWAY_DISCONNNECTED";
 /** Array of properties for the payment transaction provided by the payment gateway. Properties are listed in key/value pairs. */
 export interface ExternalTransactionProperty {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 /** Array of properties for the payment transaction provided by the payment gateway. Properties are listed in key/value pairs. */
 export type TransactionPaymentExternalTransactionPropertiesList =
   Array<ExternalTransactionProperty>;
 /** Array of processing fee refunds for the payment. */
 export interface TransactionProcessingFeeRefund {
-  amount?: MonetaryAmount;
-  amountGatewayCurrency?: MonetaryAmount;
+  amount?: MonetaryAmount | undefined;
+  amountGatewayCurrency?: MonetaryAmount | undefined;
   /** Foreign exchange rate between the payment gateway's and payment's currencies; determined when the payment is processed. */
-  exchangeRate?: number;
+  exchangeRate?: number | undefined;
   /** Unique id for the processing fee refund transaction provided by the payment gateway. */
-  externalTransactionId?: string;
+  externalTransactionId?: string | undefined;
   /** Unique processing fee refund id. */
-  id?: string;
+  id?: string | undefined;
   /** ISO 8601 UTC date and time string; represents when the processing fee refund was issued. */
-  refundedOn?: string;
+  refundedOn?: string | undefined;
 }
 /** Array of processing fee refunds for the payment. */
 export type TransactionProcessingFeeFeeRefundsList = Array<TransactionProcessingFeeRefund>;
 /** Array of processing fees associated with the payment. */
 export interface TransactionProcessingFee {
-  amount?: MonetaryAmount;
-  amountGatewayCurrency?: MonetaryAmount;
+  amount?: MonetaryAmount | undefined;
+  amountGatewayCurrency?: MonetaryAmount | undefined;
   /** Foreign exchange rate between the payment gateway's and payment's currencies; determined when the payment is processed. */
-  exchangeRate?: number;
+  exchangeRate?: number | undefined;
   /** Array of processing fee refunds for the payment. */
-  feeRefunds?: TransactionProcessingFeeFeeRefundsList;
+  feeRefunds?: TransactionProcessingFeeFeeRefundsList | undefined;
   /** Unique processing fee id. */
-  id?: string;
-  netAmount?: MonetaryAmount;
-  netAmountGatewayCurrency?: MonetaryAmount;
-  refundedAmount?: MonetaryAmount;
-  refundedAmountGatewayCurrency?: MonetaryAmount;
+  id?: string | undefined;
+  netAmount?: MonetaryAmount | undefined;
+  netAmountGatewayCurrency?: MonetaryAmount | undefined;
+  refundedAmount?: MonetaryAmount | undefined;
+  refundedAmountGatewayCurrency?: MonetaryAmount | undefined;
 }
 /** Array of processing fees associated with the payment. */
 export type TransactionPaymentProcessingFeesList = Array<TransactionProcessingFee>;
 /** Array of refunds for the payment transaction. */
 export interface TransactionRefund {
-  amount?: MonetaryAmount;
+  amount?: MonetaryAmount | undefined;
   /** Unique id for the refund transaction provided by the payment gateway. */
-  externalTransactionId?: string;
+  externalTransactionId?: string | undefined;
   /** Unique refund id. */
-  id?: string;
+  id?: string | undefined;
   /** ISO 8601 UTC date and time string; represents refund issue date. */
-  refundedOn?: string;
+  refundedOn?: string | undefined;
 }
 /** Array of refunds for the payment transaction. */
 export type TransactionPaymentRefundsList = Array<TransactionRefund>;
 /** Array of payment transactions for the order or donation. */
 export interface TransactionPayment {
-  amount?: MonetaryAmount;
+  amount?: MonetaryAmount | undefined;
   /** Payment credit card type; possible values: VISA, MASTERCARD, DISCOVER, AMEX, JCB, and OTHER. null if credit card processing isn't available for the payment gateway. */
-  creditCardType?: string;
+  creditCardType?: string | undefined;
   /** Unique customer id for the payment transaction provided by the payment gateway. Value is null if not available. */
-  externalCustomerId?: string;
+  externalCustomerId?: string | undefined;
   /** Unique id for the payment transaction provided by the payment gateway. */
-  externalTransactionId?: string;
+  externalTransactionId?: string | undefined;
   /** Array of properties for the payment transaction provided by the payment gateway. Properties are listed in key/value pairs. */
-  externalTransactionProperties?: TransactionPaymentExternalTransactionPropertiesList;
+  externalTransactionProperties?: TransactionPaymentExternalTransactionPropertiesList | undefined;
   /** Unique id for a Squarespace gift card. Value is null if a gift card was not used. */
-  giftCardId?: string;
+  giftCardId?: string | undefined;
   /** Unique payment id. */
-  id?: string;
-  netAmount?: MonetaryAmount;
+  id?: string | undefined;
+  netAmount?: MonetaryAmount | undefined;
   /** ISO 8601 UTC date and time string; represents when the payment was made. */
-  paidOn?: string;
+  paidOn?: string | undefined;
   /** Array of processing fees associated with the payment. */
-  processingFees?: TransactionPaymentProcessingFeesList;
+  processingFees?: TransactionPaymentProcessingFeesList | undefined;
   /** Payment gateway used for processing. */
-  provider?: string;
-  refundedAmount?: MonetaryAmount;
+  provider?: string | undefined;
+  refundedAmount?: MonetaryAmount | undefined;
   /** Array of refunds for the payment transaction. */
-  refunds?: TransactionPaymentRefundsList;
+  refunds?: TransactionPaymentRefundsList | undefined;
 }
 /** Array of payment transactions for the order or donation. */
 export type TransactionDocumentPaymentsList = Array<TransactionPayment>;
 /** Array of taxes for the shipping line item. */
 export interface TransactionTax {
-  amount?: MonetaryAmount;
+  amount?: MonetaryAmount | undefined;
   /** Tax jurisdiction in COUNTRY:{value},STATE:{value},LOCAL:{value} format. Examples: COUNTRY:US, COUNTRY:US,STATE:NY, and COUNTRY:US,STATE:NY,LOCAL:10001. */
-  jurisdiction?: string;
+  jurisdiction?: string | undefined;
   /** Tax classification as defined by the Squarespace merchant. */
-  name?: string;
+  name?: string | undefined;
   /** Tax rate as a percent. For example, a value of 7.00 is a 7% tax. */
-  rate?: string;
+  rate?: string | undefined;
 }
 /** Array of taxes for the sale item. */
 export type TransactionSalesLineItemTaxesList = Array<TransactionTax>;
 /** Array of sales items for an order payment transaction; empty for donations. */
 export interface TransactionSalesLineItem {
-  discountAmount?: MonetaryAmount;
+  discountAmount?: MonetaryAmount | undefined;
   /** Unique id for the sales item. */
-  id?: string;
+  id?: string | undefined;
   /** Array of taxes for the sale item. */
-  taxes?: TransactionSalesLineItemTaxesList;
-  total?: MonetaryAmount;
-  totalNetSales?: MonetaryAmount;
-  totalSales?: MonetaryAmount;
+  taxes?: TransactionSalesLineItemTaxesList | undefined;
+  total?: MonetaryAmount | undefined;
+  totalNetSales?: MonetaryAmount | undefined;
+  totalSales?: MonetaryAmount | undefined;
 }
 /** Array of sales items for an order payment transaction; empty for donations. */
 export type TransactionDocumentSalesLineItemsList = Array<TransactionSalesLineItem>;
@@ -1502,62 +1506,62 @@ export type TransactionDocumentSalesLineItemsList = Array<TransactionSalesLineIt
 export type TransactionShippingLineItemTaxesList = Array<TransactionTax>;
 /** Array of shipping line items. */
 export interface TransactionShippingLineItem {
-  amount?: MonetaryAmount;
+  amount?: MonetaryAmount | undefined;
   /** Description of the shipping line item as defined by the Squarespace merchant. */
-  description?: string;
-  discountAmount?: MonetaryAmount;
+  description?: string | undefined;
+  discountAmount?: MonetaryAmount | undefined;
   /** Unique id for the shipping line item. */
-  id?: string;
-  netAmount?: MonetaryAmount;
+  id?: string | undefined;
+  netAmount?: MonetaryAmount | undefined;
   /** Array of taxes for the shipping line item. */
-  taxes?: TransactionShippingLineItemTaxesList;
+  taxes?: TransactionShippingLineItemTaxesList | undefined;
 }
 /** Array of shipping line items. */
 export type TransactionDocumentShippingLineItemsList = Array<TransactionShippingLineItem>;
 /** Array of Document resources. */
 export interface TransactionDocument {
   /** ISO 8601 UTC date and time string; represents when the Document was created. */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** Customer or donor email address. May be null for point of sale orders because email wasn't collected. */
-  customerEmail?: string;
+  customerEmail?: string | undefined;
   /** Array of discounts for an order payment transaction; empty for donations. */
-  discounts?: TransactionDocumentDiscountsList;
+  discounts?: TransactionDocumentDiscountsList | undefined;
   /** Unique Document id. */
-  id?: string;
+  id?: string | undefined;
   /** ISO 8601 UTC date and time string; represents when the Document was last modified. */
-  modifiedOn?: string;
-  paymentGatewayError?: PaymentGatewayError;
+  modifiedOn?: string | undefined;
+  paymentGatewayError?: PaymentGatewayError | undefined;
   /** Array of payment transactions for the order or donation. */
-  payments?: TransactionDocumentPaymentsList;
+  payments?: TransactionDocumentPaymentsList | undefined;
   /** Array of sales items for an order payment transaction; empty for donations. */
-  salesLineItems?: TransactionDocumentSalesLineItemsList;
+  salesLineItems?: TransactionDocumentSalesLineItemsList | undefined;
   /** Unique order id; not applicable if payment transaction is a donation. */
-  salesOrderId?: string;
+  salesOrderId?: string | undefined;
   /** Array of shipping line items. */
-  shippingLineItems?: TransactionDocumentShippingLineItemsList;
-  total?: MonetaryAmount;
-  totalNetPayment?: MonetaryAmount;
-  totalNetSales?: MonetaryAmount;
-  totalNetShipping?: MonetaryAmount;
-  totalSales?: MonetaryAmount;
-  totalTaxes?: MonetaryAmount;
+  shippingLineItems?: TransactionDocumentShippingLineItemsList | undefined;
+  total?: MonetaryAmount | undefined;
+  totalNetPayment?: MonetaryAmount | undefined;
+  totalNetSales?: MonetaryAmount | undefined;
+  totalNetShipping?: MonetaryAmount | undefined;
+  totalSales?: MonetaryAmount | undefined;
+  totalTaxes?: MonetaryAmount | undefined;
   /** Flag; indicates order cancellation. */
-  voided?: boolean;
+  voided?: boolean | undefined;
 }
 /** Array of Document resources. */
 export type TransactionListResponseDocumentsList = Array<TransactionDocument>;
 export interface TransactionListResponse {
   /** Array of Document resources. */
-  documents?: TransactionListResponseDocumentsList;
+  documents?: TransactionListResponseDocumentsList | undefined;
 }
 export interface GetDocumentsByUpdatedOnRequest {
   /** Identifies where the next page of results should begin. Should be the value of pagination.nextPageCursor from a previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Time-boxes the request to Documents that were modified after a given ISO 8601 UTC date and time string (YYYY-MM-DDThh:mm:ss.sZ). */
-  modifiedAfter?: string;
+  modifiedAfter?: string | undefined;
   /** Time-boxes the request to Documents that were modified before a given ISO 8601 UTC date and time string (YYYY-MM-DDThh:mm:ss.sZ). */
-  modifiedBefore?: string;
-  orderId?: string;
+  modifiedBefore?: string | undefined;
+  orderId?: string | undefined;
 }
 /** Array of Document resources. If the merchant site doesn't have any payment transactions for orders or donations, this array is empty. */
 export type PaginatedTransactionListResponseDocumentsList = Array<TransactionDocument>;
@@ -1565,7 +1569,7 @@ export type PaginatedTransactionListResponsePagination = PaginationDetails;
 export interface PaginatedTransactionListResponse {
   /** Array of Document resources. If the merchant site doesn't have any payment transactions for orders or donations, this array is empty. */
   documents: PaginatedTransactionListResponseDocumentsList;
-  pagination?: PaginationDetails;
+  pagination?: PaginationDetails | undefined;
 }
 export interface GetFulfillmentOptionsRequest {}
 /** Carrier service identifier and display name. */
@@ -1599,20 +1603,20 @@ export interface FulfillmentOptionsList {
 }
 export interface GetInventoryItemsRequest {
   /** Identifies where the next page of results should begin. Should be the value of pagination.nextPageCursor from a previous response. If not present or empty, the endpoint returns up to 50 InventoryItems. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** Array of InventoryItem resources. If the merchant site doesn't have any physical or service products, this array is empty. */
 export interface InventoryItem {
   /** Generated description using the product's title and any available variant attributes including, but not limited to, color and size. */
-  descriptor?: string;
+  descriptor?: string | undefined;
   /** Indicates whether stock is currently tracked for the item. */
-  isUnlimited?: boolean;
+  isUnlimited?: boolean | undefined;
   /** Current amount in stock, or the last known stock amount prior to becoming unlimited. This value is modified by purchases and returns only when `isUnlimited` is `false`. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Stock keeping unit (SKU) code assigned by the Squarespace merchant for the variant; used to identify an exact variant of a product using a naming scheme preferred by the merchant. */
-  sku?: string;
+  sku?: string | undefined;
   /** The product variant id, which also serves as a unique id for the InventoryItem. */
-  variantId?: string;
+  variantId?: string | undefined;
 }
 /** Array of InventoryItem resources. If the merchant site doesn't have any physical or service product variants, this array is empty. */
 export type PaginatedInventoryItemListResponseInventoryList = Array<InventoryItem>;
@@ -1620,18 +1624,18 @@ export type PaginatedInventoryItemListResponsePagination = PaginationDetails;
 export interface PaginatedInventoryItemListResponse {
   /** Array of InventoryItem resources. If the merchant site doesn't have any physical or service product variants, this array is empty. */
   inventory: PaginatedInventoryItemListResponseInventoryList;
-  pagination?: PaginationDetails;
+  pagination?: PaginationDetails | undefined;
 }
 export interface GetMemberProfileRequest {}
 export interface MemberProfile {
   /** Profile email address. */
-  email?: string;
+  email?: string | undefined;
   /** Profile first name. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Unique Profile id. */
-  id?: string;
+  id?: string | undefined;
   /** Profile last name. */
-  lastName?: string;
+  lastName?: string | undefined;
 }
 export interface GetOrderRequest {
   /** Specifies the Order to retrieve. */
@@ -1639,22 +1643,22 @@ export interface GetOrderRequest {
 }
 export interface GetOrdersRequest {
   /** Used to filter Orders by Customer ID. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Time-boxes the request to Orders that were modified after a given ISO 8601 UTC date and time string (YYYY-MM-DDThh:mm:ss.sZ). Required when modifiedBefore is passed; cannot be used with cursor. */
-  modifiedAfter?: string;
+  modifiedAfter?: string | undefined;
   /** Time-boxes the request to Orders that were modified before a given ISO 8601 UTC date and time string (YYYY-MM-DDThh:mm:ss.sZ). Required when modifiedAfter is passed; cannot be used with cursor. */
-  modifiedBefore?: string;
+  modifiedBefore?: string | undefined;
   /** Identifies where the next page of results should begin. Should be the value of pagination.nextPageCursor from a previous response. Cannot be used with other parameters. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Used to filter Orders by fulfillment status. Values may be PENDING, FULFILLED, or CANCELED. */
-  fulfillmentStatus?: string;
+  fulfillmentStatus?: string | undefined;
   /** Used to filter Orders by payment state. Accepts a comma-separated list of values. Possible values are: NOT_CHARGED, AUTHORIZED, PAID, REFUNDED, PENDING, FAILED, REFUND_PENDING, REFUND_FAILED, PARTIALLY_PAID. If not specified, defaults to NOT_CHARGED, AUTHORIZED, PAID, and REFUNDED. */
-  paymentStates?: string;
+  paymentStates?: string | undefined;
 }
 export type OrderListResponsePagination = PaginationDetails;
 export type OrderListResponseResultList = Array<Order>;
 export interface OrderListResponse {
-  pagination?: PaginationDetails;
+  pagination?: PaginationDetails | undefined;
   result: OrderListResponseResultList;
 }
 export interface GetProductImageProcessingStatusRequest {
@@ -1663,16 +1667,16 @@ export interface GetProductImageProcessingStatusRequest {
 }
 export type ImageProcessingStatus = "QUEUED" | "PROCESSING" | "READY" | "ERROR";
 export interface ProductImageProcessingStatus {
-  id?: string;
-  status?: ImageProcessingStatus;
+  id?: string | undefined;
+  status?: ImageProcessingStatus | undefined;
 }
 export type GetProductsRequestTypeList = Array<string>;
 export interface GetProductsRequest {
-  modifiedAfter?: string;
-  modifiedBefore?: string;
-  cursor?: string;
-  query?: string;
-  type?: GetProductsRequestTypeList;
+  modifiedAfter?: string | undefined;
+  modifiedBefore?: string | undefined;
+  cursor?: string | undefined;
+  query?: string | undefined;
+  type?: GetProductsRequestTypeList | undefined;
 }
 export type PaginatedProductListResponseV2Pagination = PaginationDetails;
 export type DigitalProductImagesList = Array<ProductImage>;
@@ -1680,27 +1684,27 @@ export type DigitalProductTagsList = Array<string>;
 /** Present for DIGITAL products only. */
 export interface DigitalGood {
   /** Filename of the downloadable file. */
-  filename?: string;
+  filename?: string | undefined;
   /** Unique DigitalGood id. */
-  id?: string;
+  id?: string | undefined;
 }
 /** A DIGITAL product. */
 export interface DigitalProduct {
   createdOn: string;
-  description?: string;
+  description?: string | undefined;
   id: string;
-  images?: DigitalProductImagesList;
-  isVisible?: boolean;
+  images?: DigitalProductImagesList | undefined;
+  isVisible?: boolean | undefined;
   modifiedOn: string;
-  name?: string;
-  seoOptions?: SeoOptions;
+  name?: string | undefined;
+  seoOptions?: SeoOptions | undefined;
   storePageId: string;
-  tags?: DigitalProductTagsList;
+  tags?: DigitalProductTagsList | undefined;
   type: ProductTypeV2;
-  url?: string;
-  urlSlug?: string;
-  digitalGood?: DigitalGood;
-  pricing?: ProductPricing;
+  url?: string | undefined;
+  urlSlug?: string | undefined;
+  digitalGood?: DigitalGood | undefined;
+  pricing?: ProductPricing | undefined;
 }
 export type GiftCardProductImagesList = Array<ProductImage>;
 export type GiftCardProductTagsList = Array<string>;
@@ -1708,19 +1712,19 @@ export type GiftCardProductVariantsList = Array<GiftCardProductVariant>;
 /** A GIFT_CARD product. */
 export interface GiftCardProduct {
   createdOn: string;
-  description?: string;
+  description?: string | undefined;
   id: string;
-  images?: GiftCardProductImagesList;
-  isVisible?: boolean;
+  images?: GiftCardProductImagesList | undefined;
+  isVisible?: boolean | undefined;
   modifiedOn: string;
-  name?: string;
-  seoOptions?: SeoOptions;
+  name?: string | undefined;
+  seoOptions?: SeoOptions | undefined;
   storePageId: string;
-  tags?: GiftCardProductTagsList;
+  tags?: GiftCardProductTagsList | undefined;
   type: ProductTypeV2;
-  url?: string;
-  urlSlug?: string;
-  variants?: GiftCardProductVariantsList;
+  url?: string | undefined;
+  urlSlug?: string | undefined;
+  variants?: GiftCardProductVariantsList | undefined;
 }
 export type PhysicalProductImagesList = Array<ProductImage>;
 export type PhysicalProductTagsList = Array<string>;
@@ -1729,20 +1733,20 @@ export type PhysicalProductVariantsList = Array<PhysicalProductVariant>;
 /** A PHYSICAL product. */
 export interface PhysicalProduct {
   createdOn: string;
-  description?: string;
+  description?: string | undefined;
   id: string;
-  images?: PhysicalProductImagesList;
-  isVisible?: boolean;
+  images?: PhysicalProductImagesList | undefined;
+  isVisible?: boolean | undefined;
   modifiedOn: string;
-  name?: string;
-  seoOptions?: SeoOptions;
+  name?: string | undefined;
+  seoOptions?: SeoOptions | undefined;
   storePageId: string;
-  tags?: PhysicalProductTagsList;
+  tags?: PhysicalProductTagsList | undefined;
   type: ProductTypeV2;
-  url?: string;
-  urlSlug?: string;
-  variantAttributes?: PhysicalProductVariantAttributesList;
-  variants?: PhysicalProductVariantsList;
+  url?: string | undefined;
+  urlSlug?: string | undefined;
+  variantAttributes?: PhysicalProductVariantAttributesList | undefined;
+  variants?: PhysicalProductVariantsList | undefined;
 }
 export type ServiceProductImagesList = Array<ProductImage>;
 export type ServiceProductTagsList = Array<string>;
@@ -1751,20 +1755,20 @@ export type ServiceProductVariantsList = Array<ServiceProductVariant>;
 /** A SERVICE product. */
 export interface ServiceProduct {
   createdOn: string;
-  description?: string;
+  description?: string | undefined;
   id: string;
-  images?: ServiceProductImagesList;
-  isVisible?: boolean;
+  images?: ServiceProductImagesList | undefined;
+  isVisible?: boolean | undefined;
   modifiedOn: string;
-  name?: string;
-  seoOptions?: SeoOptions;
+  name?: string | undefined;
+  seoOptions?: SeoOptions | undefined;
   storePageId: string;
-  tags?: ServiceProductTagsList;
+  tags?: ServiceProductTagsList | undefined;
   type: ProductTypeV2;
-  url?: string;
-  urlSlug?: string;
-  variantAttributes?: ServiceProductVariantAttributesList;
-  variants?: ServiceProductVariantsList;
+  url?: string | undefined;
+  urlSlug?: string | undefined;
+  variantAttributes?: ServiceProductVariantAttributesList | undefined;
+  variants?: ServiceProductVariantsList | undefined;
 }
 export type PaginatedProductListResponseV2ProductsItem =
   | DigitalProduct
@@ -1774,63 +1778,63 @@ export type PaginatedProductListResponseV2ProductsItem =
 export type PaginatedProductListResponseV2ProductsList =
   Array<PaginatedProductListResponseV2ProductsItem>;
 export interface PaginatedProductListResponseV2 {
-  pagination?: PaginationDetails;
+  pagination?: PaginationDetails | undefined;
   products: PaginatedProductListResponseV2ProductsList;
 }
 export interface GetProfilesRequest {
   /** Identifies the sort direction of the result list; asc for ascending or dsc for descending. If not specified, the returned list is in descending order. */
-  sortDirection?: string;
+  sortDirection?: string | undefined;
   /** Identifies the sort field of the result list. Values include: createdOn, id, email, or lastName. If not specified, the returned list is sorted by id. */
-  sortField?: string;
+  sortField?: string | undefined;
   /** Semicolon separated list used to filter profile results. Values include: isCustomer and/or hasAccount, or email. The email filter cannot be used with isCustomer or hasAccount. */
-  filter?: string;
+  filter?: string | undefined;
   /** Email address filter (URL-encoded, case insensitive). */
-  email?: string;
+  email?: string | undefined;
   /** Identifies where the next page of results should begin. Should be the value of pagination.nextPageCursor from a previous response. Cannot be used with other parameters. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type PaginatedProfileListResponsePagination = PaginationDetails;
 /** Summary of profile's commerce transactions. If a profile has no commerce transactions, the object is still returned with null or 0 values. This information is calculated asynchronously; there may be a slight delay between when an order is created, and when it's reflected in the object. */
 export interface TransactionsSummary {
   /** Count of donations submitted. */
-  donationCount?: number;
+  donationCount?: number | undefined;
   /** ISO 8601 UTC date and time string; represents when the profile's first donation was submitted. */
-  firstDonationSubmittedOn?: string;
+  firstDonationSubmittedOn?: string | undefined;
   /** ISO 8601 UTC date and time string; represents when the profile's first order was submitted. */
-  firstOrderSubmittedOn?: string;
+  firstOrderSubmittedOn?: string | undefined;
   /** ISO 8601 UTC date and time string; represents when the profile's latest donation was submitted. */
-  lastDonationSubmittedOn?: string;
+  lastDonationSubmittedOn?: string | undefined;
   /** ISO 8601 UTC date and time string; represents when the profile's latest order was submitted. */
-  lastOrderSubmittedOn?: string;
+  lastOrderSubmittedOn?: string | undefined;
   /** Count of orders submitted. */
-  orderCount?: number;
-  totalDonationAmount?: MonetaryAmount;
-  totalOrderAmount?: MonetaryAmount;
-  totalRefundAmount?: MonetaryAmount;
+  orderCount?: number | undefined;
+  totalDonationAmount?: MonetaryAmount | undefined;
+  totalOrderAmount?: MonetaryAmount | undefined;
+  totalRefundAmount?: MonetaryAmount | undefined;
 }
 export interface Profile {
   /** Indicates whether the profile opted to receive marketing. */
-  acceptsMarketing?: boolean;
-  address?: Address;
+  acceptsMarketing?: boolean | undefined;
+  address?: Address | undefined;
   /** ISO 8601 UTC date and time string; represents when the profile was created. */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** Profile email address. */
-  email?: string;
+  email?: string | undefined;
   /** Profile first name. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Indicates whether the profile has an account with the website. */
-  hasAccount?: boolean;
+  hasAccount?: boolean | undefined;
   /** Unique Profile id. */
-  id?: string;
+  id?: string | undefined;
   /** Indicates whether the profile has any commerce orders or donations with the website. */
-  isCustomer?: boolean;
+  isCustomer?: boolean | undefined;
   /** Profile last name. */
-  lastName?: string;
-  transactionsSummary?: TransactionsSummary;
+  lastName?: string | undefined;
+  transactionsSummary?: TransactionsSummary | undefined;
 }
 export type PaginatedProfileListResponseProfilesList = Array<Profile>;
 export interface PaginatedProfileListResponse {
-  pagination?: PaginationDetails;
+  pagination?: PaginationDetails | undefined;
   profiles: PaginatedProfileListResponseProfilesList;
 }
 export interface GetSpecificInventoryItemsRequest {
@@ -1841,7 +1845,7 @@ export interface GetSpecificInventoryItemsRequest {
 export type InventoryItemListResponseInventoryList = Array<InventoryItem>;
 export interface InventoryItemListResponse {
   /** Array of InventoryItem resources. If the merchant site doesn't have any physical or service products, this array is empty. */
-  inventory?: InventoryItemListResponseInventoryList;
+  inventory?: InventoryItemListResponseInventoryList | undefined;
 }
 export interface GetSpecificProductsRequest {
   productIdCsvs: string;
@@ -1853,7 +1857,7 @@ export type ProductListResponseV2ProductsItem =
   | ServiceProduct;
 export type ProductListResponseV2ProductsList = Array<ProductListResponseV2ProductsItem>;
 export interface ProductListResponseV2 {
-  products?: ProductListResponseV2ProductsList;
+  products?: ProductListResponseV2ProductsList | undefined;
 }
 export interface GetSpecificProfilesRequest {
   /** Specifies the profiles to retrieve. Multiple Profiles can be retrieved by providing a comma-separated list of profile ids. */
@@ -1861,21 +1865,21 @@ export interface GetSpecificProfilesRequest {
 }
 export type ProfileListResponseProfilesList = Array<Profile>;
 export interface ProfileListResponse {
-  profiles?: ProfileListResponseProfilesList;
+  profiles?: ProfileListResponseProfilesList | undefined;
 }
 export interface GetStorePagesRequest {
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type PaginatedStorePagesResponsePagination = PaginationDetails;
 export interface StorePage {
-  id?: string;
-  isEnabled?: boolean;
-  title?: string;
-  urlSlug?: string;
+  id?: string | undefined;
+  isEnabled?: boolean | undefined;
+  title?: string | undefined;
+  urlSlug?: string | undefined;
 }
 export type PaginatedStorePagesResponseStorePagesList = Array<StorePage>;
 export interface PaginatedStorePagesResponse {
-  pagination?: PaginationDetails;
+  pagination?: PaginationDetails | undefined;
   storePages: PaginatedStorePagesResponseStorePagesList;
 }
 export type GetTransactionsSummariesRequestContactIdsList = Array<string>;
@@ -1889,15 +1893,17 @@ export interface GetTransactionsSummariesRequest {
 /** List of transaction summary wrappers */
 export interface TransactionsSummaryWrapper {
   /** Unique contact identifier */
-  contactId?: string;
-  transactionsSummary?: TransactionsSummary;
+  contactId?: string | undefined;
+  transactionsSummary?: TransactionsSummary | undefined;
 }
 /** List of transaction summary wrappers */
 export type RetrieveTransactionsSummariesResponseTransactionsSummaryWrappersList =
   Array<TransactionsSummaryWrapper>;
 export interface RetrieveTransactionsSummariesResponse {
   /** List of transaction summary wrappers */
-  transactionsSummaryWrappers?: RetrieveTransactionsSummariesResponseTransactionsSummaryWrappersList;
+  transactionsSummaryWrappers?:
+    | RetrieveTransactionsSummariesResponseTransactionsSummaryWrappersList
+    | undefined;
 }
 export interface GetWebhookSubscriptionRequest {
   /** Specifies the Webhook Subscription to retrieve. */
@@ -1907,19 +1913,19 @@ export interface GetWebhookSubscriptionRequest {
 export type ExternalWebhookSubscriptionResponseTopicsList = Array<string>;
 export interface ExternalWebhookSubscriptionResponse {
   /** Third-party client id. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** ISO 8601 UTC date and time string; represents when the webhook subscription was created. */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** HTTPS URL that receives webhook notifications. */
-  endpointUrl?: string;
+  endpointUrl?: string | undefined;
   /** Unique Webhook Subscription id. */
-  id?: string;
+  id?: string | undefined;
   /** List of event topics that trigger a webhook notification. Possible values include: extension.uninstall, order.create, order.update. */
-  topics?: ExternalWebhookSubscriptionResponseTopicsList;
+  topics?: ExternalWebhookSubscriptionResponseTopicsList | undefined;
   /** ISO 8601 UTC date and time string; represents when the webhook subscription was last modified. */
-  updatedOn?: string;
+  updatedOn?: string | undefined;
   /** Unique website id. */
-  websiteId?: string;
+  websiteId?: string | undefined;
 }
 export interface GetWebhookSubscriptionsRequest {}
 /** Array of Webhook Subscription resources. If the merchant site doesn't have any webhook subscriptions, this array is empty. */
@@ -1927,24 +1933,26 @@ export type ExternalWebhookSubscriptionListResponseWebhookSubscriptionsList =
   Array<ExternalWebhookSubscriptionResponse>;
 export interface ExternalWebhookSubscriptionListResponse {
   /** Array of Webhook Subscription resources. If the merchant site doesn't have any webhook subscriptions, this array is empty. */
-  webhookSubscriptions?: ExternalWebhookSubscriptionListResponseWebhookSubscriptionsList;
+  webhookSubscriptions?:
+    | ExternalWebhookSubscriptionListResponseWebhookSubscriptionsList
+    | undefined;
 }
 export interface GetWebsiteProfileRequest {}
 export interface Location {
-  country?: string;
-  region?: string;
+  country?: string | undefined;
+  region?: string | undefined;
 }
 export type MeasurementStandard = "IMPERIAL" | "METRIC";
 export interface WebsiteProfile {
-  currency?: string;
-  id?: string;
-  language?: string;
-  location?: Location;
-  measurementStandard?: MeasurementStandard;
-  siteId?: string;
-  timeZone?: string;
-  title?: string;
-  url?: string;
+  currency?: string | undefined;
+  id?: string | undefined;
+  language?: string | undefined;
+  location?: Location | undefined;
+  measurementStandard?: MeasurementStandard | undefined;
+  siteId?: string | undefined;
+  timeZone?: string | undefined;
+  title?: string | undefined;
+  url?: string | undefined;
 }
 export type ListDiscountsRequestSortBy = "CREATED_ON" | "PROMO_CODE" | "USES_COUNT";
 export type ListDiscountsRequestSortDirection = "ASCENDING" | "DESCENDING";
@@ -1969,25 +1977,25 @@ export type ListDiscountsRequestTemplateList = Array<
 export type ListDiscountsRequestTrigger = "AUTO" | "CODE";
 export interface ListDiscountsRequest {
   /** Sort field for the result set. */
-  sortBy?: ListDiscountsRequestSortBy | (string & {});
+  sortBy?: ListDiscountsRequestSortBy | (string & {}) | undefined;
   /** Sort direction. */
-  sortDirection?: ListDiscountsRequestSortDirection | (string & {});
+  sortDirection?: ListDiscountsRequestSortDirection | (string & {}) | undefined;
   /** Free-text search across a discount's name and promo code. */
-  search?: string;
+  search?: string | undefined;
   /** Filter by discount lifecycle status. */
-  status?: ListDiscountsRequestStatus | (string & {});
+  status?: ListDiscountsRequestStatus | (string & {}) | undefined;
   /** Filter by one or more criteria types (comma-separated). When omitted, defaults to all allowable values. */
-  criteria?: ListDiscountsRequestCriteriaList;
+  criteria?: ListDiscountsRequestCriteriaList | undefined;
   /** Filter by one or more template types (comma-separated). When omitted, defaults to all allowable values. */
-  template?: ListDiscountsRequestTemplateList;
+  template?: ListDiscountsRequestTemplateList | undefined;
   /** Filter by one or more trigger types (comma-separated): AUTO (auto-applied) or CODE (promo code). When omitted, or when all allowable values are supplied, defaults to all allowable values. */
-  trigger?: ListDiscountsRequestTrigger | (string & {});
+  trigger?: ListDiscountsRequestTrigger | (string & {}) | undefined;
   /** When true, only discounts with limited-use semantics (per product rules) are returned. */
-  limitedUseOnly?: boolean;
+  limitedUseOnly?: boolean | undefined;
   /** Zero-based offset into the result set. Must be non-negative. Default 0. */
-  offset?: number;
+  offset?: number | undefined;
   /** Page size (1-1000; default 50). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Discounts for this page. */
 export type PaginatedDiscountListResponseDiscountsList = Array<Discount>;
@@ -1996,29 +2004,29 @@ export interface PaginatedDiscountListResponse {
   /** Discounts for this page. */
   discounts: PaginatedDiscountListResponseDiscountsList;
   /** True when more results exist after the current window. */
-  hasNextPage?: boolean;
+  hasNextPage?: boolean | undefined;
   /** True when a page of results exists before the current window. */
-  hasPreviousPage?: boolean;
+  hasPreviousPage?: boolean | undefined;
 }
 /** Object for filtering by before and after dates */
 export interface DateFilter {
   /** Filter out any dates after */
-  after?: string;
+  after?: string | undefined;
   /** Filter out any dates before */
-  before?: string;
+  before?: string | undefined;
 }
 /** Contact's marketing settings with joined on date */
 export interface AcceptsMarketingWithDate {
   /** If contact's email accepts marketing */
-  acceptsMarketing?: boolean;
-  joinedOn?: DateFilter;
+  acceptsMarketing?: boolean | undefined;
+  joinedOn?: DateFilter | undefined;
 }
 /** Object for filtering by a min and max integer */
 export interface IntegerFilter {
   /** Filter out any numbers greater */
-  max?: number;
+  max?: number | undefined;
   /** Filter out any numbers lower */
-  min?: number;
+  min?: number | undefined;
 }
 /** Direction to sort results, ASCENDING or DESCENDING */
 export type QueryContactsRequestSortDirection = "ASCENDING" | "DESCENDING";
@@ -2037,25 +2045,25 @@ export type QueryContactsRequestSortField =
   | "LAST_DONATION_ON"
   | "DONATION_AMOUNT";
 export interface QueryContactsRequest {
-  acceptsMarketingWithDate?: AcceptsMarketingWithDate;
+  acceptsMarketingWithDate?: AcceptsMarketingWithDate | undefined;
   /** The cursor for the next page of results. Use the value of `pagination.nextPageCursor` from the previous response. */
-  cursor?: string;
-  donationAmount?: IntegerFilter;
-  donationCount?: IntegerFilter;
-  firstDonationOn?: DateFilter;
-  firstOrderOn?: DateFilter;
-  lastDonationOn?: DateFilter;
-  lastOrderOn?: DateFilter;
-  orderAmount?: IntegerFilter;
-  orderCount?: IntegerFilter;
+  cursor?: string | undefined;
+  donationAmount?: IntegerFilter | undefined;
+  donationCount?: IntegerFilter | undefined;
+  firstDonationOn?: DateFilter | undefined;
+  firstOrderOn?: DateFilter | undefined;
+  lastDonationOn?: DateFilter | undefined;
+  lastOrderOn?: DateFilter | undefined;
+  orderAmount?: IntegerFilter | undefined;
+  orderCount?: IntegerFilter | undefined;
   /** The number of contacts to return per request. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Search string for Name and Email address */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Direction to sort results, ASCENDING or DESCENDING */
-  sortDirection?: QueryContactsRequestSortDirection | (string & {});
+  sortDirection?: QueryContactsRequestSortDirection | (string & {}) | undefined;
   /** Field to sort results by */
-  sortField?: QueryContactsRequestSortField | (string & {});
+  sortField?: QueryContactsRequestSortField | (string & {}) | undefined;
 }
 /** paginated list of contacts retrieved */
 export type PaginatedQueryContactsResponseContactsList = Array<Contact>;
@@ -2063,7 +2071,7 @@ export type PaginatedQueryContactsResponsePagination = PaginationDetails;
 export interface PaginatedQueryContactsResponse {
   /** paginated list of contacts retrieved */
   contacts: PaginatedQueryContactsResponseContactsList;
-  pagination?: PaginationDetails;
+  pagination?: PaginationDetails | undefined;
 }
 export interface RotateSubscriptionSecretRequest {
   /** Specifies the Webhook Subscription to update. */
@@ -2071,7 +2079,7 @@ export interface RotateSubscriptionSecretRequest {
 }
 export interface ExternalRotateSecretResponse {
   /** Hexadecimal value used to generate a signature for a webhook notification; field is only returned when creating a new subscription or rotating a secret. Store the secret in a safe location to verify notifications from Squarespace. */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface SendTestNotificationForWebhookSubscriptionRequest {
   /** Specifies the Webhook Subscription to send a notification to. */
@@ -2081,7 +2089,7 @@ export interface SendTestNotificationForWebhookSubscriptionRequest {
 }
 export interface ExternalTestNotificationResponse {
   /** Status code returned by the subscribed webhook endpoint. */
-  statusCode?: number;
+  statusCode?: number | undefined;
 }
 export interface UpdateAddressBookEntryRequest {
   /** The contact's ID. */
@@ -2090,17 +2098,17 @@ export interface UpdateAddressBookEntryRequest {
   addressBookEntryId: string;
   address: ContactAddress;
   /** Whether this entry should be the default shipping address. When updating the entry that is currently the default, changing this value from true to false has no effect. */
-  defaultShipping?: boolean;
+  defaultShipping?: boolean | undefined;
 }
 export interface UpdateAddressBookEntryResponse {
-  addressBookEntry?: AddressBookEntry;
+  addressBookEntry?: AddressBookEntry | undefined;
 }
 export interface UpdateContactRequest {
   /** The contact's ID. */
   contactId: string;
 }
 export interface PatchContactResponse {
-  contact?: Contact;
+  contact?: Contact | undefined;
 }
 export type UpdateDiscountRequestCriteria =
   | AnyOrderCriteria
@@ -2119,111 +2127,111 @@ export interface UpdateDiscountRequest {
   discountId: string;
   criteria: UpdateDiscountRequestCriteria;
   /** If true, the discount can only be used `maxUsesAllowed` times site-wide. */
-  isLimitedUses?: boolean;
+  isLimitedUses?: boolean | undefined;
   /** If true, a given customer can only use this discount once. */
-  isOncePerCustomer?: boolean;
+  isOncePerCustomer?: boolean | undefined;
   /** Maximum site-wide redemptions. Required when isLimitedUses=true; null otherwise. */
-  maxUsesAllowed?: number;
+  maxUsesAllowed?: number | undefined;
   /** Display name for the discount. */
   name: string;
-  paymentPlanOptions?: PaymentPlanOptions;
-  subscriptionOptions?: SubscriptionOptions;
+  paymentPlanOptions?: PaymentPlanOptions | undefined;
+  subscriptionOptions?: SubscriptionOptions | undefined;
   template: UpdateDiscountRequestTemplate;
   trigger: UpdateDiscountRequestTrigger;
   /** When the discount becomes active. */
   validFrom: string;
   /** When the discount expires. Null = no expiry. */
-  validTo?: string;
+  validTo?: string | undefined;
 }
 export interface ChangeBoolean {
-  present?: boolean;
-  value?: boolean;
+  present?: boolean | undefined;
+  value?: boolean | undefined;
 }
 export interface ChangeMonetaryAmount {
-  present?: boolean;
-  value?: MonetaryAmount;
+  present?: boolean | undefined;
+  value?: MonetaryAmount | undefined;
 }
 export interface UpdateProductPricing {
-  basePrice?: ChangeMonetaryAmount;
-  onSale?: ChangeBoolean;
-  salePrice?: ChangeMonetaryAmount;
+  basePrice?: ChangeMonetaryAmount | undefined;
+  onSale?: ChangeBoolean | undefined;
+  salePrice?: ChangeMonetaryAmount | undefined;
 }
 /** Pricing data for the product. */
 export interface ChangeUpdateProductPricing {
-  present?: boolean;
-  value?: UpdateProductPricing;
+  present?: boolean | undefined;
+  value?: UpdateProductPricing | undefined;
 }
 export type ChangeListStringValueList = Array<string>;
 /** Optional; list of event topics that trigger a webhook notification. Possible values include: extension.uninstall, order.create, order.update. */
 export interface ChangeListString {
-  present?: boolean;
-  value?: ChangeListStringValueList;
+  present?: boolean | undefined;
+  value?: ChangeListStringValueList | undefined;
 }
 /** Options for search engine optimization. */
 export interface ChangeSeoOptions {
-  present?: boolean;
-  value?: SeoOptions;
+  present?: boolean | undefined;
+  value?: SeoOptions | undefined;
 }
 export interface UpdateProductRequest {
   productId: string;
-  description?: ChangeString;
-  isVisible?: ChangeBoolean;
-  name?: ChangeString;
-  pricing?: ChangeUpdateProductPricing;
-  productAttributeNames?: ChangeListString;
-  seoData?: ChangeSeoOptions;
-  tags?: ChangeListString;
-  urlSlug?: ChangeString;
+  description?: ChangeString | undefined;
+  isVisible?: ChangeBoolean | undefined;
+  name?: ChangeString | undefined;
+  pricing?: ChangeUpdateProductPricing | undefined;
+  productAttributeNames?: ChangeListString | undefined;
+  seoData?: ChangeSeoOptions | undefined;
+  tags?: ChangeListString | undefined;
+  urlSlug?: ChangeString | undefined;
 }
 export interface UpdateProductImageRequest {
   productId: string;
   imageId: string;
-  altText?: ChangeString;
+  altText?: ChangeString | undefined;
 }
 export interface UpdateProductImageOrderRequest {
   productId: string;
   imageId: string;
-  afterImageId?: ChangeString;
+  afterImageId?: ChangeString | undefined;
 }
 export interface UpdateProductImageOrderResponse {}
 export type ChangeMapStringStringValueMap = { [key: string]: string | undefined };
 /** Specifies attribute-value pairs for the variant. Supported for PHYSICAL products only. */
 export interface ChangeMapStringString {
-  present?: boolean;
-  value?: ChangeMapStringStringValueMap;
+  present?: boolean | undefined;
+  value?: ChangeMapStringStringValueMap | undefined;
 }
 export interface ChangeProductDimensions {
-  present?: boolean;
-  value?: ProductDimensions;
+  present?: boolean | undefined;
+  value?: ProductDimensions | undefined;
 }
 export interface ChangeProductWeight {
-  present?: boolean;
-  value?: ProductWeight;
+  present?: boolean | undefined;
+  value?: ProductWeight | undefined;
 }
 export interface UpdateProductMeasurements {
-  dimensions?: ChangeProductDimensions;
-  weight?: ChangeProductWeight;
+  dimensions?: ChangeProductDimensions | undefined;
+  weight?: ChangeProductWeight | undefined;
 }
 /** Measurements of the variant when it's shipped. Supported for PHYSICAL products only. */
 export interface ChangeUpdateProductMeasurements {
-  present?: boolean;
-  value?: UpdateProductMeasurements;
+  present?: boolean | undefined;
+  value?: UpdateProductMeasurements | undefined;
 }
 export interface UpdateProductVariantRequest {
   productId: string;
   variantId: string;
-  attributes?: ChangeMapStringString;
-  gtin?: ChangeString;
-  mpn?: ChangeString;
-  pricing?: ChangeUpdateProductPricing;
-  shippingMeasurements?: ChangeUpdateProductMeasurements;
-  sku?: ChangeString;
+  attributes?: ChangeMapStringString | undefined;
+  gtin?: ChangeString | undefined;
+  mpn?: ChangeString | undefined;
+  pricing?: ChangeUpdateProductPricing | undefined;
+  shippingMeasurements?: ChangeUpdateProductMeasurements | undefined;
+  sku?: ChangeString | undefined;
 }
 export interface UpdateWebhookSubscriptionRequest {
   /** Specifies the Webhook Subscription to update. */
   subscriptionId: string;
-  endpointUrl?: ChangeString;
-  topics?: ChangeListString;
+  endpointUrl?: ChangeString | undefined;
+  topics?: ChangeListString | undefined;
 }
 export interface UploadProductImageRequest {
   productId: string;

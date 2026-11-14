@@ -1,7 +1,12 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * HuggingFaceProtocol -- the shared bearer-REST protocol instantiated for the
  * Hugging Face Hub.
@@ -35,7 +40,8 @@ export type HuggingFaceOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Hugging Face operation. */
 export type HuggingFaceOpContext = Credentials | HttpClient.HttpClient;
@@ -70,11 +76,6 @@ export const HuggingFaceProtocol: Layer.Layer<API.Protocol> =
     }),
     errorEnvelope,
     statusMap: HTTP_STATUS_MAP,
-    unknownError: ({ code, message, body }) =>
-      new UnknownHuggingFaceError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownHuggingFaceError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new HuggingFaceParseError({ body, cause }),
   });

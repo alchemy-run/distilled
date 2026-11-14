@@ -170,12 +170,12 @@ export type AccountIdList = string[];
 export type ClientToken = string;
 export interface AssociateAccountsRequest {
   accountIds: string[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type StringList = string[];
 export interface AssociateAccountsResponse {
-  accountIds?: string[];
-  errors?: string[];
+  accountIds?: string[] | undefined;
+  errors?: string[] | undefined;
 }
 export type RuleName = string;
 export type RuleDescription = string;
@@ -183,8 +183,8 @@ export type RuleType = "OrganizationRule" | "AccountRule" | (string & {});
 export type RuleApplyOrder = "BeforeAccountRules" | "AfterAccountRules" | (string & {});
 export type OrganizationConfigurationAccountIds = string[];
 export interface OrganizationConfiguration {
-  ruleApplyOrder?: RuleApplyOrder;
-  accountIds?: string[];
+  ruleApplyOrder?: RuleApplyOrder | undefined;
+  accountIds?: string[] | undefined;
 }
 export type RecommendedActionType =
   | "SnapshotAndDeleteUnattachedEbsVolume"
@@ -220,42 +220,42 @@ export type ComparisonOperator =
 export type StringCriteriaValue = string;
 export type StringCriteriaValues = string[];
 export interface StringCriteriaCondition {
-  comparison?: ComparisonOperator;
-  values?: string[];
+  comparison?: ComparisonOperator | undefined;
+  values?: string[] | undefined;
 }
 export type StringCriteriaConditionList = StringCriteriaCondition[];
 export type IntegerList = number[];
 export interface IntegerCriteriaCondition {
-  comparison?: ComparisonOperator;
-  values?: number[];
+  comparison?: ComparisonOperator | undefined;
+  values?: number[] | undefined;
 }
 export type IntegerCriteriaConditionList = IntegerCriteriaCondition[];
 export type DoubleList = number[];
 export interface DoubleCriteriaCondition {
-  comparison?: ComparisonOperator;
-  values?: number[];
+  comparison?: ComparisonOperator | undefined;
+  values?: number[] | undefined;
 }
 export type DoubleCriteriaConditionList = DoubleCriteriaCondition[];
 export interface ResourceTagsCriteriaCondition {
-  comparison?: ComparisonOperator;
-  key?: string;
-  values?: string[];
+  comparison?: ComparisonOperator | undefined;
+  key?: string | undefined;
+  values?: string[] | undefined;
 }
 export type ResourceTagsCriteriaConditionList = ResourceTagsCriteriaCondition[];
 export interface Criteria {
-  region?: StringCriteriaCondition[];
-  resourceArn?: StringCriteriaCondition[];
-  ebsVolumeType?: StringCriteriaCondition[];
-  ebsVolumeSizeInGib?: IntegerCriteriaCondition[];
-  estimatedMonthlySavings?: DoubleCriteriaCondition[];
-  resourceTag?: ResourceTagsCriteriaCondition[];
-  lookBackPeriodInDays?: IntegerCriteriaCondition[];
-  restartNeeded?: StringCriteriaCondition[];
+  region?: StringCriteriaCondition[] | undefined;
+  resourceArn?: StringCriteriaCondition[] | undefined;
+  ebsVolumeType?: StringCriteriaCondition[] | undefined;
+  ebsVolumeSizeInGib?: IntegerCriteriaCondition[] | undefined;
+  estimatedMonthlySavings?: DoubleCriteriaCondition[] | undefined;
+  resourceTag?: ResourceTagsCriteriaCondition[] | undefined;
+  lookBackPeriodInDays?: IntegerCriteriaCondition[] | undefined;
+  restartNeeded?: StringCriteriaCondition[] | undefined;
 }
 export interface Schedule {
-  scheduleExpression?: string;
-  scheduleExpressionTimezone?: string;
-  executionWindowInMinutes?: number;
+  scheduleExpression?: string | undefined;
+  scheduleExpressionTimezone?: string | undefined;
+  executionWindowInMinutes?: number | undefined;
 }
 export type RuleStatus = "Active" | "Inactive" | (string & {});
 export type TagKey = string;
@@ -267,48 +267,48 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateAutomationRuleRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   ruleType: RuleType;
-  organizationConfiguration?: OrganizationConfiguration;
-  priority?: string;
+  organizationConfiguration?: OrganizationConfiguration | undefined;
+  priority?: string | undefined;
   recommendedActionTypes: RecommendedActionType[];
-  criteria?: Criteria;
+  criteria?: Criteria | undefined;
   schedule: Schedule;
   status: RuleStatus;
-  tags?: Tag[];
-  clientToken?: string;
+  tags?: Tag[] | undefined;
+  clientToken?: string | undefined;
 }
 export type RuleArn = string;
 export type RuleId = string;
 export interface CreateAutomationRuleResponse {
-  ruleArn?: string;
-  ruleId?: string;
-  name?: string;
-  description?: string;
-  ruleType?: RuleType;
-  ruleRevision?: number;
-  organizationConfiguration?: OrganizationConfiguration;
-  priority?: string;
-  recommendedActionTypes?: RecommendedActionType[];
-  criteria?: Criteria;
-  schedule?: Schedule;
-  status?: RuleStatus;
-  tags?: Tag[];
-  createdTimestamp?: Date;
+  ruleArn?: string | undefined;
+  ruleId?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  ruleType?: RuleType | undefined;
+  ruleRevision?: number | undefined;
+  organizationConfiguration?: OrganizationConfiguration | undefined;
+  priority?: string | undefined;
+  recommendedActionTypes?: RecommendedActionType[] | undefined;
+  criteria?: Criteria | undefined;
+  schedule?: Schedule | undefined;
+  status?: RuleStatus | undefined;
+  tags?: Tag[] | undefined;
+  createdTimestamp?: Date | undefined;
 }
 export interface DeleteAutomationRuleRequest {
   ruleArn: string;
   ruleRevision: number;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteAutomationRuleResponse {}
 export interface DisassociateAccountsRequest {
   accountIds: string[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DisassociateAccountsResponse {
-  accountIds?: string[];
-  errors?: string[];
+  accountIds?: string[] | undefined;
+  errors?: string[] | undefined;
 }
 export type EventId = string;
 export interface GetAutomationEventRequest {
@@ -341,68 +341,68 @@ export interface EstimatedMonthlySavings {
   savingsEstimationMode: SavingsEstimationMode;
 }
 export interface GetAutomationEventResponse {
-  eventId?: string;
-  eventDescription?: string;
-  eventType?: EventType;
-  eventStatus?: EventStatus;
-  eventStatusReason?: string;
-  resourceArn?: string;
-  resourceId?: string;
-  recommendedActionId?: string;
-  accountId?: string;
-  region?: string;
-  ruleId?: string;
-  resourceType?: ResourceType;
-  createdTimestamp?: Date;
-  completedTimestamp?: Date;
-  estimatedMonthlySavings?: EstimatedMonthlySavings;
+  eventId?: string | undefined;
+  eventDescription?: string | undefined;
+  eventType?: EventType | undefined;
+  eventStatus?: EventStatus | undefined;
+  eventStatusReason?: string | undefined;
+  resourceArn?: string | undefined;
+  resourceId?: string | undefined;
+  recommendedActionId?: string | undefined;
+  accountId?: string | undefined;
+  region?: string | undefined;
+  ruleId?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  createdTimestamp?: Date | undefined;
+  completedTimestamp?: Date | undefined;
+  estimatedMonthlySavings?: EstimatedMonthlySavings | undefined;
 }
 export interface GetAutomationRuleRequest {
   ruleArn: string;
 }
 export interface GetAutomationRuleResponse {
-  ruleArn?: string;
-  ruleId?: string;
-  name?: string;
-  description?: string;
-  ruleType?: RuleType;
-  ruleRevision?: number;
-  accountId?: string;
-  organizationConfiguration?: OrganizationConfiguration;
-  priority?: string;
-  recommendedActionTypes?: RecommendedActionType[];
-  criteria?: Criteria;
-  schedule?: Schedule;
-  status?: RuleStatus;
-  tags?: Tag[];
-  createdTimestamp?: Date;
-  lastUpdatedTimestamp?: Date;
+  ruleArn?: string | undefined;
+  ruleId?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  ruleType?: RuleType | undefined;
+  ruleRevision?: number | undefined;
+  accountId?: string | undefined;
+  organizationConfiguration?: OrganizationConfiguration | undefined;
+  priority?: string | undefined;
+  recommendedActionTypes?: RecommendedActionType[] | undefined;
+  criteria?: Criteria | undefined;
+  schedule?: Schedule | undefined;
+  status?: RuleStatus | undefined;
+  tags?: Tag[] | undefined;
+  createdTimestamp?: Date | undefined;
+  lastUpdatedTimestamp?: Date | undefined;
 }
 export interface GetEnrollmentConfigurationRequest {}
 export type EnrollmentStatus = "Active" | "Inactive" | "Pending" | "Failed" | (string & {});
 export type OrganizationRuleMode = "AnyAllowed" | "NoneAllowed" | (string & {});
 export interface GetEnrollmentConfigurationResponse {
   status: EnrollmentStatus;
-  statusReason?: string;
-  organizationRuleMode?: OrganizationRuleMode;
-  lastUpdatedTimestamp?: Date;
+  statusReason?: string | undefined;
+  organizationRuleMode?: OrganizationRuleMode | undefined;
+  lastUpdatedTimestamp?: Date | undefined;
 }
 export type NextToken = string;
 export interface ListAccountsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AccountInfo {
   accountId: string;
   status: EnrollmentStatus;
   organizationRuleMode: OrganizationRuleMode;
-  statusReason?: string;
+  statusReason?: string | undefined;
   lastUpdatedTimestamp: Date;
 }
 export type AccountInfoList = AccountInfo[];
 export interface ListAccountsResponse {
   accounts: AccountInfo[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type AutomationEventFilterName = string;
 export type FilterValue = string;
@@ -413,38 +413,38 @@ export interface AutomationEventFilter {
 }
 export type AutomationEventFilterList = AutomationEventFilter[];
 export interface ListAutomationEventsRequest {
-  filters?: AutomationEventFilter[];
-  startTimeInclusive?: Date;
-  endTimeExclusive?: Date;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: AutomationEventFilter[] | undefined;
+  startTimeInclusive?: Date | undefined;
+  endTimeExclusive?: Date | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AutomationEvent {
-  eventId?: string;
-  eventDescription?: string;
-  eventType?: EventType;
-  eventStatus?: EventStatus;
-  eventStatusReason?: string;
-  resourceArn?: string;
-  resourceId?: string;
-  recommendedActionId?: string;
-  accountId?: string;
-  region?: string;
-  ruleId?: string;
-  resourceType?: ResourceType;
-  createdTimestamp?: Date;
-  completedTimestamp?: Date;
-  estimatedMonthlySavings?: EstimatedMonthlySavings;
+  eventId?: string | undefined;
+  eventDescription?: string | undefined;
+  eventType?: EventType | undefined;
+  eventStatus?: EventStatus | undefined;
+  eventStatusReason?: string | undefined;
+  resourceArn?: string | undefined;
+  resourceId?: string | undefined;
+  recommendedActionId?: string | undefined;
+  accountId?: string | undefined;
+  region?: string | undefined;
+  ruleId?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  createdTimestamp?: Date | undefined;
+  completedTimestamp?: Date | undefined;
+  estimatedMonthlySavings?: EstimatedMonthlySavings | undefined;
 }
 export type AutomationEvents = AutomationEvent[];
 export interface ListAutomationEventsResponse {
-  automationEvents?: AutomationEvent[];
-  nextToken?: string;
+  automationEvents?: AutomationEvent[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAutomationEventStepsRequest {
   eventId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type StepId = string;
 export type StepType =
@@ -455,26 +455,26 @@ export type StepType =
   | (string & {});
 export type StepStatus = "Ready" | "InProgress" | "Complete" | "Failed" | (string & {});
 export interface AutomationEventStep {
-  eventId?: string;
-  stepId?: string;
-  stepType?: StepType;
-  stepStatus?: StepStatus;
-  resourceId?: string;
-  startTimestamp?: Date;
-  completedTimestamp?: Date;
-  estimatedMonthlySavings?: EstimatedMonthlySavings;
+  eventId?: string | undefined;
+  stepId?: string | undefined;
+  stepType?: StepType | undefined;
+  stepStatus?: StepStatus | undefined;
+  resourceId?: string | undefined;
+  startTimestamp?: Date | undefined;
+  completedTimestamp?: Date | undefined;
+  estimatedMonthlySavings?: EstimatedMonthlySavings | undefined;
 }
 export type AutomationEventSteps = AutomationEventStep[];
 export interface ListAutomationEventStepsResponse {
-  automationEventSteps?: AutomationEventStep[];
-  nextToken?: string;
+  automationEventSteps?: AutomationEventStep[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAutomationEventSummariesRequest {
-  filters?: AutomationEventFilter[];
-  startDateInclusive?: string;
-  endDateExclusive?: string;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: AutomationEventFilter[] | undefined;
+  startDateInclusive?: string | undefined;
+  endDateExclusive?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type SummaryDimensionKey = string;
 export interface SummaryDimension {
@@ -483,74 +483,74 @@ export interface SummaryDimension {
 }
 export type SummaryDimensions = SummaryDimension[];
 export interface TimePeriod {
-  startTimeInclusive?: Date;
-  endTimeExclusive?: Date;
+  startTimeInclusive?: Date | undefined;
+  endTimeExclusive?: Date | undefined;
 }
 export interface SummaryTotals {
-  automationEventCount?: number;
-  estimatedMonthlySavings?: EstimatedMonthlySavings;
+  automationEventCount?: number | undefined;
+  estimatedMonthlySavings?: EstimatedMonthlySavings | undefined;
 }
 export interface AutomationEventSummary {
-  key?: string;
-  dimensions?: SummaryDimension[];
-  timePeriod?: TimePeriod;
-  total?: SummaryTotals;
+  key?: string | undefined;
+  dimensions?: SummaryDimension[] | undefined;
+  timePeriod?: TimePeriod | undefined;
+  total?: SummaryTotals | undefined;
 }
 export type AutomationEventSummaryList = AutomationEventSummary[];
 export interface ListAutomationEventSummariesResponse {
-  automationEventSummaries?: AutomationEventSummary[];
-  nextToken?: string;
+  automationEventSummaries?: AutomationEventSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface OrganizationScope {
-  accountIds?: string[];
+  accountIds?: string[] | undefined;
 }
 export interface ListAutomationRulePreviewRequest {
   ruleType: RuleType;
-  organizationScope?: OrganizationScope;
+  organizationScope?: OrganizationScope | undefined;
   recommendedActionTypes: RecommendedActionType[];
-  criteria?: Criteria;
-  maxResults?: number;
-  nextToken?: string;
+  criteria?: Criteria | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface EbsVolumeConfiguration {
-  type?: string;
-  sizeInGib?: number;
-  iops?: number;
-  throughput?: number;
+  type?: string | undefined;
+  sizeInGib?: number | undefined;
+  iops?: number | undefined;
+  throughput?: number | undefined;
 }
 export interface EbsVolume {
-  configuration?: EbsVolumeConfiguration;
+  configuration?: EbsVolumeConfiguration | undefined;
 }
 export type ResourceDetails = { ebsVolume: EbsVolume };
 export interface PreviewResult {
-  recommendedActionId?: string;
-  resourceArn?: string;
-  resourceId?: string;
-  accountId?: string;
-  region?: string;
-  resourceType?: ResourceType;
-  lookBackPeriodInDays?: number;
-  recommendedActionType?: RecommendedActionType;
-  currentResourceSummary?: string;
-  currentResourceDetails?: ResourceDetails;
-  recommendedResourceSummary?: string;
-  recommendedResourceDetails?: ResourceDetails;
-  restartNeeded?: boolean;
-  estimatedMonthlySavings?: EstimatedMonthlySavings;
-  resourceTags?: Tag[];
+  recommendedActionId?: string | undefined;
+  resourceArn?: string | undefined;
+  resourceId?: string | undefined;
+  accountId?: string | undefined;
+  region?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  lookBackPeriodInDays?: number | undefined;
+  recommendedActionType?: RecommendedActionType | undefined;
+  currentResourceSummary?: string | undefined;
+  currentResourceDetails?: ResourceDetails | undefined;
+  recommendedResourceSummary?: string | undefined;
+  recommendedResourceDetails?: ResourceDetails | undefined;
+  restartNeeded?: boolean | undefined;
+  estimatedMonthlySavings?: EstimatedMonthlySavings | undefined;
+  resourceTags?: Tag[] | undefined;
 }
 export type PreviewResults = PreviewResult[];
 export interface ListAutomationRulePreviewResponse {
-  previewResults?: PreviewResult[];
-  nextToken?: string;
+  previewResults?: PreviewResult[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAutomationRulePreviewSummariesRequest {
   ruleType: RuleType;
-  organizationScope?: OrganizationScope;
+  organizationScope?: OrganizationScope | undefined;
   recommendedActionTypes: RecommendedActionType[];
-  criteria?: Criteria;
-  maxResults?: number;
-  nextToken?: string;
+  criteria?: Criteria | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface RulePreviewTotal {
   recommendedActionCount: number;
@@ -562,8 +562,8 @@ export interface PreviewResultSummary {
 }
 export type PreviewResultSummaries = PreviewResultSummary[];
 export interface ListAutomationRulePreviewSummariesResponse {
-  previewResultSummaries?: PreviewResultSummary[];
-  nextToken?: string;
+  previewResultSummaries?: PreviewResultSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AutomationRuleFilterName = string;
 export interface Filter {
@@ -572,30 +572,30 @@ export interface Filter {
 }
 export type FilterList = Filter[];
 export interface ListAutomationRulesRequest {
-  filters?: Filter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: Filter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AutomationRule {
-  ruleArn?: string;
-  ruleId?: string;
-  name?: string;
-  description?: string;
-  ruleType?: RuleType;
-  ruleRevision?: number;
-  accountId?: string;
-  organizationConfiguration?: OrganizationConfiguration;
-  priority?: string;
-  recommendedActionTypes?: RecommendedActionType[];
-  schedule?: Schedule;
-  status?: RuleStatus;
-  createdTimestamp?: Date;
-  lastUpdatedTimestamp?: Date;
+  ruleArn?: string | undefined;
+  ruleId?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  ruleType?: RuleType | undefined;
+  ruleRevision?: number | undefined;
+  accountId?: string | undefined;
+  organizationConfiguration?: OrganizationConfiguration | undefined;
+  priority?: string | undefined;
+  recommendedActionTypes?: RecommendedActionType[] | undefined;
+  schedule?: Schedule | undefined;
+  status?: RuleStatus | undefined;
+  createdTimestamp?: Date | undefined;
+  lastUpdatedTimestamp?: Date | undefined;
 }
 export type AutomationRules = AutomationRule[];
 export interface ListAutomationRulesResponse {
-  automationRules?: AutomationRule[];
-  nextToken?: string;
+  automationRules?: AutomationRule[] | undefined;
+  nextToken?: string | undefined;
 }
 export type RecommendedActionFilterName = string;
 export interface RecommendedActionFilter {
@@ -604,36 +604,36 @@ export interface RecommendedActionFilter {
 }
 export type RecommendedActionFilterList = RecommendedActionFilter[];
 export interface ListRecommendedActionsRequest {
-  filters?: RecommendedActionFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: RecommendedActionFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface RecommendedAction {
-  recommendedActionId?: string;
-  resourceArn?: string;
-  resourceId?: string;
-  accountId?: string;
-  region?: string;
-  resourceType?: ResourceType;
-  lookBackPeriodInDays?: number;
-  recommendedActionType?: RecommendedActionType;
-  currentResourceSummary?: string;
-  currentResourceDetails?: ResourceDetails;
-  recommendedResourceSummary?: string;
-  recommendedResourceDetails?: ResourceDetails;
-  restartNeeded?: boolean;
-  estimatedMonthlySavings?: EstimatedMonthlySavings;
-  resourceTags?: Tag[];
+  recommendedActionId?: string | undefined;
+  resourceArn?: string | undefined;
+  resourceId?: string | undefined;
+  accountId?: string | undefined;
+  region?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  lookBackPeriodInDays?: number | undefined;
+  recommendedActionType?: RecommendedActionType | undefined;
+  currentResourceSummary?: string | undefined;
+  currentResourceDetails?: ResourceDetails | undefined;
+  recommendedResourceSummary?: string | undefined;
+  recommendedResourceDetails?: ResourceDetails | undefined;
+  restartNeeded?: boolean | undefined;
+  estimatedMonthlySavings?: EstimatedMonthlySavings | undefined;
+  resourceTags?: Tag[] | undefined;
 }
 export type RecommendedActions = RecommendedAction[];
 export interface ListRecommendedActionsResponse {
-  recommendedActions?: RecommendedAction[];
-  nextToken?: string;
+  recommendedActions?: RecommendedAction[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListRecommendedActionSummariesRequest {
-  filters?: RecommendedActionFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: RecommendedActionFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface RecommendedActionTotal {
   recommendedActionCount: number;
@@ -645,37 +645,37 @@ export interface RecommendedActionSummary {
 }
 export type RecommendedActionSummaries = RecommendedActionSummary[];
 export interface ListRecommendedActionSummariesResponse {
-  recommendedActionSummaries?: RecommendedActionSummary[];
-  nextToken?: string;
+  recommendedActionSummaries?: RecommendedActionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface RollbackAutomationEventRequest {
   eventId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface RollbackAutomationEventResponse {
-  eventId?: string;
-  eventStatus?: EventStatus;
+  eventId?: string | undefined;
+  eventStatus?: EventStatus | undefined;
 }
 export interface StartAutomationEventRequest {
   recommendedActionId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface StartAutomationEventResponse {
-  recommendedActionId?: string;
-  eventId?: string;
-  eventStatus?: EventStatus;
+  recommendedActionId?: string | undefined;
+  eventId?: string | undefined;
+  eventStatus?: EventStatus | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
   ruleRevision: number;
   tags: Tag[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface TagResourceResponse {}
 export type TagKeyList = string[];
@@ -683,45 +683,45 @@ export interface UntagResourceRequest {
   resourceArn: string;
   ruleRevision: number;
   tagKeys: string[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateAutomationRuleRequest {
   ruleArn: string;
   ruleRevision: number;
-  name?: string;
-  description?: string;
-  ruleType?: RuleType;
-  organizationConfiguration?: OrganizationConfiguration;
-  priority?: string;
-  recommendedActionTypes?: RecommendedActionType[];
-  criteria?: Criteria;
-  schedule?: Schedule;
-  status?: RuleStatus;
-  clientToken?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  ruleType?: RuleType | undefined;
+  organizationConfiguration?: OrganizationConfiguration | undefined;
+  priority?: string | undefined;
+  recommendedActionTypes?: RecommendedActionType[] | undefined;
+  criteria?: Criteria | undefined;
+  schedule?: Schedule | undefined;
+  status?: RuleStatus | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateAutomationRuleResponse {
-  ruleArn?: string;
-  ruleRevision?: number;
-  name?: string;
-  description?: string;
-  ruleType?: RuleType;
-  organizationConfiguration?: OrganizationConfiguration;
-  priority?: string;
-  recommendedActionTypes?: RecommendedActionType[];
-  criteria?: Criteria;
-  schedule?: Schedule;
-  status?: RuleStatus;
-  createdTimestamp?: Date;
-  lastUpdatedTimestamp?: Date;
+  ruleArn?: string | undefined;
+  ruleRevision?: number | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  ruleType?: RuleType | undefined;
+  organizationConfiguration?: OrganizationConfiguration | undefined;
+  priority?: string | undefined;
+  recommendedActionTypes?: RecommendedActionType[] | undefined;
+  criteria?: Criteria | undefined;
+  schedule?: Schedule | undefined;
+  status?: RuleStatus | undefined;
+  createdTimestamp?: Date | undefined;
+  lastUpdatedTimestamp?: Date | undefined;
 }
 export interface UpdateEnrollmentConfigurationRequest {
   status: EnrollmentStatus;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateEnrollmentConfigurationResponse {
   status: EnrollmentStatus;
-  statusReason?: string;
+  statusReason?: string | undefined;
   lastUpdatedTimestamp: Date;
 }
 export type AssociateAccountsError =

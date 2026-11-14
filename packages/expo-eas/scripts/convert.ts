@@ -1,85 +1,49 @@
 #!/usr/bin/env -S node --conditions=bun
 /**
- * convert — turn the EAS GraphQL introspection schema into a Smithy 2.0 JSON
- * model.
+ * Compile the complete mirrored EAS GraphQL schema, then apply error contracts.
  *
- * Input:  specs/spec-mirror-expo-eas/specs/graphql.schema.json
- *         (the standard `__schema` introspection JSON shipped with eas-cli)
- * Output: .generated-specs/eas.json  (one Smithy model — EAS is a single
- *         GraphQL endpoint at https://api.expo.dev/graphql)
+ * Input:  specs/spec-mirror-expo-eas/specs/graphql.schema.json (the
+ *         `__schema` introspection JSON shipped with eas-cli)
+ * Output: .generated-graphql/expo-eas.json
  *
- * The GraphQL→Smithy converter itself lives in
- * `@distilled.cloud/dev/codegen/graphql`; this script is EAS's provider
- * config: the trait vocabulary (`com.expo.graphql#*`), the endpoint, the
- * custom scalar map, and the namespace-expansion settings.
- *
- * ─── Why namespace expansion ────────────────────────────────────────────────
- * Most top-level EAS fields are namespacing objects (`account: AccountQuery`)
- * whose nested leaves are the real operations, so `maxNamespaceDepth: 3` lets
- * the converter walk `account.byId` and emit one op per leaf. EAS predates
- * Relay-style pagination in this SDK (distilled v0 emitted every op plain),
- * so connection detection stays off.
+ * Most top-level EAS fields are namespaces (`account: AccountQuery`) whose
+ * fields take the arguments (`byId(accountId)`); the Query SDK selects
+ * through them as ordinary nested fields: `Eas.account().byId({ accountId })`.
  */
-import * as fs from "node:fs";
+import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import {
-  convertGraphQLToSmithy,
-  PRELUDE,
-  readIntrospection,
-} from "@distilled.cloud/dev/codegen/graphql";
-import { writeModel } from "@distilled.cloud/dev/codegen/models";
-import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
+  convertGraphQLClient,
+  validateGraphQLModel,
+} from "../../dev/src/codegen/graphql-client.ts";
+import { writeModel } from "../../dev/src/codegen/models.ts";
+import { applyRfc6902Files, listRfc6902PatchFiles } from "../../dev/src/codegen/patches.ts";
+import { resolveSpecPath } from "../../dev/src/codegen/spec-path.ts";
+import { applyGraphQLTelemetry, providerDefaults } from "../../dev/src/codegen/telemetry.ts";
 
-const ROOT = path.resolve(import.meta.dirname, "..");
-const SCHEMA_PATH = resolveSpecPath(ROOT, "specs/spec-mirror-expo-eas/specs/graphql.schema.json");
-const OUT_DIR = path.join(ROOT, ".generated-specs");
-const OUT_FILE = path.join(OUT_DIR, "eas.json");
-
-const schema = readIntrospection(JSON.parse(fs.readFileSync(SCHEMA_PATH, "utf-8")));
-
-const result = convertGraphQLToSmithy({
-  schema,
-  namespace: "com.expo.eas",
-  serviceName: "Eas",
-  serviceTitle: "Expo Application Services (EAS)",
-  serviceDocumentation:
-    "EAS GraphQL API — a single endpoint at https://api.expo.dev/graphql. " +
-    "Every operation is `POST /graphql` with a `{ query, operationName, " +
-    "variables }` envelope; responses unwrap `data.<responsePath>`.",
-  endpoint: "/graphql",
-  traits: {
-    operation: "com.expo.graphql#operation",
-    responsePath: "com.expo.graphql#responsePath",
-    nullable: "com.expo.graphql#nullable",
-    nullableItems: "com.expo.graphql#nullableItems",
-    payload: "com.expo.graphql#payload",
-  },
-  maxDepth: 3,
-  maxNamespaceDepth: 3,
-  skipDeprecated: true,
-  /** The schema exposes `_doNotUse` placeholder fields that are not real ops. */
-  skipRootField: (name) => name.startsWith("_"),
-  /**
-   * Expo's custom scalars, mapped to sensible prelude targets so generated
-   * operations don't dissolve into `S.Unknown`.
-   */
-  customScalars: {
-    DateTime: PRELUDE.String,
-    JSON: PRELUDE.Document,
-    JSONObject: PRELUDE.Document,
-    Upload: PRELUDE.Document,
-    WorkflowsJSON: PRELUDE.Document,
-    AccountName: PRELUDE.String,
-    UUID: PRELUDE.String,
-    BigInt: PRELUDE.String,
+const root = path.resolve(import.meta.dirname, "..");
+const source = resolveSpecPath(root, "specs/spec-mirror-expo-eas/specs/graphql.schema.json");
+const model = convertGraphQLClient(JSON.parse(await fs.readFile(source, "utf8")), {
+  scalars: {
+    ByteSize: "number",
+    DateTime: "string",
+    DevDomainName: "string",
+    EnvironmentVariableEnvironment: "string",
+    SubmissionAndroidTrack: "string",
+    WorkerDeploymentIdentifier: "string",
+    WorkerDeploymentRequestID: "string",
   },
 });
-writeModel(OUT_FILE, result.model);
-
-console.log(
-  `✅ Converted ${result.converted} GraphQL operations (${result.failed} failed, ` +
-    `${result.shapeCount} shapes) → ${OUT_FILE}`,
+const patches = await applyRfc6902Files(
+  model,
+  await listRfc6902PatchFiles(path.join(root, "patches/graphql")),
 );
-
-await finalizeConvert({ root: ROOT });
+if (patches.errors.length) throw new Error(patches.errors.join("\n"));
+// Telemetry last, so a patch's `telemetry` fields win.
+applyGraphQLTelemetry(model, providerDefaults(root));
+validateGraphQLModel(model);
+const output = path.join(root, ".generated-graphql/expo-eas.json");
+writeModel(output, model);
+console.log(
+  `GraphQL: ${Object.keys(model.types).length} complete types; ${patches.applied} patches → ${output}`,
+);

@@ -133,17 +133,17 @@ export type IAMRoleArn = string;
 export interface ConfigurationDefinitionInput {
   Type: string;
   Parameters: { [key: string]: string | undefined };
-  TypeVersion?: string;
-  LocalDeploymentExecutionRoleName?: string;
-  LocalDeploymentAdministrationRoleArn?: string;
+  TypeVersion?: string | undefined;
+  LocalDeploymentExecutionRoleName?: string | undefined;
+  LocalDeploymentAdministrationRoleArn?: string | undefined;
 }
 export type ConfigurationDefinitionsInputList = ConfigurationDefinitionInput[];
 export type TagsMap = { [key: string]: string | undefined };
 export interface CreateConfigurationManagerInput {
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
   ConfigurationDefinitions: ConfigurationDefinitionInput[];
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateConfigurationManagerOutput {
   ManagerArn: string;
@@ -171,24 +171,24 @@ export type Status =
 export type StatusDetails = { [key: string]: string | undefined };
 export interface StatusSummary {
   StatusType: StatusType;
-  Status?: Status;
-  StatusMessage?: string;
+  Status?: Status | undefined;
+  StatusMessage?: string | undefined;
   LastUpdatedAt: Date;
-  StatusDetails?: { [key: string]: string | undefined };
+  StatusDetails?: { [key: string]: string | undefined } | undefined;
 }
 export type StatusSummariesList = StatusSummary[];
 export interface GetConfigurationOutput {
-  Id?: string;
-  ManagerArn?: string;
-  ConfigurationDefinitionId?: string;
-  Type?: string;
-  TypeVersion?: string;
-  Account?: string;
-  Region?: string;
-  CreatedAt?: Date;
-  LastModifiedAt?: Date;
-  StatusSummaries?: StatusSummary[];
-  Parameters?: { [key: string]: string | undefined };
+  Id?: string | undefined;
+  ManagerArn?: string | undefined;
+  ConfigurationDefinitionId?: string | undefined;
+  Type?: string | undefined;
+  TypeVersion?: string | undefined;
+  Account?: string | undefined;
+  Region?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastModifiedAt?: Date | undefined;
+  StatusSummaries?: StatusSummary[] | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetConfigurationManagerInput {
   ManagerArn: string;
@@ -196,28 +196,28 @@ export interface GetConfigurationManagerInput {
 export interface ConfigurationDefinition {
   Type: string;
   Parameters: { [key: string]: string | undefined };
-  TypeVersion?: string;
-  LocalDeploymentExecutionRoleName?: string;
-  LocalDeploymentAdministrationRoleArn?: string;
-  Id?: string;
+  TypeVersion?: string | undefined;
+  LocalDeploymentExecutionRoleName?: string | undefined;
+  LocalDeploymentAdministrationRoleArn?: string | undefined;
+  Id?: string | undefined;
 }
 export type ConfigurationDefinitionsList = ConfigurationDefinition[];
 export interface GetConfigurationManagerOutput {
   ManagerArn: string;
-  Description?: string;
-  Name?: string;
-  CreatedAt?: Date;
-  LastModifiedAt?: Date;
-  StatusSummaries?: StatusSummary[];
-  ConfigurationDefinitions?: ConfigurationDefinition[];
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Name?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastModifiedAt?: Date | undefined;
+  StatusSummaries?: StatusSummary[] | undefined;
+  ConfigurationDefinitions?: ConfigurationDefinition[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetServiceSettingsRequest {}
 export interface ServiceSettings {
-  ExplorerEnablingRoleArn?: string;
+  ExplorerEnablingRoleArn?: string | undefined;
 }
 export interface GetServiceSettingsOutput {
-  ServiceSettings?: ServiceSettings;
+  ServiceSettings?: ServiceSettings | undefined;
 }
 export type FilterValues = string[];
 export interface Filter {
@@ -226,72 +226,72 @@ export interface Filter {
 }
 export type FiltersList = Filter[];
 export interface ListConfigurationManagersInput {
-  StartingToken?: string;
-  MaxItems?: number;
-  Filters?: Filter[];
+  StartingToken?: string | undefined;
+  MaxItems?: number | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface ConfigurationDefinitionSummary {
-  Id?: string;
-  Type?: string;
-  TypeVersion?: string;
-  FirstClassParameters?: { [key: string]: string | undefined };
+  Id?: string | undefined;
+  Type?: string | undefined;
+  TypeVersion?: string | undefined;
+  FirstClassParameters?: { [key: string]: string | undefined } | undefined;
 }
 export type ConfigurationDefinitionSummariesList = ConfigurationDefinitionSummary[];
 export interface ConfigurationManagerSummary {
   ManagerArn: string;
-  Description?: string;
-  Name?: string;
-  StatusSummaries?: StatusSummary[];
-  ConfigurationDefinitionSummaries?: ConfigurationDefinitionSummary[];
+  Description?: string | undefined;
+  Name?: string | undefined;
+  StatusSummaries?: StatusSummary[] | undefined;
+  ConfigurationDefinitionSummaries?: ConfigurationDefinitionSummary[] | undefined;
 }
 export type ConfigurationManagerList = ConfigurationManagerSummary[];
 export interface ListConfigurationManagersOutput {
-  ConfigurationManagersList?: ConfigurationManagerSummary[];
-  NextToken?: string;
+  ConfigurationManagersList?: ConfigurationManagerSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListConfigurationsInput {
-  StartingToken?: string;
-  MaxItems?: number;
-  Filters?: Filter[];
-  ManagerArn?: string;
-  ConfigurationDefinitionId?: string;
+  StartingToken?: string | undefined;
+  MaxItems?: number | undefined;
+  Filters?: Filter[] | undefined;
+  ManagerArn?: string | undefined;
+  ConfigurationDefinitionId?: string | undefined;
 }
 export interface ConfigurationSummary {
-  Id?: string;
-  ManagerArn?: string;
-  ConfigurationDefinitionId?: string;
-  Type?: string;
-  TypeVersion?: string;
-  Region?: string;
-  Account?: string;
-  CreatedAt?: Date;
-  FirstClassParameters?: { [key: string]: string | undefined };
-  StatusSummaries?: StatusSummary[];
+  Id?: string | undefined;
+  ManagerArn?: string | undefined;
+  ConfigurationDefinitionId?: string | undefined;
+  Type?: string | undefined;
+  TypeVersion?: string | undefined;
+  Region?: string | undefined;
+  Account?: string | undefined;
+  CreatedAt?: Date | undefined;
+  FirstClassParameters?: { [key: string]: string | undefined } | undefined;
+  StatusSummaries?: StatusSummary[] | undefined;
 }
 export type ConfigurationsList = ConfigurationSummary[];
 export interface ListConfigurationsOutput {
-  ConfigurationsList?: ConfigurationSummary[];
-  NextToken?: string;
+  ConfigurationsList?: ConfigurationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListQuickSetupTypesRequest {}
 export interface QuickSetupTypeOutput {
-  Type?: string;
-  LatestVersion?: string;
+  Type?: string | undefined;
+  LatestVersion?: string | undefined;
 }
 export type QuickSetupTypeList = QuickSetupTypeOutput[];
 export interface ListQuickSetupTypesOutput {
-  QuickSetupTypeList?: QuickSetupTypeOutput[];
+  QuickSetupTypeList?: QuickSetupTypeOutput[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface TagEntry {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type Tags = TagEntry[];
 export interface ListTagsForResourceResponse {
-  Tags?: TagEntry[];
+  Tags?: TagEntry[] | undefined;
 }
 export interface TagResourceInput {
   ResourceArn: string;
@@ -307,20 +307,20 @@ export interface UntagResourceResponse {}
 export interface UpdateConfigurationDefinitionInput {
   ManagerArn: string;
   Id: string;
-  TypeVersion?: string;
-  Parameters?: { [key: string]: string | undefined };
-  LocalDeploymentExecutionRoleName?: string;
-  LocalDeploymentAdministrationRoleArn?: string;
+  TypeVersion?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  LocalDeploymentExecutionRoleName?: string | undefined;
+  LocalDeploymentAdministrationRoleArn?: string | undefined;
 }
 export interface UpdateConfigurationDefinitionResponse {}
 export interface UpdateConfigurationManagerInput {
   ManagerArn: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateConfigurationManagerResponse {}
 export interface UpdateServiceSettingsInput {
-  ExplorerEnablingRoleArn?: string;
+  ExplorerEnablingRoleArn?: string | undefined;
 }
 export interface UpdateServiceSettingsResponse {}
 export type CreateConfigurationManagerError =

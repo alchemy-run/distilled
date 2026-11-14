@@ -85,38 +85,95 @@ export class NotFound
 /** Information about the member, resource, and permission to check. */
 export interface GoogleCloudPolicytroubleshooterV1betaAccessTuple {
   /** Required. The member, or principal, whose access you want to check, in the form of the email address that represents that member. For example, `alice@example.com` or `my-service-account@my-project.iam.gserviceaccount.com`. The member must be a Google Account or a service account. Other types of members are not supported. */
-  principal?: string;
+  principal?: string | undefined;
   /** Required. The full resource name that identifies the resource. For example, `//compute.googleapis.com/projects/my-project/zones/us-central1-a/instances/my-instance`. For examples of full resource names for Google Cloud services, see https://cloud.google.com/iam/help/troubleshooter/full-resource-names. */
-  fullResourceName?: string;
+  fullResourceName?: string | undefined;
   /** Required. The IAM permission to check for the specified member and resource. For a complete list of IAM permissions, see https://cloud.google.com/iam/help/permissions/reference. For a complete list of predefined IAM roles and the permissions in each role, see https://cloud.google.com/iam/help/roles/reference. */
-  permission?: string;
+  permission?: string | undefined;
 }
 /** Request for TroubleshootIamPolicy. */
 export interface GoogleCloudPolicytroubleshooterV1betaTroubleshootIamPolicyRequest {
   /** The information to use for checking whether a member has a permission for a resource. */
-  accessTuple?: GoogleCloudPolicytroubleshooterV1betaAccessTuple;
+  accessTuple?: GoogleCloudPolicytroubleshooterV1betaAccessTuple | undefined;
 }
-export interface TroubleshootIamRequest {
-  /** Request body */
-  body?: GoogleCloudPolicytroubleshooterV1betaTroubleshootIamPolicyRequest;
-}
+export interface TroubleshootIamRequest extends GoogleCloudPolicytroubleshooterV1betaTroubleshootIamPolicyRequest {}
 export type GoogleCloudPolicytroubleshooterV1betaTroubleshootIamPolicyResponseAccessEnum =
   | "ACCESS_STATE_UNSPECIFIED"
   | "GRANTED"
   | "NOT_GRANTED"
   | "UNKNOWN_CONDITIONAL"
   | "UNKNOWN_INFO_DENIED";
+export type GoogleCloudPolicytroubleshooterV1betaExplainedPolicyRelevanceEnum =
+  | "HEURISTIC_RELEVANCE_UNSPECIFIED"
+  | "NORMAL"
+  | "HIGH";
 export type GoogleCloudPolicytroubleshooterV1betaExplainedPolicyAccessEnum =
   | "ACCESS_STATE_UNSPECIFIED"
   | "GRANTED"
   | "NOT_GRANTED"
   | "UNKNOWN_CONDITIONAL"
   | "UNKNOWN_INFO_DENIED";
-export type GoogleCloudPolicytroubleshooterV1betaBindingExplanationRolePermissionRelevanceEnum =
-  | "HEURISTIC_RELEVANCE_UNSPECIFIED"
-  | "NORMAL"
-  | "HIGH";
-export type GoogleCloudPolicytroubleshooterV1betaBindingExplanationRelevanceEnum =
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface GoogleTypeExpr {
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
+}
+export type StringList = Array<string>;
+/** Associates `members`, or principals, with a `role`. */
+export interface GoogleIamV1Binding {
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: GoogleTypeExpr | undefined;
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList | undefined;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string | undefined;
+}
+export type GoogleIamV1BindingList = Array<GoogleIamV1Binding>;
+export type GoogleIamV1AuditLogConfigLogTypeEnum =
+  | "LOG_TYPE_UNSPECIFIED"
+  | "ADMIN_READ"
+  | "DATA_WRITE"
+  | "DATA_READ";
+/** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
+export interface GoogleIamV1AuditLogConfig {
+  /** The log type that this config enables. */
+  logType?: GoogleIamV1AuditLogConfigLogTypeEnum | undefined;
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList | undefined;
+}
+export type GoogleIamV1AuditLogConfigList = Array<GoogleIamV1AuditLogConfig>;
+/** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
+export interface GoogleIamV1AuditConfig {
+  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
+  service?: string | undefined;
+  /** The configuration for logging of each type of permission. */
+  auditLogConfigs?: GoogleIamV1AuditLogConfigList | undefined;
+}
+export type GoogleIamV1AuditConfigList = Array<GoogleIamV1AuditConfig>;
+/** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
+export interface GoogleIamV1Policy {
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: GoogleIamV1BindingList | undefined;
+  /** Specifies cloud audit logging configuration for this policy. */
+  auditConfigs?: GoogleIamV1AuditConfigList | undefined;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string | undefined;
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number | undefined;
+}
+export type GoogleCloudPolicytroubleshooterV1betaBindingExplanationAccessEnum =
+  | "ACCESS_STATE_UNSPECIFIED"
+  | "GRANTED"
+  | "NOT_GRANTED"
+  | "UNKNOWN_CONDITIONAL"
+  | "UNKNOWN_INFO_DENIED";
+export type GoogleCloudPolicytroubleshooterV1betaBindingExplanationAnnotatedMembershipRelevanceEnum =
   | "HEURISTIC_RELEVANCE_UNSPECIFIED"
   | "NORMAL"
   | "HIGH";
@@ -126,131 +183,81 @@ export type GoogleCloudPolicytroubleshooterV1betaBindingExplanationAnnotatedMemb
   | "MEMBERSHIP_NOT_INCLUDED"
   | "MEMBERSHIP_UNKNOWN_INFO_DENIED"
   | "MEMBERSHIP_UNKNOWN_UNSUPPORTED";
-export type GoogleCloudPolicytroubleshooterV1betaBindingExplanationAnnotatedMembershipRelevanceEnum =
-  | "HEURISTIC_RELEVANCE_UNSPECIFIED"
-  | "NORMAL"
-  | "HIGH";
 /** Details about whether the binding includes the member. */
 export interface GoogleCloudPolicytroubleshooterV1betaBindingExplanationAnnotatedMembership {
-  /** Indicates whether the binding includes the member. */
-  membership?: GoogleCloudPolicytroubleshooterV1betaBindingExplanationAnnotatedMembershipMembershipEnum;
   /** The relevance of the member's status to the overall determination for the binding. */
-  relevance?: GoogleCloudPolicytroubleshooterV1betaBindingExplanationAnnotatedMembershipRelevanceEnum;
+  relevance?:
+    | GoogleCloudPolicytroubleshooterV1betaBindingExplanationAnnotatedMembershipRelevanceEnum
+    | undefined;
+  /** Indicates whether the binding includes the member. */
+  membership?:
+    | GoogleCloudPolicytroubleshooterV1betaBindingExplanationAnnotatedMembershipMembershipEnum
+    | undefined;
 }
 export type GoogleCloudPolicytroubleshooterV1betaBindingExplanationAnnotatedMembershipMap = {
   [key: string]:
     | GoogleCloudPolicytroubleshooterV1betaBindingExplanationAnnotatedMembership
     | undefined;
 };
+export type GoogleCloudPolicytroubleshooterV1betaBindingExplanationRolePermissionRelevanceEnum =
+  | "HEURISTIC_RELEVANCE_UNSPECIFIED"
+  | "NORMAL"
+  | "HIGH";
 export type GoogleCloudPolicytroubleshooterV1betaBindingExplanationRolePermissionEnum =
   | "ROLE_PERMISSION_UNSPECIFIED"
   | "ROLE_PERMISSION_INCLUDED"
   | "ROLE_PERMISSION_NOT_INCLUDED"
   | "ROLE_PERMISSION_UNKNOWN_INFO_DENIED";
-export type GoogleCloudPolicytroubleshooterV1betaBindingExplanationAccessEnum =
-  | "ACCESS_STATE_UNSPECIFIED"
-  | "GRANTED"
-  | "NOT_GRANTED"
-  | "UNKNOWN_CONDITIONAL"
-  | "UNKNOWN_INFO_DENIED";
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface GoogleTypeExpr {
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
-}
-/** Details about how a binding in a policy affects a member's ability to use a permission. */
-export interface GoogleCloudPolicytroubleshooterV1betaBindingExplanation {
-  /** The relevance of the permission's existence, or nonexistence, in the role to the overall determination for the entire policy. */
-  rolePermissionRelevance?: GoogleCloudPolicytroubleshooterV1betaBindingExplanationRolePermissionRelevanceEnum;
-  /** The relevance of this binding to the overall determination for the entire policy. */
-  relevance?: GoogleCloudPolicytroubleshooterV1betaBindingExplanationRelevanceEnum;
-  /** Indicates whether each member in the binding includes the member specified in the request, either directly or indirectly. Each key identifies a member in the binding, and each value indicates whether the member in the binding includes the member in the request. For example, suppose that a binding includes the following members: * `user:alice@example.com` * `group:product-eng@example.com` You want to troubleshoot access for `user:bob@example.com`. This user is a member of the group `group:product-eng@example.com`. For the first member in the binding, the key is `user:alice@example.com`, and the `membership` field in the value is set to `MEMBERSHIP_NOT_INCLUDED`. For the second member in the binding, the key is `group:product-eng@example.com`, and the `membership` field in the value is set to `MEMBERSHIP_INCLUDED`. */
-  memberships?: GoogleCloudPolicytroubleshooterV1betaBindingExplanationAnnotatedMembershipMap;
-  /** Indicates whether the role granted by this binding contains the specified permission. */
-  rolePermission?: GoogleCloudPolicytroubleshooterV1betaBindingExplanationRolePermissionEnum;
-  /** Indicates whether _this binding_ provides the specified permission to the specified member for the specified resource. This field does _not_ indicate whether the member actually has the permission for the resource. There might be another binding that overrides this binding. To determine whether the member actually has the permission, use the `access` field in the TroubleshootIamPolicyResponse. */
-  access?: GoogleCloudPolicytroubleshooterV1betaBindingExplanationAccessEnum;
-  /** The role that this binding grants. For example, `roles/compute.serviceAgent`. For a complete list of predefined IAM roles, as well as the permissions in each role, see https://cloud.google.com/iam/help/roles/reference. */
-  role?: string;
-  /** A condition expression that prevents access unless the expression evaluates to `true`. To learn about IAM Conditions, see https://cloud.google.com/iam/help/conditions/overview. */
-  condition?: GoogleTypeExpr;
-}
-export type GoogleCloudPolicytroubleshooterV1betaBindingExplanationList =
-  Array<GoogleCloudPolicytroubleshooterV1betaBindingExplanation>;
-export type GoogleCloudPolicytroubleshooterV1betaExplainedPolicyRelevanceEnum =
+export type GoogleCloudPolicytroubleshooterV1betaBindingExplanationRelevanceEnum =
   | "HEURISTIC_RELEVANCE_UNSPECIFIED"
   | "NORMAL"
   | "HIGH";
-export type GoogleIamV1AuditLogConfigLogTypeEnum =
-  | "LOG_TYPE_UNSPECIFIED"
-  | "ADMIN_READ"
-  | "DATA_WRITE"
-  | "DATA_READ";
-export type StringList = Array<string>;
-/** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
-export interface GoogleIamV1AuditLogConfig {
-  /** The log type that this config enables. */
-  logType?: GoogleIamV1AuditLogConfigLogTypeEnum;
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
+/** Details about how a binding in a policy affects a member's ability to use a permission. */
+export interface GoogleCloudPolicytroubleshooterV1betaBindingExplanation {
+  /** Indicates whether _this binding_ provides the specified permission to the specified member for the specified resource. This field does _not_ indicate whether the member actually has the permission for the resource. There might be another binding that overrides this binding. To determine whether the member actually has the permission, use the `access` field in the TroubleshootIamPolicyResponse. */
+  access?: GoogleCloudPolicytroubleshooterV1betaBindingExplanationAccessEnum | undefined;
+  /** A condition expression that prevents access unless the expression evaluates to `true`. To learn about IAM Conditions, see https://cloud.google.com/iam/help/conditions/overview. */
+  condition?: GoogleTypeExpr | undefined;
+  /** The role that this binding grants. For example, `roles/compute.serviceAgent`. For a complete list of predefined IAM roles, as well as the permissions in each role, see https://cloud.google.com/iam/help/roles/reference. */
+  role?: string | undefined;
+  /** Indicates whether each member in the binding includes the member specified in the request, either directly or indirectly. Each key identifies a member in the binding, and each value indicates whether the member in the binding includes the member in the request. For example, suppose that a binding includes the following members: * `user:alice@example.com` * `group:product-eng@example.com` You want to troubleshoot access for `user:bob@example.com`. This user is a member of the group `group:product-eng@example.com`. For the first member in the binding, the key is `user:alice@example.com`, and the `membership` field in the value is set to `MEMBERSHIP_NOT_INCLUDED`. For the second member in the binding, the key is `group:product-eng@example.com`, and the `membership` field in the value is set to `MEMBERSHIP_INCLUDED`. */
+  memberships?:
+    | GoogleCloudPolicytroubleshooterV1betaBindingExplanationAnnotatedMembershipMap
+    | undefined;
+  /** The relevance of the permission's existence, or nonexistence, in the role to the overall determination for the entire policy. */
+  rolePermissionRelevance?:
+    | GoogleCloudPolicytroubleshooterV1betaBindingExplanationRolePermissionRelevanceEnum
+    | undefined;
+  /** Indicates whether the role granted by this binding contains the specified permission. */
+  rolePermission?:
+    | GoogleCloudPolicytroubleshooterV1betaBindingExplanationRolePermissionEnum
+    | undefined;
+  /** The relevance of this binding to the overall determination for the entire policy. */
+  relevance?: GoogleCloudPolicytroubleshooterV1betaBindingExplanationRelevanceEnum | undefined;
 }
-export type GoogleIamV1AuditLogConfigList = Array<GoogleIamV1AuditLogConfig>;
-/** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
-export interface GoogleIamV1AuditConfig {
-  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
-  /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: GoogleIamV1AuditLogConfigList;
-}
-export type GoogleIamV1AuditConfigList = Array<GoogleIamV1AuditConfig>;
-/** Associates `members`, or principals, with a `role`. */
-export interface GoogleIamV1Binding {
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: GoogleTypeExpr;
-}
-export type GoogleIamV1BindingList = Array<GoogleIamV1Binding>;
-/** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
-export interface GoogleIamV1Policy {
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
-  /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: GoogleIamV1AuditConfigList;
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: GoogleIamV1BindingList;
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
-}
+export type GoogleCloudPolicytroubleshooterV1betaBindingExplanationList =
+  Array<GoogleCloudPolicytroubleshooterV1betaBindingExplanation>;
 /** Details about how a specific IAM Policy contributed to the access check. */
 export interface GoogleCloudPolicytroubleshooterV1betaExplainedPolicy {
-  /** The full resource name that identifies the resource. For example, `//compute.googleapis.com/projects/my-project/zones/us-central1-a/instances/my-instance`. If the sender of the request does not have access to the policy, this field is omitted. For examples of full resource names for Google Cloud services, see https://cloud.google.com/iam/help/troubleshooter/full-resource-names. */
-  fullResourceName?: string;
-  /** Indicates whether _this policy_ provides the specified permission to the specified member for the specified resource. This field does _not_ indicate whether the member actually has the permission for the resource. There might be another policy that overrides this policy. To determine whether the member actually has the permission, use the `access` field in the TroubleshootIamPolicyResponse. */
-  access?: GoogleCloudPolicytroubleshooterV1betaExplainedPolicyAccessEnum;
-  /** Details about how each binding in the policy affects the member's ability, or inability, to use the permission for the resource. If the sender of the request does not have access to the policy, this field is omitted. */
-  bindingExplanations?: GoogleCloudPolicytroubleshooterV1betaBindingExplanationList;
   /** The relevance of this policy to the overall determination in the TroubleshootIamPolicyResponse. If the sender of the request does not have access to the policy, this field is omitted. */
-  relevance?: GoogleCloudPolicytroubleshooterV1betaExplainedPolicyRelevanceEnum;
+  relevance?: GoogleCloudPolicytroubleshooterV1betaExplainedPolicyRelevanceEnum | undefined;
+  /** Indicates whether _this policy_ provides the specified permission to the specified member for the specified resource. This field does _not_ indicate whether the member actually has the permission for the resource. There might be another policy that overrides this policy. To determine whether the member actually has the permission, use the `access` field in the TroubleshootIamPolicyResponse. */
+  access?: GoogleCloudPolicytroubleshooterV1betaExplainedPolicyAccessEnum | undefined;
   /** The IAM policy attached to the resource. If the sender of the request does not have access to the policy, this field is empty. */
-  policy?: GoogleIamV1Policy;
+  policy?: GoogleIamV1Policy | undefined;
+  /** Details about how each binding in the policy affects the member's ability, or inability, to use the permission for the resource. If the sender of the request does not have access to the policy, this field is omitted. */
+  bindingExplanations?: GoogleCloudPolicytroubleshooterV1betaBindingExplanationList | undefined;
+  /** The full resource name that identifies the resource. For example, `//compute.googleapis.com/projects/my-project/zones/us-central1-a/instances/my-instance`. If the sender of the request does not have access to the policy, this field is omitted. For examples of full resource names for Google Cloud services, see https://cloud.google.com/iam/help/troubleshooter/full-resource-names. */
+  fullResourceName?: string | undefined;
 }
 export type GoogleCloudPolicytroubleshooterV1betaExplainedPolicyList =
   Array<GoogleCloudPolicytroubleshooterV1betaExplainedPolicy>;
 /** Response for TroubleshootIamPolicy. */
 export interface GoogleCloudPolicytroubleshooterV1betaTroubleshootIamPolicyResponse {
   /** Indicates whether the member has the specified permission for the specified resource, based on evaluating all of the applicable policies. */
-  access?: GoogleCloudPolicytroubleshooterV1betaTroubleshootIamPolicyResponseAccessEnum;
+  access?: GoogleCloudPolicytroubleshooterV1betaTroubleshootIamPolicyResponseAccessEnum | undefined;
   /** List of IAM policies that were evaluated to check the member's permissions, with annotations to indicate how each policy contributed to the final result. The list of policies can include the policy for the resource itself. It can also include policies that are inherited from higher levels of the resource hierarchy, including the organization, the folder, and the project. To learn more about the resource hierarchy, see https://cloud.google.com/iam/help/resource-hierarchy. */
-  explainedPolicies?: GoogleCloudPolicytroubleshooterV1betaExplainedPolicyList;
+  explainedPolicies?: GoogleCloudPolicytroubleshooterV1betaExplainedPolicyList | undefined;
 }
 export type TroubleshootIamError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Checks whether a member has a specific permission for a specific resource, and explains why the member does or does not have that permission. */
@@ -294,9 +301,7 @@ function __c0(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1, __c0, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/iam:troubleshoot",
@@ -307,84 +312,84 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          membership: S.optional(S.String),
-          relevance: S.optional(S.String),
+          location: S.optional(S.String),
+          description: S.optional(S.String),
+          title: S.optional(S.String),
+          expression: S.optional(S.String),
         }),
-      ).annotate({
-        identifier: "GoogleCloudPolicytroubleshooterV1betaBindingExplanationAnnotatedMembership",
-      });
+      ).annotate({ identifier: "GoogleTypeExpr" });
     case 4:
-      return S.Record(S.String, __S(3, __c0, 3));
+      return S.Array(S.String);
     case 5:
       return S.suspend(() =>
         S.Struct({
-          title: S.optional(S.String),
-          expression: S.optional(S.String),
-          location: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleTypeExpr" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          rolePermissionRelevance: S.optional(S.String),
-          relevance: S.optional(S.String),
-          memberships: S.optional(__S(4, __c0, 4)),
-          rolePermission: S.optional(S.String),
-          access: S.optional(S.String),
+          condition: S.optional(__S(3, __c0, 3)),
+          members: S.optional(__S(4, __c0, 4)),
           role: S.optional(S.String),
-          condition: S.optional(__S(5, __c0, 5)),
         }),
-      ).annotate({ identifier: "GoogleCloudPolicytroubleshooterV1betaBindingExplanation" });
+      ).annotate({ identifier: "GoogleIamV1Binding" });
+    case 6:
+      return S.Array(__S(5, __c0, 5));
     case 7:
-      return S.Array(__S(6, __c0, 6));
-    case 8:
-      return S.Array(S.String);
-    case 9:
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(8, __c0, 8)),
+          exemptedMembers: S.optional(__S(4, __c0, 4)),
         }),
       ).annotate({ identifier: "GoogleIamV1AuditLogConfig" });
+    case 8:
+      return S.Array(__S(7, __c0, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          service: S.optional(S.String),
+          auditLogConfigs: S.optional(__S(8, __c0, 8)),
+        }),
+      ).annotate({ identifier: "GoogleIamV1AuditConfig" });
     case 10:
       return S.Array(__S(9, __c0, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(10, __c0, 10)),
-        }),
-      ).annotate({ identifier: "GoogleIamV1AuditConfig" });
-    case 12:
-      return S.Array(__S(11, __c0, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          members: S.optional(__S(8, __c0, 8)),
-          role: S.optional(S.String),
-          condition: S.optional(__S(5, __c0, 5)),
-        }),
-      ).annotate({ identifier: "GoogleIamV1Binding" });
-    case 14:
-      return S.Array(__S(13, __c0, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
+          bindings: S.optional(__S(6, __c0, 6)),
+          auditConfigs: S.optional(__S(10, __c0, 10)),
           etag: S.optional(S.String),
-          auditConfigs: S.optional(__S(12, __c0, 12)),
-          bindings: S.optional(__S(14, __c0, 14)),
           version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleIamV1Policy" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          relevance: S.optional(S.String),
+          membership: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier: "GoogleCloudPolicytroubleshooterV1betaBindingExplanationAnnotatedMembership",
+      });
+    case 13:
+      return S.Record(S.String, __S(12, __c0, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          access: S.optional(S.String),
+          condition: S.optional(__S(3, __c0, 3)),
+          role: S.optional(S.String),
+          memberships: S.optional(__S(13, __c0, 13)),
+          rolePermissionRelevance: S.optional(S.String),
+          rolePermission: S.optional(S.String),
+          relevance: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudPolicytroubleshooterV1betaBindingExplanation" });
+    case 15:
+      return S.Array(__S(14, __c0, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          fullResourceName: S.optional(S.String),
-          access: S.optional(S.String),
-          bindingExplanations: S.optional(__S(7, __c0, 7)),
           relevance: S.optional(S.String),
-          policy: S.optional(__S(15, __c0, 15)),
+          access: S.optional(S.String),
+          policy: S.optional(__S(11, __c0, 11)),
+          bindingExplanations: S.optional(__S(15, __c0, 15)),
+          fullResourceName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicytroubleshooterV1betaExplainedPolicy" });
     case 17:

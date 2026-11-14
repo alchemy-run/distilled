@@ -6,6 +6,7 @@
  * Everything else in this folder is hand-written.
  */
 export * from "./credentials.ts";
+export * from "./auth-token.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
 export {

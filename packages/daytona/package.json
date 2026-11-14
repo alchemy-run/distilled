@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/daytona",
-  "version": "1.0.0-rc.18",
+  "version": "1.0.0-rc.20",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -52,6 +52,12 @@
       "worker": "./src/retry.ts",
       "default": "./lib/retry.js"
     },
+    "./Toolbox": {
+      "types": "./lib/toolbox.d.ts",
+      "bun": "./src/toolbox.ts",
+      "worker": "./src/toolbox.ts",
+      "default": "./lib/toolbox.js"
+    },
     "./Traits": {
       "types": "./lib/traits.d.ts",
       "bun": "./src/traits.ts",
@@ -85,7 +91,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-25",
-    "specUpdatedAt": "2026-10-06"
+    "generatedAt": "2026-11-10",
+    "specUpdatedAt": "2026-10-27"
   }
 }

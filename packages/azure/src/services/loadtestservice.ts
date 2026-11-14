@@ -36,37 +36,37 @@ export interface CheckPlaywrightWorkspaceNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type CheckPlaywrightWorkspaceNameAvailabilityResponseReason = "Invalid" | "AlreadyExists";
 export interface CheckPlaywrightWorkspaceNameAvailabilityResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: CheckPlaywrightWorkspaceNameAvailabilityResponseReason;
+  reason?: CheckPlaywrightWorkspaceNameAvailabilityResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Dimensions for new quota request. */
 export interface QuotaBucketRequestPropertiesDimensions {
   /** Subscription Id dimension for new quota request of the quota bucket. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Location dimension for new quota request of the quota bucket. */
-  location?: string;
+  location?: string | undefined;
 }
 /** New quota request request properties. */
 export interface QuotaBucketRequestProperties {
   /** Current quota usage of the quota bucket. */
-  currentUsage?: number;
+  currentUsage?: number | undefined;
   /** Current quota limit of the quota bucket. */
-  currentQuota?: number;
+  currentQuota?: number | undefined;
   /** New quota limit of the quota bucket. */
-  newQuota?: number;
+  newQuota?: number | undefined;
   /** Dimensions for new quota request. */
-  dimensions?: QuotaBucketRequestPropertiesDimensions;
+  dimensions?: QuotaBucketRequestPropertiesDimensions | undefined;
 }
 export interface CheckQuotasAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -76,7 +76,7 @@ export interface CheckQuotasAvailabilityRequest {
   /** The quota name. */
   quotaBucketName: string;
   /** Request object of new quota for a quota bucket. */
-  properties?: QuotaBucketRequestProperties;
+  properties?: QuotaBucketRequestProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type CheckQuotaAvailabilityResponseSystemDataCreatedByType =
@@ -93,24 +93,24 @@ export type CheckQuotaAvailabilityResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface CheckQuotaAvailabilityResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: CheckQuotaAvailabilityResponseSystemDataCreatedByType;
+  createdByType?: CheckQuotaAvailabilityResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CheckQuotaAvailabilityResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: CheckQuotaAvailabilityResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Check quota availability response properties. */
 export interface CheckQuotaAvailabilityResponseProperties {
   /** True/False indicating whether the quota request be granted based on availability. */
-  isAvailable?: boolean;
+  isAvailable?: boolean | undefined;
   /** Message indicating additional details to add to quota support request. */
-  availabilityStatus?: string;
+  availabilityStatus?: string | undefined;
 }
 /** Check quota availability response object. */
 export interface CheckQuotaAvailabilityResponse {
@@ -119,11 +119,11 @@ export interface CheckQuotaAvailabilityResponse {
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type: string;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CheckQuotaAvailabilityResponseSystemData;
+  systemData?: CheckQuotaAvailabilityResponseSystemData | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Check quota availability response properties. */
-  properties?: CheckQuotaAvailabilityResponseProperties;
+  properties?: CheckQuotaAvailabilityResponseProperties | undefined;
 }
 export interface DeleteLoadTestRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -135,9 +135,9 @@ export interface DeleteLoadTestRequest {
 }
 export interface DeleteLoadTestResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePlaywrightWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -149,9 +149,9 @@ export interface DeletePlaywrightWorkspaceRequest {
 }
 export interface DeletePlaywrightWorkspaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetLoadTestRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -168,17 +168,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type GetLoadTestResponseTagsMap = { [key: string]: string | undefined };
@@ -189,27 +189,27 @@ export type Type = "SystemAssigned" | "UserAssigned";
 /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
 export interface EncryptionPropertiesIdentity {
   /** Managed identity type to use for accessing encryption key Url. */
-  type?: Type | (string & {});
+  type?: Type | (string & {}) | undefined;
   /** User assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/a0a0a0a0-bbbb-cccd-dddd-e1e1e1e1e1e1/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. */
-  resourceId?: string | null;
+  resourceId?: string | null | undefined;
 }
 /** Key and identity details for Customer Managed Key encryption of load test resource. */
 export interface EncryptionProperties {
   /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-  identity?: EncryptionPropertiesIdentity;
+  identity?: EncryptionPropertiesIdentity | undefined;
   /** key encryption key Url, versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. */
-  keyUrl?: string;
+  keyUrl?: string | undefined;
 }
 /** LoadTest resource properties. */
 export interface LoadTestProperties {
   /** Description of the resource. */
-  description?: string;
+  description?: string | undefined;
   /** Resource provisioning state. */
-  provisioningState?: ResourceState;
+  provisioningState?: ResourceState | undefined;
   /** Resource data plane URI. */
-  dataPlaneURI?: string;
+  dataPlaneURI?: string | undefined;
   /** CMK Encryption property. */
-  encryption?: EncryptionProperties;
+  encryption?: EncryptionProperties | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -220,38 +220,38 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetLoadTestResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface GetLoadTestResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetLoadTestResponseTagsMap;
+  tags?: GetLoadTestResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: LoadTestProperties;
+  properties?: LoadTestProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetLoadTestResponseIdentity;
+  identity?: GetLoadTestResponseIdentity | undefined;
 }
 export type GetPlaywrightQuotasRequestPlaywrightQuotaName = "ExecutionMinutes";
 export interface GetPlaywrightQuotasRequest {
@@ -282,21 +282,21 @@ export type ProvisioningState =
 /** Subscription-level location-based Playwright quota resource properties. */
 export interface PlaywrightQuotaProperties {
   /** The subscription-level location-based Playwright quota free trial properties. */
-  freeTrial?: FreeTrialProperties;
+  freeTrial?: FreeTrialProperties | undefined;
   /** The status of the last resource operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetPlaywrightQuotasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PlaywrightQuotaProperties;
+  properties?: PlaywrightQuotaProperties | undefined;
 }
 export interface GetPlaywrightWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -308,38 +308,38 @@ export interface GetPlaywrightWorkspaceRequest {
 }
 /** Resource tags. */
 export type GetPlaywrightWorkspaceResponseTagsMap = { [key: string]: string | undefined };
-/** Controls the connection region for client workers to cloud-hosted browsers. When enabled, workers connect to browsers in the closest Azure region for lower latency. When disabled, workers connect to browsers in the Azure region where the workspace was created. */
+/** Specifies where client workers connect to cloud-hosted browsers. When Enabled, workers connect to browsers in the nearest Azure region to reduce latency. When Disabled, workers connect to browsers in the workspace's Azure region. */
 export type PlaywrightWorkspacePropertiesRegionalAffinity = "Enabled" | "Disabled";
-/** Enables the workspace to use local authentication through service access tokens for operations. */
+/** Specifies whether service access tokens can be used to authenticate workspace operations. */
 export type PlaywrightWorkspacePropertiesLocalAuth = "Enabled" | "Disabled";
 /** Playwright workspace resource properties. */
 export interface PlaywrightWorkspaceProperties {
   /** The status of the last resource operation. */
-  provisioningState?: ProvisioningState;
-  /** The workspace data plane service API URI. */
-  dataplaneUri?: string;
-  /** Controls the connection region for client workers to cloud-hosted browsers. When enabled, workers connect to browsers in the closest Azure region for lower latency. When disabled, workers connect to browsers in the Azure region where the workspace was created. */
-  regionalAffinity?: PlaywrightWorkspacePropertiesRegionalAffinity;
-  /** Enables the workspace to use local authentication through service access tokens for operations. */
-  localAuth?: PlaywrightWorkspacePropertiesLocalAuth;
+  provisioningState?: ProvisioningState | undefined;
+  /** The API endpoint for workspace data plane operations. */
+  dataplaneUri?: string | undefined;
+  /** Specifies where client workers connect to cloud-hosted browsers. When Enabled, workers connect to browsers in the nearest Azure region to reduce latency. When Disabled, workers connect to browsers in the workspace's Azure region. */
+  regionalAffinity?: PlaywrightWorkspacePropertiesRegionalAffinity | undefined;
+  /** Specifies whether service access tokens can be used to authenticate workspace operations. */
+  localAuth?: PlaywrightWorkspacePropertiesLocalAuth | undefined;
   /** The workspace ID in GUID format. */
-  workspaceId?: string;
+  workspaceId?: string | undefined;
 }
 export interface GetPlaywrightWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetPlaywrightWorkspaceResponseTagsMap;
+  tags?: GetPlaywrightWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PlaywrightWorkspaceProperties;
+  properties?: PlaywrightWorkspaceProperties | undefined;
 }
 export type GetPlaywrightWorkspaceQuotasRequestQuotaName = "ExecutionMinutes";
 export interface GetPlaywrightWorkspaceQuotasRequest {
@@ -368,21 +368,21 @@ export interface PlaywrightWorkspaceFreeTrialProperties {
 /** Playwright workspace quota resource properties. */
 export interface PlaywrightWorkspaceQuotaProperties {
   /** The Playwright workspace quota free trial properties. */
-  freeTrial?: PlaywrightWorkspaceFreeTrialProperties;
+  freeTrial?: PlaywrightWorkspaceFreeTrialProperties | undefined;
   /** The status of the last resource operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetPlaywrightWorkspaceQuotasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PlaywrightWorkspaceQuotaProperties;
+  properties?: PlaywrightWorkspaceQuotaProperties | undefined;
 }
 export interface GetQuotasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -395,23 +395,23 @@ export interface GetQuotasRequest {
 /** Quota bucket resource properties. */
 export interface QuotaResourceProperties {
   /** Current quota limit of the quota bucket. */
-  limit?: number;
+  limit?: number | undefined;
   /** Current quota usage of the quota bucket. */
-  usage?: number;
+  usage?: number | undefined;
   /** Resource provisioning state. */
-  provisioningState?: ResourceState;
+  provisioningState?: ResourceState | undefined;
 }
 export interface GetQuotasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: QuotaResourceProperties;
+  properties?: QuotaResourceProperties | undefined;
 }
 export interface ListLoadTestByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -426,21 +426,21 @@ export type LoadTestResourceIdentity = GetLoadTestResponseIdentity;
 /** LoadTest details. */
 export interface LoadTestResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: LoadTestResourceTagsMap;
+  tags?: LoadTestResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: LoadTestProperties;
+  properties?: LoadTestProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetLoadTestResponseIdentity;
+  identity?: GetLoadTestResponseIdentity | undefined;
 }
 /** The LoadTestResource items on this page */
 export type LoadTestResourceListResultValueList = Array<LoadTestResource>;
@@ -449,7 +449,7 @@ export interface LoadTestResourceListResult {
   /** The LoadTestResource items on this page */
   value: LoadTestResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLoadTestBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -466,7 +466,7 @@ export interface ListLoadTestOutboundNetworkDependenciesEndpointsRequest {
 /** Details about the connection between the Batch service and the endpoint. */
 export interface EndpointDetail {
   /** The port an endpoint is connected to. */
-  port?: number;
+  port?: number | undefined;
 }
 /** The list of connection details for this endpoint. */
 export type EndpointDependencyEndpointDetailsList = Array<EndpointDetail>;
@@ -475,18 +475,18 @@ export interface EndpointDependency {
   /** The domain name of the dependency. Domain names may be fully qualified or may contain a * wildcard. */
   domainName: string;
   /** Human-readable supplemental information about the dependency and when it is applicable. */
-  description?: string;
+  description?: string | undefined;
   /** The list of connection details for this endpoint. */
-  endpointDetails?: EndpointDependencyEndpointDetailsList;
+  endpointDetails?: EndpointDependencyEndpointDetailsList | undefined;
 }
 /** The endpoints for this service to which the Batch service makes outbound calls. */
 export type OutboundEnvironmentEndpointEndpointsList = Array<EndpointDependency>;
 /** A collection of related endpoints from the same service for which the Batch service requires outbound access. */
 export interface OutboundEnvironmentEndpoint {
   /** The type of service that Azure Load Testing connects to. */
-  category?: string;
+  category?: string | undefined;
   /** The endpoints for this service to which the Batch service makes outbound calls. */
-  endpoints?: OutboundEnvironmentEndpointEndpointsList;
+  endpoints?: OutboundEnvironmentEndpointEndpointsList | undefined;
 }
 /** The OutboundEnvironmentEndpoint items on this page */
 export type PagedOutboundEnvironmentEndpointValueList = Array<OutboundEnvironmentEndpoint>;
@@ -495,19 +495,19 @@ export interface PagedOutboundEnvironmentEndpoint {
   /** The OutboundEnvironmentEndpoint items on this page */
   value: PagedOutboundEnvironmentEndpointValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -516,23 +516,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPlaywrightQuotasBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -543,15 +543,15 @@ export interface ListPlaywrightQuotasBySubscriptionRequest {
 /** Subscription-level location-based Playwright quota resource. */
 export interface PlaywrightQuota {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PlaywrightQuotaProperties;
+  properties?: PlaywrightQuotaProperties | undefined;
 }
 /** The PlaywrightQuota items on this page */
 export type PlaywrightQuotaListResultValueList = Array<PlaywrightQuota>;
@@ -560,7 +560,7 @@ export interface PlaywrightQuotaListResult {
   /** The PlaywrightQuota items on this page */
   value: PlaywrightQuotaListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPlaywrightWorkspaceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -573,19 +573,19 @@ export type PlaywrightWorkspaceTagsMap = { [key: string]: string | undefined };
 /** Playwright workspace resource. */
 export interface PlaywrightWorkspace {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PlaywrightWorkspaceTagsMap;
+  tags?: PlaywrightWorkspaceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PlaywrightWorkspaceProperties;
+  properties?: PlaywrightWorkspaceProperties | undefined;
 }
 /** The PlaywrightWorkspace items on this page */
 export type PlaywrightWorkspaceListResultValueList = Array<PlaywrightWorkspace>;
@@ -594,7 +594,7 @@ export interface PlaywrightWorkspaceListResult {
   /** The PlaywrightWorkspace items on this page */
   value: PlaywrightWorkspaceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPlaywrightWorkspaceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -611,15 +611,15 @@ export interface ListPlaywrightWorkspaceQuotasByPlaywrightWorkspaceRequest {
 /** Playwright workspace quota resource. */
 export interface PlaywrightWorkspaceQuota {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PlaywrightWorkspaceQuotaProperties;
+  properties?: PlaywrightWorkspaceQuotaProperties | undefined;
 }
 /** The PlaywrightWorkspaceQuota items on this page */
 export type PlaywrightWorkspaceQuotaListResultValueList = Array<PlaywrightWorkspaceQuota>;
@@ -628,7 +628,7 @@ export interface PlaywrightWorkspaceQuotaListResult {
   /** The PlaywrightWorkspaceQuota items on this page */
   value: PlaywrightWorkspaceQuotaListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListQuotasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -639,15 +639,15 @@ export interface ListQuotasRequest {
 /** Quota bucket details object. */
 export interface QuotaResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: QuotaResourceProperties;
+  properties?: QuotaResourceProperties | undefined;
 }
 /** The QuotaResource items on this page */
 export type QuotaResourceListResultValueList = Array<QuotaResource>;
@@ -656,16 +656,16 @@ export interface QuotaResourceListResult {
   /** The QuotaResource items on this page */
   value: QuotaResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type LoadTestsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** LoadTest resource properties. */
 export interface LoadTestPropertiesInput {
   /** Description of the resource. */
-  description?: string;
+  description?: string | undefined;
   /** CMK Encryption property. */
-  encryption?: EncryptionProperties;
+  encryption?: EncryptionProperties | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
@@ -676,7 +676,7 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface LoadTestsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface LoadTestsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -686,13 +686,13 @@ export interface LoadTestsCreateOrUpdateRequest {
   /** Load Test name */
   loadTestName: string;
   /** Resource tags. */
-  tags?: LoadTestsCreateOrUpdateRequestTagsMap;
+  tags?: LoadTestsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: LoadTestPropertiesInput;
+  properties?: LoadTestPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: LoadTestsCreateOrUpdateRequestIdentity;
+  identity?: LoadTestsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type LoadTestsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -700,40 +700,40 @@ export type LoadTestsCreateOrUpdateResponseTagsMap = { [key: string]: string | u
 export type LoadTestsCreateOrUpdateResponseIdentity = GetLoadTestResponseIdentity;
 export interface LoadTestsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: LoadTestsCreateOrUpdateResponseTagsMap;
+  tags?: LoadTestsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: LoadTestProperties;
+  properties?: LoadTestProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetLoadTestResponseIdentity;
+  identity?: GetLoadTestResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type PlaywrightWorkspacesCreateOrUpdateRequestTagsMap = {
   [key: string]: string | undefined;
 };
-/** Controls the connection region for client workers to cloud-hosted browsers. When enabled, workers connect to browsers in the closest Azure region for lower latency. When disabled, workers connect to browsers in the Azure region where the workspace was created. */
+/** Specifies where client workers connect to cloud-hosted browsers. When Enabled, workers connect to browsers in the nearest Azure region to reduce latency. When Disabled, workers connect to browsers in the workspace's Azure region. */
 export type PlaywrightWorkspacePropertiesInputRegionalAffinity = "Enabled" | "Disabled";
-/** Enables the workspace to use local authentication through service access tokens for operations. */
+/** Specifies whether service access tokens can be used to authenticate workspace operations. */
 export type PlaywrightWorkspacePropertiesInputLocalAuth = "Enabled" | "Disabled";
 /** Playwright workspace resource properties. */
 export interface PlaywrightWorkspacePropertiesInput {
-  /** Controls the connection region for client workers to cloud-hosted browsers. When enabled, workers connect to browsers in the closest Azure region for lower latency. When disabled, workers connect to browsers in the Azure region where the workspace was created. */
-  regionalAffinity?: PlaywrightWorkspacePropertiesInputRegionalAffinity | (string & {});
-  /** Enables the workspace to use local authentication through service access tokens for operations. */
-  localAuth?: PlaywrightWorkspacePropertiesInputLocalAuth | (string & {});
+  /** Specifies where client workers connect to cloud-hosted browsers. When Enabled, workers connect to browsers in the nearest Azure region to reduce latency. When Disabled, workers connect to browsers in the workspace's Azure region. */
+  regionalAffinity?: PlaywrightWorkspacePropertiesInputRegionalAffinity | (string & {}) | undefined;
+  /** Specifies whether service access tokens can be used to authenticate workspace operations. */
+  localAuth?: PlaywrightWorkspacePropertiesInputLocalAuth | (string & {}) | undefined;
 }
 export interface PlaywrightWorkspacesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -743,11 +743,11 @@ export interface PlaywrightWorkspacesCreateOrUpdateRequest {
   /** The name of the PlaywrightWorkspace */
   playwrightWorkspaceName: string;
   /** Resource tags. */
-  tags?: PlaywrightWorkspacesCreateOrUpdateRequestTagsMap;
+  tags?: PlaywrightWorkspacesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PlaywrightWorkspacePropertiesInput;
+  properties?: PlaywrightWorkspacePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type PlaywrightWorkspacesCreateOrUpdateResponseTagsMap = {
@@ -755,23 +755,23 @@ export type PlaywrightWorkspacesCreateOrUpdateResponseTagsMap = {
 };
 export interface PlaywrightWorkspacesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PlaywrightWorkspacesCreateOrUpdateResponseTagsMap;
+  tags?: PlaywrightWorkspacesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PlaywrightWorkspaceProperties;
+  properties?: PlaywrightWorkspaceProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateLoadTestRequestIdentity = LoadTestsCreateOrUpdateRequestIdentity;
@@ -787,11 +787,11 @@ export interface UpdateLoadTestRequest {
   /** Load Test name */
   loadTestName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: LoadTestsCreateOrUpdateRequestIdentity;
+  identity?: LoadTestsCreateOrUpdateRequestIdentity | undefined;
   /** Resource tags. */
-  tags?: UpdateLoadTestRequestTagsMap;
+  tags?: UpdateLoadTestRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: LoadTestPropertiesInput;
+  properties?: LoadTestPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateLoadTestResponseTagsMap = { [key: string]: string | undefined };
@@ -799,27 +799,27 @@ export type UpdateLoadTestResponseTagsMap = { [key: string]: string | undefined 
 export type UpdateLoadTestResponseIdentity = GetLoadTestResponseIdentity;
 export interface UpdateLoadTestResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateLoadTestResponseTagsMap;
+  tags?: UpdateLoadTestResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: LoadTestProperties;
+  properties?: LoadTestProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetLoadTestResponseIdentity;
+  identity?: GetLoadTestResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdatePlaywrightWorkspaceRequestTagsMap = { [key: string]: string | undefined };
@@ -827,10 +827,10 @@ export type UpdatePlaywrightWorkspaceRequestTagsMap = { [key: string]: string | 
 export type EnablementStatus = "Enabled" | "Disabled";
 /** The updatable properties of the PlaywrightWorkspace. */
 export interface PlaywrightWorkspaceUpdateProperties {
-  /** Controls the connection region for client workers to cloud-hosted browsers. When enabled, workers connect to browsers in the closest Azure region for lower latency. When disabled, workers connect to browsers in the Azure region where the workspace was created. */
-  regionalAffinity?: EnablementStatus | (string & {});
-  /** Enables the workspace to use local authentication through service access tokens for operations. */
-  localAuth?: EnablementStatus | (string & {});
+  /** Specifies where client workers connect to cloud-hosted browsers. When Enabled, workers connect to browsers in the nearest Azure region to reduce latency. When Disabled, workers connect to browsers in the workspace's Azure region. */
+  regionalAffinity?: EnablementStatus | (string & {}) | undefined;
+  /** Specifies whether service access tokens can be used to authenticate workspace operations. */
+  localAuth?: EnablementStatus | (string & {}) | undefined;
 }
 export interface UpdatePlaywrightWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -840,27 +840,27 @@ export interface UpdatePlaywrightWorkspaceRequest {
   /** The name of the PlaywrightWorkspace */
   playwrightWorkspaceName: string;
   /** Resource tags. */
-  tags?: UpdatePlaywrightWorkspaceRequestTagsMap;
+  tags?: UpdatePlaywrightWorkspaceRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PlaywrightWorkspaceUpdateProperties;
+  properties?: PlaywrightWorkspaceUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdatePlaywrightWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePlaywrightWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdatePlaywrightWorkspaceResponseTagsMap;
+  tags?: UpdatePlaywrightWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PlaywrightWorkspaceProperties;
+  properties?: PlaywrightWorkspaceProperties | undefined;
 }
 export type CheckPlaywrightWorkspaceNameAvailabilityError = AzureOpError;
 /** Checks if a Playwright workspace name is available globally. */

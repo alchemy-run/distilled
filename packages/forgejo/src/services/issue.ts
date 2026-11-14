@@ -87,141 +87,141 @@ export interface CreateIssueRequest {
   /** name of the repo */
   repo: string;
   /** deprecated */
-  assignee?: string;
-  assignees?: CreateIssueRequestAssigneesList;
-  body?: string;
-  closed?: boolean;
-  due_date?: string;
+  assignee?: string | undefined;
+  assignees?: CreateIssueRequestAssigneesList | undefined;
+  body?: string | undefined;
+  closed?: boolean | undefined;
+  due_date?: string | undefined;
   /** list of label ids */
-  labels?: CreateIssueRequestLabelsList;
+  labels?: CreateIssueRequestLabelsList | undefined;
   /** milestone id */
-  milestone?: number;
-  ref?: string;
+  milestone?: number | undefined;
+  ref?: string | undefined;
   title: string;
 }
 export type AttachmentType = "attachment" | "external";
 /** Attachment a generic attachment */
 export interface Attachment {
-  browser_download_url?: string;
-  created_at?: string;
-  download_count?: number;
-  id?: number;
-  name?: string;
-  size?: number;
-  type?: AttachmentType;
-  uuid?: string;
+  browser_download_url?: string | undefined;
+  created_at?: string | undefined;
+  download_count?: number | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
+  size?: number | undefined;
+  type?: AttachmentType | undefined;
+  uuid?: string | undefined;
 }
 export type IssueAssetsList = Array<Attachment>;
 /** User represents a user */
 export interface User {
   /** Is user active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** URL to the user's avatar */
-  avatar_url?: string;
-  created?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
   /** the user's description */
-  description?: string;
-  email?: string;
+  description?: string | undefined;
+  email?: string | undefined;
   /** user counts */
-  followers_count?: number;
-  following_count?: number;
+  followers_count?: number | undefined;
+  following_count?: number | undefined;
   /** the user's full name */
-  full_name?: string;
+  full_name?: string | undefined;
   /** URL to the user's profile page */
-  html_url?: string;
+  html_url?: string | undefined;
   /** the user's id */
   id: number;
   /** Is the user an administrator */
-  is_admin?: boolean;
+  is_admin?: boolean | undefined;
   /** User locale */
-  language?: string;
-  last_login?: string;
+  language?: string | undefined;
+  last_login?: string | undefined;
   /** the user's location */
-  location?: string;
+  location?: string | undefined;
   /** the user's username */
   login: string;
   /** the user's authentication sign-in name. */
-  login_name?: string;
+  login_name?: string | undefined;
   /** Is user login prohibited */
-  prohibit_login?: boolean;
+  prohibit_login?: boolean | undefined;
   /** the user's pronouns */
-  pronouns?: string;
+  pronouns?: string | undefined;
   /** Is user restricted */
-  restricted?: boolean;
+  restricted?: boolean | undefined;
   /** The ID of the user's Authentication Source */
-  source_id?: number;
-  starred_repos_count?: number;
+  source_id?: number | undefined;
+  starred_repos_count?: number | undefined;
   /** User visibility level option: public, limited, private */
-  visibility?: string;
+  visibility?: string | undefined;
   /** the user's website */
-  website?: string;
+  website?: string | undefined;
 }
 export type IssueAssigneesList = Array<User>;
 /** Label a label to an issue or a pr */
 export interface Label {
   color: string;
-  description?: string;
-  exclusive?: boolean;
+  description?: string | undefined;
+  exclusive?: boolean | undefined;
   id: number;
-  is_archived?: boolean;
+  is_archived?: boolean | undefined;
   name: string;
-  url?: string;
+  url?: string | undefined;
 }
 export type IssueLabelsList = Array<Label>;
 /** Milestone milestone is a collection of issues on one repository */
 export interface Milestone {
-  closed_at?: string;
-  closed_issues?: number;
-  created_at?: string;
-  description?: string;
-  due_on?: string;
-  id?: number;
-  open_issues?: number;
-  state?: string;
-  title?: string;
-  updated_at?: string;
+  closed_at?: string | undefined;
+  closed_issues?: number | undefined;
+  created_at?: string | undefined;
+  description?: string | undefined;
+  due_on?: string | undefined;
+  id?: number | undefined;
+  open_issues?: number | undefined;
+  state?: string | undefined;
+  title?: string | undefined;
+  updated_at?: string | undefined;
 }
 /** PullRequestMeta PR info if an issue is a PR */
 export interface PullRequestMeta {
-  draft?: boolean;
-  html_url?: string;
-  merged?: boolean;
-  merged_at?: string;
+  draft?: boolean | undefined;
+  html_url?: string | undefined;
+  merged?: boolean | undefined;
+  merged_at?: string | undefined;
 }
 /** RepositoryMeta basic repository information */
 export interface RepositoryMeta {
-  full_name?: string;
-  id?: number;
-  name?: string;
-  owner?: string;
+  full_name?: string | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
+  owner?: string | undefined;
 }
 /** Issue represents an issue in a repository */
 export interface Issue {
-  assets?: IssueAssetsList;
-  assignee?: User;
-  assignees?: IssueAssigneesList;
-  body?: string;
-  closed_at?: string;
-  comments?: number;
-  created_at?: string;
-  due_date?: string;
-  html_url?: string;
-  id?: number;
-  is_locked?: boolean;
-  labels?: IssueLabelsList;
-  milestone?: Milestone;
-  number?: number;
-  original_author?: string;
-  original_author_id?: number;
-  pin_order?: number;
-  pull_request?: PullRequestMeta;
-  ref?: string;
-  repository?: RepositoryMeta;
-  state?: string;
-  title?: string;
-  updated_at?: string;
-  url?: string;
-  user?: User;
+  assets?: IssueAssetsList | undefined;
+  assignee?: User | undefined;
+  assignees?: IssueAssigneesList | undefined;
+  body?: string | undefined;
+  closed_at?: string | undefined;
+  comments?: number | undefined;
+  created_at?: string | undefined;
+  due_date?: string | undefined;
+  html_url?: string | undefined;
+  id?: number | undefined;
+  is_locked?: boolean | undefined;
+  labels?: IssueLabelsList | undefined;
+  milestone?: Milestone | undefined;
+  number?: number | undefined;
+  original_author?: string | undefined;
+  original_author_id?: number | undefined;
+  pin_order?: number | undefined;
+  pull_request?: PullRequestMeta | undefined;
+  ref?: string | undefined;
+  repository?: RepositoryMeta | undefined;
+  state?: string | undefined;
+  title?: string | undefined;
+  updated_at?: string | undefined;
+  url?: string | undefined;
+  user?: User | undefined;
 }
 export interface CreateIssueAttachmentRequest {
   /** owner of the repo */
@@ -231,9 +231,9 @@ export interface CreateIssueAttachmentRequest {
   /** index of the issue */
   index: number;
   /** name of the attachment */
-  name?: string;
+  name?: string | undefined;
   /** time of the attachment's creation. This is a timestamp in RFC 3339 format */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface CreateIssueBlockingRequest {
   /** owner of the repo */
@@ -251,9 +251,9 @@ export interface CreateIssueCommentAttachmentRequest {
   /** id of the comment */
   id: number;
   /** name of the attachment */
-  name?: string;
+  name?: string | undefined;
   /** time of the attachment's creation. This is a timestamp in RFC 3339 format */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface CreateIssueDependenciesRequest {
   /** owner of the repo */
@@ -301,7 +301,7 @@ export interface DeleteIssueReactionRequest {
   repo: string;
   /** index of the issue */
   index: number;
-  content?: string;
+  content?: string | undefined;
 }
 export interface DeleteIssueReactionResponse {}
 export type EditIssueRequestAssigneesList = Array<string>;
@@ -313,16 +313,16 @@ export interface EditIssueRequest {
   /** index of the issue to edit */
   index: number;
   /** deprecated */
-  assignee?: string;
-  assignees?: EditIssueRequestAssigneesList;
-  body?: string;
-  due_date?: string;
-  milestone?: number;
-  ref?: string;
-  state?: string;
-  title?: string;
-  unset_due_date?: boolean;
-  updated_at?: string;
+  assignee?: string | undefined;
+  assignees?: EditIssueRequestAssigneesList | undefined;
+  body?: string | undefined;
+  due_date?: string | undefined;
+  milestone?: number | undefined;
+  ref?: string | undefined;
+  state?: string | undefined;
+  title?: string | undefined;
+  unset_due_date?: boolean | undefined;
+  updated_at?: string | undefined;
 }
 export interface EditIssueAttachmentRequest {
   /** owner of the repo */
@@ -334,8 +334,8 @@ export interface EditIssueAttachmentRequest {
   /** id of the attachment to edit */
   attachment_id: number;
   /** (Can only be set if existing attachment is of external type) */
-  browser_download_url?: string;
-  name?: string;
+  browser_download_url?: string | undefined;
+  name?: string | undefined;
 }
 export interface EditIssueCommentAttachmentRequest {
   /** owner of the repo */
@@ -347,8 +347,8 @@ export interface EditIssueCommentAttachmentRequest {
   /** id of the attachment to edit */
   attachment_id: number;
   /** (Can only be set if existing attachment is of external type) */
-  browser_download_url?: string;
-  name?: string;
+  browser_download_url?: string | undefined;
+  name?: string | undefined;
 }
 export interface EditIssueDeadlineRequest {
   /** owner of the repo */
@@ -361,7 +361,7 @@ export interface EditIssueDeadlineRequest {
 }
 /** IssueDeadline represents an issue deadline */
 export interface IssueDeadline {
-  due_date?: string;
+  due_date?: string | undefined;
 }
 export interface GetIssueRequest {
   /** owner of the repo */
@@ -399,15 +399,15 @@ export interface GetIssueReactionsRequest {
   /** index of the issue */
   index: number;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Reaction contain one reaction */
 export interface Reaction {
-  content?: string;
-  created_at?: string;
-  user?: User;
+  content?: string | undefined;
+  created_at?: string | undefined;
+  user?: User | undefined;
 }
 export type GetIssueReactionsResponseBodyList = Array<Reaction>;
 export type GetIssueReactionsResponse = GetIssueReactionsResponseBodyList;
@@ -421,8 +421,8 @@ export interface IssueAddLabelRequest {
   /** index of the issue */
   index: number;
   /** Labels can be a list of integers representing label IDs or a list of strings representing label names */
-  labels?: IssueAddLabelRequestLabelsList;
-  updated_at?: string;
+  labels?: IssueAddLabelRequestLabelsList | undefined;
+  updated_at?: string | undefined;
 }
 export type IssueAddLabelResponseBodyList = Array<Label>;
 export type IssueAddLabelResponse = IssueAddLabelResponseBodyList;
@@ -444,24 +444,24 @@ export interface IssueAddTimeRequest {
   repo: string;
   /** index of the issue */
   index: number;
-  created?: string;
+  created?: string | undefined;
   /** time in seconds */
   time: number;
   /** User who spent the time (optional) */
-  user_name?: string;
+  user_name?: string | undefined;
 }
 /** TrackedTime worked time for an issue / pr */
 export interface TrackedTime {
-  created?: string;
-  id?: number;
-  issue?: Issue;
+  created?: string | undefined;
+  id?: number | undefined;
+  issue?: Issue | undefined;
   /** deprecated (only for backwards compatibility) */
-  issue_id?: number;
+  issue_id?: number | undefined;
   /** Time in seconds */
-  time?: number;
+  time?: number | undefined;
   /** deprecated (only for backwards compatibility) */
-  user_id?: number;
-  user_name?: string;
+  user_id?: number | undefined;
+  user_name?: string | undefined;
 }
 export interface IssueCheckSubscriptionRequest {
   /** owner of the repo */
@@ -473,12 +473,12 @@ export interface IssueCheckSubscriptionRequest {
 }
 /** WatchInfo represents an API watch status of one repository */
 export interface WatchInfo {
-  created_at?: string;
-  ignored?: boolean;
-  reason?: unknown;
-  repository_url?: string;
-  subscribed?: boolean;
-  url?: string;
+  created_at?: string | undefined;
+  ignored?: boolean | undefined;
+  reason?: unknown | undefined;
+  repository_url?: string | undefined;
+  subscribed?: boolean | undefined;
+  url?: string | undefined;
 }
 export interface IssueClearLabelsRequest {
   /** owner of the repo */
@@ -487,7 +487,7 @@ export interface IssueClearLabelsRequest {
   repo: string;
   /** index of the issue */
   index: number;
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface IssueClearLabelsResponse {}
 export interface IssueCreateCommentRequest {
@@ -500,33 +500,33 @@ export interface IssueCreateCommentRequest {
   /** The body of the comment */
   body: string;
   /** The time of the comment's update, needs admin or repository owner permission */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** The attachments to the comment */
 export type CommentAssetsList = Array<Attachment>;
 /** Comment represents a comment on a commit or issue */
 export interface Comment {
   /** The attachments to the comment */
-  assets?: CommentAssetsList;
+  assets?: CommentAssetsList | undefined;
   /** The body of the comment */
-  body?: string;
+  body?: string | undefined;
   /** The time of the comment's creation */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The HTML URL of the comment */
-  html_url?: string;
+  html_url?: string | undefined;
   /** The identifier of the comment */
-  id?: number;
+  id?: number | undefined;
   /** The HTML URL of the issue if the comment is posted on an issue, else empty string */
-  issue_url?: string;
+  issue_url?: string | undefined;
   /** The original author that posted the comment if it was not posted locally, else empty string */
-  original_author?: string;
+  original_author?: string | undefined;
   /** The ID of the original author that posted the comment if it was not posted locally, else 0 */
-  original_author_id?: number;
+  original_author_id?: number | undefined;
   /** The HTML URL of the pull request if the comment is posted on a pull request, else empty string */
-  pull_request_url?: string;
+  pull_request_url?: string | undefined;
   /** The time of the comment's update */
-  updated_at?: string;
-  user?: User;
+  updated_at?: string | undefined;
+  user?: User | undefined;
 }
 export interface IssueCreateLabelRequest {
   /** owner of the repo */
@@ -534,9 +534,9 @@ export interface IssueCreateLabelRequest {
   /** name of the repo */
   repo: string;
   color: string;
-  description?: string;
-  exclusive?: boolean;
-  is_archived?: boolean;
+  description?: string | undefined;
+  exclusive?: boolean | undefined;
+  is_archived?: boolean | undefined;
   name: string;
 }
 export type IssueCreateMilestoneRequestState = "open" | "closed";
@@ -545,10 +545,10 @@ export interface IssueCreateMilestoneRequest {
   owner: string;
   /** name of the repo */
   repo: string;
-  description?: string;
-  due_on?: string;
-  state?: IssueCreateMilestoneRequestState | (string & {});
-  title?: string;
+  description?: string | undefined;
+  due_on?: string | undefined;
+  state?: IssueCreateMilestoneRequestState | (string & {}) | undefined;
+  title?: string | undefined;
 }
 export interface IssueDeleteCommentRequest {
   /** owner of the repo */
@@ -566,7 +566,7 @@ export interface IssueDeleteCommentReactionRequest {
   repo: string;
   /** id of the comment to edit */
   id: number;
-  content?: string;
+  content?: string | undefined;
 }
 export interface IssueDeleteCommentReactionResponse {}
 export interface IssueDeleteLabelRequest {
@@ -628,7 +628,7 @@ export interface IssueEditCommentRequest {
   /** The body of the comment */
   body: string;
   /** The time of the comment's update, needs admin or repository owner permission */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface IssueEditLabelRequest {
   /** owner of the repo */
@@ -637,11 +637,11 @@ export interface IssueEditLabelRequest {
   repo: string;
   /** id of the label to edit */
   id: number;
-  color?: string;
-  description?: string;
-  exclusive?: boolean;
-  is_archived?: boolean;
-  name?: string;
+  color?: string | undefined;
+  description?: string | undefined;
+  exclusive?: boolean | undefined;
+  is_archived?: boolean | undefined;
+  name?: string | undefined;
 }
 export interface IssueEditMilestoneRequest {
   /** owner of the repo */
@@ -650,10 +650,10 @@ export interface IssueEditMilestoneRequest {
   repo: string;
   /** the milestone to edit, identified by ID and if not available by name */
   id: number;
-  description?: string;
-  due_on?: string;
-  state?: string;
-  title?: string;
+  description?: string | undefined;
+  due_on?: string | undefined;
+  state?: string | undefined;
+  title?: string | undefined;
 }
 export interface IssueGetCommentRequest {
   /** owner of the repo */
@@ -681,9 +681,9 @@ export interface IssueGetCommentsRequest {
   /** index of the issue */
   index: number;
   /** if provided, only comments updated since the specified time are returned. */
-  since?: string;
+  since?: string | undefined;
   /** if provided, only comments updated before the provided time are returned. */
-  before?: string;
+  before?: string | undefined;
 }
 export type IssueGetCommentsResponseBodyList = Array<Comment>;
 export type IssueGetCommentsResponse = IssueGetCommentsResponseBodyList;
@@ -695,78 +695,78 @@ export interface IssueGetCommentsAndTimelineRequest {
   /** index of the issue */
   index: number;
   /** if provided, only comments updated since the specified time are returned. */
-  since?: string;
+  since?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
   /** if provided, only comments updated before the provided time are returned. */
-  before?: string;
+  before?: string | undefined;
 }
 /** Organization represents an organization */
 export interface Organization {
-  avatar_url?: string;
-  created?: string;
-  description?: string;
-  email?: string;
-  full_name?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
+  description?: string | undefined;
+  email?: string | undefined;
+  full_name?: string | undefined;
   id: number;
-  location?: string;
-  name?: string;
-  repo_admin_change_team_access?: boolean;
+  location?: string | undefined;
+  name?: string | undefined;
+  repo_admin_change_team_access?: boolean | undefined;
   /** deprecated */
   username: string;
-  visibility?: string;
-  website?: string;
+  visibility?: string | undefined;
+  website?: string | undefined;
 }
 export type TeamPermission = "none" | "read" | "write" | "admin" | "owner";
 export type TeamUnitsList = Array<string>;
 export type TeamUnitsMapMap = { [key: string]: string | undefined };
 /** Team represents a team in an organization */
 export interface Team {
-  can_create_org_repo?: boolean;
-  description?: string;
+  can_create_org_repo?: boolean | undefined;
+  description?: string | undefined;
   id: number;
-  includes_all_repositories?: boolean;
+  includes_all_repositories?: boolean | undefined;
   name: string;
-  organization?: Organization;
-  permission?: TeamPermission;
-  units?: TeamUnitsList;
-  units_map?: TeamUnitsMapMap;
+  organization?: Organization | undefined;
+  permission?: TeamPermission | undefined;
+  units?: TeamUnitsList | undefined;
+  units_map?: TeamUnitsMapMap | undefined;
 }
 /** TimelineComment represents a timeline comment (comment of any type) on a commit or issue */
 export interface TimelineComment {
-  assignee?: User;
-  assignee_team?: Team;
-  body?: string;
-  created_at?: string;
-  dependent_issue?: Issue;
-  html_url?: string;
-  id?: number;
-  issue_url?: string;
-  label?: Label;
-  milestone?: Milestone;
-  new_ref?: string;
-  new_title?: string;
-  old_milestone?: Milestone;
-  old_project_id?: number;
-  old_ref?: string;
-  old_title?: string;
-  project_id?: number;
-  pull_request_url?: string;
-  ref_action?: string;
-  ref_comment?: Comment;
+  assignee?: User | undefined;
+  assignee_team?: Team | undefined;
+  body?: string | undefined;
+  created_at?: string | undefined;
+  dependent_issue?: Issue | undefined;
+  html_url?: string | undefined;
+  id?: number | undefined;
+  issue_url?: string | undefined;
+  label?: Label | undefined;
+  milestone?: Milestone | undefined;
+  new_ref?: string | undefined;
+  new_title?: string | undefined;
+  old_milestone?: Milestone | undefined;
+  old_project_id?: number | undefined;
+  old_ref?: string | undefined;
+  old_title?: string | undefined;
+  project_id?: number | undefined;
+  pull_request_url?: string | undefined;
+  ref_action?: string | undefined;
+  ref_comment?: Comment | undefined;
   /** commit SHA where issue/PR was referenced */
-  ref_commit_sha?: string;
-  ref_issue?: Issue;
+  ref_commit_sha?: string | undefined;
+  ref_issue?: Issue | undefined;
   /** whether the assignees were removed or added */
-  removed_assignee?: boolean;
-  resolve_doer?: User;
-  review_id?: number;
-  tracked_time?: TrackedTime;
-  type?: string;
-  updated_at?: string;
-  user?: User;
+  removed_assignee?: boolean | undefined;
+  resolve_doer?: User | undefined;
+  review_id?: number | undefined;
+  tracked_time?: TrackedTime | undefined;
+  type?: string | undefined;
+  updated_at?: string | undefined;
+  user?: User | undefined;
 }
 export type IssueGetCommentsAndTimelineResponseBodyList = Array<TimelineComment>;
 export type IssueGetCommentsAndTimelineResponse = IssueGetCommentsAndTimelineResponseBodyList;
@@ -802,13 +802,13 @@ export interface IssueGetMilestonesListRequest {
   /** name of the repo */
   repo: string;
   /** Milestone state, Recognized values are open, closed and all. Defaults to "open" */
-  state?: string;
+  state?: string | undefined;
   /** filter by milestone name */
-  name?: string;
+  name?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type IssueGetMilestonesListResponseBodyList = Array<Milestone>;
 export type IssueGetMilestonesListResponse = IssueGetMilestonesListResponseBodyList;
@@ -818,13 +818,13 @@ export interface IssueGetRepoCommentsRequest {
   /** name of the repo */
   repo: string;
   /** if provided, only comments updated since the provided time are returned. */
-  since?: string;
+  since?: string | undefined;
   /** if provided, only comments updated before the provided time are returned. */
-  before?: string;
+  before?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type IssueGetRepoCommentsResponseBodyList = Array<Comment>;
 export type IssueGetRepoCommentsResponse = IssueGetRepoCommentsResponseBodyList;
@@ -836,9 +836,9 @@ export interface IssueListBlocksRequest {
   /** index of the issue */
   index: number;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type IssueListBlocksResponseBodyList = Array<Issue>;
 export type IssueListBlocksResponse = IssueListBlocksResponseBodyList;
@@ -849,11 +849,11 @@ export interface IssueListLabelsRequest {
   /** name of the repo */
   repo: string;
   /** Specifies the sorting method: mostissues, leastissues, or reversealphabetically. */
-  sort?: IssueListLabelsRequestSort | (string & {});
+  sort?: IssueListLabelsRequestSort | (string & {}) | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type IssueListLabelsResponseBodyList = Array<Label>;
 export type IssueListLabelsResponse = IssueListLabelsResponseBodyList;
@@ -864,7 +864,7 @@ export interface IssuePostCommentReactionRequest {
   repo: string;
   /** id of the comment to edit */
   id: number;
-  content?: string;
+  content?: string | undefined;
 }
 export interface IssueRemoveLabelRequest {
   /** owner of the repo */
@@ -875,7 +875,7 @@ export interface IssueRemoveLabelRequest {
   index: number;
   /** name or id of the label to remove */
   identifier: string;
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface IssueRemoveLabelResponse {}
 /** Labels can be a list of integers representing label IDs or a list of strings representing label names */
@@ -888,8 +888,8 @@ export interface IssueReplaceLabelsRequest {
   /** index of the issue */
   index: number;
   /** Labels can be a list of integers representing label IDs or a list of strings representing label names */
-  labels?: IssueReplaceLabelsRequestLabelsList;
-  updated_at?: string;
+  labels?: IssueReplaceLabelsRequestLabelsList | undefined;
+  updated_at?: string | undefined;
 }
 export type IssueReplaceLabelsResponseBodyList = Array<Label>;
 export type IssueReplaceLabelsResponse = IssueReplaceLabelsResponseBodyList;
@@ -928,9 +928,9 @@ export interface IssueSubscriptionsRequest {
   /** index of the issue */
   index: number;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type IssueSubscriptionsResponseBodyList = Array<User>;
 export type IssueSubscriptionsResponse = IssueSubscriptionsResponseBodyList;
@@ -942,15 +942,15 @@ export interface IssueTrackedTimesRequest {
   /** index of the issue */
   index: number;
   /** optional filter by user (available for issue managers) */
-  user?: string;
+  user?: string | undefined;
   /** Only show times updated after the given time. This is a timestamp in RFC 3339 format */
-  since?: string;
+  since?: string | undefined;
   /** Only show times updated before the given time. This is a timestamp in RFC 3339 format */
-  before?: string;
+  before?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type IssueTrackedTimesResponseBodyList = Array<TrackedTime>;
 export type IssueTrackedTimesResponse = IssueTrackedTimesResponseBodyList;
@@ -982,9 +982,9 @@ export interface ListIssueDependenciesRequest {
   /** index of the issue */
   index: number;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListIssueDependenciesResponseBodyList = Array<Issue>;
 export type ListIssueDependenciesResponse = ListIssueDependenciesResponseBodyList;
@@ -1006,31 +1006,31 @@ export interface ListIssuesRequest {
   /** name of the repo */
   repo: string;
   /** whether issue is open or closed */
-  state?: ListIssuesRequestState | (string & {});
+  state?: ListIssuesRequestState | (string & {}) | undefined;
   /** comma separated list of labels. Fetch only issues that have any of this labels. Non existent labels are discarded */
-  labels?: string;
+  labels?: string | undefined;
   /** search string */
-  q?: string;
+  q?: string | undefined;
   /** filter by type (issues / pulls) if set */
-  type?: ListIssuesRequestType | (string & {});
+  type?: ListIssuesRequestType | (string & {}) | undefined;
   /** comma separated list of milestone names or ids. It uses names and fall back to ids. Fetch only issues that have any of this milestones. Non existent milestones are discarded */
-  milestones?: string;
+  milestones?: string | undefined;
   /** Only show items updated after the given time. This is a timestamp in RFC 3339 format */
-  since?: string;
+  since?: string | undefined;
   /** Only show items updated before the given time. This is a timestamp in RFC 3339 format */
-  before?: string;
+  before?: string | undefined;
   /** Only show items which were created by the given user */
-  created_by?: string;
+  created_by?: string | undefined;
   /** Only show items for which the given user is assigned */
-  assigned_by?: string;
+  assigned_by?: string | undefined;
   /** Only show items in which the given user was mentioned */
-  mentioned_by?: string;
+  mentioned_by?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
   /** Type of sort */
-  sort?: ListIssuesRequestSort | (string & {});
+  sort?: ListIssuesRequestSort | (string & {}) | undefined;
 }
 export type ListIssuesResponseBodyList = Array<Issue>;
 export type ListIssuesResponse = ListIssuesResponseBodyList;
@@ -1061,7 +1061,7 @@ export interface PostIssueReactionRequest {
   repo: string;
   /** index of the issue */
   index: number;
-  content?: string;
+  content?: string | undefined;
 }
 export interface RemoveIssueBlockingRequest {
   /** owner of the repo */
@@ -1093,41 +1093,41 @@ export type SearchIssuesRequestSort =
   | "farduedate";
 export interface SearchIssuesRequest {
   /** State of the issue */
-  state?: SearchIssuesRequestState | (string & {});
+  state?: SearchIssuesRequestState | (string & {}) | undefined;
   /** Comma-separated list of label names. Fetch only issues that have any of these labels. Non existent labels are discarded. */
-  labels?: string;
+  labels?: string | undefined;
   /** Comma-separated list of milestone names. Fetch only issues that have any of these milestones. Non existent milestones are discarded. */
-  milestones?: string;
+  milestones?: string | undefined;
   /** Search string */
-  q?: string;
+  q?: string | undefined;
   /** Repository ID to prioritize in the results */
-  priority_repo_id?: number;
+  priority_repo_id?: number | undefined;
   /** Filter by issue type */
-  type?: SearchIssuesRequestType | (string & {});
+  type?: SearchIssuesRequestType | (string & {}) | undefined;
   /** Only show issues updated after the given time (RFC 3339 format) */
-  since?: string;
+  since?: string | undefined;
   /** Only show issues updated before the given time (RFC 3339 format) */
-  before?: string;
+  before?: string | undefined;
   /** Filter issues or pulls assigned to the authenticated user */
-  assigned?: boolean;
+  assigned?: boolean | undefined;
   /** Filter issues or pulls created by the authenticated user */
-  created?: boolean;
+  created?: boolean | undefined;
   /** Filter issues or pulls mentioning the authenticated user */
-  mentioned?: boolean;
+  mentioned?: boolean | undefined;
   /** Filter pull requests where the authenticated user's review was requested */
-  review_requested?: boolean;
+  review_requested?: boolean | undefined;
   /** Filter pull requests reviewed by the authenticated user */
-  reviewed?: boolean;
+  reviewed?: boolean | undefined;
   /** Filter by repository owner */
-  owner?: string;
+  owner?: string | undefined;
   /** Filter by team (requires organization owner parameter) */
-  team?: string;
+  team?: string | undefined;
   /** Page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  limit?: number;
+  limit?: number | undefined;
   /** Type of sort */
-  sort?: SearchIssuesRequestSort | (string & {});
+  sort?: SearchIssuesRequestSort | (string & {}) | undefined;
 }
 export type SearchIssuesResponseBodyList = Array<Issue>;
 export type SearchIssuesResponse = SearchIssuesResponseBodyList;

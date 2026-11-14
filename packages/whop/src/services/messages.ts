@@ -84,17 +84,17 @@ export interface CreateMessageRequestPoll {
 }
 export interface CreateMessageRequest {
   /** A list of file attachments to include with the message, such as images or videos. */
-  attachments?: CreateMessageRequestAttachmentsList | null;
+  attachments?: CreateMessageRequestAttachmentsList | null | undefined;
   /** Automatically detect URLs in the message and generate link previews. */
-  auto_detect_links?: boolean | null;
+  auto_detect_links?: boolean | null | undefined;
   /** The unique identifier of the channel or experience to send the message in. For example, 'exp_xxxxx' or 'feed_xxxxx'. */
   channel_id: string;
   /** The body of the message in Markdown format. For example, 'Hello **world**'. */
   content: string;
   /** A poll to attach to this message, allowing recipients to vote on options. */
-  poll?: CreateMessageRequestPoll | null;
+  poll?: CreateMessageRequestPoll | null | undefined;
   /** The unique identifier of the message this is replying to, creating a threaded reply. */
-  replying_to_message_id?: string | null;
+  replying_to_message_id?: string | null | undefined;
 }
 /** A list of user IDs that are explicitly mentioned in this message. */
 export type MessageMentionsList = Array<string>;
@@ -186,12 +186,12 @@ export interface GetMessageRequest {
 /** The direction of the sort. */
 export type Direction = "asc" | "desc";
 export interface ListMessageRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
   channel_id: string;
-  direction?: Direction | (string & {});
+  direction?: Direction | (string & {}) | undefined;
 }
 /** A list of user IDs that are explicitly mentioned in this message. */
 export type MessageListItemMentionsList = Array<string>;
@@ -274,11 +274,11 @@ export interface UpdateMessageRequest {
   /** The unique identifier of the message to update. */
   id: string;
   /** A replacement list of file attachments for this message, such as images or videos. */
-  attachments?: UpdateMessageRequestAttachmentsList | null;
+  attachments?: UpdateMessageRequestAttachmentsList | null | undefined;
   /** The updated body of the message in Markdown format. For example, 'Hello **world**'. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** Whether this message should be pinned to the top of the channel. */
-  is_pinned?: boolean | null;
+  is_pinned?: boolean | null | undefined;
 }
 export type CreateMessageError =
   | BadRequest

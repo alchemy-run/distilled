@@ -70,21 +70,21 @@ export interface CreateCourseRequestThumbnail {
 export type CourseVisibilities = "visible" | "hidden";
 export interface CreateCourseRequest {
   /** Whether the course awards students a PDF certificate after completing all lessons. */
-  certificate_after_completion_enabled?: boolean | null;
+  certificate_after_completion_enabled?: boolean | null | undefined;
   /** The unique identifier of the experience to create the course in (e.g., "exp_XXXXX"). */
   experience_id: string;
   /** The decimal order position of the course within its experience. Use fractional values (e.g., "1.5") to place between existing courses. */
-  order?: string | null;
+  order?: string | null | undefined;
   /** Whether students must complete each lesson sequentially before advancing to the next one. */
-  require_completing_lessons_in_order?: boolean | null;
+  require_completing_lessons_in_order?: boolean | null | undefined;
   /** A short tagline displayed beneath the course title (e.g., "Master the fundamentals of design"). */
-  tagline?: string | null;
+  tagline?: string | null | undefined;
   /** The thumbnail image for the course in PNG, JPEG, or GIF format. */
-  thumbnail?: CreateCourseRequestThumbnail | null;
+  thumbnail?: CreateCourseRequestThumbnail | null | undefined;
   /** The display title of the course (e.g., "Introduction to Web Development"). */
   title: string;
   /** Controls whether this course is visible to students or hidden as a draft. */
-  visibility?: CourseVisibilities | (string & {}) | null;
+  visibility?: CourseVisibilities | (string & {}) | null | undefined;
 }
 /** The available types for a lesson */
 export type LessonTypes = "text" | "video" | "pdf" | "multi" | "quiz" | "knowledge_check";
@@ -233,12 +233,12 @@ export interface GetCourseRequest {
   id: string;
 }
 export interface ListCourseRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  experience_id?: string;
-  account_id?: string;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  experience_id?: string | undefined;
+  account_id?: string | undefined;
 }
 /** The distinct drip schedules, in days after the course start, of lessons visible to the current user. Combine with startedAt to work out which have unlocked. Empty when the user has not started the course or no lesson is on a schedule. */
 export type CourseListItemLessonUnlockDaysList = Array<number>;
@@ -329,7 +329,7 @@ export interface UpdateCourseRequestChaptersItem {
   /** The ID of the chapter to update */
   id: string;
   /** The lessons to update within this chapter */
-  lessons?: UpdateCourseRequestChaptersItemLessonsList | null;
+  lessons?: UpdateCourseRequestChaptersItemLessonsList | null | undefined;
   /** The order of the chapter within its course */
   order: number;
   /** The title of the chapter */
@@ -343,25 +343,25 @@ export interface UpdateCourseRequest {
   /** The unique identifier of the course to update (e.g., "course_XXXXX"). */
   id: string;
   /** Whether the course awards students a PDF certificate after completing all lessons. */
-  certificate_after_completion_enabled?: boolean | null;
+  certificate_after_completion_enabled?: boolean | null | undefined;
   /** A list of chapters with nested lessons to reorder or rename in bulk. */
-  chapters?: UpdateCourseRequestChaptersList | null;
+  chapters?: UpdateCourseRequestChaptersList | null | undefined;
   /** A short description of the course displayed to students on the course page. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The primary language spoken in the video content of the course. */
-  language?: Languages | (string & {}) | null;
+  language?: Languages | (string & {}) | null | undefined;
   /** The decimal order position of the course within its experience. Use fractional values (e.g., "1.5") to place between existing courses. */
-  order?: string | null;
+  order?: string | null | undefined;
   /** Whether students must complete each lesson sequentially before advancing to the next one. */
-  require_completing_lessons_in_order?: boolean | null;
+  require_completing_lessons_in_order?: boolean | null | undefined;
   /** A short tagline displayed beneath the course title (e.g., "Master the fundamentals of design"). */
-  tagline?: string | null;
+  tagline?: string | null | undefined;
   /** The thumbnail image for the course in PNG, JPEG, or GIF format. */
-  thumbnail?: CreateCourseRequestThumbnail | null;
+  thumbnail?: CreateCourseRequestThumbnail | null | undefined;
   /** The display title of the course (e.g., "Introduction to Web Development"). */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Controls whether this course is visible to students or hidden as a draft. */
-  visibility?: CourseVisibilities | (string & {}) | null;
+  visibility?: CourseVisibilities | (string & {}) | null | undefined;
 }
 export type CreateCourseError =
   | BadRequest
