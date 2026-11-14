@@ -108,7 +108,7 @@ export class InternalServerError
     "InternalServerError",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class RateLimitError
   extends /*@__PURE__*/ S.TaggedError<RateLimitError>()(
     "RateLimitError",

@@ -132,7 +132,7 @@ export class IdempotentCallInProgressFault
       /*@__PURE__*/ T.AwsQueryError({ code: "IdempotentCallInProgress", httpResponseCode: 500 }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class IdempotentParameterMismatchError
   extends /*@__PURE__*/ S.TaggedError<IdempotentParameterMismatchError>()(
     "IdempotentParameterMismatchError",
@@ -195,7 +195,7 @@ export class ResourceContentionFault
       /*@__PURE__*/ T.AwsQueryError({ code: "ResourceContention", httpResponseCode: 500 }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceInUseFault
   extends /*@__PURE__*/ S.TaggedError<ResourceInUseFault>()(
     "ResourceInUseFault",
@@ -222,7 +222,7 @@ export class ServiceLinkedRoleFailure
       /*@__PURE__*/ T.AwsQueryError({ code: "ServiceLinkedRoleFailure", httpResponseCode: 500 }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export type XmlStringMaxLen19 = string;
 export type InstanceIds = string[];
 export type XmlStringMaxLen255 = string;

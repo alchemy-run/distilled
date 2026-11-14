@@ -305,7 +305,7 @@ export class InternalServerError
     "InternalServerError",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.AwsQueryError({ code: "InternalServerError", httpResponseCode: 500 }),
-  ) {}
+  ).pipe(C.withRetryableError) {}
 export class InvalidActivation
   extends /*@__PURE__*/ S.TaggedError<InvalidActivation>()(
     "InvalidActivation",

@@ -192,7 +192,7 @@ export class EC2AccessDeniedException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(502),
-  ).pipe(C.withServerError, C.withAuthError) {}
+  ).pipe(C.withServerError, C.withRetryableError, C.withAuthError) {}
 export class EC2ThrottledException
   extends /*@__PURE__*/ S.TaggedError<EC2ThrottledException>()(
     "EC2ThrottledException",
@@ -211,7 +211,7 @@ export class EC2UnexpectedException
       EC2ErrorCode: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(502),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class EFSIOException
   extends /*@__PURE__*/ S.TaggedError<EFSIOException>()(
     "EFSIOException",
@@ -256,7 +256,7 @@ export class ENILimitReachedException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(502),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ENINotReadyException
   extends /*@__PURE__*/ S.TaggedError<ENINotReadyException>()(
     "ENINotReadyException",
@@ -265,7 +265,7 @@ export class ENINotReadyException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(502),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ExecutionRoleMissingPermissions
   extends /*@__PURE__*/ S.TaggedError<ExecutionRoleMissingPermissions>()(
     "ExecutionRoleMissingPermissions",
@@ -349,7 +349,7 @@ export class InvalidRuntimeException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(502),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidSecurityGroupIDException
   extends /*@__PURE__*/ S.TaggedError<InvalidSecurityGroupIDException>()(
     "InvalidSecurityGroupIDException",
@@ -358,7 +358,7 @@ export class InvalidSecurityGroupIDException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(502),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidSubnetIDException
   extends /*@__PURE__*/ S.TaggedError<InvalidSubnetIDException>()(
     "InvalidSubnetIDException",
@@ -367,7 +367,7 @@ export class InvalidSubnetIDException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(502),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidZipFileException
   extends /*@__PURE__*/ S.TaggedError<InvalidZipFileException>()(
     "InvalidZipFileException",
@@ -376,7 +376,7 @@ export class InvalidZipFileException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(502),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class KMSAccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<KMSAccessDeniedException>()(
     "KMSAccessDeniedException",
@@ -385,7 +385,7 @@ export class KMSAccessDeniedException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(502),
-  ).pipe(C.withServerError, C.withAuthError) {}
+  ).pipe(C.withServerError, C.withRetryableError, C.withAuthError) {}
 export class KMSDisabledException
   extends /*@__PURE__*/ S.TaggedError<KMSDisabledException>()(
     "KMSDisabledException",
@@ -394,7 +394,7 @@ export class KMSDisabledException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(502),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class KmsGrantPrincipalNotReady
   extends /*@__PURE__*/ S.TaggedError<KmsGrantPrincipalNotReady>()(
     "KmsGrantPrincipalNotReady",
@@ -418,7 +418,7 @@ export class KMSInvalidStateException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(502),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class KMSNotFoundException
   extends /*@__PURE__*/ S.TaggedError<KMSNotFoundException>()(
     "KMSNotFoundException",
@@ -427,7 +427,7 @@ export class KMSNotFoundException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(502),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class LambdaInternalKmsError
   extends /*@__PURE__*/ S.TaggedError<LambdaInternalKmsError>()(
     "LambdaInternalKmsError",
@@ -567,7 +567,7 @@ export class ResourceNotReadyException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(502),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class S3FilesMountConnectivityException
   extends /*@__PURE__*/ S.TaggedError<S3FilesMountConnectivityException>()(
     "S3FilesMountConnectivityException",
@@ -624,7 +624,7 @@ export class ServiceException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
@@ -678,7 +678,7 @@ export class SubnetIPAddressLimitReachedException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(502),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class TooManyRequestsException
   extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
     "TooManyRequestsException",

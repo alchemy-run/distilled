@@ -167,7 +167,7 @@ export class ServiceException
     "ServiceException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ServiceQuotaTemplateNotInUseException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaTemplateNotInUseException>()(
     "ServiceQuotaTemplateNotInUseException",

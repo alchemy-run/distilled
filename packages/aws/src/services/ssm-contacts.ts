@@ -151,7 +151,7 @@ export class InternalServerException
       ),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidRotationArn
   extends /*@__PURE__*/ S.TaggedError<InvalidRotationArn>()(
     "InvalidRotationArn",

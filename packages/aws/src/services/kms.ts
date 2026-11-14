@@ -223,7 +223,7 @@ export class DependencyTimeoutException
       /*@__PURE__*/ T.AwsQueryError({ code: "DependencyTimeout", httpResponseCode: 503 }),
       /*@__PURE__*/ T.HttpError(503),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class DisabledException
   extends /*@__PURE__*/ S.TaggedError<DisabledException>()(
     "DisabledException",
@@ -364,7 +364,7 @@ export class KeyUnavailableException
       /*@__PURE__*/ T.AwsQueryError({ code: "KeyUnavailable", httpResponseCode: 500 }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class KMSInternalException
   extends /*@__PURE__*/ S.TaggedError<KMSInternalException>()(
     "KMSInternalException",
@@ -373,7 +373,7 @@ export class KMSInternalException
       /*@__PURE__*/ T.AwsQueryError({ code: "KMSInternal", httpResponseCode: 500 }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class KMSInvalidMacException
   extends /*@__PURE__*/ S.TaggedError<KMSInvalidMacException>()(
     "KMSInvalidMacException",

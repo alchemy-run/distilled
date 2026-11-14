@@ -161,7 +161,7 @@ export class InternalServiceFault
       /*@__PURE__*/ T.AwsQueryError({ code: "InternalServiceError", httpResponseCode: 500 }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidFormatFault
   extends /*@__PURE__*/ S.TaggedError<InvalidFormatFault>()(
     "InvalidFormatFault",

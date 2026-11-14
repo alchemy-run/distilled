@@ -138,7 +138,7 @@ export class InternalServerException
       ),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidNodeException
   extends /*@__PURE__*/ S.TaggedError<InvalidNodeException>()(
     "InvalidNodeException",

@@ -146,7 +146,7 @@ export class InternalServerException
       ),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class RequestAlreadyInProgressException
   extends /*@__PURE__*/ S.TaggedError<RequestAlreadyInProgressException>()(
     "RequestAlreadyInProgressException",

@@ -606,11 +606,14 @@ const AWS_TRANSIENT_CODES = new Set([
   "PriorRequestNotComplete",
 ]);
 
-/** Retry categories AWS's own rules give an error code. */
-export const awsRetryCategories = (code: string): string[] =>
+/** The statuses the AWS SDKs retry whatever the error code. */
+const AWS_TRANSIENT_STATUSES = new Set([500, 502, 503, 504]);
+
+/** Retry categories AWS's own rules give an error code and its HTTP status. */
+export const awsRetryCategories = (code: string, status: number | undefined): string[] =>
   AWS_THROTTLING_CODES.has(code)
     ? ["ThrottlingError", "RetryableError"]
-    : AWS_TRANSIENT_CODES.has(code)
+    : AWS_TRANSIENT_CODES.has(code) || (status !== undefined && AWS_TRANSIENT_STATUSES.has(status))
       ? ["RetryableError"]
       : [];
 
@@ -2224,7 +2227,10 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
             },
             [
               ...(serviceSpec.errorCategories?.[name] ?? []),
-              ...awsRetryCategories(errorTraits?.awsQueryError?.code ?? name),
+              ...awsRetryCategories(
+                errorTraits?.awsQueryError?.code ?? name,
+                errorTraits?.httpError ?? errorTraits?.awsQueryError?.httpResponseCode,
+              ),
               ...inferCategoriesFromName(name),
             ],
           ).map((cat) => `C.with${cat}`),

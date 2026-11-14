@@ -315,7 +315,7 @@ export class ServerInternalException
       /*@__PURE__*/ T.AwsQueryError({ code: "InternalError", httpResponseCode: 500 }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ServiceUnavailableException
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
     "ServiceUnavailableException",
@@ -324,7 +324,7 @@ export class ServiceUnavailableException
       /*@__PURE__*/ T.AwsQueryError({ code: "Unavailable", httpResponseCode: 503 }),
       /*@__PURE__*/ T.HttpError(503),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class TagLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<TagLimitExceededException>()(
     "TagLimitExceededException",

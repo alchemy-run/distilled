@@ -177,7 +177,7 @@ export class ServiceTemporarilyUnavailableException
     "ServiceTemporarilyUnavailableException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()), canRetry: S.Boolean },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class UnsupportedFeatureException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedFeatureException>()(
     "UnsupportedFeatureException",
