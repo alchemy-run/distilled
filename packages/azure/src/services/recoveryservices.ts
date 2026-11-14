@@ -71,10 +71,12 @@ export interface CreateVaultCertificateRequest {
   /** Raw certificate data. */
   properties?: RawCertificateData | undefined;
 }
-/** Certificate details representing the Vault credentials. */
-export interface ResourceCertificateDetails {
+/** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
+export type ResourceCertificateAndAadDetailsAuthType = "AzureActiveDirectory";
+/** Certificate details representing the Vault credentials for AAD. */
+export interface ResourceCertificateAndAadDetails {
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
-  authType: string;
+  authType: ResourceCertificateAndAadDetailsAuthType;
   /** The base64 encoded certificate raw data string. */
   certificate?: string | undefined;
   /** Certificate friendly name. */
@@ -91,7 +93,54 @@ export interface ResourceCertificateDetails {
   validFrom?: string | undefined;
   /** Certificate Validity End Date time. */
   validTo?: string | undefined;
+  /** AAD tenant authority. */
+  aadAuthority: string;
+  /** AAD tenant Id. */
+  aadTenantId: string;
+  /** AAD service principal clientId. */
+  servicePrincipalClientId: string;
+  /** AAD service principal ObjectId. */
+  servicePrincipalObjectId: string;
+  /** Azure Management Endpoint Audience. */
+  azureManagementEndpointAudience: string;
+  /** Service Resource Id. */
+  serviceResourceId?: string | undefined;
+  /** AAD audience for the resource */
+  aadAudience?: string | undefined;
 }
+/** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
+export type ResourceCertificateAndAcsDetailsAuthType = "AccessControlService";
+/** Certificate details representing the Vault credentials for ACS. */
+export interface ResourceCertificateAndAcsDetails {
+  /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
+  authType: ResourceCertificateAndAcsDetailsAuthType;
+  /** The base64 encoded certificate raw data string. */
+  certificate?: string | undefined;
+  /** Certificate friendly name. */
+  friendlyName?: string | undefined;
+  /** Certificate issuer. */
+  issuer?: string | undefined;
+  /** Resource ID of the vault. */
+  resourceId?: number | undefined;
+  /** Certificate Subject Name. */
+  subject?: string | undefined;
+  /** Certificate thumbprint. */
+  thumbprint?: string | undefined;
+  /** Certificate Validity start Date time. */
+  validFrom?: string | undefined;
+  /** Certificate Validity End Date time. */
+  validTo?: string | undefined;
+  /** ACS namespace name - tenant for our service. */
+  globalAcsNamespace: string;
+  /** Acs mgmt host name to connect to. */
+  globalAcsHostName: string;
+  /** Global ACS namespace RP realm. */
+  globalAcsRPRealm: string;
+}
+/** Certificate details representing the Vault credentials. */
+export type ResourceCertificateDetails =
+  | ResourceCertificateAndAadDetails
+  | ResourceCertificateAndAcsDetails;
 /** Certificate corresponding to a vault that can be used by clients to register themselves with the vault. */
 export interface VaultCertificateResponse {
   /** Resource name associated with the resource. */
@@ -1243,7 +1292,7 @@ export const CreateVaultCertificate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33, __c1, 1) as any as S.Schema<CreateVaultCertificateRequest>,
-  output: __S(35, __c1, 3) as any as S.Schema<VaultCertificateResponse>,
+  output: __S(37, __c1, 5) as any as S.Schema<VaultCertificateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1693,15 +1742,41 @@ function __c1(j: number): any {
           thumbprint: S.optional(S.String),
           validFrom: S.optional(S.String),
           validTo: S.optional(S.String),
+          aadAuthority: S.String,
+          aadTenantId: S.String,
+          servicePrincipalClientId: S.String,
+          servicePrincipalObjectId: S.String,
+          azureManagementEndpointAudience: S.String,
+          serviceResourceId: S.optional(S.String),
+          aadAudience: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ResourceCertificateDetails" });
+      ).annotate({ identifier: "ResourceCertificateAndAadDetails" });
     case 3:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          certificate: S.optional(S.String),
+          friendlyName: S.optional(S.String),
+          issuer: S.optional(S.String),
+          resourceId: S.optional(S.Number),
+          subject: S.optional(S.String),
+          thumbprint: S.optional(S.String),
+          validFrom: S.optional(S.String),
+          validTo: S.optional(S.String),
+          globalAcsNamespace: S.String,
+          globalAcsHostName: S.String,
+          globalAcsRPRealm: S.String,
+        }),
+      ).annotate({ identifier: "ResourceCertificateAndAcsDetails" });
+    case 4:
+      return S.Union([__S(34, __c1, 2), __S(35, __c1, 3)]);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           type: S.optional(S.String),
           id: S.optional(S.String),
-          properties: S.optional(__S(34, __c1, 2)),
+          properties: S.optional(__S(36, __c1, 4)),
         }),
       ).annotate({ identifier: "VaultCertificateResponse" });
   }

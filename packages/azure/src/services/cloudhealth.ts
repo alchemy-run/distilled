@@ -63,14 +63,19 @@ export interface DataAnnotation {
   /** Optional description of the annotation */
   description?: string | undefined;
 }
-/** Supported kinds of authentication settings as discriminator */
-export type AuthenticationKind = "ManagedIdentity";
-/** Authentication setting properties */
-export interface AuthenticationSettingPropertiesInput {
+/** Kind of the authentication setting */
+export type ManagedIdentityAuthenticationSettingPropertiesInputAuthenticationKind =
+  "ManagedIdentity";
+/** Authentication setting properties for Azure Managed Identity */
+export interface ManagedIdentityAuthenticationSettingPropertiesInput {
   /** Display name */
   displayName?: string | undefined;
   /** Kind of the authentication setting */
-  authenticationKind: AuthenticationKind | (string & {});
+  authenticationKind:
+    | ManagedIdentityAuthenticationSettingPropertiesInputAuthenticationKind
+    | (string & {});
+  /** Name of the managed identity to use. Either 'SystemAssigned' or the resourceId of a user-assigned identity. */
+  managedIdentityName: string;
 }
 export interface AuthenticationSettingsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -82,7 +87,7 @@ export interface AuthenticationSettingsCreateOrUpdateRequest {
   /** Name of the authentication setting. Must be unique within a health model. */
   authenticationSettingName: string;
   /** The resource-specific properties for this resource. */
-  properties?: AuthenticationSettingPropertiesInput | undefined;
+  properties?: ManagedIdentityAuthenticationSettingPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -110,14 +115,18 @@ export type HealthModelProvisioningState =
   | "Canceled"
   | "Creating"
   | "Deleting";
-/** Authentication setting properties */
-export interface AuthenticationSettingProperties {
+/** Kind of the authentication setting */
+export type ManagedIdentityAuthenticationSettingPropertiesAuthenticationKind = "ManagedIdentity";
+/** Authentication setting properties for Azure Managed Identity */
+export interface ManagedIdentityAuthenticationSettingProperties {
   /** The status of the last operation. */
   provisioningState?: HealthModelProvisioningState | undefined;
   /** Display name */
   displayName?: string | undefined;
   /** Kind of the authentication setting */
-  authenticationKind: AuthenticationKind;
+  authenticationKind: ManagedIdentityAuthenticationSettingPropertiesAuthenticationKind;
+  /** Name of the managed identity to use. Either 'SystemAssigned' or the resourceId of a user-assigned identity. */
+  managedIdentityName: string;
 }
 export interface AuthenticationSettingsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -129,7 +138,7 @@ export interface AuthenticationSettingsCreateOrUpdateResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AuthenticationSettingProperties | undefined;
+  properties?: ManagedIdentityAuthenticationSettingProperties | undefined;
   /** A link to the status monitor */
   azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
@@ -321,13 +330,28 @@ export interface DeleteSignalDefinitionResponse {
 export type DiscoveryRuleRelationshipDiscoveryBehavior = "Enabled" | "Disabled";
 /** Discovery rule recommended signal behavior */
 export type DiscoveryRuleRecommendedSignalsBehavior = "Enabled" | "Disabled";
-/** Discovery rule specification kind discriminator */
-export type DiscoveryRuleKind = "ResourceGraphQuery" | "ApplicationInsightsTopology";
-/** Base model for discovery rule specifications */
-export interface DiscoveryRuleSpecification {
+/** Kind of the discovery rule specification */
+export type ApplicationInsightsTopologySpecificationKind = "ApplicationInsightsTopology";
+/** Discovery rule specification for an Application Insights topology query */
+export interface ApplicationInsightsTopologySpecification {
   /** Kind of the discovery rule specification */
-  kind: DiscoveryRuleKind | (string & {});
+  kind: ApplicationInsightsTopologySpecificationKind;
+  /** Application Insights resource ID */
+  applicationInsightsResourceId: string;
 }
+/** Kind of the discovery rule specification */
+export type ResourceGraphQuerySpecificationKind = "ResourceGraphQuery";
+/** Discovery rule specification for an Azure Resource Graph query */
+export interface ResourceGraphQuerySpecification {
+  /** Kind of the discovery rule specification */
+  kind: ResourceGraphQuerySpecificationKind;
+  /** Azure Resource Graph query text in KQL syntax. The query must return at least a column named 'id' which contains the resource ID of the discovered resources. */
+  resourceGraphQuery: string;
+}
+/** Base model for discovery rule specifications */
+export type DiscoveryRuleSpecification =
+  | ApplicationInsightsTopologySpecification
+  | ResourceGraphQuerySpecification;
 /** Whether to automatically add a signal for the Azure resource's availability state from Azure Resource Health to the discovered entities. Defaults to `Enabled`: discovery rules updated via this API version without setting this field will begin emitting a Resource Health availability signal. Pass `Disabled` to preserve pre-`2026-05-01-preview` behavior. */
 export type DiscoveryRulePropertiesInputAddResourceHealthSignal = "Enabled" | "Disabled";
 /** Discovery rule properties */
@@ -426,12 +450,8 @@ export interface IconDefinition {
 export type EntityPropertiesInputImpact = "Standard" | "Limited" | "Suppressed";
 /** Optional set of tags (key-value pairs) */
 export type EntityPropertiesInputTagsMap = { [key: string]: string | undefined };
-/** Supported signal kinds as discriminator */
-export type SignalKind =
-  | "AzureResourceMetric"
-  | "LogAnalyticsQuery"
-  | "PrometheusMetricsQuery"
-  | "External";
+/** Kind of the signal instance */
+export type AzureResourceSignalInputSignalKind = "AzureResourceMetric";
 /** Metric aggregation type */
 export type MetricAggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
 /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
@@ -473,7 +493,7 @@ export interface EvaluationRule {
 /** An Azure Resource Metric signal instance assigned to an entity. */
 export interface AzureResourceSignalInput {
   /** Kind of the signal instance */
-  signalKind: SignalKind | (string & {});
+  signalKind: AzureResourceSignalInputSignalKind | (string & {});
   /** Unique name of the signal within the entity. */
   name: string;
   /** Optional reference to a signal definition that provides default values. */
@@ -519,6 +539,8 @@ export interface AzureResourceSignalsInput {
   /** Optional configuration for automatically adding a signal based on the resource's availability state in Azure Resource Health. */
   resourceHealth?: AzureResourceHealthSignalInput | undefined;
 }
+/** Kind of the signal instance */
+export type LogAnalyticsSignalInputSignalKind = "LogAnalyticsQuery";
 /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
 export type LogAnalyticsSignalInputRefreshInterval =
   | "PT1M"
@@ -531,7 +553,7 @@ export type LogAnalyticsSignalInputRefreshInterval =
 /** A Log Analytics Query signal instance assigned to an entity. */
 export interface LogAnalyticsSignalInput {
   /** Kind of the signal instance */
-  signalKind: SignalKind | (string & {});
+  signalKind: LogAnalyticsSignalInputSignalKind | (string & {});
   /** Unique name of the signal within the entity. */
   name: string;
   /** Optional reference to a signal definition that provides default values. */
@@ -562,6 +584,8 @@ export interface LogAnalyticsSignalsInput {
   /** Signals assigned to this group. */
   signals?: LogAnalyticsSignalsInputSignalsList | undefined;
 }
+/** Kind of the signal instance */
+export type PrometheusMetricsSignalInputSignalKind = "PrometheusMetricsQuery";
 /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
 export type PrometheusMetricsSignalInputRefreshInterval =
   | "PT1M"
@@ -574,7 +598,7 @@ export type PrometheusMetricsSignalInputRefreshInterval =
 /** A Prometheus Metrics Query signal instance assigned to an entity. */
 export interface PrometheusMetricsSignalInput {
   /** Kind of the signal instance */
-  signalKind: SignalKind | (string & {});
+  signalKind: PrometheusMetricsSignalInputSignalKind | (string & {});
   /** Unique name of the signal within the entity. */
   name: string;
   /** Optional reference to a signal definition that provides default values. */
@@ -721,6 +745,8 @@ export interface EntitiesCreateOrUpdateRequest {
 export type EntityPropertiesImpact = "Standard" | "Limited" | "Suppressed";
 /** Optional set of tags (key-value pairs) */
 export type EntityPropertiesTagsMap = { [key: string]: string | undefined };
+/** Kind of the signal instance */
+export type AzureResourceSignalSignalKind = "AzureResourceMetric";
 /** Health state of an entity */
 export type HealthState = "Healthy" | "Degraded" | "Unhealthy" | "Unknown";
 /** Status of a signal */
@@ -748,7 +774,7 @@ export type AzureResourceSignalRefreshInterval =
 /** An Azure Resource Metric signal instance assigned to an entity. */
 export interface AzureResourceSignal {
   /** Kind of the signal instance */
-  signalKind: SignalKind;
+  signalKind: AzureResourceSignalSignalKind;
   /** Unique name of the signal within the entity. */
   name: string;
   /** Optional reference to a signal definition that provides default values. */
@@ -835,6 +861,8 @@ export interface AzureResourceSignals {
   /** Optional configuration for automatically adding a signal based on the resource's availability state in Azure Resource Health. */
   resourceHealth?: AzureResourceHealthSignal | undefined;
 }
+/** Kind of the signal instance */
+export type LogAnalyticsSignalSignalKind = "LogAnalyticsQuery";
 /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
 export type LogAnalyticsSignalRefreshInterval =
   | "PT1M"
@@ -847,7 +875,7 @@ export type LogAnalyticsSignalRefreshInterval =
 /** A Log Analytics Query signal instance assigned to an entity. */
 export interface LogAnalyticsSignal {
   /** Kind of the signal instance */
-  signalKind: SignalKind;
+  signalKind: LogAnalyticsSignalSignalKind;
   /** Unique name of the signal within the entity. */
   name: string;
   /** Optional reference to a signal definition that provides default values. */
@@ -880,6 +908,8 @@ export interface LogAnalyticsSignals {
   /** Signals assigned to this group. */
   signals?: LogAnalyticsSignalsSignalsList | undefined;
 }
+/** Kind of the signal instance */
+export type PrometheusMetricsSignalSignalKind = "PrometheusMetricsQuery";
 /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
 export type PrometheusMetricsSignalRefreshInterval =
   | "PT1M"
@@ -892,7 +922,7 @@ export type PrometheusMetricsSignalRefreshInterval =
 /** A Prometheus Metrics Query signal instance assigned to an entity. */
 export interface PrometheusMetricsSignal {
   /** Kind of the signal instance */
-  signalKind: SignalKind;
+  signalKind: PrometheusMetricsSignalSignalKind;
   /** Unique name of the signal within the entity. */
   name: string;
   /** Optional reference to a signal definition that provides default values. */
@@ -923,10 +953,12 @@ export interface AzureMonitorWorkspaceSignals {
   /** Signals assigned to this signal group. */
   signals?: AzureMonitorWorkspaceSignalsSignalsList | undefined;
 }
+/** Kind of the signal instance */
+export type ExternalSignalSignalKind = "External";
 /** An externally submitted signal instance assigned to an entity. */
 export interface ExternalSignal {
   /** Kind of the signal instance */
-  signalKind: SignalKind;
+  signalKind: ExternalSignalSignalKind;
   /** Unique name of the signal within the entity. */
   name: string;
   /** Optional reference to a signal definition that provides default values. */
@@ -1079,7 +1111,7 @@ export interface GetAuthenticationSettingsResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AuthenticationSettingProperties | undefined;
+  properties?: ManagedIdentityAuthenticationSettingProperties | undefined;
 }
 export interface GetDiscoveryRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1252,16 +1284,73 @@ export interface GetEntitySignalRecommendationsRequest {
 export type SignalConfigurationApplicableResourceTypesList = Array<string>;
 /** Refresh interval in ISO duration format */
 export type RefreshInterval = "PT1M" | "PT5M" | "PT10M" | "PT15M" | "PT30M" | "PT1H" | "PT2H";
-/** Supported signal recommendation kinds. */
-export type SignalRecommendationKind =
-  | "AzureResourceMetric"
-  | "LogAnalyticsQuery"
-  | "PrometheusMetricsQuery";
-/** Kind-specific signal recommendation configuration. */
-export interface SignalRecommendationConfiguration {
+/** Kind of the recommended signal. */
+export type AzureResourceMetricRecommendationConfigurationSignalKind = "AzureResourceMetric";
+/** Azure Resource Metric recommendation configuration. */
+export interface AzureResourceMetricRecommendationConfiguration {
   /** Kind of the recommended signal. */
-  signalKind: SignalRecommendationKind;
+  signalKind: AzureResourceMetricRecommendationConfigurationSignalKind;
+  /** Metric namespace. */
+  metricNamespace: string;
+  /** Name of the metric. */
+  metricName: string;
+  /** Type of aggregation to apply to the metric. */
+  aggregationType: MetricAggregationType;
+  /** Time range of the metric in ISO 8601 duration format (e.g. 'PT5M'). */
+  timeGrain: string;
+  /** Optional dimension filter to apply to the metric. */
+  dimensionFilter?: string | undefined;
 }
+/** Kind of the recommended signal. */
+export type LogAnalyticsQueryRecommendationConfigurationSignalKind = "LogAnalyticsQuery";
+/** Log Analytics tables required by the query. */
+export type LogAnalyticsQueryRecommendationConfigurationRequiredTablesList = Array<string>;
+/** Diagnostic setting categories required to populate the query's tables. */
+export type LogAnalyticsQueryRecommendationConfigurationRequiredDiagnosticSettingCategoriesList =
+  Array<string>;
+/** Log Analytics Query recommendation configuration. */
+export interface LogAnalyticsQueryRecommendationConfiguration {
+  /** Kind of the recommended signal. */
+  signalKind: LogAnalyticsQueryRecommendationConfigurationSignalKind;
+  /** Query text in KQL syntax. Supported entity template variables, such as `{{entity.azureResourceId}}`, may appear in the query. */
+  queryText: string;
+  /** Time range of the signal in ISO 8601 duration format (e.g. 'PT5M'). If not specified, the KQL query must define a time range. */
+  timeGrain?: string | undefined;
+  /** Name of the numeric result column to evaluate against the thresholds. */
+  valueColumnName?: string | undefined;
+  /** Log Analytics tables required by the query. */
+  requiredTables?: LogAnalyticsQueryRecommendationConfigurationRequiredTablesList | undefined;
+  /** Diagnostic setting categories required to populate the query's tables. */
+  requiredDiagnosticSettingCategories?:
+    | LogAnalyticsQueryRecommendationConfigurationRequiredDiagnosticSettingCategoriesList
+    | undefined;
+}
+/** Kind of the recommended signal. */
+export type PrometheusMetricsRecommendationConfigurationSignalKind = "PrometheusMetricsQuery";
+/** Prometheus metrics required by the query. */
+export type PrometheusMetricsRecommendationConfigurationRequiredMetricsList = Array<string>;
+/** Prometheus scrape targets required to populate the query's metrics. */
+export type PrometheusMetricsRecommendationConfigurationRequiredScrapeTargetsList = Array<string>;
+/** Prometheus Metrics Query recommendation configuration. */
+export interface PrometheusMetricsRecommendationConfiguration {
+  /** Kind of the recommended signal. */
+  signalKind: PrometheusMetricsRecommendationConfigurationSignalKind;
+  /** Query text in PromQL syntax. Supported entity template variables, such as `{{entity.name}}`, may appear in the query. */
+  queryText: string;
+  /** Time range of the signal in ISO 8601 duration format (e.g. 'PT5M'). */
+  timeGrain?: string | undefined;
+  /** Prometheus metrics required by the query. */
+  requiredMetrics?: PrometheusMetricsRecommendationConfigurationRequiredMetricsList | undefined;
+  /** Prometheus scrape targets required to populate the query's metrics. */
+  requiredScrapeTargets?:
+    | PrometheusMetricsRecommendationConfigurationRequiredScrapeTargetsList
+    | undefined;
+}
+/** Kind-specific signal recommendation configuration. */
+export type SignalRecommendationConfiguration =
+  | AzureResourceMetricRecommendationConfiguration
+  | LogAnalyticsQueryRecommendationConfiguration
+  | PrometheusMetricsRecommendationConfiguration;
 /** A signal configuration for an Azure resource type */
 export interface SignalConfiguration {
   /** Unique identifier of the recommended signal configuration. */
@@ -1384,6 +1473,8 @@ export interface GetSignalDefinitionRequest {
   /** Name of the signal definition. Must be unique within a health model. */
   signalDefinitionName: string;
 }
+/** Kind of the signal definition */
+export type LogAnalyticsQuerySignalDefinitionPropertiesSignalKind = "LogAnalyticsQuery";
 /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
 export type SignalDefinitionPropertiesRefreshInterval =
   | "PT1M"
@@ -1394,24 +1485,95 @@ export type SignalDefinitionPropertiesRefreshInterval =
   | "PT1H"
   | "PT2H";
 /** Optional set of tags (key-value pairs) */
-export type SignalDefinitionPropertiesTagsMap = { [key: string]: string | undefined };
-/** SignalDefinition properties */
-export interface SignalDefinitionProperties {
+export type LogAnalyticsQuerySignalDefinitionPropertiesTagsMap = {
+  [key: string]: string | undefined;
+};
+/** Log Analytics Query Signal Definition properties */
+export interface LogAnalyticsQuerySignalDefinitionProperties {
   /** The status of the last operation. */
   provisioningState?: HealthModelProvisioningState | undefined;
   /** Display name */
   displayName?: string | undefined;
   /** Kind of the signal definition */
-  signalKind: SignalKind;
+  signalKind: LogAnalyticsQuerySignalDefinitionPropertiesSignalKind;
   /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
   refreshInterval?: SignalDefinitionPropertiesRefreshInterval | undefined;
   /** Optional set of tags (key-value pairs) */
-  tags?: SignalDefinitionPropertiesTagsMap | undefined;
+  tags?: LogAnalyticsQuerySignalDefinitionPropertiesTagsMap | undefined;
   /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
   dataUnit?: string | undefined;
   /** Evaluation rules for the signal definition */
   evaluationRules: EvaluationRule;
+  /** Query text in KQL syntax */
+  queryText: string;
+  /** Time range of signal. ISO duration format like PT10M. If not specified, the KQL query must define a time range. */
+  timeGrain?: string | undefined;
+  /** Name of the column in the result set to evaluate against the thresholds. Defaults to the first column in the result set if not specified. The column must be numeric. */
+  valueColumnName?: string | undefined;
 }
+/** Kind of the signal definition */
+export type PrometheusMetricsSignalDefinitionPropertiesSignalKind = "PrometheusMetricsQuery";
+/** Optional set of tags (key-value pairs) */
+export type PrometheusMetricsSignalDefinitionPropertiesTagsMap = {
+  [key: string]: string | undefined;
+};
+/** Prometheus Metrics Signal Definition properties */
+export interface PrometheusMetricsSignalDefinitionProperties {
+  /** The status of the last operation. */
+  provisioningState?: HealthModelProvisioningState | undefined;
+  /** Display name */
+  displayName?: string | undefined;
+  /** Kind of the signal definition */
+  signalKind: PrometheusMetricsSignalDefinitionPropertiesSignalKind;
+  /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
+  refreshInterval?: SignalDefinitionPropertiesRefreshInterval | undefined;
+  /** Optional set of tags (key-value pairs) */
+  tags?: PrometheusMetricsSignalDefinitionPropertiesTagsMap | undefined;
+  /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
+  dataUnit?: string | undefined;
+  /** Evaluation rules for the signal definition */
+  evaluationRules: EvaluationRule;
+  /** Query text in PromQL syntax */
+  queryText: string;
+  /** Time range of signal. ISO duration format like PT10M. */
+  timeGrain?: string | undefined;
+}
+/** Kind of the signal definition */
+export type ResourceMetricSignalDefinitionPropertiesSignalKind = "AzureResourceMetric";
+/** Optional set of tags (key-value pairs) */
+export type ResourceMetricSignalDefinitionPropertiesTagsMap = { [key: string]: string | undefined };
+/** Azure Resource Metric Signal Definition properties */
+export interface ResourceMetricSignalDefinitionProperties {
+  /** The status of the last operation. */
+  provisioningState?: HealthModelProvisioningState | undefined;
+  /** Display name */
+  displayName?: string | undefined;
+  /** Kind of the signal definition */
+  signalKind: ResourceMetricSignalDefinitionPropertiesSignalKind;
+  /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
+  refreshInterval?: SignalDefinitionPropertiesRefreshInterval | undefined;
+  /** Optional set of tags (key-value pairs) */
+  tags?: ResourceMetricSignalDefinitionPropertiesTagsMap | undefined;
+  /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
+  dataUnit?: string | undefined;
+  /** Evaluation rules for the signal definition */
+  evaluationRules: EvaluationRule;
+  /** Metric namespace */
+  metricNamespace: string;
+  /** Name of the metric */
+  metricName: string;
+  /** Time range of signal. ISO duration format like PT10M. */
+  timeGrain: string;
+  /** Type of aggregation to apply to the metric */
+  aggregationType: MetricAggregationType;
+  /** Optional: Dimension filter to apply to the dimension. */
+  dimensionFilter?: string | undefined;
+}
+/** SignalDefinition properties */
+export type SignalDefinitionProperties =
+  | LogAnalyticsQuerySignalDefinitionProperties
+  | PrometheusMetricsSignalDefinitionProperties
+  | ResourceMetricSignalDefinitionProperties;
 export interface GetSignalDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -1443,7 +1605,7 @@ export interface AuthenticationSetting {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AuthenticationSettingProperties | undefined;
+  properties?: ManagedIdentityAuthenticationSettingProperties | undefined;
 }
 /** The AuthenticationSetting items on this page */
 export type AuthenticationSettingListResultValueList = Array<AuthenticationSetting>;
@@ -1714,32 +1876,94 @@ export interface RelationshipsCreateOrUpdateResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
-export type SignalDefinitionPropertiesInputRefreshInterval =
-  | "PT1M"
-  | "PT5M"
-  | "PT10M"
-  | "PT15M"
-  | "PT30M"
-  | "PT1H"
-  | "PT2H";
+/** Kind of the signal definition */
+export type LogAnalyticsQuerySignalDefinitionPropertiesInputSignalKind = "LogAnalyticsQuery";
 /** Optional set of tags (key-value pairs) */
-export type SignalDefinitionPropertiesInputTagsMap = { [key: string]: string | undefined };
-/** SignalDefinition properties */
-export interface SignalDefinitionPropertiesInput {
+export type LogAnalyticsQuerySignalDefinitionPropertiesInputTagsMap = {
+  [key: string]: string | undefined;
+};
+/** Log Analytics Query Signal Definition properties */
+export interface LogAnalyticsQuerySignalDefinitionPropertiesInput {
   /** Display name */
   displayName?: string | undefined;
   /** Kind of the signal definition */
-  signalKind: SignalKind | (string & {});
+  signalKind: LogAnalyticsQuerySignalDefinitionPropertiesInputSignalKind;
   /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
-  refreshInterval?: SignalDefinitionPropertiesInputRefreshInterval | (string & {}) | undefined;
+  refreshInterval?: SignalDefinitionPropertiesRefreshInterval | (string & {}) | undefined;
   /** Optional set of tags (key-value pairs) */
-  tags?: SignalDefinitionPropertiesInputTagsMap | undefined;
+  tags?: LogAnalyticsQuerySignalDefinitionPropertiesInputTagsMap | undefined;
   /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
   dataUnit?: string | undefined;
   /** Evaluation rules for the signal definition */
   evaluationRules: EvaluationRule;
+  /** Query text in KQL syntax */
+  queryText: string;
+  /** Time range of signal. ISO duration format like PT10M. If not specified, the KQL query must define a time range. */
+  timeGrain?: string | undefined;
+  /** Name of the column in the result set to evaluate against the thresholds. Defaults to the first column in the result set if not specified. The column must be numeric. */
+  valueColumnName?: string | undefined;
 }
+/** Kind of the signal definition */
+export type PrometheusMetricsSignalDefinitionPropertiesInputSignalKind = "PrometheusMetricsQuery";
+/** Optional set of tags (key-value pairs) */
+export type PrometheusMetricsSignalDefinitionPropertiesInputTagsMap = {
+  [key: string]: string | undefined;
+};
+/** Prometheus Metrics Signal Definition properties */
+export interface PrometheusMetricsSignalDefinitionPropertiesInput {
+  /** Display name */
+  displayName?: string | undefined;
+  /** Kind of the signal definition */
+  signalKind: PrometheusMetricsSignalDefinitionPropertiesInputSignalKind;
+  /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
+  refreshInterval?: SignalDefinitionPropertiesRefreshInterval | (string & {}) | undefined;
+  /** Optional set of tags (key-value pairs) */
+  tags?: PrometheusMetricsSignalDefinitionPropertiesInputTagsMap | undefined;
+  /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
+  dataUnit?: string | undefined;
+  /** Evaluation rules for the signal definition */
+  evaluationRules: EvaluationRule;
+  /** Query text in PromQL syntax */
+  queryText: string;
+  /** Time range of signal. ISO duration format like PT10M. */
+  timeGrain?: string | undefined;
+}
+/** Kind of the signal definition */
+export type ResourceMetricSignalDefinitionPropertiesInputSignalKind = "AzureResourceMetric";
+/** Optional set of tags (key-value pairs) */
+export type ResourceMetricSignalDefinitionPropertiesInputTagsMap = {
+  [key: string]: string | undefined;
+};
+/** Azure Resource Metric Signal Definition properties */
+export interface ResourceMetricSignalDefinitionPropertiesInput {
+  /** Display name */
+  displayName?: string | undefined;
+  /** Kind of the signal definition */
+  signalKind: ResourceMetricSignalDefinitionPropertiesInputSignalKind;
+  /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
+  refreshInterval?: SignalDefinitionPropertiesRefreshInterval | (string & {}) | undefined;
+  /** Optional set of tags (key-value pairs) */
+  tags?: ResourceMetricSignalDefinitionPropertiesInputTagsMap | undefined;
+  /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
+  dataUnit?: string | undefined;
+  /** Evaluation rules for the signal definition */
+  evaluationRules: EvaluationRule;
+  /** Metric namespace */
+  metricNamespace: string;
+  /** Name of the metric */
+  metricName: string;
+  /** Time range of signal. ISO duration format like PT10M. */
+  timeGrain: string;
+  /** Type of aggregation to apply to the metric */
+  aggregationType: MetricAggregationType | (string & {});
+  /** Optional: Dimension filter to apply to the dimension. */
+  dimensionFilter?: string | undefined;
+}
+/** SignalDefinition properties */
+export type SignalDefinitionPropertiesInput =
+  | LogAnalyticsQuerySignalDefinitionPropertiesInput
+  | PrometheusMetricsSignalDefinitionPropertiesInput
+  | ResourceMetricSignalDefinitionPropertiesInput;
 export interface SignalDefinitionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -2145,7 +2369,7 @@ export const GetEntitySignalRecommendations: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<GetEntitySignalRecommendationsRequest>,
-  output: __S(612, __c19, 4) as any as S.Schema<GetSignalRecommendationsResponse>,
+  output: __S(615, __c19, 7) as any as S.Schema<GetSignalRecommendationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2365,8 +2589,8 @@ export const SignalDefinitionsCreateOrUpdate: API.OperationMethod<
   SignalDefinitionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1409, __c44, 1) as any as S.Schema<SignalDefinitionsCreateOrUpdateRequest>,
-  output: __S(1410, __c44, 2) as any as S.Schema<SignalDefinitionsCreateOrUpdateResponse>,
+  input: __S(1412, __c44, 4) as any as S.Schema<SignalDefinitionsCreateOrUpdateRequest>,
+  output: __S(1413, __c44, 5) as any as S.Schema<SignalDefinitionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2440,8 +2664,9 @@ function __c3(j: number): any {
         S.Struct({
           displayName: S.optional(S.String),
           authenticationKind: S.String,
+          managedIdentityName: S.String,
         }),
-      ).annotate({ identifier: "AuthenticationSettingPropertiesInput" });
+      ).annotate({ identifier: "ManagedIdentityAuthenticationSettingPropertiesInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -2481,8 +2706,9 @@ function __c4(j: number): any {
           provisioningState: S.optional(S.String),
           displayName: S.optional(S.String),
           authenticationKind: S.String,
+          managedIdentityName: S.String,
         }),
-      ).annotate({ identifier: "AuthenticationSettingProperties" });
+      ).annotate({ identifier: "ManagedIdentityAuthenticationSettingProperties" });
   }
 }
 function __c5(j: number): any {
@@ -2984,7 +3210,7 @@ function __c13(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(160, __c5, 0)),
-          properties: S.optional(__S(1698, __c53, 2)),
+          properties: S.optional(__S(1700, __c53, 4)),
         }),
       ).annotate({ identifier: "GetDiscoveryRuleResponse" });
   }
@@ -3167,9 +3393,37 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           signalKind: S.String,
+          metricNamespace: S.String,
+          metricName: S.String,
+          aggregationType: S.String,
+          timeGrain: S.String,
+          dimensionFilter: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SignalRecommendationConfiguration" });
+      ).annotate({ identifier: "AzureResourceMetricRecommendationConfiguration" });
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          signalKind: S.String,
+          queryText: S.String,
+          timeGrain: S.optional(S.String),
+          valueColumnName: S.optional(S.String),
+          requiredTables: S.optional(__S(1664, __c52, 0)),
+          requiredDiagnosticSettingCategories: S.optional(__S(1664, __c52, 0)),
+        }),
+      ).annotate({ identifier: "LogAnalyticsQueryRecommendationConfiguration" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          signalKind: S.String,
+          queryText: S.String,
+          timeGrain: S.optional(S.String),
+          requiredMetrics: S.optional(__S(1664, __c52, 0)),
+          requiredScrapeTargets: S.optional(__S(1664, __c52, 0)),
+        }),
+      ).annotate({ identifier: "PrometheusMetricsRecommendationConfiguration" });
+    case 4:
+      return S.Union([__S(609, __c19, 1), __S(610, __c19, 2), __S(611, __c19, 3)]);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           signalId: S.String,
@@ -3178,17 +3432,17 @@ function __c19(j: number): any {
           applicableResourceTypes: S.optional(__S(1664, __c52, 0)),
           refreshInterval: S.optional(S.String),
           dataUnit: S.optional(S.String),
-          configuration: __S(609, __c19, 1),
+          configuration: __S(612, __c19, 4),
           evaluationRules: S.optional(__S(225, __c7, 1)),
         }),
       ).annotate({ identifier: "SignalConfiguration" });
-    case 3:
-      return S.Array(__S(610, __c19, 2));
-    case 4:
+    case 6:
+      return S.Array(__S(613, __c19, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          recommendedSignals: __S(611, __c19, 3),
-          recommendedConfigurations: __S(611, __c19, 3),
+          recommendedSignals: __S(614, __c19, 6),
+          recommendedConfigurations: __S(614, __c19, 6),
         }),
       ).annotate({ identifier: "GetSignalRecommendationsResponse" });
   }
@@ -3392,7 +3646,7 @@ function __c30(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(160, __c5, 0)),
-          properties: S.optional(__S(992, __c31, 0)),
+          properties: S.optional(__S(995, __c31, 3)),
         }),
       ).annotate({ identifier: "GetSignalDefinitionResponse" });
   }
@@ -3409,8 +3663,44 @@ function __c31(j: number): any {
           tags: S.optional(__S(64, __c2, 0)),
           dataUnit: S.optional(S.String),
           evaluationRules: __S(225, __c7, 1),
+          queryText: S.String,
+          timeGrain: S.optional(S.String),
+          valueColumnName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SignalDefinitionProperties" });
+      ).annotate({ identifier: "LogAnalyticsQuerySignalDefinitionProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          displayName: S.optional(S.String),
+          signalKind: S.String,
+          refreshInterval: S.optional(S.String),
+          tags: S.optional(__S(64, __c2, 0)),
+          dataUnit: S.optional(S.String),
+          evaluationRules: __S(225, __c7, 1),
+          queryText: S.String,
+          timeGrain: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrometheusMetricsSignalDefinitionProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          displayName: S.optional(S.String),
+          signalKind: S.String,
+          refreshInterval: S.optional(S.String),
+          tags: S.optional(__S(64, __c2, 0)),
+          dataUnit: S.optional(S.String),
+          evaluationRules: __S(225, __c7, 1),
+          metricNamespace: S.String,
+          metricName: S.String,
+          timeGrain: S.String,
+          aggregationType: S.String,
+          dimensionFilter: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceMetricSignalDefinitionProperties" });
+    case 3:
+      return S.Union([__S(992, __c31, 0), __S(993, __c31, 1), __S(994, __c31, 2)]);
   }
 }
 function __c32(j: number): any {
@@ -3732,16 +4022,50 @@ function __c44(j: number): any {
           tags: S.optional(__S(64, __c2, 0)),
           dataUnit: S.optional(S.String),
           evaluationRules: __S(225, __c7, 1),
+          queryText: S.String,
+          timeGrain: S.optional(S.String),
+          valueColumnName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SignalDefinitionPropertiesInput" });
+      ).annotate({ identifier: "LogAnalyticsQuerySignalDefinitionPropertiesInput" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          signalKind: S.String,
+          refreshInterval: S.optional(S.String),
+          tags: S.optional(__S(64, __c2, 0)),
+          dataUnit: S.optional(S.String),
+          evaluationRules: __S(225, __c7, 1),
+          queryText: S.String,
+          timeGrain: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrometheusMetricsSignalDefinitionPropertiesInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          signalKind: S.String,
+          refreshInterval: S.optional(S.String),
+          tags: S.optional(__S(64, __c2, 0)),
+          dataUnit: S.optional(S.String),
+          evaluationRules: __S(225, __c7, 1),
+          metricNamespace: S.String,
+          metricName: S.String,
+          timeGrain: S.String,
+          aggregationType: S.String,
+          dimensionFilter: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceMetricSignalDefinitionPropertiesInput" });
+    case 3:
+      return S.Union([__S(1408, __c44, 0), __S(1409, __c44, 1), __S(1410, __c44, 2)]);
+    case 4:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           healthModelName: S.String.pipe(T.Label()),
           signalDefinitionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1408, __c44, 0)),
+          properties: S.optional(__S(1411, __c44, 3)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -3751,14 +4075,14 @@ function __c44(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SignalDefinitionsCreateOrUpdateRequest" });
-    case 2:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(160, __c5, 0)),
-          properties: S.optional(__S(992, __c31, 0)),
+          properties: S.optional(__S(995, __c31, 3)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -3909,7 +4233,7 @@ function __c51(j: number): any {
           authenticationSetting: S.String,
           discoverRelationships: S.String,
           addRecommendedSignals: S.String,
-          specification: __S(1696, __c53, 0),
+          specification: __S(1698, __c53, 2),
           addResourceHealthSignal: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiscoveryRulePropertiesInput" });
@@ -3937,7 +4261,7 @@ function __c51(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(160, __c5, 0)),
-          properties: S.optional(__S(1698, __c53, 2)),
+          properties: S.optional(__S(1700, __c53, 4)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -3956,16 +4280,26 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
+          applicationInsightsResourceId: S.String,
         }),
-      ).annotate({ identifier: "DiscoveryRuleSpecification" });
+      ).annotate({ identifier: "ApplicationInsightsTopologySpecification" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          resourceGraphQuery: S.String,
+        }),
+      ).annotate({ identifier: "ResourceGraphQuerySpecification" });
+    case 2:
+      return S.Union([__S(1696, __c53, 0), __S(1697, __c53, 1)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           message: S.String,
           context: S.optional(__S(1664, __c52, 0)),
         }),
       ).annotate({ identifier: "DiscoveryError" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
@@ -3973,9 +4307,9 @@ function __c53(j: number): any {
           authenticationSetting: S.String,
           discoverRelationships: S.String,
           addRecommendedSignals: S.String,
-          specification: __S(1696, __c53, 0),
+          specification: __S(1698, __c53, 2),
           addResourceHealthSignal: S.optional(S.String),
-          error: S.optional(__S(1697, __c53, 1)),
+          error: S.optional(__S(1699, __c53, 3)),
           entityName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiscoveryRuleProperties" });

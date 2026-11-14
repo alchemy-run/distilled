@@ -194,13 +194,17 @@ export interface ListControllerConnectionDetailsRequest {
   /** Resource ID of the target container host mapped to the Azure Dev Spaces Controller. */
   targetContainerHostResourceId: string;
 }
-/** Base class for types that supply values used to connect to container orchestrators */
-export interface OrchestratorSpecificConnectionDetails {
+/** Gets the Instance type. */
+export type KubernetesConnectionDetailsInstanceType = "Kubernetes";
+/** Contains information used to connect to a Kubernetes cluster */
+export interface KubernetesConnectionDetails {
   /** Gets the Instance type. */
-  instanceType?: string | undefined;
+  instanceType: KubernetesConnectionDetailsInstanceType;
+  /** Gets the kubeconfig for the cluster. */
+  kubeConfig?: string | undefined;
 }
 export interface ControllerConnectionDetails {
-  orchestratorSpecificConnectionDetails?: OrchestratorSpecificConnectionDetails | undefined;
+  orchestratorSpecificConnectionDetails?: KubernetesConnectionDetails | undefined;
 }
 /** List of Azure Dev Spaces Controller connection details. */
 export type ControllerConnectionDetailsListConnectionDetailsListList =
@@ -609,9 +613,10 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          instanceType: S.optional(S.String),
+          instanceType: S.String,
+          kubeConfig: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OrchestratorSpecificConnectionDetails" });
+      ).annotate({ identifier: "KubernetesConnectionDetails" });
     case 2:
       return S.suspend(() =>
         S.Struct({

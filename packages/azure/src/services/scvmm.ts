@@ -285,17 +285,53 @@ export interface CreateGuestAgentResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** The inventory type */
-export type InventoryType =
-  | "Cloud"
-  | "VirtualNetwork"
-  | "VirtualMachine"
-  | "VirtualMachineTemplate";
+/** They inventory type. */
+export type CloudInventoryItemInputInventoryType = "Cloud";
 /** Defines the resource properties. */
-export interface InventoryItemPropertiesInput {
+export interface CloudInventoryItemInput {
   /** They inventory type. */
-  inventoryType: InventoryType | (string & {});
+  inventoryType: CloudInventoryItemInputInventoryType;
 }
+/** They inventory type. */
+export type VirtualMachineInventoryItemInputInventoryType = "VirtualMachine";
+/** Gets or sets the nic ip addresses. */
+export type VirtualMachineInventoryItemInputIpAddressesList = Array<string>;
+/** Defines the resource properties. */
+export interface InventoryItemDetails {
+  /** Gets or sets the inventory Item ID for the resource. */
+  inventoryItemId?: string | undefined;
+  /** Gets or sets the Managed Object name in Vmm for the resource. */
+  inventoryItemName?: string | undefined;
+}
+/** The Virtual machine inventory item. */
+export interface VirtualMachineInventoryItemInput {
+  /** They inventory type. */
+  inventoryType: VirtualMachineInventoryItemInputInventoryType;
+  /** Gets or sets the nic ip addresses. */
+  ipAddresses?: VirtualMachineInventoryItemInputIpAddressesList | undefined;
+  /** Cloud inventory resource details where the VM is present. */
+  cloud?: InventoryItemDetails | undefined;
+}
+/** They inventory type. */
+export type VirtualMachineTemplateInventoryItemInputInventoryType = "VirtualMachineTemplate";
+/** The Virtual machine template inventory item. */
+export interface VirtualMachineTemplateInventoryItemInput {
+  /** They inventory type. */
+  inventoryType: VirtualMachineTemplateInventoryItemInputInventoryType;
+}
+/** They inventory type. */
+export type VirtualNetworkInventoryItemInputInventoryType = "VirtualNetwork";
+/** Defines the resource properties. */
+export interface VirtualNetworkInventoryItemInput {
+  /** They inventory type. */
+  inventoryType: VirtualNetworkInventoryItemInputInventoryType;
+}
+/** Defines the resource properties. */
+export type InventoryItemPropertiesInput =
+  | CloudInventoryItemInput
+  | VirtualMachineInventoryItemInput
+  | VirtualMachineTemplateInventoryItemInput
+  | VirtualNetworkInventoryItemInput;
 export interface CreateInventoryItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -310,10 +346,12 @@ export interface CreateInventoryItemRequest {
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind?: string | undefined;
 }
+/** They inventory type. */
+export type CloudInventoryItemInventoryType = "Cloud";
 /** Defines the resource properties. */
-export interface InventoryItemProperties {
+export interface CloudInventoryItem {
   /** They inventory type. */
-  inventoryType: InventoryType;
+  inventoryType: CloudInventoryItemInventoryType;
   /** Gets the tracked resource id corresponding to the inventory resource. */
   managedResourceId?: string | undefined;
   /** Gets the UUID (which is assigned by Vmm) for the inventory item. */
@@ -323,6 +361,87 @@ export interface InventoryItemProperties {
   /** Provisioning state of the resource. */
   provisioningState?: ProvisioningState | undefined;
 }
+/** They inventory type. */
+export type VirtualMachineInventoryItemInventoryType = "VirtualMachine";
+/** Virtual machine operating system type. */
+export type OsType = "Windows" | "Linux" | "Other";
+/** Gets or sets the nic ip addresses. */
+export type VirtualMachineInventoryItemIpAddressesList = Array<string>;
+/** The Virtual machine inventory item. */
+export interface VirtualMachineInventoryItem {
+  /** They inventory type. */
+  inventoryType: VirtualMachineInventoryItemInventoryType;
+  /** Gets the tracked resource id corresponding to the inventory resource. */
+  managedResourceId?: string | undefined;
+  /** Gets the UUID (which is assigned by Vmm) for the inventory item. */
+  uuid?: string | undefined;
+  /** Gets the Managed Object name in Vmm for the inventory item. */
+  inventoryItemName?: string | undefined;
+  /** Provisioning state of the resource. */
+  provisioningState?: ProvisioningState | undefined;
+  /** Gets the type of the os. */
+  osType?: OsType | undefined;
+  /** Gets os name. */
+  osName?: string | undefined;
+  /** Gets os version. */
+  osVersion?: string | undefined;
+  /** Gets the power state of the virtual machine. */
+  powerState?: string | undefined;
+  /** Gets vm generation. */
+  generation?: number | undefined;
+  /** Gets or sets the nic ip addresses. */
+  ipAddresses?: VirtualMachineInventoryItemIpAddressesList | undefined;
+  /** Cloud inventory resource details where the VM is present. */
+  cloud?: InventoryItemDetails | undefined;
+  /** Gets the bios guid. */
+  biosGuid?: string | undefined;
+  /** Gets the tracked resource id corresponding to the inventory resource. */
+  managedMachineResourceId?: string | undefined;
+}
+/** They inventory type. */
+export type VirtualMachineTemplateInventoryItemInventoryType = "VirtualMachineTemplate";
+/** The Virtual machine template inventory item. */
+export interface VirtualMachineTemplateInventoryItem {
+  /** They inventory type. */
+  inventoryType: VirtualMachineTemplateInventoryItemInventoryType;
+  /** Gets the tracked resource id corresponding to the inventory resource. */
+  managedResourceId?: string | undefined;
+  /** Gets the UUID (which is assigned by Vmm) for the inventory item. */
+  uuid?: string | undefined;
+  /** Gets the Managed Object name in Vmm for the inventory item. */
+  inventoryItemName?: string | undefined;
+  /** Provisioning state of the resource. */
+  provisioningState?: ProvisioningState | undefined;
+  /** Gets the desired number of vCPUs for the vm. */
+  cpuCount?: number | undefined;
+  /** MemoryMB is the desired size of a virtual machine's memory, in MB. */
+  memoryMB?: number | undefined;
+  /** Gets the type of the os. */
+  osType?: OsType | undefined;
+  /** Gets os name. */
+  osName?: string | undefined;
+}
+/** They inventory type. */
+export type VirtualNetworkInventoryItemInventoryType = "VirtualNetwork";
+/** Defines the resource properties. */
+export interface VirtualNetworkInventoryItem {
+  /** They inventory type. */
+  inventoryType: VirtualNetworkInventoryItemInventoryType;
+  /** Gets the tracked resource id corresponding to the inventory resource. */
+  managedResourceId?: string | undefined;
+  /** Gets the UUID (which is assigned by Vmm) for the inventory item. */
+  uuid?: string | undefined;
+  /** Gets the Managed Object name in Vmm for the inventory item. */
+  inventoryItemName?: string | undefined;
+  /** Provisioning state of the resource. */
+  provisioningState?: ProvisioningState | undefined;
+}
+/** Defines the resource properties. */
+export type InventoryItemProperties =
+  | CloudInventoryItem
+  | VirtualMachineInventoryItem
+  | VirtualMachineTemplateInventoryItem
+  | VirtualNetworkInventoryItem;
 export interface CreateInventoryItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -594,8 +713,6 @@ export interface AvailabilitySetListItem {
 }
 /** Availability Sets in vm. */
 export type VirtualMachineInstancePropertiesAvailabilitySetsList = Array<AvailabilitySetListItem>;
-/** Virtual machine operating system type. */
-export type OsType = "Windows" | "Linux" | "Other";
 /** Defines the resource properties. */
 export interface OsProfileForVmInstance {
   /** Gets or sets the admin username. */
@@ -2034,8 +2151,8 @@ export const CreateInventoryItem: API.OperationMethod<
   CreateInventoryItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(721, __c45, 1) as any as S.Schema<CreateInventoryItemRequest>,
-  output: __S(737, __c46, 1) as any as S.Schema<CreateInventoryItemResponse>,
+  input: __S(723, __c45, 3) as any as S.Schema<CreateInventoryItemRequest>,
+  output: __S(757, __c47, 5) as any as S.Schema<CreateInventoryItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2051,8 +2168,8 @@ export const CreateVirtualMachineInstanceCheckpoint: API.OperationMethod<
   CreateVirtualMachineInstanceCheckpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<CreateVirtualMachineInstanceCheckpointRequest>,
-  output: __S(976, __c61, 0) as any as S.Schema<CreateVirtualMachineInstanceCheckpointResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<CreateVirtualMachineInstanceCheckpointRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<CreateVirtualMachineInstanceCheckpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2074,8 +2191,8 @@ export const DeleteAvailabilitySet: API.OperationMethod<
   DeleteAvailabilitySetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<DeleteAvailabilitySetRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<DeleteAvailabilitySetResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<DeleteAvailabilitySetRequest>,
+  output: __S(1200, __c75, 0) as any as S.Schema<DeleteAvailabilitySetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2091,8 +2208,8 @@ export const DeleteCloud: API.OperationMethod<
   DeleteCloudError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<DeleteCloudRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<DeleteCloudResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<DeleteCloudRequest>,
+  output: __S(1200, __c75, 0) as any as S.Schema<DeleteCloudResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2108,8 +2225,8 @@ export const DeleteGuestAgent: API.OperationMethod<
   DeleteGuestAgentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<DeleteGuestAgentRequest>,
-  output: __S(1264, __c79, 0) as any as S.Schema<DeleteGuestAgentResponse>,
+  input: __S(1264, __c79, 0) as any as S.Schema<DeleteGuestAgentRequest>,
+  output: __S(1280, __c80, 0) as any as S.Schema<DeleteGuestAgentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2131,8 +2248,8 @@ export const DeleteInventoryItem: API.OperationMethod<
   DeleteInventoryItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<DeleteInventoryItemRequest>,
-  output: __S(1264, __c79, 0) as any as S.Schema<DeleteInventoryItemResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<DeleteInventoryItemRequest>,
+  output: __S(1280, __c80, 0) as any as S.Schema<DeleteInventoryItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2148,8 +2265,8 @@ export const DeleteVirtualMachineInstance: API.OperationMethod<
   DeleteVirtualMachineInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<DeleteVirtualMachineInstanceRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<DeleteVirtualMachineInstanceResponse>,
+  input: __S(1312, __c82, 0) as any as S.Schema<DeleteVirtualMachineInstanceRequest>,
+  output: __S(1200, __c75, 0) as any as S.Schema<DeleteVirtualMachineInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2171,7 +2288,7 @@ export const DeleteVirtualMachineInstanceCheckpoint: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<DeleteVirtualMachineInstanceCheckpointRequest>,
-  output: __S(976, __c61, 0) as any as S.Schema<DeleteVirtualMachineInstanceCheckpointResponse>,
+  output: __S(992, __c62, 0) as any as S.Schema<DeleteVirtualMachineInstanceCheckpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2194,7 +2311,7 @@ export const DeleteVirtualMachineTemplate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<DeleteVirtualMachineTemplateRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<DeleteVirtualMachineTemplateResponse>,
+  output: __S(1200, __c75, 0) as any as S.Schema<DeleteVirtualMachineTemplateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2211,7 +2328,7 @@ export const DeleteVirtualNetwork: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<DeleteVirtualNetworkRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<DeleteVirtualNetworkResponse>,
+  output: __S(1200, __c75, 0) as any as S.Schema<DeleteVirtualNetworkResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2228,7 +2345,7 @@ export const DeleteVmmServer: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<DeleteVmmServerRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<DeleteVmmServerResponse>,
+  output: __S(1200, __c75, 0) as any as S.Schema<DeleteVmmServerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2302,7 +2419,7 @@ export const GetInventoryItem: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<GetInventoryItemRequest>,
-  output: __S(737, __c46, 1) as any as S.Schema<GetInventoryItemResponse>,
+  output: __S(757, __c47, 5) as any as S.Schema<GetInventoryItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2539,8 +2656,8 @@ export const ListVirtualMachineInstances: API.OperationMethod<
   ListVirtualMachineInstancesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<ListVirtualMachineInstancesRequest>,
-  output: __S(754, __c47, 2) as any as S.Schema<VirtualMachineInstanceListResult>,
+  input: __S(768, __c48, 0) as any as S.Schema<ListVirtualMachineInstancesRequest>,
+  output: __S(770, __c48, 2) as any as S.Schema<VirtualMachineInstanceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2561,8 +2678,8 @@ export const ListVirtualMachineTemplateByResourceGroup: API.OperationMethod<
   ListVirtualMachineTemplateByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<ListVirtualMachineTemplateByResourceGroupRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<VirtualMachineTemplateListResult>,
+  input: __S(784, __c49, 0) as any as S.Schema<ListVirtualMachineTemplateByResourceGroupRequest>,
+  output: __S(801, __c50, 1) as any as S.Schema<VirtualMachineTemplateListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2578,8 +2695,8 @@ export const ListVirtualMachineTemplateBySubscription: API.OperationMethod<
   ListVirtualMachineTemplateBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<ListVirtualMachineTemplateBySubscriptionRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<VirtualMachineTemplateListResult>,
+  input: __S(816, __c51, 0) as any as S.Schema<ListVirtualMachineTemplateBySubscriptionRequest>,
+  output: __S(801, __c50, 1) as any as S.Schema<VirtualMachineTemplateListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2595,8 +2712,8 @@ export const ListVirtualNetworkByResourceGroup: API.OperationMethod<
   ListVirtualNetworkByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<ListVirtualNetworkByResourceGroupRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<VirtualNetworkListResult>,
+  input: __S(832, __c52, 0) as any as S.Schema<ListVirtualNetworkByResourceGroupRequest>,
+  output: __S(849, __c53, 1) as any as S.Schema<VirtualNetworkListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2612,8 +2729,8 @@ export const ListVirtualNetworkBySubscription: API.OperationMethod<
   ListVirtualNetworkBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<ListVirtualNetworkBySubscriptionRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<VirtualNetworkListResult>,
+  input: __S(864, __c54, 0) as any as S.Schema<ListVirtualNetworkBySubscriptionRequest>,
+  output: __S(849, __c53, 1) as any as S.Schema<VirtualNetworkListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2630,11 +2747,11 @@ export const ListVmInstanceHybridIdentityMetadatasByVirtualMachineInstance: API.
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    864,
-    __c54,
+    880,
+    __c55,
     0,
   ) as any as S.Schema<ListVmInstanceHybridIdentityMetadatasByVirtualMachineInstanceRequest>,
-  output: __S(866, __c54, 2) as any as S.Schema<VmInstanceHybridIdentityMetadataListResult>,
+  output: __S(882, __c55, 2) as any as S.Schema<VmInstanceHybridIdentityMetadataListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2656,8 +2773,8 @@ export const ListVmmServerByResourceGroup: API.OperationMethod<
   ListVmmServerByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<ListVmmServerByResourceGroupRequest>,
-  output: __S(897, __c56, 1) as any as S.Schema<VmmServerListResult>,
+  input: __S(896, __c56, 0) as any as S.Schema<ListVmmServerByResourceGroupRequest>,
+  output: __S(913, __c57, 1) as any as S.Schema<VmmServerListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2673,8 +2790,8 @@ export const ListVmmServerBySubscription: API.OperationMethod<
   ListVmmServerBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<ListVmmServerBySubscriptionRequest>,
-  output: __S(897, __c56, 1) as any as S.Schema<VmmServerListResult>,
+  input: __S(928, __c58, 0) as any as S.Schema<ListVmmServerBySubscriptionRequest>,
+  output: __S(913, __c57, 1) as any as S.Schema<VmmServerListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2690,8 +2807,8 @@ export const RestartVirtualMachineInstance: API.OperationMethod<
   RestartVirtualMachineInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<RestartVirtualMachineInstanceRequest>,
-  output: __S(976, __c61, 0) as any as S.Schema<RestartVirtualMachineInstanceResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<RestartVirtualMachineInstanceRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<RestartVirtualMachineInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2713,8 +2830,8 @@ export const RestoreVirtualMachineInstanceCheckpoint: API.OperationMethod<
   RestoreVirtualMachineInstanceCheckpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<RestoreVirtualMachineInstanceCheckpointRequest>,
-  output: __S(976, __c61, 0) as any as S.Schema<RestoreVirtualMachineInstanceCheckpointResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<RestoreVirtualMachineInstanceCheckpointRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<RestoreVirtualMachineInstanceCheckpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2736,8 +2853,8 @@ export const StartVirtualMachineInstance: API.OperationMethod<
   StartVirtualMachineInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<StartVirtualMachineInstanceRequest>,
-  output: __S(976, __c61, 0) as any as S.Schema<StartVirtualMachineInstanceResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<StartVirtualMachineInstanceRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<StartVirtualMachineInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2759,8 +2876,8 @@ export const StopVirtualMachineInstance: API.OperationMethod<
   StopVirtualMachineInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<StopVirtualMachineInstanceRequest>,
-  output: __S(976, __c61, 0) as any as S.Schema<StopVirtualMachineInstanceResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<StopVirtualMachineInstanceRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<StopVirtualMachineInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2782,8 +2899,8 @@ export const UpdateAvailabilitySet: API.OperationMethod<
   UpdateAvailabilitySetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<UpdateAvailabilitySetRequest>,
-  output: __S(1025, __c64, 1) as any as S.Schema<UpdateAvailabilitySetResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<UpdateAvailabilitySetRequest>,
+  output: __S(1041, __c65, 1) as any as S.Schema<UpdateAvailabilitySetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2799,8 +2916,8 @@ export const UpdateCloud: API.OperationMethod<
   UpdateCloudError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<UpdateCloudRequest>,
-  output: __S(1041, __c65, 1) as any as S.Schema<UpdateCloudResponse>,
+  input: __S(1056, __c66, 0) as any as S.Schema<UpdateCloudRequest>,
+  output: __S(1057, __c66, 1) as any as S.Schema<UpdateCloudResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2816,8 +2933,8 @@ export const UpdateVirtualMachineInstance: API.OperationMethod<
   UpdateVirtualMachineInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1062, __c66, 6) as any as S.Schema<UpdateVirtualMachineInstanceRequest>,
-  output: __S(1063, __c66, 7) as any as S.Schema<UpdateVirtualMachineInstanceResponse>,
+  input: __S(1078, __c67, 6) as any as S.Schema<UpdateVirtualMachineInstanceRequest>,
+  output: __S(1079, __c67, 7) as any as S.Schema<UpdateVirtualMachineInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2838,8 +2955,8 @@ export const UpdateVirtualMachineTemplate: API.OperationMethod<
   UpdateVirtualMachineTemplateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<UpdateVirtualMachineTemplateRequest>,
-  output: __S(1089, __c68, 1) as any as S.Schema<UpdateVirtualMachineTemplateResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<UpdateVirtualMachineTemplateRequest>,
+  output: __S(1105, __c69, 1) as any as S.Schema<UpdateVirtualMachineTemplateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2855,8 +2972,8 @@ export const UpdateVirtualNetwork: API.OperationMethod<
   UpdateVirtualNetworkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<UpdateVirtualNetworkRequest>,
-  output: __S(1105, __c69, 1) as any as S.Schema<UpdateVirtualNetworkResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<UpdateVirtualNetworkRequest>,
+  output: __S(1121, __c70, 1) as any as S.Schema<UpdateVirtualNetworkResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2872,8 +2989,8 @@ export const UpdateVmmServer: API.OperationMethod<
   UpdateVmmServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<UpdateVmmServerRequest>,
-  output: __S(1121, __c70, 1) as any as S.Schema<UpdateVmmServerResponse>,
+  input: __S(1136, __c71, 0) as any as S.Schema<UpdateVmmServerRequest>,
+  output: __S(1137, __c71, 1) as any as S.Schema<UpdateVmmServerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2889,8 +3006,8 @@ export const VirtualMachineInstancesCreateOrUpdate: API.OperationMethod<
   VirtualMachineInstancesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1142, __c71, 6) as any as S.Schema<VirtualMachineInstancesCreateOrUpdateRequest>,
-  output: __S(1143, __c71, 7) as any as S.Schema<VirtualMachineInstancesCreateOrUpdateResponse>,
+  input: __S(1158, __c72, 6) as any as S.Schema<VirtualMachineInstancesCreateOrUpdateRequest>,
+  output: __S(1159, __c72, 7) as any as S.Schema<VirtualMachineInstancesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2911,8 +3028,8 @@ export const VirtualMachineTemplatesCreateOrUpdate: API.OperationMethod<
   VirtualMachineTemplatesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<VirtualMachineTemplatesCreateOrUpdateRequest>,
-  output: __S(1153, __c72, 1) as any as S.Schema<VirtualMachineTemplatesCreateOrUpdateResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<VirtualMachineTemplatesCreateOrUpdateRequest>,
+  output: __S(1169, __c73, 1) as any as S.Schema<VirtualMachineTemplatesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2928,8 +3045,8 @@ export const VirtualNetworksCreateOrUpdate: API.OperationMethod<
   VirtualNetworksCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<VirtualNetworksCreateOrUpdateRequest>,
-  output: __S(1201, __c75, 1) as any as S.Schema<VirtualNetworksCreateOrUpdateResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<VirtualNetworksCreateOrUpdateRequest>,
+  output: __S(1217, __c76, 1) as any as S.Schema<VirtualNetworksCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2945,8 +3062,8 @@ export const VmmServersCreateOrUpdate: API.OperationMethod<
   VmmServersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1217, __c76, 1) as any as S.Schema<VmmServersCreateOrUpdateRequest>,
-  output: __S(1218, __c76, 2) as any as S.Schema<VmmServersCreateOrUpdateResponse>,
+  input: __S(1233, __c77, 1) as any as S.Schema<VmmServersCreateOrUpdateRequest>,
+  output: __S(1234, __c77, 2) as any as S.Schema<VmmServersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3352,14 +3469,12 @@ function __c19(j: number): any {
 function __c20(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           displayName: S.optional(S.String),
-          ipv4Addresses: S.optional(__S(320, __c20, 0)),
-          ipv6Addresses: S.optional(__S(320, __c20, 0)),
+          ipv4Addresses: S.optional(__S(736, __c46, 0)),
+          ipv6Addresses: S.optional(__S(736, __c46, 0)),
           macAddress: S.optional(S.String),
           virtualNetworkId: S.optional(S.String),
           networkName: S.optional(S.String),
@@ -3369,16 +3484,16 @@ function __c20(j: number): any {
           nicId: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkInterface" });
+    case 1:
+      return S.Array(__S(320, __c20, 0));
     case 2:
-      return S.Array(__S(321, __c20, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageQosPolicyDetails" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
@@ -3393,12 +3508,12 @@ function __c20(j: number): any {
           volumeType: S.optional(S.String),
           vhdFormatType: S.optional(S.String),
           templateDiskId: S.optional(S.String),
-          storageQoSPolicy: S.optional(__S(323, __c20, 3)),
+          storageQoSPolicy: S.optional(__S(322, __c20, 2)),
           createDiffDisk: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualDisk" });
-    case 5:
-      return S.Array(__S(324, __c20, 4));
+    case 4:
+      return S.Array(__S(323, __c20, 3));
   }
 }
 function __c21(j: number): any {
@@ -3460,13 +3575,13 @@ function __c22(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          networkInterfaces: S.optional(__S(322, __c20, 2)),
+          networkInterfaces: S.optional(__S(321, __c20, 1)),
         }),
       ).annotate({ identifier: "NetworkProfile" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          disks: S.optional(__S(325, __c20, 5)),
+          disks: S.optional(__S(324, __c20, 4)),
         }),
       ).annotate({ identifier: "StorageProfile" });
     case 6:
@@ -3567,8 +3682,8 @@ function __c25(j: number): any {
           dynamicMemoryMinMB: S.optional(S.Number),
           isHighlyAvailable: S.optional(S.String),
           generation: S.optional(S.Number),
-          networkInterfaces: S.optional(__S(322, __c20, 2)),
-          disks: S.optional(__S(325, __c20, 5)),
+          networkInterfaces: S.optional(__S(321, __c20, 1)),
+          disks: S.optional(__S(324, __c20, 4)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualMachineTemplateProperties" });
@@ -3931,7 +4046,7 @@ function __c43(j: number): any {
         ),
       ).annotate({ identifier: "ListInventoryItemByVmmServerRequest" });
     case 1:
-      return S.Array(__S(737, __c46, 1));
+      return S.Array(__S(757, __c47, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3991,15 +4106,30 @@ function __c45(j: number): any {
         S.Struct({
           inventoryType: S.String,
         }),
-      ).annotate({ identifier: "InventoryItemPropertiesInput" });
+      ).annotate({ identifier: "CloudInventoryItemInput" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          inventoryType: S.String,
+          ipAddresses: S.optional(__S(736, __c46, 0)),
+          cloud: S.optional(__S(752, __c47, 0)),
+        }),
+      ).annotate({ identifier: "VirtualMachineInventoryItemInput" });
+    case 2:
+      return S.Union([
+        __S(720, __c45, 0),
+        __S(721, __c45, 1),
+        __S(720, __c45, 0),
+        __S(720, __c45, 0),
+      ]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vmmServerName: S.String.pipe(T.Label()),
           inventoryItemResourceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(720, __c45, 0)),
+          properties: S.optional(__S(722, __c45, 2)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -4015,6 +4145,19 @@ function __c45(j: number): any {
 function __c46(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          inventoryItemId: S.optional(S.String),
+          inventoryItemName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InventoryItemDetails" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           inventoryType: S.String,
@@ -4023,21 +4166,61 @@ function __c46(j: number): any {
           inventoryItemName: S.optional(S.String),
           provisioningState: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InventoryItemProperties" });
-    case 1:
+      ).annotate({ identifier: "CloudInventoryItem" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          inventoryType: S.String,
+          managedResourceId: S.optional(S.String),
+          uuid: S.optional(S.String),
+          inventoryItemName: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          osType: S.optional(S.String),
+          osName: S.optional(S.String),
+          osVersion: S.optional(S.String),
+          powerState: S.optional(S.String),
+          generation: S.optional(S.Number),
+          ipAddresses: S.optional(__S(736, __c46, 0)),
+          cloud: S.optional(__S(752, __c47, 0)),
+          biosGuid: S.optional(S.String),
+          managedMachineResourceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VirtualMachineInventoryItem" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          inventoryType: S.String,
+          managedResourceId: S.optional(S.String),
+          uuid: S.optional(S.String),
+          inventoryItemName: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          cpuCount: S.optional(S.Number),
+          memoryMB: S.optional(S.Number),
+          osType: S.optional(S.String),
+          osName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VirtualMachineTemplateInventoryItem" });
+    case 4:
+      return S.Union([
+        __S(753, __c47, 1),
+        __S(754, __c47, 2),
+        __S(755, __c47, 3),
+        __S(753, __c47, 1),
+      ]);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(48, __c3, 0)),
-          properties: S.optional(__S(736, __c46, 0)),
+          properties: S.optional(__S(756, __c47, 4)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateInventoryItemResponse" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4057,13 +4240,13 @@ function __c47(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(753, __c47, 1),
+          value: __S(769, __c48, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualMachineInstanceListResult" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4081,20 +4264,20 @@ function __c48(j: number): any {
       ).annotate({ identifier: "ListVirtualMachineTemplateByResourceGroupRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(384, __c24, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(784, __c49, 0),
+          value: __S(800, __c50, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualMachineTemplateListResult" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4111,7 +4294,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ListVirtualMachineTemplateBySubscriptionRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4129,20 +4312,20 @@ function __c51(j: number): any {
       ).annotate({ identifier: "ListVirtualNetworkByResourceGroupRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(464, __c29, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(832, __c52, 0),
+          value: __S(848, __c53, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualNetworkListResult" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4159,7 +4342,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "ListVirtualNetworkBySubscriptionRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4181,13 +4364,13 @@ function __c54(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(865, __c54, 1),
+          value: __S(881, __c55, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VmInstanceHybridIdentityMetadataListResult" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4205,20 +4388,20 @@ function __c55(j: number): any {
       ).annotate({ identifier: "ListVmmServerByResourceGroupRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(544, __c34, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(896, __c56, 0),
+          value: __S(912, __c57, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VmmServerListResult" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4235,7 +4418,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ListVmmServerBySubscriptionRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4252,7 +4435,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "RestartVirtualMachineInstanceRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4270,7 +4453,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "RestoreVirtualMachineInstanceCheckpointRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4289,7 +4472,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "CreateVirtualMachineInstanceCheckpointRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4300,7 +4483,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "CreateVirtualMachineInstanceCheckpointResponse" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4317,7 +4500,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "StartVirtualMachineInstanceRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4335,7 +4518,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "StopVirtualMachineInstanceRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4371,7 +4554,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "UpdateAvailabilitySetResponse" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4407,7 +4590,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "UpdateCloudResponse" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4430,15 +4613,15 @@ function __c66(j: number): any {
           lun: S.optional(S.Number),
           busType: S.optional(S.String),
           vhdType: S.optional(S.String),
-          storageQoSPolicy: S.optional(__S(323, __c20, 3)),
+          storageQoSPolicy: S.optional(__S(322, __c20, 2)),
         }),
       ).annotate({ identifier: "VirtualDiskUpdate" });
     case 2:
-      return S.Array(__S(1057, __c66, 1));
+      return S.Array(__S(1073, __c67, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          disks: S.optional(__S(1058, __c66, 2)),
+          disks: S.optional(__S(1074, __c67, 2)),
         }),
       ).annotate({ identifier: "StorageProfileUpdate" });
     case 4:
@@ -4451,17 +4634,17 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           availabilitySets: S.optional(__S(353, __c22, 1)),
-          hardwareProfile: S.optional(__S(1056, __c66, 0)),
-          networkProfile: S.optional(__S(1074, __c67, 2)),
-          storageProfile: S.optional(__S(1059, __c66, 3)),
-          infrastructureProfile: S.optional(__S(1060, __c66, 4)),
+          hardwareProfile: S.optional(__S(1072, __c67, 0)),
+          networkProfile: S.optional(__S(1090, __c68, 2)),
+          storageProfile: S.optional(__S(1075, __c67, 3)),
+          infrastructureProfile: S.optional(__S(1076, __c67, 4)),
         }),
       ).annotate({ identifier: "VirtualMachineInstanceUpdateProperties" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1061, __c66, 5)),
+          properties: S.optional(__S(1077, __c67, 5)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4487,7 +4670,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "UpdateVirtualMachineInstanceResponse" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4502,16 +4685,16 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "NetworkInterfaceUpdate" });
     case 1:
-      return S.Array(__S(1072, __c67, 0));
+      return S.Array(__S(1088, __c68, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          networkInterfaces: S.optional(__S(1073, __c67, 1)),
+          networkInterfaces: S.optional(__S(1089, __c68, 1)),
         }),
       ).annotate({ identifier: "NetworkProfileUpdate" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4547,7 +4730,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "UpdateVirtualMachineTemplateResponse" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4583,7 +4766,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "UpdateVirtualNetworkResponse" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4619,7 +4802,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "UpdateVmmServerResponse" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4647,16 +4830,16 @@ function __c71(j: number): any {
           busType: S.optional(S.String),
           vhdType: S.optional(S.String),
           templateDiskId: S.optional(S.String),
-          storageQoSPolicy: S.optional(__S(323, __c20, 3)),
+          storageQoSPolicy: S.optional(__S(322, __c20, 2)),
           createDiffDisk: S.optional(S.Boolean.pipe(T.StringEncoded())),
         }),
       ).annotate({ identifier: "VirtualDiskInput" });
     case 2:
-      return S.Array(__S(1137, __c71, 1));
+      return S.Array(__S(1153, __c72, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          disks: S.optional(__S(1138, __c71, 2)),
+          disks: S.optional(__S(1154, __c72, 2)),
         }),
       ).annotate({ identifier: "StorageProfileInput" });
     case 4:
@@ -4677,18 +4860,18 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           availabilitySets: S.optional(__S(353, __c22, 1)),
-          osProfile: S.optional(__S(1136, __c71, 0)),
+          osProfile: S.optional(__S(1152, __c72, 0)),
           hardwareProfile: S.optional(__S(355, __c22, 3)),
-          networkProfile: S.optional(__S(1074, __c67, 2)),
-          storageProfile: S.optional(__S(1139, __c71, 3)),
-          infrastructureProfile: S.optional(__S(1140, __c71, 4)),
+          networkProfile: S.optional(__S(1090, __c68, 2)),
+          storageProfile: S.optional(__S(1155, __c72, 3)),
+          infrastructureProfile: S.optional(__S(1156, __c72, 4)),
         }),
       ).annotate({ identifier: "VirtualMachineInstancePropertiesInput" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1141, __c71, 5)),
+          properties: S.optional(__S(1157, __c72, 5)),
           extendedLocation: __S(16, __c1, 0),
         }).pipe(
           T.Http({
@@ -4713,7 +4896,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "VirtualMachineInstancesCreateOrUpdateResponse" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4750,7 +4933,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "VirtualMachineTemplatesCreateOrUpdateResponse" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4770,7 +4953,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "DeleteAvailabilitySetRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4782,7 +4965,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "DeleteAvailabilitySetResponse" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4819,7 +5002,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "VirtualNetworksCreateOrUpdateResponse" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4837,7 +5020,7 @@ function __c76(j: number): any {
           vmmServerName: S.String.pipe(T.Label()),
           tags: S.optional(__S(32, __c2, 0)),
           location: S.String,
-          properties: S.optional(__S(1216, __c76, 0)),
+          properties: S.optional(__S(1232, __c77, 0)),
           extendedLocation: __S(16, __c1, 0),
         }).pipe(
           T.Http({
@@ -4864,7 +5047,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "VmmServersCreateOrUpdateResponse" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4884,7 +5067,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "DeleteCloudRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4901,13 +5084,13 @@ function __c78(j: number): any {
       ).annotate({ identifier: "DeleteGuestAgentRequest" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteGuestAgentResponse" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4927,7 +5110,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "DeleteInventoryItemRequest" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

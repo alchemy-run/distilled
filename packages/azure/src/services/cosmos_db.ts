@@ -1053,20 +1053,61 @@ export interface CreateFleetspaceAccountResponse {
 /** Instance type for the service. */
 export type ServiceSize = "Cosmos.D4s" | "Cosmos.D8s" | "Cosmos.D16s";
 /** ServiceType for the service. */
-export type ServiceType =
-  | "SqlDedicatedGateway"
-  | "DataTransfer"
-  | "GraphAPICompute"
-  | "MaterializedViewsBuilder";
+export type DataTransferServiceResourceCreateUpdatePropertiesServiceType = "DataTransfer";
 /** Properties in ServiceResourceCreateUpdateParameters. */
-export interface ServiceResourceCreateUpdateProperties {
+export interface DataTransferServiceResourceCreateUpdateProperties {
   /** Instance type for the service. */
   instanceSize?: ServiceSize | (string & {}) | undefined;
   /** Instance count for the service. */
   instanceCount?: number | undefined;
   /** ServiceType for the service. */
-  serviceType: ServiceType | (string & {});
+  serviceType: DataTransferServiceResourceCreateUpdatePropertiesServiceType;
 }
+/** ServiceType for the service. */
+export type GraphAPIComputeServiceResourceCreateUpdatePropertiesServiceType = "GraphAPICompute";
+/** Properties in ServiceResourceCreateUpdateParameters. */
+export interface GraphAPIComputeServiceResourceCreateUpdateProperties {
+  /** Instance type for the service. */
+  instanceSize?: ServiceSize | (string & {}) | undefined;
+  /** Instance count for the service. */
+  instanceCount?: number | undefined;
+  /** ServiceType for the service. */
+  serviceType: GraphAPIComputeServiceResourceCreateUpdatePropertiesServiceType;
+}
+/** ServiceType for the service. */
+export type MaterializedViewsBuilderServiceResourceCreateUpdatePropertiesServiceType =
+  "MaterializedViewsBuilder";
+/** Properties in ServiceResourceCreateUpdateParameters. */
+export interface MaterializedViewsBuilderServiceResourceCreateUpdateProperties {
+  /** Instance type for the service. */
+  instanceSize?: ServiceSize | (string & {}) | undefined;
+  /** Instance count for the service. */
+  instanceCount?: number | undefined;
+  /** ServiceType for the service. */
+  serviceType: MaterializedViewsBuilderServiceResourceCreateUpdatePropertiesServiceType;
+}
+/** ServiceType for the service. */
+export type SqlDedicatedGatewayServiceResourceCreateUpdatePropertiesServiceType =
+  "SqlDedicatedGateway";
+/** DedicatedGatewayType for the service. */
+export type DedicatedGatewayType = "IntegratedCache" | "DistributedQuery";
+/** Properties for Create or Update request for SqlDedicatedGatewayServiceResource */
+export interface SqlDedicatedGatewayServiceResourceCreateUpdateProperties {
+  /** Instance type for the service. */
+  instanceSize?: ServiceSize | (string & {}) | undefined;
+  /** Instance count for the service. */
+  instanceCount?: number | undefined;
+  /** ServiceType for the service. */
+  serviceType: SqlDedicatedGatewayServiceResourceCreateUpdatePropertiesServiceType;
+  /** DedicatedGatewayType for the service. */
+  dedicatedGatewayType?: DedicatedGatewayType | (string & {}) | undefined;
+}
+/** Properties in ServiceResourceCreateUpdateParameters. */
+export type ServiceResourceCreateUpdateProperties =
+  | DataTransferServiceResourceCreateUpdateProperties
+  | GraphAPIComputeServiceResourceCreateUpdateProperties
+  | MaterializedViewsBuilderServiceResourceCreateUpdateProperties
+  | SqlDedicatedGatewayServiceResourceCreateUpdateProperties;
 export interface CreateServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -1079,10 +1120,23 @@ export interface CreateServiceRequest {
   /** Properties in ServiceResourceCreateUpdateParameters. */
   properties?: ServiceResourceCreateUpdateProperties | undefined;
 }
+/** ServiceType for the service. */
+export type DataTransferServiceResourcePropertiesServiceType = "DataTransfer";
 /** Describes the status of a service. */
 export type ServiceStatus = "Creating" | "Running" | "Updating" | "Deleting" | "Error" | "Stopped";
-/** Services response resource. */
-export interface ServiceResourceProperties {
+/** Resource for a regional service location. */
+export interface RegionalServiceResource {
+  /** The regional service name. */
+  name?: string | undefined;
+  /** The location name. */
+  location?: string | undefined;
+  /** Describes the status of a service. */
+  status?: ServiceStatus | undefined;
+}
+/** An array that contains all of the locations for the service. */
+export type DataTransferServiceResourcePropertiesLocationsList = Array<RegionalServiceResource>;
+/** Properties for DataTransferServiceResource. */
+export interface DataTransferServiceResourceProperties {
   /** Time of the last state change (ISO-8601 format). */
   creationTime?: string | undefined;
   /** Instance type for the service. */
@@ -1090,11 +1144,111 @@ export interface ServiceResourceProperties {
   /** Instance count for the service. */
   instanceCount?: number | undefined;
   /** ServiceType for the service. */
-  serviceType: ServiceType;
+  serviceType: DataTransferServiceResourcePropertiesServiceType;
   /** Describes the status of a service. */
   status?: ServiceStatus | undefined;
+  /** An array that contains all of the locations for the service. */
+  locations?: DataTransferServiceResourcePropertiesLocationsList | undefined;
   [key: string]: unknown;
 }
+/** ServiceType for the service. */
+export type GraphAPIComputeServiceResourcePropertiesServiceType = "GraphAPICompute";
+/** Resource for a regional service location. */
+export interface GraphAPIComputeRegionalServiceResource {
+  /** The regional service name. */
+  name?: string | undefined;
+  /** The location name. */
+  location?: string | undefined;
+  /** Describes the status of a service. */
+  status?: ServiceStatus | undefined;
+  /** The regional endpoint for GraphAPICompute. */
+  graphApiComputeEndpoint?: string | undefined;
+}
+/** An array that contains all of the locations for the service. */
+export type GraphAPIComputeServiceResourcePropertiesLocationsList =
+  Array<GraphAPIComputeRegionalServiceResource>;
+/** Properties for GraphAPIComputeServiceResource. */
+export interface GraphAPIComputeServiceResourceProperties {
+  /** Time of the last state change (ISO-8601 format). */
+  creationTime?: string | undefined;
+  /** Instance type for the service. */
+  instanceSize?: ServiceSize | undefined;
+  /** Instance count for the service. */
+  instanceCount?: number | undefined;
+  /** ServiceType for the service. */
+  serviceType: GraphAPIComputeServiceResourcePropertiesServiceType;
+  /** Describes the status of a service. */
+  status?: ServiceStatus | undefined;
+  /** GraphAPICompute endpoint for the service. */
+  graphApiComputeEndpoint?: string | undefined;
+  /** An array that contains all of the locations for the service. */
+  locations?: GraphAPIComputeServiceResourcePropertiesLocationsList | undefined;
+  [key: string]: unknown;
+}
+/** ServiceType for the service. */
+export type MaterializedViewsBuilderServiceResourcePropertiesServiceType =
+  "MaterializedViewsBuilder";
+/** An array that contains all of the locations for the service. */
+export type MaterializedViewsBuilderServiceResourcePropertiesLocationsList =
+  Array<RegionalServiceResource>;
+/** Properties for MaterializedViewsBuilderServiceResource. */
+export interface MaterializedViewsBuilderServiceResourceProperties {
+  /** Time of the last state change (ISO-8601 format). */
+  creationTime?: string | undefined;
+  /** Instance type for the service. */
+  instanceSize?: ServiceSize | undefined;
+  /** Instance count for the service. */
+  instanceCount?: number | undefined;
+  /** ServiceType for the service. */
+  serviceType: MaterializedViewsBuilderServiceResourcePropertiesServiceType;
+  /** Describes the status of a service. */
+  status?: ServiceStatus | undefined;
+  /** An array that contains all of the locations for the service. */
+  locations?: MaterializedViewsBuilderServiceResourcePropertiesLocationsList | undefined;
+  [key: string]: unknown;
+}
+/** ServiceType for the service. */
+export type SqlDedicatedGatewayServiceResourcePropertiesServiceType = "SqlDedicatedGateway";
+/** Resource for a regional service location. */
+export interface SqlDedicatedGatewayRegionalServiceResource {
+  /** The regional service name. */
+  name?: string | undefined;
+  /** The location name. */
+  location?: string | undefined;
+  /** Describes the status of a service. */
+  status?: ServiceStatus | undefined;
+  /** The regional endpoint for SqlDedicatedGateway. */
+  sqlDedicatedGatewayEndpoint?: string | undefined;
+}
+/** An array that contains all of the locations for the service. */
+export type SqlDedicatedGatewayServiceResourcePropertiesLocationsList =
+  Array<SqlDedicatedGatewayRegionalServiceResource>;
+/** Properties for SqlDedicatedGatewayServiceResource. */
+export interface SqlDedicatedGatewayServiceResourceProperties {
+  /** Time of the last state change (ISO-8601 format). */
+  creationTime?: string | undefined;
+  /** Instance type for the service. */
+  instanceSize?: ServiceSize | undefined;
+  /** Instance count for the service. */
+  instanceCount?: number | undefined;
+  /** ServiceType for the service. */
+  serviceType: SqlDedicatedGatewayServiceResourcePropertiesServiceType;
+  /** Describes the status of a service. */
+  status?: ServiceStatus | undefined;
+  /** SqlDedicatedGateway endpoint for the service. */
+  sqlDedicatedGatewayEndpoint?: string | undefined;
+  /** DedicatedGatewayType for the service. */
+  dedicatedGatewayType?: DedicatedGatewayType | undefined;
+  /** An array that contains all of the locations for the service. */
+  locations?: SqlDedicatedGatewayServiceResourcePropertiesLocationsList | undefined;
+  [key: string]: unknown;
+}
+/** Services response resource. */
+export type ServiceResourceProperties =
+  | DataTransferServiceResourceProperties
+  | GraphAPIComputeServiceResourceProperties
+  | MaterializedViewsBuilderServiceResourceProperties
+  | SqlDedicatedGatewayServiceResourceProperties;
 export interface CreateServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -1188,9 +1342,11 @@ export interface AnalyticalStorageConfiguration {
 /** Enum to indicate the mode of account creation. */
 export type DatabaseAccountCreateUpdatePropertiesInputCreateMode = "Default" | "Restore";
 /** Describes the mode of backups. */
-export type BackupPolicyType = "Periodic" | "Continuous";
+export type ContinuousModeBackupPolicyType = "Continuous";
 /** Describes the status of migration between backup policy types. */
 export type BackupPolicyMigrationStatus = "Invalid" | "InProgress" | "Completed" | "Failed";
+/** Describes the mode of backups. */
+export type BackupPolicyType = "Periodic" | "Continuous";
 /** The object representing the state of the migration between the backup policies. */
 export interface BackupPolicyMigrationState {
   /** Describes the status of migration between backup policy types. */
@@ -1200,15 +1356,50 @@ export interface BackupPolicyMigrationState {
   /** Time at which the backup policy migration started (ISO-8601 format). */
   startTime?: string | undefined;
 }
-/** The object representing the policy for taking backups on an account. */
-export interface BackupPolicy {
+/** Enum to indicate type of Continuous backup tier. */
+export type ContinuousTier = "Continuous7Days" | "Continuous30Days";
+/** Configuration values for periodic mode backup */
+export interface ContinuousModeProperties {
+  /** Enum to indicate type of Continuos backup mode */
+  tier?: ContinuousTier | (string & {}) | undefined;
+}
+/** The object representing continuous mode backup policy. */
+export interface ContinuousModeBackupPolicy {
   /** Describes the mode of backups. */
-  type: BackupPolicyType | (string & {});
+  type: ContinuousModeBackupPolicyType;
   /** The object representing the state of the migration between the backup policies. */
   migrationState?: BackupPolicyMigrationState | undefined;
   /** The UTC timestamp until which changes that reduce backup retention are locked. While active, this timestamp can only be extended. */
   backupRetentionLockExpirationTimestamp?: string | undefined;
+  /** Configuration values for continuous mode backup */
+  continuousModeProperties?: ContinuousModeProperties | undefined;
 }
+/** Describes the mode of backups. */
+export type PeriodicModeBackupPolicyType = "Periodic";
+/** Enum to indicate type of backup storage redundancy. */
+export type BackupStorageRedundancy = "Geo" | "Local" | "Zone";
+/** Configuration values for periodic mode backup */
+export interface PeriodicModeProperties {
+  /** An integer representing the interval in minutes between two backups */
+  backupIntervalInMinutes?: number | undefined;
+  /** An integer representing the time (in hours) that each backup is retained */
+  backupRetentionIntervalInHours?: number | undefined;
+  /** Enum to indicate type of backup residency */
+  backupStorageRedundancy?: BackupStorageRedundancy | (string & {}) | undefined;
+}
+/** The object representing periodic mode backup policy. */
+export interface PeriodicModeBackupPolicy {
+  /** Describes the mode of backups. */
+  type: PeriodicModeBackupPolicyType;
+  /** The object representing the state of the migration between the backup policies. */
+  migrationState?: BackupPolicyMigrationState | undefined;
+  /** The UTC timestamp until which changes that reduce backup retention are locked. While active, this timestamp can only be extended. */
+  backupRetentionLockExpirationTimestamp?: string | undefined;
+  /** Configuration values for periodic mode backup */
+  periodicModeProperties?: PeriodicModeProperties | undefined;
+}
+/** The object representing the policy for taking backups on an account. */
+export type BackupPolicy = ContinuousModeBackupPolicy | PeriodicModeBackupPolicy;
 /** The CORS policy for the Cosmos DB database account. */
 export interface CorsPolicy {
   /** The origin domains that are permitted to make a request against the service via CORS. */
@@ -3059,8 +3250,6 @@ export interface GetLocationRequest {
   /** Cosmos DB region, with spaces between words and each word capitalized. */
   location: string;
 }
-/** Enum to indicate type of backup storage redundancy. */
-export type BackupStorageRedundancy = "Geo" | "Local" | "Zone";
 /** The properties of available backup storage redundancies. */
 export type LocationPropertiesBackupStorageRedundanciesList = Array<BackupStorageRedundancy>;
 /** Cosmos DB location metadata */
@@ -9701,8 +9890,8 @@ export const CreateService: API.OperationMethod<
   CreateServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(833, __c26, 1) as any as S.Schema<CreateServiceRequest>,
-  output: __S(834, __c26, 2) as any as S.Schema<CreateServiceResponse>,
+  input: __S(835, __c26, 3) as any as S.Schema<CreateServiceRequest>,
+  output: __S(836, __c26, 4) as any as S.Schema<CreateServiceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14505,15 +14694,31 @@ function __c26(j: number): any {
           instanceCount: S.optional(S.Number),
           serviceType: S.String,
         }),
-      ).annotate({ identifier: "ServiceResourceCreateUpdateProperties" });
+      ).annotate({ identifier: "DataTransferServiceResourceCreateUpdateProperties" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceSize: S.optional(S.String),
+          instanceCount: S.optional(S.Number),
+          serviceType: S.String,
+          dedicatedGatewayType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SqlDedicatedGatewayServiceResourceCreateUpdateProperties" });
+    case 2:
+      return S.Union([
+        __S(832, __c26, 0),
+        __S(832, __c26, 0),
+        __S(832, __c26, 0),
+        __S(833, __c26, 1),
+      ]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(832, __c26, 0)),
+          properties: S.optional(__S(834, __c26, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -14523,14 +14728,14 @@ function __c26(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateServiceRequest" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(160, __c5, 0)),
-          properties: S.optional(__S(864, __c27, 0)),
+          properties: S.optional(__S(873, __c27, 9)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -14541,6 +14746,16 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          location: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RegionalServiceResource" });
+    case 1:
+      return S.Array(__S(864, __c27, 0));
+    case 2:
+      return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             creationTime: S.optional(S.String),
@@ -14548,10 +14763,71 @@ function __c27(j: number): any {
             instanceCount: S.optional(S.Number),
             serviceType: S.String,
             status: S.optional(S.String),
+            locations: S.optional(__S(865, __c27, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
-      ).annotate({ identifier: "ServiceResourceProperties" });
+      ).annotate({ identifier: "DataTransferServiceResourceProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          location: S.optional(S.String),
+          status: S.optional(S.String),
+          graphApiComputeEndpoint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GraphAPIComputeRegionalServiceResource" });
+    case 4:
+      return S.Array(__S(867, __c27, 3));
+    case 5:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            creationTime: S.optional(S.String),
+            instanceSize: S.optional(S.String),
+            instanceCount: S.optional(S.Number),
+            serviceType: S.String,
+            status: S.optional(S.String),
+            graphApiComputeEndpoint: S.optional(S.String),
+            locations: S.optional(__S(868, __c27, 4)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "GraphAPIComputeServiceResourceProperties" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          location: S.optional(S.String),
+          status: S.optional(S.String),
+          sqlDedicatedGatewayEndpoint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SqlDedicatedGatewayRegionalServiceResource" });
+    case 7:
+      return S.Array(__S(870, __c27, 6));
+    case 8:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            creationTime: S.optional(S.String),
+            instanceSize: S.optional(S.String),
+            instanceCount: S.optional(S.Number),
+            serviceType: S.String,
+            status: S.optional(S.String),
+            sqlDedicatedGatewayEndpoint: S.optional(S.String),
+            dedicatedGatewayType: S.optional(S.String),
+            locations: S.optional(__S(871, __c27, 7)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "SqlDedicatedGatewayServiceResourceProperties" });
+    case 9:
+      return S.Union([
+        __S(866, __c27, 2),
+        __S(869, __c27, 5),
+        __S(866, __c27, 2),
+        __S(872, __c27, 8),
+      ]);
   }
 }
 function __c28(j: number): any {
@@ -14984,13 +15260,13 @@ function __c45(j: number): any {
           enableAnalyticalStorage: S.optional(S.Boolean),
           analyticalStorageConfiguration: S.optional(__S(1542, __c48, 6)),
           createMode: S.optional(S.String),
-          backupPolicy: S.optional(__S(1544, __c48, 8)),
-          cors: S.optional(__S(1546, __c48, 10)),
+          backupPolicy: S.optional(__S(1548, __c48, 12)),
+          cors: S.optional(__S(1550, __c48, 14)),
           networkAclBypass: S.optional(S.String),
           networkAclBypassResourceIds: S.optional(__S(96, __c3, 0)),
           disableLocalAuth: S.optional(S.Boolean),
-          restoreParameters: S.optional(__S(1551, __c48, 15)),
-          capacity: S.optional(__S(1552, __c48, 16)),
+          restoreParameters: S.optional(__S(1555, __c48, 19)),
+          capacity: S.optional(__S(1556, __c48, 20)),
           enablePartitionMerge: S.optional(S.Boolean),
           enableBurstCapacity: S.optional(S.Boolean),
           minimalTlsVersion: S.optional(S.String),
@@ -15043,7 +15319,7 @@ function __c46(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(160, __c5, 0)),
-          properties: S.optional(__S(1559, __c48, 23)),
+          properties: S.optional(__S(1563, __c48, 27)),
           location: S.optional(S.String),
           tags: S.optional(__S(64, __c2, 0)),
           identity: S.optional(__S(6914, __c216, 2)),
@@ -15109,12 +15385,38 @@ function __c48(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
+          tier: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContinuousModeProperties" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
           type: S.String,
           migrationState: S.optional(__S(1543, __c48, 7)),
           backupRetentionLockExpirationTimestamp: S.optional(S.String),
+          continuousModeProperties: S.optional(__S(1544, __c48, 8)),
         }),
-      ).annotate({ identifier: "BackupPolicy" });
-    case 9:
+      ).annotate({ identifier: "ContinuousModeBackupPolicy" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          backupIntervalInMinutes: S.optional(S.Number),
+          backupRetentionIntervalInHours: S.optional(S.Number),
+          backupStorageRedundancy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PeriodicModeProperties" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          migrationState: S.optional(__S(1543, __c48, 7)),
+          backupRetentionLockExpirationTimestamp: S.optional(S.String),
+          periodicModeProperties: S.optional(__S(1546, __c48, 10)),
+        }),
+      ).annotate({ identifier: "PeriodicModeBackupPolicy" });
+    case 12:
+      return S.Union([__S(1545, __c48, 9), __S(1547, __c48, 11)]);
+    case 13:
       return S.suspend(() =>
         S.Struct({
           allowedOrigins: S.String,
@@ -15124,46 +15426,46 @@ function __c48(j: number): any {
           maxAgeInSeconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CorsPolicy" });
-    case 10:
-      return S.Array(__S(1545, __c48, 9));
-    case 11:
+    case 14:
+      return S.Array(__S(1549, __c48, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           databaseName: S.optional(S.String),
           collectionNames: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "DatabaseRestoreResource" });
-    case 12:
-      return S.Array(__S(1547, __c48, 11));
-    case 13:
+    case 16:
+      return S.Array(__S(1551, __c48, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           databaseName: S.optional(S.String),
           graphNames: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "GremlinDatabaseRestoreResource" });
-    case 14:
-      return S.Array(__S(1549, __c48, 13));
-    case 15:
+    case 18:
+      return S.Array(__S(1553, __c48, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           restoreSource: S.optional(S.String),
           restoreTimestampInUtc: S.optional(S.String),
           restoreWithTtlDisabled: S.optional(S.Boolean),
           restoreMode: S.optional(S.String),
-          databasesToRestore: S.optional(__S(1548, __c48, 12)),
-          gremlinDatabasesToRestore: S.optional(__S(1550, __c48, 14)),
+          databasesToRestore: S.optional(__S(1552, __c48, 16)),
+          gremlinDatabasesToRestore: S.optional(__S(1554, __c48, 18)),
           tablesToRestore: S.optional(__S(96, __c3, 0)),
           sourceBackupLocation: S.optional(S.String),
         }),
       ).annotate({ identifier: "RestoreParameters" });
-    case 16:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           totalThroughputLimit: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Capacity" });
-    case 17:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -15174,9 +15476,9 @@ function __c48(j: number): any {
           isZoneRedundant: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Location" });
-    case 18:
-      return S.Array(__S(1553, __c48, 17));
-    case 19:
+    case 22:
+      return S.Array(__S(1557, __c48, 21));
+    case 23:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -15184,24 +15486,24 @@ function __c48(j: number): any {
           failoverPriority: S.optional(S.Number),
         }),
       ).annotate({ identifier: "FailoverPolicy" });
-    case 20:
-      return S.Array(__S(1555, __c48, 19));
-    case 21:
+    case 24:
+      return S.Array(__S(1559, __c48, 23));
+    case 25:
       return S.suspend(() =>
         S.Struct({
           generationTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "AccountKeyMetadata" });
-    case 22:
+    case 26:
       return S.suspend(() =>
         S.Struct({
-          primaryMasterKey: S.optional(__S(1557, __c48, 21)),
-          secondaryMasterKey: S.optional(__S(1557, __c48, 21)),
-          primaryReadonlyMasterKey: S.optional(__S(1557, __c48, 21)),
-          secondaryReadonlyMasterKey: S.optional(__S(1557, __c48, 21)),
+          primaryMasterKey: S.optional(__S(1561, __c48, 25)),
+          secondaryMasterKey: S.optional(__S(1561, __c48, 25)),
+          primaryReadonlyMasterKey: S.optional(__S(1561, __c48, 25)),
+          secondaryReadonlyMasterKey: S.optional(__S(1561, __c48, 25)),
         }),
       ).annotate({ identifier: "DatabaseAccountKeysMetadata" });
-    case 23:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
@@ -15212,10 +15514,10 @@ function __c48(j: number): any {
           enableAutomaticFailover: S.optional(S.Boolean),
           consistencyPolicy: S.optional(__S(1536, __c48, 0)),
           capabilities: S.optional(__S(8897, __c278, 1)),
-          writeLocations: S.optional(__S(1554, __c48, 18)),
-          readLocations: S.optional(__S(1554, __c48, 18)),
-          locations: S.optional(__S(1554, __c48, 18)),
-          failoverPolicies: S.optional(__S(1556, __c48, 20)),
+          writeLocations: S.optional(__S(1558, __c48, 22)),
+          readLocations: S.optional(__S(1558, __c48, 22)),
+          locations: S.optional(__S(1558, __c48, 22)),
+          failoverPolicies: S.optional(__S(1560, __c48, 24)),
           virtualNetworkRules: S.optional(__S(1540, __c48, 4)),
           privateEndpointConnections: S.optional(__S(1504, __c47, 0)),
           enableMultipleWriteLocations: S.optional(S.Boolean),
@@ -15231,14 +15533,14 @@ function __c48(j: number): any {
           analyticalStorageConfiguration: S.optional(__S(1542, __c48, 6)),
           instanceId: S.optional(S.String),
           createMode: S.optional(S.String),
-          restoreParameters: S.optional(__S(1551, __c48, 15)),
-          backupPolicy: S.optional(__S(1544, __c48, 8)),
-          cors: S.optional(__S(1546, __c48, 10)),
+          restoreParameters: S.optional(__S(1555, __c48, 19)),
+          backupPolicy: S.optional(__S(1548, __c48, 12)),
+          cors: S.optional(__S(1550, __c48, 14)),
           networkAclBypass: S.optional(S.String),
           networkAclBypassResourceIds: S.optional(__S(96, __c3, 0)),
           disableLocalAuth: S.optional(S.Boolean),
-          capacity: S.optional(__S(1552, __c48, 16)),
-          keysMetadata: S.optional(__S(1558, __c48, 22)),
+          capacity: S.optional(__S(1556, __c48, 20)),
+          keysMetadata: S.optional(__S(1562, __c48, 26)),
           enablePartitionMerge: S.optional(S.Boolean),
           enableBurstCapacity: S.optional(S.Boolean),
           minimalTlsVersion: S.optional(S.String),
@@ -18711,12 +19013,12 @@ function __c184(j: number): any {
           apiProperties: S.optional(__S(1541, __c48, 5)),
           enableAnalyticalStorage: S.optional(S.Boolean),
           analyticalStorageConfiguration: S.optional(__S(1542, __c48, 6)),
-          backupPolicy: S.optional(__S(1544, __c48, 8)),
-          cors: S.optional(__S(1546, __c48, 10)),
+          backupPolicy: S.optional(__S(1548, __c48, 12)),
+          cors: S.optional(__S(1550, __c48, 14)),
           networkAclBypass: S.optional(S.String),
           networkAclBypassResourceIds: S.optional(__S(96, __c3, 0)),
           disableLocalAuth: S.optional(S.Boolean),
-          capacity: S.optional(__S(1552, __c48, 16)),
+          capacity: S.optional(__S(1556, __c48, 20)),
           enablePartitionMerge: S.optional(S.Boolean),
           enableBurstCapacity: S.optional(S.Boolean),
           minimalTlsVersion: S.optional(S.String),
@@ -20164,7 +20466,7 @@ function __c250(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(160, __c5, 0)),
-          properties: S.optional(__S(1559, __c48, 23)),
+          properties: S.optional(__S(1563, __c48, 27)),
           location: S.optional(S.String),
           tags: S.optional(__S(64, __c2, 0)),
           identity: S.optional(__S(6914, __c216, 2)),
@@ -21437,7 +21739,7 @@ function __c307(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(160, __c5, 0)),
-          properties: S.optional(__S(864, __c27, 0)),
+          properties: S.optional(__S(873, __c27, 9)),
         }),
       ).annotate({ identifier: "GetServiceResponse" });
   }

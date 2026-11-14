@@ -183,21 +183,320 @@ export interface CreateAccountResponse {
   properties?: AccountProperties | undefined;
 }
 /** Kind of data set. */
-export type CreateDataSetRequestKind =
-  | "Blob"
-  | "Container"
-  | "BlobFolder"
-  | "AdlsGen2FileSystem"
-  | "AdlsGen2Folder"
-  | "AdlsGen2File"
-  | "AdlsGen1Folder"
-  | "AdlsGen1File"
-  | "KustoCluster"
-  | "KustoDatabase"
-  | "KustoTable"
-  | "SqlDBTable"
-  | "SqlDWTable"
-  | "SynapseWorkspaceSqlPoolTable";
+export type ADLSGen1FileDataSetInputKind = "AdlsGen1File";
+/** Properties of the ADLS Gen1 file data set. */
+export interface ADLSGen1FilePropertiesInput {
+  /** The ADLS account name. */
+  accountName: string;
+  /** The file name in the ADLS account. */
+  fileName: string;
+  /** The folder path within the ADLS account. */
+  folderPath: string;
+  /** Resource group of ADLS account. */
+  resourceGroup: string;
+  /** Subscription id of ADLS account. */
+  subscriptionId: string;
+}
+/** An ADLS Gen 1 file data set. */
+export interface ADLSGen1FileDataSetInput {
+  /** Kind of data set. */
+  kind: ADLSGen1FileDataSetInputKind;
+  /** ADLS Gen 1 file data set properties. */
+  properties: ADLSGen1FilePropertiesInput;
+}
+/** Kind of data set. */
+export type ADLSGen1FolderDataSetInputKind = "AdlsGen1Folder";
+/** Properties of the ADLS Gen1 folder data set. */
+export interface ADLSGen1FolderPropertiesInput {
+  /** The ADLS account name. */
+  accountName: string;
+  /** The folder path within the ADLS account. */
+  folderPath: string;
+  /** Resource group of ADLS account. */
+  resourceGroup: string;
+  /** Subscription id of ADLS account. */
+  subscriptionId: string;
+}
+/** An ADLS Gen 1 folder data set. */
+export interface ADLSGen1FolderDataSetInput {
+  /** Kind of data set. */
+  kind: ADLSGen1FolderDataSetInputKind;
+  /** ADLS Gen 1 folder data set properties. */
+  properties: ADLSGen1FolderPropertiesInput;
+}
+/** Kind of data set. */
+export type ADLSGen2FileDataSetInputKind = "AdlsGen2File";
+/** Properties of the ADLS Gen2 file data set. */
+export interface ADLSGen2FilePropertiesInput {
+  /** File path within the file system. */
+  filePath: string;
+  /** File system to which the file belongs. */
+  fileSystem: string;
+  /** Resource group of storage account */
+  resourceGroup: string;
+  /** Storage account name of the source data set */
+  storageAccountName: string;
+  /** Subscription id of storage account */
+  subscriptionId: string;
+}
+/** An ADLS Gen 2 file data set. */
+export interface ADLSGen2FileDataSetInput {
+  /** Kind of data set. */
+  kind: ADLSGen2FileDataSetInputKind;
+  /** ADLS Gen 2 file data set properties. */
+  properties: ADLSGen2FilePropertiesInput;
+}
+/** Kind of data set. */
+export type ADLSGen2FileSystemDataSetInputKind = "AdlsGen2FileSystem";
+/** Properties of the ADLS Gen2 file system data set. */
+export interface ADLSGen2FileSystemPropertiesInput {
+  /** The file system name. */
+  fileSystem: string;
+  /** Resource group of storage account */
+  resourceGroup: string;
+  /** Storage account name of the source data set */
+  storageAccountName: string;
+  /** Subscription id of storage account */
+  subscriptionId: string;
+}
+/** An ADLS Gen 2 file system data set. */
+export interface ADLSGen2FileSystemDataSetInput {
+  /** Kind of data set. */
+  kind: ADLSGen2FileSystemDataSetInputKind;
+  /** ADLS Gen 2 file system data set properties. */
+  properties: ADLSGen2FileSystemPropertiesInput;
+}
+/** Kind of data set. */
+export type ADLSGen2FolderDataSetInputKind = "AdlsGen2Folder";
+/** Properties of the ADLS Gen2 folder data set. */
+export interface ADLSGen2FolderPropertiesInput {
+  /** File system to which the folder belongs. */
+  fileSystem: string;
+  /** Folder path within the file system. */
+  folderPath: string;
+  /** Resource group of storage account */
+  resourceGroup: string;
+  /** Storage account name of the source data set */
+  storageAccountName: string;
+  /** Subscription id of storage account */
+  subscriptionId: string;
+}
+/** An ADLS Gen 2 folder data set. */
+export interface ADLSGen2FolderDataSetInput {
+  /** Kind of data set. */
+  kind: ADLSGen2FolderDataSetInputKind;
+  /** ADLS Gen 2 folder data set properties. */
+  properties: ADLSGen2FolderPropertiesInput;
+}
+/** Kind of data set. */
+export type BlobContainerDataSetInputKind = "Container";
+/** Properties of the BLOB container data set. */
+export interface BlobContainerPropertiesInput {
+  /** BLOB Container name. */
+  containerName: string;
+  /** Resource group of storage account */
+  resourceGroup: string;
+  /** Storage account name of the source data set */
+  storageAccountName: string;
+  /** Subscription id of storage account */
+  subscriptionId: string;
+}
+/** An Azure storage blob container data set. */
+export interface BlobContainerDataSetInput {
+  /** Kind of data set. */
+  kind: BlobContainerDataSetInputKind;
+  /** Blob container data set properties. */
+  properties: BlobContainerPropertiesInput;
+}
+/** Kind of data set. */
+export type BlobDataSetInputKind = "Blob";
+/** Properties of the blob data set. */
+export interface BlobPropertiesInput {
+  /** Container that has the file path. */
+  containerName: string;
+  /** File path within the source data set */
+  filePath: string;
+  /** Resource group of storage account */
+  resourceGroup: string;
+  /** Storage account name of the source data set */
+  storageAccountName: string;
+  /** Subscription id of storage account */
+  subscriptionId: string;
+}
+/** An Azure storage blob data set. */
+export interface BlobDataSetInput {
+  /** Kind of data set. */
+  kind: BlobDataSetInputKind;
+  /** Blob data set properties. */
+  properties: BlobPropertiesInput;
+}
+/** Kind of data set. */
+export type BlobFolderDataSetInputKind = "BlobFolder";
+/** Properties of the blob folder data set. */
+export interface BlobFolderPropertiesInput {
+  /** Container that has the file path. */
+  containerName: string;
+  /** Prefix for blob folder */
+  prefix: string;
+  /** Resource group of storage account */
+  resourceGroup: string;
+  /** Storage account name of the source data set */
+  storageAccountName: string;
+  /** Subscription id of storage account */
+  subscriptionId: string;
+}
+/** An Azure storage blob folder data set. */
+export interface BlobFolderDataSetInput {
+  /** Kind of data set. */
+  kind: BlobFolderDataSetInputKind;
+  /** Blob folder data set properties. */
+  properties: BlobFolderPropertiesInput;
+}
+/** Kind of data set. */
+export type KustoClusterDataSetInputKind = "KustoCluster";
+/** Properties of the kusto cluster data set. */
+export interface KustoClusterDataSetPropertiesInput {
+  /** Resource id of the kusto cluster. */
+  kustoClusterResourceId: string;
+}
+/** A kusto cluster data set. */
+export interface KustoClusterDataSetInput {
+  /** Kind of data set. */
+  kind: KustoClusterDataSetInputKind;
+  /** Kusto cluster data set properties. */
+  properties: KustoClusterDataSetPropertiesInput;
+}
+/** Kind of data set. */
+export type KustoDatabaseDataSetInputKind = "KustoDatabase";
+/** Properties of the kusto database data set. */
+export interface KustoDatabaseDataSetPropertiesInput {
+  /** Resource id of the kusto database. */
+  kustoDatabaseResourceId: string;
+}
+/** A kusto database data set. */
+export interface KustoDatabaseDataSetInput {
+  /** Kind of data set. */
+  kind: KustoDatabaseDataSetInputKind;
+  /** Kusto database data set properties. */
+  properties: KustoDatabaseDataSetPropertiesInput;
+}
+/** Kind of data set. */
+export type KustoTableDataSetInputKind = "KustoTable";
+/** External tables to be excluded in the data set */
+export type TableLevelSharingPropertiesExternalTablesToExcludeList = Array<string>;
+/** External tables to be included in the data set */
+export type TableLevelSharingPropertiesExternalTablesToIncludeList = Array<string>;
+/** Materialized views to be excluded in the data set */
+export type TableLevelSharingPropertiesMaterializedViewsToExcludeList = Array<string>;
+/** Materialized views to be included in the data set */
+export type TableLevelSharingPropertiesMaterializedViewsToIncludeList = Array<string>;
+/** Tables to be excluded in the data set */
+export type TableLevelSharingPropertiesTablesToExcludeList = Array<string>;
+/** Tables to be included in the data set */
+export type TableLevelSharingPropertiesTablesToIncludeList = Array<string>;
+/** Table level sharing properties dto for kusto data set properties */
+export interface TableLevelSharingProperties {
+  /** External tables to be excluded in the data set */
+  externalTablesToExclude?: TableLevelSharingPropertiesExternalTablesToExcludeList | undefined;
+  /** External tables to be included in the data set */
+  externalTablesToInclude?: TableLevelSharingPropertiesExternalTablesToIncludeList | undefined;
+  /** Materialized views to be excluded in the data set */
+  materializedViewsToExclude?:
+    | TableLevelSharingPropertiesMaterializedViewsToExcludeList
+    | undefined;
+  /** Materialized views to be included in the data set */
+  materializedViewsToInclude?:
+    | TableLevelSharingPropertiesMaterializedViewsToIncludeList
+    | undefined;
+  /** Tables to be excluded in the data set */
+  tablesToExclude?: TableLevelSharingPropertiesTablesToExcludeList | undefined;
+  /** Tables to be included in the data set */
+  tablesToInclude?: TableLevelSharingPropertiesTablesToIncludeList | undefined;
+}
+/** Properties of the kusto table data set. */
+export interface KustoTableDataSetPropertiesInput {
+  /** Resource id of the kusto database. */
+  kustoDatabaseResourceId: string;
+  /** Table level sharing properties for kusto database */
+  tableLevelSharingProperties: TableLevelSharingProperties;
+}
+/** A kusto table data set. */
+export interface KustoTableDataSetInput {
+  /** Kind of data set. */
+  kind: KustoTableDataSetInputKind;
+  /** Kusto table data set properties. */
+  properties: KustoTableDataSetPropertiesInput;
+}
+/** Kind of data set. */
+export type SqlDBTableDataSetInputKind = "SqlDBTable";
+/** Properties of the SQL DB table data set. */
+export interface SqlDBTablePropertiesInput {
+  /** Database name of the source data set */
+  databaseName: string;
+  /** Schema of the table. Default value is dbo. */
+  schemaName: string;
+  /** Resource id of SQL server */
+  sqlServerResourceId: string;
+  /** SQL DB table name. */
+  tableName: string;
+}
+/** A SQL DB table data set. */
+export interface SqlDBTableDataSetInput {
+  /** Kind of data set. */
+  kind: SqlDBTableDataSetInputKind;
+  /** SQL DB table data set properties. */
+  properties?: SqlDBTablePropertiesInput | undefined;
+}
+/** Kind of data set. */
+export type SqlDWTableDataSetInputKind = "SqlDWTable";
+/** Properties of the SQL DW table data set. */
+export interface SqlDWTablePropertiesInput {
+  /** DataWarehouse name of the source data set */
+  dataWarehouseName: string;
+  /** Schema of the table. Default value is dbo. */
+  schemaName: string;
+  /** Resource id of SQL server */
+  sqlServerResourceId: string;
+  /** SQL DW table name. */
+  tableName: string;
+}
+/** A SQL DW table data set. */
+export interface SqlDWTableDataSetInput {
+  /** Kind of data set. */
+  kind: SqlDWTableDataSetInputKind;
+  /** SQL DW table data set properties. */
+  properties?: SqlDWTablePropertiesInput | undefined;
+}
+/** Kind of data set. */
+export type SynapseWorkspaceSqlPoolTableDataSetInputKind = "SynapseWorkspaceSqlPoolTable";
+/** Properties of the Synapse Workspace SQL Pool Table data set. */
+export interface SynapseWorkspaceSqlPoolTableDataSetPropertiesInput {
+  /** Resource id of the Synapse Workspace SQL Pool Table */
+  synapseWorkspaceSqlPoolTableResourceId: string;
+}
+/** A Synapse Workspace Sql Pool Table data set. */
+export interface SynapseWorkspaceSqlPoolTableDataSetInput {
+  /** Kind of data set. */
+  kind: SynapseWorkspaceSqlPoolTableDataSetInputKind;
+  /** Synapse Workspace Sql Pool Table data set properties. */
+  properties: SynapseWorkspaceSqlPoolTableDataSetPropertiesInput;
+}
+/** A DataSet data transfer object. */
+export type DataSetInput =
+  | ADLSGen1FileDataSetInput
+  | ADLSGen1FolderDataSetInput
+  | ADLSGen2FileDataSetInput
+  | ADLSGen2FileSystemDataSetInput
+  | ADLSGen2FolderDataSetInput
+  | BlobContainerDataSetInput
+  | BlobDataSetInput
+  | BlobFolderDataSetInput
+  | KustoClusterDataSetInput
+  | KustoDatabaseDataSetInput
+  | KustoTableDataSetInput
+  | SqlDBTableDataSetInput
+  | SqlDWTableDataSetInput
+  | SynapseWorkspaceSqlPoolTableDataSetInput;
 export interface CreateDataSetRequest {
   /** The subscription identifier */
   subscriptionId: string;
@@ -209,28 +508,27 @@ export interface CreateDataSetRequest {
   shareName: string;
   /** The name of the dataSet. */
   dataSetName: string;
-  /** Kind of data set. */
-  kind: CreateDataSetRequestKind | (string & {});
-  /** Kind-specific data set properties (polymorphic on `kind`), e.g. `{ containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
-  properties?: unknown | undefined;
+  body: DataSetInput;
 }
 /** Kind of data set. */
-export type CreateDataSetResponseKind =
-  | "Blob"
-  | "Container"
-  | "BlobFolder"
-  | "AdlsGen2FileSystem"
-  | "AdlsGen2Folder"
-  | "AdlsGen2File"
-  | "AdlsGen1Folder"
-  | "AdlsGen1File"
-  | "KustoCluster"
-  | "KustoDatabase"
-  | "KustoTable"
-  | "SqlDBTable"
-  | "SqlDWTable"
-  | "SynapseWorkspaceSqlPoolTable";
-export interface CreateDataSetResponse {
+export type ADLSGen1FileDataSetKind = "AdlsGen1File";
+/** Properties of the ADLS Gen1 file data set. */
+export interface ADLSGen1FileProperties {
+  /** The ADLS account name. */
+  accountName: string;
+  /** Unique id for identifying a data set resource */
+  dataSetId?: string | undefined;
+  /** The file name in the ADLS account. */
+  fileName: string;
+  /** The folder path within the ADLS account. */
+  folderPath: string;
+  /** Resource group of ADLS account. */
+  resourceGroup: string;
+  /** Subscription id of ADLS account. */
+  subscriptionId: string;
+}
+/** An ADLS Gen 1 file data set. */
+export interface ADLSGen1FileDataSet {
   /** The resource id of the azure resource */
   id?: string | undefined;
   /** Name of the azure resource */
@@ -240,24 +538,696 @@ export interface CreateDataSetResponse {
   /** Type of the azure resource */
   type?: string | undefined;
   /** Kind of data set. */
-  kind: CreateDataSetResponseKind;
-  /** Kind-specific data set properties (polymorphic on `kind`), e.g. `{ containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
-  properties?: unknown | undefined;
+  kind: ADLSGen1FileDataSetKind;
+  /** ADLS Gen 1 file data set properties. */
+  properties: ADLSGen1FileProperties;
+}
+/** Kind of data set. */
+export type ADLSGen1FolderDataSetKind = "AdlsGen1Folder";
+/** Properties of the ADLS Gen1 folder data set. */
+export interface ADLSGen1FolderProperties {
+  /** The ADLS account name. */
+  accountName: string;
+  /** Unique id for identifying a data set resource */
+  dataSetId?: string | undefined;
+  /** The folder path within the ADLS account. */
+  folderPath: string;
+  /** Resource group of ADLS account. */
+  resourceGroup: string;
+  /** Subscription id of ADLS account. */
+  subscriptionId: string;
+}
+/** An ADLS Gen 1 folder data set. */
+export interface ADLSGen1FolderDataSet {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set. */
+  kind: ADLSGen1FolderDataSetKind;
+  /** ADLS Gen 1 folder data set properties. */
+  properties: ADLSGen1FolderProperties;
+}
+/** Kind of data set. */
+export type ADLSGen2FileDataSetKind = "AdlsGen2File";
+/** Properties of the ADLS Gen2 file data set. */
+export interface ADLSGen2FileProperties {
+  /** Unique id for identifying a data set resource */
+  dataSetId?: string | undefined;
+  /** File path within the file system. */
+  filePath: string;
+  /** File system to which the file belongs. */
+  fileSystem: string;
+  /** Resource group of storage account */
+  resourceGroup: string;
+  /** Storage account name of the source data set */
+  storageAccountName: string;
+  /** Subscription id of storage account */
+  subscriptionId: string;
+}
+/** An ADLS Gen 2 file data set. */
+export interface ADLSGen2FileDataSet {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set. */
+  kind: ADLSGen2FileDataSetKind;
+  /** ADLS Gen 2 file data set properties. */
+  properties: ADLSGen2FileProperties;
+}
+/** Kind of data set. */
+export type ADLSGen2FileSystemDataSetKind = "AdlsGen2FileSystem";
+/** Properties of the ADLS Gen2 file system data set. */
+export interface ADLSGen2FileSystemProperties {
+  /** Unique id for identifying a data set resource */
+  dataSetId?: string | undefined;
+  /** The file system name. */
+  fileSystem: string;
+  /** Resource group of storage account */
+  resourceGroup: string;
+  /** Storage account name of the source data set */
+  storageAccountName: string;
+  /** Subscription id of storage account */
+  subscriptionId: string;
+}
+/** An ADLS Gen 2 file system data set. */
+export interface ADLSGen2FileSystemDataSet {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set. */
+  kind: ADLSGen2FileSystemDataSetKind;
+  /** ADLS Gen 2 file system data set properties. */
+  properties: ADLSGen2FileSystemProperties;
+}
+/** Kind of data set. */
+export type ADLSGen2FolderDataSetKind = "AdlsGen2Folder";
+/** Properties of the ADLS Gen2 folder data set. */
+export interface ADLSGen2FolderProperties {
+  /** Unique id for identifying a data set resource */
+  dataSetId?: string | undefined;
+  /** File system to which the folder belongs. */
+  fileSystem: string;
+  /** Folder path within the file system. */
+  folderPath: string;
+  /** Resource group of storage account */
+  resourceGroup: string;
+  /** Storage account name of the source data set */
+  storageAccountName: string;
+  /** Subscription id of storage account */
+  subscriptionId: string;
+}
+/** An ADLS Gen 2 folder data set. */
+export interface ADLSGen2FolderDataSet {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set. */
+  kind: ADLSGen2FolderDataSetKind;
+  /** ADLS Gen 2 folder data set properties. */
+  properties: ADLSGen2FolderProperties;
+}
+/** Kind of data set. */
+export type BlobContainerDataSetKind = "Container";
+/** Properties of the BLOB container data set. */
+export interface BlobContainerProperties {
+  /** BLOB Container name. */
+  containerName: string;
+  /** Unique id for identifying a data set resource */
+  dataSetId?: string | undefined;
+  /** Resource group of storage account */
+  resourceGroup: string;
+  /** Storage account name of the source data set */
+  storageAccountName: string;
+  /** Subscription id of storage account */
+  subscriptionId: string;
+}
+/** An Azure storage blob container data set. */
+export interface BlobContainerDataSet {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set. */
+  kind: BlobContainerDataSetKind;
+  /** Blob container data set properties. */
+  properties: BlobContainerProperties;
+}
+/** Kind of data set. */
+export type BlobDataSetKind = "Blob";
+/** Properties of the blob data set. */
+export interface BlobProperties {
+  /** Container that has the file path. */
+  containerName: string;
+  /** Unique id for identifying a data set resource */
+  dataSetId?: string | undefined;
+  /** File path within the source data set */
+  filePath: string;
+  /** Resource group of storage account */
+  resourceGroup: string;
+  /** Storage account name of the source data set */
+  storageAccountName: string;
+  /** Subscription id of storage account */
+  subscriptionId: string;
+}
+/** An Azure storage blob data set. */
+export interface BlobDataSet {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set. */
+  kind: BlobDataSetKind;
+  /** Blob data set properties. */
+  properties: BlobProperties;
+}
+/** Kind of data set. */
+export type BlobFolderDataSetKind = "BlobFolder";
+/** Properties of the blob folder data set. */
+export interface BlobFolderProperties {
+  /** Container that has the file path. */
+  containerName: string;
+  /** Unique id for identifying a data set resource */
+  dataSetId?: string | undefined;
+  /** Prefix for blob folder */
+  prefix: string;
+  /** Resource group of storage account */
+  resourceGroup: string;
+  /** Storage account name of the source data set */
+  storageAccountName: string;
+  /** Subscription id of storage account */
+  subscriptionId: string;
+}
+/** An Azure storage blob folder data set. */
+export interface BlobFolderDataSet {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set. */
+  kind: BlobFolderDataSetKind;
+  /** Blob folder data set properties. */
+  properties: BlobFolderProperties;
+}
+/** Kind of data set. */
+export type KustoClusterDataSetKind = "KustoCluster";
+/** Provisioning state of the kusto cluster data set. */
+export type KustoClusterDataSetPropertiesProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Moving"
+  | "Failed";
+/** Properties of the kusto cluster data set. */
+export interface KustoClusterDataSetProperties {
+  /** Unique id for identifying a data set resource */
+  dataSetId?: string | undefined;
+  /** Resource id of the kusto cluster. */
+  kustoClusterResourceId: string;
+  /** Location of the kusto cluster. */
+  location?: string | undefined;
+  /** Provisioning state of the kusto cluster data set. */
+  provisioningState?: KustoClusterDataSetPropertiesProvisioningState | undefined;
+}
+/** A kusto cluster data set. */
+export interface KustoClusterDataSet {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set. */
+  kind: KustoClusterDataSetKind;
+  /** Kusto cluster data set properties. */
+  properties: KustoClusterDataSetProperties;
+}
+/** Kind of data set. */
+export type KustoDatabaseDataSetKind = "KustoDatabase";
+/** Provisioning state of the kusto database data set. */
+export type KustoDatabaseDataSetPropertiesProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Moving"
+  | "Failed";
+/** Properties of the kusto database data set. */
+export interface KustoDatabaseDataSetProperties {
+  /** Unique id for identifying a data set resource */
+  dataSetId?: string | undefined;
+  /** Resource id of the kusto database. */
+  kustoDatabaseResourceId: string;
+  /** Location of the kusto cluster. */
+  location?: string | undefined;
+  /** Provisioning state of the kusto database data set. */
+  provisioningState?: KustoDatabaseDataSetPropertiesProvisioningState | undefined;
+}
+/** A kusto database data set. */
+export interface KustoDatabaseDataSet {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set. */
+  kind: KustoDatabaseDataSetKind;
+  /** Kusto database data set properties. */
+  properties: KustoDatabaseDataSetProperties;
+}
+/** Kind of data set. */
+export type KustoTableDataSetKind = "KustoTable";
+/** Provisioning state of the kusto table data set. */
+export type KustoTableDataSetPropertiesProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Moving"
+  | "Failed";
+/** Properties of the kusto table data set. */
+export interface KustoTableDataSetProperties {
+  /** Unique id for identifying a data set resource */
+  dataSetId?: string | undefined;
+  /** Resource id of the kusto database. */
+  kustoDatabaseResourceId: string;
+  /** Location of the kusto cluster. */
+  location?: string | undefined;
+  /** Provisioning state of the kusto table data set. */
+  provisioningState?: KustoTableDataSetPropertiesProvisioningState | undefined;
+  /** Table level sharing properties for kusto database */
+  tableLevelSharingProperties: TableLevelSharingProperties;
+}
+/** A kusto table data set. */
+export interface KustoTableDataSet {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set. */
+  kind: KustoTableDataSetKind;
+  /** Kusto table data set properties. */
+  properties: KustoTableDataSetProperties;
+}
+/** Kind of data set. */
+export type SqlDBTableDataSetKind = "SqlDBTable";
+/** Properties of the SQL DB table data set. */
+export interface SqlDBTableProperties {
+  /** Database name of the source data set */
+  databaseName: string;
+  /** Unique id for identifying a data set resource */
+  dataSetId?: string | undefined;
+  /** Schema of the table. Default value is dbo. */
+  schemaName: string;
+  /** Resource id of SQL server */
+  sqlServerResourceId: string;
+  /** SQL DB table name. */
+  tableName: string;
+}
+/** A SQL DB table data set. */
+export interface SqlDBTableDataSet {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set. */
+  kind: SqlDBTableDataSetKind;
+  /** SQL DB table data set properties. */
+  properties?: SqlDBTableProperties | undefined;
+}
+/** Kind of data set. */
+export type SqlDWTableDataSetKind = "SqlDWTable";
+/** Properties of the SQL DW table data set. */
+export interface SqlDWTableProperties {
+  /** Unique id for identifying a data set resource */
+  dataSetId?: string | undefined;
+  /** DataWarehouse name of the source data set */
+  dataWarehouseName: string;
+  /** Schema of the table. Default value is dbo. */
+  schemaName: string;
+  /** Resource id of SQL server */
+  sqlServerResourceId: string;
+  /** SQL DW table name. */
+  tableName: string;
+}
+/** A SQL DW table data set. */
+export interface SqlDWTableDataSet {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set. */
+  kind: SqlDWTableDataSetKind;
+  /** SQL DW table data set properties. */
+  properties?: SqlDWTableProperties | undefined;
+}
+/** Kind of data set. */
+export type SynapseWorkspaceSqlPoolTableDataSetKind = "SynapseWorkspaceSqlPoolTable";
+/** Properties of the Synapse Workspace SQL Pool Table data set. */
+export interface SynapseWorkspaceSqlPoolTableDataSetProperties {
+  /** Unique id for identifying a data set resource */
+  dataSetId?: string | undefined;
+  /** Resource id of the Synapse Workspace SQL Pool Table */
+  synapseWorkspaceSqlPoolTableResourceId: string;
+}
+/** A Synapse Workspace Sql Pool Table data set. */
+export interface SynapseWorkspaceSqlPoolTableDataSet {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set. */
+  kind: SynapseWorkspaceSqlPoolTableDataSetKind;
+  /** Synapse Workspace Sql Pool Table data set properties. */
+  properties: SynapseWorkspaceSqlPoolTableDataSetProperties;
+}
+/** A DataSet data transfer object. */
+export type DataSet =
+  | ADLSGen1FileDataSet
+  | ADLSGen1FolderDataSet
+  | ADLSGen2FileDataSet
+  | ADLSGen2FileSystemDataSet
+  | ADLSGen2FolderDataSet
+  | BlobContainerDataSet
+  | BlobDataSet
+  | BlobFolderDataSet
+  | KustoClusterDataSet
+  | KustoDatabaseDataSet
+  | KustoTableDataSet
+  | SqlDBTableDataSet
+  | SqlDWTableDataSet
+  | SynapseWorkspaceSqlPoolTableDataSet;
+export type CreateDataSetResponse = DataSet;
+/** Kind of data set mapping. */
+export type ADLSGen2FileDataSetMappingInputKind = "AdlsGen2File";
+/** Type of output file */
+export type ADLSGen2FileDataSetMappingPropertiesInputOutputType = "Csv" | "Parquet";
+/** ADLS Gen 2 file data set mapping property bag. */
+export interface ADLSGen2FileDataSetMappingPropertiesInput {
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** File path within the file system. */
+  filePath: string;
+  /** File system to which the file belongs. */
+  fileSystem: string;
+  /** Type of output file */
+  outputType?: ADLSGen2FileDataSetMappingPropertiesInputOutputType | (string & {}) | undefined;
+  /** Resource group of storage account. */
+  resourceGroup: string;
+  /** Storage account name of the source data set. */
+  storageAccountName: string;
+  /** Subscription id of storage account. */
+  subscriptionId: string;
+}
+/** An ADLS Gen2 file data set mapping. */
+export interface ADLSGen2FileDataSetMappingInput {
+  /** Kind of data set mapping. */
+  kind: ADLSGen2FileDataSetMappingInputKind;
+  /** ADLS Gen2 file data set mapping properties. */
+  properties: ADLSGen2FileDataSetMappingPropertiesInput;
 }
 /** Kind of data set mapping. */
-export type CreateDataSetMappingRequestKind =
-  | "Blob"
-  | "Container"
-  | "BlobFolder"
-  | "AdlsGen2FileSystem"
-  | "AdlsGen2Folder"
-  | "AdlsGen2File"
-  | "KustoCluster"
-  | "KustoDatabase"
-  | "KustoTable"
-  | "SqlDBTable"
-  | "SqlDWTable"
-  | "SynapseWorkspaceSqlPoolTable";
+export type ADLSGen2FileSystemDataSetMappingInputKind = "AdlsGen2FileSystem";
+/** ADLS Gen 2 file system data set mapping property bag. */
+export interface ADLSGen2FileSystemDataSetMappingPropertiesInput {
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** The file system name. */
+  fileSystem: string;
+  /** Resource group of storage account. */
+  resourceGroup: string;
+  /** Storage account name of the source data set. */
+  storageAccountName: string;
+  /** Subscription id of storage account. */
+  subscriptionId: string;
+}
+/** An ADLS Gen2 file system data set mapping. */
+export interface ADLSGen2FileSystemDataSetMappingInput {
+  /** Kind of data set mapping. */
+  kind: ADLSGen2FileSystemDataSetMappingInputKind;
+  /** ADLS Gen2 file system data set mapping properties. */
+  properties: ADLSGen2FileSystemDataSetMappingPropertiesInput;
+}
+/** Kind of data set mapping. */
+export type ADLSGen2FolderDataSetMappingInputKind = "AdlsGen2Folder";
+/** ADLS Gen 2 folder data set mapping property bag. */
+export interface ADLSGen2FolderDataSetMappingPropertiesInput {
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** File system to which the folder belongs. */
+  fileSystem: string;
+  /** Folder path within the file system. */
+  folderPath: string;
+  /** Resource group of storage account. */
+  resourceGroup: string;
+  /** Storage account name of the source data set. */
+  storageAccountName: string;
+  /** Subscription id of storage account. */
+  subscriptionId: string;
+}
+/** An ADLS Gen2 folder data set mapping. */
+export interface ADLSGen2FolderDataSetMappingInput {
+  /** Kind of data set mapping. */
+  kind: ADLSGen2FolderDataSetMappingInputKind;
+  /** ADLS Gen2 folder data set mapping properties. */
+  properties: ADLSGen2FolderDataSetMappingPropertiesInput;
+}
+/** Kind of data set mapping. */
+export type BlobContainerDataSetMappingInputKind = "Container";
+/** Azure storage Blob container data set mapping property bag. */
+export interface BlobContainerMappingPropertiesInput {
+  /** BLOB Container name. */
+  containerName: string;
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** Resource group of storage account. */
+  resourceGroup: string;
+  /** Storage account name of the source data set. */
+  storageAccountName: string;
+  /** Subscription id of storage account. */
+  subscriptionId: string;
+}
+/** A Blob container data set mapping. */
+export interface BlobContainerDataSetMappingInput {
+  /** Kind of data set mapping. */
+  kind: BlobContainerDataSetMappingInputKind;
+  /** Blob container data set mapping properties. */
+  properties: BlobContainerMappingPropertiesInput;
+}
+/** Kind of data set mapping. */
+export type BlobDataSetMappingInputKind = "Blob";
+/** File output type */
+export type BlobMappingPropertiesInputOutputType = "Csv" | "Parquet";
+/** Azure storage Blob data set mapping property bag. */
+export interface BlobMappingPropertiesInput {
+  /** Container that has the file path. */
+  containerName: string;
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** File path within the source data set */
+  filePath: string;
+  /** File output type */
+  outputType?: BlobMappingPropertiesInputOutputType | (string & {}) | undefined;
+  /** Resource group of storage account. */
+  resourceGroup: string;
+  /** Storage account name of the source data set. */
+  storageAccountName: string;
+  /** Subscription id of storage account. */
+  subscriptionId: string;
+}
+/** A Blob data set mapping. */
+export interface BlobDataSetMappingInput {
+  /** Kind of data set mapping. */
+  kind: BlobDataSetMappingInputKind;
+  /** Blob data set mapping properties. */
+  properties: BlobMappingPropertiesInput;
+}
+/** Kind of data set mapping. */
+export type BlobFolderDataSetMappingInputKind = "BlobFolder";
+/** Azure storage Blob folder data set mapping property bag. */
+export interface BlobFolderMappingPropertiesInput {
+  /** Container that has the file path. */
+  containerName: string;
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** Prefix for blob folder */
+  prefix: string;
+  /** Resource group of storage account. */
+  resourceGroup: string;
+  /** Storage account name of the source data set. */
+  storageAccountName: string;
+  /** Subscription id of storage account. */
+  subscriptionId: string;
+}
+/** A Blob folder data set mapping. */
+export interface BlobFolderDataSetMappingInput {
+  /** Kind of data set mapping. */
+  kind: BlobFolderDataSetMappingInputKind;
+  /** Blob folder data set mapping properties. */
+  properties: BlobFolderMappingPropertiesInput;
+}
+/** Kind of data set mapping. */
+export type KustoClusterDataSetMappingInputKind = "KustoCluster";
+/** Properties of the Kusto cluster data set mapping */
+export interface KustoClusterDataSetMappingPropertiesInput {
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** Resource id of the sink kusto cluster. */
+  kustoClusterResourceId: string;
+}
+/** A Kusto cluster data set mapping */
+export interface KustoClusterDataSetMappingInput {
+  /** Kind of data set mapping. */
+  kind: KustoClusterDataSetMappingInputKind;
+  /** Kusto cluster data set mapping properties. */
+  properties: KustoClusterDataSetMappingPropertiesInput;
+}
+/** Kind of data set mapping. */
+export type KustoDatabaseDataSetMappingInputKind = "KustoDatabase";
+/** Properties of the Kusto database data set mapping */
+export type KustoDatabaseDataSetMappingPropertiesInput = KustoClusterDataSetMappingPropertiesInput;
+/** A Kusto database data set mapping */
+export interface KustoDatabaseDataSetMappingInput {
+  /** Kind of data set mapping. */
+  kind: KustoDatabaseDataSetMappingInputKind;
+  /** Kusto database data set mapping properties. */
+  properties: KustoClusterDataSetMappingPropertiesInput;
+}
+/** Kind of data set mapping. */
+export type KustoTableDataSetMappingInputKind = "KustoTable";
+/** Properties of the Kusto database data set mapping */
+export type KustoTableDataSetMappingPropertiesInput = KustoClusterDataSetMappingPropertiesInput;
+/** A Kusto database data set mapping */
+export interface KustoTableDataSetMappingInput {
+  /** Kind of data set mapping. */
+  kind: KustoTableDataSetMappingInputKind;
+  /** Kusto database data set mapping properties. */
+  properties: KustoClusterDataSetMappingPropertiesInput;
+}
+/** Kind of data set mapping. */
+export type SqlDBTableDataSetMappingInputKind = "SqlDBTable";
+/** Properties of the SQL DB table data set mapping. */
+export interface SqlDBTableDataSetMappingPropertiesInput {
+  /** DatabaseName name of the sink data set */
+  databaseName: string;
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** Schema of the table. Default value is dbo. */
+  schemaName: string;
+  /** Resource id of SQL server */
+  sqlServerResourceId: string;
+  /** SQL DB table name. */
+  tableName: string;
+}
+/** A SQL DB Table data set mapping. */
+export interface SqlDBTableDataSetMappingInput {
+  /** Kind of data set mapping. */
+  kind: SqlDBTableDataSetMappingInputKind;
+  /** Sql DB data set mapping properties. */
+  properties: SqlDBTableDataSetMappingPropertiesInput;
+}
+/** Kind of data set mapping. */
+export type SqlDWTableDataSetMappingInputKind = "SqlDWTable";
+/** Properties of the SQL DW table data set mapping. */
+export interface SqlDWTableDataSetMappingPropertiesInput {
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** DataWarehouse name of the source data set */
+  dataWarehouseName: string;
+  /** Schema of the table. Default value is dbo. */
+  schemaName: string;
+  /** Resource id of SQL server */
+  sqlServerResourceId: string;
+  /** SQL DW table name. */
+  tableName: string;
+}
+/** A SQL DW Table data set mapping. */
+export interface SqlDWTableDataSetMappingInput {
+  /** Kind of data set mapping. */
+  kind: SqlDWTableDataSetMappingInputKind;
+  /** Sql DW data set mapping properties. */
+  properties: SqlDWTableDataSetMappingPropertiesInput;
+}
+/** Kind of data set mapping. */
+export type SynapseWorkspaceSqlPoolTableDataSetMappingInputKind = "SynapseWorkspaceSqlPoolTable";
+/** Properties of the Synapse Workspace SQL Pool Table data set mapping */
+export interface SynapseWorkspaceSqlPoolTableDataSetMappingPropertiesInput {
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** Resource id of the Synapse Workspace SQL Pool Table */
+  synapseWorkspaceSqlPoolTableResourceId: string;
+}
+/** A Synapse Workspace Sql Pool Table data set mapping */
+export interface SynapseWorkspaceSqlPoolTableDataSetMappingInput {
+  /** Kind of data set mapping. */
+  kind: SynapseWorkspaceSqlPoolTableDataSetMappingInputKind;
+  /** A Synapse Workspace Sql Pool Table data set mapping properties. */
+  properties: SynapseWorkspaceSqlPoolTableDataSetMappingPropertiesInput;
+}
+/** A data set mapping data transfer object. */
+export type DataSetMappingInput =
+  | ADLSGen2FileDataSetMappingInput
+  | ADLSGen2FileSystemDataSetMappingInput
+  | ADLSGen2FolderDataSetMappingInput
+  | BlobContainerDataSetMappingInput
+  | BlobDataSetMappingInput
+  | BlobFolderDataSetMappingInput
+  | KustoClusterDataSetMappingInput
+  | KustoDatabaseDataSetMappingInput
+  | KustoTableDataSetMappingInput
+  | SqlDBTableDataSetMappingInput
+  | SqlDWTableDataSetMappingInput
+  | SynapseWorkspaceSqlPoolTableDataSetMappingInput;
 export interface CreateDataSetMappingRequest {
   /** The subscription identifier */
   subscriptionId: string;
@@ -269,26 +1239,44 @@ export interface CreateDataSetMappingRequest {
   shareSubscriptionName: string;
   /** The name of the data set mapping to be created. */
   dataSetMappingName: string;
-  /** Kind of data set mapping. */
-  kind: CreateDataSetMappingRequestKind | (string & {});
-  /** Kind-specific data set mapping properties (polymorphic on `kind`), e.g. `{ dataSetId, containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
-  properties?: unknown | undefined;
+  body: DataSetMappingInput;
 }
 /** Kind of data set mapping. */
-export type CreateDataSetMappingResponseKind =
-  | "Blob"
-  | "Container"
-  | "BlobFolder"
-  | "AdlsGen2FileSystem"
-  | "AdlsGen2Folder"
-  | "AdlsGen2File"
-  | "KustoCluster"
-  | "KustoDatabase"
-  | "KustoTable"
-  | "SqlDBTable"
-  | "SqlDWTable"
-  | "SynapseWorkspaceSqlPoolTable";
-export interface CreateDataSetMappingResponse {
+export type ADLSGen2FileDataSetMappingKind = "AdlsGen2File";
+/** Gets the status of the data set mapping. */
+export type ADLSGen2FileDataSetMappingPropertiesDataSetMappingStatus = "Ok" | "Broken";
+/** Type of output file */
+export type ADLSGen2FileDataSetMappingPropertiesOutputType = "Csv" | "Parquet";
+/** Provisioning state of the data set mapping. */
+export type ADLSGen2FileDataSetMappingPropertiesProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Moving"
+  | "Failed";
+/** ADLS Gen 2 file data set mapping property bag. */
+export interface ADLSGen2FileDataSetMappingProperties {
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** Gets the status of the data set mapping. */
+  dataSetMappingStatus?: ADLSGen2FileDataSetMappingPropertiesDataSetMappingStatus | undefined;
+  /** File path within the file system. */
+  filePath: string;
+  /** File system to which the file belongs. */
+  fileSystem: string;
+  /** Type of output file */
+  outputType?: ADLSGen2FileDataSetMappingPropertiesOutputType | undefined;
+  /** Provisioning state of the data set mapping. */
+  provisioningState?: ADLSGen2FileDataSetMappingPropertiesProvisioningState | undefined;
+  /** Resource group of storage account. */
+  resourceGroup: string;
+  /** Storage account name of the source data set. */
+  storageAccountName: string;
+  /** Subscription id of storage account. */
+  subscriptionId: string;
+}
+/** An ADLS Gen2 file data set mapping. */
+export interface ADLSGen2FileDataSetMapping {
   /** The resource id of the azure resource */
   id?: string | undefined;
   /** Name of the azure resource */
@@ -298,10 +1286,496 @@ export interface CreateDataSetMappingResponse {
   /** Type of the azure resource */
   type?: string | undefined;
   /** Kind of data set mapping. */
-  kind: CreateDataSetMappingResponseKind;
-  /** Kind-specific data set mapping properties (polymorphic on `kind`), e.g. `{ dataSetId, containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
-  properties?: unknown | undefined;
+  kind: ADLSGen2FileDataSetMappingKind;
+  /** ADLS Gen2 file data set mapping properties. */
+  properties: ADLSGen2FileDataSetMappingProperties;
 }
+/** Kind of data set mapping. */
+export type ADLSGen2FileSystemDataSetMappingKind = "AdlsGen2FileSystem";
+/** Gets the status of the data set mapping. */
+export type ADLSGen2FileSystemDataSetMappingPropertiesDataSetMappingStatus = "Ok" | "Broken";
+/** Provisioning state of the data set mapping. */
+export type ADLSGen2FileSystemDataSetMappingPropertiesProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Moving"
+  | "Failed";
+/** ADLS Gen 2 file system data set mapping property bag. */
+export interface ADLSGen2FileSystemDataSetMappingProperties {
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** Gets the status of the data set mapping. */
+  dataSetMappingStatus?: ADLSGen2FileSystemDataSetMappingPropertiesDataSetMappingStatus | undefined;
+  /** The file system name. */
+  fileSystem: string;
+  /** Provisioning state of the data set mapping. */
+  provisioningState?: ADLSGen2FileSystemDataSetMappingPropertiesProvisioningState | undefined;
+  /** Resource group of storage account. */
+  resourceGroup: string;
+  /** Storage account name of the source data set. */
+  storageAccountName: string;
+  /** Subscription id of storage account. */
+  subscriptionId: string;
+}
+/** An ADLS Gen2 file system data set mapping. */
+export interface ADLSGen2FileSystemDataSetMapping {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set mapping. */
+  kind: ADLSGen2FileSystemDataSetMappingKind;
+  /** ADLS Gen2 file system data set mapping properties. */
+  properties: ADLSGen2FileSystemDataSetMappingProperties;
+}
+/** Kind of data set mapping. */
+export type ADLSGen2FolderDataSetMappingKind = "AdlsGen2Folder";
+/** Gets the status of the data set mapping. */
+export type ADLSGen2FolderDataSetMappingPropertiesDataSetMappingStatus = "Ok" | "Broken";
+/** Provisioning state of the data set mapping. */
+export type ADLSGen2FolderDataSetMappingPropertiesProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Moving"
+  | "Failed";
+/** ADLS Gen 2 folder data set mapping property bag. */
+export interface ADLSGen2FolderDataSetMappingProperties {
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** Gets the status of the data set mapping. */
+  dataSetMappingStatus?: ADLSGen2FolderDataSetMappingPropertiesDataSetMappingStatus | undefined;
+  /** File system to which the folder belongs. */
+  fileSystem: string;
+  /** Folder path within the file system. */
+  folderPath: string;
+  /** Provisioning state of the data set mapping. */
+  provisioningState?: ADLSGen2FolderDataSetMappingPropertiesProvisioningState | undefined;
+  /** Resource group of storage account. */
+  resourceGroup: string;
+  /** Storage account name of the source data set. */
+  storageAccountName: string;
+  /** Subscription id of storage account. */
+  subscriptionId: string;
+}
+/** An ADLS Gen2 folder data set mapping. */
+export interface ADLSGen2FolderDataSetMapping {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set mapping. */
+  kind: ADLSGen2FolderDataSetMappingKind;
+  /** ADLS Gen2 folder data set mapping properties. */
+  properties: ADLSGen2FolderDataSetMappingProperties;
+}
+/** Kind of data set mapping. */
+export type BlobContainerDataSetMappingKind = "Container";
+/** Gets the status of the data set mapping. */
+export type BlobContainerMappingPropertiesDataSetMappingStatus = "Ok" | "Broken";
+/** Provisioning state of the data set mapping. */
+export type BlobContainerMappingPropertiesProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Moving"
+  | "Failed";
+/** Azure storage Blob container data set mapping property bag. */
+export interface BlobContainerMappingProperties {
+  /** BLOB Container name. */
+  containerName: string;
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** Gets the status of the data set mapping. */
+  dataSetMappingStatus?: BlobContainerMappingPropertiesDataSetMappingStatus | undefined;
+  /** Provisioning state of the data set mapping. */
+  provisioningState?: BlobContainerMappingPropertiesProvisioningState | undefined;
+  /** Resource group of storage account. */
+  resourceGroup: string;
+  /** Storage account name of the source data set. */
+  storageAccountName: string;
+  /** Subscription id of storage account. */
+  subscriptionId: string;
+}
+/** A Blob container data set mapping. */
+export interface BlobContainerDataSetMapping {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set mapping. */
+  kind: BlobContainerDataSetMappingKind;
+  /** Blob container data set mapping properties. */
+  properties: BlobContainerMappingProperties;
+}
+/** Kind of data set mapping. */
+export type BlobDataSetMappingKind = "Blob";
+/** Gets the status of the data set mapping. */
+export type BlobMappingPropertiesDataSetMappingStatus = "Ok" | "Broken";
+/** File output type */
+export type BlobMappingPropertiesOutputType = "Csv" | "Parquet";
+/** Provisioning state of the data set mapping. */
+export type BlobMappingPropertiesProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Moving"
+  | "Failed";
+/** Azure storage Blob data set mapping property bag. */
+export interface BlobMappingProperties {
+  /** Container that has the file path. */
+  containerName: string;
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** Gets the status of the data set mapping. */
+  dataSetMappingStatus?: BlobMappingPropertiesDataSetMappingStatus | undefined;
+  /** File path within the source data set */
+  filePath: string;
+  /** File output type */
+  outputType?: BlobMappingPropertiesOutputType | undefined;
+  /** Provisioning state of the data set mapping. */
+  provisioningState?: BlobMappingPropertiesProvisioningState | undefined;
+  /** Resource group of storage account. */
+  resourceGroup: string;
+  /** Storage account name of the source data set. */
+  storageAccountName: string;
+  /** Subscription id of storage account. */
+  subscriptionId: string;
+}
+/** A Blob data set mapping. */
+export interface BlobDataSetMapping {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set mapping. */
+  kind: BlobDataSetMappingKind;
+  /** Blob data set mapping properties. */
+  properties: BlobMappingProperties;
+}
+/** Kind of data set mapping. */
+export type BlobFolderDataSetMappingKind = "BlobFolder";
+/** Gets the status of the data set mapping. */
+export type BlobFolderMappingPropertiesDataSetMappingStatus = "Ok" | "Broken";
+/** Provisioning state of the data set mapping. */
+export type BlobFolderMappingPropertiesProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Moving"
+  | "Failed";
+/** Azure storage Blob folder data set mapping property bag. */
+export interface BlobFolderMappingProperties {
+  /** Container that has the file path. */
+  containerName: string;
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** Gets the status of the data set mapping. */
+  dataSetMappingStatus?: BlobFolderMappingPropertiesDataSetMappingStatus | undefined;
+  /** Prefix for blob folder */
+  prefix: string;
+  /** Provisioning state of the data set mapping. */
+  provisioningState?: BlobFolderMappingPropertiesProvisioningState | undefined;
+  /** Resource group of storage account. */
+  resourceGroup: string;
+  /** Storage account name of the source data set. */
+  storageAccountName: string;
+  /** Subscription id of storage account. */
+  subscriptionId: string;
+}
+/** A Blob folder data set mapping. */
+export interface BlobFolderDataSetMapping {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set mapping. */
+  kind: BlobFolderDataSetMappingKind;
+  /** Blob folder data set mapping properties. */
+  properties: BlobFolderMappingProperties;
+}
+/** Kind of data set mapping. */
+export type KustoClusterDataSetMappingKind = "KustoCluster";
+/** Gets the status of the data set mapping. */
+export type KustoClusterDataSetMappingPropertiesDataSetMappingStatus = "Ok" | "Broken";
+/** Provisioning state of the data set mapping. */
+export type KustoClusterDataSetMappingPropertiesProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Moving"
+  | "Failed";
+/** Properties of the Kusto cluster data set mapping */
+export interface KustoClusterDataSetMappingProperties {
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** Gets the status of the data set mapping. */
+  dataSetMappingStatus?: KustoClusterDataSetMappingPropertiesDataSetMappingStatus | undefined;
+  /** Resource id of the sink kusto cluster. */
+  kustoClusterResourceId: string;
+  /** Location of the sink kusto cluster. */
+  location?: string | undefined;
+  /** Provisioning state of the data set mapping. */
+  provisioningState?: KustoClusterDataSetMappingPropertiesProvisioningState | undefined;
+}
+/** A Kusto cluster data set mapping */
+export interface KustoClusterDataSetMapping {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set mapping. */
+  kind: KustoClusterDataSetMappingKind;
+  /** Kusto cluster data set mapping properties. */
+  properties: KustoClusterDataSetMappingProperties;
+}
+/** Kind of data set mapping. */
+export type KustoDatabaseDataSetMappingKind = "KustoDatabase";
+/** Gets the status of the data set mapping. */
+export type KustoDatabaseDataSetMappingPropertiesDataSetMappingStatus = "Ok" | "Broken";
+/** Provisioning state of the data set mapping. */
+export type KustoDatabaseDataSetMappingPropertiesProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Moving"
+  | "Failed";
+/** Properties of the Kusto database data set mapping */
+export interface KustoDatabaseDataSetMappingProperties {
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** Gets the status of the data set mapping. */
+  dataSetMappingStatus?: KustoDatabaseDataSetMappingPropertiesDataSetMappingStatus | undefined;
+  /** Resource id of the sink kusto cluster. */
+  kustoClusterResourceId: string;
+  /** Location of the sink kusto cluster. */
+  location?: string | undefined;
+  /** Provisioning state of the data set mapping. */
+  provisioningState?: KustoDatabaseDataSetMappingPropertiesProvisioningState | undefined;
+}
+/** A Kusto database data set mapping */
+export interface KustoDatabaseDataSetMapping {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set mapping. */
+  kind: KustoDatabaseDataSetMappingKind;
+  /** Kusto database data set mapping properties. */
+  properties: KustoDatabaseDataSetMappingProperties;
+}
+/** Kind of data set mapping. */
+export type KustoTableDataSetMappingKind = "KustoTable";
+/** Gets the status of the data set mapping. */
+export type KustoTableDataSetMappingPropertiesDataSetMappingStatus = "Ok" | "Broken";
+/** Provisioning state of the data set mapping. */
+export type KustoTableDataSetMappingPropertiesProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Moving"
+  | "Failed";
+/** Properties of the Kusto database data set mapping */
+export interface KustoTableDataSetMappingProperties {
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** Gets the status of the data set mapping. */
+  dataSetMappingStatus?: KustoTableDataSetMappingPropertiesDataSetMappingStatus | undefined;
+  /** Resource id of the sink kusto cluster. */
+  kustoClusterResourceId: string;
+  /** Location of the sink kusto cluster. */
+  location?: string | undefined;
+  /** Provisioning state of the data set mapping. */
+  provisioningState?: KustoTableDataSetMappingPropertiesProvisioningState | undefined;
+}
+/** A Kusto database data set mapping */
+export interface KustoTableDataSetMapping {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set mapping. */
+  kind: KustoTableDataSetMappingKind;
+  /** Kusto database data set mapping properties. */
+  properties: KustoTableDataSetMappingProperties;
+}
+/** Kind of data set mapping. */
+export type SqlDBTableDataSetMappingKind = "SqlDBTable";
+/** Gets the status of the data set mapping. */
+export type SqlDBTableDataSetMappingPropertiesDataSetMappingStatus = "Ok" | "Broken";
+/** Provisioning state of the data set mapping. */
+export type SqlDBTableDataSetMappingPropertiesProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Moving"
+  | "Failed";
+/** Properties of the SQL DB table data set mapping. */
+export interface SqlDBTableDataSetMappingProperties {
+  /** DatabaseName name of the sink data set */
+  databaseName: string;
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** Gets the status of the data set mapping. */
+  dataSetMappingStatus?: SqlDBTableDataSetMappingPropertiesDataSetMappingStatus | undefined;
+  /** Provisioning state of the data set mapping. */
+  provisioningState?: SqlDBTableDataSetMappingPropertiesProvisioningState | undefined;
+  /** Schema of the table. Default value is dbo. */
+  schemaName: string;
+  /** Resource id of SQL server */
+  sqlServerResourceId: string;
+  /** SQL DB table name. */
+  tableName: string;
+}
+/** A SQL DB Table data set mapping. */
+export interface SqlDBTableDataSetMapping {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set mapping. */
+  kind: SqlDBTableDataSetMappingKind;
+  /** Sql DB data set mapping properties. */
+  properties: SqlDBTableDataSetMappingProperties;
+}
+/** Kind of data set mapping. */
+export type SqlDWTableDataSetMappingKind = "SqlDWTable";
+/** Gets the status of the data set mapping. */
+export type SqlDWTableDataSetMappingPropertiesDataSetMappingStatus = "Ok" | "Broken";
+/** Provisioning state of the data set mapping. */
+export type SqlDWTableDataSetMappingPropertiesProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Moving"
+  | "Failed";
+/** Properties of the SQL DW table data set mapping. */
+export interface SqlDWTableDataSetMappingProperties {
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** Gets the status of the data set mapping. */
+  dataSetMappingStatus?: SqlDWTableDataSetMappingPropertiesDataSetMappingStatus | undefined;
+  /** DataWarehouse name of the source data set */
+  dataWarehouseName: string;
+  /** Provisioning state of the data set mapping. */
+  provisioningState?: SqlDWTableDataSetMappingPropertiesProvisioningState | undefined;
+  /** Schema of the table. Default value is dbo. */
+  schemaName: string;
+  /** Resource id of SQL server */
+  sqlServerResourceId: string;
+  /** SQL DW table name. */
+  tableName: string;
+}
+/** A SQL DW Table data set mapping. */
+export interface SqlDWTableDataSetMapping {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set mapping. */
+  kind: SqlDWTableDataSetMappingKind;
+  /** Sql DW data set mapping properties. */
+  properties: SqlDWTableDataSetMappingProperties;
+}
+/** Kind of data set mapping. */
+export type SynapseWorkspaceSqlPoolTableDataSetMappingKind = "SynapseWorkspaceSqlPoolTable";
+/** Gets the status of the data set mapping. */
+export type SynapseWorkspaceSqlPoolTableDataSetMappingPropertiesDataSetMappingStatus =
+  | "Ok"
+  | "Broken";
+/** Provisioning state of the data set mapping. */
+export type SynapseWorkspaceSqlPoolTableDataSetMappingPropertiesProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Moving"
+  | "Failed";
+/** Properties of the Synapse Workspace SQL Pool Table data set mapping */
+export interface SynapseWorkspaceSqlPoolTableDataSetMappingProperties {
+  /** The id of the source data set. */
+  dataSetId: string;
+  /** Gets the status of the data set mapping. */
+  dataSetMappingStatus?:
+    | SynapseWorkspaceSqlPoolTableDataSetMappingPropertiesDataSetMappingStatus
+    | undefined;
+  /** Provisioning state of the data set mapping. */
+  provisioningState?:
+    | SynapseWorkspaceSqlPoolTableDataSetMappingPropertiesProvisioningState
+    | undefined;
+  /** Resource id of the Synapse Workspace SQL Pool Table */
+  synapseWorkspaceSqlPoolTableResourceId: string;
+}
+/** A Synapse Workspace Sql Pool Table data set mapping */
+export interface SynapseWorkspaceSqlPoolTableDataSetMapping {
+  /** The resource id of the azure resource */
+  id?: string | undefined;
+  /** Name of the azure resource */
+  name?: string | undefined;
+  /** System Data of the Azure resource. */
+  systemData?: SystemData | undefined;
+  /** Type of the azure resource */
+  type?: string | undefined;
+  /** Kind of data set mapping. */
+  kind: SynapseWorkspaceSqlPoolTableDataSetMappingKind;
+  /** A Synapse Workspace Sql Pool Table data set mapping properties. */
+  properties: SynapseWorkspaceSqlPoolTableDataSetMappingProperties;
+}
+/** A data set mapping data transfer object. */
+export type DataSetMapping =
+  | ADLSGen2FileDataSetMapping
+  | ADLSGen2FileSystemDataSetMapping
+  | ADLSGen2FolderDataSetMapping
+  | BlobContainerDataSetMapping
+  | BlobDataSetMapping
+  | BlobFolderDataSetMapping
+  | KustoClusterDataSetMapping
+  | KustoDatabaseDataSetMapping
+  | KustoTableDataSetMapping
+  | SqlDBTableDataSetMapping
+  | SqlDWTableDataSetMapping
+  | SynapseWorkspaceSqlPoolTableDataSetMapping;
+export type CreateDataSetMappingResponse = DataSetMapping;
 /** Invitation property bag. */
 export interface InvitationPropertiesInput {
   /** The expiration date for the invitation and share subscription. */
@@ -511,7 +1985,25 @@ export interface CreateShareSubscriptionResponse {
   properties: ShareSubscriptionProperties;
 }
 /** Kind of synchronization setting. */
-export type CreateSynchronizationSettingsRequestKind = "ScheduleBased";
+export type ScheduledSynchronizationSettingInputKind = "ScheduleBased";
+/** Recurrence Interval */
+export type ScheduledSynchronizationSettingPropertiesInputRecurrenceInterval = "Hour" | "Day";
+/** A Scheduled synchronization setting data transfer object. */
+export interface ScheduledSynchronizationSettingPropertiesInput {
+  /** Recurrence Interval */
+  recurrenceInterval:
+    | ScheduledSynchronizationSettingPropertiesInputRecurrenceInterval
+    | (string & {});
+  /** Synchronization time */
+  synchronizationTime: string;
+}
+/** A type of synchronization setting based on schedule */
+export interface ScheduledSynchronizationSettingInput {
+  /** Kind of synchronization setting. */
+  kind: ScheduledSynchronizationSettingInputKind | (string & {});
+  /** Properties of scheduled synchronization */
+  properties: ScheduledSynchronizationSettingPropertiesInput;
+}
 export interface CreateSynchronizationSettingsRequest {
   /** The subscription identifier */
   subscriptionId: string;
@@ -523,14 +2015,34 @@ export interface CreateSynchronizationSettingsRequest {
   shareName: string;
   /** The name of the synchronizationSetting. */
   synchronizationSettingName: string;
-  /** Kind of synchronization setting. */
-  kind: CreateSynchronizationSettingsRequestKind | (string & {});
-  /** Kind-specific synchronization setting properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime }` for `ScheduleBased`. */
-  properties?: unknown | undefined;
+  body: ScheduledSynchronizationSettingInput;
 }
 /** Kind of synchronization setting. */
-export type CreateSynchronizationSettingsResponseKind = "ScheduleBased";
-export interface CreateSynchronizationSettingsResponse {
+export type ScheduledSynchronizationSettingKind = "ScheduleBased";
+/** Gets or sets the provisioning state */
+export type ScheduledSynchronizationSettingPropertiesProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Moving"
+  | "Failed";
+/** Recurrence Interval */
+export type ScheduledSynchronizationSettingPropertiesRecurrenceInterval = "Hour" | "Day";
+/** A Scheduled synchronization setting data transfer object. */
+export interface ScheduledSynchronizationSettingProperties {
+  /** Time at which the synchronization setting was created. */
+  createdAt?: string | undefined;
+  /** Gets or sets the provisioning state */
+  provisioningState?: ScheduledSynchronizationSettingPropertiesProvisioningState | undefined;
+  /** Recurrence Interval */
+  recurrenceInterval: ScheduledSynchronizationSettingPropertiesRecurrenceInterval;
+  /** Synchronization time */
+  synchronizationTime: string;
+  /** Name of the user who created the synchronization setting. */
+  userName?: string | undefined;
+}
+/** A type of synchronization setting based on schedule */
+export interface ScheduledSynchronizationSetting {
   /** The resource id of the azure resource */
   id?: string | undefined;
   /** Name of the azure resource */
@@ -540,12 +2052,36 @@ export interface CreateSynchronizationSettingsResponse {
   /** Type of the azure resource */
   type?: string | undefined;
   /** Kind of synchronization setting. */
-  kind: CreateSynchronizationSettingsResponseKind;
-  /** Kind-specific synchronization setting properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime }` for `ScheduleBased`. */
-  properties?: unknown | undefined;
+  kind: ScheduledSynchronizationSettingKind;
+  /** Properties of scheduled synchronization */
+  properties: ScheduledSynchronizationSettingProperties;
 }
+export type CreateSynchronizationSettingsResponse = ScheduledSynchronizationSetting;
 /** Kind of synchronization on trigger. */
-export type CreateTriggerRequestKind = "ScheduleBased";
+export type ScheduledTriggerInputKind = "ScheduleBased";
+/** Recurrence Interval */
+export type ScheduledTriggerPropertiesInputRecurrenceInterval = "Hour" | "Day";
+/** Synchronization mode */
+export type ScheduledTriggerPropertiesInputSynchronizationMode = "Incremental" | "FullSync";
+/** A Scheduled trigger data transfer object. */
+export interface ScheduledTriggerPropertiesInput {
+  /** Recurrence Interval */
+  recurrenceInterval: ScheduledTriggerPropertiesInputRecurrenceInterval | (string & {});
+  /** Synchronization mode */
+  synchronizationMode?:
+    | ScheduledTriggerPropertiesInputSynchronizationMode
+    | (string & {})
+    | undefined;
+  /** Synchronization time */
+  synchronizationTime: string;
+}
+/** A type of trigger based on schedule */
+export interface ScheduledTriggerInput {
+  /** Kind of synchronization on trigger. */
+  kind: ScheduledTriggerInputKind | (string & {});
+  /** Properties of scheduled synchronization */
+  properties: ScheduledTriggerPropertiesInput;
+}
 export interface CreateTriggerRequest {
   /** The subscription identifier */
   subscriptionId: string;
@@ -557,14 +2093,45 @@ export interface CreateTriggerRequest {
   shareSubscriptionName: string;
   /** The name of the trigger. */
   triggerName: string;
-  /** Kind of synchronization on trigger. */
-  kind: CreateTriggerRequestKind | (string & {});
-  /** Kind-specific trigger properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime, synchronizationMode }` for `ScheduleBased`. */
-  properties?: unknown | undefined;
+  body: ScheduledTriggerInput;
 }
 /** Kind of synchronization on trigger. */
-export type CreateTriggerResponseKind = "ScheduleBased";
-export interface CreateTriggerResponse {
+export type ScheduledTriggerKind = "ScheduleBased";
+/** Gets the provisioning state */
+export type ScheduledTriggerPropertiesProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Moving"
+  | "Failed";
+/** Recurrence Interval */
+export type ScheduledTriggerPropertiesRecurrenceInterval = "Hour" | "Day";
+/** Synchronization mode */
+export type ScheduledTriggerPropertiesSynchronizationMode = "Incremental" | "FullSync";
+/** Gets the trigger state */
+export type ScheduledTriggerPropertiesTriggerStatus =
+  | "Active"
+  | "Inactive"
+  | "SourceSynchronizationSettingDeleted";
+/** A Scheduled trigger data transfer object. */
+export interface ScheduledTriggerProperties {
+  /** Time at which the trigger was created. */
+  createdAt?: string | undefined;
+  /** Gets the provisioning state */
+  provisioningState?: ScheduledTriggerPropertiesProvisioningState | undefined;
+  /** Recurrence Interval */
+  recurrenceInterval: ScheduledTriggerPropertiesRecurrenceInterval;
+  /** Synchronization mode */
+  synchronizationMode?: ScheduledTriggerPropertiesSynchronizationMode | undefined;
+  /** Synchronization time */
+  synchronizationTime: string;
+  /** Gets the trigger state */
+  triggerStatus?: ScheduledTriggerPropertiesTriggerStatus | undefined;
+  /** Name of the user who created the trigger. */
+  userName?: string | undefined;
+}
+/** A type of trigger based on schedule */
+export interface ScheduledTrigger {
   /** The resource id of the azure resource */
   id?: string | undefined;
   /** Name of the azure resource */
@@ -574,10 +2141,11 @@ export interface CreateTriggerResponse {
   /** Type of the azure resource */
   type?: string | undefined;
   /** Kind of synchronization on trigger. */
-  kind: CreateTriggerResponseKind;
-  /** Kind-specific trigger properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime, synchronizationMode }` for `ScheduleBased`. */
-  properties?: unknown | undefined;
+  kind: ScheduledTriggerKind;
+  /** Properties of scheduled synchronization */
+  properties: ScheduledTriggerProperties;
 }
+export type CreateTriggerResponse = ScheduledTrigger;
 export interface DeleteAccountRequest {
   /** The subscription identifier */
   subscriptionId: string;
@@ -798,36 +2366,7 @@ export interface GetDataSetRequest {
   /** The name of the dataSet. */
   dataSetName: string;
 }
-/** Kind of data set. */
-export type GetDataSetResponseKind =
-  | "Blob"
-  | "Container"
-  | "BlobFolder"
-  | "AdlsGen2FileSystem"
-  | "AdlsGen2Folder"
-  | "AdlsGen2File"
-  | "AdlsGen1Folder"
-  | "AdlsGen1File"
-  | "KustoCluster"
-  | "KustoDatabase"
-  | "KustoTable"
-  | "SqlDBTable"
-  | "SqlDWTable"
-  | "SynapseWorkspaceSqlPoolTable";
-export interface GetDataSetResponse {
-  /** The resource id of the azure resource */
-  id?: string | undefined;
-  /** Name of the azure resource */
-  name?: string | undefined;
-  /** System Data of the Azure resource. */
-  systemData?: SystemData | undefined;
-  /** Type of the azure resource */
-  type?: string | undefined;
-  /** Kind of data set. */
-  kind: GetDataSetResponseKind;
-  /** Kind-specific data set properties (polymorphic on `kind`), e.g. `{ containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
-  properties?: unknown | undefined;
-}
+export type GetDataSetResponse = DataSet;
 export interface GetDataSetMappingRequest {
   /** The subscription identifier */
   subscriptionId: string;
@@ -840,34 +2379,7 @@ export interface GetDataSetMappingRequest {
   /** The name of the dataSetMapping. */
   dataSetMappingName: string;
 }
-/** Kind of data set mapping. */
-export type GetDataSetMappingResponseKind =
-  | "Blob"
-  | "Container"
-  | "BlobFolder"
-  | "AdlsGen2FileSystem"
-  | "AdlsGen2Folder"
-  | "AdlsGen2File"
-  | "KustoCluster"
-  | "KustoDatabase"
-  | "KustoTable"
-  | "SqlDBTable"
-  | "SqlDWTable"
-  | "SynapseWorkspaceSqlPoolTable";
-export interface GetDataSetMappingResponse {
-  /** The resource id of the azure resource */
-  id?: string | undefined;
-  /** Name of the azure resource */
-  name?: string | undefined;
-  /** System Data of the Azure resource. */
-  systemData?: SystemData | undefined;
-  /** Type of the azure resource */
-  type?: string | undefined;
-  /** Kind of data set mapping. */
-  kind: GetDataSetMappingResponseKind;
-  /** Kind-specific data set mapping properties (polymorphic on `kind`), e.g. `{ dataSetId, containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
-  properties?: unknown | undefined;
-}
+export type GetDataSetMappingResponse = DataSetMapping;
 export interface GetInvitationRequest {
   /** The subscription identifier */
   subscriptionId: string;
@@ -1001,22 +2513,7 @@ export interface GetSynchronizationSettingsRequest {
   /** The name of the synchronizationSetting. */
   synchronizationSettingName: string;
 }
-/** Kind of synchronization setting. */
-export type GetSynchronizationSettingsResponseKind = "ScheduleBased";
-export interface GetSynchronizationSettingsResponse {
-  /** The resource id of the azure resource */
-  id?: string | undefined;
-  /** Name of the azure resource */
-  name?: string | undefined;
-  /** System Data of the Azure resource. */
-  systemData?: SystemData | undefined;
-  /** Type of the azure resource */
-  type?: string | undefined;
-  /** Kind of synchronization setting. */
-  kind: GetSynchronizationSettingsResponseKind;
-  /** Kind-specific synchronization setting properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime }` for `ScheduleBased`. */
-  properties?: unknown | undefined;
-}
+export type GetSynchronizationSettingsResponse = ScheduledSynchronizationSetting;
 export interface GetTriggerRequest {
   /** The subscription identifier */
   subscriptionId: string;
@@ -1029,22 +2526,7 @@ export interface GetTriggerRequest {
   /** The name of the trigger. */
   triggerName: string;
 }
-/** Kind of synchronization on trigger. */
-export type GetTriggerResponseKind = "ScheduleBased";
-export interface GetTriggerResponse {
-  /** The resource id of the azure resource */
-  id?: string | undefined;
-  /** Name of the azure resource */
-  name?: string | undefined;
-  /** System Data of the Azure resource. */
-  systemData?: SystemData | undefined;
-  /** Type of the azure resource */
-  type?: string | undefined;
-  /** Kind of synchronization on trigger. */
-  kind: GetTriggerResponseKind;
-  /** Kind-specific trigger properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime, synchronizationMode }` for `ScheduleBased`. */
-  properties?: unknown | undefined;
-}
+export type GetTriggerResponse = ScheduledTrigger;
 export interface ListAccountByResourceGroupRequest {
   /** The subscription identifier */
   subscriptionId: string;
@@ -1194,35 +2676,6 @@ export interface ListDataSetByShareRequest {
   /** Sorts the results using OData syntax. */
   _orderby?: string | undefined;
 }
-/** Kind of data set. */
-export type DataSetKind =
-  | "Blob"
-  | "Container"
-  | "BlobFolder"
-  | "AdlsGen2FileSystem"
-  | "AdlsGen2Folder"
-  | "AdlsGen2File"
-  | "AdlsGen1Folder"
-  | "AdlsGen1File"
-  | "KustoCluster"
-  | "KustoDatabase"
-  | "KustoTable"
-  | "SqlDBTable"
-  | "SqlDWTable"
-  | "SynapseWorkspaceSqlPoolTable";
-/** A DataSet data transfer object. */
-export interface DataSet {
-  /** The resource id of the azure resource */
-  id?: string | undefined;
-  /** Name of the azure resource */
-  name?: string | undefined;
-  /** System Data of the Azure resource. */
-  systemData?: SystemData | undefined;
-  /** Type of the azure resource */
-  type?: string | undefined;
-  /** Kind of data set. */
-  kind: DataSetKind;
-}
 /** Collection of items of type DataTransferObjects. */
 export type DataSetListValueList = Array<DataSet>;
 /** List response for get DataSets */
@@ -1247,33 +2700,6 @@ export interface ListDataSetMappingByShareSubscriptionRequest {
   _filter?: string | undefined;
   /** Sorts the results using OData syntax. */
   _orderby?: string | undefined;
-}
-/** Kind of data set mapping. */
-export type DataSetMappingKind =
-  | "Blob"
-  | "Container"
-  | "BlobFolder"
-  | "AdlsGen2FileSystem"
-  | "AdlsGen2Folder"
-  | "AdlsGen2File"
-  | "KustoCluster"
-  | "KustoDatabase"
-  | "KustoTable"
-  | "SqlDBTable"
-  | "SqlDWTable"
-  | "SynapseWorkspaceSqlPoolTable";
-/** A data set mapping data transfer object. */
-export interface DataSetMapping {
-  /** The resource id of the azure resource */
-  id?: string | undefined;
-  /** Name of the azure resource */
-  name?: string | undefined;
-  /** System Data of the Azure resource. */
-  systemData?: SystemData | undefined;
-  /** Type of the azure resource */
-  type?: string | undefined;
-  /** Kind of data set mapping. */
-  kind: DataSetMappingKind;
 }
 /** Collection of items of type DataTransferObjects. */
 export type DataSetMappingListValueList = Array<DataSetMapping>;
@@ -1542,15 +2968,28 @@ export interface ListShareSubscriptionSourceShareSynchronizationSettingsRequest 
   _skipToken?: string | undefined;
 }
 /** Kind of synchronization setting on share. */
-export type SourceShareSynchronizationSettingKind = "ScheduleBased";
-/** A view of synchronization setting added by the provider */
-export interface SourceShareSynchronizationSetting {
+export type ScheduledSourceSynchronizationSettingKind = "ScheduleBased";
+/** Recurrence Interval */
+export type ScheduledSourceShareSynchronizationSettingPropertiesRecurrenceInterval = "Hour" | "Day";
+/** A Scheduled source synchronization setting data transfer object. */
+export interface ScheduledSourceShareSynchronizationSettingProperties {
+  /** Recurrence Interval */
+  recurrenceInterval?:
+    | ScheduledSourceShareSynchronizationSettingPropertiesRecurrenceInterval
+    | undefined;
+  /** Synchronization time */
+  synchronizationTime?: string | undefined;
+}
+/** A type of synchronization setting based on schedule */
+export interface ScheduledSourceSynchronizationSetting {
   /** Kind of synchronization setting on share. */
-  kind: SourceShareSynchronizationSettingKind;
+  kind: ScheduledSourceSynchronizationSettingKind;
+  /** Properties of scheduled synchronization */
+  properties?: ScheduledSourceShareSynchronizationSettingProperties | undefined;
 }
 /** Collection of items of type DataTransferObjects. */
 export type SourceShareSynchronizationSettingListValueList =
-  Array<SourceShareSynchronizationSetting>;
+  Array<ScheduledSourceSynchronizationSetting>;
 /** List response for get source share Synchronization settings */
 export interface SourceShareSynchronizationSettingList {
   /** The Url of next result page. */
@@ -1755,23 +3194,8 @@ export interface ListSynchronizationSettingsByShareRequest {
   /** continuation token */
   _skipToken?: string | undefined;
 }
-/** Kind of synchronization setting. */
-export type SynchronizationSettingKind = "ScheduleBased";
-/** A Synchronization Setting data transfer object. */
-export interface SynchronizationSetting {
-  /** The resource id of the azure resource */
-  id?: string | undefined;
-  /** Name of the azure resource */
-  name?: string | undefined;
-  /** System Data of the Azure resource. */
-  systemData?: SystemData | undefined;
-  /** Type of the azure resource */
-  type?: string | undefined;
-  /** Kind of synchronization setting. */
-  kind: SynchronizationSettingKind;
-}
 /** Collection of items of type DataTransferObjects. */
-export type SynchronizationSettingListValueList = Array<SynchronizationSetting>;
+export type SynchronizationSettingListValueList = Array<ScheduledSynchronizationSetting>;
 /** List response for get Synchronization settings */
 export interface SynchronizationSettingList {
   /** The Url of next result page. */
@@ -1791,23 +3215,8 @@ export interface ListTriggerByShareSubscriptionRequest {
   /** Continuation token */
   _skipToken?: string | undefined;
 }
-/** Kind of synchronization on trigger. */
-export type TriggerKind = "ScheduleBased";
-/** A Trigger data transfer object. */
-export interface Trigger {
-  /** The resource id of the azure resource */
-  id?: string | undefined;
-  /** Name of the azure resource */
-  name?: string | undefined;
-  /** System Data of the Azure resource. */
-  systemData?: SystemData | undefined;
-  /** Type of the azure resource */
-  type?: string | undefined;
-  /** Kind of synchronization on trigger. */
-  kind: TriggerKind;
-}
 /** Collection of items of type DataTransferObjects. */
-export type TriggerListValueList = Array<Trigger>;
+export type TriggerListValueList = Array<ScheduledTrigger>;
 /** List response for get triggers */
 export interface TriggerList {
   /** The Url of next result page. */
@@ -1981,7 +3390,7 @@ export const ActivateEmailRegistrationEmail: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ActivateEmailRegistrationEmailRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<EmailRegistration>,
+  output: __S(32, __c1, 0) as any as S.Schema<EmailRegistration>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1997,8 +3406,8 @@ export const CancelShareSubscriptionSynchronization: API.OperationMethod<
   CancelShareSubscriptionSynchronizationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<CancelShareSubscriptionSynchronizationRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<ShareSubscriptionSynchronization>,
+  input: __S(64, __c2, 0) as any as S.Schema<CancelShareSubscriptionSynchronizationRequest>,
+  output: __S(96, __c3, 0) as any as S.Schema<ShareSubscriptionSynchronization>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2014,8 +3423,8 @@ export const CreateAccount: API.OperationMethod<
   CreateAccountError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(257, __c16, 1) as any as S.Schema<CreateAccountRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<CreateAccountResponse>,
+  input: __S(513, __c16, 1) as any as S.Schema<CreateAccountRequest>,
+  output: __S(579, __c18, 3) as any as S.Schema<CreateAccountResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2031,8 +3440,8 @@ export const CreateDataSet: API.OperationMethod<
   CreateDataSetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<CreateDataSetRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<CreateDataSetResponse>,
+  input: __S(1053, __c32, 29) as any as S.Schema<CreateDataSetRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<CreateDataSetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2048,8 +3457,8 @@ export const CreateDataSetMapping: API.OperationMethod<
   CreateDataSetMappingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<CreateDataSetMappingRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<CreateDataSetMappingResponse>,
+  input: __S(1493, __c46, 21) as any as S.Schema<CreateDataSetMappingRequest>,
+  output: __S(1504, __c47, 0) as any as S.Schema<CreateDataSetMappingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2065,8 +3474,8 @@ export const CreateInvitation: API.OperationMethod<
   CreateInvitationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(929, __c58, 1) as any as S.Schema<CreateInvitationRequest>,
-  output: __S(945, __c59, 1) as any as S.Schema<CreateInvitationResponse>,
+  input: __S(1953, __c61, 1) as any as S.Schema<CreateInvitationRequest>,
+  output: __S(1985, __c62, 1) as any as S.Schema<CreateInvitationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2082,8 +3491,8 @@ export const CreateShare: API.OperationMethod<
   CreateShareError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1009, __c63, 1) as any as S.Schema<CreateShareRequest>,
-  output: __S(1025, __c64, 1) as any as S.Schema<CreateShareResponse>,
+  input: __S(2113, __c66, 1) as any as S.Schema<CreateShareRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<CreateShareResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2099,8 +3508,8 @@ export const CreateShareSubscription: API.OperationMethod<
   CreateShareSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1041, __c65, 1) as any as S.Schema<CreateShareSubscriptionRequest>,
-  output: __S(1057, __c66, 1) as any as S.Schema<CreateShareSubscriptionResponse>,
+  input: __S(2177, __c68, 1) as any as S.Schema<CreateShareSubscriptionRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<CreateShareSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2116,8 +3525,8 @@ export const CreateSynchronizationSettings: API.OperationMethod<
   CreateSynchronizationSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<CreateSynchronizationSettingsRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<CreateSynchronizationSettingsResponse>,
+  input: __S(2242, __c70, 2) as any as S.Schema<CreateSynchronizationSettingsRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<CreateSynchronizationSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2133,8 +3542,8 @@ export const CreateTrigger: API.OperationMethod<
   CreateTriggerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<CreateTriggerRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<CreateTriggerResponse>,
+  input: __S(2338, __c73, 2) as any as S.Schema<CreateTriggerRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<CreateTriggerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2150,8 +3559,8 @@ export const DeleteAccount: API.OperationMethod<
   DeleteAccountError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<DeleteAccountRequest>,
-  output: __S(82, __c5, 2) as any as S.Schema<OperationResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<DeleteAccountRequest>,
+  output: __S(162, __c5, 2) as any as S.Schema<OperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2167,8 +3576,8 @@ export const DeleteDataSet: API.OperationMethod<
   DeleteDataSetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<DeleteDataSetRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<DeleteDataSetResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<DeleteDataSetRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<DeleteDataSetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2184,8 +3593,8 @@ export const DeleteDataSetMapping: API.OperationMethod<
   DeleteDataSetMappingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<DeleteDataSetMappingRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<DeleteDataSetMappingResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<DeleteDataSetMappingRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<DeleteDataSetMappingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2201,8 +3610,8 @@ export const DeleteInvitation: API.OperationMethod<
   DeleteInvitationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<DeleteInvitationRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<DeleteInvitationResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<DeleteInvitationRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<DeleteInvitationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2218,8 +3627,8 @@ export const DeleteShare: API.OperationMethod<
   DeleteShareError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<DeleteShareRequest>,
-  output: __S(82, __c5, 2) as any as S.Schema<OperationResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<DeleteShareRequest>,
+  output: __S(162, __c5, 2) as any as S.Schema<OperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2235,8 +3644,8 @@ export const DeleteShareSubscription: API.OperationMethod<
   DeleteShareSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<DeleteShareSubscriptionRequest>,
-  output: __S(82, __c5, 2) as any as S.Schema<OperationResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<DeleteShareSubscriptionRequest>,
+  output: __S(162, __c5, 2) as any as S.Schema<OperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2252,8 +3661,8 @@ export const DeleteSynchronizationSettings: API.OperationMethod<
   DeleteSynchronizationSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<DeleteSynchronizationSettingsRequest>,
-  output: __S(82, __c5, 2) as any as S.Schema<OperationResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<DeleteSynchronizationSettingsRequest>,
+  output: __S(162, __c5, 2) as any as S.Schema<OperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2269,8 +3678,8 @@ export const DeleteTrigger: API.OperationMethod<
   DeleteTriggerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<DeleteTriggerRequest>,
-  output: __S(82, __c5, 2) as any as S.Schema<OperationResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<DeleteTriggerRequest>,
+  output: __S(162, __c5, 2) as any as S.Schema<OperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2286,8 +3695,8 @@ export const GetAccount: API.OperationMethod<
   GetAccountError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetAccountRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<GetAccountResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetAccountRequest>,
+  output: __S(579, __c18, 3) as any as S.Schema<GetAccountResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2303,8 +3712,8 @@ export const GetConsumerInvitation: API.OperationMethod<
   GetConsumerInvitationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetConsumerInvitationRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<GetConsumerInvitationResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<GetConsumerInvitationRequest>,
+  output: __S(481, __c15, 1) as any as S.Schema<GetConsumerInvitationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2320,8 +3729,8 @@ export const GetDataSet: API.OperationMethod<
   GetDataSetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetDataSetRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<GetDataSetResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetDataSetRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<GetDataSetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2337,8 +3746,8 @@ export const GetDataSetMapping: API.OperationMethod<
   GetDataSetMappingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetDataSetMappingRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<GetDataSetMappingResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<GetDataSetMappingRequest>,
+  output: __S(1504, __c47, 0) as any as S.Schema<GetDataSetMappingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2354,8 +3763,8 @@ export const GetInvitation: API.OperationMethod<
   GetInvitationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetInvitationRequest>,
-  output: __S(945, __c59, 1) as any as S.Schema<GetInvitationResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetInvitationRequest>,
+  output: __S(1985, __c62, 1) as any as S.Schema<GetInvitationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2371,8 +3780,8 @@ export const GetProviderShareSubscriptionByShare: API.OperationMethod<
   GetProviderShareSubscriptionByShareError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetProviderShareSubscriptionByShareRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<GetProviderShareSubscriptionByShareResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetProviderShareSubscriptionByShareRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<GetProviderShareSubscriptionByShareResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2388,8 +3797,8 @@ export const GetShare: API.OperationMethod<
   GetShareError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetShareRequest>,
-  output: __S(1025, __c64, 1) as any as S.Schema<GetShareResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetShareRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<GetShareResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2405,8 +3814,8 @@ export const GetShareSubscription: API.OperationMethod<
   GetShareSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<GetShareSubscriptionRequest>,
-  output: __S(1057, __c66, 1) as any as S.Schema<GetShareSubscriptionResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetShareSubscriptionRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<GetShareSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2422,8 +3831,8 @@ export const GetSynchronizationSettings: API.OperationMethod<
   GetSynchronizationSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetSynchronizationSettingsRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<GetSynchronizationSettingsResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<GetSynchronizationSettingsRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<GetSynchronizationSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2439,8 +3848,8 @@ export const GetTrigger: API.OperationMethod<
   GetTriggerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetTriggerRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<GetTriggerResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<GetTriggerRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<GetTriggerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2456,8 +3865,8 @@ export const ListAccountByResourceGroup: API.OperationMethod<
   ListAccountByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<ListAccountByResourceGroupRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<AccountList>,
+  input: __S(928, __c29, 0) as any as S.Schema<ListAccountByResourceGroupRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<AccountList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2473,8 +3882,8 @@ export const ListAccountBySubscription: API.OperationMethod<
   ListAccountBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<ListAccountBySubscriptionRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<AccountList>,
+  input: __S(992, __c31, 0) as any as S.Schema<ListAccountBySubscriptionRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<AccountList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2490,8 +3899,8 @@ export const ListConsumerInvitationInvitations: API.OperationMethod<
   ListConsumerInvitationInvitationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<ListConsumerInvitationInvitationsRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<ConsumerInvitationList>,
+  input: __S(1152, __c36, 0) as any as S.Schema<ListConsumerInvitationInvitationsRequest>,
+  output: __S(1154, __c36, 2) as any as S.Schema<ConsumerInvitationList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2507,8 +3916,12 @@ export const ListConsumerSourceDataSetByShareSubscription: API.OperationMethod<
   ListConsumerSourceDataSetByShareSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<ListConsumerSourceDataSetByShareSubscriptionRequest>,
-  output: __S(564, __c35, 4) as any as S.Schema<ConsumerSourceDataSetList>,
+  input: __S(
+    1184,
+    __c37,
+    0,
+  ) as any as S.Schema<ListConsumerSourceDataSetByShareSubscriptionRequest>,
+  output: __S(1188, __c37, 4) as any as S.Schema<ConsumerSourceDataSetList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2524,8 +3937,8 @@ export const ListDataSetByShare: API.OperationMethod<
   ListDataSetByShareError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<ListDataSetByShareRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<DataSetList>,
+  input: __S(1216, __c38, 0) as any as S.Schema<ListDataSetByShareRequest>,
+  output: __S(1218, __c38, 2) as any as S.Schema<DataSetList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2541,8 +3954,8 @@ export const ListDataSetMappingByShareSubscription: API.OperationMethod<
   ListDataSetMappingByShareSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<ListDataSetMappingByShareSubscriptionRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<DataSetMappingList>,
+  input: __S(1248, __c39, 0) as any as S.Schema<ListDataSetMappingByShareSubscriptionRequest>,
+  output: __S(1250, __c39, 2) as any as S.Schema<DataSetMappingList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2558,8 +3971,8 @@ export const ListInvitationByShare: API.OperationMethod<
   ListInvitationByShareError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<ListInvitationByShareRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<InvitationList>,
+  input: __S(1280, __c40, 0) as any as S.Schema<ListInvitationByShareRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<InvitationList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2575,8 +3988,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(653, __c40, 13) as any as S.Schema<OperationList>,
+  input: __S(1312, __c41, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(1324, __c41, 12) as any as S.Schema<OperationList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2592,8 +4005,8 @@ export const ListProviderShareSubscriptionByShare: API.OperationMethod<
   ListProviderShareSubscriptionByShareError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<ListProviderShareSubscriptionByShareRequest>,
-  output: __S(658, __c41, 2) as any as S.Schema<ProviderShareSubscriptionList>,
+  input: __S(1344, __c42, 0) as any as S.Schema<ListProviderShareSubscriptionByShareRequest>,
+  output: __S(1346, __c42, 2) as any as S.Schema<ProviderShareSubscriptionList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2609,8 +4022,8 @@ export const ListShareByAccount: API.OperationMethod<
   ListShareByAccountError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<ListShareByAccountRequest>,
-  output: __S(674, __c42, 2) as any as S.Schema<ShareList>,
+  input: __S(1376, __c43, 0) as any as S.Schema<ListShareByAccountRequest>,
+  output: __S(1378, __c43, 2) as any as S.Schema<ShareList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2626,8 +4039,8 @@ export const ListShareSubscriptionByAccount: API.OperationMethod<
   ListShareSubscriptionByAccountError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<ListShareSubscriptionByAccountRequest>,
-  output: __S(690, __c43, 2) as any as S.Schema<ShareSubscriptionList>,
+  input: __S(1408, __c44, 0) as any as S.Schema<ListShareSubscriptionByAccountRequest>,
+  output: __S(1410, __c44, 2) as any as S.Schema<ShareSubscriptionList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2644,11 +4057,11 @@ export const ListShareSubscriptionSourceShareSynchronizationSettings: API.Operat
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    704,
-    __c44,
+    1440,
+    __c45,
     0,
   ) as any as S.Schema<ListShareSubscriptionSourceShareSynchronizationSettingsRequest>,
-  output: __S(707, __c44, 3) as any as S.Schema<SourceShareSynchronizationSettingList>,
+  output: __S(1444, __c45, 4) as any as S.Schema<SourceShareSynchronizationSettingList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2664,8 +4077,8 @@ export const ListShareSubscriptionSynchronizationDetails: API.OperationMethod<
   ListShareSubscriptionSynchronizationDetailsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<ListShareSubscriptionSynchronizationDetailsRequest>,
-  output: __S(754, __c47, 2) as any as S.Schema<SynchronizationDetailsList>,
+  input: __S(1568, __c49, 0) as any as S.Schema<ListShareSubscriptionSynchronizationDetailsRequest>,
+  output: __S(1602, __c50, 2) as any as S.Schema<SynchronizationDetailsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2681,8 +4094,8 @@ export const ListShareSubscriptionSynchronizations: API.OperationMethod<
   ListShareSubscriptionSynchronizationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<ListShareSubscriptionSynchronizationsRequest>,
-  output: __S(770, __c48, 2) as any as S.Schema<ShareSubscriptionSynchronizationList>,
+  input: __S(1632, __c51, 0) as any as S.Schema<ListShareSubscriptionSynchronizationsRequest>,
+  output: __S(1634, __c51, 2) as any as S.Schema<ShareSubscriptionSynchronizationList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2698,8 +4111,8 @@ export const ListShareSynchronizationDetails: API.OperationMethod<
   ListShareSynchronizationDetailsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<ListShareSynchronizationDetailsRequest>,
-  output: __S(754, __c47, 2) as any as S.Schema<SynchronizationDetailsList>,
+  input: __S(1664, __c52, 0) as any as S.Schema<ListShareSynchronizationDetailsRequest>,
+  output: __S(1602, __c50, 2) as any as S.Schema<SynchronizationDetailsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2715,8 +4128,8 @@ export const ListShareSynchronizations: API.OperationMethod<
   ListShareSynchronizationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<ListShareSynchronizationsRequest>,
-  output: __S(803, __c50, 3) as any as S.Schema<ShareSynchronizationList>,
+  input: __S(1696, __c53, 0) as any as S.Schema<ListShareSynchronizationsRequest>,
+  output: __S(1699, __c53, 3) as any as S.Schema<ShareSynchronizationList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2732,8 +4145,8 @@ export const ListSynchronizationSettingsByShare: API.OperationMethod<
   ListSynchronizationSettingsByShareError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<ListSynchronizationSettingsByShareRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<SynchronizationSettingList>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ListSynchronizationSettingsByShareRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<SynchronizationSettingList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2749,8 +4162,8 @@ export const ListTriggerByShareSubscription: API.OperationMethod<
   ListTriggerByShareSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<ListTriggerByShareSubscriptionRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<TriggerList>,
+  input: __S(1760, __c55, 0) as any as S.Schema<ListTriggerByShareSubscriptionRequest>,
+  output: __S(1762, __c55, 2) as any as S.Schema<TriggerList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2766,8 +4179,8 @@ export const ProviderShareSubscriptionsAdjust: API.OperationMethod<
   ProviderShareSubscriptionsAdjustError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<ProviderShareSubscriptionsAdjustRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<ProviderShareSubscriptionsAdjustResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<ProviderShareSubscriptionsAdjustRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<ProviderShareSubscriptionsAdjustResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2783,8 +4196,8 @@ export const ProviderShareSubscriptionsReinstate: API.OperationMethod<
   ProviderShareSubscriptionsReinstateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<ProviderShareSubscriptionsReinstateRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<ProviderShareSubscriptionsReinstateResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ProviderShareSubscriptionsReinstateRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<ProviderShareSubscriptionsReinstateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2800,8 +4213,8 @@ export const RegisterEmailRegistrationEmail: API.OperationMethod<
   RegisterEmailRegistrationEmailError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<RegisterEmailRegistrationEmailRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<EmailRegistration>,
+  input: __S(1888, __c59, 0) as any as S.Schema<RegisterEmailRegistrationEmailRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<EmailRegistration>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2817,8 +4230,8 @@ export const RejectConsumerInvitationInvitation: API.OperationMethod<
   RejectConsumerInvitationInvitationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(913, __c57, 1) as any as S.Schema<RejectConsumerInvitationInvitationRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<RejectConsumerInvitationInvitationResponse>,
+  input: __S(1921, __c60, 1) as any as S.Schema<RejectConsumerInvitationInvitationRequest>,
+  output: __S(481, __c15, 1) as any as S.Schema<RejectConsumerInvitationInvitationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2834,8 +4247,8 @@ export const RevokeProviderShareSubscription: API.OperationMethod<
   RevokeProviderShareSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<RevokeProviderShareSubscriptionRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<RevokeProviderShareSubscriptionResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<RevokeProviderShareSubscriptionRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<RevokeProviderShareSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2851,8 +4264,8 @@ export const ShareSubscriptionsSynchronize: API.OperationMethod<
   ShareSubscriptionsSynchronizeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<ShareSubscriptionsSynchronizeRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<ShareSubscriptionSynchronization>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ShareSubscriptionsSynchronizeRequest>,
+  output: __S(96, __c3, 0) as any as S.Schema<ShareSubscriptionSynchronization>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2868,8 +4281,8 @@ export const UpdateAccount: API.OperationMethod<
   UpdateAccountError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<UpdateAccountRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<UpdateAccountResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<UpdateAccountRequest>,
+  output: __S(579, __c18, 3) as any as S.Schema<UpdateAccountResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2969,12 +4382,12 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(81, __c5, 1)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(161, __c5, 1)));
     case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.String,
-          details: S.optional(__S(80, __c5, 0)),
+          details: S.optional(__S(160, __c5, 0)),
           message: S.String,
           target: S.optional(S.String),
         }),
@@ -2983,7 +4396,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endTime: S.optional(S.String),
-          error: S.optional(__S(81, __c5, 1)),
+          error: S.optional(__S(161, __c5, 1)),
           startTime: S.optional(S.String),
           status: S.optional(S.String),
         }),
@@ -3199,9 +4612,9 @@ function __c15(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          systemData: S.optional(__S(304, __c19, 0)),
+          systemData: S.optional(__S(608, __c19, 0)),
           type: S.optional(S.String),
-          properties: __S(240, __c15, 0),
+          properties: __S(480, __c15, 0),
         }),
       ).annotate({ identifier: "GetConsumerInvitationResponse" });
   }
@@ -3221,9 +4634,9 @@ function __c16(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          tags: S.optional(__S(288, __c18, 0)),
-          identity: __S(256, __c16, 0),
-          properties: S.optional(__S(272, __c17, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
+          identity: __S(512, __c16, 0),
+          properties: S.optional(__S(544, __c17, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -3267,12 +4680,12 @@ function __c18(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          systemData: S.optional(__S(304, __c19, 0)),
+          systemData: S.optional(__S(608, __c19, 0)),
           type: S.optional(S.String),
           location: S.optional(S.String),
-          tags: S.optional(__S(288, __c18, 0)),
-          identity: __S(289, __c18, 1),
-          properties: S.optional(__S(290, __c18, 2)),
+          tags: S.optional(__S(576, __c18, 0)),
+          identity: __S(577, __c18, 1),
+          properties: S.optional(__S(578, __c18, 2)),
         }),
       ).annotate({ identifier: "CreateAccountResponse" });
   }
@@ -3398,9 +4811,9 @@ function __c24(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          systemData: S.optional(__S(304, __c19, 0)),
+          systemData: S.optional(__S(608, __c19, 0)),
           type: S.optional(S.String),
-          properties: S.optional(__S(384, __c24, 0)),
+          properties: S.optional(__S(768, __c24, 0)),
         }),
       ).annotate({ identifier: "GetProviderShareSubscriptionByShareResponse" });
   }
@@ -3509,12 +4922,12 @@ function __c29(j: number): any {
 function __c30(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(291, __c18, 3));
+      return S.Array(__S(579, __c18, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(480, __c30, 0),
+          value: __S(960, __c30, 0),
         }),
       ).annotate({ identifier: "AccountList" });
   }
@@ -3542,13 +4955,247 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          accountName: S.String,
+          fileName: S.String,
+          folderPath: S.String,
+          resourceGroup: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "ADLSGen1FilePropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1024, __c32, 0),
+        }),
+      ).annotate({ identifier: "ADLSGen1FileDataSetInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          accountName: S.String,
+          folderPath: S.String,
+          resourceGroup: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "ADLSGen1FolderPropertiesInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1026, __c32, 2),
+        }),
+      ).annotate({ identifier: "ADLSGen1FolderDataSetInput" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          filePath: S.String,
+          fileSystem: S.String,
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "ADLSGen2FilePropertiesInput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1028, __c32, 4),
+        }),
+      ).annotate({ identifier: "ADLSGen2FileDataSetInput" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          fileSystem: S.String,
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "ADLSGen2FileSystemPropertiesInput" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1030, __c32, 6),
+        }),
+      ).annotate({ identifier: "ADLSGen2FileSystemDataSetInput" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          fileSystem: S.String,
+          folderPath: S.String,
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "ADLSGen2FolderPropertiesInput" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1032, __c32, 8),
+        }),
+      ).annotate({ identifier: "ADLSGen2FolderDataSetInput" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          containerName: S.String,
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "BlobContainerPropertiesInput" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1034, __c32, 10),
+        }),
+      ).annotate({ identifier: "BlobContainerDataSetInput" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          containerName: S.String,
+          filePath: S.String,
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "BlobPropertiesInput" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1036, __c32, 12),
+        }),
+      ).annotate({ identifier: "BlobDataSetInput" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          containerName: S.String,
+          prefix: S.String,
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "BlobFolderPropertiesInput" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1038, __c32, 14),
+        }),
+      ).annotate({ identifier: "BlobFolderDataSetInput" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          kustoClusterResourceId: S.String,
+        }),
+      ).annotate({ identifier: "KustoClusterDataSetPropertiesInput" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1040, __c32, 16),
+        }),
+      ).annotate({ identifier: "KustoClusterDataSetInput" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          kustoDatabaseResourceId: S.String,
+        }),
+      ).annotate({ identifier: "KustoDatabaseDataSetPropertiesInput" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1042, __c32, 18),
+        }),
+      ).annotate({ identifier: "KustoDatabaseDataSetInput" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          kustoDatabaseResourceId: S.String,
+          tableLevelSharingProperties: __S(1088, __c34, 0),
+        }),
+      ).annotate({ identifier: "KustoTableDataSetPropertiesInput" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1044, __c32, 20),
+        }),
+      ).annotate({ identifier: "KustoTableDataSetInput" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          databaseName: S.String,
+          schemaName: S.String,
+          sqlServerResourceId: S.String,
+          tableName: S.String,
+        }),
+      ).annotate({ identifier: "SqlDBTablePropertiesInput" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: S.optional(__S(1046, __c32, 22)),
+        }),
+      ).annotate({ identifier: "SqlDBTableDataSetInput" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          dataWarehouseName: S.String,
+          schemaName: S.String,
+          sqlServerResourceId: S.String,
+          tableName: S.String,
+        }),
+      ).annotate({ identifier: "SqlDWTablePropertiesInput" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: S.optional(__S(1048, __c32, 24)),
+        }),
+      ).annotate({ identifier: "SqlDWTableDataSetInput" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          synapseWorkspaceSqlPoolTableResourceId: S.String,
+        }),
+      ).annotate({ identifier: "SynapseWorkspaceSqlPoolTableDataSetPropertiesInput" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1050, __c32, 26),
+        }),
+      ).annotate({ identifier: "SynapseWorkspaceSqlPoolTableDataSetInput" });
+    case 28:
+      return S.Union([
+        __S(1025, __c32, 1),
+        __S(1027, __c32, 3),
+        __S(1029, __c32, 5),
+        __S(1031, __c32, 7),
+        __S(1033, __c32, 9),
+        __S(1035, __c32, 11),
+        __S(1037, __c32, 13),
+        __S(1039, __c32, 15),
+        __S(1041, __c32, 17),
+        __S(1043, __c32, 19),
+        __S(1045, __c32, 21),
+        __S(1047, __c32, 23),
+        __S(1049, __c32, 25),
+        __S(1051, __c32, 27),
+      ]);
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           shareName: S.String.pipe(T.Label()),
           dataSetName: S.String.pipe(T.Label()),
-          kind: S.String,
-          properties: S.optional(S.Unknown),
+          body: __S(1052, __c32, 28).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -3563,19 +5210,344 @@ function __c32(j: number): any {
 function __c33(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => __S(1117, __c34, 29).pipe(T.RawResponseRoot())).annotate({
+        identifier: "CreateDataSetResponse",
+      });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          externalTablesToExclude: S.optional(__S(1120, __c35, 0)),
+          externalTablesToInclude: S.optional(__S(1120, __c35, 0)),
+          materializedViewsToExclude: S.optional(__S(1120, __c35, 0)),
+          materializedViewsToInclude: S.optional(__S(1120, __c35, 0)),
+          tablesToExclude: S.optional(__S(1120, __c35, 0)),
+          tablesToInclude: S.optional(__S(1120, __c35, 0)),
+        }),
+      ).annotate({ identifier: "TableLevelSharingProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountName: S.String,
+          dataSetId: S.optional(S.String),
+          fileName: S.String,
+          folderPath: S.String,
+          resourceGroup: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "ADLSGen1FileProperties" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          systemData: S.optional(__S(304, __c19, 0)),
+          systemData: S.optional(__S(608, __c19, 0)),
           type: S.optional(S.String),
           kind: S.String,
-          properties: S.optional(S.Unknown),
+          properties: __S(1089, __c34, 1),
         }),
-      ).annotate({ identifier: "CreateDataSetResponse" });
+      ).annotate({ identifier: "ADLSGen1FileDataSet" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          accountName: S.String,
+          dataSetId: S.optional(S.String),
+          folderPath: S.String,
+          resourceGroup: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "ADLSGen1FolderProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1091, __c34, 3),
+        }),
+      ).annotate({ identifier: "ADLSGen1FolderDataSet" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.optional(S.String),
+          filePath: S.String,
+          fileSystem: S.String,
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "ADLSGen2FileProperties" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1093, __c34, 5),
+        }),
+      ).annotate({ identifier: "ADLSGen2FileDataSet" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.optional(S.String),
+          fileSystem: S.String,
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "ADLSGen2FileSystemProperties" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1095, __c34, 7),
+        }),
+      ).annotate({ identifier: "ADLSGen2FileSystemDataSet" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.optional(S.String),
+          fileSystem: S.String,
+          folderPath: S.String,
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "ADLSGen2FolderProperties" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1097, __c34, 9),
+        }),
+      ).annotate({ identifier: "ADLSGen2FolderDataSet" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          containerName: S.String,
+          dataSetId: S.optional(S.String),
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "BlobContainerProperties" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1099, __c34, 11),
+        }),
+      ).annotate({ identifier: "BlobContainerDataSet" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          containerName: S.String,
+          dataSetId: S.optional(S.String),
+          filePath: S.String,
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "BlobProperties" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1101, __c34, 13),
+        }),
+      ).annotate({ identifier: "BlobDataSet" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          containerName: S.String,
+          dataSetId: S.optional(S.String),
+          prefix: S.String,
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "BlobFolderProperties" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1103, __c34, 15),
+        }),
+      ).annotate({ identifier: "BlobFolderDataSet" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.optional(S.String),
+          kustoClusterResourceId: S.String,
+          location: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KustoClusterDataSetProperties" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1105, __c34, 17),
+        }),
+      ).annotate({ identifier: "KustoClusterDataSet" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.optional(S.String),
+          kustoDatabaseResourceId: S.String,
+          location: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KustoDatabaseDataSetProperties" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1107, __c34, 19),
+        }),
+      ).annotate({ identifier: "KustoDatabaseDataSet" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.optional(S.String),
+          kustoDatabaseResourceId: S.String,
+          location: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          tableLevelSharingProperties: __S(1088, __c34, 0),
+        }),
+      ).annotate({ identifier: "KustoTableDataSetProperties" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1109, __c34, 21),
+        }),
+      ).annotate({ identifier: "KustoTableDataSet" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          databaseName: S.String,
+          dataSetId: S.optional(S.String),
+          schemaName: S.String,
+          sqlServerResourceId: S.String,
+          tableName: S.String,
+        }),
+      ).annotate({ identifier: "SqlDBTableProperties" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: S.optional(__S(1111, __c34, 23)),
+        }),
+      ).annotate({ identifier: "SqlDBTableDataSet" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.optional(S.String),
+          dataWarehouseName: S.String,
+          schemaName: S.String,
+          sqlServerResourceId: S.String,
+          tableName: S.String,
+        }),
+      ).annotate({ identifier: "SqlDWTableProperties" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: S.optional(__S(1113, __c34, 25)),
+        }),
+      ).annotate({ identifier: "SqlDWTableDataSet" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.optional(S.String),
+          synapseWorkspaceSqlPoolTableResourceId: S.String,
+        }),
+      ).annotate({ identifier: "SynapseWorkspaceSqlPoolTableDataSetProperties" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1115, __c34, 27),
+        }),
+      ).annotate({ identifier: "SynapseWorkspaceSqlPoolTableDataSet" });
+    case 29:
+      return S.Union([
+        __S(1090, __c34, 2),
+        __S(1092, __c34, 4),
+        __S(1094, __c34, 6),
+        __S(1096, __c34, 8),
+        __S(1098, __c34, 10),
+        __S(1100, __c34, 12),
+        __S(1102, __c34, 14),
+        __S(1104, __c34, 16),
+        __S(1106, __c34, 18),
+        __S(1108, __c34, 20),
+        __S(1110, __c34, 22),
+        __S(1112, __c34, 24),
+        __S(1114, __c34, 26),
+        __S(1116, __c34, 28),
+      ]);
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3591,17 +5563,17 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "ListConsumerInvitationInvitationsRequest" });
     case 1:
-      return S.Array(__S(241, __c15, 1));
+      return S.Array(__S(481, __c15, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(545, __c34, 1),
+          value: __S(1153, __c36, 1),
         }),
       ).annotate({ identifier: "ConsumerInvitationList" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3635,23 +5607,23 @@ function __c35(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          systemData: S.optional(__S(304, __c19, 0)),
+          systemData: S.optional(__S(608, __c19, 0)),
           type: S.optional(S.String),
-          properties: S.optional(__S(561, __c35, 1)),
+          properties: S.optional(__S(1185, __c37, 1)),
         }),
       ).annotate({ identifier: "ConsumerSourceDataSet" });
     case 3:
-      return S.Array(__S(562, __c35, 2));
+      return S.Array(__S(1186, __c37, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(563, __c35, 3),
+          value: __S(1187, __c37, 3),
         }),
       ).annotate({ identifier: "ConsumerSourceDataSetList" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3672,32 +5644,18 @@ function __c36(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListDataSetByShareRequest" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          systemData: S.optional(__S(304, __c19, 0)),
-          type: S.optional(S.String),
-          kind: S.String,
-        }),
-      ).annotate({ identifier: "DataSet" });
     case 1:
-      return S.Array(__S(592, __c37, 0));
+      return S.Array(__S(1117, __c34, 29));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(593, __c37, 1),
+          value: __S(1217, __c38, 1),
         }),
       ).annotate({ identifier: "DataSetList" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3718,9 +5676,18 @@ function __c38(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListDataSetMappingByShareSubscriptionRequest" });
+    case 1:
+      return S.Array(__S(1556, __c48, 20));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          nextLink: S.optional(S.String),
+          value: __S(1249, __c39, 1),
+        }),
+      ).annotate({ identifier: "DataSetMappingList" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3742,17 +5709,17 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "ListInvitationByShareRequest" });
     case 1:
-      return S.Array(__S(945, __c59, 1));
+      return S.Array(__S(1985, __c62, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(625, __c39, 1),
+          value: __S(1281, __c40, 1),
         }),
       ).annotate({ identifier: "InvitationList" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3783,7 +5750,7 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "OperationMetaLogSpecification" });
     case 3:
-      return S.Array(__S(642, __c40, 2));
+      return S.Array(__S(1314, __c41, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -3792,14 +5759,12 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "DimensionProperties" });
     case 5:
-      return S.Array(__S(644, __c40, 4));
+      return S.Array(__S(1316, __c41, 4));
     case 6:
-      return S.Array(S.String);
-    case 7:
       return S.suspend(() =>
         S.Struct({
           aggregationType: S.optional(S.String),
-          dimensions: S.optional(__S(645, __c40, 5)),
+          dimensions: S.optional(__S(1317, __c41, 5)),
           displayDescription: S.optional(S.String),
           displayName: S.optional(S.String),
           enableRegionalMdmAccount: S.optional(S.String),
@@ -3807,47 +5772,47 @@ function __c40(j: number): any {
           internalMetricName: S.optional(S.String),
           name: S.optional(S.String),
           resourceIdDimensionNameOverride: S.optional(S.String),
-          supportedAggregationTypes: S.optional(__S(646, __c40, 6)),
-          supportedTimeGrainTypes: S.optional(__S(646, __c40, 6)),
+          supportedAggregationTypes: S.optional(__S(1120, __c35, 0)),
+          supportedTimeGrainTypes: S.optional(__S(1120, __c35, 0)),
           unit: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationMetaMetricSpecification" });
+    case 7:
+      return S.Array(__S(1318, __c41, 6));
     case 8:
-      return S.Array(__S(647, __c40, 7));
+      return S.suspend(() =>
+        S.Struct({
+          logSpecifications: S.optional(__S(1315, __c41, 3)),
+          metricSpecifications: S.optional(__S(1319, __c41, 7)),
+        }),
+      ).annotate({ identifier: "OperationMetaServiceSpecification" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          logSpecifications: S.optional(__S(643, __c40, 3)),
-          metricSpecifications: S.optional(__S(648, __c40, 8)),
+          serviceSpecification: S.optional(__S(1320, __c41, 8)),
         }),
-      ).annotate({ identifier: "OperationMetaServiceSpecification" });
+      ).annotate({ identifier: "OperationMetaPropertyInfo" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          serviceSpecification: S.optional(__S(649, __c40, 9)),
-        }),
-      ).annotate({ identifier: "OperationMetaPropertyInfo" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          display: S.optional(__S(641, __c40, 1)),
+          display: S.optional(__S(1313, __c41, 1)),
           name: S.optional(S.String),
           origin: S.optional(S.String),
-          properties: S.optional(__S(650, __c40, 10)),
+          properties: S.optional(__S(1321, __c41, 9)),
         }),
       ).annotate({ identifier: "OperationModel" });
+    case 11:
+      return S.Array(__S(1322, __c41, 10));
     case 12:
-      return S.Array(__S(651, __c40, 11));
-    case 13:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(652, __c40, 12),
+          value: __S(1323, __c41, 11),
         }),
       ).annotate({ identifier: "OperationList" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3867,17 +5832,17 @@ function __c41(j: number): any {
         ),
       ).annotate({ identifier: "ListProviderShareSubscriptionByShareRequest" });
     case 1:
-      return S.Array(__S(385, __c24, 1));
+      return S.Array(__S(769, __c24, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(657, __c41, 1),
+          value: __S(1345, __c42, 1),
         }),
       ).annotate({ identifier: "ProviderShareSubscriptionList" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3898,17 +5863,17 @@ function __c42(j: number): any {
         ),
       ).annotate({ identifier: "ListShareByAccountRequest" });
     case 1:
-      return S.Array(__S(1025, __c64, 1));
+      return S.Array(__S(2145, __c67, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(673, __c42, 1),
+          value: __S(1377, __c43, 1),
         }),
       ).annotate({ identifier: "ShareList" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3929,17 +5894,17 @@ function __c43(j: number): any {
         ),
       ).annotate({ identifier: "ListShareSubscriptionByAccountRequest" });
     case 1:
-      return S.Array(__S(1057, __c66, 1));
+      return S.Array(__S(2209, __c69, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(689, __c43, 1),
+          value: __S(1409, __c44, 1),
         }),
       ).annotate({ identifier: "ShareSubscriptionList" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3961,23 +5926,216 @@ function __c44(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          kind: S.String,
+          recurrenceInterval: S.optional(S.String),
+          synchronizationTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SourceShareSynchronizationSetting" });
+      ).annotate({ identifier: "ScheduledSourceShareSynchronizationSettingProperties" });
     case 2:
-      return S.Array(__S(705, __c44, 1));
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: S.optional(__S(1441, __c45, 1)),
+        }),
+      ).annotate({ identifier: "ScheduledSourceSynchronizationSetting" });
     case 3:
+      return S.Array(__S(1442, __c45, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(706, __c44, 2),
+          value: __S(1443, __c45, 3),
         }),
       ).annotate({ identifier: "SourceShareSynchronizationSettingList" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.String,
+          filePath: S.String,
+          fileSystem: S.String,
+          outputType: S.optional(S.String),
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "ADLSGen2FileDataSetMappingPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1472, __c46, 0),
+        }),
+      ).annotate({ identifier: "ADLSGen2FileDataSetMappingInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.String,
+          fileSystem: S.String,
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "ADLSGen2FileSystemDataSetMappingPropertiesInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1474, __c46, 2),
+        }),
+      ).annotate({ identifier: "ADLSGen2FileSystemDataSetMappingInput" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.String,
+          fileSystem: S.String,
+          folderPath: S.String,
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "ADLSGen2FolderDataSetMappingPropertiesInput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1476, __c46, 4),
+        }),
+      ).annotate({ identifier: "ADLSGen2FolderDataSetMappingInput" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          containerName: S.String,
+          dataSetId: S.String,
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "BlobContainerMappingPropertiesInput" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1478, __c46, 6),
+        }),
+      ).annotate({ identifier: "BlobContainerDataSetMappingInput" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          containerName: S.String,
+          dataSetId: S.String,
+          filePath: S.String,
+          outputType: S.optional(S.String),
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "BlobMappingPropertiesInput" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1480, __c46, 8),
+        }),
+      ).annotate({ identifier: "BlobDataSetMappingInput" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          containerName: S.String,
+          dataSetId: S.String,
+          prefix: S.String,
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "BlobFolderMappingPropertiesInput" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1482, __c46, 10),
+        }),
+      ).annotate({ identifier: "BlobFolderDataSetMappingInput" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.String,
+          kustoClusterResourceId: S.String,
+        }),
+      ).annotate({ identifier: "KustoClusterDataSetMappingPropertiesInput" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1484, __c46, 12),
+        }),
+      ).annotate({ identifier: "KustoClusterDataSetMappingInput" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          databaseName: S.String,
+          dataSetId: S.String,
+          schemaName: S.String,
+          sqlServerResourceId: S.String,
+          tableName: S.String,
+        }),
+      ).annotate({ identifier: "SqlDBTableDataSetMappingPropertiesInput" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1486, __c46, 14),
+        }),
+      ).annotate({ identifier: "SqlDBTableDataSetMappingInput" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.String,
+          dataWarehouseName: S.String,
+          schemaName: S.String,
+          sqlServerResourceId: S.String,
+          tableName: S.String,
+        }),
+      ).annotate({ identifier: "SqlDWTableDataSetMappingPropertiesInput" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1488, __c46, 16),
+        }),
+      ).annotate({ identifier: "SqlDWTableDataSetMappingInput" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.String,
+          synapseWorkspaceSqlPoolTableResourceId: S.String,
+        }),
+      ).annotate({ identifier: "SynapseWorkspaceSqlPoolTableDataSetMappingPropertiesInput" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(1490, __c46, 18),
+        }),
+      ).annotate({ identifier: "SynapseWorkspaceSqlPoolTableDataSetMappingInput" });
+    case 20:
+      return S.Union([
+        __S(1473, __c46, 1),
+        __S(1475, __c46, 3),
+        __S(1477, __c46, 5),
+        __S(1479, __c46, 7),
+        __S(1481, __c46, 9),
+        __S(1483, __c46, 11),
+        __S(1485, __c46, 13),
+        __S(1485, __c46, 13),
+        __S(1485, __c46, 13),
+        __S(1487, __c46, 15),
+        __S(1489, __c46, 17),
+        __S(1491, __c46, 19),
+      ]);
+    case 21:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -3985,8 +6143,7 @@ function __c45(j: number): any {
           accountName: S.String.pipe(T.Label()),
           shareSubscriptionName: S.String.pipe(T.Label()),
           dataSetMappingName: S.String.pipe(T.Label()),
-          kind: S.String,
-          properties: S.optional(S.Unknown),
+          body: __S(1492, __c46, 20).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -3998,7 +6155,265 @@ function __c45(j: number): any {
       ).annotate({ identifier: "CreateDataSetMappingRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(1556, __c48, 20).pipe(T.RawResponseRoot())).annotate({
+        identifier: "CreateDataSetMappingResponse",
+      });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.String,
+          dataSetMappingStatus: S.optional(S.String),
+          filePath: S.String,
+          fileSystem: S.String,
+          outputType: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "ADLSGen2FileDataSetMappingProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1536, __c48, 0),
+        }),
+      ).annotate({ identifier: "ADLSGen2FileDataSetMapping" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.String,
+          dataSetMappingStatus: S.optional(S.String),
+          fileSystem: S.String,
+          provisioningState: S.optional(S.String),
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "ADLSGen2FileSystemDataSetMappingProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1538, __c48, 2),
+        }),
+      ).annotate({ identifier: "ADLSGen2FileSystemDataSetMapping" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.String,
+          dataSetMappingStatus: S.optional(S.String),
+          fileSystem: S.String,
+          folderPath: S.String,
+          provisioningState: S.optional(S.String),
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "ADLSGen2FolderDataSetMappingProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1540, __c48, 4),
+        }),
+      ).annotate({ identifier: "ADLSGen2FolderDataSetMapping" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          containerName: S.String,
+          dataSetId: S.String,
+          dataSetMappingStatus: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "BlobContainerMappingProperties" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1542, __c48, 6),
+        }),
+      ).annotate({ identifier: "BlobContainerDataSetMapping" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          containerName: S.String,
+          dataSetId: S.String,
+          dataSetMappingStatus: S.optional(S.String),
+          filePath: S.String,
+          outputType: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "BlobMappingProperties" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1544, __c48, 8),
+        }),
+      ).annotate({ identifier: "BlobDataSetMapping" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          containerName: S.String,
+          dataSetId: S.String,
+          dataSetMappingStatus: S.optional(S.String),
+          prefix: S.String,
+          provisioningState: S.optional(S.String),
+          resourceGroup: S.String,
+          storageAccountName: S.String,
+          subscriptionId: S.String,
+        }),
+      ).annotate({ identifier: "BlobFolderMappingProperties" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1546, __c48, 10),
+        }),
+      ).annotate({ identifier: "BlobFolderDataSetMapping" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.String,
+          dataSetMappingStatus: S.optional(S.String),
+          kustoClusterResourceId: S.String,
+          location: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KustoClusterDataSetMappingProperties" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1548, __c48, 12),
+        }),
+      ).annotate({ identifier: "KustoClusterDataSetMapping" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          databaseName: S.String,
+          dataSetId: S.String,
+          dataSetMappingStatus: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          schemaName: S.String,
+          sqlServerResourceId: S.String,
+          tableName: S.String,
+        }),
+      ).annotate({ identifier: "SqlDBTableDataSetMappingProperties" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1550, __c48, 14),
+        }),
+      ).annotate({ identifier: "SqlDBTableDataSetMapping" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.String,
+          dataSetMappingStatus: S.optional(S.String),
+          dataWarehouseName: S.String,
+          provisioningState: S.optional(S.String),
+          schemaName: S.String,
+          sqlServerResourceId: S.String,
+          tableName: S.String,
+        }),
+      ).annotate({ identifier: "SqlDWTableDataSetMappingProperties" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1552, __c48, 16),
+        }),
+      ).annotate({ identifier: "SqlDWTableDataSetMapping" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          dataSetId: S.String,
+          dataSetMappingStatus: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          synapseWorkspaceSqlPoolTableResourceId: S.String,
+        }),
+      ).annotate({ identifier: "SynapseWorkspaceSqlPoolTableDataSetMappingProperties" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(1554, __c48, 18),
+        }),
+      ).annotate({ identifier: "SynapseWorkspaceSqlPoolTableDataSetMapping" });
+    case 20:
+      return S.Union([
+        __S(1537, __c48, 1),
+        __S(1539, __c48, 3),
+        __S(1541, __c48, 5),
+        __S(1543, __c48, 7),
+        __S(1545, __c48, 9),
+        __S(1547, __c48, 11),
+        __S(1549, __c48, 13),
+        __S(1549, __c48, 13),
+        __S(1549, __c48, 13),
+        __S(1551, __c48, 15),
+        __S(1553, __c48, 17),
+        __S(1555, __c48, 19),
+      ]);
+  }
+}
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4022,7 +6437,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "ListShareSubscriptionSynchronizationDetailsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4045,17 +6460,17 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "SynchronizationDetails" });
     case 1:
-      return S.Array(__S(752, __c47, 0));
+      return S.Array(__S(1600, __c50, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(753, __c47, 1),
+          value: __S(1601, __c50, 1),
         }),
       ).annotate({ identifier: "SynchronizationDetailsList" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4077,17 +6492,17 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "ListShareSubscriptionSynchronizationsRequest" });
     case 1:
-      return S.Array(__S(48, __c3, 0));
+      return S.Array(__S(96, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(769, __c48, 1),
+          value: __S(1633, __c51, 1),
         }),
       ).annotate({ identifier: "ShareSubscriptionSynchronizationList" });
   }
 }
-function __c49(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4119,7 +6534,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "ListShareSynchronizationDetailsRequest" });
   }
 }
-function __c50(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4156,17 +6571,17 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "ShareSynchronization" });
     case 2:
-      return S.Array(__S(801, __c50, 1));
+      return S.Array(__S(1697, __c53, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(802, __c50, 2),
+          value: __S(1698, __c53, 2),
         }),
       ).annotate({ identifier: "ShareSynchronizationList" });
   }
 }
-function __c51(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4185,9 +6600,18 @@ function __c51(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListSynchronizationSettingsByShareRequest" });
+    case 1:
+      return S.Array(__S(2305, __c72, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          nextLink: S.optional(S.String),
+          value: __S(1729, __c54, 1),
+        }),
+      ).annotate({ identifier: "SynchronizationSettingList" });
   }
 }
-function __c52(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4206,9 +6630,18 @@ function __c52(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListTriggerByShareSubscriptionRequest" });
+    case 1:
+      return S.Array(__S(2401, __c75, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          nextLink: S.optional(S.String),
+          value: __S(1761, __c55, 1),
+        }),
+      ).annotate({ identifier: "TriggerList" });
   }
 }
-function __c53(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4218,7 +6651,7 @@ function __c53(j: number): any {
           accountName: S.String.pipe(T.Label()),
           shareName: S.String.pipe(T.Label()),
           providerShareSubscriptionId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(864, __c54, 0)),
+          properties: S.optional(__S(1824, __c57, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4230,7 +6663,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "ProviderShareSubscriptionsAdjustRequest" });
   }
 }
-function __c54(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4240,7 +6673,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "ProviderShareSubscriptionPropertiesInput" });
   }
 }
-function __c55(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4250,7 +6683,7 @@ function __c55(j: number): any {
           accountName: S.String.pipe(T.Label()),
           shareName: S.String.pipe(T.Label()),
           providerShareSubscriptionId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(864, __c54, 0)),
+          properties: S.optional(__S(1824, __c57, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4262,7 +6695,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "ProviderShareSubscriptionsReinstateRequest" });
   }
 }
-function __c56(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4279,7 +6712,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "RegisterEmailRegistrationEmailRequest" });
   }
 }
-function __c57(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4291,7 +6724,7 @@ function __c57(j: number): any {
       return S.suspend(() =>
         S.Struct({
           location: S.String.pipe(T.Label()),
-          properties: __S(912, __c57, 0),
+          properties: __S(1920, __c60, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4303,7 +6736,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "RejectConsumerInvitationInvitationRequest" });
   }
 }
-function __c58(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4322,7 +6755,7 @@ function __c58(j: number): any {
           accountName: S.String.pipe(T.Label()),
           shareName: S.String.pipe(T.Label()),
           invitationName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(928, __c58, 0)),
+          properties: S.optional(__S(1952, __c61, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4334,7 +6767,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "CreateInvitationRequest" });
   }
 }
-function __c59(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4356,14 +6789,14 @@ function __c59(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          systemData: S.optional(__S(304, __c19, 0)),
+          systemData: S.optional(__S(608, __c19, 0)),
           type: S.optional(S.String),
-          properties: S.optional(__S(944, __c59, 0)),
+          properties: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "CreateInvitationResponse" });
   }
 }
-function __c60(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4384,7 +6817,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "RevokeProviderShareSubscriptionRequest" });
   }
 }
-function __c61(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4405,7 +6838,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ShareSubscriptionsSynchronizeRequest" });
   }
 }
-function __c62(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4413,7 +6846,7 @@ function __c62(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4425,7 +6858,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "UpdateAccountRequest" });
   }
 }
-function __c63(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4442,7 +6875,7 @@ function __c63(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           shareName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1008, __c63, 0)),
+          properties: S.optional(__S(2112, __c66, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4454,7 +6887,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "CreateShareRequest" });
   }
 }
-function __c64(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4473,14 +6906,14 @@ function __c64(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          systemData: S.optional(__S(304, __c19, 0)),
+          systemData: S.optional(__S(608, __c19, 0)),
           type: S.optional(S.String),
-          properties: S.optional(__S(1024, __c64, 0)),
+          properties: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "CreateShareResponse" });
   }
 }
-function __c65(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4497,7 +6930,7 @@ function __c65(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           shareSubscriptionName: S.String.pipe(T.Label()),
-          properties: __S(1040, __c65, 0),
+          properties: __S(2176, __c68, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4509,7 +6942,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "CreateShareSubscriptionRequest" });
   }
 }
-function __c66(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4536,16 +6969,30 @@ function __c66(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          systemData: S.optional(__S(304, __c19, 0)),
+          systemData: S.optional(__S(608, __c19, 0)),
           type: S.optional(S.String),
-          properties: __S(1056, __c66, 0),
+          properties: __S(2208, __c69, 0),
         }),
       ).annotate({ identifier: "CreateShareSubscriptionResponse" });
   }
 }
-function __c67(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          recurrenceInterval: S.String,
+          synchronizationTime: S.String,
+        }),
+      ).annotate({ identifier: "ScheduledSynchronizationSettingPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(2240, __c70, 0),
+        }),
+      ).annotate({ identifier: "ScheduledSynchronizationSettingInput" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -4553,8 +7000,7 @@ function __c67(j: number): any {
           accountName: S.String.pipe(T.Label()),
           shareName: S.String.pipe(T.Label()),
           synchronizationSettingName: S.String.pipe(T.Label()),
-          kind: S.String,
-          properties: S.optional(S.Unknown),
+          body: __S(2241, __c70, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4566,9 +7012,57 @@ function __c67(j: number): any {
       ).annotate({ identifier: "CreateSynchronizationSettingsRequest" });
   }
 }
-function __c68(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => __S(2305, __c72, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "CreateSynchronizationSettingsResponse",
+      });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          recurrenceInterval: S.String,
+          synchronizationTime: S.String,
+          userName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScheduledSynchronizationSettingProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(2304, __c72, 0),
+        }),
+      ).annotate({ identifier: "ScheduledSynchronizationSetting" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          recurrenceInterval: S.String,
+          synchronizationMode: S.optional(S.String),
+          synchronizationTime: S.String,
+        }),
+      ).annotate({ identifier: "ScheduledTriggerPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(2336, __c73, 0),
+        }),
+      ).annotate({ identifier: "ScheduledTriggerInput" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -4576,8 +7070,7 @@ function __c68(j: number): any {
           accountName: S.String.pipe(T.Label()),
           shareSubscriptionName: S.String.pipe(T.Label()),
           triggerName: S.String.pipe(T.Label()),
-          kind: S.String,
-          properties: S.optional(S.Unknown),
+          body: __S(2337, __c73, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4587,6 +7080,41 @@ function __c68(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateTriggerRequest" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(2401, __c75, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "CreateTriggerResponse",
+      });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          recurrenceInterval: S.String,
+          synchronizationMode: S.optional(S.String),
+          synchronizationTime: S.String,
+          triggerStatus: S.optional(S.String),
+          userName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScheduledTriggerProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          type: S.optional(S.String),
+          kind: S.String,
+          properties: __S(2400, __c75, 0),
+        }),
+      ).annotate({ identifier: "ScheduledTrigger" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

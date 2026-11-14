@@ -23367,16 +23367,16 @@ export interface PostDropletActionByTagResponse {
   actions?: PostDropletActionByTagResponseActionsList | undefined;
 }
 /** The type of action to initiate for the floating IP. */
-export type FloatingIpActionUnassignType = "assign" | "unassign";
+export type FloatingIpActionUnassignType = "unassign";
 export interface FloatingIpActionUnassign {
   /** The type of action to initiate for the floating IP. */
-  type: FloatingIpActionUnassignType | (string & {});
+  type: FloatingIpActionUnassignType;
 }
 /** The type of action to initiate for the floating IP. */
-export type FloatingIpActionAssignType = "assign" | "unassign";
+export type FloatingIpActionAssignType = "assign";
 export interface FloatingIpActionAssign {
   /** The type of action to initiate for the floating IP. */
-  type: FloatingIpActionAssignType | (string & {});
+  type: FloatingIpActionAssignType;
   /** The ID of the Droplet that the floating IP will be assigned to. */
   droplet_id: number;
 }
@@ -23531,16 +23531,16 @@ export interface PostMicrovmPauseResponse {
   microvm: MicrovmBase;
 }
 /** The type of action to initiate for the reserved IP. */
-export type ReservedIpActionUnassignType = "assign" | "unassign";
+export type ReservedIpActionUnassignType = "unassign";
 export interface ReservedIpActionUnassign {
   /** The type of action to initiate for the reserved IP. */
-  type: ReservedIpActionUnassignType | (string & {});
+  type: ReservedIpActionUnassignType;
 }
 /** The type of action to initiate for the reserved IP. */
-export type ReservedIpActionAssignType = "assign" | "unassign";
+export type ReservedIpActionAssignType = "assign";
 export interface ReservedIpActionAssign {
   /** The type of action to initiate for the reserved IP. */
-  type: ReservedIpActionAssignType | (string & {});
+  type: ReservedIpActionAssignType;
   /** The ID of the Droplet that the reserved IP will be assigned to. */
   droplet_id: number;
 }
@@ -23577,16 +23577,16 @@ export interface PostReservedIPsActionResponse {
   action: PostReservedIPsActionResponseAction;
 }
 /** The type of action to initiate for the reserved IPv6. */
-export type ReservedIpv6ActionUnassignType = "assign" | "unassign";
+export type ReservedIpv6ActionUnassignType = "unassign";
 export interface ReservedIpv6ActionUnassign {
   /** The type of action to initiate for the reserved IPv6. */
-  type: ReservedIpv6ActionUnassignType | (string & {});
+  type: ReservedIpv6ActionUnassignType;
 }
 /** The type of action to initiate for the reserved IPv6. */
-export type ReservedIpv6ActionAssignType = "assign" | "unassign";
+export type ReservedIpv6ActionAssignType = "assign";
 export interface ReservedIpv6ActionAssign {
   /** The type of action to initiate for the reserved IPv6. */
-  type: ReservedIpv6ActionAssignType | (string & {});
+  type: ReservedIpv6ActionAssignType;
   /** The ID of the Droplet that the reserved IPv6 will be assigned to. */
   droplet_id: number;
 }

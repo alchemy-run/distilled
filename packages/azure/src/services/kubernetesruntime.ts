@@ -241,32 +241,62 @@ export type FailoverTier = "NotAvailable" | "Slow" | "Fast" | "Super";
 export type StorageClassPropertiesLimitationsList = Array<string>;
 /** Performance tier of a storage class */
 export type PerformanceTier = "Undefined" | "Basic" | "Standard" | "Premium" | "Ultra";
-/** Type of a storage class */
-export type SCType = "Native" | "RWX" | "Blob" | "NFS" | "SMB";
+/** Type of the storage class. */
+export type BlobStorageClassTypePropertiesType = "Blob";
+/** The properties of Blob StorageClass */
+export interface BlobStorageClassTypeProperties {
+  /** Type of the storage class. */
+  type: BlobStorageClassTypePropertiesType;
+  /** Azure Storage Account Name */
+  azureStorageAccountName: string;
+  /** Azure Storage Account Key */
+  azureStorageAccountKey: string | Redacted.Redacted<string>;
+}
+/** Type of the storage class. */
+export type NativeStorageClassTypePropertiesType = "Native";
+/** The properties of storage class of the StorageClass */
+export interface NativeStorageClassTypeProperties {
+  /** Type of the storage class. */
+  type: NativeStorageClassTypePropertiesType;
+}
+/** Type of the storage class. */
+export type NfsStorageClassTypePropertiesType = "NFS";
 /** The action to take when a NFS volume is deleted */
 export type NfsDirectoryActionOnVolumeDeletion = "Delete" | "Retain";
-/** The properties of storage class of the StorageClass */
-export interface StorageClassTypeProperties {
+/** The properties of NFS StorageClass */
+export interface NfsStorageClassTypeProperties {
   /** Type of the storage class. */
-  type: SCType | (string & {});
-  /** The backing storageclass used to create new storageclass */
-  backingStorageClassName?: string | undefined;
-  /** Azure Storage Account Name */
-  azureStorageAccountName?: string | undefined;
-  /** Azure Storage Account Key */
-  azureStorageAccountKey?: string | Redacted.Redacted<string> | undefined;
+  type: NfsStorageClassTypePropertiesType;
   /** NFS Server */
-  server?: string | undefined;
+  server: string;
   /** NFS share */
-  share?: string | undefined;
+  share: string;
   /** Sub directory under share. If the sub directory doesn't exist, driver will create it */
   subDir?: string | undefined;
   /** Mounted folder permissions. Default is 0. If set as non-zero, driver will perform `chmod` after mount */
   mountPermissions?: string | undefined;
   /** The action to take when a NFS volume is deleted. Default is Delete */
   onDelete?: NfsDirectoryActionOnVolumeDeletion | (string & {}) | undefined;
+}
+/** Type of the storage class. */
+export type RwxStorageClassTypePropertiesType = "RWX";
+/** The properties of RWX StorageClass */
+export interface RwxStorageClassTypeProperties {
+  /** Type of the storage class. */
+  type: RwxStorageClassTypePropertiesType;
+  /** The backing storageclass used to create new storageclass */
+  backingStorageClassName: string;
+}
+/** Type of the storage class. */
+export type SmbStorageClassTypePropertiesType = "SMB";
+/** The properties of SMB StorageClass */
+export interface SmbStorageClassTypeProperties {
+  /** Type of the storage class. */
+  type: SmbStorageClassTypePropertiesType;
   /** SMB Source */
-  source?: string | undefined;
+  source: string;
+  /** Sub directory under share. If the sub directory doesn't exist, driver will create it */
+  subDir?: string | undefined;
   /** Server username */
   username?: string | undefined;
   /** Server password */
@@ -274,6 +304,13 @@ export interface StorageClassTypeProperties {
   /** Server domain */
   domain?: string | undefined;
 }
+/** The properties of storage class of the StorageClass */
+export type StorageClassTypeProperties =
+  | BlobStorageClassTypeProperties
+  | NativeStorageClassTypeProperties
+  | NfsStorageClassTypeProperties
+  | RwxStorageClassTypeProperties
+  | SmbStorageClassTypeProperties;
 /** Details of the StorageClass StorageClass. */
 export interface StorageClassProperties {
   /** Volume can be expanded or not */
@@ -1325,7 +1362,7 @@ function __c11(j: number): any {
           limitations: S.optional(__S(168, __c21, 0)),
           performance: S.optional(S.String),
           priority: S.optional(S.Number),
-          typeProperties: __S(209, __c26, 1),
+          typeProperties: __S(214, __c26, 6),
         }),
       ).annotate({ identifier: "StorageClassPropertiesInput" });
     case 1:
@@ -1350,7 +1387,7 @@ function __c11(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(8, __c1, 0)),
-          properties: S.optional(__S(210, __c26, 2)),
+          properties: S.optional(__S(215, __c26, 7)),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "StorageClassCreateOrUpdateResponse" });
@@ -1411,7 +1448,7 @@ function __c12(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(8, __c1, 0)),
-          properties: S.optional(__S(210, __c26, 2)),
+          properties: S.optional(__S(215, __c26, 7)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -1631,7 +1668,7 @@ function __c25(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(8, __c1, 0)),
-          properties: S.optional(__S(210, __c26, 2)),
+          properties: S.optional(__S(215, __c26, 7)),
         }),
       ).annotate({ identifier: "GetStorageClassResponse" });
   }
@@ -1644,21 +1681,54 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          backingStorageClassName: S.optional(S.String),
-          azureStorageAccountName: S.optional(S.String),
-          azureStorageAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          server: S.optional(S.String),
-          share: S.optional(S.String),
+          azureStorageAccountName: S.String,
+          azureStorageAccountKey: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "BlobStorageClassTypeProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+        }),
+      ).annotate({ identifier: "NativeStorageClassTypeProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          server: S.String,
+          share: S.String,
           subDir: S.optional(S.String),
           mountPermissions: S.optional(S.String),
           onDelete: S.optional(S.String),
-          source: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NfsStorageClassTypeProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          backingStorageClassName: S.String,
+        }),
+      ).annotate({ identifier: "RwxStorageClassTypeProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          source: S.String,
+          subDir: S.optional(S.String),
           username: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           domain: S.optional(S.String),
         }),
-      ).annotate({ identifier: "StorageClassTypeProperties" });
-    case 2:
+      ).annotate({ identifier: "SmbStorageClassTypeProperties" });
+    case 6:
+      return S.Union([
+        __S(209, __c26, 1),
+        __S(210, __c26, 2),
+        __S(211, __c26, 3),
+        __S(212, __c26, 4),
+        __S(213, __c26, 5),
+      ]);
+    case 7:
       return S.suspend(() =>
         S.Struct({
           allowVolumeExpansion: S.optional(S.String),
@@ -1671,7 +1741,7 @@ function __c26(j: number): any {
           limitations: S.optional(__S(168, __c21, 0)),
           performance: S.optional(S.String),
           priority: S.optional(S.Number),
-          typeProperties: __S(209, __c26, 1),
+          typeProperties: __S(214, __c26, 6),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageClassProperties" });

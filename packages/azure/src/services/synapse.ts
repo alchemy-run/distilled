@@ -336,22 +336,261 @@ export interface CreateAzureADOnlyAuthenticationResponse {
   /** azureADOnlyAuthentication resource properties */
   properties?: AzureADOnlyAuthenticationProperties | undefined;
 }
-/** The type of integration runtime. */
-export type IntegrationRuntimeType = "Managed" | "SelfHosted";
-/** Azure Synapse nested object which serves as a compute resource for activities. */
-export interface IntegrationRuntime {
-  /** Type of integration runtime. */
-  type: IntegrationRuntimeType | (string & {});
-  /** Integration runtime description. */
-  description?: string | undefined;
-  /** Type-specific integration runtime properties (polymorphic on `type`). */
-  typeProperties?: unknown | undefined;
-  /** Managed Virtual Network reference (Managed integration runtimes). */
-  managedVirtualNetwork?: unknown | undefined;
-  /** Integration runtime state (read-only, Managed integration runtimes). */
-  state?: string | undefined;
+/** Type of integration runtime. */
+export type ManagedIntegrationRuntimeInputType = "Managed";
+/** Compute type of the cluster which will execute data flow job. */
+export type IntegrationRuntimeDataFlowPropertiesComputeType =
+  | "General"
+  | "MemoryOptimized"
+  | "ComputeOptimized";
+/** Data flow properties for managed integration runtime. */
+export interface IntegrationRuntimeDataFlowProperties {
+  /** Compute type of the cluster which will execute data flow job. */
+  computeType?: IntegrationRuntimeDataFlowPropertiesComputeType | (string & {}) | undefined;
+  /** Core count of the cluster which will execute data flow job. Supported values are: 8, 16, 32, 48, 80, 144 and 272. */
+  coreCount?: number | undefined;
+  /** Time to live (in minutes) setting of the cluster which will execute data flow job. */
+  timeToLive?: number | undefined;
   [key: string]: unknown;
 }
+/** Resource IDs of the public IP addresses that this integration runtime will use. */
+export type IntegrationRuntimeVNetPropertiesPublicIPsList = Array<string>;
+/** VNet properties for managed integration runtime. */
+export interface IntegrationRuntimeVNetProperties {
+  /** The ID of the VNet that this integration runtime will join. */
+  vNetId?: string | undefined;
+  /** The name of the subnet this integration runtime will join. */
+  subnet?: string | undefined;
+  /** Resource IDs of the public IP addresses that this integration runtime will use. */
+  publicIPs?: IntegrationRuntimeVNetPropertiesPublicIPsList | undefined;
+  /** The ID of subnet, to which this Azure-SSIS integration runtime will be joined. */
+  subnetId?: string | undefined;
+  [key: string]: unknown;
+}
+/** The compute resource properties for managed integration runtime. */
+export interface IntegrationRuntimeComputeProperties {
+  /** The location for managed integration runtime. The supported regions could be found on https://docs.microsoft.com/en-us/azure/data-factory/data-factory-data-movement-activities */
+  location?: string | undefined;
+  /** The node size requirement to managed integration runtime. */
+  nodeSize?: string | undefined;
+  /** The required number of nodes for managed integration runtime. */
+  numberOfNodes?: number | undefined;
+  /** Maximum parallel executions count per node for managed integration runtime. */
+  maxParallelExecutionsPerNode?: number | undefined;
+  /** Data flow properties for managed integration runtime. */
+  dataFlowProperties?: IntegrationRuntimeDataFlowProperties | undefined;
+  /** VNet properties for managed integration runtime. */
+  vNetProperties?: IntegrationRuntimeVNetProperties | undefined;
+  [key: string]: unknown;
+}
+/** Type of the secret. */
+export type SecureStringType = "SecureString";
+/** Azure Synapse secure string definition. The string value will be masked with asterisks '*' during Get or List API calls. */
+export interface SecureString {
+  /** Type of the secret. */
+  type: SecureStringType | (string & {});
+  /** Value of secure string. */
+  value: string;
+}
+/** The pricing tier for the catalog database. The valid values could be found in https://azure.microsoft.com/en-us/pricing/details/sql-database/ */
+export type IntegrationRuntimeSsisCatalogInfoCatalogPricingTier =
+  | "Basic"
+  | "Standard"
+  | "Premium"
+  | "PremiumRS";
+/** Catalog information for managed dedicated integration runtime. */
+export interface IntegrationRuntimeSsisCatalogInfo {
+  /** The catalog database server URL. */
+  catalogServerEndpoint?: string | undefined;
+  /** The administrator user name of catalog database. */
+  catalogAdminUserName?: string | undefined;
+  /** The password of the administrator user account of the catalog database. */
+  catalogAdminPassword?: SecureString | undefined;
+  /** The pricing tier for the catalog database. The valid values could be found in https://azure.microsoft.com/en-us/pricing/details/sql-database/ */
+  catalogPricingTier?:
+    | IntegrationRuntimeSsisCatalogInfoCatalogPricingTier
+    | (string & {})
+    | undefined;
+  [key: string]: unknown;
+}
+/** License type for bringing your own license scenario. */
+export type IntegrationRuntimeSsisPropertiesLicenseType = "BasePrice" | "LicenseIncluded";
+/** Custom setup script properties for a managed dedicated integration runtime. */
+export interface IntegrationRuntimeCustomSetupScriptProperties {
+  /** The URI of the Azure blob container that contains the custom setup script. */
+  blobContainerUri?: string | undefined;
+  /** The SAS token of the Azure blob container. */
+  sasToken?: SecureString | undefined;
+}
+/** The type of this referenced entity. */
+export type EntityReferenceType = "IntegrationRuntimeReference" | "LinkedServiceReference";
+/** The entity reference. */
+export interface EntityReference {
+  /** The type of this referenced entity. */
+  type?: EntityReferenceType | (string & {}) | undefined;
+  /** The name of this referenced entity. */
+  referenceName?: string | undefined;
+}
+/** Data proxy properties for a managed dedicated integration runtime. */
+export interface IntegrationRuntimeDataProxyProperties {
+  /** The self-hosted integration runtime reference. */
+  connectVia?: EntityReference | undefined;
+  /** The staging linked service reference. */
+  stagingLinkedService?: EntityReference | undefined;
+  /** The path to contain the staged data in the Blob storage. */
+  path?: string | undefined;
+}
+/** The edition for the SSIS Integration Runtime */
+export type IntegrationRuntimeSsisPropertiesEdition = "Standard" | "Enterprise";
+/** The type of custom setup. */
+export type CmdkeySetupType = "CmdkeySetup";
+/** Cmdkey command custom setup type properties. */
+export interface CmdkeySetupTypeProperties {
+  /** The server name of data source access. */
+  targetName: unknown;
+  /** The user name of data source access. */
+  userName: unknown;
+  /** The password of data source access. */
+  password: SecureString;
+}
+/** The custom setup of running cmdkey commands. */
+export interface CmdkeySetup {
+  /** The type of custom setup. */
+  type: CmdkeySetupType;
+  /** Cmdkey command custom setup type properties. */
+  typeProperties: CmdkeySetupTypeProperties;
+}
+/** The type of custom setup. */
+export type EnvironmentVariableSetupType = "EnvironmentVariableSetup";
+/** Environment variable custom setup type properties. */
+export interface EnvironmentVariableSetupTypeProperties {
+  /** The name of the environment variable. */
+  variableName: string;
+  /** The value of the environment variable. */
+  variableValue: string;
+}
+/** The custom setup of setting environment variable. */
+export interface EnvironmentVariableSetup {
+  /** The type of custom setup. */
+  type: EnvironmentVariableSetupType;
+  /** Add environment variable type properties. */
+  typeProperties: EnvironmentVariableSetupTypeProperties;
+}
+/** The type of custom setup. */
+export type ComponentSetupType = "ComponentSetup";
+/** Installation of licensed component setup type properties. */
+export interface LicensedComponentSetupTypeProperties {
+  /** The name of the 3rd party component. */
+  componentName: string;
+  /** The license key to activate the component. */
+  licenseKey?: SecureString | undefined;
+}
+/** The custom setup of installing 3rd party components. */
+export interface ComponentSetup {
+  /** The type of custom setup. */
+  type: ComponentSetupType;
+  /** Install 3rd party component type properties. */
+  typeProperties: LicensedComponentSetupTypeProperties;
+}
+/** The base definition of the custom setup. */
+export type CustomSetupBase = CmdkeySetup | EnvironmentVariableSetup | ComponentSetup;
+/** Custom setup without script properties for a SSIS integration runtime. */
+export type IntegrationRuntimeSsisPropertiesExpressCustomSetupPropertiesList =
+  Array<CustomSetupBase>;
+/** SSIS properties for managed integration runtime. */
+export interface IntegrationRuntimeSsisProperties {
+  /** Catalog information for managed dedicated integration runtime. */
+  catalogInfo?: IntegrationRuntimeSsisCatalogInfo | undefined;
+  /** License type for bringing your own license scenario. */
+  licenseType?: IntegrationRuntimeSsisPropertiesLicenseType | (string & {}) | undefined;
+  /** Custom setup script properties for a managed dedicated integration runtime. */
+  customSetupScriptProperties?: IntegrationRuntimeCustomSetupScriptProperties | undefined;
+  /** Data proxy properties for a managed dedicated integration runtime. */
+  dataProxyProperties?: IntegrationRuntimeDataProxyProperties | undefined;
+  /** The edition for the SSIS Integration Runtime */
+  edition?: IntegrationRuntimeSsisPropertiesEdition | (string & {}) | undefined;
+  /** Custom setup without script properties for a SSIS integration runtime. */
+  expressCustomSetupProperties?:
+    | IntegrationRuntimeSsisPropertiesExpressCustomSetupPropertiesList
+    | undefined;
+  [key: string]: unknown;
+}
+/** The definition and properties of virtual network to which Azure-SSIS integration runtime will join. */
+export interface IntegrationRuntimeCustomerVirtualNetwork {
+  /** The ID of subnet to which Azure-SSIS integration runtime will join. */
+  subnetId?: string | undefined;
+}
+/** Managed integration runtime type properties. */
+export interface ManagedIntegrationRuntimeTypeProperties {
+  /** The compute resource for managed integration runtime. */
+  computeProperties?: IntegrationRuntimeComputeProperties | undefined;
+  /** SSIS properties for managed integration runtime. */
+  ssisProperties?: IntegrationRuntimeSsisProperties | undefined;
+  /** The name of virtual network to which Azure-SSIS integration runtime will join */
+  customerVirtualNetwork?: IntegrationRuntimeCustomerVirtualNetwork | undefined;
+}
+/** Managed integration runtime managed virtual network reference. */
+export interface ManagedIntegrationRuntimeManagedVirtualNetworkReference {
+  /** The reference name of the managed virtual network */
+  referenceName?: string | undefined;
+  /** The type of the managed virtual network. */
+  type?: string | undefined;
+  /** The id of the managed virtual network. */
+  id?: string | undefined;
+}
+/** Managed integration runtime, including managed elastic and managed dedicated integration runtimes. */
+export interface ManagedIntegrationRuntimeInput {
+  /** Type of integration runtime. */
+  type: ManagedIntegrationRuntimeInputType;
+  /** Integration runtime description. */
+  description?: string | undefined;
+  /** Managed integration runtime properties. */
+  typeProperties: ManagedIntegrationRuntimeTypeProperties;
+  /** Managed integration runtime managed virtual network. */
+  managedVirtualNetwork?: ManagedIntegrationRuntimeManagedVirtualNetworkReference | undefined;
+  [key: string]: unknown;
+}
+/** Type of integration runtime. */
+export type SelfHostedIntegrationRuntimeType = "SelfHosted";
+/** The authorization type for integration runtime sharing. */
+export type LinkedIntegrationRuntimeKeyAuthorizationAuthorizationType = "Key";
+/** The key authorization type integration runtime. */
+export interface LinkedIntegrationRuntimeKeyAuthorization {
+  /** The authorization type for integration runtime sharing. */
+  authorizationType: LinkedIntegrationRuntimeKeyAuthorizationAuthorizationType;
+  /** The key used for authorization. */
+  key: SecureString;
+}
+/** The authorization type for integration runtime sharing. */
+export type LinkedIntegrationRuntimeRbacAuthorizationAuthorizationType = "RBAC";
+/** The role based access control (RBAC) authorization type integration runtime. */
+export interface LinkedIntegrationRuntimeRbacAuthorization {
+  /** The authorization type for integration runtime sharing. */
+  authorizationType: LinkedIntegrationRuntimeRbacAuthorizationAuthorizationType;
+  /** The resource identifier of the integration runtime to be shared. */
+  resourceId: string;
+}
+/** The base definition of a linked integration runtime. */
+export type LinkedIntegrationRuntimeType =
+  | LinkedIntegrationRuntimeKeyAuthorization
+  | LinkedIntegrationRuntimeRbacAuthorization;
+/** The self-hosted integration runtime properties. */
+export interface SelfHostedIntegrationRuntimeTypeProperties {
+  /** Linked integration runtime type from data factory */
+  linkedInfo?: LinkedIntegrationRuntimeType | undefined;
+}
+/** Self-hosted integration runtime. */
+export interface SelfHostedIntegrationRuntime {
+  /** Type of integration runtime. */
+  type: SelfHostedIntegrationRuntimeType;
+  /** Integration runtime description. */
+  description?: string | undefined;
+  /** When this property is not null, means this is a linked integration runtime. The property is used to access original integration runtime. */
+  typeProperties?: SelfHostedIntegrationRuntimeTypeProperties | undefined;
+  [key: string]: unknown;
+}
+/** Azure Synapse nested object which serves as a compute resource for activities. */
+export type IntegrationRuntimeInput = ManagedIntegrationRuntimeInput | SelfHostedIntegrationRuntime;
 export interface CreateIntegrationRuntimeRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -362,8 +601,38 @@ export interface CreateIntegrationRuntimeRequest {
   /** Integration runtime name */
   integrationRuntimeName: string;
   /** Integration runtime properties. */
-  properties: IntegrationRuntime;
+  properties: IntegrationRuntimeInput;
 }
+/** Type of integration runtime. */
+export type ManagedIntegrationRuntimeType = "Managed";
+/** The state of integration runtime. */
+export type IntegrationRuntimeState =
+  | "Initial"
+  | "Stopped"
+  | "Started"
+  | "Starting"
+  | "Stopping"
+  | "NeedRegistration"
+  | "Online"
+  | "Limited"
+  | "Offline"
+  | "AccessDenied";
+/** Managed integration runtime, including managed elastic and managed dedicated integration runtimes. */
+export interface ManagedIntegrationRuntime {
+  /** Type of integration runtime. */
+  type: ManagedIntegrationRuntimeType;
+  /** Integration runtime description. */
+  description?: string | undefined;
+  /** Integration runtime state, only valid for managed dedicated integration runtime. */
+  provisioningState?: IntegrationRuntimeState | undefined;
+  /** Managed integration runtime properties. */
+  typeProperties: ManagedIntegrationRuntimeTypeProperties;
+  /** Managed integration runtime managed virtual network. */
+  managedVirtualNetwork?: ManagedIntegrationRuntimeManagedVirtualNetworkReference | undefined;
+  [key: string]: unknown;
+}
+/** Azure Synapse nested object which serves as a compute resource for activities. */
+export type IntegrationRuntime = ManagedIntegrationRuntime | SelfHostedIntegrationRuntime;
 export interface CreateIntegrationRuntimeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string | undefined;
@@ -1672,28 +1941,176 @@ export interface GetIntegrationRuntimeStatusRequest {
   /** Integration runtime name */
   integrationRuntimeName: string;
 }
-/** The state of integration runtime. */
-export type IntegrationRuntimeState =
-  | "Initial"
-  | "Stopped"
-  | "Started"
+/** Type of integration runtime. */
+export type ManagedIntegrationRuntimeStatusType = "Managed";
+/** The managed integration runtime node status. */
+export type ManagedIntegrationRuntimeNodeStatus =
   | "Starting"
-  | "Stopping"
-  | "NeedRegistration"
-  | "Online"
-  | "Limited"
-  | "Offline"
-  | "AccessDenied";
-/** Integration runtime status. */
-export interface IntegrationRuntimeStatus {
+  | "Available"
+  | "Recycling"
+  | "Unavailable";
+/** Managed integration runtime error parameters. */
+export type ManagedIntegrationRuntimeErrorParametersList = Array<string>;
+/** Error definition for managed integration runtime. */
+export interface ManagedIntegrationRuntimeError {
+  /** The time when the error occurred. */
+  time?: string | undefined;
+  /** Error code. */
+  code?: string | undefined;
+  /** Managed integration runtime error parameters. */
+  parameters?: ManagedIntegrationRuntimeErrorParametersList | undefined;
+  /** Error message. */
+  message?: string | undefined;
+  [key: string]: unknown;
+}
+/** The errors that occurred on this integration runtime node. */
+export type ManagedIntegrationRuntimeNodeErrorsList = Array<ManagedIntegrationRuntimeError>;
+/** Properties of integration runtime node. */
+export interface ManagedIntegrationRuntimeNode {
+  /** The managed integration runtime node id. */
+  nodeId?: string | undefined;
+  /** The managed integration runtime node status. */
+  status?: ManagedIntegrationRuntimeNodeStatus | undefined;
+  /** The errors that occurred on this integration runtime node. */
+  errors?: ManagedIntegrationRuntimeNodeErrorsList | undefined;
+  [key: string]: unknown;
+}
+/** The list of nodes for managed integration runtime. */
+export type ManagedIntegrationRuntimeStatusTypePropertiesNodesList =
+  Array<ManagedIntegrationRuntimeNode>;
+/** The errors that occurred on this integration runtime. */
+export type ManagedIntegrationRuntimeStatusTypePropertiesOtherErrorsList =
+  Array<ManagedIntegrationRuntimeError>;
+/** Managed integration runtime error parameters. */
+export type ManagedIntegrationRuntimeOperationResultParametersList = Array<string>;
+/** Properties of managed integration runtime operation result. */
+export interface ManagedIntegrationRuntimeOperationResult {
+  /** The operation type. Could be start or stop. */
+  type?: string | undefined;
+  /** The start time of the operation. */
+  startTime?: string | undefined;
+  /** The operation result. */
+  result?: string | undefined;
+  /** The error code. */
+  errorCode?: string | undefined;
+  /** Managed integration runtime error parameters. */
+  parameters?: ManagedIntegrationRuntimeOperationResultParametersList | undefined;
+  /** The activity id for the operation request. */
+  activityId?: string | undefined;
+  [key: string]: unknown;
+}
+/** Managed integration runtime status type properties. */
+export interface ManagedIntegrationRuntimeStatusTypeProperties {
+  /** The time at which the integration runtime was created, in ISO8601 format. */
+  createTime?: string | undefined;
+  /** The list of nodes for managed integration runtime. */
+  nodes?: ManagedIntegrationRuntimeStatusTypePropertiesNodesList | undefined;
+  /** The errors that occurred on this integration runtime. */
+  otherErrors?: ManagedIntegrationRuntimeStatusTypePropertiesOtherErrorsList | undefined;
+  /** The last operation result that occurred on this integration runtime. */
+  lastOperation?: ManagedIntegrationRuntimeOperationResult | undefined;
+}
+/** Managed integration runtime status. */
+export interface ManagedIntegrationRuntimeStatus {
   /** Type of integration runtime. */
-  type: IntegrationRuntimeType;
+  type: ManagedIntegrationRuntimeStatusType;
   /** The workspace name which the integration runtime belong to. */
   dataFactoryName?: string | undefined;
   /** The state of integration runtime. */
   state?: IntegrationRuntimeState | undefined;
+  /** Managed integration runtime status type properties. */
+  typeProperties: ManagedIntegrationRuntimeStatusTypeProperties;
   [key: string]: unknown;
 }
+/** Type of integration runtime. */
+export type SelfHostedIntegrationRuntimeStatusType = "SelfHosted";
+/** It is used to set the encryption mode for node-node communication channel (when more than 2 self-hosted integration runtime nodes exist). */
+export type SelfHostedIntegrationRuntimeStatusTypePropertiesInternalChannelEncryption =
+  | "NotSet"
+  | "SslEncrypted"
+  | "NotEncrypted";
+/** The list of nodes for this integration runtime. */
+export type SelfHostedIntegrationRuntimeStatusTypePropertiesNodesList =
+  Array<SelfHostedIntegrationRuntimeNode>;
+/** Object with additional information about integration runtime capabilities. */
+export type SelfHostedIntegrationRuntimeStatusTypePropertiesCapabilitiesMap = {
+  [key: string]: string | undefined;
+};
+/** The URLs for the services used in integration runtime backend service. */
+export type SelfHostedIntegrationRuntimeStatusTypePropertiesServiceUrlsList = Array<string>;
+/** The state of integration runtime auto update. */
+export type IntegrationRuntimeAutoUpdate = "On" | "Off";
+/** The linked integration runtime information. */
+export interface LinkedIntegrationRuntime {
+  /** The name of the linked integration runtime. */
+  name?: string | undefined;
+  /** The subscription ID for which the linked integration runtime belong to. */
+  subscriptionId?: string | undefined;
+  /** The name of the workspace for which the linked integration runtime belong to. */
+  dataFactoryName?: string | undefined;
+  /** The location of the workspace for which the linked integration runtime belong to. */
+  dataFactoryLocation?: string | undefined;
+  /** The creating time of the linked integration runtime. */
+  createTime?: string | undefined;
+}
+/** The list of linked integration runtimes that are created to share with this integration runtime. */
+export type SelfHostedIntegrationRuntimeStatusTypePropertiesLinksList =
+  Array<LinkedIntegrationRuntime>;
+/** Self-hosted integration runtime status type properties. */
+export interface SelfHostedIntegrationRuntimeStatusTypeProperties {
+  /** The time at which the integration runtime was created, in ISO8601 format. */
+  createTime?: string | undefined;
+  /** The task queue id of the integration runtime. */
+  taskQueueId?: string | undefined;
+  /** The node communication Channel encryption mode */
+  nodeCommunicationChannelEncryptionMode?: string | undefined;
+  /** It is used to set the encryption mode for node-node communication channel (when more than 2 self-hosted integration runtime nodes exist). */
+  internalChannelEncryption?:
+    | SelfHostedIntegrationRuntimeStatusTypePropertiesInternalChannelEncryption
+    | undefined;
+  /** Version of the integration runtime. */
+  version?: string | undefined;
+  /** The list of nodes for this integration runtime. */
+  nodes?: SelfHostedIntegrationRuntimeStatusTypePropertiesNodesList | undefined;
+  /** The date at which the integration runtime will be scheduled to update, in ISO8601 format. */
+  scheduledUpdateDate?: string | undefined;
+  /** The time in the date scheduled by service to update the integration runtime, e.g., PT03H is 3 hours */
+  updateDelayOffset?: string | undefined;
+  /** The local time zone offset in hours. */
+  localTimeZoneOffset?: string | undefined;
+  /** Object with additional information about integration runtime capabilities. */
+  capabilities?: SelfHostedIntegrationRuntimeStatusTypePropertiesCapabilitiesMap | undefined;
+  /** The URLs for the services used in integration runtime backend service. */
+  serviceUrls?: SelfHostedIntegrationRuntimeStatusTypePropertiesServiceUrlsList | undefined;
+  /** Whether Self-hosted integration runtime auto update has been turned on. */
+  autoUpdate?: IntegrationRuntimeAutoUpdate | undefined;
+  /** Status of the integration runtime version. */
+  versionStatus?: string | undefined;
+  /** The list of linked integration runtimes that are created to share with this integration runtime. */
+  links?: SelfHostedIntegrationRuntimeStatusTypePropertiesLinksList | undefined;
+  /** The version that the integration runtime is going to update to. */
+  pushedVersion?: string | undefined;
+  /** The latest version on download center. */
+  latestVersion?: string | undefined;
+  /** The estimated time when the self-hosted integration runtime will be updated. */
+  autoUpdateETA?: string | undefined;
+}
+/** Self-hosted integration runtime status. */
+export interface SelfHostedIntegrationRuntimeStatus {
+  /** Type of integration runtime. */
+  type: SelfHostedIntegrationRuntimeStatusType;
+  /** The workspace name which the integration runtime belong to. */
+  dataFactoryName?: string | undefined;
+  /** The state of integration runtime. */
+  state?: IntegrationRuntimeState | undefined;
+  /** Self-hosted integration runtime status type properties. */
+  typeProperties: SelfHostedIntegrationRuntimeStatusTypeProperties;
+  [key: string]: unknown;
+}
+/** Integration runtime status. */
+export type IntegrationRuntimeStatus =
+  | ManagedIntegrationRuntimeStatus
+  | SelfHostedIntegrationRuntimeStatus;
 /** Integration runtime status response. */
 export interface IntegrationRuntimeStatusResponse {
   /** The integration runtime name. */
@@ -3563,12 +3980,12 @@ export interface ListIntegrationRuntimeObjectMetadataRequest {
   /** Metadata path. */
   metadataPath?: string | undefined;
 }
-/** The type of SSIS object metadata. */
-export type SsisObjectMetadataType = "Folder" | "Project" | "Package" | "Environment";
+/** Type of metadata. */
+export type SsisFolderType = "Folder";
 /** SSIS object metadata. */
-export interface SsisObjectMetadata {
+export interface SsisFolder {
   /** Type of metadata. */
-  type: SsisObjectMetadataType;
+  type: SsisFolderType;
   /** Metadata id. */
   id?: number | undefined;
   /** Metadata name. */
@@ -3576,6 +3993,130 @@ export interface SsisObjectMetadata {
   /** Metadata description. */
   description?: string | undefined;
 }
+/** Type of metadata. */
+export type SsisProjectType = "Project";
+/** Ssis environment reference. */
+export interface SsisEnvironmentReference {
+  /** Environment reference id. */
+  id?: number | undefined;
+  /** Environment folder name. */
+  environmentFolderName?: string | undefined;
+  /** Environment name. */
+  environmentName?: string | undefined;
+  /** Reference type */
+  referenceType?: string | undefined;
+}
+/** Environment reference in project */
+export type SsisProjectEnvironmentRefsList = Array<SsisEnvironmentReference>;
+/** Ssis parameter. */
+export interface SsisParameter {
+  /** Parameter id. */
+  id?: number | undefined;
+  /** Parameter name. */
+  name?: string | undefined;
+  /** Parameter description. */
+  description?: string | undefined;
+  /** Parameter type. */
+  dataType?: string | undefined;
+  /** Whether parameter is required. */
+  required?: boolean | undefined;
+  /** Whether parameter is sensitive. */
+  sensitive?: boolean | undefined;
+  /** Design default value of parameter. */
+  designDefaultValue?: string | undefined;
+  /** Default value of parameter. */
+  defaultValue?: string | undefined;
+  /** Default sensitive value of parameter. */
+  sensitiveDefaultValue?: string | undefined;
+  /** Parameter value type. */
+  valueType?: string | undefined;
+  /** Parameter value set. */
+  valueSet?: boolean | undefined;
+  /** Parameter reference variable. */
+  variable?: string | undefined;
+}
+/** Parameters in project */
+export type SsisProjectParametersList = Array<SsisParameter>;
+/** Ssis project. */
+export interface SsisProject {
+  /** Type of metadata. */
+  type: SsisProjectType;
+  /** Metadata id. */
+  id?: number | undefined;
+  /** Metadata name. */
+  name?: string | undefined;
+  /** Metadata description. */
+  description?: string | undefined;
+  /** Folder id which contains project. */
+  folderId?: number | undefined;
+  /** Project version. */
+  version?: number | undefined;
+  /** Environment reference in project */
+  environmentRefs?: SsisProjectEnvironmentRefsList | undefined;
+  /** Parameters in project */
+  parameters?: SsisProjectParametersList | undefined;
+}
+/** Type of metadata. */
+export type SsisPackageType = "Package";
+/** Parameters in package */
+export type SsisPackageParametersList = Array<SsisParameter>;
+/** Ssis Package. */
+export interface SsisPackage {
+  /** Type of metadata. */
+  type: SsisPackageType;
+  /** Metadata id. */
+  id?: number | undefined;
+  /** Metadata name. */
+  name?: string | undefined;
+  /** Metadata description. */
+  description?: string | undefined;
+  /** Folder id which contains package. */
+  folderId?: number | undefined;
+  /** Project version which contains package. */
+  projectVersion?: number | undefined;
+  /** Project id which contains package. */
+  projectId?: number | undefined;
+  /** Parameters in package */
+  parameters?: SsisPackageParametersList | undefined;
+}
+/** Type of metadata. */
+export type SsisEnvironmentType = "Environment";
+/** Ssis variable. */
+export interface SsisVariable {
+  /** Variable id. */
+  id?: number | undefined;
+  /** Variable name. */
+  name?: string | undefined;
+  /** Variable description. */
+  description?: string | undefined;
+  /** Variable type. */
+  dataType?: string | undefined;
+  /** Whether variable is sensitive. */
+  sensitive?: boolean | undefined;
+  /** Variable value. */
+  value?: string | undefined;
+  /** Variable sensitive value. */
+  sensitiveValue?: string | undefined;
+}
+/** Variable in environment */
+export type SsisEnvironmentVariablesList = Array<SsisVariable>;
+/** Ssis environment. */
+export interface SsisEnvironment {
+  /** Type of metadata. */
+  type: SsisEnvironmentType;
+  /** Metadata id. */
+  id?: number | undefined;
+  /** Metadata name. */
+  name?: string | undefined;
+  /** Metadata description. */
+  description?: string | undefined;
+  /** Folder id which contains environment. */
+  folderId?: number | undefined;
+  /** Variable in environment */
+  variables?: SsisEnvironmentVariablesList | undefined;
+}
+/** SSIS object metadata. */
+export type SsisObjectMetadata = SsisFolder | SsisProject | SsisPackage | SsisEnvironment;
 /** List of SSIS object metadata. */
 export type SsisObjectMetadataListResponseValueList = Array<SsisObjectMetadata>;
 /** A list of SSIS object metadata. */
@@ -5383,8 +5924,6 @@ export interface UpdateBigDataPoolResponse {
   /** Big Data pool properties */
   properties?: BigDataPoolResourceProperties | undefined;
 }
-/** The state of integration runtime auto update. */
-export type IntegrationRuntimeAutoUpdate = "On" | "Off";
 export interface UpdateIntegrationRuntimeRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -6047,7 +6586,7 @@ export const BigDataPoolsCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5, __c0, 5) as any as S.Schema<BigDataPoolsCreateOrUpdateRequest>,
-  output: __S(55, __c3, 7) as any as S.Schema<BigDataPoolsCreateOrUpdateResponse>,
+  output: __S(103, __c3, 7) as any as S.Schema<BigDataPoolsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6063,8 +6602,8 @@ export const CheckOperationNameAvailability: API.OperationMethod<
   CheckOperationNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<CheckOperationNameAvailabilityRequest>,
-  output: __S(65, __c4, 1) as any as S.Schema<CheckNameAvailabilityResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<CheckOperationNameAvailabilityRequest>,
+  output: __S(129, __c4, 1) as any as S.Schema<CheckNameAvailabilityResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6080,8 +6619,8 @@ export const CreateAzureADOnlyAuthentication: API.OperationMethod<
   CreateAzureADOnlyAuthenticationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1633, __c102, 1) as any as S.Schema<CreateAzureADOnlyAuthenticationRequest>,
-  output: __S(1649, __c103, 1) as any as S.Schema<CreateAzureADOnlyAuthenticationResponse>,
+  input: __S(3265, __c102, 1) as any as S.Schema<CreateAzureADOnlyAuthenticationRequest>,
+  output: __S(3297, __c103, 1) as any as S.Schema<CreateAzureADOnlyAuthenticationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6097,8 +6636,8 @@ export const CreateIntegrationRuntime: API.OperationMethod<
   CreateIntegrationRuntimeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<CreateIntegrationRuntimeRequest>,
-  output: __S(1889, __c118, 1) as any as S.Schema<CreateIntegrationRuntimeResponse>,
+  input: __S(3714, __c116, 2) as any as S.Schema<CreateIntegrationRuntimeRequest>,
+  output: __S(3803, __c118, 27) as any as S.Schema<CreateIntegrationRuntimeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6114,8 +6653,8 @@ export const CreatePrivateEndpointConnection: API.OperationMethod<
   CreatePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<CreatePrivateEndpointConnectionRequest>,
-  output: __S(2144, __c134, 0) as any as S.Schema<CreatePrivateEndpointConnectionResponse>,
+  input: __S(4160, __c130, 0) as any as S.Schema<CreatePrivateEndpointConnectionRequest>,
+  output: __S(4288, __c134, 0) as any as S.Schema<CreatePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6131,8 +6670,8 @@ export const CreateSqlPool: API.OperationMethod<
   CreateSqlPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<CreateSqlPoolRequest>,
-  output: __S(2402, __c150, 2) as any as S.Schema<CreateSqlPoolResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<CreateSqlPoolRequest>,
+  output: __S(4802, __c150, 2) as any as S.Schema<CreateSqlPoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6148,8 +6687,8 @@ export const CreateSqlPoolRestorePoint: API.OperationMethod<
   CreateSqlPoolRestorePointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Schema<CreateSqlPoolRestorePointRequest>,
-  output: __S(2721, __c170, 1) as any as S.Schema<CreateSqlPoolRestorePointResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<CreateSqlPoolRestorePointRequest>,
+  output: __S(5441, __c170, 1) as any as S.Schema<CreateSqlPoolRestorePointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6165,8 +6704,8 @@ export const DataMaskingPoliciesCreateOrUpdate: API.OperationMethod<
   DataMaskingPoliciesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3025, __c189, 1) as any as S.Schema<DataMaskingPoliciesCreateOrUpdateRequest>,
-  output: __S(3041, __c190, 1) as any as S.Schema<DataMaskingPoliciesCreateOrUpdateResponse>,
+  input: __S(6049, __c189, 1) as any as S.Schema<DataMaskingPoliciesCreateOrUpdateRequest>,
+  output: __S(6081, __c190, 1) as any as S.Schema<DataMaskingPoliciesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6182,8 +6721,8 @@ export const DataMaskingRulesCreateOrUpdate: API.OperationMethod<
   DataMaskingRulesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3361, __c210, 1) as any as S.Schema<DataMaskingRulesCreateOrUpdateRequest>,
-  output: __S(3377, __c211, 1) as any as S.Schema<DataMaskingRulesCreateOrUpdateResponse>,
+  input: __S(6721, __c210, 1) as any as S.Schema<DataMaskingRulesCreateOrUpdateRequest>,
+  output: __S(6753, __c211, 1) as any as S.Schema<DataMaskingRulesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6199,8 +6738,8 @@ export const DeleteBigDataPool: API.OperationMethod<
   DeleteBigDataPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c226, 0) as any as S.Schema<DeleteBigDataPoolRequest>,
-  output: __S(55, __c3, 7) as any as S.Schema<DeleteBigDataPoolResponse>,
+  input: __S(7232, __c226, 0) as any as S.Schema<DeleteBigDataPoolRequest>,
+  output: __S(103, __c3, 7) as any as S.Schema<DeleteBigDataPoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6216,8 +6755,8 @@ export const DeleteIntegrationRuntime: API.OperationMethod<
   DeleteIntegrationRuntimeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<DeleteIntegrationRuntimeRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<DeleteIntegrationRuntimeResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<DeleteIntegrationRuntimeRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<DeleteIntegrationRuntimeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6233,8 +6772,8 @@ export const DeleteIntegrationRuntimeNode: API.OperationMethod<
   DeleteIntegrationRuntimeNodeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<DeleteIntegrationRuntimeNodeRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<DeleteIntegrationRuntimeNodeResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<DeleteIntegrationRuntimeNodeRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<DeleteIntegrationRuntimeNodeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6250,8 +6789,8 @@ export const DeleteIpFirewallRule: API.OperationMethod<
   DeleteIpFirewallRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<DeleteIpFirewallRuleRequest>,
-  output: __S(529, __c33, 1) as any as S.Schema<DeleteIpFirewallRuleResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<DeleteIpFirewallRuleRequest>,
+  output: __S(1057, __c33, 1) as any as S.Schema<DeleteIpFirewallRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6267,8 +6806,8 @@ export const DeleteKey: API.OperationMethod<
   DeleteKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<DeleteKeyRequest>,
-  output: __S(753, __c47, 1) as any as S.Schema<DeleteKeyResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<DeleteKeyRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<DeleteKeyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6284,8 +6823,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   DeletePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6301,8 +6840,8 @@ export const DeletePrivateLinkHub: API.OperationMethod<
   DeletePrivateLinkHubError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<DeletePrivateLinkHubRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<DeletePrivateLinkHubResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<DeletePrivateLinkHubRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<DeletePrivateLinkHubResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6318,8 +6857,8 @@ export const DeleteSqlPool: API.OperationMethod<
   DeleteSqlPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<DeleteSqlPoolRequest>,
-  output: __S(2402, __c150, 2) as any as S.Schema<DeleteSqlPoolResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<DeleteSqlPoolRequest>,
+  output: __S(4802, __c150, 2) as any as S.Schema<DeleteSqlPoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6335,8 +6874,8 @@ export const DeleteSqlPoolRestorePoint: API.OperationMethod<
   DeleteSqlPoolRestorePointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<DeleteSqlPoolRestorePointRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<DeleteSqlPoolRestorePointResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<DeleteSqlPoolRestorePointRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<DeleteSqlPoolRestorePointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6352,8 +6891,8 @@ export const DeleteSqlPoolSensitivityLabel: API.OperationMethod<
   DeleteSqlPoolSensitivityLabelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<DeleteSqlPoolSensitivityLabelRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<DeleteSqlPoolSensitivityLabelResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<DeleteSqlPoolSensitivityLabelRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<DeleteSqlPoolSensitivityLabelResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6369,8 +6908,8 @@ export const DeleteSqlPoolVulnerabilityAssessment: API.OperationMethod<
   DeleteSqlPoolVulnerabilityAssessmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<DeleteSqlPoolVulnerabilityAssessmentRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<DeleteSqlPoolVulnerabilityAssessmentResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<DeleteSqlPoolVulnerabilityAssessmentRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<DeleteSqlPoolVulnerabilityAssessmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6387,12 +6926,12 @@ export const DeleteSqlPoolVulnerabilityAssessmentRuleBaseline: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1664,
+    3328,
     __c104,
     0,
   ) as any as S.Schema<DeleteSqlPoolVulnerabilityAssessmentRuleBaselineRequest>,
   output: __S(
-    2096,
+    4192,
     __c131,
     0,
   ) as any as S.Schema<DeleteSqlPoolVulnerabilityAssessmentRuleBaselineResponse>,
@@ -6411,8 +6950,8 @@ export const DeleteSqlPoolWorkloadClassifier: API.OperationMethod<
   DeleteSqlPoolWorkloadClassifierError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<DeleteSqlPoolWorkloadClassifierRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<DeleteSqlPoolWorkloadClassifierResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<DeleteSqlPoolWorkloadClassifierRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<DeleteSqlPoolWorkloadClassifierResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6428,8 +6967,8 @@ export const DeleteSqlPoolWorkloadGroup: API.OperationMethod<
   DeleteSqlPoolWorkloadGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<DeleteSqlPoolWorkloadGroupRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<DeleteSqlPoolWorkloadGroupResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<DeleteSqlPoolWorkloadGroupRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<DeleteSqlPoolWorkloadGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6445,8 +6984,8 @@ export const DeleteWorkspace: API.OperationMethod<
   DeleteWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<DeleteWorkspaceRequest>,
-  output: __S(1775, __c110, 15) as any as S.Schema<DeleteWorkspaceResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<DeleteWorkspaceRequest>,
+  output: __S(3503, __c109, 15) as any as S.Schema<DeleteWorkspaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6462,8 +7001,8 @@ export const DeleteWorkspaceAadAdmin: API.OperationMethod<
   DeleteWorkspaceAadAdminError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<DeleteWorkspaceAadAdminRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<DeleteWorkspaceAadAdminResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<DeleteWorkspaceAadAdminRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<DeleteWorkspaceAadAdminResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6480,12 +7019,12 @@ export const DeleteWorkspaceManagedSqlServerVulnerabilityAssessment: API.Operati
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1792,
-    __c112,
+    3552,
+    __c111,
     0,
   ) as any as S.Schema<DeleteWorkspaceManagedSqlServerVulnerabilityAssessmentRequest>,
   output: __S(
-    2096,
+    4192,
     __c131,
     0,
   ) as any as S.Schema<DeleteWorkspaceManagedSqlServerVulnerabilityAssessmentResponse>,
@@ -6504,8 +7043,8 @@ export const DeleteWorkspaceSqlAadAdmin: API.OperationMethod<
   DeleteWorkspaceSqlAadAdminError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<DeleteWorkspaceSqlAadAdminRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<DeleteWorkspaceSqlAadAdminResponse>,
+  input: __S(3584, __c112, 0) as any as S.Schema<DeleteWorkspaceSqlAadAdminRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<DeleteWorkspaceSqlAadAdminResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6521,9 +7060,9 @@ export const DisableIntegrationRuntimeInteractiveQuery: API.OperationMethod<
   DisableIntegrationRuntimeInteractiveQueryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<DisableIntegrationRuntimeInteractiveQueryRequest>,
+  input: __S(3616, __c113, 0) as any as S.Schema<DisableIntegrationRuntimeInteractiveQueryRequest>,
   output: __S(
-    2096,
+    4192,
     __c131,
     0,
   ) as any as S.Schema<DisableIntegrationRuntimeInteractiveQueryResponse>,
@@ -6543,12 +7082,12 @@ export const DisableSqlPoolSensitivityLabelRecommendation: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1840,
-    __c115,
+    3648,
+    __c114,
     0,
   ) as any as S.Schema<DisableSqlPoolSensitivityLabelRecommendationRequest>,
   output: __S(
-    2096,
+    4192,
     __c131,
     0,
   ) as any as S.Schema<DisableSqlPoolSensitivityLabelRecommendationResponse>,
@@ -6567,8 +7106,8 @@ export const EnableIntegrationRuntimeInteractiveQuery: API.OperationMethod<
   EnableIntegrationRuntimeInteractiveQueryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<EnableIntegrationRuntimeInteractiveQueryRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<EnableIntegrationRuntimeInteractiveQueryResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<EnableIntegrationRuntimeInteractiveQueryRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<EnableIntegrationRuntimeInteractiveQueryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6585,12 +7124,12 @@ export const EnableSqlPoolSensitivityLabelRecommendation: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1904,
+    3808,
     __c119,
     0,
   ) as any as S.Schema<EnableSqlPoolSensitivityLabelRecommendationRequest>,
   output: __S(
-    2096,
+    4192,
     __c131,
     0,
   ) as any as S.Schema<EnableSqlPoolSensitivityLabelRecommendationResponse>,
@@ -6609,8 +7148,8 @@ export const ExportSqlPoolVulnerabilityAssessmentScan: API.OperationMethod<
   ExportSqlPoolVulnerabilityAssessmentScanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<ExportSqlPoolVulnerabilityAssessmentScanRequest>,
-  output: __S(1922, __c120, 2) as any as S.Schema<ExportSqlPoolVulnerabilityAssessmentScanResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<ExportSqlPoolVulnerabilityAssessmentScanRequest>,
+  output: __S(3842, __c120, 2) as any as S.Schema<ExportSqlPoolVulnerabilityAssessmentScanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6627,12 +7166,12 @@ export const ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdate: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1936,
+    3872,
     __c121,
     0,
   ) as any as S.Schema<ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateRequest>,
   output: __S(
-    1953,
+    3905,
     __c122,
     1,
   ) as any as S.Schema<ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateResponse>,
@@ -6651,8 +7190,8 @@ export const GetAzureADOnlyAuthentication: API.OperationMethod<
   GetAzureADOnlyAuthenticationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<GetAzureADOnlyAuthenticationRequest>,
-  output: __S(1649, __c103, 1) as any as S.Schema<GetAzureADOnlyAuthenticationResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<GetAzureADOnlyAuthenticationRequest>,
+  output: __S(3297, __c103, 1) as any as S.Schema<GetAzureADOnlyAuthenticationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6668,8 +7207,8 @@ export const GetBigDataPool: API.OperationMethod<
   GetBigDataPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<GetBigDataPoolRequest>,
-  output: __S(55, __c3, 7) as any as S.Schema<GetBigDataPoolResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<GetBigDataPoolRequest>,
+  output: __S(103, __c3, 7) as any as S.Schema<GetBigDataPoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6685,8 +7224,8 @@ export const GetDataMaskingPolicy: API.OperationMethod<
   GetDataMaskingPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<GetDataMaskingPolicyRequest>,
-  output: __S(3041, __c190, 1) as any as S.Schema<GetDataMaskingPolicyResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<GetDataMaskingPolicyRequest>,
+  output: __S(6081, __c190, 1) as any as S.Schema<GetDataMaskingPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6702,8 +7241,8 @@ export const GetDataMaskingRule: API.OperationMethod<
   GetDataMaskingRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<GetDataMaskingRuleRequest>,
-  output: __S(3377, __c211, 1) as any as S.Schema<GetDataMaskingRuleResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<GetDataMaskingRuleRequest>,
+  output: __S(6753, __c211, 1) as any as S.Schema<GetDataMaskingRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6719,8 +7258,8 @@ export const GetExtendedSqlPoolBlobAuditingPolicy: API.OperationMethod<
   GetExtendedSqlPoolBlobAuditingPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<GetExtendedSqlPoolBlobAuditingPolicyRequest>,
-  output: __S(1953, __c122, 1) as any as S.Schema<GetExtendedSqlPoolBlobAuditingPolicyResponse>,
+  input: __S(4064, __c127, 0) as any as S.Schema<GetExtendedSqlPoolBlobAuditingPolicyRequest>,
+  output: __S(3905, __c122, 1) as any as S.Schema<GetExtendedSqlPoolBlobAuditingPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6736,8 +7275,8 @@ export const GetIntegrationRuntime: API.OperationMethod<
   GetIntegrationRuntimeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<GetIntegrationRuntimeRequest>,
-  output: __S(1889, __c118, 1) as any as S.Schema<GetIntegrationRuntimeResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<GetIntegrationRuntimeRequest>,
+  output: __S(3803, __c118, 27) as any as S.Schema<GetIntegrationRuntimeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6753,8 +7292,8 @@ export const GetIntegrationRuntimeConnectionInfos: API.OperationMethod<
   GetIntegrationRuntimeConnectionInfosError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<GetIntegrationRuntimeConnectionInfosRequest>,
-  output: __S(2065, __c129, 1) as any as S.Schema<IntegrationRuntimeConnectionInfo>,
+  input: __S(4128, __c129, 0) as any as S.Schema<GetIntegrationRuntimeConnectionInfosRequest>,
+  output: __S(4129, __c129, 1) as any as S.Schema<IntegrationRuntimeConnectionInfo>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6770,8 +7309,8 @@ export const GetIntegrationRuntimeNode: API.OperationMethod<
   GetIntegrationRuntimeNodeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<GetIntegrationRuntimeNodeRequest>,
-  output: __S(2176, __c136, 0) as any as S.Schema<SelfHostedIntegrationRuntimeNode>,
+  input: __S(4320, __c135, 0) as any as S.Schema<GetIntegrationRuntimeNodeRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<SelfHostedIntegrationRuntimeNode>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6787,8 +7326,8 @@ export const GetIntegrationRuntimeNodeIpAddress: API.OperationMethod<
   GetIntegrationRuntimeNodeIpAddressError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<GetIntegrationRuntimeNodeIpAddressRequest>,
-  output: __S(2193, __c137, 1) as any as S.Schema<IntegrationRuntimeNodeIpAddress>,
+  input: __S(4384, __c137, 0) as any as S.Schema<GetIntegrationRuntimeNodeIpAddressRequest>,
+  output: __S(4385, __c137, 1) as any as S.Schema<IntegrationRuntimeNodeIpAddress>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6804,8 +7343,8 @@ export const GetIntegrationRuntimeStatus: API.OperationMethod<
   GetIntegrationRuntimeStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<GetIntegrationRuntimeStatusRequest>,
-  output: __S(2225, __c139, 1) as any as S.Schema<IntegrationRuntimeStatusResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<GetIntegrationRuntimeStatusRequest>,
+  output: __S(4461, __c139, 13) as any as S.Schema<IntegrationRuntimeStatusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6821,8 +7360,8 @@ export const GetIpFirewallRule: API.OperationMethod<
   GetIpFirewallRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<GetIpFirewallRuleRequest>,
-  output: __S(529, __c33, 1) as any as S.Schema<GetIpFirewallRuleResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<GetIpFirewallRuleRequest>,
+  output: __S(1057, __c33, 1) as any as S.Schema<GetIpFirewallRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6838,8 +7377,8 @@ export const GetKey: API.OperationMethod<
   GetKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<GetKeyRequest>,
-  output: __S(753, __c47, 1) as any as S.Schema<GetKeyResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<GetKeyRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<GetKeyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6855,8 +7394,8 @@ export const GetLibrary: API.OperationMethod<
   GetLibraryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<GetLibraryRequest>,
-  output: __S(2288, __c143, 0) as any as S.Schema<GetLibraryResponse>,
+  input: __S(4544, __c142, 0) as any as S.Schema<GetLibraryRequest>,
+  output: __S(4576, __c143, 0) as any as S.Schema<GetLibraryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6872,8 +7411,8 @@ export const GetOperationAzureAsyncHeaderResult: API.OperationMethod<
   GetOperationAzureAsyncHeaderResultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<GetOperationAzureAsyncHeaderResultRequest>,
-  output: __S(2311, __c144, 7) as any as S.Schema<GetOperationAzureAsyncHeaderResultResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetOperationAzureAsyncHeaderResultRequest>,
+  output: __S(4615, __c144, 7) as any as S.Schema<GetOperationAzureAsyncHeaderResultResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6889,8 +7428,8 @@ export const GetOperationLocationHeaderResult: API.OperationMethod<
   GetOperationLocationHeaderResultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<GetOperationLocationHeaderResultRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<GetOperationLocationHeaderResultResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<GetOperationLocationHeaderResultRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GetOperationLocationHeaderResultResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6906,8 +7445,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   GetPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
-  output: __S(2144, __c134, 0) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
+  output: __S(4288, __c134, 0) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6924,12 +7463,12 @@ export const GetPrivateEndpointConnectionsPrivateLinkHub: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2352,
+    4704,
     __c147,
     0,
   ) as any as S.Schema<GetPrivateEndpointConnectionsPrivateLinkHubRequest>,
   output: __S(
-    2368,
+    4736,
     __c148,
     0,
   ) as any as S.Schema<GetPrivateEndpointConnectionsPrivateLinkHubResponse>,
@@ -6948,8 +7487,8 @@ export const GetPrivateLinkHub: API.OperationMethod<
   GetPrivateLinkHubError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<GetPrivateLinkHubRequest>,
-  output: __S(2451, __c153, 3) as any as S.Schema<GetPrivateLinkHubResponse>,
+  input: __S(4864, __c152, 0) as any as S.Schema<GetPrivateLinkHubRequest>,
+  output: __S(4899, __c153, 3) as any as S.Schema<GetPrivateLinkHubResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6965,8 +7504,8 @@ export const GetPrivateLinkHubPrivateLinkResource: API.OperationMethod<
   GetPrivateLinkHubPrivateLinkResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<GetPrivateLinkHubPrivateLinkResourceRequest>,
-  output: __S(2481, __c155, 1) as any as S.Schema<GetPrivateLinkHubPrivateLinkResourceResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<GetPrivateLinkHubPrivateLinkResourceRequest>,
+  output: __S(4961, __c155, 1) as any as S.Schema<GetPrivateLinkHubPrivateLinkResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6982,8 +7521,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   GetPrivateLinkResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
-  output: __S(2481, __c155, 1) as any as S.Schema<GetPrivateLinkResourceResponse>,
+  input: __S(4992, __c156, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
+  output: __S(4961, __c155, 1) as any as S.Schema<GetPrivateLinkResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6999,8 +7538,8 @@ export const GetRestorableDroppedSqlPool: API.OperationMethod<
   GetRestorableDroppedSqlPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<GetRestorableDroppedSqlPoolRequest>,
-  output: __S(2529, __c158, 1) as any as S.Schema<GetRestorableDroppedSqlPoolResponse>,
+  input: __S(5024, __c157, 0) as any as S.Schema<GetRestorableDroppedSqlPoolRequest>,
+  output: __S(5057, __c158, 1) as any as S.Schema<GetRestorableDroppedSqlPoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7016,8 +7555,8 @@ export const GetSqlPool: API.OperationMethod<
   GetSqlPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<GetSqlPoolRequest>,
-  output: __S(2402, __c150, 2) as any as S.Schema<GetSqlPoolResponse>,
+  input: __S(5088, __c159, 0) as any as S.Schema<GetSqlPoolRequest>,
+  output: __S(4802, __c150, 2) as any as S.Schema<GetSqlPoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7033,8 +7572,8 @@ export const GetSqlPoolBlobAuditingPolicy: API.OperationMethod<
   GetSqlPoolBlobAuditingPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<GetSqlPoolBlobAuditingPolicyRequest>,
-  output: __S(2577, __c161, 1) as any as S.Schema<GetSqlPoolBlobAuditingPolicyResponse>,
+  input: __S(5120, __c160, 0) as any as S.Schema<GetSqlPoolBlobAuditingPolicyRequest>,
+  output: __S(5153, __c161, 1) as any as S.Schema<GetSqlPoolBlobAuditingPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7050,8 +7589,8 @@ export const GetSqlPoolColumn: API.OperationMethod<
   GetSqlPoolColumnError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<GetSqlPoolColumnRequest>,
-  output: __S(2609, __c163, 1) as any as S.Schema<GetSqlPoolColumnResponse>,
+  input: __S(5184, __c162, 0) as any as S.Schema<GetSqlPoolColumnRequest>,
+  output: __S(5217, __c163, 1) as any as S.Schema<GetSqlPoolColumnResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7067,8 +7606,8 @@ export const GetSqlPoolDataWarehouseUserActivity: API.OperationMethod<
   GetSqlPoolDataWarehouseUserActivityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<GetSqlPoolDataWarehouseUserActivityRequest>,
-  output: __S(2626, __c164, 2) as any as S.Schema<GetSqlPoolDataWarehouseUserActivityResponse>,
+  input: __S(5248, __c164, 0) as any as S.Schema<GetSqlPoolDataWarehouseUserActivityRequest>,
+  output: __S(5250, __c164, 2) as any as S.Schema<GetSqlPoolDataWarehouseUserActivityResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7084,8 +7623,8 @@ export const GetSqlPoolGeoBackupPolicy: API.OperationMethod<
   GetSqlPoolGeoBackupPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<GetSqlPoolGeoBackupPolicyRequest>,
-  output: __S(2657, __c166, 1) as any as S.Schema<GetSqlPoolGeoBackupPolicyResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<GetSqlPoolGeoBackupPolicyRequest>,
+  output: __S(5313, __c166, 1) as any as S.Schema<GetSqlPoolGeoBackupPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7101,8 +7640,8 @@ export const GetSqlPoolMaintenanceWindowOption: API.OperationMethod<
   GetSqlPoolMaintenanceWindowOptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<GetSqlPoolMaintenanceWindowOptionRequest>,
-  output: __S(2674, __c167, 2) as any as S.Schema<GetSqlPoolMaintenanceWindowOptionResponse>,
+  input: __S(5344, __c167, 0) as any as S.Schema<GetSqlPoolMaintenanceWindowOptionRequest>,
+  output: __S(5346, __c167, 2) as any as S.Schema<GetSqlPoolMaintenanceWindowOptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7118,8 +7657,8 @@ export const GetSqlPoolMaintenanceWindows: API.OperationMethod<
   GetSqlPoolMaintenanceWindowsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2736, __c171, 0) as any as S.Schema<GetSqlPoolMaintenanceWindowsRequest>,
-  output: __S(2737, __c171, 1) as any as S.Schema<GetSqlPoolMaintenanceWindowsResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<GetSqlPoolMaintenanceWindowsRequest>,
+  output: __S(5473, __c171, 1) as any as S.Schema<GetSqlPoolMaintenanceWindowsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7136,12 +7675,12 @@ export const GetSqlPoolOperationResultLocationHeaderResult: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2768,
+    5536,
     __c173,
     0,
   ) as any as S.Schema<GetSqlPoolOperationResultLocationHeaderResultRequest>,
   output: __S(
-    2402,
+    4802,
     __c150,
     2,
   ) as any as S.Schema<GetSqlPoolOperationResultLocationHeaderResultResponse>,
@@ -7160,8 +7699,8 @@ export const GetSqlPoolReplicationLinkByName: API.OperationMethod<
   GetSqlPoolReplicationLinkByNameError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c174, 0) as any as S.Schema<GetSqlPoolReplicationLinkByNameRequest>,
-  output: __S(2801, __c175, 1) as any as S.Schema<GetSqlPoolReplicationLinkByNameResponse>,
+  input: __S(5568, __c174, 0) as any as S.Schema<GetSqlPoolReplicationLinkByNameRequest>,
+  output: __S(5601, __c175, 1) as any as S.Schema<GetSqlPoolReplicationLinkByNameResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7177,8 +7716,8 @@ export const GetSqlPoolRestorePoint: API.OperationMethod<
   GetSqlPoolRestorePointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c176, 0) as any as S.Schema<GetSqlPoolRestorePointRequest>,
-  output: __S(2721, __c170, 1) as any as S.Schema<GetSqlPoolRestorePointResponse>,
+  input: __S(5632, __c176, 0) as any as S.Schema<GetSqlPoolRestorePointRequest>,
+  output: __S(5441, __c170, 1) as any as S.Schema<GetSqlPoolRestorePointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7194,8 +7733,8 @@ export const GetSqlPoolSchema: API.OperationMethod<
   GetSqlPoolSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2832, __c177, 0) as any as S.Schema<GetSqlPoolSchemaRequest>,
-  output: __S(2848, __c178, 0) as any as S.Schema<GetSqlPoolSchemaResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<GetSqlPoolSchemaRequest>,
+  output: __S(5696, __c178, 0) as any as S.Schema<GetSqlPoolSchemaResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7211,8 +7750,8 @@ export const GetSqlPoolSecurityAlertPolicy: API.OperationMethod<
   GetSqlPoolSecurityAlertPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2864, __c179, 0) as any as S.Schema<GetSqlPoolSecurityAlertPolicyRequest>,
-  output: __S(2881, __c180, 1) as any as S.Schema<GetSqlPoolSecurityAlertPolicyResponse>,
+  input: __S(5728, __c179, 0) as any as S.Schema<GetSqlPoolSecurityAlertPolicyRequest>,
+  output: __S(5761, __c180, 1) as any as S.Schema<GetSqlPoolSecurityAlertPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7228,8 +7767,8 @@ export const GetSqlPoolSensitivityLabel: API.OperationMethod<
   GetSqlPoolSensitivityLabelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2896, __c181, 0) as any as S.Schema<GetSqlPoolSensitivityLabelRequest>,
-  output: __S(2913, __c182, 1) as any as S.Schema<GetSqlPoolSensitivityLabelResponse>,
+  input: __S(5792, __c181, 0) as any as S.Schema<GetSqlPoolSensitivityLabelRequest>,
+  output: __S(5825, __c182, 1) as any as S.Schema<GetSqlPoolSensitivityLabelResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7245,8 +7784,8 @@ export const GetSqlPoolTable: API.OperationMethod<
   GetSqlPoolTableError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2928, __c183, 0) as any as S.Schema<GetSqlPoolTableRequest>,
-  output: __S(2848, __c178, 0) as any as S.Schema<GetSqlPoolTableResponse>,
+  input: __S(5856, __c183, 0) as any as S.Schema<GetSqlPoolTableRequest>,
+  output: __S(5696, __c178, 0) as any as S.Schema<GetSqlPoolTableResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7262,8 +7801,8 @@ export const GetSqlPoolTransparentDataEncryption: API.OperationMethod<
   GetSqlPoolTransparentDataEncryptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c184, 0) as any as S.Schema<GetSqlPoolTransparentDataEncryptionRequest>,
-  output: __S(2961, __c185, 1) as any as S.Schema<GetSqlPoolTransparentDataEncryptionResponse>,
+  input: __S(5888, __c184, 0) as any as S.Schema<GetSqlPoolTransparentDataEncryptionRequest>,
+  output: __S(5921, __c185, 1) as any as S.Schema<GetSqlPoolTransparentDataEncryptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7279,8 +7818,8 @@ export const GetSqlPoolVulnerabilityAssessment: API.OperationMethod<
   GetSqlPoolVulnerabilityAssessmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c186, 0) as any as S.Schema<GetSqlPoolVulnerabilityAssessmentRequest>,
-  output: __S(2993, __c187, 1) as any as S.Schema<GetSqlPoolVulnerabilityAssessmentResponse>,
+  input: __S(5952, __c186, 0) as any as S.Schema<GetSqlPoolVulnerabilityAssessmentRequest>,
+  output: __S(5985, __c187, 1) as any as S.Schema<GetSqlPoolVulnerabilityAssessmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7297,12 +7836,12 @@ export const GetSqlPoolVulnerabilityAssessmentRuleBaseline: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3056,
+    6112,
     __c191,
     0,
   ) as any as S.Schema<GetSqlPoolVulnerabilityAssessmentRuleBaselineRequest>,
   output: __S(
-    3075,
+    6147,
     __c192,
     3,
   ) as any as S.Schema<GetSqlPoolVulnerabilityAssessmentRuleBaselineResponse>,
@@ -7321,8 +7860,8 @@ export const GetSqlPoolVulnerabilityAssessmentScan: API.OperationMethod<
   GetSqlPoolVulnerabilityAssessmentScanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3088, __c193, 0) as any as S.Schema<GetSqlPoolVulnerabilityAssessmentScanRequest>,
-  output: __S(3107, __c194, 3) as any as S.Schema<GetSqlPoolVulnerabilityAssessmentScanResponse>,
+  input: __S(6176, __c193, 0) as any as S.Schema<GetSqlPoolVulnerabilityAssessmentScanRequest>,
+  output: __S(6211, __c194, 3) as any as S.Schema<GetSqlPoolVulnerabilityAssessmentScanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7338,8 +7877,8 @@ export const GetSqlPoolWorkloadClassifier: API.OperationMethod<
   GetSqlPoolWorkloadClassifierError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3120, __c195, 0) as any as S.Schema<GetSqlPoolWorkloadClassifierRequest>,
-  output: __S(3137, __c196, 1) as any as S.Schema<GetSqlPoolWorkloadClassifierResponse>,
+  input: __S(6240, __c195, 0) as any as S.Schema<GetSqlPoolWorkloadClassifierRequest>,
+  output: __S(6273, __c196, 1) as any as S.Schema<GetSqlPoolWorkloadClassifierResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7355,8 +7894,8 @@ export const GetSqlPoolWorkloadGroup: API.OperationMethod<
   GetSqlPoolWorkloadGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3152, __c197, 0) as any as S.Schema<GetSqlPoolWorkloadGroupRequest>,
-  output: __S(3169, __c198, 1) as any as S.Schema<GetSqlPoolWorkloadGroupResponse>,
+  input: __S(6304, __c197, 0) as any as S.Schema<GetSqlPoolWorkloadGroupRequest>,
+  output: __S(6337, __c198, 1) as any as S.Schema<GetSqlPoolWorkloadGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7372,8 +7911,8 @@ export const GetWorkspace: API.OperationMethod<
   GetWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3184, __c199, 0) as any as S.Schema<GetWorkspaceRequest>,
-  output: __S(1775, __c110, 15) as any as S.Schema<GetWorkspaceResponse>,
+  input: __S(6368, __c199, 0) as any as S.Schema<GetWorkspaceRequest>,
+  output: __S(3503, __c109, 15) as any as S.Schema<GetWorkspaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7389,8 +7928,8 @@ export const GetWorkspaceAadAdmin: API.OperationMethod<
   GetWorkspaceAadAdminError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<GetWorkspaceAadAdminRequest>,
-  output: __S(3217, __c201, 1) as any as S.Schema<GetWorkspaceAadAdminResponse>,
+  input: __S(6400, __c200, 0) as any as S.Schema<GetWorkspaceAadAdminRequest>,
+  output: __S(6433, __c201, 1) as any as S.Schema<GetWorkspaceAadAdminResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7407,12 +7946,12 @@ export const GetWorkspaceManagedIdentitySqlControlSettings: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3232,
+    6464,
     __c202,
     0,
   ) as any as S.Schema<GetWorkspaceManagedIdentitySqlControlSettingsRequest>,
   output: __S(
-    3250,
+    6498,
     __c203,
     2,
   ) as any as S.Schema<GetWorkspaceManagedIdentitySqlControlSettingsResponse>,
@@ -7432,12 +7971,12 @@ export const GetWorkspaceManagedSqlServerBlobAuditingPolicy: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3264,
+    6528,
     __c204,
     0,
   ) as any as S.Schema<GetWorkspaceManagedSqlServerBlobAuditingPolicyRequest>,
   output: __S(
-    3281,
+    6561,
     __c205,
     1,
   ) as any as S.Schema<GetWorkspaceManagedSqlServerBlobAuditingPolicyResponse>,
@@ -7457,12 +7996,12 @@ export const GetWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings: API.Ope
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3296,
+    6592,
     __c206,
     0,
   ) as any as S.Schema<GetWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsRequest>,
   output: __S(
-    3313,
+    6625,
     __c207,
     1,
   ) as any as S.Schema<GetWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsResponse>,
@@ -7482,12 +8021,12 @@ export const GetWorkspaceManagedSqlServerEncryptionProtector: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3328,
+    6656,
     __c208,
     0,
   ) as any as S.Schema<GetWorkspaceManagedSqlServerEncryptionProtectorRequest>,
   output: __S(
-    3345,
+    6689,
     __c209,
     1,
   ) as any as S.Schema<GetWorkspaceManagedSqlServerEncryptionProtectorResponse>,
@@ -7507,12 +8046,12 @@ export const GetWorkspaceManagedSqlServerExtendedBlobAuditingPolicy: API.Operati
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3392,
+    6784,
     __c212,
     0,
   ) as any as S.Schema<GetWorkspaceManagedSqlServerExtendedBlobAuditingPolicyRequest>,
   output: __S(
-    3409,
+    6817,
     __c213,
     1,
   ) as any as S.Schema<GetWorkspaceManagedSqlServerExtendedBlobAuditingPolicyResponse>,
@@ -7532,12 +8071,12 @@ export const GetWorkspaceManagedSqlServerRecoverableSqlPool: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3424,
+    6848,
     __c214,
     0,
   ) as any as S.Schema<GetWorkspaceManagedSqlServerRecoverableSqlPoolRequest>,
   output: __S(
-    3441,
+    6881,
     __c215,
     1,
   ) as any as S.Schema<GetWorkspaceManagedSqlServerRecoverableSqlPoolResponse>,
@@ -7557,12 +8096,12 @@ export const GetWorkspaceManagedSqlServerSecurityAlertPolicy: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3456,
+    6912,
     __c216,
     0,
   ) as any as S.Schema<GetWorkspaceManagedSqlServerSecurityAlertPolicyRequest>,
   output: __S(
-    2881,
+    5761,
     __c180,
     1,
   ) as any as S.Schema<GetWorkspaceManagedSqlServerSecurityAlertPolicyResponse>,
@@ -7582,12 +8121,12 @@ export const GetWorkspaceManagedSqlServerVulnerabilityAssessment: API.OperationM
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3472,
+    6944,
     __c217,
     0,
   ) as any as S.Schema<GetWorkspaceManagedSqlServerVulnerabilityAssessmentRequest>,
   output: __S(
-    3489,
+    6977,
     __c218,
     1,
   ) as any as S.Schema<GetWorkspaceManagedSqlServerVulnerabilityAssessmentResponse>,
@@ -7606,8 +8145,8 @@ export const GetWorkspaceSqlAadAdmin: API.OperationMethod<
   GetWorkspaceSqlAadAdminError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3504, __c219, 0) as any as S.Schema<GetWorkspaceSqlAadAdminRequest>,
-  output: __S(3217, __c201, 1) as any as S.Schema<GetWorkspaceSqlAadAdminResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<GetWorkspaceSqlAadAdminRequest>,
+  output: __S(6433, __c201, 1) as any as S.Schema<GetWorkspaceSqlAadAdminResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7623,8 +8162,8 @@ export const IntegrationRuntimesUpgrade: API.OperationMethod<
   IntegrationRuntimesUpgradeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c220, 0) as any as S.Schema<IntegrationRuntimesUpgradeRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<IntegrationRuntimesUpgradeResponse>,
+  input: __S(7040, __c220, 0) as any as S.Schema<IntegrationRuntimesUpgradeRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<IntegrationRuntimesUpgradeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7640,8 +8179,8 @@ export const IpFirewallRulesCreateOrUpdate: API.OperationMethod<
   IpFirewallRulesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3536, __c221, 0) as any as S.Schema<IpFirewallRulesCreateOrUpdateRequest>,
-  output: __S(529, __c33, 1) as any as S.Schema<IpFirewallRulesCreateOrUpdateResponse>,
+  input: __S(7072, __c221, 0) as any as S.Schema<IpFirewallRulesCreateOrUpdateRequest>,
+  output: __S(1057, __c33, 1) as any as S.Schema<IpFirewallRulesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7657,8 +8196,8 @@ export const KeysCreateOrUpdate: API.OperationMethod<
   KeysCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3568, __c223, 0) as any as S.Schema<KeysCreateOrUpdateRequest>,
-  output: __S(753, __c47, 1) as any as S.Schema<KeysCreateOrUpdateResponse>,
+  input: __S(7136, __c223, 0) as any as S.Schema<KeysCreateOrUpdateRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<KeysCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7674,8 +8213,8 @@ export const ListAzureADOnlyAuthentications: API.OperationMethod<
   ListAzureADOnlyAuthenticationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c224, 0) as any as S.Schema<ListAzureADOnlyAuthenticationsRequest>,
-  output: __S(3586, __c224, 2) as any as S.Schema<AzureADOnlyAuthenticationListResult>,
+  input: __S(7168, __c224, 0) as any as S.Schema<ListAzureADOnlyAuthenticationsRequest>,
+  output: __S(7170, __c224, 2) as any as S.Schema<AzureADOnlyAuthenticationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7691,8 +8230,8 @@ export const ListBigDataPoolByWorkspace: API.OperationMethod<
   ListBigDataPoolByWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3600, __c225, 0) as any as S.Schema<ListBigDataPoolByWorkspaceRequest>,
-  output: __S(3602, __c225, 2) as any as S.Schema<BigDataPoolResourceInfoListResult>,
+  input: __S(7200, __c225, 0) as any as S.Schema<ListBigDataPoolByWorkspaceRequest>,
+  output: __S(7202, __c225, 2) as any as S.Schema<BigDataPoolResourceInfoListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7708,8 +8247,8 @@ export const ListDataMaskingRuleBySqlPool: API.OperationMethod<
   ListDataMaskingRuleBySqlPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3632, __c227, 0) as any as S.Schema<ListDataMaskingRuleBySqlPoolRequest>,
-  output: __S(3634, __c227, 2) as any as S.Schema<DataMaskingRuleListResult>,
+  input: __S(7264, __c227, 0) as any as S.Schema<ListDataMaskingRuleBySqlPoolRequest>,
+  output: __S(7266, __c227, 2) as any as S.Schema<DataMaskingRuleListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7726,11 +8265,11 @@ export const ListExtendedSqlPoolBlobAuditingPolicyBySqlPool: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3648,
+    7296,
     __c228,
     0,
   ) as any as S.Schema<ListExtendedSqlPoolBlobAuditingPolicyBySqlPoolRequest>,
-  output: __S(3650, __c228, 2) as any as S.Schema<ExtendedSqlPoolBlobAuditingPolicyListResult>,
+  output: __S(7298, __c228, 2) as any as S.Schema<ExtendedSqlPoolBlobAuditingPolicyListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7746,8 +8285,8 @@ export const ListIntegrationRuntimeAuthKeys: API.OperationMethod<
   ListIntegrationRuntimeAuthKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3664, __c229, 0) as any as S.Schema<ListIntegrationRuntimeAuthKeysRequest>,
-  output: __S(3680, __c230, 0) as any as S.Schema<IntegrationRuntimeAuthKeys>,
+  input: __S(7328, __c229, 0) as any as S.Schema<ListIntegrationRuntimeAuthKeysRequest>,
+  output: __S(7360, __c230, 0) as any as S.Schema<IntegrationRuntimeAuthKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7763,8 +8302,8 @@ export const ListIntegrationRuntimeByWorkspace: API.OperationMethod<
   ListIntegrationRuntimeByWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3696, __c231, 0) as any as S.Schema<ListIntegrationRuntimeByWorkspaceRequest>,
-  output: __S(3698, __c231, 2) as any as S.Schema<IntegrationRuntimeListResponse>,
+  input: __S(7392, __c231, 0) as any as S.Schema<ListIntegrationRuntimeByWorkspaceRequest>,
+  output: __S(7394, __c231, 2) as any as S.Schema<IntegrationRuntimeListResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7780,8 +8319,8 @@ export const ListIntegrationRuntimeMonitoringData: API.OperationMethod<
   ListIntegrationRuntimeMonitoringDataError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c232, 0) as any as S.Schema<ListIntegrationRuntimeMonitoringDataRequest>,
-  output: __S(3715, __c232, 3) as any as S.Schema<IntegrationRuntimeMonitoringData>,
+  input: __S(7424, __c232, 0) as any as S.Schema<ListIntegrationRuntimeMonitoringDataRequest>,
+  output: __S(7427, __c232, 3) as any as S.Schema<IntegrationRuntimeMonitoringData>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7797,8 +8336,8 @@ export const ListIntegrationRuntimeObjectMetadata: API.OperationMethod<
   ListIntegrationRuntimeObjectMetadataError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3728, __c233, 0) as any as S.Schema<ListIntegrationRuntimeObjectMetadataRequest>,
-  output: __S(3731, __c233, 3) as any as S.Schema<SsisObjectMetadataListResponse>,
+  input: __S(7456, __c233, 0) as any as S.Schema<ListIntegrationRuntimeObjectMetadataRequest>,
+  output: __S(7469, __c233, 13) as any as S.Schema<SsisObjectMetadataListResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7815,12 +8354,12 @@ export const ListIntegrationRuntimeOutboundNetworkDependenciesEndpoints: API.Ope
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3744,
+    7488,
     __c234,
     0,
   ) as any as S.Schema<ListIntegrationRuntimeOutboundNetworkDependenciesEndpointsRequest>,
   output: __S(
-    3751,
+    7495,
     __c234,
     7,
   ) as any as S.Schema<IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse>,
@@ -7839,8 +8378,8 @@ export const ListIpFirewallRuleByWorkspace: API.OperationMethod<
   ListIpFirewallRuleByWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3760, __c235, 0) as any as S.Schema<ListIpFirewallRuleByWorkspaceRequest>,
-  output: __S(3762, __c235, 2) as any as S.Schema<IpFirewallRuleInfoListResult>,
+  input: __S(7520, __c235, 0) as any as S.Schema<ListIpFirewallRuleByWorkspaceRequest>,
+  output: __S(7522, __c235, 2) as any as S.Schema<IpFirewallRuleInfoListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7856,8 +8395,8 @@ export const ListKeyByWorkspace: API.OperationMethod<
   ListKeyByWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c236, 0) as any as S.Schema<ListKeyByWorkspaceRequest>,
-  output: __S(3778, __c236, 2) as any as S.Schema<KeyInfoListResult>,
+  input: __S(7552, __c236, 0) as any as S.Schema<ListKeyByWorkspaceRequest>,
+  output: __S(7554, __c236, 2) as any as S.Schema<KeyInfoListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7873,8 +8412,8 @@ export const ListLibraryByWorkspace: API.OperationMethod<
   ListLibraryByWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3792, __c237, 0) as any as S.Schema<ListLibraryByWorkspaceRequest>,
-  output: __S(3794, __c237, 2) as any as S.Schema<LibraryListResponse>,
+  input: __S(7584, __c237, 0) as any as S.Schema<ListLibraryByWorkspaceRequest>,
+  output: __S(7586, __c237, 2) as any as S.Schema<LibraryListResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7890,8 +8429,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(108, __c6, 12) as any as S.Schema<ListOperationsResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(204, __c6, 12) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7907,8 +8446,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   ListPrivateEndpointConnectionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<ListPrivateEndpointConnectionsResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<ListPrivateEndpointConnectionsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7924,9 +8463,9 @@ export const ListPrivateEndpointConnectionsPrivateLinkHub: API.OperationMethod<
   ListPrivateEndpointConnectionsPrivateLinkHubError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<ListPrivateEndpointConnectionsPrivateLinkHubRequest>,
+  input: __S(256, __c8, 0) as any as S.Schema<ListPrivateEndpointConnectionsPrivateLinkHubRequest>,
   output: __S(
-    130,
+    258,
     __c8,
     2,
   ) as any as S.Schema<ListPrivateEndpointConnectionsPrivateLinkHubResponse>,
@@ -7945,8 +8484,8 @@ export const ListPrivateLinkHubByResourceGroup: API.OperationMethod<
   ListPrivateLinkHubByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<ListPrivateLinkHubByResourceGroupRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<PrivateLinkHubInfoListResult>,
+  input: __S(288, __c9, 0) as any as S.Schema<ListPrivateLinkHubByResourceGroupRequest>,
+  output: __S(321, __c10, 1) as any as S.Schema<PrivateLinkHubInfoListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7962,8 +8501,8 @@ export const ListPrivateLinkHubPrivateLinkResources: API.OperationMethod<
   ListPrivateLinkHubPrivateLinkResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<ListPrivateLinkHubPrivateLinkResourcesRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<PrivateLinkResourceListResult>,
+  input: __S(352, __c11, 0) as any as S.Schema<ListPrivateLinkHubPrivateLinkResourcesRequest>,
+  output: __S(385, __c12, 1) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7979,8 +8518,8 @@ export const ListPrivateLinkHubs: API.OperationMethod<
   ListPrivateLinkHubsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<ListPrivateLinkHubsRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<PrivateLinkHubInfoListResult>,
+  input: __S(416, __c13, 0) as any as S.Schema<ListPrivateLinkHubsRequest>,
+  output: __S(321, __c10, 1) as any as S.Schema<PrivateLinkHubInfoListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7996,8 +8535,8 @@ export const ListPrivateLinkResources: API.OperationMethod<
   ListPrivateLinkResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<PrivateLinkResourceListResult>,
+  input: __S(448, __c14, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
+  output: __S(385, __c12, 1) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8013,8 +8552,8 @@ export const ListRestorableDroppedSqlPoolByWorkspace: API.OperationMethod<
   ListRestorableDroppedSqlPoolByWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ListRestorableDroppedSqlPoolByWorkspaceRequest>,
-  output: __S(242, __c15, 2) as any as S.Schema<RestorableDroppedSqlPoolListResult>,
+  input: __S(480, __c15, 0) as any as S.Schema<ListRestorableDroppedSqlPoolByWorkspaceRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<RestorableDroppedSqlPoolListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8030,8 +8569,8 @@ export const ListSqlPoolBlobAuditingPolicyBySqlPool: API.OperationMethod<
   ListSqlPoolBlobAuditingPolicyBySqlPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<ListSqlPoolBlobAuditingPolicyBySqlPoolRequest>,
-  output: __S(258, __c16, 2) as any as S.Schema<SqlPoolBlobAuditingPolicyListResult>,
+  input: __S(512, __c16, 0) as any as S.Schema<ListSqlPoolBlobAuditingPolicyBySqlPoolRequest>,
+  output: __S(514, __c16, 2) as any as S.Schema<SqlPoolBlobAuditingPolicyListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8047,8 +8586,8 @@ export const ListSqlPoolByWorkspace: API.OperationMethod<
   ListSqlPoolByWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<ListSqlPoolByWorkspaceRequest>,
-  output: __S(274, __c17, 2) as any as S.Schema<SqlPoolInfoListResult>,
+  input: __S(544, __c17, 0) as any as S.Schema<ListSqlPoolByWorkspaceRequest>,
+  output: __S(546, __c17, 2) as any as S.Schema<SqlPoolInfoListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8064,8 +8603,8 @@ export const ListSqlPoolGeoBackupPolicies: API.OperationMethod<
   ListSqlPoolGeoBackupPoliciesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<ListSqlPoolGeoBackupPoliciesRequest>,
-  output: __S(306, __c19, 2) as any as S.Schema<GeoBackupPolicyListResult>,
+  input: __S(608, __c19, 0) as any as S.Schema<ListSqlPoolGeoBackupPoliciesRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<GeoBackupPolicyListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8081,9 +8620,9 @@ export const ListSqlPoolOperations: API.OperationMethod<
   ListSqlPoolOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ListSqlPoolOperationsRequest>,
+  input: __S(640, __c20, 0) as any as S.Schema<ListSqlPoolOperationsRequest>,
   output: __S(
-    324,
+    644,
     __c20,
     4,
   ) as any as S.Schema<SqlPoolBlobAuditingPolicySqlPoolOperationListResult>,
@@ -8102,8 +8641,8 @@ export const ListSqlPoolReplicationLinks: API.OperationMethod<
   ListSqlPoolReplicationLinksError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<ListSqlPoolReplicationLinksRequest>,
-  output: __S(338, __c21, 2) as any as S.Schema<ReplicationLinkListResult>,
+  input: __S(672, __c21, 0) as any as S.Schema<ListSqlPoolReplicationLinksRequest>,
+  output: __S(674, __c21, 2) as any as S.Schema<ReplicationLinkListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8119,8 +8658,8 @@ export const ListSqlPoolRestorePoints: API.OperationMethod<
   ListSqlPoolRestorePointsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<ListSqlPoolRestorePointsRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<RestorePointListResult>,
+  input: __S(704, __c22, 0) as any as S.Schema<ListSqlPoolRestorePointsRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<RestorePointListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8136,8 +8675,8 @@ export const ListSqlPoolSchemas: API.OperationMethod<
   ListSqlPoolSchemasError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<ListSqlPoolSchemasRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<SqlPoolSchemaListResult>,
+  input: __S(736, __c23, 0) as any as S.Schema<ListSqlPoolSchemasRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<SqlPoolSchemaListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8153,8 +8692,8 @@ export const ListSqlPoolSecurityAlertPolicies2: API.OperationMethod<
   ListSqlPoolSecurityAlertPolicies2Error,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<ListSqlPoolSecurityAlertPoliciesRequest>,
-  output: __S(417, __c26, 1) as any as S.Schema<ListSqlPoolSecurityAlertPolicies>,
+  input: __S(800, __c25, 0) as any as S.Schema<ListSqlPoolSecurityAlertPoliciesRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<ListSqlPoolSecurityAlertPolicies>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8170,8 +8709,8 @@ export const ListSqlPoolSensitivityLabelCurrent: API.OperationMethod<
   ListSqlPoolSensitivityLabelCurrentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<ListSqlPoolSensitivityLabelCurrentRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<SensitivityLabelListResult>,
+  input: __S(864, __c27, 0) as any as S.Schema<ListSqlPoolSensitivityLabelCurrentRequest>,
+  output: __S(897, __c28, 1) as any as S.Schema<SensitivityLabelListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8187,8 +8726,8 @@ export const ListSqlPoolSensitivityLabelRecommended: API.OperationMethod<
   ListSqlPoolSensitivityLabelRecommendedError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<ListSqlPoolSensitivityLabelRecommendedRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<SensitivityLabelListResult>,
+  input: __S(928, __c29, 0) as any as S.Schema<ListSqlPoolSensitivityLabelRecommendedRequest>,
+  output: __S(897, __c28, 1) as any as S.Schema<SensitivityLabelListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8204,8 +8743,8 @@ export const ListSqlPoolTableBySchema: API.OperationMethod<
   ListSqlPoolTableBySchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<ListSqlPoolTableBySchemaRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<SqlPoolTableListResult>,
+  input: __S(960, __c30, 0) as any as S.Schema<ListSqlPoolTableBySchemaRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<SqlPoolTableListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8221,8 +8760,8 @@ export const ListSqlPoolTableColumnByTableName: API.OperationMethod<
   ListSqlPoolTableColumnByTableNameError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<ListSqlPoolTableColumnByTableNameRequest>,
-  output: __S(498, __c31, 2) as any as S.Schema<SqlPoolColumnListResult>,
+  input: __S(992, __c31, 0) as any as S.Schema<ListSqlPoolTableColumnByTableNameRequest>,
+  output: __S(994, __c31, 2) as any as S.Schema<SqlPoolColumnListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8238,8 +8777,8 @@ export const ListSqlPoolTransparentDataEncryptions: API.OperationMethod<
   ListSqlPoolTransparentDataEncryptionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<ListSqlPoolTransparentDataEncryptionsRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<TransparentDataEncryptionListResult>,
+  input: __S(1088, __c34, 0) as any as S.Schema<ListSqlPoolTransparentDataEncryptionsRequest>,
+  output: __S(1090, __c34, 2) as any as S.Schema<TransparentDataEncryptionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8255,8 +8794,8 @@ export const ListSqlPoolUsages: API.OperationMethod<
   ListSqlPoolUsagesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<ListSqlPoolUsagesRequest>,
-  output: __S(578, __c36, 2) as any as S.Schema<SqlPoolUsageListResult>,
+  input: __S(1120, __c35, 0) as any as S.Schema<ListSqlPoolUsagesRequest>,
+  output: __S(1154, __c36, 2) as any as S.Schema<SqlPoolUsageListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8272,8 +8811,8 @@ export const ListSqlPoolVulnerabilityAssessments: API.OperationMethod<
   ListSqlPoolVulnerabilityAssessmentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<ListSqlPoolVulnerabilityAssessmentsRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<SqlPoolVulnerabilityAssessmentListResult>,
+  input: __S(1184, __c37, 0) as any as S.Schema<ListSqlPoolVulnerabilityAssessmentsRequest>,
+  output: __S(1186, __c37, 2) as any as S.Schema<SqlPoolVulnerabilityAssessmentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8289,8 +8828,8 @@ export const ListSqlPoolVulnerabilityAssessmentScans: API.OperationMethod<
   ListSqlPoolVulnerabilityAssessmentScansError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<ListSqlPoolVulnerabilityAssessmentScansRequest>,
-  output: __S(610, __c38, 2) as any as S.Schema<VulnerabilityAssessmentScanRecordListResult>,
+  input: __S(1216, __c38, 0) as any as S.Schema<ListSqlPoolVulnerabilityAssessmentScansRequest>,
+  output: __S(1218, __c38, 2) as any as S.Schema<VulnerabilityAssessmentScanRecordListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8306,8 +8845,8 @@ export const ListSqlPoolWorkloadClassifier: API.OperationMethod<
   ListSqlPoolWorkloadClassifierError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<ListSqlPoolWorkloadClassifierRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<WorkloadClassifierListResult>,
+  input: __S(1248, __c39, 0) as any as S.Schema<ListSqlPoolWorkloadClassifierRequest>,
+  output: __S(1250, __c39, 2) as any as S.Schema<WorkloadClassifierListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8323,8 +8862,8 @@ export const ListSqlPoolWorkloadGroup: API.OperationMethod<
   ListSqlPoolWorkloadGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<ListSqlPoolWorkloadGroupRequest>,
-  output: __S(642, __c40, 2) as any as S.Schema<WorkloadGroupListResult>,
+  input: __S(1280, __c40, 0) as any as S.Schema<ListSqlPoolWorkloadGroupRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<WorkloadGroupListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8340,8 +8879,8 @@ export const ListWorkspaceByResourceGroup: API.OperationMethod<
   ListWorkspaceByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<ListWorkspaceByResourceGroupRequest>,
-  output: __S(673, __c42, 1) as any as S.Schema<WorkspaceInfoListResult>,
+  input: __S(1312, __c41, 0) as any as S.Schema<ListWorkspaceByResourceGroupRequest>,
+  output: __S(1345, __c42, 1) as any as S.Schema<WorkspaceInfoListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8358,11 +8897,11 @@ export const ListWorkspaceManagedSqlServerBlobAuditingPolicyByWorkspace: API.Ope
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    688,
+    1376,
     __c43,
     0,
   ) as any as S.Schema<ListWorkspaceManagedSqlServerBlobAuditingPolicyByWorkspaceRequest>,
-  output: __S(690, __c43, 2) as any as S.Schema<ServerBlobAuditingPolicyListResult>,
+  output: __S(1378, __c43, 2) as any as S.Schema<ServerBlobAuditingPolicyListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8379,11 +8918,11 @@ export const ListWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings: API.Op
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    704,
+    1408,
     __c44,
     0,
   ) as any as S.Schema<ListWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsRequest>,
-  output: __S(706, __c44, 2) as any as S.Schema<DedicatedSQLminimalTlsSettingsListResult>,
+  output: __S(1410, __c44, 2) as any as S.Schema<DedicatedSQLminimalTlsSettingsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8400,11 +8939,11 @@ export const ListWorkspaceManagedSqlServerEncryptionProtector: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    720,
+    1440,
     __c45,
     0,
   ) as any as S.Schema<ListWorkspaceManagedSqlServerEncryptionProtectorRequest>,
-  output: __S(722, __c45, 2) as any as S.Schema<EncryptionProtectorListResult>,
+  output: __S(1442, __c45, 2) as any as S.Schema<EncryptionProtectorListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8421,11 +8960,11 @@ export const ListWorkspaceManagedSqlServerExtendedBlobAuditingPolicyByWorkspace:
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    768,
+    1536,
     __c48,
     0,
   ) as any as S.Schema<ListWorkspaceManagedSqlServerExtendedBlobAuditingPolicyByWorkspaceRequest>,
-  output: __S(770, __c48, 2) as any as S.Schema<ExtendedServerBlobAuditingPolicyListResult>,
+  output: __S(1538, __c48, 2) as any as S.Schema<ExtendedServerBlobAuditingPolicyListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8442,11 +8981,11 @@ export const ListWorkspaceManagedSqlServerRecoverableSqlPools: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    784,
+    1568,
     __c49,
     0,
   ) as any as S.Schema<ListWorkspaceManagedSqlServerRecoverableSqlPoolsRequest>,
-  output: __S(786, __c49, 2) as any as S.Schema<RecoverableSqlPoolListResult>,
+  output: __S(1570, __c49, 2) as any as S.Schema<RecoverableSqlPoolListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8463,11 +9002,11 @@ export const ListWorkspaceManagedSqlServerSecurityAlertPolicy: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    800,
+    1600,
     __c50,
     0,
   ) as any as S.Schema<ListWorkspaceManagedSqlServerSecurityAlertPolicyRequest>,
-  output: __S(417, __c26, 1) as any as S.Schema<ServerSecurityAlertPolicyListResult>,
+  output: __S(833, __c26, 1) as any as S.Schema<ServerSecurityAlertPolicyListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8483,8 +9022,8 @@ export const ListWorkspaceManagedSqlServerUsages: API.OperationMethod<
   ListWorkspaceManagedSqlServerUsagesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<ListWorkspaceManagedSqlServerUsagesRequest>,
-  output: __S(578, __c36, 2) as any as S.Schema<ServerUsageListResult>,
+  input: __S(1632, __c51, 0) as any as S.Schema<ListWorkspaceManagedSqlServerUsagesRequest>,
+  output: __S(1154, __c36, 2) as any as S.Schema<ServerUsageListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8501,11 +9040,11 @@ export const ListWorkspaceManagedSqlServerVulnerabilityAssessments: API.Operatio
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    832,
+    1664,
     __c52,
     0,
   ) as any as S.Schema<ListWorkspaceManagedSqlServerVulnerabilityAssessmentsRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<ServerVulnerabilityAssessmentListResult>,
+  output: __S(1666, __c52, 2) as any as S.Schema<ServerVulnerabilityAssessmentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8521,8 +9060,8 @@ export const ListWorkspaces: API.OperationMethod<
   ListWorkspacesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<ListWorkspacesRequest>,
-  output: __S(673, __c42, 1) as any as S.Schema<WorkspaceInfoListResult>,
+  input: __S(1696, __c53, 0) as any as S.Schema<ListWorkspacesRequest>,
+  output: __S(1345, __c42, 1) as any as S.Schema<WorkspaceInfoListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8538,8 +9077,8 @@ export const PauseSqlPool: API.OperationMethod<
   PauseSqlPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<PauseSqlPoolRequest>,
-  output: __S(2402, __c150, 2) as any as S.Schema<PauseSqlPoolResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<PauseSqlPoolRequest>,
+  output: __S(4802, __c150, 2) as any as S.Schema<PauseSqlPoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8555,8 +9094,8 @@ export const PrivateLinkHubsCreateOrUpdate: API.OperationMethod<
   PrivateLinkHubsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(881, __c55, 1) as any as S.Schema<PrivateLinkHubsCreateOrUpdateRequest>,
-  output: __S(2451, __c153, 3) as any as S.Schema<PrivateLinkHubsCreateOrUpdateResponse>,
+  input: __S(1761, __c55, 1) as any as S.Schema<PrivateLinkHubsCreateOrUpdateRequest>,
+  output: __S(4899, __c153, 3) as any as S.Schema<PrivateLinkHubsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8572,8 +9111,8 @@ export const RefreshIntegrationRuntimeObjectMetadata: API.OperationMethod<
   RefreshIntegrationRuntimeObjectMetadataError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<RefreshIntegrationRuntimeObjectMetadataRequest>,
-  output: __S(897, __c56, 1) as any as S.Schema<SsisObjectMetadataStatusResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<RefreshIntegrationRuntimeObjectMetadataRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<SsisObjectMetadataStatusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8589,8 +9128,8 @@ export const RegenerateIntegrationRuntimeAuthKey: API.OperationMethod<
   RegenerateIntegrationRuntimeAuthKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<RegenerateIntegrationRuntimeAuthKeyRequest>,
-  output: __S(3680, __c230, 0) as any as S.Schema<IntegrationRuntimeAuthKeys>,
+  input: __S(1824, __c57, 0) as any as S.Schema<RegenerateIntegrationRuntimeAuthKeyRequest>,
+  output: __S(7360, __c230, 0) as any as S.Schema<IntegrationRuntimeAuthKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8606,8 +9145,8 @@ export const ReplaceIpFirewallRuleAll: API.OperationMethod<
   ReplaceIpFirewallRuleAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(945, __c59, 1) as any as S.Schema<ReplaceIpFirewallRuleAllRequest>,
-  output: __S(946, __c59, 2) as any as S.Schema<ReplaceAllFirewallRulesOperationResponse>,
+  input: __S(1889, __c59, 1) as any as S.Schema<ReplaceIpFirewallRuleAllRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<ReplaceAllFirewallRulesOperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8623,8 +9162,8 @@ export const ResumeSqlPool: API.OperationMethod<
   ResumeSqlPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<ResumeSqlPoolRequest>,
-  output: __S(2402, __c150, 2) as any as S.Schema<ResumeSqlPoolResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ResumeSqlPoolRequest>,
+  output: __S(4802, __c150, 2) as any as S.Schema<ResumeSqlPoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8640,9 +9179,9 @@ export const SqlPoolBlobAuditingPoliciesCreateOrUpdate: API.OperationMethod<
   SqlPoolBlobAuditingPoliciesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<SqlPoolBlobAuditingPoliciesCreateOrUpdateRequest>,
+  input: __S(1952, __c61, 0) as any as S.Schema<SqlPoolBlobAuditingPoliciesCreateOrUpdateRequest>,
   output: __S(
-    2577,
+    5153,
     __c161,
     1,
   ) as any as S.Schema<SqlPoolBlobAuditingPoliciesCreateOrUpdateResponse>,
@@ -8661,8 +9200,8 @@ export const SqlPoolGeoBackupPoliciesCreateOrUpdate: API.OperationMethod<
   SqlPoolGeoBackupPoliciesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(993, __c62, 1) as any as S.Schema<SqlPoolGeoBackupPoliciesCreateOrUpdateRequest>,
-  output: __S(2657, __c166, 1) as any as S.Schema<SqlPoolGeoBackupPoliciesCreateOrUpdateResponse>,
+  input: __S(1985, __c62, 1) as any as S.Schema<SqlPoolGeoBackupPoliciesCreateOrUpdateRequest>,
+  output: __S(5313, __c166, 1) as any as S.Schema<SqlPoolGeoBackupPoliciesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8678,8 +9217,8 @@ export const SqlPoolMaintenanceWindowsCreateOrUpdate: API.OperationMethod<
   SqlPoolMaintenanceWindowsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<SqlPoolMaintenanceWindowsCreateOrUpdateRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<SqlPoolMaintenanceWindowsCreateOrUpdateResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<SqlPoolMaintenanceWindowsCreateOrUpdateRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<SqlPoolMaintenanceWindowsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8695,9 +9234,9 @@ export const SqlPoolSecurityAlertPoliciesCreateOrUpdate: API.OperationMethod<
   SqlPoolSecurityAlertPoliciesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<SqlPoolSecurityAlertPoliciesCreateOrUpdateRequest>,
+  input: __S(2048, __c64, 0) as any as S.Schema<SqlPoolSecurityAlertPoliciesCreateOrUpdateRequest>,
   output: __S(
-    2881,
+    5761,
     __c180,
     1,
   ) as any as S.Schema<SqlPoolSecurityAlertPoliciesCreateOrUpdateResponse>,
@@ -8716,8 +9255,8 @@ export const SqlPoolSensitivityLabelsCreateOrUpdate: API.OperationMethod<
   SqlPoolSensitivityLabelsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<SqlPoolSensitivityLabelsCreateOrUpdateRequest>,
-  output: __S(2913, __c182, 1) as any as S.Schema<SqlPoolSensitivityLabelsCreateOrUpdateResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<SqlPoolSensitivityLabelsCreateOrUpdateRequest>,
+  output: __S(5825, __c182, 1) as any as S.Schema<SqlPoolSensitivityLabelsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8734,12 +9273,12 @@ export const SqlPoolTransparentDataEncryptionsCreateOrUpdate: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1088,
+    2176,
     __c68,
     0,
   ) as any as S.Schema<SqlPoolTransparentDataEncryptionsCreateOrUpdateRequest>,
   output: __S(
-    2961,
+    5921,
     __c185,
     1,
   ) as any as S.Schema<SqlPoolTransparentDataEncryptionsCreateOrUpdateResponse>,
@@ -8759,12 +9298,12 @@ export const SqlPoolVulnerabilityAssessmentRuleBaselinesCreateOrUpdate: API.Oper
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1104,
+    2208,
     __c69,
     0,
   ) as any as S.Schema<SqlPoolVulnerabilityAssessmentRuleBaselinesCreateOrUpdateRequest>,
   output: __S(
-    3075,
+    6147,
     __c192,
     3,
   ) as any as S.Schema<SqlPoolVulnerabilityAssessmentRuleBaselinesCreateOrUpdateResponse>,
@@ -8784,12 +9323,12 @@ export const SqlPoolVulnerabilityAssessmentScansInitiateScan: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1120,
+    2240,
     __c70,
     0,
   ) as any as S.Schema<SqlPoolVulnerabilityAssessmentScansInitiateScanRequest>,
   output: __S(
-    2096,
+    4192,
     __c131,
     0,
   ) as any as S.Schema<SqlPoolVulnerabilityAssessmentScansInitiateScanResponse>,
@@ -8809,12 +9348,12 @@ export const SqlPoolVulnerabilityAssessmentsCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1152,
+    2304,
     __c72,
     0,
   ) as any as S.Schema<SqlPoolVulnerabilityAssessmentsCreateOrUpdateRequest>,
   output: __S(
-    2993,
+    5985,
     __c187,
     1,
   ) as any as S.Schema<SqlPoolVulnerabilityAssessmentsCreateOrUpdateResponse>,
@@ -8833,8 +9372,8 @@ export const SqlPoolWorkloadClassifierCreateOrUpdate: API.OperationMethod<
   SqlPoolWorkloadClassifierCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<SqlPoolWorkloadClassifierCreateOrUpdateRequest>,
-  output: __S(3137, __c196, 1) as any as S.Schema<SqlPoolWorkloadClassifierCreateOrUpdateResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<SqlPoolWorkloadClassifierCreateOrUpdateRequest>,
+  output: __S(6273, __c196, 1) as any as S.Schema<SqlPoolWorkloadClassifierCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8850,8 +9389,8 @@ export const SqlPoolWorkloadGroupCreateOrUpdate: API.OperationMethod<
   SqlPoolWorkloadGroupCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<SqlPoolWorkloadGroupCreateOrUpdateRequest>,
-  output: __S(3169, __c198, 1) as any as S.Schema<SqlPoolWorkloadGroupCreateOrUpdateResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<SqlPoolWorkloadGroupCreateOrUpdateRequest>,
+  output: __S(6337, __c198, 1) as any as S.Schema<SqlPoolWorkloadGroupCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8867,8 +9406,8 @@ export const StartIntegrationRuntime: API.OperationMethod<
   StartIntegrationRuntimeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<StartIntegrationRuntimeRequest>,
-  output: __S(2225, __c139, 1) as any as S.Schema<IntegrationRuntimeStatusResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<StartIntegrationRuntimeRequest>,
+  output: __S(4461, __c139, 13) as any as S.Schema<IntegrationRuntimeStatusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8884,8 +9423,8 @@ export const StopIntegrationRuntime: API.OperationMethod<
   StopIntegrationRuntimeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<StopIntegrationRuntimeRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<StopIntegrationRuntimeResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<StopIntegrationRuntimeRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<StopIntegrationRuntimeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8901,8 +9440,8 @@ export const SyncIntegrationRuntimeCredentials: API.OperationMethod<
   SyncIntegrationRuntimeCredentialsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<SyncIntegrationRuntimeCredentialsRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<SyncIntegrationRuntimeCredentialsResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<SyncIntegrationRuntimeCredentialsRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<SyncIntegrationRuntimeCredentialsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8918,8 +9457,8 @@ export const UpdateBigDataPool: API.OperationMethod<
   UpdateBigDataPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<UpdateBigDataPoolRequest>,
-  output: __S(55, __c3, 7) as any as S.Schema<UpdateBigDataPoolResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<UpdateBigDataPoolRequest>,
+  output: __S(103, __c3, 7) as any as S.Schema<UpdateBigDataPoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8935,8 +9474,8 @@ export const UpdateIntegrationRuntime: API.OperationMethod<
   UpdateIntegrationRuntimeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<UpdateIntegrationRuntimeRequest>,
-  output: __S(1889, __c118, 1) as any as S.Schema<UpdateIntegrationRuntimeResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<UpdateIntegrationRuntimeRequest>,
+  output: __S(3803, __c118, 27) as any as S.Schema<UpdateIntegrationRuntimeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8952,8 +9491,8 @@ export const UpdateIntegrationRuntimeNode: API.OperationMethod<
   UpdateIntegrationRuntimeNodeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<UpdateIntegrationRuntimeNodeRequest>,
-  output: __S(2176, __c136, 0) as any as S.Schema<SelfHostedIntegrationRuntimeNode>,
+  input: __S(2560, __c80, 0) as any as S.Schema<UpdateIntegrationRuntimeNodeRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<SelfHostedIntegrationRuntimeNode>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8969,8 +9508,8 @@ export const UpdatePrivateLinkHub: API.OperationMethod<
   UpdatePrivateLinkHubError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<UpdatePrivateLinkHubRequest>,
-  output: __S(2451, __c153, 3) as any as S.Schema<UpdatePrivateLinkHubResponse>,
+  input: __S(2592, __c81, 0) as any as S.Schema<UpdatePrivateLinkHubRequest>,
+  output: __S(4899, __c153, 3) as any as S.Schema<UpdatePrivateLinkHubResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8986,8 +9525,8 @@ export const UpdateSqlPool: API.OperationMethod<
   UpdateSqlPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<UpdateSqlPoolRequest>,
-  output: __S(2402, __c150, 2) as any as S.Schema<UpdateSqlPoolResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<UpdateSqlPoolRequest>,
+  output: __S(4802, __c150, 2) as any as S.Schema<UpdateSqlPoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9003,8 +9542,8 @@ export const UpdateSqlPoolRecommendedSensitivityLabel: API.OperationMethod<
   UpdateSqlPoolRecommendedSensitivityLabelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1347, __c84, 3) as any as S.Schema<UpdateSqlPoolRecommendedSensitivityLabelRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<UpdateSqlPoolRecommendedSensitivityLabelResponse>,
+  input: __S(2691, __c84, 3) as any as S.Schema<UpdateSqlPoolRecommendedSensitivityLabelRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<UpdateSqlPoolRecommendedSensitivityLabelResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9020,8 +9559,8 @@ export const UpdateSqlPoolSensitivityLabel: API.OperationMethod<
   UpdateSqlPoolSensitivityLabelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1364, __c85, 4) as any as S.Schema<UpdateSqlPoolSensitivityLabelRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<UpdateSqlPoolSensitivityLabelResponse>,
+  input: __S(2724, __c85, 4) as any as S.Schema<UpdateSqlPoolSensitivityLabelRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<UpdateSqlPoolSensitivityLabelResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9037,8 +9576,8 @@ export const UpdateWorkspace: API.OperationMethod<
   UpdateWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1377, __c86, 1) as any as S.Schema<UpdateWorkspaceRequest>,
-  output: __S(1775, __c110, 15) as any as S.Schema<UpdateWorkspaceResponse>,
+  input: __S(2753, __c86, 1) as any as S.Schema<UpdateWorkspaceRequest>,
+  output: __S(3503, __c109, 15) as any as S.Schema<UpdateWorkspaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9055,12 +9594,12 @@ export const UpdateWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings: API.
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1408,
+    2816,
     __c88,
     0,
   ) as any as S.Schema<UpdateWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsRequest>,
   output: __S(
-    3313,
+    6625,
     __c207,
     1,
   ) as any as S.Schema<UpdateWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsResponse>,
@@ -9079,8 +9618,8 @@ export const WorkspaceAadAdminsCreateOrUpdate: API.OperationMethod<
   WorkspaceAadAdminsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<WorkspaceAadAdminsCreateOrUpdateRequest>,
-  output: __S(3217, __c201, 1) as any as S.Schema<WorkspaceAadAdminsCreateOrUpdateResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<WorkspaceAadAdminsCreateOrUpdateRequest>,
+  output: __S(6433, __c201, 1) as any as S.Schema<WorkspaceAadAdminsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9097,12 +9636,12 @@ export const WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdate: API.Opera
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1442,
+    2882,
     __c90,
     2,
   ) as any as S.Schema<WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateRequest>,
   output: __S(
-    3250,
+    6498,
     __c203,
     2,
   ) as any as S.Schema<WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>,
@@ -9122,12 +9661,12 @@ export const WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdate: API.Op
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1456,
+    2912,
     __c91,
     0,
   ) as any as S.Schema<WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateRequest>,
   output: __S(
-    3281,
+    6561,
     __c205,
     1,
   ) as any as S.Schema<WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateResponse>,
@@ -9147,12 +9686,12 @@ export const WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdate: API.Ope
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1473,
+    2945,
     __c92,
     1,
   ) as any as S.Schema<WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateRequest>,
   output: __S(
-    3345,
+    6689,
     __c209,
     1,
   ) as any as S.Schema<WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse>,
@@ -9172,12 +9711,12 @@ export const WorkspaceManagedSqlServerEncryptionProtectorRevalidate: API.Operati
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1488,
+    2976,
     __c93,
     0,
   ) as any as S.Schema<WorkspaceManagedSqlServerEncryptionProtectorRevalidateRequest>,
   output: __S(
-    2096,
+    4192,
     __c131,
     0,
   ) as any as S.Schema<WorkspaceManagedSqlServerEncryptionProtectorRevalidateResponse>,
@@ -9197,12 +9736,12 @@ export const WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdate
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1520,
+    3040,
     __c95,
     0,
   ) as any as S.Schema<WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateRequest>,
   output: __S(
-    3409,
+    6817,
     __c213,
     1,
   ) as any as S.Schema<WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse>,
@@ -9222,12 +9761,12 @@ export const WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdate: API.Ope
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1536,
+    3072,
     __c96,
     0,
   ) as any as S.Schema<WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateRequest>,
   output: __S(
-    2881,
+    5761,
     __c180,
     1,
   ) as any as S.Schema<WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateResponse>,
@@ -9247,12 +9786,12 @@ export const WorkspaceManagedSqlServerVulnerabilityAssessmentsCreateOrUpdate: AP
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1552,
+    3104,
     __c97,
     0,
   ) as any as S.Schema<WorkspaceManagedSqlServerVulnerabilityAssessmentsCreateOrUpdateRequest>,
   output: __S(
-    3489,
+    6977,
     __c218,
     1,
   ) as any as S.Schema<WorkspaceManagedSqlServerVulnerabilityAssessmentsCreateOrUpdateResponse>,
@@ -9271,8 +9810,8 @@ export const WorkspacesCreateOrUpdate: API.OperationMethod<
   WorkspacesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1571, __c98, 3) as any as S.Schema<WorkspacesCreateOrUpdateRequest>,
-  output: __S(1775, __c110, 15) as any as S.Schema<WorkspacesCreateOrUpdateResponse>,
+  input: __S(3139, __c98, 3) as any as S.Schema<WorkspacesCreateOrUpdateRequest>,
+  output: __S(3503, __c109, 15) as any as S.Schema<WorkspacesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9288,8 +9827,8 @@ export const WorkspaceSqlAadAdminsCreateOrUpdate: API.OperationMethod<
   WorkspaceSqlAadAdminsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<WorkspaceSqlAadAdminsCreateOrUpdateRequest>,
-  output: __S(3217, __c201, 1) as any as S.Schema<WorkspaceSqlAadAdminsCreateOrUpdateResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<WorkspaceSqlAadAdminsCreateOrUpdateRequest>,
+  output: __S(6433, __c201, 1) as any as S.Schema<WorkspaceSqlAadAdminsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9330,13 +9869,13 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          autoScale: S.optional(__S(48, __c3, 0)),
-          autoPause: S.optional(__S(49, __c3, 1)),
+          autoScale: S.optional(__S(96, __c3, 0)),
+          autoPause: S.optional(__S(97, __c3, 1)),
           isComputeIsolationEnabled: S.optional(S.Boolean),
           isAutotuneEnabled: S.optional(S.Boolean),
           sessionLevelPackagesEnabled: S.optional(S.Boolean),
           cacheSize: S.optional(S.Number),
-          dynamicExecutorAllocation: S.optional(__S(50, __c3, 2)),
+          dynamicExecutorAllocation: S.optional(__S(98, __c3, 2)),
           sparkEventsFolder: S.optional(S.String),
           nodeCount: S.optional(S.Number),
           libraryRequirements: S.optional(__S(0, __c0, 0)),
@@ -9356,7 +9895,7 @@ function __c0(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           bigDataPoolName: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean.pipe(T.Query())),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(32, __c1, 0)),
           location: S.String,
           properties: S.optional(__S(4, __c0, 4)),
         }).pipe(
@@ -9426,7 +9965,7 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "LibraryRequirements" });
     case 4:
-      return S.Array(__S(32, __c2, 0));
+      return S.Array(__S(64, __c2, 0));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -9440,19 +9979,19 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          autoScale: S.optional(__S(48, __c3, 0)),
+          autoScale: S.optional(__S(96, __c3, 0)),
           creationDate: S.optional(S.String),
-          autoPause: S.optional(__S(49, __c3, 1)),
+          autoPause: S.optional(__S(97, __c3, 1)),
           isComputeIsolationEnabled: S.optional(S.Boolean),
           isAutotuneEnabled: S.optional(S.Boolean),
           sessionLevelPackagesEnabled: S.optional(S.Boolean),
           cacheSize: S.optional(S.Number),
-          dynamicExecutorAllocation: S.optional(__S(50, __c3, 2)),
+          dynamicExecutorAllocation: S.optional(__S(98, __c3, 2)),
           sparkEventsFolder: S.optional(S.String),
           nodeCount: S.optional(S.Number),
-          libraryRequirements: S.optional(__S(51, __c3, 3)),
-          customLibraries: S.optional(__S(52, __c3, 4)),
-          sparkConfigProperties: S.optional(__S(53, __c3, 5)),
+          libraryRequirements: S.optional(__S(99, __c3, 3)),
+          customLibraries: S.optional(__S(100, __c3, 4)),
+          sparkConfigProperties: S.optional(__S(101, __c3, 5)),
           sparkVersion: S.optional(S.String),
           defaultSparkLogFolder: S.optional(S.String),
           nodeSize: S.optional(S.String),
@@ -9466,9 +10005,9 @@ function __c3(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(32, __c1, 0)),
           location: S.String,
-          properties: S.optional(__S(54, __c3, 6)),
+          properties: S.optional(__S(102, __c3, 6)),
         }),
       ).annotate({ identifier: "BigDataPoolsCreateOrUpdateResponse" });
   }
@@ -9552,7 +10091,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "OperationMetaMetricDimensionSpecification" });
     case 3:
-      return S.Array(__S(98, __c6, 2));
+      return S.Array(__S(194, __c6, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -9564,13 +10103,13 @@ function __c6(j: number): any {
           sourceMdmAccount: S.optional(S.String),
           enableRegionalMdmAccount: S.optional(S.Boolean),
           unit: S.optional(S.String),
-          dimensions: S.optional(__S(99, __c6, 3)),
+          dimensions: S.optional(__S(195, __c6, 3)),
           supportsInstanceLevelAggregation: S.optional(S.Boolean),
           metricFilterPattern: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationMetaMetricSpecification" });
     case 5:
-      return S.Array(__S(100, __c6, 4));
+      return S.Array(__S(196, __c6, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -9580,34 +10119,34 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "OperationMetaLogSpecification" });
     case 7:
-      return S.Array(__S(102, __c6, 6));
+      return S.Array(__S(198, __c6, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          metricSpecifications: S.optional(__S(101, __c6, 5)),
-          logSpecifications: S.optional(__S(103, __c6, 7)),
+          metricSpecifications: S.optional(__S(197, __c6, 5)),
+          logSpecifications: S.optional(__S(199, __c6, 7)),
         }),
       ).annotate({ identifier: "OperationMetaServiceSpecification" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          serviceSpecification: S.optional(__S(104, __c6, 8)),
+          serviceSpecification: S.optional(__S(200, __c6, 8)),
         }),
       ).annotate({ identifier: "OperationMetaPropertyInfo" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          display: S.optional(__S(97, __c6, 1)),
+          display: S.optional(__S(193, __c6, 1)),
           isDataAction: S.optional(S.String),
           name: S.optional(S.String),
-          properties: S.optional(__S(105, __c6, 9)),
+          properties: S.optional(__S(201, __c6, 9)),
           origin: S.optional(S.String),
         }),
       ).annotate({ identifier: "AvailableRpOperation" });
     case 11:
-      return S.Array(__S(106, __c6, 10));
+      return S.Array(__S(202, __c6, 10));
     case 12:
-      return S.suspend(() => __S(107, __c6, 11).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(203, __c6, 11).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOperationsResponse",
       });
   }
@@ -9632,7 +10171,7 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1744, __c109, 0)),
+          value: S.optional(__S(3456, __c108, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsResponse" });
@@ -9656,11 +10195,11 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsPrivateLinkHubRequest" });
     case 1:
-      return S.Array(__S(2368, __c148, 0));
+      return S.Array(__S(4736, __c148, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(129, __c8, 1)),
+          value: S.optional(__S(257, __c8, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsPrivateLinkHubResponse" });
@@ -9687,12 +10226,12 @@ function __c9(j: number): any {
 function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2451, __c153, 3));
+      return S.Array(__S(4899, __c153, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(160, __c10, 0)),
+          value: S.optional(__S(320, __c10, 0)),
         }),
       ).annotate({ identifier: "PrivateLinkHubInfoListResult" });
   }
@@ -9719,11 +10258,11 @@ function __c11(j: number): any {
 function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2481, __c155, 1));
+      return S.Array(__S(4961, __c155, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(192, __c12, 0)),
+          value: S.optional(__S(384, __c12, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourceListResult" });
@@ -9783,11 +10322,11 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "ListRestorableDroppedSqlPoolByWorkspaceRequest" });
     case 1:
-      return S.Array(__S(2529, __c158, 1));
+      return S.Array(__S(5057, __c158, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(241, __c15, 1),
+          value: __S(481, __c15, 1),
         }),
       ).annotate({ identifier: "RestorableDroppedSqlPoolListResult" });
   }
@@ -9811,11 +10350,11 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListSqlPoolBlobAuditingPolicyBySqlPoolRequest" });
     case 1:
-      return S.Array(__S(2577, __c161, 1));
+      return S.Array(__S(5153, __c161, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(257, __c16, 1)),
+          value: S.optional(__S(513, __c16, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SqlPoolBlobAuditingPolicyListResult" });
@@ -9839,12 +10378,12 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "ListSqlPoolByWorkspaceRequest" });
     case 1:
-      return S.Array(__S(2402, __c150, 2));
+      return S.Array(__S(4802, __c150, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(273, __c17, 1)),
+          value: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "SqlPoolInfoListResult" });
   }
@@ -9889,11 +10428,11 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListSqlPoolGeoBackupPoliciesRequest" });
     case 1:
-      return S.Array(__S(2657, __c166, 1));
+      return S.Array(__S(5313, __c166, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(305, __c19, 1)),
+          value: S.optional(__S(609, __c19, 1)),
         }),
       ).annotate({ identifier: "GeoBackupPolicyListResult" });
   }
@@ -9941,15 +10480,15 @@ function __c20(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(321, __c20, 1)),
+          properties: S.optional(__S(641, __c20, 1)),
         }),
       ).annotate({ identifier: "SqlPoolOperation" });
     case 3:
-      return S.Array(__S(322, __c20, 2));
+      return S.Array(__S(642, __c20, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(323, __c20, 3)),
+          value: S.optional(__S(643, __c20, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SqlPoolBlobAuditingPolicySqlPoolOperationListResult" });
@@ -9974,11 +10513,11 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListSqlPoolReplicationLinksRequest" });
     case 1:
-      return S.Array(__S(2801, __c175, 1));
+      return S.Array(__S(5601, __c175, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(337, __c21, 1)),
+          value: S.optional(__S(673, __c21, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReplicationLinkListResult" });
@@ -10003,11 +10542,11 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "ListSqlPoolRestorePointsRequest" });
     case 1:
-      return S.Array(__S(2721, __c170, 1));
+      return S.Array(__S(5441, __c170, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(353, __c22, 1)),
+          value: S.optional(__S(705, __c22, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RestorePointListResult" });
@@ -10037,11 +10576,11 @@ function __c23(j: number): any {
 function __c24(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2848, __c178, 0));
+      return S.Array(__S(5696, __c178, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(384, __c24, 0)),
+          value: S.optional(__S(768, __c24, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SqlPoolSchemaListResult" });
@@ -10070,11 +10609,11 @@ function __c25(j: number): any {
 function __c26(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2881, __c180, 1));
+      return S.Array(__S(5761, __c180, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(416, __c26, 0)),
+          value: S.optional(__S(832, __c26, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSqlPoolSecurityAlertPolicies" });
@@ -10104,11 +10643,11 @@ function __c27(j: number): any {
 function __c28(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2913, __c182, 1));
+      return S.Array(__S(5825, __c182, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(448, __c28, 0)),
+          value: S.optional(__S(896, __c28, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SensitivityLabelListResult" });
@@ -10181,11 +10720,11 @@ function __c31(j: number): any {
         ),
       ).annotate({ identifier: "ListSqlPoolTableColumnByTableNameRequest" });
     case 1:
-      return S.Array(__S(2609, __c163, 1));
+      return S.Array(__S(5217, __c163, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(497, __c31, 1)),
+          value: S.optional(__S(993, __c31, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SqlPoolColumnListResult" });
@@ -10227,7 +10766,7 @@ function __c33(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(528, __c33, 0)),
+          properties: S.optional(__S(1056, __c33, 0)),
         }),
       ).annotate({ identifier: "DeleteIpFirewallRuleResponse" });
   }
@@ -10251,11 +10790,11 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "ListSqlPoolTransparentDataEncryptionsRequest" });
     case 1:
-      return S.Array(__S(2961, __c185, 1));
+      return S.Array(__S(5921, __c185, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(545, __c34, 1)),
+          value: S.optional(__S(1089, __c34, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TransparentDataEncryptionListResult" });
@@ -10296,11 +10835,11 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "SqlPoolUsage" });
     case 1:
-      return S.Array(__S(576, __c36, 0));
+      return S.Array(__S(1152, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(577, __c36, 1),
+          value: __S(1153, __c36, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SqlPoolUsageListResult" });
@@ -10325,11 +10864,11 @@ function __c37(j: number): any {
         ),
       ).annotate({ identifier: "ListSqlPoolVulnerabilityAssessmentsRequest" });
     case 1:
-      return S.Array(__S(2993, __c187, 1));
+      return S.Array(__S(5985, __c187, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(593, __c37, 1)),
+          value: S.optional(__S(1185, __c37, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SqlPoolVulnerabilityAssessmentListResult" });
@@ -10355,11 +10894,11 @@ function __c38(j: number): any {
         ),
       ).annotate({ identifier: "ListSqlPoolVulnerabilityAssessmentScansRequest" });
     case 1:
-      return S.Array(__S(3107, __c194, 3));
+      return S.Array(__S(6211, __c194, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(609, __c38, 1)),
+          value: S.optional(__S(1217, __c38, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VulnerabilityAssessmentScanRecordListResult" });
@@ -10385,11 +10924,11 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "ListSqlPoolWorkloadClassifierRequest" });
     case 1:
-      return S.Array(__S(3137, __c196, 1));
+      return S.Array(__S(6273, __c196, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(625, __c39, 1)),
+          value: S.optional(__S(1249, __c39, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkloadClassifierListResult" });
@@ -10414,11 +10953,11 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "ListSqlPoolWorkloadGroupRequest" });
     case 1:
-      return S.Array(__S(3169, __c198, 1));
+      return S.Array(__S(6337, __c198, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(641, __c40, 1)),
+          value: S.optional(__S(1281, __c40, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkloadGroupListResult" });
@@ -10445,12 +10984,12 @@ function __c41(j: number): any {
 function __c42(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1775, __c110, 15));
+      return S.Array(__S(3503, __c109, 15));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(672, __c42, 0)),
+          value: S.optional(__S(1344, __c42, 0)),
         }),
       ).annotate({ identifier: "WorkspaceInfoListResult" });
   }
@@ -10475,11 +11014,11 @@ function __c43(j: number): any {
         identifier: "ListWorkspaceManagedSqlServerBlobAuditingPolicyByWorkspaceRequest",
       });
     case 1:
-      return S.Array(__S(3281, __c205, 1));
+      return S.Array(__S(6561, __c205, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(689, __c43, 1)),
+          value: S.optional(__S(1377, __c43, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerBlobAuditingPolicyListResult" });
@@ -10505,11 +11044,11 @@ function __c44(j: number): any {
         identifier: "ListWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsRequest",
       });
     case 1:
-      return S.Array(__S(3313, __c207, 1));
+      return S.Array(__S(6625, __c207, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(705, __c44, 1)),
+          value: S.optional(__S(1409, __c44, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DedicatedSQLminimalTlsSettingsListResult" });
@@ -10533,11 +11072,11 @@ function __c45(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkspaceManagedSqlServerEncryptionProtectorRequest" });
     case 1:
-      return S.Array(__S(3345, __c209, 1));
+      return S.Array(__S(6689, __c209, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(721, __c45, 1)),
+          value: S.optional(__S(1441, __c45, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EncryptionProtectorListResult" });
@@ -10578,7 +11117,7 @@ function __c47(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(752, __c47, 0)),
+          properties: S.optional(__S(1504, __c47, 0)),
         }),
       ).annotate({ identifier: "DeleteKeyResponse" });
   }
@@ -10603,11 +11142,11 @@ function __c48(j: number): any {
         identifier: "ListWorkspaceManagedSqlServerExtendedBlobAuditingPolicyByWorkspaceRequest",
       });
     case 1:
-      return S.Array(__S(3409, __c213, 1));
+      return S.Array(__S(6817, __c213, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(769, __c48, 1)),
+          value: S.optional(__S(1537, __c48, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExtendedServerBlobAuditingPolicyListResult" });
@@ -10631,11 +11170,11 @@ function __c49(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkspaceManagedSqlServerRecoverableSqlPoolsRequest" });
     case 1:
-      return S.Array(__S(3441, __c215, 1));
+      return S.Array(__S(6881, __c215, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(785, __c49, 1)),
+          value: S.optional(__S(1569, __c49, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecoverableSqlPoolListResult" });
@@ -10697,11 +11236,11 @@ function __c52(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkspaceManagedSqlServerVulnerabilityAssessmentsRequest" });
     case 1:
-      return S.Array(__S(3489, __c218, 1));
+      return S.Array(__S(6977, __c218, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(833, __c52, 1)),
+          value: S.optional(__S(1665, __c52, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerVulnerabilityAssessmentListResult" });
@@ -10758,9 +11297,9 @@ function __c55(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateLinkHubName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(32, __c1, 0)),
           location: S.String,
-          properties: S.optional(__S(880, __c55, 0)),
+          properties: S.optional(__S(1760, __c55, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -10845,14 +11384,14 @@ function __c58(j: number): any {
 function __c59(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(3552, __c222, 0));
+      return S.Record(S.String, __S(7104, __c222, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
-          ipFirewallRules: S.optional(__S(944, __c59, 0)),
+          ipFirewallRules: S.optional(__S(1888, __c59, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10900,7 +11439,7 @@ function __c61(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           sqlPoolName: S.String.pipe(T.Label()),
           blobAuditingPolicyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2576, __c161, 0)),
+          properties: S.optional(__S(5152, __c161, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -10928,7 +11467,7 @@ function __c62(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           sqlPoolName: S.String.pipe(T.Label()),
           geoBackupPolicyName: S.String.pipe(T.Label()),
-          properties: __S(992, __c62, 0),
+          properties: __S(1984, __c62, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -10950,7 +11489,7 @@ function __c63(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           sqlPoolName: S.String.pipe(T.Label()),
           maintenanceWindowName: S.String.pipe(T.Query()),
-          properties: S.optional(__S(2752, __c172, 0)),
+          properties: S.optional(__S(5504, __c172, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -10972,7 +11511,7 @@ function __c64(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           sqlPoolName: S.String.pipe(T.Label()),
           securityAlertPolicyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1040, __c65, 0)),
+          properties: S.optional(__S(2080, __c65, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -10990,8 +11529,8 @@ function __c65(j: number): any {
       return S.suspend(() =>
         S.Struct({
           state: S.String,
-          disabledAlerts: S.optional(__S(1728, __c108, 0)),
-          emailAddresses: S.optional(__S(1728, __c108, 0)),
+          disabledAlerts: S.optional(__S(3744, __c117, 0)),
+          emailAddresses: S.optional(__S(3744, __c117, 0)),
           emailAccountAdmins: S.optional(S.Boolean),
           storageEndpoint: S.optional(S.String),
           storageAccountAccessKey: S.optional(S.String),
@@ -11013,7 +11552,7 @@ function __c66(j: number): any {
           tableName: S.String.pipe(T.Label()),
           columnName: S.String.pipe(T.Label()),
           sensitivityLabelSource: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1072, __c67, 0)),
+          properties: S.optional(__S(2144, __c67, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11049,7 +11588,7 @@ function __c68(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           sqlPoolName: S.String.pipe(T.Label()),
           transparentDataEncryptionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2960, __c185, 0)),
+          properties: S.optional(__S(5920, __c185, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11073,7 +11612,7 @@ function __c69(j: number): any {
           vulnerabilityAssessmentName: S.String.pipe(T.Label()),
           ruleId: S.String.pipe(T.Label()),
           baselineName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3074, __c192, 2)),
+          properties: S.optional(__S(6146, __c192, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11138,7 +11677,7 @@ function __c72(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           sqlPoolName: S.String.pipe(T.Label()),
           vulnerabilityAssessmentName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2992, __c187, 0)),
+          properties: S.optional(__S(5984, __c187, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11161,7 +11700,7 @@ function __c73(j: number): any {
           sqlPoolName: S.String.pipe(T.Label()),
           workloadGroupName: S.String.pipe(T.Label()),
           workloadClassifierName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3136, __c196, 0)),
+          properties: S.optional(__S(6272, __c196, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11183,7 +11722,7 @@ function __c74(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           sqlPoolName: S.String.pipe(T.Label()),
           workloadGroupName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3168, __c198, 0)),
+          properties: S.optional(__S(6336, __c198, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11264,7 +11803,7 @@ function __c78(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           bigDataPoolName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(32, __c1, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -11328,7 +11867,7 @@ function __c81(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateLinkHubName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(32, __c1, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -11369,10 +11908,10 @@ function __c83(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           sqlPoolName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(32, __c1, 0)),
           location: S.optional(S.String),
-          sku: S.optional(__S(2400, __c150, 0)),
-          properties: S.optional(__S(2416, __c151, 0)),
+          sku: S.optional(__S(4800, __c150, 0)),
+          properties: S.optional(__S(4832, __c151, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -11398,11 +11937,11 @@ function __c84(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1344, __c84, 0)),
+          properties: S.optional(__S(2688, __c84, 0)),
         }),
       ).annotate({ identifier: "RecommendedSensitivityLabelUpdateInput" });
     case 2:
-      return S.Array(__S(1345, __c84, 1));
+      return S.Array(__S(2689, __c84, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11410,7 +11949,7 @@ function __c84(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           sqlPoolName: S.String.pipe(T.Label()),
-          operations: S.optional(__S(1346, __c84, 2)),
+          operations: S.optional(__S(2690, __c84, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -11427,7 +11966,7 @@ function __c85(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1072, __c67, 0)),
+          properties: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "SensitivityLabelInput" });
     case 1:
@@ -11437,17 +11976,17 @@ function __c85(j: number): any {
           schema: S.String,
           table: S.String,
           column: S.String,
-          sensitivityLabel: S.optional(__S(1360, __c85, 0)),
+          sensitivityLabel: S.optional(__S(2720, __c85, 0)),
         }),
       ).annotate({ identifier: "SensitivityLabelUpdatePropertiesInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1361, __c85, 1)),
+          properties: S.optional(__S(2721, __c85, 1)),
         }),
       ).annotate({ identifier: "SensitivityLabelUpdateInput" });
     case 3:
-      return S.Array(__S(1362, __c85, 2));
+      return S.Array(__S(2722, __c85, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -11455,7 +11994,7 @@ function __c85(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           sqlPoolName: S.String.pipe(T.Label()),
-          operations: S.optional(__S(1363, __c85, 3)),
+          operations: S.optional(__S(2723, __c85, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -11473,10 +12012,10 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sqlAdministratorLoginPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          managedVirtualNetworkSettings: S.optional(__S(1766, __c110, 6)),
-          workspaceRepositoryConfiguration: S.optional(__S(1767, __c110, 7)),
-          purviewConfiguration: S.optional(__S(1768, __c110, 8)),
-          encryption: S.optional(__S(1395, __c87, 3)),
+          managedVirtualNetworkSettings: S.optional(__S(3494, __c109, 6)),
+          workspaceRepositoryConfiguration: S.optional(__S(3495, __c109, 7)),
+          purviewConfiguration: S.optional(__S(3496, __c109, 8)),
+          encryption: S.optional(__S(2787, __c87, 3)),
           publicNetworkAccess: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspacePatchPropertiesInput" });
@@ -11486,9 +12025,9 @@ function __c86(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(16, __c1, 0)),
-          identity: S.optional(__S(1393, __c87, 1)),
-          properties: S.optional(__S(1376, __c86, 0)),
+          tags: S.optional(__S(32, __c1, 0)),
+          identity: S.optional(__S(2785, __c87, 1)),
+          properties: S.optional(__S(2752, __c86, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -11503,25 +12042,25 @@ function __c86(j: number): any {
 function __c87(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(2096, __c131, 0));
+      return S.Record(S.String, __S(4192, __c131, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          userAssignedIdentities: S.optional(__S(1392, __c87, 0)),
+          userAssignedIdentities: S.optional(__S(2784, __c87, 0)),
         }),
       ).annotate({ identifier: "ManagedIdentityInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          key: S.optional(__S(1762, __c110, 2)),
-          kekIdentity: S.optional(__S(1763, __c110, 3)),
+          key: S.optional(__S(3490, __c109, 2)),
+          kekIdentity: S.optional(__S(3491, __c109, 3)),
         }),
       ).annotate({ identifier: "CustomerManagedKeyDetailsInput" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          cmk: S.optional(__S(1394, __c87, 2)),
+          cmk: S.optional(__S(2786, __c87, 2)),
         }),
       ).annotate({ identifier: "EncryptionDetailsInput" });
   }
@@ -11535,7 +12074,7 @@ function __c88(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           dedicatedSQLminimalTlsSettingsName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3312, __c207, 0)),
+          properties: S.optional(__S(6624, __c207, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11557,7 +12096,7 @@ function __c89(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3216, __c201, 0)),
+          properties: S.optional(__S(6432, __c201, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11583,7 +12122,7 @@ function __c90(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          grantSqlControlToManagedIdentity: S.optional(__S(1440, __c90, 0)),
+          grantSqlControlToManagedIdentity: S.optional(__S(2880, __c90, 0)),
         }),
       ).annotate({
         identifier: "WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateRequestProperties",
@@ -11594,7 +12133,7 @@ function __c90(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1441, __c90, 1)),
+          properties: S.optional(__S(2881, __c90, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11615,7 +12154,7 @@ function __c91(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           blobAuditingPolicyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3280, __c205, 0)),
+          properties: S.optional(__S(6560, __c205, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11645,7 +12184,7 @@ function __c92(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           encryptionProtectorName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1472, __c92, 0)),
+          properties: S.optional(__S(2944, __c92, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11709,7 +12248,7 @@ function __c95(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           blobAuditingPolicyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3408, __c213, 0)),
+          properties: S.optional(__S(6816, __c213, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11732,7 +12271,7 @@ function __c96(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           securityAlertPolicyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1040, __c65, 0)),
+          properties: S.optional(__S(2080, __c65, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11755,7 +12294,7 @@ function __c97(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           vulnerabilityAssessmentName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3488, __c218, 0)),
+          properties: S.optional(__S(6976, __c218, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11774,27 +12313,27 @@ function __c98(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(2113, __c132, 1)),
+          properties: S.optional(__S(4225, __c132, 1)),
         }),
       ).annotate({ identifier: "WorkspacePropertiesInputPrivateEndpointConnectionsItem" });
     case 1:
-      return S.Array(__S(1568, __c98, 0));
+      return S.Array(__S(3136, __c98, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          defaultDataLakeStorage: S.optional(__S(1760, __c110, 0)),
+          defaultDataLakeStorage: S.optional(__S(3488, __c109, 0)),
           sqlAdministratorLoginPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
           managedResourceGroupName: S.optional(S.String),
           sqlAdministratorLogin: S.optional(S.String),
-          virtualNetworkProfile: S.optional(__S(1761, __c110, 1)),
+          virtualNetworkProfile: S.optional(__S(3489, __c109, 1)),
           managedVirtualNetwork: S.optional(S.String),
-          privateEndpointConnections: S.optional(__S(1569, __c98, 1)),
-          encryption: S.optional(__S(1395, __c87, 3)),
-          managedVirtualNetworkSettings: S.optional(__S(1766, __c110, 6)),
-          workspaceRepositoryConfiguration: S.optional(__S(1767, __c110, 7)),
-          purviewConfiguration: S.optional(__S(1768, __c110, 8)),
+          privateEndpointConnections: S.optional(__S(3137, __c98, 1)),
+          encryption: S.optional(__S(2787, __c87, 3)),
+          managedVirtualNetworkSettings: S.optional(__S(3494, __c109, 6)),
+          workspaceRepositoryConfiguration: S.optional(__S(3495, __c109, 7)),
+          purviewConfiguration: S.optional(__S(3496, __c109, 8)),
           publicNetworkAccess: S.optional(S.String),
-          cspWorkspaceAdminProperties: S.optional(__S(1769, __c110, 9)),
+          cspWorkspaceAdminProperties: S.optional(__S(3497, __c109, 9)),
           azureADOnlyAuthentication: S.optional(S.Boolean),
           trustedServiceBypassEnabled: S.optional(S.Boolean),
         }),
@@ -11805,10 +12344,10 @@ function __c98(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(32, __c1, 0)),
           location: S.String,
-          properties: S.optional(__S(1570, __c98, 2)),
-          identity: S.optional(__S(1393, __c87, 1)),
+          properties: S.optional(__S(3138, __c98, 2)),
+          identity: S.optional(__S(2785, __c87, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11828,7 +12367,7 @@ function __c99(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3216, __c201, 0)),
+          properties: S.optional(__S(6432, __c201, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11900,7 +12439,7 @@ function __c102(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           azureADOnlyAuthenticationName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1632, __c102, 0)),
+          properties: S.optional(__S(3264, __c102, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11928,7 +12467,7 @@ function __c103(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(1648, __c103, 0)),
+          properties: S.optional(__S(3296, __c103, 0)),
         }),
       ).annotate({ identifier: "CreateAzureADOnlyAuthenticationResponse" });
   }
@@ -12021,16 +12560,10 @@ function __c107(j: number): any {
 function __c108(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Array(__S(4288, __c134, 0));
   }
 }
 function __c109(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2144, __c134, 0));
-  }
-}
-function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12065,15 +12598,15 @@ function __c110(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          key: S.optional(__S(1762, __c110, 2)),
-          kekIdentity: S.optional(__S(1763, __c110, 3)),
+          key: S.optional(__S(3490, __c109, 2)),
+          kekIdentity: S.optional(__S(3491, __c109, 3)),
         }),
       ).annotate({ identifier: "CustomerManagedKeyDetails" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           doubleEncryptionEnabled: S.optional(S.Boolean),
-          cmk: S.optional(__S(1764, __c110, 4)),
+          cmk: S.optional(__S(3492, __c109, 4)),
         }),
       ).annotate({ identifier: "EncryptionDetails" });
     case 6:
@@ -12081,7 +12614,7 @@ function __c110(j: number): any {
         S.Struct({
           preventDataExfiltration: S.optional(S.Boolean),
           linkedAccessCheckOnTargetResource: S.optional(S.Boolean),
-          allowedAadTenantIdsForLinking: S.optional(__S(1728, __c108, 0)),
+          allowedAadTenantIdsForLinking: S.optional(__S(3744, __c117, 0)),
         }),
       ).annotate({ identifier: "ManagedVirtualNetworkSettings" });
     case 7:
@@ -12115,25 +12648,25 @@ function __c110(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          defaultDataLakeStorage: S.optional(__S(1760, __c110, 0)),
+          defaultDataLakeStorage: S.optional(__S(3488, __c109, 0)),
           sqlAdministratorLoginPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
           managedResourceGroupName: S.optional(S.String),
           provisioningState: S.optional(S.String),
           sqlAdministratorLogin: S.optional(S.String),
-          virtualNetworkProfile: S.optional(__S(1761, __c110, 1)),
-          connectivityEndpoints: S.optional(__S(16, __c1, 0)),
+          virtualNetworkProfile: S.optional(__S(3489, __c109, 1)),
+          connectivityEndpoints: S.optional(__S(32, __c1, 0)),
           managedVirtualNetwork: S.optional(S.String),
-          privateEndpointConnections: S.optional(__S(1744, __c109, 0)),
-          encryption: S.optional(__S(1765, __c110, 5)),
+          privateEndpointConnections: S.optional(__S(3456, __c108, 0)),
+          encryption: S.optional(__S(3493, __c109, 5)),
           workspaceUID: S.optional(S.String),
           extraProperties: S.optional(S.Unknown),
-          managedVirtualNetworkSettings: S.optional(__S(1766, __c110, 6)),
-          workspaceRepositoryConfiguration: S.optional(__S(1767, __c110, 7)),
-          purviewConfiguration: S.optional(__S(1768, __c110, 8)),
+          managedVirtualNetworkSettings: S.optional(__S(3494, __c109, 6)),
+          workspaceRepositoryConfiguration: S.optional(__S(3495, __c109, 7)),
+          purviewConfiguration: S.optional(__S(3496, __c109, 8)),
           adlaResourceId: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
-          cspWorkspaceAdminProperties: S.optional(__S(1769, __c110, 9)),
-          settings: S.optional(__S(1770, __c110, 10)),
+          cspWorkspaceAdminProperties: S.optional(__S(3497, __c109, 9)),
+          settings: S.optional(__S(3498, __c109, 10)),
           azureADOnlyAuthentication: S.optional(S.Boolean),
           trustedServiceBypassEnabled: S.optional(S.Boolean),
         }),
@@ -12146,14 +12679,14 @@ function __c110(j: number): any {
         }),
       ).annotate({ identifier: "UserAssignedManagedIdentity" });
     case 13:
-      return S.Record(S.String, __S(1772, __c110, 12));
+      return S.Record(S.String, __S(3500, __c109, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
           tenantId: S.optional(S.String),
           type: S.optional(S.String),
-          userAssignedIdentities: S.optional(__S(1773, __c110, 13)),
+          userAssignedIdentities: S.optional(__S(3501, __c109, 13)),
         }),
       ).annotate({ identifier: "ManagedIdentity" });
     case 15:
@@ -12162,15 +12695,15 @@ function __c110(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(32, __c1, 0)),
           location: S.String,
-          properties: S.optional(__S(1771, __c110, 11)),
-          identity: S.optional(__S(1774, __c110, 14)),
+          properties: S.optional(__S(3499, __c109, 11)),
+          identity: S.optional(__S(3502, __c109, 14)),
         }),
       ).annotate({ identifier: "DeleteWorkspaceResponse" });
   }
 }
-function __c111(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12189,7 +12722,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "DeleteWorkspaceAadAdminRequest" });
   }
 }
-function __c112(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12209,7 +12742,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "DeleteWorkspaceManagedSqlServerVulnerabilityAssessmentRequest" });
   }
 }
-function __c113(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12228,7 +12761,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "DeleteWorkspaceSqlAadAdminRequest" });
   }
 }
-function __c114(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12248,7 +12781,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "DisableIntegrationRuntimeInteractiveQueryRequest" });
   }
 }
-function __c115(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12272,7 +12805,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "DisableSqlPoolSensitivityLabelRecommendationRequest" });
   }
 }
-function __c116(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12292,16 +12825,30 @@ function __c116(j: number): any {
       ).annotate({ identifier: "EnableIntegrationRuntimeInteractiveQueryRequest" });
   }
 }
-function __c117(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            type: S.String,
+            description: S.optional(S.String),
+            typeProperties: __S(3794, __c118, 18),
+            managedVirtualNetwork: S.optional(__S(3795, __c118, 19)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ManagedIntegrationRuntimeInput" });
+    case 1:
+      return S.Union([__S(3712, __c116, 0), __S(3800, __c118, 24)]);
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           integrationRuntimeName: S.String.pipe(T.Label()),
-          properties: __S(1888, __c118, 0),
+          properties: __S(3713, __c116, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -12313,29 +12860,231 @@ function __c117(j: number): any {
       ).annotate({ identifier: "CreateIntegrationRuntimeRequest" });
   }
 }
+function __c117(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
 function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            type: S.String,
-            description: S.optional(S.String),
-            typeProperties: S.optional(S.Unknown),
-            managedVirtualNetwork: S.optional(S.Unknown),
-            state: S.optional(S.String),
+            computeType: S.optional(S.String),
+            coreCount: S.optional(S.Number),
+            timeToLive: S.optional(S.Number),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
-      ).annotate({ identifier: "IntegrationRuntime" });
+      ).annotate({ identifier: "IntegrationRuntimeDataFlowProperties" });
     case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            vNetId: S.optional(S.String),
+            subnet: S.optional(S.String),
+            publicIPs: S.optional(__S(3744, __c117, 0)),
+            subnetId: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IntegrationRuntimeVNetProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            location: S.optional(S.String),
+            nodeSize: S.optional(S.String),
+            numberOfNodes: S.optional(S.Number),
+            maxParallelExecutionsPerNode: S.optional(S.Number),
+            dataFlowProperties: S.optional(__S(3776, __c118, 0)),
+            vNetProperties: S.optional(__S(3777, __c118, 1)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IntegrationRuntimeComputeProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          value: S.String,
+        }),
+      ).annotate({ identifier: "SecureString" });
+    case 4:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            catalogServerEndpoint: S.optional(S.String),
+            catalogAdminUserName: S.optional(S.String),
+            catalogAdminPassword: S.optional(__S(3779, __c118, 3)),
+            catalogPricingTier: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IntegrationRuntimeSsisCatalogInfo" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          blobContainerUri: S.optional(S.String),
+          sasToken: S.optional(__S(3779, __c118, 3)),
+        }),
+      ).annotate({ identifier: "IntegrationRuntimeCustomSetupScriptProperties" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          referenceName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EntityReference" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          connectVia: S.optional(__S(3782, __c118, 6)),
+          stagingLinkedService: S.optional(__S(3782, __c118, 6)),
+          path: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IntegrationRuntimeDataProxyProperties" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          targetName: S.Unknown,
+          userName: S.Unknown,
+          password: __S(3779, __c118, 3),
+        }),
+      ).annotate({ identifier: "CmdkeySetupTypeProperties" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          typeProperties: __S(3784, __c118, 8),
+        }),
+      ).annotate({ identifier: "CmdkeySetup" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          variableName: S.String,
+          variableValue: S.String,
+        }),
+      ).annotate({ identifier: "EnvironmentVariableSetupTypeProperties" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          typeProperties: __S(3786, __c118, 10),
+        }),
+      ).annotate({ identifier: "EnvironmentVariableSetup" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          componentName: S.String,
+          licenseKey: S.optional(__S(3779, __c118, 3)),
+        }),
+      ).annotate({ identifier: "LicensedComponentSetupTypeProperties" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          typeProperties: __S(3788, __c118, 12),
+        }),
+      ).annotate({ identifier: "ComponentSetup" });
+    case 14:
+      return S.Union([__S(3785, __c118, 9), __S(3787, __c118, 11), __S(3789, __c118, 13)]);
+    case 15:
+      return S.Array(__S(3790, __c118, 14));
+    case 16:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            catalogInfo: S.optional(__S(3780, __c118, 4)),
+            licenseType: S.optional(S.String),
+            customSetupScriptProperties: S.optional(__S(3781, __c118, 5)),
+            dataProxyProperties: S.optional(__S(3783, __c118, 7)),
+            edition: S.optional(S.String),
+            expressCustomSetupProperties: S.optional(__S(3791, __c118, 15)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IntegrationRuntimeSsisProperties" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          subnetId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IntegrationRuntimeCustomerVirtualNetwork" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          computeProperties: S.optional(__S(3778, __c118, 2)),
+          ssisProperties: S.optional(__S(3792, __c118, 16)),
+          customerVirtualNetwork: S.optional(__S(3793, __c118, 17)),
+        }),
+      ).annotate({ identifier: "ManagedIntegrationRuntimeTypeProperties" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          referenceName: S.optional(S.String),
+          type: S.optional(S.String),
+          id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagedIntegrationRuntimeManagedVirtualNetworkReference" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          authorizationType: S.String,
+          key: __S(3779, __c118, 3),
+        }),
+      ).annotate({ identifier: "LinkedIntegrationRuntimeKeyAuthorization" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          authorizationType: S.String,
+          resourceId: S.String,
+        }),
+      ).annotate({ identifier: "LinkedIntegrationRuntimeRbacAuthorization" });
+    case 22:
+      return S.Union([__S(3796, __c118, 20), __S(3797, __c118, 21)]);
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          linkedInfo: S.optional(__S(3798, __c118, 22)),
+        }),
+      ).annotate({ identifier: "SelfHostedIntegrationRuntimeTypeProperties" });
+    case 24:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            type: S.String,
+            description: S.optional(S.String),
+            typeProperties: S.optional(__S(3799, __c118, 23)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "SelfHostedIntegrationRuntime" });
+    case 25:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            type: S.String,
+            description: S.optional(S.String),
+            provisioningState: S.optional(S.String),
+            typeProperties: __S(3794, __c118, 18),
+            managedVirtualNetwork: S.optional(__S(3795, __c118, 19)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ManagedIntegrationRuntime" });
+    case 26:
+      return S.Union([__S(3801, __c118, 25), __S(3800, __c118, 24)]);
+    case 27:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           etag: S.optional(S.String),
-          properties: __S(1888, __c118, 0),
+          properties: __S(3802, __c118, 26),
         }),
       ).annotate({ identifier: "CreateIntegrationRuntimeResponse" });
   }
@@ -12396,7 +13145,7 @@ function __c120(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(1921, __c120, 1)),
+          properties: S.optional(__S(3841, __c120, 1)),
         }),
       ).annotate({ identifier: "ExportSqlPoolVulnerabilityAssessmentScanResponse" });
   }
@@ -12411,7 +13160,7 @@ function __c121(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           sqlPoolName: S.String.pipe(T.Label()),
           blobAuditingPolicyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1952, __c122, 0)),
+          properties: S.optional(__S(3904, __c122, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -12433,7 +13182,7 @@ function __c122(j: number): any {
           storageEndpoint: S.optional(S.String),
           storageAccountAccessKey: S.optional(S.String),
           retentionDays: S.optional(S.Number),
-          auditActionsAndGroups: S.optional(__S(1728, __c108, 0)),
+          auditActionsAndGroups: S.optional(__S(3744, __c117, 0)),
           storageAccountSubscriptionId: S.optional(S.String),
           isStorageSecondaryKeyInUse: S.optional(S.Boolean),
           isAzureMonitorTargetEnabled: S.optional(S.Boolean),
@@ -12446,7 +13195,7 @@ function __c122(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(1952, __c122, 0)),
+          properties: S.optional(__S(3904, __c122, 0)),
         }),
       ).annotate({ identifier: "ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateResponse" });
   }
@@ -12618,7 +13367,7 @@ function __c130(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2113, __c132, 1)),
+          properties: S.optional(__S(4225, __c132, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -12648,8 +13397,8 @@ function __c132(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(2096, __c131, 0)),
-          privateLinkServiceConnectionState: S.optional(__S(2112, __c132, 0)),
+          privateEndpoint: S.optional(__S(4192, __c131, 0)),
+          privateLinkServiceConnectionState: S.optional(__S(4224, __c132, 0)),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionPropertiesInput" });
   }
@@ -12673,8 +13422,8 @@ function __c133(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(2128, __c133, 0)),
-          privateLinkServiceConnectionState: S.optional(__S(2129, __c133, 1)),
+          privateEndpoint: S.optional(__S(4256, __c133, 0)),
+          privateLinkServiceConnectionState: S.optional(__S(4257, __c133, 1)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionProperties" });
@@ -12688,7 +13437,7 @@ function __c134(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2130, __c133, 2)),
+          properties: S.optional(__S(4258, __c133, 2)),
         }),
       ).annotate({ identifier: "CreatePrivateEndpointConnectionResponse" });
   }
@@ -12724,7 +13473,7 @@ function __c136(j: number): any {
             machineName: S.optional(S.String),
             hostServiceUri: S.optional(S.String),
             status: S.optional(S.String),
-            capabilities: S.optional(__S(16, __c1, 0)),
+            capabilities: S.optional(__S(32, __c1, 0)),
             versionStatus: S.optional(S.String),
             version: S.optional(S.String),
             registerTime: S.optional(S.String),
@@ -12797,18 +13546,119 @@ function __c139(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            type: S.String,
-            dataFactoryName: S.optional(S.String),
-            state: S.optional(S.String),
+            time: S.optional(S.String),
+            code: S.optional(S.String),
+            parameters: S.optional(__S(3744, __c117, 0)),
+            message: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
-      ).annotate({ identifier: "IntegrationRuntimeStatus" });
+      ).annotate({ identifier: "ManagedIntegrationRuntimeError" });
     case 1:
+      return S.Array(__S(4448, __c139, 0));
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            nodeId: S.optional(S.String),
+            status: S.optional(S.String),
+            errors: S.optional(__S(4449, __c139, 1)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ManagedIntegrationRuntimeNode" });
+    case 3:
+      return S.Array(__S(4450, __c139, 2));
+    case 4:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            type: S.optional(S.String),
+            startTime: S.optional(S.String),
+            result: S.optional(S.String),
+            errorCode: S.optional(S.String),
+            parameters: S.optional(__S(3744, __c117, 0)),
+            activityId: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ManagedIntegrationRuntimeOperationResult" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          nodes: S.optional(__S(4451, __c139, 3)),
+          otherErrors: S.optional(__S(4449, __c139, 1)),
+          lastOperation: S.optional(__S(4452, __c139, 4)),
+        }),
+      ).annotate({ identifier: "ManagedIntegrationRuntimeStatusTypeProperties" });
+    case 6:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            type: S.String,
+            dataFactoryName: S.optional(S.String),
+            state: S.optional(S.String),
+            typeProperties: __S(4453, __c139, 5),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ManagedIntegrationRuntimeStatus" });
+    case 7:
+      return S.Array(__S(4352, __c136, 0));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          properties: __S(2224, __c139, 0),
+          subscriptionId: S.optional(S.String),
+          dataFactoryName: S.optional(S.String),
+          dataFactoryLocation: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LinkedIntegrationRuntime" });
+    case 9:
+      return S.Array(__S(4456, __c139, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          taskQueueId: S.optional(S.String),
+          nodeCommunicationChannelEncryptionMode: S.optional(S.String),
+          internalChannelEncryption: S.optional(S.String),
+          version: S.optional(S.String),
+          nodes: S.optional(__S(4455, __c139, 7)),
+          scheduledUpdateDate: S.optional(S.String),
+          updateDelayOffset: S.optional(S.String),
+          localTimeZoneOffset: S.optional(S.String),
+          capabilities: S.optional(__S(32, __c1, 0)),
+          serviceUrls: S.optional(__S(3744, __c117, 0)),
+          autoUpdate: S.optional(S.String),
+          versionStatus: S.optional(S.String),
+          links: S.optional(__S(4457, __c139, 9)),
+          pushedVersion: S.optional(S.String),
+          latestVersion: S.optional(S.String),
+          autoUpdateETA: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SelfHostedIntegrationRuntimeStatusTypeProperties" });
+    case 11:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            type: S.String,
+            dataFactoryName: S.optional(S.String),
+            state: S.optional(S.String),
+            typeProperties: __S(4458, __c139, 10),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "SelfHostedIntegrationRuntimeStatus" });
+    case 12:
+      return S.Union([__S(4454, __c139, 6), __S(4459, __c139, 11)]);
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          properties: __S(4460, __c139, 12),
         }),
       ).annotate({ identifier: "IntegrationRuntimeStatusResponse" });
   }
@@ -12882,7 +13732,7 @@ function __c143(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           etag: S.optional(S.String),
-          properties: __S(32, __c2, 0),
+          properties: __S(64, __c2, 0),
         }),
       ).annotate({ identifier: "GetLibraryResponse" });
   }
@@ -12906,7 +13756,7 @@ function __c144(j: number): any {
         ),
       ).annotate({ identifier: "GetOperationAzureAsyncHeaderResultRequest" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2308, __c144, 4)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4612, __c144, 4)));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -12915,27 +13765,27 @@ function __c144(j: number): any {
         }),
       ).annotate({ identifier: "ErrorAdditionalInfo" });
     case 3:
-      return S.Array(__S(2306, __c144, 2));
+      return S.Array(__S(4610, __c144, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
           target: S.optional(S.String),
-          details: S.optional(__S(2305, __c144, 1)),
-          additionalInfo: S.optional(__S(2307, __c144, 3)),
+          details: S.optional(__S(4609, __c144, 1)),
+          additionalInfo: S.optional(__S(4611, __c144, 3)),
         }),
       ).annotate({ identifier: "ErrorDetail" });
     case 5:
-      return S.Array(__S(2308, __c144, 4));
+      return S.Array(__S(4612, __c144, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
           target: S.optional(S.String),
-          details: S.optional(__S(2309, __c144, 5)),
-          additionalInfo: S.optional(__S(2307, __c144, 3)),
+          details: S.optional(__S(4613, __c144, 5)),
+          additionalInfo: S.optional(__S(4611, __c144, 3)),
         }),
       ).annotate({ identifier: "GetOperationAzureAsyncHeaderResultResponseError" });
     case 7:
@@ -12945,7 +13795,7 @@ function __c144(j: number): any {
           name: S.optional(S.String),
           status: S.optional(S.String),
           properties: S.optional(S.Unknown),
-          error: S.optional(__S(2310, __c144, 6)),
+          error: S.optional(__S(4614, __c144, 6)),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           percentComplete: S.optional(S.Number),
@@ -13019,7 +13869,7 @@ function __c148(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          properties: S.optional(__S(2130, __c133, 2)),
+          properties: S.optional(__S(4258, __c133, 2)),
           name: S.optional(S.String),
           type: S.optional(S.String),
         }),
@@ -13035,10 +13885,10 @@ function __c149(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           sqlPoolName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(32, __c1, 0)),
           location: S.String,
-          sku: S.optional(__S(2400, __c150, 0)),
-          properties: S.optional(__S(2416, __c151, 0)),
+          sku: S.optional(__S(4800, __c150, 0)),
+          properties: S.optional(__S(4832, __c151, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13082,10 +13932,10 @@ function __c150(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(32, __c1, 0)),
           location: S.String,
-          sku: S.optional(__S(2400, __c150, 0)),
-          properties: S.optional(__S(2401, __c150, 1)),
+          sku: S.optional(__S(4800, __c150, 0)),
+          properties: S.optional(__S(4801, __c150, 1)),
         }),
       ).annotate({ identifier: "CreateSqlPoolResponse" });
   }
@@ -13133,16 +13983,16 @@ function __c153(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          properties: S.optional(__S(2130, __c133, 2)),
+          properties: S.optional(__S(4258, __c133, 2)),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionForPrivateLinkHubBasic" });
     case 1:
-      return S.Array(__S(2448, __c153, 0));
+      return S.Array(__S(4896, __c153, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          privateEndpointConnections: S.optional(__S(2449, __c153, 1)),
+          privateEndpointConnections: S.optional(__S(4897, __c153, 1)),
         }),
       ).annotate({ identifier: "PrivateLinkHubProperties" });
     case 3:
@@ -13151,9 +14001,9 @@ function __c153(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(32, __c1, 0)),
           location: S.String,
-          properties: S.optional(__S(2450, __c153, 2)),
+          properties: S.optional(__S(4898, __c153, 2)),
         }),
       ).annotate({ identifier: "GetPrivateLinkHubResponse" });
   }
@@ -13184,8 +14034,8 @@ function __c155(j: number): any {
       return S.suspend(() =>
         S.Struct({
           groupId: S.optional(S.String),
-          requiredMembers: S.optional(__S(1728, __c108, 0)),
-          requiredZoneNames: S.optional(__S(1728, __c108, 0)),
+          requiredMembers: S.optional(__S(3744, __c117, 0)),
+          requiredZoneNames: S.optional(__S(3744, __c117, 0)),
         }),
       ).annotate({ identifier: "PrivateLinkResourceProperties" });
     case 1:
@@ -13194,7 +14044,7 @@ function __c155(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2480, __c155, 0)),
+          properties: S.optional(__S(4960, __c155, 0)),
         }),
       ).annotate({ identifier: "GetPrivateLinkHubPrivateLinkResourceResponse" });
   }
@@ -13261,7 +14111,7 @@ function __c158(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           location: S.optional(S.String),
-          properties: S.optional(__S(2528, __c158, 0)),
+          properties: S.optional(__S(5056, __c158, 0)),
         }),
       ).annotate({ identifier: "GetRestorableDroppedSqlPoolResponse" });
   }
@@ -13316,7 +14166,7 @@ function __c161(j: number): any {
           storageEndpoint: S.optional(S.String),
           storageAccountAccessKey: S.optional(S.String),
           retentionDays: S.optional(S.Number),
-          auditActionsAndGroups: S.optional(__S(1728, __c108, 0)),
+          auditActionsAndGroups: S.optional(__S(3744, __c117, 0)),
           storageAccountSubscriptionId: S.optional(S.String),
           isStorageSecondaryKeyInUse: S.optional(S.Boolean),
           isAzureMonitorTargetEnabled: S.optional(S.Boolean),
@@ -13329,7 +14179,7 @@ function __c161(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           kind: S.optional(S.String),
-          properties: S.optional(__S(2576, __c161, 0)),
+          properties: S.optional(__S(5152, __c161, 0)),
         }),
       ).annotate({ identifier: "GetSqlPoolBlobAuditingPolicyResponse" });
   }
@@ -13372,7 +14222,7 @@ function __c163(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2608, __c163, 0)),
+          properties: S.optional(__S(5216, __c163, 0)),
         }),
       ).annotate({ identifier: "GetSqlPoolColumnResponse" });
   }
@@ -13408,7 +14258,7 @@ function __c164(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2625, __c164, 1)),
+          properties: S.optional(__S(5249, __c164, 1)),
         }),
       ).annotate({ identifier: "GetSqlPoolDataWarehouseUserActivityResponse" });
   }
@@ -13449,7 +14299,7 @@ function __c166(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: __S(2656, __c166, 0),
+          properties: __S(5312, __c166, 0),
           kind: S.optional(S.String),
           location: S.optional(S.String),
         }),
@@ -13479,7 +14329,7 @@ function __c167(j: number): any {
       return S.suspend(() =>
         S.Struct({
           isEnabled: S.optional(S.Boolean),
-          maintenanceWindowCycles: S.optional(__S(2689, __c168, 1)),
+          maintenanceWindowCycles: S.optional(__S(5377, __c168, 1)),
           minDurationInMinutes: S.optional(S.Number),
           defaultDurationInMinutes: S.optional(S.Number),
           minCycles: S.optional(S.Number),
@@ -13493,7 +14343,7 @@ function __c167(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2673, __c167, 1)),
+          properties: S.optional(__S(5345, __c167, 1)),
         }),
       ).annotate({ identifier: "GetSqlPoolMaintenanceWindowOptionResponse" });
   }
@@ -13509,7 +14359,7 @@ function __c168(j: number): any {
         }),
       ).annotate({ identifier: "MaintenanceWindowTimeRange" });
     case 1:
-      return S.Array(__S(2688, __c168, 0));
+      return S.Array(__S(5376, __c168, 0));
   }
 }
 function __c169(j: number): any {
@@ -13551,7 +14401,7 @@ function __c170(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           location: S.optional(S.String),
-          properties: S.optional(__S(2720, __c170, 0)),
+          properties: S.optional(__S(5440, __c170, 0)),
         }),
       ).annotate({ identifier: "CreateSqlPoolRestorePointResponse" });
   }
@@ -13581,7 +14431,7 @@ function __c171(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2752, __c172, 0)),
+          properties: S.optional(__S(5504, __c172, 0)),
         }),
       ).annotate({ identifier: "GetSqlPoolMaintenanceWindowsResponse" });
   }
@@ -13591,7 +14441,7 @@ function __c172(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          timeRanges: S.optional(__S(2689, __c168, 1)),
+          timeRanges: S.optional(__S(5377, __c168, 1)),
         }),
       ).annotate({ identifier: "MaintenanceWindowsProperties" });
   }
@@ -13662,7 +14512,7 @@ function __c175(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           location: S.optional(S.String),
-          properties: S.optional(__S(2800, __c175, 0)),
+          properties: S.optional(__S(5600, __c175, 0)),
         }),
       ).annotate({ identifier: "GetSqlPoolReplicationLinkByNameResponse" });
   }
@@ -13748,8 +14598,8 @@ function __c180(j: number): any {
       return S.suspend(() =>
         S.Struct({
           state: S.String,
-          disabledAlerts: S.optional(__S(1728, __c108, 0)),
-          emailAddresses: S.optional(__S(1728, __c108, 0)),
+          disabledAlerts: S.optional(__S(3744, __c117, 0)),
+          emailAddresses: S.optional(__S(3744, __c117, 0)),
           emailAccountAdmins: S.optional(S.Boolean),
           storageEndpoint: S.optional(S.String),
           storageAccountAccessKey: S.optional(S.String),
@@ -13763,7 +14613,7 @@ function __c180(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2880, __c180, 0)),
+          properties: S.optional(__S(5760, __c180, 0)),
         }),
       ).annotate({ identifier: "GetSqlPoolSecurityAlertPolicyResponse" });
   }
@@ -13814,7 +14664,7 @@ function __c182(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2912, __c182, 0)),
+          properties: S.optional(__S(5824, __c182, 0)),
           managedBy: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSqlPoolSensitivityLabelResponse" });
@@ -13878,7 +14728,7 @@ function __c185(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           location: S.optional(S.String),
-          properties: S.optional(__S(2960, __c185, 0)),
+          properties: S.optional(__S(5920, __c185, 0)),
         }),
       ).annotate({ identifier: "GetSqlPoolTransparentDataEncryptionResponse" });
   }
@@ -13912,7 +14762,7 @@ function __c187(j: number): any {
           storageContainerPath: S.optional(S.String),
           storageContainerSasKey: S.optional(S.String),
           storageAccountAccessKey: S.optional(S.String),
-          recurringScans: S.optional(__S(3008, __c188, 0)),
+          recurringScans: S.optional(__S(6016, __c188, 0)),
         }),
       ).annotate({ identifier: "SqlPoolVulnerabilityAssessmentProperties" });
     case 1:
@@ -13921,7 +14771,7 @@ function __c187(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2992, __c187, 0)),
+          properties: S.optional(__S(5984, __c187, 0)),
         }),
       ).annotate({ identifier: "GetSqlPoolVulnerabilityAssessmentResponse" });
   }
@@ -13933,7 +14783,7 @@ function __c188(j: number): any {
         S.Struct({
           isEnabled: S.optional(S.Boolean),
           emailSubscriptionAdmins: S.optional(S.Boolean),
-          emails: S.optional(__S(1728, __c108, 0)),
+          emails: S.optional(__S(3744, __c117, 0)),
         }),
       ).annotate({ identifier: "VulnerabilityAssessmentRecurringScansProperties" });
   }
@@ -13955,7 +14805,7 @@ function __c189(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           sqlPoolName: S.String.pipe(T.Label()),
           dataMaskingPolicyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3024, __c189, 0)),
+          properties: S.optional(__S(6048, __c189, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13984,7 +14834,7 @@ function __c190(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(3040, __c190, 0)),
+          properties: S.optional(__S(6080, __c190, 0)),
           location: S.optional(S.String),
           kind: S.optional(S.String),
           managedBy: S.optional(S.String),
@@ -14020,15 +14870,15 @@ function __c192(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          result: __S(1728, __c108, 0),
+          result: __S(3744, __c117, 0),
         }),
       ).annotate({ identifier: "SqlPoolVulnerabilityAssessmentRuleBaselineItem" });
     case 1:
-      return S.Array(__S(3072, __c192, 0));
+      return S.Array(__S(6144, __c192, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          baselineResults: __S(3073, __c192, 1),
+          baselineResults: __S(6145, __c192, 1),
         }),
       ).annotate({ identifier: "SqlPoolVulnerabilityAssessmentRuleBaselineProperties" });
     case 3:
@@ -14037,7 +14887,7 @@ function __c192(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(3074, __c192, 2)),
+          properties: S.optional(__S(6146, __c192, 2)),
         }),
       ).annotate({ identifier: "GetSqlPoolVulnerabilityAssessmentRuleBaselineResponse" });
   }
@@ -14074,7 +14924,7 @@ function __c194(j: number): any {
         }),
       ).annotate({ identifier: "VulnerabilityAssessmentScanError" });
     case 1:
-      return S.Array(__S(3104, __c194, 0));
+      return S.Array(__S(6208, __c194, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -14083,7 +14933,7 @@ function __c194(j: number): any {
           state: S.optional(S.String),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          errors: S.optional(__S(3105, __c194, 1)),
+          errors: S.optional(__S(6209, __c194, 1)),
           storageContainerPath: S.optional(S.String),
           numberOfFailedSecurityChecks: S.optional(S.Number),
         }),
@@ -14094,7 +14944,7 @@ function __c194(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(3106, __c194, 2)),
+          properties: S.optional(__S(6210, __c194, 2)),
         }),
       ).annotate({ identifier: "GetSqlPoolVulnerabilityAssessmentScanResponse" });
   }
@@ -14140,7 +14990,7 @@ function __c196(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(3136, __c196, 0)),
+          properties: S.optional(__S(6272, __c196, 0)),
         }),
       ).annotate({ identifier: "GetSqlPoolWorkloadClassifierResponse" });
   }
@@ -14185,7 +15035,7 @@ function __c198(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(3168, __c198, 0)),
+          properties: S.optional(__S(6336, __c198, 0)),
         }),
       ).annotate({ identifier: "GetSqlPoolWorkloadGroupResponse" });
   }
@@ -14245,7 +15095,7 @@ function __c201(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(3216, __c201, 0)),
+          properties: S.optional(__S(6432, __c201, 0)),
         }),
       ).annotate({ identifier: "GetWorkspaceAadAdminResponse" });
   }
@@ -14284,7 +15134,7 @@ function __c203(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          grantSqlControlToManagedIdentity: S.optional(__S(3248, __c203, 0)),
+          grantSqlControlToManagedIdentity: S.optional(__S(6496, __c203, 0)),
         }),
       ).annotate({ identifier: "GetWorkspaceManagedIdentitySqlControlSettingsResponseProperties" });
     case 2:
@@ -14293,7 +15143,7 @@ function __c203(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(3249, __c203, 1)),
+          properties: S.optional(__S(6497, __c203, 1)),
         }),
       ).annotate({ identifier: "GetWorkspaceManagedIdentitySqlControlSettingsResponse" });
   }
@@ -14327,7 +15177,7 @@ function __c205(j: number): any {
           storageEndpoint: S.optional(S.String),
           storageAccountAccessKey: S.optional(S.String),
           retentionDays: S.optional(S.Number),
-          auditActionsAndGroups: S.optional(__S(1728, __c108, 0)),
+          auditActionsAndGroups: S.optional(__S(3744, __c117, 0)),
           storageAccountSubscriptionId: S.optional(S.String),
           isStorageSecondaryKeyInUse: S.optional(S.Boolean),
           isAzureMonitorTargetEnabled: S.optional(S.Boolean),
@@ -14341,7 +15191,7 @@ function __c205(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(3280, __c205, 0)),
+          properties: S.optional(__S(6560, __c205, 0)),
         }),
       ).annotate({ identifier: "GetWorkspaceManagedSqlServerBlobAuditingPolicyResponse" });
   }
@@ -14383,7 +15233,7 @@ function __c207(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           location: S.optional(S.String),
-          properties: S.optional(__S(3312, __c207, 0)),
+          properties: S.optional(__S(6624, __c207, 0)),
         }),
       ).annotate({
         identifier: "GetWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsResponse",
@@ -14430,7 +15280,7 @@ function __c209(j: number): any {
           type: S.optional(S.String),
           kind: S.optional(S.String),
           location: S.optional(S.String),
-          properties: S.optional(__S(3344, __c209, 0)),
+          properties: S.optional(__S(6688, __c209, 0)),
         }),
       ).annotate({ identifier: "GetWorkspaceManagedSqlServerEncryptionProtectorResponse" });
   }
@@ -14462,7 +15312,7 @@ function __c210(j: number): any {
           sqlPoolName: S.String.pipe(T.Label()),
           dataMaskingPolicyName: S.String.pipe(T.Label()),
           dataMaskingRuleName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3360, __c210, 0)),
+          properties: S.optional(__S(6720, __c210, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -14499,7 +15349,7 @@ function __c211(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(3376, __c211, 0)),
+          properties: S.optional(__S(6752, __c211, 0)),
           location: S.optional(S.String),
           kind: S.optional(S.String),
         }),
@@ -14536,7 +15386,7 @@ function __c213(j: number): any {
           storageEndpoint: S.optional(S.String),
           storageAccountAccessKey: S.optional(S.String),
           retentionDays: S.optional(S.Number),
-          auditActionsAndGroups: S.optional(__S(1728, __c108, 0)),
+          auditActionsAndGroups: S.optional(__S(3744, __c117, 0)),
           storageAccountSubscriptionId: S.optional(S.String),
           isStorageSecondaryKeyInUse: S.optional(S.Boolean),
           isAzureMonitorTargetEnabled: S.optional(S.Boolean),
@@ -14550,7 +15400,7 @@ function __c213(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(3408, __c213, 0)),
+          properties: S.optional(__S(6816, __c213, 0)),
         }),
       ).annotate({ identifier: "GetWorkspaceManagedSqlServerExtendedBlobAuditingPolicyResponse" });
   }
@@ -14592,7 +15442,7 @@ function __c215(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(3440, __c215, 0)),
+          properties: S.optional(__S(6880, __c215, 0)),
         }),
       ).annotate({ identifier: "GetWorkspaceManagedSqlServerRecoverableSqlPoolResponse" });
   }
@@ -14645,7 +15495,7 @@ function __c218(j: number): any {
           storageContainerPath: S.String,
           storageContainerSasKey: S.optional(S.String),
           storageAccountAccessKey: S.optional(S.String),
-          recurringScans: S.optional(__S(3008, __c188, 0)),
+          recurringScans: S.optional(__S(6016, __c188, 0)),
         }),
       ).annotate({ identifier: "ServerVulnerabilityAssessmentProperties" });
     case 1:
@@ -14654,7 +15504,7 @@ function __c218(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(3488, __c218, 0)),
+          properties: S.optional(__S(6976, __c218, 0)),
         }),
       ).annotate({ identifier: "GetWorkspaceManagedSqlServerVulnerabilityAssessmentResponse" });
   }
@@ -14707,7 +15557,7 @@ function __c221(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           ruleName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3552, __c222, 0)),
+          properties: S.optional(__S(7104, __c222, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -14739,7 +15589,7 @@ function __c223(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           keyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(752, __c47, 0)),
+          properties: S.optional(__S(1504, __c47, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -14769,11 +15619,11 @@ function __c224(j: number): any {
         ),
       ).annotate({ identifier: "ListAzureADOnlyAuthenticationsRequest" });
     case 1:
-      return S.Array(__S(1649, __c103, 1));
+      return S.Array(__S(3297, __c103, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3585, __c224, 1)),
+          value: S.optional(__S(7169, __c224, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AzureADOnlyAuthenticationListResult" });
@@ -14797,12 +15647,12 @@ function __c225(j: number): any {
         ),
       ).annotate({ identifier: "ListBigDataPoolByWorkspaceRequest" });
     case 1:
-      return S.Array(__S(55, __c3, 7));
+      return S.Array(__S(103, __c3, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(3601, __c225, 1)),
+          value: S.optional(__S(7201, __c225, 1)),
         }),
       ).annotate({ identifier: "BigDataPoolResourceInfoListResult" });
   }
@@ -14847,11 +15697,11 @@ function __c227(j: number): any {
         ),
       ).annotate({ identifier: "ListDataMaskingRuleBySqlPoolRequest" });
     case 1:
-      return S.Array(__S(3377, __c211, 1));
+      return S.Array(__S(6753, __c211, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3633, __c227, 1)),
+          value: S.optional(__S(7265, __c227, 1)),
         }),
       ).annotate({ identifier: "DataMaskingRuleListResult" });
   }
@@ -14875,11 +15725,11 @@ function __c228(j: number): any {
         ),
       ).annotate({ identifier: "ListExtendedSqlPoolBlobAuditingPolicyBySqlPoolRequest" });
     case 1:
-      return S.Array(__S(1953, __c122, 1));
+      return S.Array(__S(3905, __c122, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3649, __c228, 1)),
+          value: S.optional(__S(7297, __c228, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExtendedSqlPoolBlobAuditingPolicyListResult" });
@@ -14934,11 +15784,11 @@ function __c231(j: number): any {
         ),
       ).annotate({ identifier: "ListIntegrationRuntimeByWorkspaceRequest" });
     case 1:
-      return S.Array(__S(1889, __c118, 1));
+      return S.Array(__S(3803, __c118, 27));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3697, __c231, 1),
+          value: __S(7393, __c231, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "IntegrationRuntimeListResponse" });
@@ -14979,12 +15829,12 @@ function __c232(j: number): any {
         ),
       ).annotate({ identifier: "IntegrationRuntimeNodeMonitoringData" });
     case 2:
-      return S.Array(__S(3713, __c232, 1));
+      return S.Array(__S(7425, __c232, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          nodes: S.optional(__S(3714, __c232, 2)),
+          nodes: S.optional(__S(7426, __c232, 2)),
         }),
       ).annotate({ identifier: "IntegrationRuntimeMonitoringData" });
   }
@@ -15016,13 +15866,101 @@ function __c233(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SsisObjectMetadata" });
+      ).annotate({ identifier: "SsisFolder" });
     case 2:
-      return S.Array(__S(3729, __c233, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3730, __c233, 2)),
+          id: S.optional(S.Number),
+          environmentFolderName: S.optional(S.String),
+          environmentName: S.optional(S.String),
+          referenceType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SsisEnvironmentReference" });
+    case 3:
+      return S.Array(__S(7458, __c233, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          dataType: S.optional(S.String),
+          required: S.optional(S.Boolean),
+          sensitive: S.optional(S.Boolean),
+          designDefaultValue: S.optional(S.String),
+          defaultValue: S.optional(S.String),
+          sensitiveDefaultValue: S.optional(S.String),
+          valueType: S.optional(S.String),
+          valueSet: S.optional(S.Boolean),
+          variable: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SsisParameter" });
+    case 5:
+      return S.Array(__S(7460, __c233, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          id: S.optional(S.Number),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          folderId: S.optional(S.Number),
+          version: S.optional(S.Number),
+          environmentRefs: S.optional(__S(7459, __c233, 3)),
+          parameters: S.optional(__S(7461, __c233, 5)),
+        }),
+      ).annotate({ identifier: "SsisProject" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          id: S.optional(S.Number),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          folderId: S.optional(S.Number),
+          projectVersion: S.optional(S.Number),
+          projectId: S.optional(S.Number),
+          parameters: S.optional(__S(7461, __c233, 5)),
+        }),
+      ).annotate({ identifier: "SsisPackage" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          dataType: S.optional(S.String),
+          sensitive: S.optional(S.Boolean),
+          value: S.optional(S.String),
+          sensitiveValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SsisVariable" });
+    case 9:
+      return S.Array(__S(7464, __c233, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          id: S.optional(S.Number),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          folderId: S.optional(S.Number),
+          variables: S.optional(__S(7465, __c233, 9)),
+        }),
+      ).annotate({ identifier: "SsisEnvironment" });
+    case 11:
+      return S.Union([
+        __S(7457, __c233, 1),
+        __S(7462, __c233, 6),
+        __S(7463, __c233, 7),
+        __S(7466, __c233, 10),
+      ]);
+    case 12:
+      return S.Array(__S(7467, __c233, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(__S(7468, __c233, 12)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SsisObjectMetadataListResponse" });
@@ -15055,29 +15993,29 @@ function __c234(j: number): any {
         }),
       ).annotate({ identifier: "IntegrationRuntimeOutboundNetworkDependenciesEndpointDetails" });
     case 2:
-      return S.Array(__S(3745, __c234, 1));
+      return S.Array(__S(7489, __c234, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           domainName: S.optional(S.String),
-          endpointDetails: S.optional(__S(3746, __c234, 2)),
+          endpointDetails: S.optional(__S(7490, __c234, 2)),
         }),
       ).annotate({ identifier: "IntegrationRuntimeOutboundNetworkDependenciesEndpoint" });
     case 4:
-      return S.Array(__S(3747, __c234, 3));
+      return S.Array(__S(7491, __c234, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           category: S.optional(S.String),
-          endpoints: S.optional(__S(3748, __c234, 4)),
+          endpoints: S.optional(__S(7492, __c234, 4)),
         }),
       ).annotate({ identifier: "IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpoint" });
     case 6:
-      return S.Array(__S(3749, __c234, 5));
+      return S.Array(__S(7493, __c234, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3750, __c234, 6)),
+          value: S.optional(__S(7494, __c234, 6)),
         }),
       ).annotate({ identifier: "IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse" });
   }
@@ -15100,12 +16038,12 @@ function __c235(j: number): any {
         ),
       ).annotate({ identifier: "ListIpFirewallRuleByWorkspaceRequest" });
     case 1:
-      return S.Array(__S(529, __c33, 1));
+      return S.Array(__S(1057, __c33, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(3761, __c235, 1)),
+          value: S.optional(__S(7521, __c235, 1)),
         }),
       ).annotate({ identifier: "IpFirewallRuleInfoListResult" });
   }
@@ -15128,12 +16066,12 @@ function __c236(j: number): any {
         ),
       ).annotate({ identifier: "ListKeyByWorkspaceRequest" });
     case 1:
-      return S.Array(__S(753, __c47, 1));
+      return S.Array(__S(1505, __c47, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(3777, __c236, 1)),
+          value: S.optional(__S(7553, __c236, 1)),
         }),
       ).annotate({ identifier: "KeyInfoListResult" });
   }
@@ -15156,11 +16094,11 @@ function __c237(j: number): any {
         ),
       ).annotate({ identifier: "ListLibraryByWorkspaceRequest" });
     case 1:
-      return S.Array(__S(2288, __c143, 0));
+      return S.Array(__S(4576, __c143, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3793, __c237, 1),
+          value: __S(7585, __c237, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "LibraryListResponse" });

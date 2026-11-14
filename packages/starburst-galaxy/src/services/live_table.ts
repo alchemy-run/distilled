@@ -972,10 +972,257 @@ export interface ListLiveTablesRequest {
   pageSize?: number | undefined;
 }
 export type NewSchemaNewJsonSchemaTypeKey = "newJsonSchema";
-/** A new set of columns for this table (replaces the old one) */
-export interface NewSchemaNewJsonSchemaColumnsItem {
-  typeKey: string;
+export type UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdateTypeKey =
+  "newJsonIngestColumnInSchemaUpdate";
+/** Parameters for parsing Varchar and time types. For Varchar, the only allowed parameter is "varchar.type", with valid values "scalar" or "json". For Timestamp and TimestampTz, the only allowed parameters are: - "timestamp.converter", with valid values "unixtime" or "iso8601". - "timestamp.unit", with valid values "nanos", "micros", "millis", "secs", "mins", "hours", or "days". */
+export type UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdateFieldParserConfigParseParametersMap =
+  { [key: string]: string | undefined };
+/** JSON pointer (and parsing parameters) to the raw-table field transformed into this column value */
+export interface UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdateFieldParserConfig {
+  /** JSON pointer (IETF RFC 6901) */
+  pointer: string;
+  /** Parameters for parsing Varchar and time types. For Varchar, the only allowed parameter is "varchar.type", with valid values "scalar" or "json". For Timestamp and TimestampTz, the only allowed parameters are: - "timestamp.converter", with valid values "unixtime" or "iso8601". - "timestamp.unit", with valid values "nanos", "micros", "millis", "secs", "mins", "hours", or "days". */
+  parseParameters?:
+    | UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdateFieldParserConfigParseParametersMap
+    | undefined;
 }
+/** Trino type enum */
+export type UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdateTrinoTypeTypeId =
+  | "Boolean"
+  | "Integer"
+  | "Bigint"
+  | "Real"
+  | "Double"
+  | "Decimal"
+  | "Date"
+  | "Time"
+  | "Timestamp"
+  | "TimestampTz"
+  | "Varchar"
+  | "Uuid"
+  | "Varbinary"
+  | "Row"
+  | "Array"
+  | "Map";
+/** Parameters for completing the type specification. Types Decimal, Time, Timestamp, and TimestampTz require a parameter named `precision`, which is the number of digits. Type Decimal also requires a parameter named `scale`, which is the number of digits to the right of the decimal point. */
+export type UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdateTrinoTypeTypeParametersMap = {
+  [key: string]: string | undefined;
+};
+/** Column type; adheres to Trino conventions */
+export interface UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdateTrinoType {
+  /** Trino type enum */
+  typeId: UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdateTrinoTypeTypeId | (string & {});
+  /** Parameters for completing the type specification. Types Decimal, Time, Timestamp, and TimestampTz require a parameter named `precision`, which is the number of digits. Type Decimal also requires a parameter named `scale`, which is the number of digits to the right of the decimal point. */
+  typeParameters?:
+    | UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdateTrinoTypeTypeParametersMap
+    | undefined;
+}
+/** Parameters for parsing Varchar and time types. For Varchar, the only allowed parameter is "varchar.type", with valid values "scalar" or "json". For Timestamp and TimestampTz, the only allowed parameters are: - "timestamp.converter", with valid values "unixtime" or "iso8601". - "timestamp.unit", with valid values "nanos", "micros", "millis", "secs", "mins", "hours", or "days". */
+export type NewJsonIngestColumnInSchemaUpdateFieldParserConfigParseParametersMap = {
+  [key: string]: string | undefined;
+};
+/** JSON pointer (and parsing parameters) to the raw-table field transformed into this column value */
+export interface NewJsonIngestColumnInSchemaUpdateFieldParserConfig {
+  /** JSON pointer (IETF RFC 6901) */
+  pointer: string;
+  /** Parameters for parsing Varchar and time types. For Varchar, the only allowed parameter is "varchar.type", with valid values "scalar" or "json". For Timestamp and TimestampTz, the only allowed parameters are: - "timestamp.converter", with valid values "unixtime" or "iso8601". - "timestamp.unit", with valid values "nanos", "micros", "millis", "secs", "mins", "hours", or "days". */
+  parseParameters?:
+    | NewJsonIngestColumnInSchemaUpdateFieldParserConfigParseParametersMap
+    | undefined;
+}
+/** Trino type enum */
+export type NewJsonIngestColumnInSchemaUpdateTrinoTypeTypeId =
+  | "Boolean"
+  | "Integer"
+  | "Bigint"
+  | "Real"
+  | "Double"
+  | "Decimal"
+  | "Date"
+  | "Time"
+  | "Timestamp"
+  | "TimestampTz"
+  | "Varchar"
+  | "Uuid"
+  | "Varbinary"
+  | "Row"
+  | "Array"
+  | "Map";
+/** Parameters for completing the type specification. Types Decimal, Time, Timestamp, and TimestampTz require a parameter named `precision`, which is the number of digits. Type Decimal also requires a parameter named `scale`, which is the number of digits to the right of the decimal point. */
+export type NewJsonIngestColumnInSchemaUpdateTrinoTypeTypeParametersMap = {
+  [key: string]: string | undefined;
+};
+/** Column type; adheres to Trino conventions */
+export interface NewJsonIngestColumnInSchemaUpdateTrinoType {
+  /** Trino type enum */
+  typeId: NewJsonIngestColumnInSchemaUpdateTrinoTypeTypeId | (string & {});
+  /** Parameters for completing the type specification. Types Decimal, Time, Timestamp, and TimestampTz require a parameter named `precision`, which is the number of digits. Type Decimal also requires a parameter named `scale`, which is the number of digits to the right of the decimal point. */
+  typeParameters?: NewJsonIngestColumnInSchemaUpdateTrinoTypeTypeParametersMap | undefined;
+}
+/** Nested columns for complex types (Row, Map, Array). For primitive types, this list is empty. For the Row type, this contains the fields of the row. For the Map type, this contains the key and value types. For the Array type, this contains the single element type. */
+export type NewJsonIngestColumnInSchemaUpdateNestedColumnsList =
+  Array<NewJsonIngestColumnInSchemaUpdate>;
+/** An added column */
+export interface NewJsonIngestColumnInSchemaUpdate {
+  /** Name of the transform column; adheres to Trino conventions */
+  trinoColumnName: string;
+  /** JSON pointer (and parsing parameters) to the raw-table field transformed into this column value */
+  fieldParserConfig: NewJsonIngestColumnInSchemaUpdateFieldParserConfig;
+  /** Column type; adheres to Trino conventions */
+  trinoType: NewJsonIngestColumnInSchemaUpdateTrinoType;
+  /** Nested columns for complex types (Row, Map, Array). For primitive types, this list is empty. For the Row type, this contains the fields of the row. For the Map type, this contains the key and value types. For the Array type, this contains the single element type. */
+  nestedColumns: NewJsonIngestColumnInSchemaUpdateNestedColumnsList;
+}
+/** Nested columns for complex types (Row, Map, Array). For primitive types, this list is empty. For the Row type, this contains the fields of the row. For the Map type, this contains the key and value types. For the Array type, this contains the single element type. */
+export type UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdateNestedColumnsList =
+  Array<NewJsonIngestColumnInSchemaUpdate>;
+/** An added column */
+export interface UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate {
+  typeKey: UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdateTypeKey;
+  /** Name of the transform column; adheres to Trino conventions */
+  trinoColumnName: string;
+  /** JSON pointer (and parsing parameters) to the raw-table field transformed into this column value */
+  fieldParserConfig: UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdateFieldParserConfig;
+  /** Column type; adheres to Trino conventions */
+  trinoType: UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdateTrinoType;
+  /** Nested columns for complex types (Row, Map, Array). For primitive types, this list is empty. For the Row type, this contains the fields of the row. For the Map type, this contains the key and value types. For the Array type, this contains the single element type. */
+  nestedColumns: UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdateNestedColumnsList;
+}
+export type UpdatedJsonIngestColumnExistingJsonIngestColumn2TypeKey = "existingJsonIngestColumn";
+/** Parameters for parsing Varchar and time types. For Varchar, the only allowed parameter is "varchar.type", with valid values "scalar" or "json". For Timestamp and TimestampTz, the only allowed parameters are: - "timestamp.converter", with valid values "unixtime" or "iso8601". - "timestamp.unit", with valid values "nanos", "micros", "millis", "secs", "mins", "hours", or "days". */
+export type UpdatedJsonIngestColumnExistingJsonIngestColumn2FieldParserConfigParseParametersMap = {
+  [key: string]: string | undefined;
+};
+/** JSON pointer (and parsing parameters) to the raw-table field transformed into this column value */
+export interface UpdatedJsonIngestColumnExistingJsonIngestColumn2FieldParserConfig {
+  /** JSON pointer (IETF RFC 6901) */
+  pointer: string;
+  /** Parameters for parsing Varchar and time types. For Varchar, the only allowed parameter is "varchar.type", with valid values "scalar" or "json". For Timestamp and TimestampTz, the only allowed parameters are: - "timestamp.converter", with valid values "unixtime" or "iso8601". - "timestamp.unit", with valid values "nanos", "micros", "millis", "secs", "mins", "hours", or "days". */
+  parseParameters?:
+    | UpdatedJsonIngestColumnExistingJsonIngestColumn2FieldParserConfigParseParametersMap
+    | undefined;
+}
+/** Trino type enum */
+export type UpdatedJsonIngestColumnExistingJsonIngestColumn2TrinoTypeTypeId =
+  | "Boolean"
+  | "Integer"
+  | "Bigint"
+  | "Real"
+  | "Double"
+  | "Decimal"
+  | "Date"
+  | "Time"
+  | "Timestamp"
+  | "TimestampTz"
+  | "Varchar"
+  | "Uuid"
+  | "Varbinary"
+  | "Row"
+  | "Array"
+  | "Map";
+/** Parameters for completing the type specification. Types Decimal, Time, Timestamp, and TimestampTz require a parameter named `precision`, which is the number of digits. Type Decimal also requires a parameter named `scale`, which is the number of digits to the right of the decimal point. */
+export type UpdatedJsonIngestColumnExistingJsonIngestColumn2TrinoTypeTypeParametersMap = {
+  [key: string]: string | undefined;
+};
+/** Column type; adheres to Trino conventions */
+export interface UpdatedJsonIngestColumnExistingJsonIngestColumn2TrinoType {
+  /** Trino type enum */
+  typeId: UpdatedJsonIngestColumnExistingJsonIngestColumn2TrinoTypeTypeId | (string & {});
+  /** Parameters for completing the type specification. Types Decimal, Time, Timestamp, and TimestampTz require a parameter named `precision`, which is the number of digits. Type Decimal also requires a parameter named `scale`, which is the number of digits to the right of the decimal point. */
+  typeParameters?:
+    | UpdatedJsonIngestColumnExistingJsonIngestColumn2TrinoTypeTypeParametersMap
+    | undefined;
+}
+export type UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate2TypeKey =
+  "newJsonIngestColumnInSchemaUpdate";
+/** Parameters for parsing Varchar and time types. For Varchar, the only allowed parameter is "varchar.type", with valid values "scalar" or "json". For Timestamp and TimestampTz, the only allowed parameters are: - "timestamp.converter", with valid values "unixtime" or "iso8601". - "timestamp.unit", with valid values "nanos", "micros", "millis", "secs", "mins", "hours", or "days". */
+export type UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate2FieldParserConfigParseParametersMap =
+  { [key: string]: string | undefined };
+/** JSON pointer (and parsing parameters) to the raw-table field transformed into this column value */
+export interface UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate2FieldParserConfig {
+  /** JSON pointer (IETF RFC 6901) */
+  pointer: string;
+  /** Parameters for parsing Varchar and time types. For Varchar, the only allowed parameter is "varchar.type", with valid values "scalar" or "json". For Timestamp and TimestampTz, the only allowed parameters are: - "timestamp.converter", with valid values "unixtime" or "iso8601". - "timestamp.unit", with valid values "nanos", "micros", "millis", "secs", "mins", "hours", or "days". */
+  parseParameters?:
+    | UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate2FieldParserConfigParseParametersMap
+    | undefined;
+}
+/** Trino type enum */
+export type UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate2TrinoTypeTypeId =
+  | "Boolean"
+  | "Integer"
+  | "Bigint"
+  | "Real"
+  | "Double"
+  | "Decimal"
+  | "Date"
+  | "Time"
+  | "Timestamp"
+  | "TimestampTz"
+  | "Varchar"
+  | "Uuid"
+  | "Varbinary"
+  | "Row"
+  | "Array"
+  | "Map";
+/** Parameters for completing the type specification. Types Decimal, Time, Timestamp, and TimestampTz require a parameter named `precision`, which is the number of digits. Type Decimal also requires a parameter named `scale`, which is the number of digits to the right of the decimal point. */
+export type UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate2TrinoTypeTypeParametersMap = {
+  [key: string]: string | undefined;
+};
+/** Column type; adheres to Trino conventions */
+export interface UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate2TrinoType {
+  /** Trino type enum */
+  typeId: UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate2TrinoTypeTypeId | (string & {});
+  /** Parameters for completing the type specification. Types Decimal, Time, Timestamp, and TimestampTz require a parameter named `precision`, which is the number of digits. Type Decimal also requires a parameter named `scale`, which is the number of digits to the right of the decimal point. */
+  typeParameters?:
+    | UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate2TrinoTypeTypeParametersMap
+    | undefined;
+}
+/** Nested columns for complex types (Row, Map, Array). For primitive types, this list is empty. For the Row type, this contains the fields of the row. For the Map type, this contains the key and value types. For the Array type, this contains the single element type. */
+export type UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate2NestedColumnsList =
+  Array<NewJsonIngestColumnInSchemaUpdate>;
+/** An added column */
+export interface UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate2 {
+  typeKey: UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate2TypeKey;
+  /** Name of the transform column; adheres to Trino conventions */
+  trinoColumnName: string;
+  /** JSON pointer (and parsing parameters) to the raw-table field transformed into this column value */
+  fieldParserConfig: UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate2FieldParserConfig;
+  /** Column type; adheres to Trino conventions */
+  trinoType: UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate2TrinoType;
+  /** Nested columns for complex types (Row, Map, Array). For primitive types, this list is empty. For the Row type, this contains the fields of the row. For the Map type, this contains the key and value types. For the Array type, this contains the single element type. */
+  nestedColumns: UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate2NestedColumnsList;
+}
+export type UpdatedJsonIngestColumnExistingJsonIngestColumnTypeKey = "existingJsonIngestColumn";
+/** An existing column; same ID but other properties may differ */
+export interface UpdatedJsonIngestColumnExistingJsonIngestColumn {
+  typeKey: UpdatedJsonIngestColumnExistingJsonIngestColumnTypeKey;
+}
+/** Nested columns for complex types (Row, Map, Array). For primitive types, this list is empty. For the Row type, this contains the fields of the row. For the Map type, this contains the key and value types. For the Array type, this contains the single element type. */
+export type UpdatedJsonIngestColumnExistingJsonIngestColumn2NestedColumnsItem =
+  | UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate2
+  | UpdatedJsonIngestColumnExistingJsonIngestColumn;
+/** Nested columns for complex types (Row, Map, Array). For primitive types, this list is empty. For the Row type, this contains the fields of the row. For the Map type, this contains the key and value types. For the Array type, this contains the single element type. */
+export type UpdatedJsonIngestColumnExistingJsonIngestColumn2NestedColumnsList =
+  Array<UpdatedJsonIngestColumnExistingJsonIngestColumn2NestedColumnsItem>;
+/** An existing column; same ID but other properties may differ */
+export interface UpdatedJsonIngestColumnExistingJsonIngestColumn2 {
+  typeKey: UpdatedJsonIngestColumnExistingJsonIngestColumn2TypeKey;
+  /** ID of the transform column */
+  columnId: number;
+  /** Name of the transform column; adheres to Trino conventions */
+  trinoColumnName: string;
+  /** JSON pointer (and parsing parameters) to the raw-table field transformed into this column value */
+  fieldParserConfig: UpdatedJsonIngestColumnExistingJsonIngestColumn2FieldParserConfig;
+  /** Column type; adheres to Trino conventions */
+  trinoType: UpdatedJsonIngestColumnExistingJsonIngestColumn2TrinoType;
+  /** Nested columns for complex types (Row, Map, Array). For primitive types, this list is empty. For the Row type, this contains the fields of the row. For the Map type, this contains the key and value types. For the Array type, this contains the single element type. */
+  nestedColumns?: UpdatedJsonIngestColumnExistingJsonIngestColumn2NestedColumnsList | undefined;
+}
+/** A new set of columns for this table (replaces the old one) */
+export type NewSchemaNewJsonSchemaColumnsItem =
+  | UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate
+  | UpdatedJsonIngestColumnExistingJsonIngestColumn2;
 /** A new set of columns for this table (replaces the old one) */
 export type NewSchemaNewJsonSchemaColumnsList = Array<NewSchemaNewJsonSchemaColumnsItem>;
 /** New schema for a JSON transform live table */
@@ -1118,7 +1365,7 @@ export const updateLiveTableSchema: API.OperationMethod<
   UpdateLiveTableSchemaError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(227, __c7, 3) as any as S.Schema<UpdateLiveTableSchemaRequest>,
+  input: __S(235, __c7, 11) as any as S.Schema<UpdateLiveTableSchemaRequest>,
   output: __S(57, __c1, 25) as any as S.Schema<LiveTable>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
   protocol: StarburstGalaxyProtocol,
@@ -1506,27 +1753,67 @@ function __c6(j: number): any {
 function __c7(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(225, __c7, 1)));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          trinoColumnName: S.String,
+          fieldParserConfig: __S(36, __c1, 4),
+          trinoType: __S(37, __c1, 5),
+          nestedColumns: __S(224, __c7, 0),
+        }),
+      ).annotate({ identifier: "NewJsonIngestColumnInSchemaUpdate" });
+    case 2:
+      return S.Array(__S(225, __c7, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          typeKey: S.String,
+          trinoColumnName: S.String,
+          fieldParserConfig: __S(36, __c1, 4),
+          trinoType: __S(37, __c1, 5),
+          nestedColumns: __S(226, __c7, 2),
+        }),
+      ).annotate({ identifier: "UpdatedJsonIngestColumnNewJsonIngestColumnInSchemaUpdate" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           typeKey: S.String,
         }),
-      ).annotate({ identifier: "NewSchemaNewJsonSchemaColumnsItem" });
-    case 1:
-      return S.Array(__S(224, __c7, 0));
-    case 2:
+      ).annotate({ identifier: "UpdatedJsonIngestColumnExistingJsonIngestColumn" });
+    case 5:
+      return S.Union([__S(227, __c7, 3), __S(228, __c7, 4)]);
+    case 6:
+      return S.Array(__S(229, __c7, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           typeKey: S.String,
-          columns: __S(225, __c7, 1),
+          columnId: S.Number,
+          trinoColumnName: S.String,
+          fieldParserConfig: __S(36, __c1, 4),
+          trinoType: __S(37, __c1, 5),
+          nestedColumns: S.optional(__S(230, __c7, 6)),
+        }),
+      ).annotate({ identifier: "UpdatedJsonIngestColumnExistingJsonIngestColumn2" });
+    case 8:
+      return S.Union([__S(227, __c7, 3), __S(231, __c7, 7)]);
+    case 9:
+      return S.Array(__S(232, __c7, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          typeKey: S.String,
+          columns: __S(233, __c7, 9),
           sortColumnName: S.optional(S.String),
         }),
       ).annotate({ identifier: "NewSchemaNewJsonSchema" });
-    case 3:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           syncToken: S.String,
           transformLiveTableSchemaUpdateId: S.String,
-          newSchema: __S(226, __c7, 2),
+          newSchema: __S(234, __c7, 10),
         }).pipe(T.Http({ method: "PUT", uri: "/public/api/v1/liveTable:schema", code: 200 })),
       ).annotate({ identifier: "UpdateLiveTableSchemaRequest" });
   }

@@ -110,10 +110,70 @@ export interface CreateEmailConfigurationResponse {
 }
 /** Resource tags. */
 export type CreateFabricRequestTagsMap = { [key: string]: string | undefined };
+/** Discriminator property for FabricModelCustomProperties. */
+export type AzStackHCIFabricModelCustomPropertiesInputInstanceType = "AzStackHCI";
+/** Storage container properties. */
+export interface StorageContainerProperties {
+  /** Gets or sets the Name. */
+  name: string;
+  /** Gets or sets the ClusterSharedVolumePath. */
+  clusterSharedVolumePath: string;
+}
+/** Gets or sets the list of AzStackHCICluster Storage Container. */
+export type AzStackHCIClusterPropertiesStorageContainersList = Array<StorageContainerProperties>;
+/** AzStackHCI cluster properties. */
+export interface AzStackHCIClusterProperties {
+  /** Gets or sets the AzStackHCICluster FQDN name. */
+  clusterName: string;
+  /** Gets or sets the AzStackHCICluster resource name. */
+  resourceName: string;
+  /** Gets or sets the Storage account name. */
+  storageAccountName: string;
+  /** Gets or sets the list of AzStackHCICluster Storage Container. */
+  storageContainers: AzStackHCIClusterPropertiesStorageContainersList;
+}
+/** AzStackHCI fabric model custom properties. */
+export interface AzStackHCIFabricModelCustomPropertiesInput {
+  /** Discriminator property for FabricModelCustomProperties. */
+  instanceType: AzStackHCIFabricModelCustomPropertiesInputInstanceType;
+  /** Gets or sets the ARM Id of the AzStackHCI site. */
+  azStackHciSiteId: string;
+  /** AzStackHCI cluster properties. */
+  cluster: AzStackHCIClusterProperties;
+  /** Gets or sets the Migration solution ARM Id. */
+  migrationSolutionId: string;
+}
+/** Discriminator property for FabricModelCustomProperties. */
+export type HyperVMigrateFabricModelCustomPropertiesInputInstanceType = "HyperVMigrate";
+/** HyperV migrate fabric model custom properties. */
+export interface HyperVMigrateFabricModelCustomPropertiesInput {
+  /** Discriminator property for FabricModelCustomProperties. */
+  instanceType: HyperVMigrateFabricModelCustomPropertiesInputInstanceType;
+  /** Gets or sets the ARM Id of the HyperV site. */
+  hyperVSiteId: string;
+  /** Gets or sets the migration solution ARM Id. */
+  migrationSolutionId: string;
+}
+/** Discriminator property for FabricModelCustomProperties. */
+export type VMwareMigrateFabricModelCustomPropertiesInstanceType = "VMwareMigrate";
+/** VMware migrate fabric model custom properties. */
+export interface VMwareMigrateFabricModelCustomProperties {
+  /** Discriminator property for FabricModelCustomProperties. */
+  instanceType: VMwareMigrateFabricModelCustomPropertiesInstanceType;
+  /** Gets or sets the ARM Id of the VMware site. */
+  vmwareSiteId: string;
+  /** Gets or sets the ARM Id of the migration solution. */
+  migrationSolutionId: string;
+}
+/** Fabric model custom properties. */
+export type FabricModelCustomPropertiesInput =
+  | AzStackHCIFabricModelCustomPropertiesInput
+  | HyperVMigrateFabricModelCustomPropertiesInput
+  | VMwareMigrateFabricModelCustomProperties;
 /** Fabric model properties. */
 export interface FabricModelPropertiesInput {
-  /** Fabric model custom properties. Polymorphic on `instanceType` (HyperVMigrate, VMwareMigrate, AzStackHCI). */
-  customProperties: unknown;
+  /** Fabric model custom properties. */
+  customProperties: FabricModelCustomPropertiesInput;
 }
 export interface CreateFabricRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -195,6 +255,51 @@ export interface HealthErrorModel {
 }
 /** Gets or sets the list of health errors. */
 export type FabricModelPropertiesHealthErrorsList = Array<HealthErrorModel>;
+/** Discriminator property for FabricModelCustomProperties. */
+export type AzStackHCIFabricModelCustomPropertiesInstanceType = "AzStackHCI";
+/** Gets or sets the Appliance name. */
+export type AzStackHCIFabricModelCustomPropertiesApplianceNameList = Array<string>;
+/** AzStackHCI fabric model custom properties. */
+export interface AzStackHCIFabricModelCustomProperties {
+  /** Discriminator property for FabricModelCustomProperties. */
+  instanceType: AzStackHCIFabricModelCustomPropertiesInstanceType;
+  /** Gets or sets the ARM Id of the AzStackHCI site. */
+  azStackHciSiteId: string;
+  /** Gets or sets the Appliance name. */
+  applianceName?: AzStackHCIFabricModelCustomPropertiesApplianceNameList | undefined;
+  /** AzStackHCI cluster properties. */
+  cluster: AzStackHCIClusterProperties;
+  /** Gets or sets the fabric resource Id. */
+  fabricResourceId?: string | undefined;
+  /** Gets or sets the fabric container Id. */
+  fabricContainerId?: string | undefined;
+  /** Gets or sets the Migration solution ARM Id. */
+  migrationSolutionId: string;
+  /** Gets or sets the migration hub Uri. */
+  migrationHubUri?: string | undefined;
+}
+/** Discriminator property for FabricModelCustomProperties. */
+export type HyperVMigrateFabricModelCustomPropertiesInstanceType = "HyperVMigrate";
+/** HyperV migrate fabric model custom properties. */
+export interface HyperVMigrateFabricModelCustomProperties {
+  /** Discriminator property for FabricModelCustomProperties. */
+  instanceType: HyperVMigrateFabricModelCustomPropertiesInstanceType;
+  /** Gets or sets the ARM Id of the HyperV site. */
+  hyperVSiteId: string;
+  /** Gets or sets the fabric resource Id. */
+  fabricResourceId?: string | undefined;
+  /** Gets or sets the fabric container Id. */
+  fabricContainerId?: string | undefined;
+  /** Gets or sets the migration solution ARM Id. */
+  migrationSolutionId: string;
+  /** Gets or sets the migration hub Uri. */
+  migrationHubUri?: string | undefined;
+}
+/** Fabric model custom properties. */
+export type FabricModelCustomProperties =
+  | AzStackHCIFabricModelCustomProperties
+  | HyperVMigrateFabricModelCustomProperties
+  | VMwareMigrateFabricModelCustomProperties;
 /** Fabric model properties. */
 export interface FabricModelProperties {
   /** Gets or sets the provisioning state of the fabric. */
@@ -207,8 +312,8 @@ export interface FabricModelProperties {
   health?: HealthStatus | undefined;
   /** Gets or sets the list of health errors. */
   healthErrors?: FabricModelPropertiesHealthErrorsList | undefined;
-  /** Fabric model custom properties. Polymorphic on `instanceType` (HyperVMigrate, VMwareMigrate, AzStackHCI). */
-  customProperties: unknown;
+  /** Fabric model custom properties. */
+  customProperties: FabricModelCustomProperties;
 }
 export interface CreateFabricResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -243,6 +348,17 @@ export interface IdentityModel {
   /** Gets or sets the authority of the SPN with which fabric agent communicates to service. */
   aadAuthority: string;
 }
+/** Discriminator property for FabricAgentModelCustomProperties. */
+export type VMwareFabricAgentModelCustomPropertiesInstanceType = "VMware";
+/** VMware fabric agent model custom properties. */
+export interface VMwareFabricAgentModelCustomProperties {
+  /** Discriminator property for FabricAgentModelCustomProperties. */
+  instanceType: VMwareFabricAgentModelCustomPropertiesInstanceType | (string & {});
+  /** Gets or sets the BIOS Id of the fabric agent machine. */
+  biosId: string;
+  /** Identity model. */
+  marsAuthenticationIdentity: IdentityModel;
+}
 /** Fabric agent model properties. */
 export interface FabricAgentModelPropertiesInput {
   /** Gets or sets the machine Id where fabric agent is running. */
@@ -253,8 +369,8 @@ export interface FabricAgentModelPropertiesInput {
   authenticationIdentity: IdentityModel;
   /** Identity model. */
   resourceAccessIdentity: IdentityModel;
-  /** Fabric agent model custom properties. Polymorphic on `instanceType` (VMware). */
-  customProperties: unknown;
+  /** Fabric agent model custom properties. */
+  customProperties: VMwareFabricAgentModelCustomProperties;
 }
 export interface CreateFabricAgentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -292,8 +408,8 @@ export interface FabricAgentModelProperties {
   provisioningState?: ProvisioningState | undefined;
   /** Gets or sets the list of health errors. */
   healthErrors?: FabricAgentModelPropertiesHealthErrorsList | undefined;
-  /** Fabric agent model custom properties. Polymorphic on `instanceType` (VMware). */
-  customProperties: unknown;
+  /** Fabric agent model custom properties. */
+  customProperties: VMwareFabricAgentModelCustomProperties;
 }
 export interface CreateFabricAgentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -311,10 +427,40 @@ export interface CreateFabricAgentResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** Discriminator property for PolicyModelCustomProperties. */
+export type HyperVToAzStackHCIPolicyModelCustomPropertiesInstanceType = "HyperVToAzStackHCI";
+/** HyperV To AzStackHCI Policy model custom properties. */
+export interface HyperVToAzStackHCIPolicyModelCustomProperties {
+  /** Discriminator property for PolicyModelCustomProperties. */
+  instanceType: HyperVToAzStackHCIPolicyModelCustomPropertiesInstanceType;
+  /** Gets or sets the duration in minutes until which the recovery points need to be stored. */
+  recoveryPointHistoryInMinutes: number;
+  /** Gets or sets the crash consistent snapshot frequency (in minutes). */
+  crashConsistentFrequencyInMinutes: number;
+  /** Gets or sets the app consistent snapshot frequency (in minutes). */
+  appConsistentFrequencyInMinutes: number;
+}
+/** Discriminator property for PolicyModelCustomProperties. */
+export type VMwareToAzStackHCIPolicyModelCustomPropertiesInstanceType = "VMwareToAzStackHCI";
+/** VMware To AzStackHCI Policy model custom properties. */
+export interface VMwareToAzStackHCIPolicyModelCustomProperties {
+  /** Discriminator property for PolicyModelCustomProperties. */
+  instanceType: VMwareToAzStackHCIPolicyModelCustomPropertiesInstanceType;
+  /** Gets or sets the duration in minutes until which the recovery points need to be stored. */
+  recoveryPointHistoryInMinutes: number;
+  /** Gets or sets the crash consistent snapshot frequency (in minutes). */
+  crashConsistentFrequencyInMinutes: number;
+  /** Gets or sets the app consistent snapshot frequency (in minutes). */
+  appConsistentFrequencyInMinutes: number;
+}
+/** Policy model custom properties. */
+export type PolicyModelCustomProperties =
+  | HyperVToAzStackHCIPolicyModelCustomProperties
+  | VMwareToAzStackHCIPolicyModelCustomProperties;
 /** Policy model properties. */
 export interface PolicyModelPropertiesInput {
-  /** Policy model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI). */
-  customProperties: unknown;
+  /** Policy model custom properties. */
+  customProperties: PolicyModelCustomProperties;
 }
 export interface CreatePolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -332,8 +478,8 @@ export interface CreatePolicyRequest {
 export interface PolicyModelProperties {
   /** Gets or sets the provisioning state of the policy. */
   provisioningState?: ProvisioningState | undefined;
-  /** Policy model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI). */
-  customProperties: unknown;
+  /** Policy model custom properties. */
+  customProperties: PolicyModelCustomProperties;
 }
 export interface CreatePolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -351,14 +497,221 @@ export interface CreatePolicyResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** Discriminator property for ProtectedItemModelCustomProperties. */
+export type HyperVToAzStackHCIProtectedItemModelCustomPropertiesInputInstanceType =
+  "HyperVToAzStackHCI";
+/** Disk controller. */
+export interface DiskControllerInputs {
+  /** Gets or sets the controller name (IDE,SCSI). */
+  controllerName: string;
+  /** Gets or sets the controller ID. */
+  controllerId: number;
+  /** Gets or sets the controller Location. */
+  controllerLocation: number;
+}
+/** HyperVToAzStack disk input. */
+export interface HyperVToAzStackHCIDiskInput {
+  /** Gets or sets the disk Id. */
+  diskId: string;
+  /** Gets or sets the target storage account ARM Id. */
+  storageContainerId?: string | undefined;
+  /** Gets or sets a value indicating whether dynamic sizing is enabled on the virtual hard disk. */
+  isDynamic?: boolean | undefined;
+  /** Gets or sets the disk size in GB. */
+  diskSizeGB: number;
+  /** Gets or sets the type of the virtual hard disk, vhd or vhdx. */
+  diskFileFormat: string;
+  /** Gets or sets a value indicating whether disk is os disk. */
+  isOsDisk: boolean;
+  /** Gets or sets a value of disk block size. */
+  diskBlockSize?: number | undefined;
+  /** Gets or sets a value of disk logical sector size. */
+  diskLogicalSectorSize?: number | undefined;
+  /** Gets or sets a value of disk physical sector size. */
+  diskPhysicalSectorSize?: number | undefined;
+  /** Gets or sets a value of disk identifier. */
+  diskIdentifier?: string | undefined;
+  /** Disk controller. */
+  diskController?: DiskControllerInputs | undefined;
+}
+/** Gets or sets the list of disks to replicate. */
+export type HyperVToAzStackHCIProtectedItemModelCustomPropertiesInputDisksToIncludeList =
+  Array<HyperVToAzStackHCIDiskInput>;
+/** Gets or sets the selection type of the NIC. */
+export type VMNicSelection =
+  | "NotSelected"
+  | "SelectedByUser"
+  | "SelectedByDefault"
+  | "SelectedByUserOverride";
+/** HyperVToAzStackHCI NIC properties. */
+export interface HyperVToAzStackHCINicInputInput {
+  /** Gets or sets the NIC Id. */
+  nicId: string;
+  /** Gets or sets the target network Id within AzStackHCI Cluster. */
+  targetNetworkId?: string | undefined;
+  /** Gets or sets the target test network Id within AzStackHCI Cluster. */
+  testNetworkId?: string | undefined;
+  /** Gets or sets the selection type of the NIC. */
+  selectionTypeForFailover: VMNicSelection | (string & {});
+  /** Gets or sets a value indicating whether static ip migration is enabled. */
+  isStaticIpMigrationEnabled?: boolean | undefined;
+  /** Gets or sets a value indicating whether mac address migration is enabled. */
+  isMacMigrationEnabled?: boolean | undefined;
+}
+/** Gets or sets the list of VM NIC to replicate. */
+export type HyperVToAzStackHCIProtectedItemModelCustomPropertiesInputNicsToIncludeList =
+  Array<HyperVToAzStackHCINicInputInput>;
+/** Protected item dynamic memory config. */
+export interface ProtectedItemDynamicMemoryConfig {
+  /** Gets or sets maximum memory in MB. */
+  maximumMemoryInMegaBytes: number;
+  /** Gets or sets minimum memory in MB. */
+  minimumMemoryInMegaBytes: number;
+  /** Gets or sets target memory buffer in %. */
+  targetMemoryBufferPercentage: number;
+}
+/** Gets or sets the security options. */
+export type SecurityOption = "None" | "SecureBootEnabled" | "EnablevTPM" | "TrustedLaunch";
+/** HyperV to AzStackHCI Protected item model custom properties. */
+export interface HyperVToAzStackHCIProtectedItemModelCustomPropertiesInput {
+  /** Discriminator property for ProtectedItemModelCustomProperties. */
+  instanceType: HyperVToAzStackHCIProtectedItemModelCustomPropertiesInputInstanceType;
+  /** Gets or sets the Target HCI Cluster ARM Id. */
+  targetHciClusterId: string;
+  /** Gets or sets the Target Arc Cluster Custom Location ARM Id. */
+  targetArcClusterCustomLocationId: string;
+  /** Gets or sets the ARM Id of the discovered machine. */
+  fabricDiscoveryMachineId: string;
+  /** Gets or sets the list of disks to replicate. */
+  disksToInclude: HyperVToAzStackHCIProtectedItemModelCustomPropertiesInputDisksToIncludeList;
+  /** Gets or sets the list of VM NIC to replicate. */
+  nicsToInclude: HyperVToAzStackHCIProtectedItemModelCustomPropertiesInputNicsToIncludeList;
+  /** Gets or sets the target VM display name. */
+  targetVmName?: string | undefined;
+  /** Gets or sets the target resource group ARM Id. */
+  targetResourceGroupId: string;
+  /** Gets or sets the target storage container ARM Id. */
+  storageContainerId: string;
+  /** Gets or sets the hypervisor generation of the virtual machine. */
+  hyperVGeneration: string;
+  /** Gets or sets the target network Id within AzStackHCI Cluster. */
+  targetNetworkId?: string | undefined;
+  /** Gets or sets the target test network Id within AzStackHCI Cluster. */
+  testNetworkId?: string | undefined;
+  /** Gets or sets the target CPU cores. */
+  targetCpuCores?: number | undefined;
+  /** Gets or sets a value indicating whether memory is dynamical. */
+  isDynamicRam?: boolean | undefined;
+  /** Protected item dynamic memory config. */
+  dynamicMemoryConfig?: ProtectedItemDynamicMemoryConfig | undefined;
+  /** Gets or sets the target memory in mega-bytes. */
+  targetMemoryInMegaBytes?: number | undefined;
+  /** Gets or sets the Run As account Id. */
+  runAsAccountId: string;
+  /** Gets or sets the source fabric agent name. */
+  sourceFabricAgentName: string;
+  /** Gets or sets the target fabric agent name. */
+  targetFabricAgentName: string;
+  /** Gets or sets the location of Azure Arc HCI custom location resource. */
+  customLocationRegion: string;
+  /** Gets or sets the security options for this VM. */
+  securityOption?: SecurityOption | (string & {}) | undefined;
+  /** Gets or sets a value indicating whether conversion to Gen 2 is required. */
+  convertToGen2?: boolean | undefined;
+  /** Gets or sets a value indicating whether VM is to be migrated as Arc VM. */
+  migrateAsArcVM?: boolean | undefined;
+}
+/** Discriminator property for ProtectedItemModelCustomProperties. */
+export type VMwareToAzStackHCIProtectedItemModelCustomPropertiesInputInstanceType =
+  "VMwareToAzStackHCI";
+/** VMwareToAzStack disk input. */
+export type VMwareToAzStackHCIDiskInput = HyperVToAzStackHCIDiskInput;
+/** Gets or sets the list of disks to replicate. */
+export type VMwareToAzStackHCIProtectedItemModelCustomPropertiesInputDisksToIncludeList =
+  Array<HyperVToAzStackHCIDiskInput>;
+/** VMwareToAzStackHCI NIC properties. */
+export interface VMwareToAzStackHCINicInputInput {
+  /** Gets or sets the NIC Id. */
+  nicId: string;
+  /** Gets or sets the NIC label. */
+  label: string;
+  /** Gets or sets the target network Id within AzStackHCI Cluster. */
+  targetNetworkId?: string | undefined;
+  /** Gets or sets the target test network Id within AzStackHCI Cluster. */
+  testNetworkId?: string | undefined;
+  /** Gets or sets the selection type of the NIC. */
+  selectionTypeForFailover: VMNicSelection | (string & {});
+  /** Gets or sets a value indicating whether static ip migration is enabled. */
+  isStaticIpMigrationEnabled?: boolean | undefined;
+  /** Gets or sets a value indicating whether mac address migration is enabled. */
+  isMacMigrationEnabled?: boolean | undefined;
+}
+/** Gets or sets the list of VM NIC to replicate. */
+export type VMwareToAzStackHCIProtectedItemModelCustomPropertiesInputNicsToIncludeList =
+  Array<VMwareToAzStackHCINicInputInput>;
+/** VMware to AzStackHCI Protected item model custom properties. */
+export interface VMwareToAzStackHCIProtectedItemModelCustomPropertiesInput {
+  /** Discriminator property for ProtectedItemModelCustomProperties. */
+  instanceType: VMwareToAzStackHCIProtectedItemModelCustomPropertiesInputInstanceType;
+  /** Gets or sets the Target HCI Cluster ARM Id. */
+  targetHciClusterId: string;
+  /** Gets or sets the Target Arc Cluster Custom Location ARM Id. */
+  targetArcClusterCustomLocationId: string;
+  /** Gets or sets the target storage container ARM Id. */
+  storageContainerId: string;
+  /** Gets or sets the target resource group ARM Id. */
+  targetResourceGroupId: string;
+  /** Gets or sets the location of Azure Arc HCI custom location resource. */
+  customLocationRegion: string;
+  /** Gets or sets the list of disks to replicate. */
+  disksToInclude: VMwareToAzStackHCIProtectedItemModelCustomPropertiesInputDisksToIncludeList;
+  /** Gets or sets the list of VM NIC to replicate. */
+  nicsToInclude: VMwareToAzStackHCIProtectedItemModelCustomPropertiesInputNicsToIncludeList;
+  /** Gets or sets the target VM display name. */
+  targetVmName?: string | undefined;
+  /** Gets or sets the hypervisor generation of the virtual machine possible values are 1,2. */
+  hyperVGeneration: string;
+  /** Gets or sets the target network Id within AzStackHCI Cluster. */
+  targetNetworkId?: string | undefined;
+  /** Gets or sets the target test network Id within AzStackHCI Cluster. */
+  testNetworkId?: string | undefined;
+  /** Gets or sets the target CPU cores. */
+  targetCpuCores?: number | undefined;
+  /** Gets or sets a value indicating whether memory is dynamical. */
+  isDynamicRam?: boolean | undefined;
+  /** Protected item dynamic memory config. */
+  dynamicMemoryConfig?: ProtectedItemDynamicMemoryConfig | undefined;
+  /** Gets or sets the target memory in mega-bytes. */
+  targetMemoryInMegaBytes?: number | undefined;
+  /** Gets or sets the ARM Id of the discovered machine. */
+  fabricDiscoveryMachineId: string;
+  /** Gets or sets the run as account Id. */
+  runAsAccountId: string;
+  /** Gets or sets the source fabric agent name. */
+  sourceFabricAgentName: string;
+  /** Gets or sets the target fabric agent name. */
+  targetFabricAgentName: string;
+  /** Gets or sets a value indicating whether auto resync is to be done. */
+  performAutoResync?: boolean | undefined;
+  /** Gets or sets the security options for this VM. */
+  securityOption?: SecurityOption | (string & {}) | undefined;
+  /** Gets or sets a value indicating whether conversion to Gen 2 is required. */
+  convertToGen2?: boolean | undefined;
+  /** Gets or sets a value indicating whether VM is to be migrated as Arc VM. */
+  migrateAsArcVM?: boolean | undefined;
+}
+/** Protected item model custom properties. */
+export type ProtectedItemModelCustomPropertiesInput =
+  | HyperVToAzStackHCIProtectedItemModelCustomPropertiesInput
+  | VMwareToAzStackHCIProtectedItemModelCustomPropertiesInput;
 /** Protected item model properties. */
 export interface ProtectedItemModelPropertiesInput {
   /** Gets or sets the policy name. */
   policyName: string;
   /** Gets or sets the replication extension name. */
   replicationExtensionName: string;
-  /** Protected item model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI). */
-  customProperties: unknown;
+  /** Protected item model custom properties. */
+  customProperties: ProtectedItemModelCustomPropertiesInput;
 }
 export interface CreateProtectedItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -464,6 +817,344 @@ export interface ProtectedItemJobProperties {
 export type ProtectedItemModelPropertiesAllowedJobsList = Array<string>;
 /** Gets or sets the list of health errors. */
 export type ProtectedItemModelPropertiesHealthErrorsList = Array<HealthErrorModel>;
+/** Discriminator property for ProtectedItemModelCustomProperties. */
+export type HyperVToAzStackHCIProtectedItemModelCustomPropertiesInstanceType = "HyperVToAzStackHCI";
+/** Gets or sets the location of the protected item. */
+export type ProtectedItemActiveLocation = "Primary" | "Recovery";
+/** Gets or sets the list of disks to replicate. */
+export type HyperVToAzStackHCIProtectedItemModelCustomPropertiesDisksToIncludeList =
+  Array<HyperVToAzStackHCIDiskInput>;
+/** HyperVToAzStackHCI NIC properties. */
+export interface HyperVToAzStackHCINicInput {
+  /** Gets or sets the NIC Id. */
+  nicId: string;
+  /** Gets or sets the network name. */
+  networkName?: string | undefined;
+  /** Gets or sets the target network Id within AzStackHCI Cluster. */
+  targetNetworkId?: string | undefined;
+  /** Gets or sets the target test network Id within AzStackHCI Cluster. */
+  testNetworkId?: string | undefined;
+  /** Gets or sets the selection type of the NIC. */
+  selectionTypeForFailover: VMNicSelection;
+  /** Gets or sets a value indicating whether static ip migration is enabled. */
+  isStaticIpMigrationEnabled?: boolean | undefined;
+  /** Gets or sets a value indicating whether mac address migration is enabled. */
+  isMacMigrationEnabled?: boolean | undefined;
+}
+/** Gets or sets the list of VM NIC to replicate. */
+export type HyperVToAzStackHCIProtectedItemModelCustomPropertiesNicsToIncludeList =
+  Array<HyperVToAzStackHCINicInput>;
+/** HyperVToAzStackHCI protected disk properties. */
+export interface HyperVToAzStackHCIProtectedDiskProperties {
+  /** Gets or sets the ARM Id of the storage container. */
+  storageContainerId?: string | undefined;
+  /** Gets or sets the local path of the storage container. */
+  storageContainerLocalPath?: string | undefined;
+  /** Gets or sets the source disk Id. */
+  sourceDiskId?: string | undefined;
+  /** Gets or sets the source disk Name. */
+  sourceDiskName?: string | undefined;
+  /** Gets or sets the seed disk name. */
+  seedDiskName?: string | undefined;
+  /** Gets or sets the test failover clone disk. */
+  testMigrateDiskName?: string | undefined;
+  /** Gets or sets the failover clone disk. */
+  migrateDiskName?: string | undefined;
+  /** Gets or sets a value indicating whether the disk is the OS disk. */
+  isOsDisk?: boolean | undefined;
+  /** Gets or sets the disk capacity in bytes. */
+  capacityInBytes?: number | undefined;
+  /** Gets or sets a value indicating whether dynamic sizing is enabled on the virtual hard disk. */
+  isDynamic?: boolean | undefined;
+  /** Gets or sets the disk type. */
+  diskType?: string | undefined;
+  /** Gets or sets a value of disk block size. */
+  diskBlockSize?: number | undefined;
+  /** Gets or sets a value of disk logical sector size. */
+  diskLogicalSectorSize?: number | undefined;
+  /** Gets or sets a value of disk physical sector size. */
+  diskPhysicalSectorSize?: number | undefined;
+}
+/** Gets or sets the list of protected disks. */
+export type HyperVToAzStackHCIProtectedItemModelCustomPropertiesProtectedDisksList =
+  Array<HyperVToAzStackHCIProtectedDiskProperties>;
+/** HyperVToAzStackHCI NIC properties. */
+export interface HyperVToAzStackHCIProtectedNicProperties {
+  /** Gets or sets the NIC Id. */
+  nicId?: string | undefined;
+  /** Gets or sets the NIC mac address. */
+  macAddress?: string | undefined;
+  /** Gets or sets the network name. */
+  networkName?: string | undefined;
+  /** Gets or sets the target network Id within AzStackHCI Cluster. */
+  targetNetworkId?: string | undefined;
+  /** Gets or sets the target test network Id within AzStackHCI Cluster. */
+  testNetworkId?: string | undefined;
+  /** Gets or sets the selection type of the NIC. */
+  selectionTypeForFailover?: VMNicSelection | undefined;
+}
+/** Gets or sets the VM NIC details. */
+export type HyperVToAzStackHCIProtectedItemModelCustomPropertiesProtectedNicsList =
+  Array<HyperVToAzStackHCIProtectedNicProperties>;
+/** HyperV to AzStackHCI Protected item model custom properties. */
+export interface HyperVToAzStackHCIProtectedItemModelCustomProperties {
+  /** Discriminator property for ProtectedItemModelCustomProperties. */
+  instanceType: HyperVToAzStackHCIProtectedItemModelCustomPropertiesInstanceType;
+  /** Gets or sets the location of the protected item. */
+  activeLocation?: ProtectedItemActiveLocation | undefined;
+  /** Gets or sets the Target HCI Cluster ARM Id. */
+  targetHciClusterId: string;
+  /** Gets or sets the Target Arc Cluster Custom Location ARM Id. */
+  targetArcClusterCustomLocationId: string;
+  /** Gets or sets the Target AzStackHCI cluster name. */
+  targetAzStackHciClusterName?: string | undefined;
+  /** Gets or sets the ARM Id of the discovered machine. */
+  fabricDiscoveryMachineId: string;
+  /** Gets or sets the list of disks to replicate. */
+  disksToInclude: HyperVToAzStackHCIProtectedItemModelCustomPropertiesDisksToIncludeList;
+  /** Gets or sets the list of VM NIC to replicate. */
+  nicsToInclude: HyperVToAzStackHCIProtectedItemModelCustomPropertiesNicsToIncludeList;
+  /** Gets or sets the source VM display name. */
+  sourceVmName?: string | undefined;
+  /** Gets or sets the source VM CPU cores. */
+  sourceCpuCores?: number | undefined;
+  /** Gets or sets the source VM ram memory size in megabytes. */
+  sourceMemoryInMegaBytes?: number | undefined;
+  /** Gets or sets the target VM display name. */
+  targetVmName?: string | undefined;
+  /** Gets or sets the target resource group ARM Id. */
+  targetResourceGroupId: string;
+  /** Gets or sets the target storage container ARM Id. */
+  storageContainerId: string;
+  /** Gets or sets the hypervisor generation of the virtual machine. */
+  hyperVGeneration: string;
+  /** Gets or sets the target network Id within AzStackHCI Cluster. */
+  targetNetworkId?: string | undefined;
+  /** Gets or sets the target test network Id within AzStackHCI Cluster. */
+  testNetworkId?: string | undefined;
+  /** Gets or sets the target CPU cores. */
+  targetCpuCores?: number | undefined;
+  /** Gets or sets a value indicating whether memory is dynamical. */
+  isDynamicRam?: boolean | undefined;
+  /** Protected item dynamic memory config. */
+  dynamicMemoryConfig?: ProtectedItemDynamicMemoryConfig | undefined;
+  /** Gets or sets the target memory in mega-bytes. */
+  targetMemoryInMegaBytes?: number | undefined;
+  /** Gets or sets the Run As account Id. */
+  runAsAccountId: string;
+  /** Gets or sets the source fabric agent name. */
+  sourceFabricAgentName: string;
+  /** Gets or sets the target fabric agent name. */
+  targetFabricAgentName: string;
+  /** Gets or sets the source appliance name. */
+  sourceApplianceName?: string | undefined;
+  /** Gets or sets the target appliance name. */
+  targetApplianceName?: string | undefined;
+  /** Gets or sets the type of the OS. */
+  osType?: string | undefined;
+  /** Gets or sets the name of the OS. */
+  osName?: string | undefined;
+  /** Gets or sets the firmware type. */
+  firmwareType?: string | undefined;
+  /** Gets or sets the target location. */
+  targetLocation?: string | undefined;
+  /** Gets or sets the location of Azure Arc HCI custom location resource. */
+  customLocationRegion: string;
+  /** Gets or sets the recovery point Id to which the VM was failed over. */
+  failoverRecoveryPointId?: string | undefined;
+  /** Gets or sets the last recovery point received time. */
+  lastRecoveryPointReceived?: string | undefined;
+  /** Gets or sets the last recovery point Id. */
+  lastRecoveryPointId?: string | undefined;
+  /** Gets or sets the initial replication progress percentage. This is calculated based on total bytes processed for all disks in the source VM. */
+  initialReplicationProgressPercentage?: number | undefined;
+  /** Gets or sets the resync progress percentage. This is calculated based on total bytes processed for all disks in the source VM. */
+  resyncProgressPercentage?: number | undefined;
+  /** Gets or sets the list of protected disks. */
+  protectedDisks?:
+    | HyperVToAzStackHCIProtectedItemModelCustomPropertiesProtectedDisksList
+    | undefined;
+  /** Gets or sets the VM NIC details. */
+  protectedNics?: HyperVToAzStackHCIProtectedItemModelCustomPropertiesProtectedNicsList | undefined;
+  /** Gets or sets the BIOS Id of the target AzStackHCI VM. */
+  targetVmBiosId?: string | undefined;
+  /** Gets or sets the latest timestamp that replication status is updated. */
+  lastReplicationUpdateTime?: string | undefined;
+  /** Gets or sets the security options for this VM. */
+  securityOption?: SecurityOption | undefined;
+  /** Gets or sets a value indicating whether conversion to Gen 2 is required. */
+  convertToGen2?: boolean | undefined;
+  /** Gets or sets a value indicating whether VM is to be migrated as Arc VM. */
+  migrateAsArcVM?: boolean | undefined;
+}
+/** Discriminator property for ProtectedItemModelCustomProperties. */
+export type VMwareToAzStackHCIProtectedItemModelCustomPropertiesInstanceType = "VMwareToAzStackHCI";
+/** Gets or sets the list of disks to replicate. */
+export type VMwareToAzStackHCIProtectedItemModelCustomPropertiesDisksToIncludeList =
+  Array<HyperVToAzStackHCIDiskInput>;
+/** VMwareToAzStackHCI NIC properties. */
+export interface VMwareToAzStackHCINicInput {
+  /** Gets or sets the NIC Id. */
+  nicId: string;
+  /** Gets or sets the NIC label. */
+  label: string;
+  /** Gets or sets the network name. */
+  networkName?: string | undefined;
+  /** Gets or sets the target network Id within AzStackHCI Cluster. */
+  targetNetworkId?: string | undefined;
+  /** Gets or sets the target test network Id within AzStackHCI Cluster. */
+  testNetworkId?: string | undefined;
+  /** Gets or sets the selection type of the NIC. */
+  selectionTypeForFailover: VMNicSelection;
+  /** Gets or sets a value indicating whether static ip migration is enabled. */
+  isStaticIpMigrationEnabled?: boolean | undefined;
+  /** Gets or sets a value indicating whether mac address migration is enabled. */
+  isMacMigrationEnabled?: boolean | undefined;
+}
+/** Gets or sets the list of VM NIC to replicate. */
+export type VMwareToAzStackHCIProtectedItemModelCustomPropertiesNicsToIncludeList =
+  Array<VMwareToAzStackHCINicInput>;
+/** VMwareToAzStackHCI protected disk properties. */
+export type VMwareToAzStackHCIProtectedDiskProperties = HyperVToAzStackHCIProtectedDiskProperties;
+/** Gets or sets the list of protected disks. */
+export type VMwareToAzStackHCIProtectedItemModelCustomPropertiesProtectedDisksList =
+  Array<HyperVToAzStackHCIProtectedDiskProperties>;
+/** VMwareToAzStackHCI NIC properties. */
+export interface VMwareToAzStackHCIProtectedNicProperties {
+  /** Gets or sets the NIC Id. */
+  nicId?: string | undefined;
+  /** Gets or sets the NIC mac address. */
+  macAddress?: string | undefined;
+  /** Gets or sets the NIC label. */
+  label?: string | undefined;
+  /** Gets or sets a value indicating whether this is the primary NIC. */
+  isPrimaryNic?: boolean | undefined;
+  /** Gets or sets the network name. */
+  networkName?: string | undefined;
+  /** Gets or sets the target network Id within AzStackHCI Cluster. */
+  targetNetworkId?: string | undefined;
+  /** Gets or sets the target test network Id within AzStackHCI Cluster. */
+  testNetworkId?: string | undefined;
+  /** Gets or sets the selection type of the NIC. */
+  selectionTypeForFailover?: VMNicSelection | undefined;
+}
+/** Gets or sets the VM NIC details. */
+export type VMwareToAzStackHCIProtectedItemModelCustomPropertiesProtectedNicsList =
+  Array<VMwareToAzStackHCIProtectedNicProperties>;
+/** Gets or sets the resync state. */
+export type VMwareToAzureMigrateResyncState =
+  | "None"
+  | "PreparedForResynchronization"
+  | "StartedResynchronization";
+/** VMware to AzStackHCI Protected item model custom properties. */
+export interface VMwareToAzStackHCIProtectedItemModelCustomProperties {
+  /** Discriminator property for ProtectedItemModelCustomProperties. */
+  instanceType: VMwareToAzStackHCIProtectedItemModelCustomPropertiesInstanceType;
+  /** Gets or sets the location of the protected item. */
+  activeLocation?: ProtectedItemActiveLocation | undefined;
+  /** Gets or sets the Target HCI Cluster ARM Id. */
+  targetHciClusterId: string;
+  /** Gets or sets the Target Arc Cluster Custom Location ARM Id. */
+  targetArcClusterCustomLocationId: string;
+  /** Gets or sets the Target AzStackHCI cluster name. */
+  targetAzStackHciClusterName?: string | undefined;
+  /** Gets or sets the target storage container ARM Id. */
+  storageContainerId: string;
+  /** Gets or sets the target resource group ARM Id. */
+  targetResourceGroupId: string;
+  /** Gets or sets the target location. */
+  targetLocation?: string | undefined;
+  /** Gets or sets the location of Azure Arc HCI custom location resource. */
+  customLocationRegion: string;
+  /** Gets or sets the list of disks to replicate. */
+  disksToInclude: VMwareToAzStackHCIProtectedItemModelCustomPropertiesDisksToIncludeList;
+  /** Gets or sets the list of VM NIC to replicate. */
+  nicsToInclude: VMwareToAzStackHCIProtectedItemModelCustomPropertiesNicsToIncludeList;
+  /** Gets or sets the list of protected disks. */
+  protectedDisks?:
+    | VMwareToAzStackHCIProtectedItemModelCustomPropertiesProtectedDisksList
+    | undefined;
+  /** Gets or sets the VM NIC details. */
+  protectedNics?: VMwareToAzStackHCIProtectedItemModelCustomPropertiesProtectedNicsList | undefined;
+  /** Gets or sets the BIOS Id of the target AzStackHCI VM. */
+  targetVmBiosId?: string | undefined;
+  /** Gets or sets the target VM display name. */
+  targetVmName?: string | undefined;
+  /** Gets or sets the hypervisor generation of the virtual machine possible values are 1,2. */
+  hyperVGeneration: string;
+  /** Gets or sets the target network Id within AzStackHCI Cluster. */
+  targetNetworkId?: string | undefined;
+  /** Gets or sets the target test network Id within AzStackHCI Cluster. */
+  testNetworkId?: string | undefined;
+  /** Gets or sets the target CPU cores. */
+  targetCpuCores?: number | undefined;
+  /** Gets or sets a value indicating whether memory is dynamical. */
+  isDynamicRam?: boolean | undefined;
+  /** Protected item dynamic memory config. */
+  dynamicMemoryConfig?: ProtectedItemDynamicMemoryConfig | undefined;
+  /** Gets or sets the target memory in mega-bytes. */
+  targetMemoryInMegaBytes?: number | undefined;
+  /** Gets or sets the type of the OS. */
+  osType?: string | undefined;
+  /** Gets or sets the name of the OS. */
+  osName?: string | undefined;
+  /** Gets or sets the firmware type. */
+  firmwareType?: string | undefined;
+  /** Gets or sets the ARM Id of the discovered machine. */
+  fabricDiscoveryMachineId: string;
+  /** Gets or sets the source VM display name. */
+  sourceVmName?: string | undefined;
+  /** Gets or sets the source VM CPU cores. */
+  sourceCpuCores?: number | undefined;
+  /** Gets or sets the source VM ram memory size in megabytes. */
+  sourceMemoryInMegaBytes?: number | undefined;
+  /** Gets or sets the run as account Id. */
+  runAsAccountId: string;
+  /** Gets or sets the source fabric agent name. */
+  sourceFabricAgentName: string;
+  /** Gets or sets the target fabric agent name. */
+  targetFabricAgentName: string;
+  /** Gets or sets the source appliance name. */
+  sourceApplianceName?: string | undefined;
+  /** Gets or sets the target appliance name. */
+  targetApplianceName?: string | undefined;
+  /** Gets or sets the recovery point Id to which the VM was failed over. */
+  failoverRecoveryPointId?: string | undefined;
+  /** Gets or sets the last recovery point received time. */
+  lastRecoveryPointReceived?: string | undefined;
+  /** Gets or sets the last recovery point Id. */
+  lastRecoveryPointId?: string | undefined;
+  /** Gets or sets the initial replication progress percentage. This is calculated based on total bytes processed for all disks in the source VM. */
+  initialReplicationProgressPercentage?: number | undefined;
+  /** Gets or sets the migration progress percentage. */
+  migrationProgressPercentage?: number | undefined;
+  /** Gets or sets the resume progress percentage. */
+  resumeProgressPercentage?: number | undefined;
+  /** Gets or sets the resync progress percentage. This is calculated based on total bytes processed for all disks in the source VM. */
+  resyncProgressPercentage?: number | undefined;
+  /** Gets or sets the resync retry count. */
+  resyncRetryCount?: number | undefined;
+  /** Gets or sets a value indicating whether resync is required. */
+  resyncRequired?: boolean | undefined;
+  /** Gets or sets the resync state. */
+  resyncState?: VMwareToAzureMigrateResyncState | undefined;
+  /** Gets or sets a value indicating whether auto resync is to be done. */
+  performAutoResync?: boolean | undefined;
+  /** Gets or sets the resume retry count. */
+  resumeRetryCount?: number | undefined;
+  /** Gets or sets the latest timestamp that replication status is updated. */
+  lastReplicationUpdateTime?: string | undefined;
+  /** Gets or sets the security options for this VM. */
+  securityOption?: SecurityOption | undefined;
+  /** Gets or sets a value indicating whether conversion to Gen 2 is required. */
+  convertToGen2?: boolean | undefined;
+  /** Gets or sets a value indicating whether VM is to be migrated as Arc VM. */
+  migrateAsArcVM?: boolean | undefined;
+}
+/** Protected item model custom properties. */
+export type ProtectedItemModelCustomProperties =
+  | HyperVToAzStackHCIProtectedItemModelCustomProperties
+  | VMwareToAzStackHCIProtectedItemModelCustomProperties;
 /** Protected item model properties. */
 export interface ProtectedItemModelProperties {
   /** Gets or sets the policy name. */
@@ -522,8 +1213,8 @@ export interface ProtectedItemModelProperties {
   replicationHealth?: HealthStatus | undefined;
   /** Gets or sets the list of health errors. */
   healthErrors?: ProtectedItemModelPropertiesHealthErrorsList | undefined;
-  /** Protected item model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI). */
-  customProperties: unknown;
+  /** Protected item model custom properties. */
+  customProperties: ProtectedItemModelCustomProperties;
 }
 export interface CreateProtectedItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -541,10 +1232,46 @@ export interface CreateProtectedItemResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** Discriminator property for ReplicationExtensionModelCustomProperties. */
+export type HyperVToAzStackHCIReplicationExtensionModelCustomPropertiesInputInstanceType =
+  "HyperVToAzStackHCI";
+/** HyperV to AzStackHCI Replication extension model custom properties. */
+export interface HyperVToAzStackHCIReplicationExtensionModelCustomPropertiesInput {
+  /** Discriminator property for ReplicationExtensionModelCustomProperties. */
+  instanceType: HyperVToAzStackHCIReplicationExtensionModelCustomPropertiesInputInstanceType;
+  /** Gets or sets the ARM Id of the source HyperV fabric. */
+  hyperVFabricArmId: string;
+  /** Gets or sets the ARM Id of the target AzStackHCI fabric. */
+  azStackHciFabricArmId: string;
+  /** Gets or sets the storage account Id. */
+  storageAccountId?: string | undefined;
+  /** Gets or sets the Sas Secret of storage account. */
+  storageAccountSasSecretName?: string | undefined;
+}
+/** Discriminator property for ReplicationExtensionModelCustomProperties. */
+export type VMwareToAzStackHCIReplicationExtensionModelCustomPropertiesInputInstanceType =
+  "VMwareToAzStackHCI";
+/** VMware to AzStackHCI Replication extension model custom properties. */
+export interface VMwareToAzStackHCIReplicationExtensionModelCustomPropertiesInput {
+  /** Discriminator property for ReplicationExtensionModelCustomProperties. */
+  instanceType: VMwareToAzStackHCIReplicationExtensionModelCustomPropertiesInputInstanceType;
+  /** Gets or sets the ARM Id of the source VMware fabric. */
+  vmwareFabricArmId: string;
+  /** Gets or sets the ARM Id of the target AzStackHCI fabric. */
+  azStackHciFabricArmId: string;
+  /** Gets or sets the storage account Id. */
+  storageAccountId?: string | undefined;
+  /** Gets or sets the Sas Secret of storage account. */
+  storageAccountSasSecretName?: string | undefined;
+}
+/** Replication extension model custom properties. */
+export type ReplicationExtensionModelCustomPropertiesInput =
+  | HyperVToAzStackHCIReplicationExtensionModelCustomPropertiesInput
+  | VMwareToAzStackHCIReplicationExtensionModelCustomPropertiesInput;
 /** Replication extension model properties. */
 export interface ReplicationExtensionModelPropertiesInput {
-  /** Replication extension model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI). */
-  customProperties: unknown;
+  /** Replication extension model custom properties. */
+  customProperties: ReplicationExtensionModelCustomPropertiesInput;
 }
 export interface CreateReplicationExtensionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -558,12 +1285,96 @@ export interface CreateReplicationExtensionRequest {
   /** The resource-specific properties for this resource. */
   properties?: ReplicationExtensionModelPropertiesInput | undefined;
 }
+/** Discriminator property for ReplicationExtensionModelCustomProperties. */
+export type HyperVToAzStackHCIReplicationExtensionModelCustomPropertiesInstanceType =
+  "HyperVToAzStackHCI";
+/** HyperV to AzStackHCI Replication extension model custom properties. */
+export interface HyperVToAzStackHCIReplicationExtensionModelCustomProperties {
+  /** Discriminator property for ReplicationExtensionModelCustomProperties. */
+  instanceType: HyperVToAzStackHCIReplicationExtensionModelCustomPropertiesInstanceType;
+  /** Gets or sets the ARM Id of the source HyperV fabric. */
+  hyperVFabricArmId: string;
+  /** Gets or sets the ARM Id of the HyperV site. */
+  hyperVSiteId?: string | undefined;
+  /** Gets or sets the ARM Id of the target AzStackHCI fabric. */
+  azStackHciFabricArmId: string;
+  /** Gets or sets the ARM Id of the AzStackHCI site. */
+  azStackHciSiteId?: string | undefined;
+  /** Gets or sets the storage account Id. */
+  storageAccountId?: string | undefined;
+  /** Gets or sets the Sas Secret of storage account. */
+  storageAccountSasSecretName?: string | undefined;
+  /** Gets or sets the Uri of ASR. */
+  asrServiceUri?: string | undefined;
+  /** Gets or sets the Uri of Rcm. */
+  rcmServiceUri?: string | undefined;
+  /** Gets or sets the Uri of Gateway. */
+  gatewayServiceUri?: string | undefined;
+  /** Gets or sets the gateway service Id of source. */
+  sourceGatewayServiceId?: string | undefined;
+  /** Gets or sets the gateway service Id of target. */
+  targetGatewayServiceId?: string | undefined;
+  /** Gets or sets the source storage container name. */
+  sourceStorageContainerName?: string | undefined;
+  /** Gets or sets the target storage container name. */
+  targetStorageContainerName?: string | undefined;
+  /** Gets or sets the resource location. */
+  resourceLocation?: string | undefined;
+  /** Gets or sets the subscription. */
+  subscriptionId?: string | undefined;
+  /** Gets or sets the resource group. */
+  resourceGroup?: string | undefined;
+}
+/** Discriminator property for ReplicationExtensionModelCustomProperties. */
+export type VMwareToAzStackHCIReplicationExtensionModelCustomPropertiesInstanceType =
+  "VMwareToAzStackHCI";
+/** VMware to AzStackHCI Replication extension model custom properties. */
+export interface VMwareToAzStackHCIReplicationExtensionModelCustomProperties {
+  /** Discriminator property for ReplicationExtensionModelCustomProperties. */
+  instanceType: VMwareToAzStackHCIReplicationExtensionModelCustomPropertiesInstanceType;
+  /** Gets or sets the ARM Id of the source VMware fabric. */
+  vmwareFabricArmId: string;
+  /** Gets or sets the ARM Id of the VMware site. */
+  vmwareSiteId?: string | undefined;
+  /** Gets or sets the ARM Id of the target AzStackHCI fabric. */
+  azStackHciFabricArmId: string;
+  /** Gets or sets the ARM Id of the AzStackHCI site. */
+  azStackHciSiteId?: string | undefined;
+  /** Gets or sets the storage account Id. */
+  storageAccountId?: string | undefined;
+  /** Gets or sets the Sas Secret of storage account. */
+  storageAccountSasSecretName?: string | undefined;
+  /** Gets or sets the Uri of ASR. */
+  asrServiceUri?: string | undefined;
+  /** Gets or sets the Uri of Rcm. */
+  rcmServiceUri?: string | undefined;
+  /** Gets or sets the Uri of Gateway. */
+  gatewayServiceUri?: string | undefined;
+  /** Gets or sets the gateway service Id of source. */
+  sourceGatewayServiceId?: string | undefined;
+  /** Gets or sets the gateway service Id of target. */
+  targetGatewayServiceId?: string | undefined;
+  /** Gets or sets the source storage container name. */
+  sourceStorageContainerName?: string | undefined;
+  /** Gets or sets the target storage container name. */
+  targetStorageContainerName?: string | undefined;
+  /** Gets or sets the resource location. */
+  resourceLocation?: string | undefined;
+  /** Gets or sets the subscription. */
+  subscriptionId?: string | undefined;
+  /** Gets or sets the resource group. */
+  resourceGroup?: string | undefined;
+}
+/** Replication extension model custom properties. */
+export type ReplicationExtensionModelCustomProperties =
+  | HyperVToAzStackHCIReplicationExtensionModelCustomProperties
+  | VMwareToAzStackHCIReplicationExtensionModelCustomProperties;
 /** Replication extension model properties. */
 export interface ReplicationExtensionModelProperties {
   /** Gets or sets the provisioning state of the replication extension. */
   provisioningState?: ProvisioningState | undefined;
-  /** Replication extension model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI). */
-  customProperties: unknown;
+  /** Replication extension model custom properties. */
+  customProperties: ReplicationExtensionModelCustomProperties;
 }
 export interface CreateReplicationExtensionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -880,11 +1691,44 @@ export interface GetEventRequest {
 }
 /** Gets or sets the errors associated with this event. */
 export type EventModelPropertiesHealthErrorsList = Array<HealthErrorModel>;
-/** Event model custom properties. */
-export interface EventModelCustomProperties {
+/** Discriminator property for EventModelCustomProperties. */
+export type HyperVToAzStackHCIEventModelCustomPropertiesInstanceType = "HyperVToAzStackHCI";
+/** HyperV to AzStackHCI event model custom properties. This class provides provider specific details for events of type DataContract.HealthEvents.HealthEventType.ProtectedItemHealth and DataContract.HealthEvents.HealthEventType.AgentHealth. */
+export interface HyperVToAzStackHCIEventModelCustomProperties {
   /** Discriminator property for EventModelCustomProperties. */
-  instanceType: string;
+  instanceType: HyperVToAzStackHCIEventModelCustomPropertiesInstanceType;
+  /** Gets or sets the friendly name of the source which has raised this health event. */
+  eventSourceFriendlyName?: string | undefined;
+  /** Gets or sets the protected item friendly name. */
+  protectedItemFriendlyName?: string | undefined;
+  /** Gets or sets the source appliance name. */
+  sourceApplianceName?: string | undefined;
+  /** Gets or sets the source target name. */
+  targetApplianceName?: string | undefined;
+  /** Gets or sets the server type. */
+  serverType?: string | undefined;
 }
+/** Discriminator property for EventModelCustomProperties. */
+export type VMwareToAzStackHCIEventModelCustomPropertiesInstanceType = "VMwareToAzStackHCI";
+/** VMware to AzStackHCI event model custom properties. This class provides provider specific details for events of type DataContract.HealthEvents.HealthEventType.ProtectedItemHealth and DataContract.HealthEvents.HealthEventType.AgentHealth. */
+export interface VMwareToAzStackHCIEventModelCustomProperties {
+  /** Discriminator property for EventModelCustomProperties. */
+  instanceType: VMwareToAzStackHCIEventModelCustomPropertiesInstanceType;
+  /** Gets or sets the friendly name of the source which has raised this health event. */
+  eventSourceFriendlyName?: string | undefined;
+  /** Gets or sets the protected item friendly name. */
+  protectedItemFriendlyName?: string | undefined;
+  /** Gets or sets the source appliance name. */
+  sourceApplianceName?: string | undefined;
+  /** Gets or sets the source target name. */
+  targetApplianceName?: string | undefined;
+  /** Gets or sets the server type. */
+  serverType?: string | undefined;
+}
+/** Event model custom properties. */
+export type EventModelCustomProperties =
+  | HyperVToAzStackHCIEventModelCustomProperties
+  | VMwareToAzStackHCIEventModelCustomProperties;
 /** Event model properties. */
 export interface EventModelProperties {
   /** Gets or sets the resource type. */
@@ -1061,6 +1905,8 @@ export interface ErrorModel {
 }
 /** Gets or sets the list of errors. */
 export type JobModelPropertiesErrorsList = Array<ErrorModel>;
+/** Discriminator property for JobModelCustomProperties. */
+export type FailoverJobModelCustomPropertiesInstanceType = "FailoverJobDetails";
 /** Type of the affected object details. */
 export type AffectedObjectDetailsType = "object";
 /** Details of the affected object. */
@@ -1070,13 +1916,66 @@ export interface AffectedObjectDetails {
   /** Type of the affected object details. */
   type?: AffectedObjectDetailsType | undefined;
 }
-/** Job model custom properties. */
-export interface JobModelCustomProperties {
+/** Failover properties of the protected item. */
+export interface FailoverProtectedItemProperties {
+  /** Gets or sets the protected item name. */
+  protectedItemName?: string | undefined;
+  /** Gets or sets the VM name. */
+  vmName?: string | undefined;
+  /** Gets or sets the test VM name. */
+  testVmName?: string | undefined;
+  /** Gets or sets the recovery point Id. */
+  recoveryPointId?: string | undefined;
+  /** Gets or sets the recovery point time. */
+  recoveryPointTime?: string | undefined;
+  /** Gets or sets the network name. */
+  networkName?: string | undefined;
+  /** Gets or sets the network subnet. */
+  subnet?: string | undefined;
+}
+/** Gets or sets the failed over protected item details. */
+export type FailoverJobModelCustomPropertiesProtectedItemDetailsList =
+  Array<FailoverProtectedItemProperties>;
+/** Failover job model custom properties. */
+export interface FailoverJobModelCustomProperties {
   /** Discriminator property for JobModelCustomProperties. */
-  instanceType: string;
+  instanceType: FailoverJobModelCustomPropertiesInstanceType;
   /** Gets or sets any custom properties of the affected object. */
   affectedObjectDetails?: AffectedObjectDetails | undefined;
+  /** Gets or sets the failed over protected item details. */
+  protectedItemDetails?: FailoverJobModelCustomPropertiesProtectedItemDetailsList | undefined;
 }
+/** Discriminator property for JobModelCustomProperties. */
+export type TestFailoverCleanupJobModelCustomPropertiesInstanceType =
+  "TestFailoverCleanupJobDetails";
+/** Test failover cleanup job model custom properties. */
+export interface TestFailoverCleanupJobModelCustomProperties {
+  /** Discriminator property for JobModelCustomProperties. */
+  instanceType: TestFailoverCleanupJobModelCustomPropertiesInstanceType;
+  /** Gets or sets any custom properties of the affected object. */
+  affectedObjectDetails?: AffectedObjectDetails | undefined;
+  /** Gets or sets the test failover cleanup comments. */
+  comments?: string | undefined;
+}
+/** Discriminator property for JobModelCustomProperties. */
+export type TestFailoverJobModelCustomPropertiesInstanceType = "TestFailoverJobDetails";
+/** Gets or sets the test VM details. */
+export type TestFailoverJobModelCustomPropertiesProtectedItemDetailsList =
+  Array<FailoverProtectedItemProperties>;
+/** Test failover job model custom properties. */
+export interface TestFailoverJobModelCustomProperties {
+  /** Discriminator property for JobModelCustomProperties. */
+  instanceType: TestFailoverJobModelCustomPropertiesInstanceType;
+  /** Gets or sets any custom properties of the affected object. */
+  affectedObjectDetails?: AffectedObjectDetails | undefined;
+  /** Gets or sets the test VM details. */
+  protectedItemDetails?: TestFailoverJobModelCustomPropertiesProtectedItemDetailsList | undefined;
+}
+/** Job model custom properties. */
+export type JobModelCustomProperties =
+  | FailoverJobModelCustomProperties
+  | TestFailoverCleanupJobModelCustomProperties
+  | TestFailoverJobModelCustomProperties;
 /** Job model properties. */
 export interface JobModelProperties {
   /** Gets or sets the friendly display name. */
@@ -1276,11 +2175,33 @@ export interface GetRecoveryPointRequest {
 }
 /** Gets or sets the recovery point type. */
 export type RecoveryPointType = "ApplicationConsistent" | "CrashConsistent";
-/** Recovery point model custom properties. */
-export interface RecoveryPointModelCustomProperties {
+/** Discriminator property for RecoveryPointModelCustomProperties. */
+export type HyperVToAzStackHCIRecoveryPointModelCustomPropertiesInstanceType = "HyperVToAzStackHCI";
+/** Gets or sets the list of the disk Ids. */
+export type HyperVToAzStackHCIRecoveryPointModelCustomPropertiesDiskIdsList = Array<string>;
+/** HyperV to AzStackHCI recovery point model custom properties. */
+export interface HyperVToAzStackHCIRecoveryPointModelCustomProperties {
   /** Discriminator property for RecoveryPointModelCustomProperties. */
-  instanceType: string;
+  instanceType: HyperVToAzStackHCIRecoveryPointModelCustomPropertiesInstanceType;
+  /** Gets or sets the list of the disk Ids. */
+  diskIds?: HyperVToAzStackHCIRecoveryPointModelCustomPropertiesDiskIdsList | undefined;
 }
+/** Discriminator property for RecoveryPointModelCustomProperties. */
+export type VMwareToAzStackHCIRecoveryPointModelCustomPropertiesInstanceType =
+  "VMwareToAzStackHCIRecoveryPointModelCustomProperties";
+/** Gets or sets the list of the disk Ids. */
+export type VMwareToAzStackHCIRecoveryPointModelCustomPropertiesDiskIdsList = Array<string>;
+/** VMware to AzStackHCI recovery point model custom properties. */
+export interface VMwareToAzStackHCIRecoveryPointModelCustomProperties {
+  /** Discriminator property for RecoveryPointModelCustomProperties. */
+  instanceType: VMwareToAzStackHCIRecoveryPointModelCustomPropertiesInstanceType;
+  /** Gets or sets the list of the disk Ids. */
+  diskIds?: VMwareToAzStackHCIRecoveryPointModelCustomPropertiesDiskIdsList | undefined;
+}
+/** Recovery point model custom properties. */
+export type RecoveryPointModelCustomProperties =
+  | HyperVToAzStackHCIRecoveryPointModelCustomProperties
+  | VMwareToAzStackHCIRecoveryPointModelCustomProperties;
 /** Recovery point model properties. */
 export interface RecoveryPointModelProperties {
   /** Gets or sets the recovery point time. */
@@ -1846,11 +2767,30 @@ export interface DeploymentPreflightModel {
   /** Gets or sets the list of resources. */
   resources?: DeploymentPreflightModelResourcesList | undefined;
 }
-/** Planned failover model custom properties. */
-export interface PlannedFailoverModelCustomProperties {
+/** Discriminator property for PlannedFailoverModelCustomProperties. */
+export type HyperVToAzStackHCIPlannedFailoverModelCustomPropertiesInstanceType =
+  "HyperVToAzStackHCI";
+/** HyperV to AzStackHCI planned failover model custom properties. */
+export interface HyperVToAzStackHCIPlannedFailoverModelCustomProperties {
   /** Discriminator property for PlannedFailoverModelCustomProperties. */
-  instanceType: string;
+  instanceType: HyperVToAzStackHCIPlannedFailoverModelCustomPropertiesInstanceType;
+  /** Gets or sets a value indicating whether VM needs to be shut down. */
+  shutdownSourceVM: boolean;
 }
+/** Discriminator property for PlannedFailoverModelCustomProperties. */
+export type VMwareToAzStackHCIPlannedFailoverModelCustomPropertiesInstanceType =
+  "VMwareToAzStackHCI";
+/** VMware to AzStackHCI planned failover model custom properties. */
+export interface VMwareToAzStackHCIPlannedFailoverModelCustomProperties {
+  /** Discriminator property for PlannedFailoverModelCustomProperties. */
+  instanceType: VMwareToAzStackHCIPlannedFailoverModelCustomPropertiesInstanceType;
+  /** Gets or sets a value indicating whether VM needs to be shut down. */
+  shutdownSourceVM: boolean;
+}
+/** Planned failover model custom properties. */
+export type PlannedFailoverModelCustomProperties =
+  | HyperVToAzStackHCIPlannedFailoverModelCustomProperties
+  | VMwareToAzStackHCIPlannedFailoverModelCustomProperties;
 /** Planned failover model properties. */
 export interface PlannedFailoverModelProperties {
   /** Planned failover model custom properties. */
@@ -1944,10 +2884,76 @@ export interface UpdatePrivateEndpointConnectionResponse {
   /** The resource-specific properties for this resource. */
   properties?: PrivateEndpointConnectionResponseProperties | undefined;
 }
+/** Discriminator property for ProtectedItemModelCustomPropertiesUpdate. */
+export type HyperVToAzStackHCIProtectedItemModelCustomPropertiesUpdateInputInstanceType =
+  "HyperVToAzStackHCI";
+/** Gets or sets the list of VM NIC to replicate. */
+export type HyperVToAzStackHCIProtectedItemModelCustomPropertiesUpdateInputNicsToIncludeList =
+  Array<HyperVToAzStackHCINicInputInput>;
+/** HyperV to AzStackHCI Protected item model custom properties. */
+export interface HyperVToAzStackHCIProtectedItemModelCustomPropertiesUpdateInput {
+  /** Discriminator property for ProtectedItemModelCustomPropertiesUpdate. */
+  instanceType: HyperVToAzStackHCIProtectedItemModelCustomPropertiesUpdateInputInstanceType;
+  /** Gets or sets the list of VM NIC to replicate. */
+  nicsToInclude?:
+    | HyperVToAzStackHCIProtectedItemModelCustomPropertiesUpdateInputNicsToIncludeList
+    | undefined;
+  /** Gets or sets the target CPU cores. */
+  targetCpuCores?: number | undefined;
+  /** Gets or sets a value indicating whether memory is dynamical. */
+  isDynamicRam?: boolean | undefined;
+  /** Protected item dynamic memory config. */
+  dynamicMemoryConfig?: ProtectedItemDynamicMemoryConfig | undefined;
+  /** Gets or sets the target memory in mega-bytes. */
+  targetMemoryInMegaBytes?: number | undefined;
+  /** Gets or sets the type of the OS. */
+  osType?: string | undefined;
+  /** Gets or sets the security options for this VM. */
+  securityOption?: SecurityOption | (string & {}) | undefined;
+  /** Gets or sets a value indicating whether conversion to Gen 2 is required. */
+  convertToGen2?: boolean | undefined;
+  /** Gets or sets a value indicating whether VM is to be migrated as Arc VM. */
+  migrateAsArcVM?: boolean | undefined;
+}
+/** Discriminator property for ProtectedItemModelCustomPropertiesUpdate. */
+export type VMwareToAzStackHCIProtectedItemModelCustomPropertiesUpdateInputInstanceType =
+  "VMwareToAzStackHCI";
+/** Gets or sets the list of VM NIC to replicate. */
+export type VMwareToAzStackHCIProtectedItemModelCustomPropertiesUpdateInputNicsToIncludeList =
+  Array<VMwareToAzStackHCINicInputInput>;
+/** VMware to AzStackHCI Protected item model custom properties. */
+export interface VMwareToAzStackHCIProtectedItemModelCustomPropertiesUpdateInput {
+  /** Discriminator property for ProtectedItemModelCustomPropertiesUpdate. */
+  instanceType: VMwareToAzStackHCIProtectedItemModelCustomPropertiesUpdateInputInstanceType;
+  /** Gets or sets the list of VM NIC to replicate. */
+  nicsToInclude?:
+    | VMwareToAzStackHCIProtectedItemModelCustomPropertiesUpdateInputNicsToIncludeList
+    | undefined;
+  /** Gets or sets the target CPU cores. */
+  targetCpuCores?: number | undefined;
+  /** Gets or sets a value indicating whether memory is dynamical. */
+  isDynamicRam?: boolean | undefined;
+  /** Protected item dynamic memory config. */
+  dynamicMemoryConfig?: ProtectedItemDynamicMemoryConfig | undefined;
+  /** Gets or sets the target memory in mega-bytes. */
+  targetMemoryInMegaBytes?: number | undefined;
+  /** Gets or sets the type of the OS. */
+  osType?: string | undefined;
+  /** Gets or sets the security options for this VM. */
+  securityOption?: SecurityOption | (string & {}) | undefined;
+  /** Gets or sets a value indicating whether conversion to Gen 2 is required. */
+  convertToGen2?: boolean | undefined;
+  /** Gets or sets a value indicating whether VM is to be migrated as Arc VM. */
+  migrateAsArcVM?: boolean | undefined;
+}
+/** Protected item model custom properties. */
+export type ProtectedItemModelCustomPropertiesUpdateInput =
+  | HyperVToAzStackHCIProtectedItemModelCustomPropertiesUpdateInput
+  | VMwareToAzStackHCIProtectedItemModelCustomPropertiesUpdateInput;
 /** Protected item model properties update. */
-export interface ProtectedItemModelPropertiesUpdate {
-  /** Protected item model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI). */
-  customProperties?: unknown | undefined;
+export interface ProtectedItemModelPropertiesUpdateInput {
+  /** Protected item model custom properties update. */
+  customProperties?: ProtectedItemModelCustomPropertiesUpdateInput | undefined;
 }
 export interface UpdateProtectedItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1959,7 +2965,7 @@ export interface UpdateProtectedItemRequest {
   /** The protected item name. */
   protectedItemName: string;
   /** Protected item model properties. */
-  properties?: ProtectedItemModelPropertiesUpdate | undefined;
+  properties?: ProtectedItemModelPropertiesUpdateInput | undefined;
 }
 export interface UpdateProtectedItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2047,7 +3053,7 @@ export const CreateEmailConfiguration: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<CreateEmailConfigurationRequest>,
-  output: __S(49, __c3, 1) as any as S.Schema<CreateEmailConfigurationResponse>,
+  output: __S(97, __c3, 1) as any as S.Schema<CreateEmailConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2063,8 +3069,8 @@ export const CreateFabric: API.OperationMethod<
   CreateFabricError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<CreateFabricRequest>,
-  output: __S(65, __c4, 1) as any as S.Schema<CreateFabricResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<CreateFabricRequest>,
+  output: __S(129, __c4, 1) as any as S.Schema<CreateFabricResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2080,8 +3086,8 @@ export const CreateFabricAgent: API.OperationMethod<
   CreateFabricAgentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(401, __c25, 1) as any as S.Schema<CreateFabricAgentRequest>,
-  output: __S(402, __c25, 2) as any as S.Schema<CreateFabricAgentResponse>,
+  input: __S(769, __c24, 1) as any as S.Schema<CreateFabricAgentRequest>,
+  output: __S(770, __c24, 2) as any as S.Schema<CreateFabricAgentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2097,8 +3103,8 @@ export const CreatePolicy: API.OperationMethod<
   CreatePolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<CreatePolicyRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<CreatePolicyResponse>,
+  input: __S(1345, __c42, 1) as any as S.Schema<CreatePolicyRequest>,
+  output: __S(1346, __c42, 2) as any as S.Schema<CreatePolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2114,8 +3120,8 @@ export const CreateProtectedItem: API.OperationMethod<
   CreateProtectedItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(913, __c57, 1) as any as S.Schema<CreateProtectedItemRequest>,
-  output: __S(914, __c57, 2) as any as S.Schema<CreateProtectedItemResponse>,
+  input: __S(1764, __c55, 4) as any as S.Schema<CreateProtectedItemRequest>,
+  output: __S(1765, __c55, 5) as any as S.Schema<CreateProtectedItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2131,8 +3137,8 @@ export const CreateReplicationExtension: API.OperationMethod<
   CreateReplicationExtensionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<CreateReplicationExtensionRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<CreateReplicationExtensionResponse>,
+  input: __S(2212, __c69, 4) as any as S.Schema<CreateReplicationExtensionRequest>,
+  output: __S(2213, __c69, 5) as any as S.Schema<CreateReplicationExtensionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2148,8 +3154,8 @@ export const CreateVault: API.OperationMethod<
   CreateVaultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1139, __c71, 3) as any as S.Schema<CreateVaultRequest>,
-  output: __S(1140, __c71, 4) as any as S.Schema<CreateVaultResponse>,
+  input: __S(2275, __c71, 3) as any as S.Schema<CreateVaultRequest>,
+  output: __S(2276, __c71, 4) as any as S.Schema<CreateVaultResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2165,8 +3171,8 @@ export const DeleteFabric: API.OperationMethod<
   DeleteFabricError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<DeleteFabricRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<DeleteFabricResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<DeleteFabricRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<DeleteFabricResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2182,8 +3188,8 @@ export const DeleteFabricAgent: API.OperationMethod<
   DeleteFabricAgentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<DeleteFabricAgentRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<DeleteFabricAgentResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<DeleteFabricAgentRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<DeleteFabricAgentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2199,8 +3205,8 @@ export const DeletePolicy: API.OperationMethod<
   DeletePolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<DeletePolicyRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<DeletePolicyResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<DeletePolicyRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<DeletePolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2216,8 +3222,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   DeletePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2233,8 +3239,8 @@ export const DeleteProtectedItem: API.OperationMethod<
   DeleteProtectedItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<DeleteProtectedItemRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<DeleteProtectedItemResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<DeleteProtectedItemRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<DeleteProtectedItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2250,8 +3256,8 @@ export const DeleteReplicationExtension: API.OperationMethod<
   DeleteReplicationExtensionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<DeleteReplicationExtensionRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<DeleteReplicationExtensionResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<DeleteReplicationExtensionRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<DeleteReplicationExtensionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2267,8 +3273,8 @@ export const DeleteVault: API.OperationMethod<
   DeleteVaultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<DeleteVaultRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<DeleteVaultResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<DeleteVaultRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<DeleteVaultResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2284,8 +3290,8 @@ export const GetEmailConfiguration: API.OperationMethod<
   GetEmailConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetEmailConfigurationRequest>,
-  output: __S(49, __c3, 1) as any as S.Schema<GetEmailConfigurationResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetEmailConfigurationRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<GetEmailConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2301,8 +3307,8 @@ export const GetEvent: API.OperationMethod<
   GetEventError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetEventRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<GetEventResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<GetEventRequest>,
+  output: __S(483, __c15, 3) as any as S.Schema<GetEventResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2318,8 +3324,8 @@ export const GetFabric: API.OperationMethod<
   GetFabricError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetFabricRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<GetFabricResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetFabricRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<GetFabricResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2335,8 +3341,8 @@ export const GetFabricAgent: API.OperationMethod<
   GetFabricAgentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetFabricAgentRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<GetFabricAgentResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetFabricAgentRequest>,
+  output: __S(608, __c19, 0) as any as S.Schema<GetFabricAgentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2352,8 +3358,8 @@ export const GetJob: API.OperationMethod<
   GetJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetJobRequest>,
-  output: __S(337, __c21, 1) as any as S.Schema<GetJobResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetJobRequest>,
+  output: __S(641, __c20, 1) as any as S.Schema<GetJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2369,8 +3375,8 @@ export const GetLocationBasedOperationResult: API.OperationMethod<
   GetLocationBasedOperationResultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetLocationBasedOperationResultRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<OperationStatus>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetLocationBasedOperationResultRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<OperationStatus>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2386,8 +3392,8 @@ export const GetOperationResult: API.OperationMethod<
   GetOperationResultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetOperationResultRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<OperationStatus>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetOperationResultRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<OperationStatus>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2403,8 +3409,8 @@ export const GetPolicy: API.OperationMethod<
   GetPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetPolicyRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<GetPolicyResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<GetPolicyRequest>,
+  output: __S(896, __c28, 0) as any as S.Schema<GetPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2420,8 +3426,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   GetPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
-  output: __S(1155, __c72, 3) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
+  output: __S(2307, __c72, 3) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2437,8 +3443,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   GetPrivateLinkResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
-  output: __S(513, __c32, 1) as any as S.Schema<GetPrivateLinkResourceResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<GetPrivateLinkResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2454,8 +3460,8 @@ export const GetProtectedItem: API.OperationMethod<
   GetProtectedItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<GetProtectedItemRequest>,
-  output: __S(544, __c34, 0) as any as S.Schema<GetProtectedItemResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetProtectedItemRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<GetProtectedItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2471,8 +3477,8 @@ export const GetRecoveryPoint: API.OperationMethod<
   GetRecoveryPointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<GetRecoveryPointRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<GetRecoveryPointResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetRecoveryPointRequest>,
+  output: __S(1123, __c35, 3) as any as S.Schema<GetRecoveryPointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2488,8 +3494,8 @@ export const GetReplicationExtension: API.OperationMethod<
   GetReplicationExtensionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<GetReplicationExtensionRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<GetReplicationExtensionResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<GetReplicationExtensionRequest>,
+  output: __S(1184, __c37, 0) as any as S.Schema<GetReplicationExtensionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2505,8 +3511,8 @@ export const GetVault: API.OperationMethod<
   GetVaultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<GetVaultRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<GetVaultResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetVaultRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<GetVaultResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2522,8 +3528,8 @@ export const ListEmailConfiguration: API.OperationMethod<
   ListEmailConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<ListEmailConfigurationRequest>,
-  output: __S(642, __c40, 2) as any as S.Schema<EmailConfigurationModelListResult>,
+  input: __S(1280, __c40, 0) as any as S.Schema<ListEmailConfigurationRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<EmailConfigurationModelListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2539,8 +3545,8 @@ export const ListEvent: API.OperationMethod<
   ListEventError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<ListEventRequest>,
-  output: __S(658, __c41, 2) as any as S.Schema<EventModelListResult>,
+  input: __S(1312, __c41, 0) as any as S.Schema<ListEventRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<EventModelListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2556,8 +3562,8 @@ export const ListFabric: API.OperationMethod<
   ListFabricError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<ListFabricRequest>,
-  output: __S(737, __c46, 1) as any as S.Schema<FabricModelListResult>,
+  input: __S(1408, __c44, 0) as any as S.Schema<ListFabricRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<FabricModelListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2573,8 +3579,8 @@ export const ListFabricAgent: API.OperationMethod<
   ListFabricAgentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<ListFabricAgentRequest>,
-  output: __S(754, __c47, 2) as any as S.Schema<FabricAgentModelListResult>,
+  input: __S(1472, __c46, 0) as any as S.Schema<ListFabricAgentRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<FabricAgentModelListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2590,8 +3596,8 @@ export const ListFabricBySubscription: API.OperationMethod<
   ListFabricBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<ListFabricBySubscriptionRequest>,
-  output: __S(737, __c46, 1) as any as S.Schema<FabricModelListResult>,
+  input: __S(1504, __c47, 0) as any as S.Schema<ListFabricBySubscriptionRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<FabricModelListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2607,8 +3613,8 @@ export const ListJob: API.OperationMethod<
   ListJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<ListJobRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<JobModelListResult>,
+  input: __S(1536, __c48, 0) as any as S.Schema<ListJobRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<JobModelListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2624,8 +3630,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(804, __c50, 4) as any as S.Schema<ListOperationsResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(1572, __c49, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2641,8 +3647,8 @@ export const ListPolicy: API.OperationMethod<
   ListPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<ListPolicyRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<PolicyModelListResult>,
+  input: __S(1600, __c50, 0) as any as S.Schema<ListPolicyRequest>,
+  output: __S(1602, __c50, 2) as any as S.Schema<PolicyModelListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2658,8 +3664,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   ListPrivateEndpointConnectionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
-  output: __S(849, __c53, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
+  input: __S(1632, __c51, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
+  output: __S(1633, __c51, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2675,8 +3681,8 @@ export const ListPrivateLinkResources: API.OperationMethod<
   ListPrivateLinkResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
-  output: __S(866, __c54, 2) as any as S.Schema<PrivateLinkResourceListResult>,
+  input: __S(1664, __c52, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
+  output: __S(1666, __c52, 2) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2692,8 +3698,8 @@ export const ListProtectedItem: API.OperationMethod<
   ListProtectedItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<ListProtectedItemRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<ProtectedItemModelListResult>,
+  input: __S(1696, __c53, 0) as any as S.Schema<ListProtectedItemRequest>,
+  output: __S(1698, __c53, 2) as any as S.Schema<ProtectedItemModelListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2709,8 +3715,8 @@ export const ListRecoveryPoint: API.OperationMethod<
   ListRecoveryPointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<ListRecoveryPointRequest>,
-  output: __S(898, __c56, 2) as any as S.Schema<RecoveryPointModelListResult>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ListRecoveryPointRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<RecoveryPointModelListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2726,8 +3732,8 @@ export const ListReplicationExtension: API.OperationMethod<
   ListReplicationExtensionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<ListReplicationExtensionRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<ReplicationExtensionModelListResult>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListReplicationExtensionRequest>,
+  output: __S(1858, __c58, 2) as any as S.Schema<ReplicationExtensionModelListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2743,8 +3749,8 @@ export const ListVault: API.OperationMethod<
   ListVaultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<ListVaultRequest>,
-  output: __S(977, __c61, 1) as any as S.Schema<VaultModelListResult>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ListVaultRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<VaultModelListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2760,8 +3766,8 @@ export const ListVaultBySubscription: API.OperationMethod<
   ListVaultBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<ListVaultBySubscriptionRequest>,
-  output: __S(977, __c61, 1) as any as S.Schema<VaultModelListResult>,
+  input: __S(1952, __c61, 0) as any as S.Schema<ListVaultBySubscriptionRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<VaultModelListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2777,8 +3783,8 @@ export const PostCheckNameAvailability: API.OperationMethod<
   PostCheckNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<PostCheckNameAvailabilityRequest>,
-  output: __S(1009, __c63, 1) as any as S.Schema<CheckNameAvailabilityResponseModel>,
+  input: __S(1984, __c62, 0) as any as S.Schema<PostCheckNameAvailabilityRequest>,
+  output: __S(1985, __c62, 1) as any as S.Schema<CheckNameAvailabilityResponseModel>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2794,8 +3800,8 @@ export const PostDeploymentPreflight: API.OperationMethod<
   PostDeploymentPreflightError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1026, __c64, 2) as any as S.Schema<PostDeploymentPreflightRequest>,
-  output: __S(1027, __c64, 3) as any as S.Schema<DeploymentPreflightModel>,
+  input: __S(2018, __c63, 2) as any as S.Schema<PostDeploymentPreflightRequest>,
+  output: __S(2019, __c63, 3) as any as S.Schema<DeploymentPreflightModel>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2811,8 +3817,8 @@ export const ProtectedItemPlannedFailover: API.OperationMethod<
   ProtectedItemPlannedFailoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1041, __c65, 1) as any as S.Schema<ProtectedItemPlannedFailoverRequest>,
-  output: __S(1042, __c65, 2) as any as S.Schema<PlannedFailoverModel>,
+  input: __S(2051, __c64, 3) as any as S.Schema<ProtectedItemPlannedFailoverRequest>,
+  output: __S(2052, __c64, 4) as any as S.Schema<PlannedFailoverModel>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2828,8 +3834,8 @@ export const UpdateFabric: API.OperationMethod<
   UpdateFabricError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<UpdateFabricRequest>,
-  output: __S(1057, __c66, 1) as any as S.Schema<UpdateFabricResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<UpdateFabricRequest>,
+  output: __S(2081, __c65, 1) as any as S.Schema<UpdateFabricResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2845,8 +3851,8 @@ export const UpdatePrivateEndpointConnection: API.OperationMethod<
   UpdatePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1073, __c67, 1) as any as S.Schema<UpdatePrivateEndpointConnectionRequest>,
-  output: __S(1155, __c72, 3) as any as S.Schema<UpdatePrivateEndpointConnectionResponse>,
+  input: __S(2113, __c66, 1) as any as S.Schema<UpdatePrivateEndpointConnectionRequest>,
+  output: __S(2307, __c72, 3) as any as S.Schema<UpdatePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2862,8 +3868,8 @@ export const UpdateProtectedItem: API.OperationMethod<
   UpdateProtectedItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1089, __c68, 1) as any as S.Schema<UpdateProtectedItemRequest>,
-  output: __S(1090, __c68, 2) as any as S.Schema<UpdateProtectedItemResponse>,
+  input: __S(2148, __c67, 4) as any as S.Schema<UpdateProtectedItemRequest>,
+  output: __S(2149, __c67, 5) as any as S.Schema<UpdateProtectedItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2879,8 +3885,8 @@ export const UpdateVault: API.OperationMethod<
   UpdateVaultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1105, __c69, 1) as any as S.Schema<UpdateVaultRequest>,
-  output: __S(1106, __c69, 2) as any as S.Schema<UpdateVaultResponse>,
+  input: __S(2177, __c68, 1) as any as S.Schema<UpdateVaultRequest>,
+  output: __S(2178, __c68, 2) as any as S.Schema<UpdateVaultResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2895,7 +3901,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sendToOwners: S.Boolean,
-          customEmailAddresses: S.optional(__S(32, __c2, 0)),
+          customEmailAddresses: S.optional(__S(64, __c2, 0)),
           locale: S.optional(S.String),
         }),
       ).annotate({ identifier: "EmailConfigurationModelPropertiesInput" });
@@ -2945,7 +3951,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sendToOwners: S.Boolean,
-          customEmailAddresses: S.optional(__S(32, __c2, 0)),
+          customEmailAddresses: S.optional(__S(64, __c2, 0)),
           locale: S.optional(S.String),
           provisioningState: S.optional(S.String),
         }),
@@ -2956,8 +3962,8 @@ function __c3(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(48, __c3, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "CreateEmailConfigurationResponse" });
   }
@@ -2970,9 +3976,9 @@ function __c4(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(128, __c8, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(112, __c7, 0)),
+          properties: S.optional(__S(227, __c7, 3)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2988,10 +3994,10 @@ function __c4(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          tags: S.optional(__S(128, __c8, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(80, __c5, 0)),
+          properties: S.optional(__S(167, __c5, 7)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -3003,12 +4009,64 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String,
+          clusterSharedVolumePath: S.String,
+        }),
+      ).annotate({ identifier: "StorageContainerProperties" });
+    case 1:
+      return S.Array(__S(160, __c5, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          clusterName: S.String,
+          resourceName: S.String,
+          storageAccountName: S.String,
+          storageContainers: __S(161, __c5, 1),
+        }),
+      ).annotate({ identifier: "AzStackHCIClusterProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          vmwareSiteId: S.String,
+          migrationSolutionId: S.String,
+        }),
+      ).annotate({ identifier: "VMwareMigrateFabricModelCustomProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          azStackHciSiteId: S.String,
+          applianceName: S.optional(__S(64, __c2, 0)),
+          cluster: __S(162, __c5, 2),
+          fabricResourceId: S.optional(S.String),
+          fabricContainerId: S.optional(S.String),
+          migrationSolutionId: S.String,
+          migrationHubUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzStackHCIFabricModelCustomProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          hyperVSiteId: S.String,
+          fabricResourceId: S.optional(S.String),
+          fabricContainerId: S.optional(S.String),
+          migrationSolutionId: S.String,
+          migrationHubUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HyperVMigrateFabricModelCustomProperties" });
+    case 6:
+      return S.Union([__S(164, __c5, 4), __S(165, __c5, 5), __S(163, __c5, 3)]);
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           provisioningState: S.optional(S.String),
           serviceEndpoint: S.optional(S.String),
           serviceResourceId: S.optional(S.String),
           health: S.optional(S.String),
-          healthErrors: S.optional(__S(99, __c6, 3)),
-          customProperties: S.Unknown,
+          healthErrors: S.optional(__S(195, __c6, 3)),
+          customProperties: __S(166, __c5, 6),
         }),
       ).annotate({ identifier: "FabricModelProperties" });
   }
@@ -3032,13 +4090,13 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "InnerHealthErrorModel" });
     case 1:
-      return S.Array(__S(96, __c6, 0));
+      return S.Array(__S(192, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           affectedResourceType: S.optional(S.String),
-          affectedResourceCorrelationIds: S.optional(__S(32, __c2, 0)),
-          childErrors: S.optional(__S(97, __c6, 1)),
+          affectedResourceCorrelationIds: S.optional(__S(64, __c2, 0)),
+          childErrors: S.optional(__S(193, __c6, 1)),
           code: S.optional(S.String),
           healthCategory: S.optional(S.String),
           category: S.optional(S.String),
@@ -3053,7 +4111,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "HealthErrorModel" });
     case 3:
-      return S.Array(__S(98, __c6, 2));
+      return S.Array(__S(194, __c6, 2));
   }
 }
 function __c7(j: number): any {
@@ -3061,7 +4119,26 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customProperties: S.Unknown,
+          instanceType: S.String,
+          azStackHciSiteId: S.String,
+          cluster: __S(162, __c5, 2),
+          migrationSolutionId: S.String,
+        }),
+      ).annotate({ identifier: "AzStackHCIFabricModelCustomPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          hyperVSiteId: S.String,
+          migrationSolutionId: S.String,
+        }),
+      ).annotate({ identifier: "HyperVMigrateFabricModelCustomPropertiesInput" });
+    case 2:
+      return S.Union([__S(224, __c7, 0), __S(225, __c7, 1), __S(163, __c5, 3)]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          customProperties: __S(226, __c7, 2),
         }),
       ).annotate({ identifier: "FabricModelPropertiesInput" });
   }
@@ -3198,13 +4275,16 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           instanceType: S.String,
+          eventSourceFriendlyName: S.optional(S.String),
+          protectedItemFriendlyName: S.optional(S.String),
+          sourceApplianceName: S.optional(S.String),
+          targetApplianceName: S.optional(S.String),
+          serverType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EventModelCustomProperties" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
+      ).annotate({ identifier: "HyperVToAzStackHCIEventModelCustomProperties" });
+    case 1:
+      return S.Union([__S(480, __c15, 0), __S(480, __c15, 0)]);
+    case 2:
       return S.suspend(() =>
         S.Struct({
           resourceType: S.optional(S.String),
@@ -3215,24 +4295,24 @@ function __c16(j: number): any {
           severity: S.optional(S.String),
           description: S.optional(S.String),
           correlationId: S.optional(S.String),
-          healthErrors: S.optional(__S(99, __c6, 3)),
-          customProperties: __S(240, __c15, 0),
+          healthErrors: S.optional(__S(195, __c6, 3)),
+          customProperties: __S(481, __c15, 1),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventModelProperties" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(256, __c16, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(482, __c15, 2)),
         }),
       ).annotate({ identifier: "GetEventResponse" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3251,7 +4331,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetFabricRequest" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3259,15 +4339,15 @@ function __c18(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          tags: S.optional(__S(128, __c8, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(80, __c5, 0)),
+          properties: S.optional(__S(167, __c5, 7)),
         }),
       ).annotate({ identifier: "GetFabricResponse" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3287,7 +4367,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetFabricAgentRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3295,13 +4375,13 @@ function __c20(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(417, __c26, 1)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(802, __c25, 2)),
         }),
       ).annotate({ identifier: "GetFabricAgentResponse" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3325,40 +4405,46 @@ function __c21(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(360, __c22, 8)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(685, __c21, 13)),
         }),
       ).annotate({ identifier: "GetJobResponse" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+        }),
+      ).annotate({ identifier: "TaskModelCustomProperties" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(S.suspend(() => __S(360, __c22, 8))),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(S.suspend(() => __S(685, __c21, 13))),
         }),
       ).annotate({ identifier: "JobModel" });
-    case 1:
-      return S.Array(__S(352, __c22, 0));
     case 2:
+      return S.Array(__S(673, __c21, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           taskName: S.optional(S.String),
           state: S.optional(S.String),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          customProperties: S.optional(__S(240, __c15, 0)),
-          childrenJobs: S.optional(__S(353, __c22, 1)),
+          customProperties: S.optional(__S(672, __c21, 0)),
+          childrenJobs: S.optional(__S(674, __c21, 2)),
         }),
       ).annotate({ identifier: "TaskModel" });
-    case 3:
-      return S.Array(__S(354, __c22, 2));
     case 4:
+      return S.Array(__S(675, __c21, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
@@ -3370,23 +4456,48 @@ function __c22(j: number): any {
           recommendation: S.optional(S.String),
         }),
       ).annotate({ identifier: "ErrorModel" });
-    case 5:
-      return S.Array(__S(356, __c22, 4));
     case 6:
+      return S.Array(__S(677, __c21, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "AffectedObjectDetails" });
-    case 7:
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          protectedItemName: S.optional(S.String),
+          vmName: S.optional(S.String),
+          testVmName: S.optional(S.String),
+          recoveryPointId: S.optional(S.String),
+          recoveryPointTime: S.optional(S.String),
+          networkName: S.optional(S.String),
+          subnet: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FailoverProtectedItemProperties" });
+    case 9:
+      return S.Array(__S(680, __c21, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           instanceType: S.String,
-          affectedObjectDetails: S.optional(__S(358, __c22, 6)),
+          affectedObjectDetails: S.optional(__S(679, __c21, 7)),
+          protectedItemDetails: S.optional(__S(681, __c21, 9)),
         }),
-      ).annotate({ identifier: "JobModelCustomProperties" });
-    case 8:
+      ).annotate({ identifier: "FailoverJobModelCustomProperties" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          affectedObjectDetails: S.optional(__S(679, __c21, 7)),
+          comments: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TestFailoverCleanupJobModelCustomProperties" });
+    case 12:
+      return S.Union([__S(682, __c21, 10), __S(683, __c21, 11), __S(682, __c21, 10)]);
+    case 13:
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
@@ -3401,17 +4512,17 @@ function __c22(j: number): any {
           replicationProviderId: S.optional(S.String),
           sourceFabricProviderId: S.optional(S.String),
           targetFabricProviderId: S.optional(S.String),
-          allowedActions: S.optional(__S(32, __c2, 0)),
+          allowedActions: S.optional(__S(64, __c2, 0)),
           activityId: S.optional(S.String),
-          tasks: S.optional(__S(355, __c22, 3)),
-          errors: S.optional(__S(357, __c22, 5)),
-          customProperties: __S(359, __c22, 7),
+          tasks: S.optional(__S(676, __c21, 4)),
+          errors: S.optional(__S(678, __c21, 6)),
+          customProperties: __S(684, __c21, 12),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobModelProperties" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3431,7 +4542,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetLocationBasedOperationResultRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3445,16 +4556,16 @@ function __c24(j: number): any {
       ).annotate({ identifier: "OperationStatus" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           machineId: S.String,
           machineName: S.String,
-          authenticationIdentity: __S(416, __c26, 0),
-          resourceAccessIdentity: __S(416, __c26, 0),
-          customProperties: S.Unknown,
+          authenticationIdentity: __S(800, __c25, 0),
+          resourceAccessIdentity: __S(800, __c25, 0),
+          customProperties: __S(801, __c25, 1),
         }),
       ).annotate({ identifier: "FabricAgentModelPropertiesInput" });
     case 1:
@@ -3464,7 +4575,7 @@ function __c25(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
           fabricAgentName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(400, __c25, 0)),
+          properties: S.optional(__S(768, __c24, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -3480,15 +4591,15 @@ function __c25(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(417, __c26, 1)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(802, __c25, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "CreateFabricAgentResponse" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3503,22 +4614,30 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          instanceType: S.String,
+          biosId: S.String,
+          marsAuthenticationIdentity: __S(800, __c25, 0),
+        }),
+      ).annotate({ identifier: "VMwareFabricAgentModelCustomProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           correlationId: S.optional(S.String),
           machineId: S.String,
           machineName: S.String,
-          authenticationIdentity: __S(416, __c26, 0),
-          resourceAccessIdentity: __S(416, __c26, 0),
+          authenticationIdentity: __S(800, __c25, 0),
+          resourceAccessIdentity: __S(800, __c25, 0),
           isResponsive: S.optional(S.Boolean),
           lastHeartbeat: S.optional(S.String),
           versionNumber: S.optional(S.String),
           provisioningState: S.optional(S.String),
-          healthErrors: S.optional(__S(99, __c6, 3)),
-          customProperties: S.Unknown,
+          healthErrors: S.optional(__S(195, __c6, 3)),
+          customProperties: __S(801, __c25, 1),
         }),
       ).annotate({ identifier: "FabricAgentModelProperties" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3537,7 +4656,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetOperationResultRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3557,7 +4676,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetPolicyRequest" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3565,13 +4684,13 @@ function __c29(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(704, __c44, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(1378, __c43, 2)),
         }),
       ).annotate({ identifier: "GetPolicyResponse" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3591,7 +4710,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3611,14 +4730,14 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetPrivateLinkResourceRequest" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           groupId: S.optional(S.String),
-          requiredMembers: S.optional(__S(32, __c2, 0)),
-          requiredZoneNames: S.optional(__S(32, __c2, 0)),
+          requiredMembers: S.optional(__S(64, __c2, 0)),
+          requiredZoneNames: S.optional(__S(64, __c2, 0)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourceProperties" });
@@ -3628,13 +4747,13 @@ function __c32(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(512, __c32, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(992, __c31, 0)),
         }),
       ).annotate({ identifier: "GetPrivateLinkResourceResponse" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3654,7 +4773,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetProtectedItemRequest" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3662,13 +4781,13 @@ function __c34(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(929, __c58, 1)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(1810, __c56, 18)),
         }),
       ).annotate({ identifier: "GetProtectedItemResponse" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3689,30 +4808,39 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetRecoveryPointRequest" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          instanceType: S.String,
+          diskIds: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "HyperVToAzStackHCIRecoveryPointModelCustomProperties" });
+    case 1:
+      return S.Union([__S(1120, __c35, 0), __S(1120, __c35, 0)]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           recoveryPointTime: S.String,
           recoveryPointType: S.String,
-          customProperties: __S(240, __c15, 0),
+          customProperties: __S(1121, __c35, 1),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecoveryPointModelProperties" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(576, __c36, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(1122, __c35, 2)),
         }),
       ).annotate({ identifier: "GetRecoveryPointResponse" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3730,6 +4858,20 @@ function __c37(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetReplicationExtensionRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(2243, __c70, 3)),
+        }),
+      ).annotate({ identifier: "GetReplicationExtensionResponse" });
   }
 }
 function __c38(j: number): any {
@@ -3759,11 +4901,11 @@ function __c39(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          tags: S.optional(__S(128, __c8, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(1184, __c74, 0)),
-          identity: S.optional(__S(1187, __c74, 3)),
+          properties: S.optional(__S(2368, __c74, 0)),
+          identity: S.optional(__S(2371, __c74, 3)),
         }),
       ).annotate({ identifier: "GetVaultResponse" });
   }
@@ -3786,11 +4928,11 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "ListEmailConfigurationRequest" });
     case 1:
-      return S.Array(__S(49, __c3, 1));
+      return S.Array(__S(97, __c3, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(641, __c40, 1),
+          value: __S(1281, __c40, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EmailConfigurationModelListResult" });
@@ -3817,11 +4959,11 @@ function __c41(j: number): any {
         ),
       ).annotate({ identifier: "ListEventRequest" });
     case 1:
-      return S.Array(__S(257, __c16, 1));
+      return S.Array(__S(483, __c15, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(657, __c41, 1),
+          value: __S(1313, __c41, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventModelListResult" });
@@ -3832,11 +4974,17 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          customProperties: __S(1377, __c43, 1),
+        }),
+      ).annotate({ identifier: "PolicyModelPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           policyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(112, __c7, 0)),
+          properties: S.optional(__S(1344, __c42, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -3846,6 +4994,18 @@ function __c42(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreatePolicyRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(1378, __c43, 2)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "CreatePolicyResponse" });
   }
 }
 function __c43(j: number): any {
@@ -3853,29 +5013,24 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(704, __c44, 0)),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+          instanceType: S.String,
+          recoveryPointHistoryInMinutes: S.Number,
+          crashConsistentFrequencyInMinutes: S.Number,
+          appConsistentFrequencyInMinutes: S.Number,
         }),
-      ).annotate({ identifier: "CreatePolicyResponse" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
+      ).annotate({ identifier: "HyperVToAzStackHCIPolicyModelCustomProperties" });
+    case 1:
+      return S.Union([__S(1376, __c43, 0), __S(1376, __c43, 0)]);
+    case 2:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          customProperties: S.Unknown,
+          customProperties: __S(1377, __c43, 1),
         }),
       ).annotate({ identifier: "PolicyModelProperties" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3894,20 +5049,20 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ListFabricRequest" });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(288, __c18, 0));
+      return S.Array(__S(544, __c17, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(736, __c46, 0),
+          value: __S(1440, __c45, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FabricModelListResult" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3925,17 +5080,17 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "ListFabricAgentRequest" });
     case 1:
-      return S.Array(__S(320, __c20, 0));
+      return S.Array(__S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(753, __c47, 1),
+          value: __S(1473, __c46, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FabricAgentModelListResult" });
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3952,7 +5107,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "ListFabricBySubscriptionRequest" });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3975,13 +5130,13 @@ function __c49(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(353, __c22, 1),
+          value: __S(674, __c21, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobModelListResult" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4008,23 +5163,23 @@ function __c50(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(801, __c50, 1)),
+          display: S.optional(__S(1569, __c49, 1)),
           origin: S.optional(S.String),
           actionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(802, __c50, 2));
+      return S.Array(__S(1570, __c49, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(803, __c50, 3)),
+          value: S.optional(__S(1571, __c49, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c51(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4041,22 +5196,18 @@ function __c51(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListPolicyRequest" });
-  }
-}
-function __c52(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(464, __c29, 0));
     case 1:
+      return S.Array(__S(896, __c28, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(832, __c52, 0),
+          value: __S(1601, __c50, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicyModelListResult" });
   }
 }
-function __c53(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4076,13 +5227,13 @@ function __c53(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1168, __c73, 0),
+          value: __S(2336, __c73, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
   }
 }
-function __c54(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4100,17 +5251,17 @@ function __c54(j: number): any {
         ),
       ).annotate({ identifier: "ListPrivateLinkResourcesRequest" });
     case 1:
-      return S.Array(__S(513, __c32, 1));
+      return S.Array(__S(993, __c31, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(865, __c54, 1),
+          value: __S(1665, __c52, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourceListResult" });
   }
 }
-function __c55(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4131,17 +5282,17 @@ function __c55(j: number): any {
         ),
       ).annotate({ identifier: "ListProtectedItemRequest" });
     case 1:
-      return S.Array(__S(544, __c34, 0));
+      return S.Array(__S(1056, __c33, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(881, __c55, 1),
+          value: __S(1697, __c53, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProtectedItemModelListResult" });
   }
 }
-function __c56(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4160,34 +5311,93 @@ function __c56(j: number): any {
         ),
       ).annotate({ identifier: "ListRecoveryPointRequest" });
     case 1:
-      return S.Array(__S(577, __c36, 1));
+      return S.Array(__S(1123, __c35, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(897, __c56, 1),
+          value: __S(1729, __c54, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecoveryPointModelListResult" });
   }
 }
-function __c57(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          instanceType: S.String,
+          targetHciClusterId: S.String,
+          targetArcClusterCustomLocationId: S.String,
+          fabricDiscoveryMachineId: S.String,
+          disksToInclude: __S(1794, __c56, 2),
+          nicsToInclude: __S(1825, __c57, 1),
+          targetVmName: S.optional(S.String),
+          targetResourceGroupId: S.String,
+          storageContainerId: S.String,
+          hyperVGeneration: S.String,
+          targetNetworkId: S.optional(S.String),
+          testNetworkId: S.optional(S.String),
+          targetCpuCores: S.optional(S.Number),
+          isDynamicRam: S.optional(S.Boolean),
+          dynamicMemoryConfig: S.optional(__S(1795, __c56, 3)),
+          targetMemoryInMegaBytes: S.optional(S.Number),
+          runAsAccountId: S.String,
+          sourceFabricAgentName: S.String,
+          targetFabricAgentName: S.String,
+          customLocationRegion: S.String,
+          securityOption: S.optional(S.String),
+          convertToGen2: S.optional(S.Boolean),
+          migrateAsArcVM: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "HyperVToAzStackHCIProtectedItemModelCustomPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          targetHciClusterId: S.String,
+          targetArcClusterCustomLocationId: S.String,
+          storageContainerId: S.String,
+          targetResourceGroupId: S.String,
+          customLocationRegion: S.String,
+          disksToInclude: __S(1794, __c56, 2),
+          nicsToInclude: __S(1827, __c57, 3),
+          targetVmName: S.optional(S.String),
+          hyperVGeneration: S.String,
+          targetNetworkId: S.optional(S.String),
+          testNetworkId: S.optional(S.String),
+          targetCpuCores: S.optional(S.Number),
+          isDynamicRam: S.optional(S.Boolean),
+          dynamicMemoryConfig: S.optional(__S(1795, __c56, 3)),
+          targetMemoryInMegaBytes: S.optional(S.Number),
+          fabricDiscoveryMachineId: S.String,
+          runAsAccountId: S.String,
+          sourceFabricAgentName: S.String,
+          targetFabricAgentName: S.String,
+          performAutoResync: S.optional(S.Boolean),
+          securityOption: S.optional(S.String),
+          convertToGen2: S.optional(S.Boolean),
+          migrateAsArcVM: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "VMwareToAzStackHCIProtectedItemModelCustomPropertiesInput" });
+    case 2:
+      return S.Union([__S(1760, __c55, 0), __S(1761, __c55, 1)]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           policyName: S.String,
           replicationExtensionName: S.String,
-          customProperties: S.Unknown,
+          customProperties: __S(1762, __c55, 2),
         }),
       ).annotate({ identifier: "ProtectedItemModelPropertiesInput" });
-    case 1:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           protectedItemName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(912, __c57, 0)),
+          properties: S.optional(__S(1763, __c55, 3)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4197,23 +5407,57 @@ function __c57(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateProtectedItemRequest" });
-    case 2:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(929, __c58, 1)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(1810, __c56, 18)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "CreateProtectedItemResponse" });
   }
 }
-function __c58(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          controllerName: S.String,
+          controllerId: S.Number,
+          controllerLocation: S.Number,
+        }),
+      ).annotate({ identifier: "DiskControllerInputs" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.String,
+          storageContainerId: S.optional(S.String),
+          isDynamic: S.optional(S.Boolean),
+          diskSizeGB: S.Number,
+          diskFileFormat: S.String,
+          isOsDisk: S.Boolean,
+          diskBlockSize: S.optional(S.Number),
+          diskLogicalSectorSize: S.optional(S.Number),
+          diskPhysicalSectorSize: S.optional(S.Number),
+          diskIdentifier: S.optional(S.String),
+          diskController: S.optional(__S(1792, __c56, 0)),
+        }),
+      ).annotate({ identifier: "HyperVToAzStackHCIDiskInput" });
+    case 2:
+      return S.Array(__S(1793, __c56, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          maximumMemoryInMegaBytes: S.Number,
+          minimumMemoryInMegaBytes: S.Number,
+          targetMemoryBufferPercentage: S.Number,
+        }),
+      ).annotate({ identifier: "ProtectedItemDynamicMemoryConfig" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           scenarioName: S.optional(S.String),
@@ -4225,7 +5469,190 @@ function __c58(j: number): any {
           endTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProtectedItemJobProperties" });
-    case 1:
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          nicId: S.String,
+          networkName: S.optional(S.String),
+          targetNetworkId: S.optional(S.String),
+          testNetworkId: S.optional(S.String),
+          selectionTypeForFailover: S.String,
+          isStaticIpMigrationEnabled: S.optional(S.Boolean),
+          isMacMigrationEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "HyperVToAzStackHCINicInput" });
+    case 6:
+      return S.Array(__S(1797, __c56, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          storageContainerId: S.optional(S.String),
+          storageContainerLocalPath: S.optional(S.String),
+          sourceDiskId: S.optional(S.String),
+          sourceDiskName: S.optional(S.String),
+          seedDiskName: S.optional(S.String),
+          testMigrateDiskName: S.optional(S.String),
+          migrateDiskName: S.optional(S.String),
+          isOsDisk: S.optional(S.Boolean),
+          capacityInBytes: S.optional(S.Number),
+          isDynamic: S.optional(S.Boolean),
+          diskType: S.optional(S.String),
+          diskBlockSize: S.optional(S.Number),
+          diskLogicalSectorSize: S.optional(S.Number),
+          diskPhysicalSectorSize: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "HyperVToAzStackHCIProtectedDiskProperties" });
+    case 8:
+      return S.Array(__S(1799, __c56, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          nicId: S.optional(S.String),
+          macAddress: S.optional(S.String),
+          networkName: S.optional(S.String),
+          targetNetworkId: S.optional(S.String),
+          testNetworkId: S.optional(S.String),
+          selectionTypeForFailover: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HyperVToAzStackHCIProtectedNicProperties" });
+    case 10:
+      return S.Array(__S(1801, __c56, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          activeLocation: S.optional(S.String),
+          targetHciClusterId: S.String,
+          targetArcClusterCustomLocationId: S.String,
+          targetAzStackHciClusterName: S.optional(S.String),
+          fabricDiscoveryMachineId: S.String,
+          disksToInclude: __S(1794, __c56, 2),
+          nicsToInclude: __S(1798, __c56, 6),
+          sourceVmName: S.optional(S.String),
+          sourceCpuCores: S.optional(S.Number),
+          sourceMemoryInMegaBytes: S.optional(S.Number),
+          targetVmName: S.optional(S.String),
+          targetResourceGroupId: S.String,
+          storageContainerId: S.String,
+          hyperVGeneration: S.String,
+          targetNetworkId: S.optional(S.String),
+          testNetworkId: S.optional(S.String),
+          targetCpuCores: S.optional(S.Number),
+          isDynamicRam: S.optional(S.Boolean),
+          dynamicMemoryConfig: S.optional(__S(1795, __c56, 3)),
+          targetMemoryInMegaBytes: S.optional(S.Number),
+          runAsAccountId: S.String,
+          sourceFabricAgentName: S.String,
+          targetFabricAgentName: S.String,
+          sourceApplianceName: S.optional(S.String),
+          targetApplianceName: S.optional(S.String),
+          osType: S.optional(S.String),
+          osName: S.optional(S.String),
+          firmwareType: S.optional(S.String),
+          targetLocation: S.optional(S.String),
+          customLocationRegion: S.String,
+          failoverRecoveryPointId: S.optional(S.String),
+          lastRecoveryPointReceived: S.optional(S.String),
+          lastRecoveryPointId: S.optional(S.String),
+          initialReplicationProgressPercentage: S.optional(S.Number),
+          resyncProgressPercentage: S.optional(S.Number),
+          protectedDisks: S.optional(__S(1800, __c56, 8)),
+          protectedNics: S.optional(__S(1802, __c56, 10)),
+          targetVmBiosId: S.optional(S.String),
+          lastReplicationUpdateTime: S.optional(S.String),
+          securityOption: S.optional(S.String),
+          convertToGen2: S.optional(S.Boolean),
+          migrateAsArcVM: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "HyperVToAzStackHCIProtectedItemModelCustomProperties" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          nicId: S.String,
+          label: S.String,
+          networkName: S.optional(S.String),
+          targetNetworkId: S.optional(S.String),
+          testNetworkId: S.optional(S.String),
+          selectionTypeForFailover: S.String,
+          isStaticIpMigrationEnabled: S.optional(S.Boolean),
+          isMacMigrationEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "VMwareToAzStackHCINicInput" });
+    case 13:
+      return S.Array(__S(1804, __c56, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          nicId: S.optional(S.String),
+          macAddress: S.optional(S.String),
+          label: S.optional(S.String),
+          isPrimaryNic: S.optional(S.Boolean),
+          networkName: S.optional(S.String),
+          targetNetworkId: S.optional(S.String),
+          testNetworkId: S.optional(S.String),
+          selectionTypeForFailover: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VMwareToAzStackHCIProtectedNicProperties" });
+    case 15:
+      return S.Array(__S(1806, __c56, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          activeLocation: S.optional(S.String),
+          targetHciClusterId: S.String,
+          targetArcClusterCustomLocationId: S.String,
+          targetAzStackHciClusterName: S.optional(S.String),
+          storageContainerId: S.String,
+          targetResourceGroupId: S.String,
+          targetLocation: S.optional(S.String),
+          customLocationRegion: S.String,
+          disksToInclude: __S(1794, __c56, 2),
+          nicsToInclude: __S(1805, __c56, 13),
+          protectedDisks: S.optional(__S(1800, __c56, 8)),
+          protectedNics: S.optional(__S(1807, __c56, 15)),
+          targetVmBiosId: S.optional(S.String),
+          targetVmName: S.optional(S.String),
+          hyperVGeneration: S.String,
+          targetNetworkId: S.optional(S.String),
+          testNetworkId: S.optional(S.String),
+          targetCpuCores: S.optional(S.Number),
+          isDynamicRam: S.optional(S.Boolean),
+          dynamicMemoryConfig: S.optional(__S(1795, __c56, 3)),
+          targetMemoryInMegaBytes: S.optional(S.Number),
+          osType: S.optional(S.String),
+          osName: S.optional(S.String),
+          firmwareType: S.optional(S.String),
+          fabricDiscoveryMachineId: S.String,
+          sourceVmName: S.optional(S.String),
+          sourceCpuCores: S.optional(S.Number),
+          sourceMemoryInMegaBytes: S.optional(S.Number),
+          runAsAccountId: S.String,
+          sourceFabricAgentName: S.String,
+          targetFabricAgentName: S.String,
+          sourceApplianceName: S.optional(S.String),
+          targetApplianceName: S.optional(S.String),
+          failoverRecoveryPointId: S.optional(S.String),
+          lastRecoveryPointReceived: S.optional(S.String),
+          lastRecoveryPointId: S.optional(S.String),
+          initialReplicationProgressPercentage: S.optional(S.Number),
+          migrationProgressPercentage: S.optional(S.Number),
+          resumeProgressPercentage: S.optional(S.Number),
+          resyncProgressPercentage: S.optional(S.Number),
+          resyncRetryCount: S.optional(S.Number),
+          resyncRequired: S.optional(S.Boolean),
+          resyncState: S.optional(S.String),
+          performAutoResync: S.optional(S.Boolean),
+          resumeRetryCount: S.optional(S.Number),
+          lastReplicationUpdateTime: S.optional(S.String),
+          securityOption: S.optional(S.String),
+          convertToGen2: S.optional(S.Boolean),
+          migrateAsArcVM: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "VMwareToAzStackHCIProtectedItemModelCustomProperties" });
+    case 17:
+      return S.Union([__S(1803, __c56, 11), __S(1808, __c56, 16)]);
+    case 18:
       return S.suspend(() =>
         S.Struct({
           policyName: S.String,
@@ -4249,19 +5676,50 @@ function __c58(j: number): any {
           lastSuccessfulPlannedFailoverTime: S.optional(S.String),
           lastSuccessfulUnplannedFailoverTime: S.optional(S.String),
           lastSuccessfulTestFailoverTime: S.optional(S.String),
-          currentJob: S.optional(__S(928, __c58, 0)),
-          allowedJobs: S.optional(__S(32, __c2, 0)),
-          lastFailedEnableProtectionJob: S.optional(__S(928, __c58, 0)),
-          lastFailedPlannedFailoverJob: S.optional(__S(928, __c58, 0)),
-          lastTestFailoverJob: S.optional(__S(928, __c58, 0)),
+          currentJob: S.optional(__S(1796, __c56, 4)),
+          allowedJobs: S.optional(__S(64, __c2, 0)),
+          lastFailedEnableProtectionJob: S.optional(__S(1796, __c56, 4)),
+          lastFailedPlannedFailoverJob: S.optional(__S(1796, __c56, 4)),
+          lastTestFailoverJob: S.optional(__S(1796, __c56, 4)),
           replicationHealth: S.optional(S.String),
-          healthErrors: S.optional(__S(99, __c6, 3)),
-          customProperties: S.Unknown,
+          healthErrors: S.optional(__S(195, __c6, 3)),
+          customProperties: __S(1809, __c56, 17),
         }),
       ).annotate({ identifier: "ProtectedItemModelProperties" });
   }
 }
-function __c59(j: number): any {
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          nicId: S.String,
+          targetNetworkId: S.optional(S.String),
+          testNetworkId: S.optional(S.String),
+          selectionTypeForFailover: S.String,
+          isStaticIpMigrationEnabled: S.optional(S.Boolean),
+          isMacMigrationEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "HyperVToAzStackHCINicInputInput" });
+    case 1:
+      return S.Array(__S(1824, __c57, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          nicId: S.String,
+          label: S.String,
+          targetNetworkId: S.optional(S.String),
+          testNetworkId: S.optional(S.String),
+          selectionTypeForFailover: S.String,
+          isStaticIpMigrationEnabled: S.optional(S.Boolean),
+          isMacMigrationEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "VMwareToAzStackHCINicInputInput" });
+    case 3:
+      return S.Array(__S(1826, __c57, 2));
+  }
+}
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4278,9 +5736,18 @@ function __c59(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListReplicationExtensionRequest" });
+    case 1:
+      return S.Array(__S(1184, __c37, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(1857, __c58, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReplicationExtensionModelListResult" });
   }
 }
-function __c60(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4299,20 +5766,20 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ListVaultRequest" });
   }
 }
-function __c61(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(624, __c39, 0));
+      return S.Array(__S(1248, __c39, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(976, __c61, 0),
+          value: __S(1920, __c60, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VaultModelListResult" });
   }
 }
-function __c62(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4329,7 +5796,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "ListVaultBySubscriptionRequest" });
   }
 }
-function __c63(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4357,7 +5824,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "CheckNameAvailabilityResponseModel" });
   }
 }
-function __c64(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4370,14 +5837,14 @@ function __c64(j: number): any {
         }),
       ).annotate({ identifier: "DeploymentPreflightResource" });
     case 1:
-      return S.Array(__S(1024, __c64, 0));
+      return S.Array(__S(2016, __c63, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deploymentId: S.String.pipe(T.Label()),
-          resources: S.optional(__S(1025, __c64, 1)),
+          resources: S.optional(__S(2017, __c63, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4390,27 +5857,36 @@ function __c64(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(1025, __c64, 1)),
+          resources: S.optional(__S(2017, __c63, 1)),
         }),
       ).annotate({ identifier: "DeploymentPreflightModel" });
   }
 }
-function __c65(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customProperties: __S(240, __c15, 0),
+          instanceType: S.String,
+          shutdownSourceVM: S.Boolean,
+        }),
+      ).annotate({ identifier: "HyperVToAzStackHCIPlannedFailoverModelCustomProperties" });
+    case 1:
+      return S.Union([__S(2048, __c64, 0), __S(2048, __c64, 0)]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          customProperties: __S(2049, __c64, 1),
         }),
       ).annotate({ identifier: "PlannedFailoverModelProperties" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           protectedItemName: S.String.pipe(T.Label()),
-          properties: __S(1040, __c65, 0),
+          properties: __S(2050, __c64, 2),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4420,17 +5896,17 @@ function __c65(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ProtectedItemPlannedFailoverRequest" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(1040, __c65, 0),
+          properties: __S(2050, __c64, 2),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "PlannedFailoverModel" });
   }
 }
-function __c66(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4438,8 +5914,8 @@ function __c66(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(128, __c8, 0)),
-          properties: S.optional(__S(112, __c7, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
+          properties: S.optional(__S(227, __c7, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4455,23 +5931,23 @@ function __c66(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          tags: S.optional(__S(128, __c8, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(80, __c5, 0)),
+          properties: S.optional(__S(167, __c5, 7)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UpdateFabricResponse" });
   }
 }
-function __c67(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(1152, __c72, 0)),
-          privateLinkServiceConnectionState: S.optional(__S(1153, __c72, 1)),
+          privateEndpoint: S.optional(__S(2304, __c72, 0)),
+          privateLinkServiceConnectionState: S.optional(__S(2305, __c72, 1)),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionResponsePropertiesInput" });
     case 1:
@@ -4481,7 +5957,7 @@ function __c67(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1072, __c67, 0)),
+          properties: S.optional(__S(2112, __c66, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4493,22 +5969,54 @@ function __c67(j: number): any {
       ).annotate({ identifier: "UpdatePrivateEndpointConnectionRequest" });
   }
 }
-function __c68(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customProperties: S.optional(S.Unknown),
+          instanceType: S.String,
+          nicsToInclude: S.optional(__S(1825, __c57, 1)),
+          targetCpuCores: S.optional(S.Number),
+          isDynamicRam: S.optional(S.Boolean),
+          dynamicMemoryConfig: S.optional(__S(1795, __c56, 3)),
+          targetMemoryInMegaBytes: S.optional(S.Number),
+          osType: S.optional(S.String),
+          securityOption: S.optional(S.String),
+          convertToGen2: S.optional(S.Boolean),
+          migrateAsArcVM: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "ProtectedItemModelPropertiesUpdate" });
+      ).annotate({ identifier: "HyperVToAzStackHCIProtectedItemModelCustomPropertiesUpdateInput" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          nicsToInclude: S.optional(__S(1827, __c57, 3)),
+          targetCpuCores: S.optional(S.Number),
+          isDynamicRam: S.optional(S.Boolean),
+          dynamicMemoryConfig: S.optional(__S(1795, __c56, 3)),
+          targetMemoryInMegaBytes: S.optional(S.Number),
+          osType: S.optional(S.String),
+          securityOption: S.optional(S.String),
+          convertToGen2: S.optional(S.Boolean),
+          migrateAsArcVM: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "VMwareToAzStackHCIProtectedItemModelCustomPropertiesUpdateInput" });
+    case 2:
+      return S.Union([__S(2144, __c67, 0), __S(2145, __c67, 1)]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          customProperties: S.optional(__S(2146, __c67, 2)),
+        }),
+      ).annotate({ identifier: "ProtectedItemModelPropertiesUpdateInput" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           protectedItemName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1088, __c68, 0)),
+          properties: S.optional(__S(2147, __c67, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4518,21 +6026,21 @@ function __c68(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateProtectedItemRequest" });
-    case 2:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(929, __c58, 1)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(1810, __c56, 18)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UpdateProtectedItemResponse" });
   }
 }
-function __c69(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4546,9 +6054,9 @@ function __c69(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(128, __c8, 0)),
-          properties: S.optional(__S(1200, __c75, 0)),
-          identity: S.optional(__S(1104, __c69, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
+          properties: S.optional(__S(2400, __c75, 0)),
+          identity: S.optional(__S(2176, __c68, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4564,27 +6072,59 @@ function __c69(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          tags: S.optional(__S(128, __c8, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(1184, __c74, 0)),
-          identity: S.optional(__S(1187, __c74, 3)),
+          properties: S.optional(__S(2368, __c74, 0)),
+          identity: S.optional(__S(2371, __c74, 3)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UpdateVaultResponse" });
   }
 }
-function __c70(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          hyperVFabricArmId: S.String,
+          azStackHciFabricArmId: S.String,
+          storageAccountId: S.optional(S.String),
+          storageAccountSasSecretName: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier: "HyperVToAzStackHCIReplicationExtensionModelCustomPropertiesInput",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          vmwareFabricArmId: S.String,
+          azStackHciFabricArmId: S.String,
+          storageAccountId: S.optional(S.String),
+          storageAccountSasSecretName: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier: "VMwareToAzStackHCIReplicationExtensionModelCustomPropertiesInput",
+      });
+    case 2:
+      return S.Union([__S(2208, __c69, 0), __S(2209, __c69, 1)]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          customProperties: __S(2210, __c69, 2),
+        }),
+      ).annotate({ identifier: "ReplicationExtensionModelPropertiesInput" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           replicationExtensionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(112, __c7, 0)),
+          properties: S.optional(__S(2211, __c69, 3)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4594,6 +6134,75 @@ function __c70(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateReplicationExtensionRequest" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(2243, __c70, 3)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "CreateReplicationExtensionResponse" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          hyperVFabricArmId: S.String,
+          hyperVSiteId: S.optional(S.String),
+          azStackHciFabricArmId: S.String,
+          azStackHciSiteId: S.optional(S.String),
+          storageAccountId: S.optional(S.String),
+          storageAccountSasSecretName: S.optional(S.String),
+          asrServiceUri: S.optional(S.String),
+          rcmServiceUri: S.optional(S.String),
+          gatewayServiceUri: S.optional(S.String),
+          sourceGatewayServiceId: S.optional(S.String),
+          targetGatewayServiceId: S.optional(S.String),
+          sourceStorageContainerName: S.optional(S.String),
+          targetStorageContainerName: S.optional(S.String),
+          resourceLocation: S.optional(S.String),
+          subscriptionId: S.optional(S.String),
+          resourceGroup: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HyperVToAzStackHCIReplicationExtensionModelCustomProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          vmwareFabricArmId: S.String,
+          vmwareSiteId: S.optional(S.String),
+          azStackHciFabricArmId: S.String,
+          azStackHciSiteId: S.optional(S.String),
+          storageAccountId: S.optional(S.String),
+          storageAccountSasSecretName: S.optional(S.String),
+          asrServiceUri: S.optional(S.String),
+          rcmServiceUri: S.optional(S.String),
+          gatewayServiceUri: S.optional(S.String),
+          sourceGatewayServiceId: S.optional(S.String),
+          targetGatewayServiceId: S.optional(S.String),
+          sourceStorageContainerName: S.optional(S.String),
+          targetStorageContainerName: S.optional(S.String),
+          resourceLocation: S.optional(S.String),
+          subscriptionId: S.optional(S.String),
+          resourceGroup: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VMwareToAzStackHCIReplicationExtensionModelCustomProperties" });
+    case 2:
+      return S.Union([__S(2240, __c70, 0), __S(2241, __c70, 1)]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          customProperties: __S(2242, __c70, 2),
+        }),
+      ).annotate({ identifier: "ReplicationExtensionModelProperties" });
   }
 }
 function __c71(j: number): any {
@@ -4601,12 +6210,12 @@ function __c71(j: number): any {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "UserAssignedIdentityInput" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(1136, __c71, 0)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(2272, __c71, 0)));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          userAssignedIdentities: S.optional(__S(1137, __c71, 1)),
+          userAssignedIdentities: S.optional(__S(2273, __c71, 1)),
         }),
       ).annotate({ identifier: "CreateVaultRequestIdentity" });
     case 3:
@@ -4615,10 +6224,10 @@ function __c71(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(128, __c8, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(1200, __c75, 0)),
-          identity: S.optional(__S(1138, __c71, 2)),
+          properties: S.optional(__S(2400, __c75, 0)),
+          identity: S.optional(__S(2274, __c71, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4634,11 +6243,11 @@ function __c71(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          tags: S.optional(__S(128, __c8, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(1184, __c74, 0)),
-          identity: S.optional(__S(1187, __c74, 3)),
+          properties: S.optional(__S(2368, __c74, 0)),
+          identity: S.optional(__S(2371, __c74, 3)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -4665,8 +6274,8 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          privateEndpoint: S.optional(__S(1152, __c72, 0)),
-          privateLinkServiceConnectionState: S.optional(__S(1153, __c72, 1)),
+          privateEndpoint: S.optional(__S(2304, __c72, 0)),
+          privateLinkServiceConnectionState: S.optional(__S(2305, __c72, 1)),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionResponseProperties" });
     case 3:
@@ -4675,8 +6284,8 @@ function __c72(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1154, __c72, 2)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(2306, __c72, 2)),
         }),
       ).annotate({ identifier: "PrivateEndpointConnection" });
   }
@@ -4684,7 +6293,7 @@ function __c72(j: number): any {
 function __c73(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1155, __c72, 3));
+      return S.Array(__S(2307, __c72, 3));
   }
 }
 function __c74(j: number): any {
@@ -4697,7 +6306,7 @@ function __c74(j: number): any {
           vaultType: S.optional(S.String),
           privateEndpointState: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
-          privateEndpointConnections: S.optional(__S(1168, __c73, 0)),
+          privateEndpointConnections: S.optional(__S(2336, __c73, 0)),
         }),
       ).annotate({ identifier: "VaultModelProperties" });
     case 1:
@@ -4708,14 +6317,14 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "UserAssignedIdentity" });
     case 2:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(1185, __c74, 1)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(2369, __c74, 1)));
     case 3:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
           tenantId: S.optional(S.String),
           type: S.String,
-          userAssignedIdentities: S.optional(__S(1186, __c74, 2)),
+          userAssignedIdentities: S.optional(__S(2370, __c74, 2)),
         }),
       ).annotate({ identifier: "CreateVaultResponseIdentity" });
   }

@@ -1111,24 +1111,43 @@ export interface DatabasePrincipalAssignmentsCreateOrUpdateResponse {
 }
 export type DatabasesCreateOrUpdateRequestCallerRole = "Admin" | "None";
 /** Kind of the database */
-export type Kind = "ReadWrite" | "ReadOnlyFollowing";
-/** Properties of a ReadWrite database (the `kind: ReadWrite` variant of the polymorphic Database; ReadOnlyFollowing databases return a superset). */
-export interface ReadWriteDatabaseProperties {
-  /** The provisioned state of the resource. */
-  provisioningState?: string | undefined;
-  /** The time the data should be kept before it stops being accessible to queries (ISO-8601 duration). */
-  softDeletePeriod?: string | undefined;
-  /** The time the data should be kept in cache for fast queries (ISO-8601 duration). */
+export type ReadOnlyFollowingDatabaseInputKind = "ReadOnlyFollowing";
+/** Class representing the Kusto database properties. */
+export interface ReadOnlyFollowingDatabasePropertiesInput {
+  /** The time the data should be kept in cache for fast queries in TimeSpan. */
   hotCachePeriod?: string | undefined;
-  /** The statistics of the database. */
-  statistics?: unknown | undefined;
-  /** Indicates whether the database is followed. */
-  isFollowed?: boolean | undefined;
+}
+/** Class representing a read only following database. */
+export interface ReadOnlyFollowingDatabaseInput {
+  /** Resource location. */
+  location?: string | undefined;
+  /** Kind of the database */
+  kind: ReadOnlyFollowingDatabaseInputKind;
+  /** The database properties. */
+  properties?: ReadOnlyFollowingDatabasePropertiesInput | undefined;
+}
+/** Kind of the database */
+export type ReadWriteDatabaseInputKind = "ReadWrite";
+/** Class representing the Kusto database properties. */
+export interface ReadWriteDatabasePropertiesInput {
+  /** The time the data should be kept before it stops being accessible to queries in TimeSpan. */
+  softDeletePeriod?: string | undefined;
+  /** The time the data should be kept in cache for fast queries in TimeSpan. */
+  hotCachePeriod?: string | undefined;
   /** KeyVault properties for the database encryption. */
   keyVaultProperties?: KeyVaultProperties | undefined;
-  /** The database suspension details. */
-  suspensionDetails?: unknown | undefined;
 }
+/** Class representing a read write database. */
+export interface ReadWriteDatabaseInput {
+  /** Resource location. */
+  location?: string | undefined;
+  /** Kind of the database */
+  kind: ReadWriteDatabaseInputKind;
+  /** The database properties. */
+  properties?: ReadWriteDatabasePropertiesInput | undefined;
+}
+/** Class representing a Kusto database. */
+export type DatabaseInput = ReadOnlyFollowingDatabaseInput | ReadWriteDatabaseInput;
 export interface DatabasesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1140,14 +1159,49 @@ export interface DatabasesCreateOrUpdateRequest {
   databaseName: string;
   /** By default, any user who run operation on a database become an Admin on it. This property allows the caller to exclude the caller from Admins list. */
   callerRole?: DatabasesCreateOrUpdateRequestCallerRole | (string & {}) | undefined;
-  /** Resource location. */
-  location?: string | undefined;
-  /** Kind of the database */
-  kind: Kind | (string & {});
-  /** The database properties. */
-  properties?: ReadWriteDatabaseProperties | undefined;
+  body: DatabaseInput;
 }
-export interface DatabasesCreateOrUpdateResponse {
+/** Kind of the database */
+export type ReadOnlyFollowingDatabaseKind = "ReadOnlyFollowing";
+/** A class that contains database statistics information. */
+export interface DatabaseStatistics {
+  /** The database size - the total size of compressed data and index in bytes. */
+  size?: number | undefined;
+}
+/** The principals modification kind of the database */
+export type PrincipalsModificationKind = "Union" | "Replace" | "None";
+/** The database suspension details. If the database is suspended, this object contains information related to the database's suspension state. */
+export interface SuspensionDetails {
+  /** The starting date and time of the suspension state. */
+  suspensionStartDate?: string | undefined;
+}
+/** Class representing the Kusto database properties. */
+export interface ReadOnlyFollowingDatabaseProperties {
+  /** The provisioned state of the resource. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The time the data should be kept before it stops being accessible to queries in TimeSpan. */
+  softDeletePeriod?: string | undefined;
+  /** The time the data should be kept in cache for fast queries in TimeSpan. */
+  hotCachePeriod?: string | undefined;
+  /** The statistics of the database. */
+  statistics?: DatabaseStatistics | undefined;
+  /** The name of the leader cluster */
+  leaderClusterResourceId?: string | undefined;
+  /** The name of the attached database configuration cluster */
+  attachedDatabaseConfigurationName?: string | undefined;
+  /** The principals modification kind of the database */
+  principalsModificationKind?: PrincipalsModificationKind | undefined;
+  /** Table level sharing specifications */
+  tableLevelSharingProperties?: TableLevelSharingProperties | undefined;
+  /** The original database name, before databaseNameOverride or databaseNamePrefix where applied. */
+  originalDatabaseName?: string | undefined;
+  /** The origin of the following setup. */
+  databaseShareOrigin?: DatabaseShareOrigin | undefined;
+  /** The database suspension details. If the database is suspended, this object contains information related to the database's suspension state. */
+  suspensionDetails?: SuspensionDetails | undefined;
+}
+/** Class representing a read only following database. */
+export interface ReadOnlyFollowingDatabase {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string | undefined;
   /** The name of the resource */
@@ -1159,70 +1213,354 @@ export interface DatabasesCreateOrUpdateResponse {
   /** Resource location. */
   location?: string | undefined;
   /** Kind of the database */
-  kind?: Kind | undefined;
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string | undefined;
-  /** A link to the status monitor */
-  azureAsyncOperation?: string | undefined;
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number | undefined;
+  kind: ReadOnlyFollowingDatabaseKind;
+  /** The database properties. */
+  properties?: ReadOnlyFollowingDatabaseProperties | undefined;
+}
+/** Kind of the database */
+export type ReadWriteDatabaseKind = "ReadWrite";
+/** Class representing the Kusto database properties. */
+export interface ReadWriteDatabaseProperties {
+  /** The provisioned state of the resource. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The time the data should be kept before it stops being accessible to queries in TimeSpan. */
+  softDeletePeriod?: string | undefined;
+  /** The time the data should be kept in cache for fast queries in TimeSpan. */
+  hotCachePeriod?: string | undefined;
+  /** The statistics of the database. */
+  statistics?: DatabaseStatistics | undefined;
+  /** Indicates whether the database is followed. */
+  isFollowed?: boolean | undefined;
+  /** KeyVault properties for the database encryption. */
+  keyVaultProperties?: KeyVaultProperties | undefined;
+  /** The database suspension details. If the database is suspended, this object contains information related to the database's suspension state. */
+  suspensionDetails?: SuspensionDetails | undefined;
+}
+/** Class representing a read write database. */
+export interface ReadWriteDatabase {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource location. */
+  location?: string | undefined;
+  /** Kind of the database */
+  kind: ReadWriteDatabaseKind;
   /** The database properties. */
   properties?: ReadWriteDatabaseProperties | undefined;
 }
+/** Class representing a Kusto database. */
+export type Database = ReadOnlyFollowingDatabase | ReadWriteDatabase;
+export type DatabasesCreateOrUpdateResponse = Database;
 /** Kind of the endpoint for the data connection */
-export type DataConnectionKind =
-  | "EventHub"
-  | "EventGrid"
-  | "IotHub"
-  | "CosmosDb"
-  | "EventHubWithManagedIdentity"
-  | "EventGridWithManagedIdentity";
-export type DataConnectionPropertiesEventSystemPropertiesList = Array<string>;
-/** Union of the data connection `properties` across kinds (EventHub, EventGrid, IotHub, CosmosDb). */
-export interface DataConnectionProperties {
-  /** The resource ID of the event hub (EventHub, EventGrid kinds). */
-  eventHubResourceId?: string | undefined;
-  /** The event hub / IoT hub consumer group. */
-  consumerGroup?: string | undefined;
-  /** The table where the data should be ingested. */
-  tableName?: string | undefined;
-  /** The mapping rule to be used to ingest the data. */
+export type CosmosDbDataConnectionInputKind = "CosmosDb";
+/** Class representing the Kusto CosmosDb data connection properties. */
+export interface CosmosDbDataConnectionPropertiesInput {
+  /** The case-sensitive name of the existing target table in your cluster. Retrieved data is ingested into this table. */
+  tableName: string;
+  /** The name of an existing mapping rule to use when ingesting the retrieved data. */
   mappingRuleName?: string | undefined;
-  /** The data format of the message. */
-  dataFormat?: string | undefined;
-  /** System properties of the event hub / IoT hub. */
-  eventSystemProperties?: DataConnectionPropertiesEventSystemPropertiesList | undefined;
-  /** The event hub messages compression type (`None` | `GZip`). */
-  compression?: string | undefined;
-  /** The provisioned state of the resource. */
-  provisioningState?: string | undefined;
-  /** The resource ID of a managed identity used to access the source. */
-  managedIdentityResourceId?: string | undefined;
-  /** The object ID of the managed identity. */
-  managedIdentityObjectId?: string | undefined;
-  /** Single or multi database routing (`Single` | `Multi`). */
-  databaseRouting?: string | undefined;
-  /** Retrieve events created after this date (ISO-8601). */
+  /** The resource ID of a managed system or user-assigned identity. The identity is used to authenticate with Cosmos DB. */
+  managedIdentityResourceId: string;
+  /** The resource ID of the Cosmos DB account used to create the data connection. */
+  cosmosDbAccountResourceId: string;
+  /** The name of an existing database in the Cosmos DB account. */
+  cosmosDbDatabase: string;
+  /** The name of an existing container in the Cosmos DB database. */
+  cosmosDbContainer: string;
+  /** Optional. If defined, the data connection retrieves Cosmos DB documents created or updated after the specified retrieval start date. */
   retrievalStartDate?: string | undefined;
-  /** The storage account resource ID (EventGrid kind). */
-  storageAccountResourceId?: string | undefined;
-  /** The Event Grid subscription resource ID (EventGrid kind). */
-  eventGridResourceId?: string | undefined;
-  /** Ignore the first record of every file (EventGrid kind). */
-  ignoreFirstRecord?: boolean | undefined;
-  /** The blob storage event type to process (EventGrid kind). */
-  blobStorageEventType?: string | undefined;
-  /** The IoT hub resource ID (IotHub kind). */
-  iotHubResourceId?: string | undefined;
-  /** The IoT hub shared access policy name (IotHub kind). */
-  sharedAccessPolicyName?: string | undefined;
-  /** The Cosmos DB account resource ID (CosmosDb kind). */
-  cosmosDbAccountResourceId?: string | undefined;
-  /** The Cosmos DB database name (CosmosDb kind). */
-  cosmosDbDatabase?: string | undefined;
-  /** The Cosmos DB container name (CosmosDb kind). */
-  cosmosDbContainer?: string | undefined;
 }
+/** Class representing a CosmosDb data connection. */
+export interface CosmosDbDataConnectionInput {
+  /** Resource location. */
+  location?: string | undefined;
+  /** Kind of the endpoint for the data connection */
+  kind: CosmosDbDataConnectionInputKind;
+  /** The properties of the CosmosDb data connection. */
+  properties?: CosmosDbDataConnectionPropertiesInput | undefined;
+}
+/** Kind of the endpoint for the data connection */
+export type EventGridDataConnectionInputKind = "EventGrid";
+/** The data format of the message. Optionally the data format can be added to each message. */
+export type EventGridDataFormat =
+  | "MULTIJSON"
+  | "JSON"
+  | "CSV"
+  | "TSV"
+  | "SCSV"
+  | "SOHSV"
+  | "PSV"
+  | "TXT"
+  | "RAW"
+  | "SINGLEJSON"
+  | "AVRO"
+  | "TSVE"
+  | "PARQUET"
+  | "ORC"
+  | "APACHEAVRO"
+  | "W3CLOGFILE"
+  | "AZMONSTREAM";
+/** The name of blob storage event type to process. */
+export type BlobStorageEventType =
+  | "Microsoft.Storage.BlobCreated"
+  | "Microsoft.Storage.BlobRenamed";
+/** Indication for database routing information from the data connection, by default only database routing information is allowed */
+export type EventGridConnectionPropertiesInputDatabaseRouting = "Single" | "Multi";
+/** Class representing the Kusto event grid connection properties. */
+export interface EventGridConnectionPropertiesInput {
+  /** The resource ID of the storage account where the data resides. */
+  storageAccountResourceId: string;
+  /** The resource ID of the event grid that is subscribed to the storage account events. */
+  eventGridResourceId?: string | undefined;
+  /** The resource ID where the event grid is configured to send events. */
+  eventHubResourceId: string;
+  /** The event hub consumer group. */
+  consumerGroup: string;
+  /** The table where the data should be ingested. Optionally the table information can be added to each message. */
+  tableName?: string | undefined;
+  /** The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message. */
+  mappingRuleName?: string | undefined;
+  /** The data format of the message. Optionally the data format can be added to each message. */
+  dataFormat?: EventGridDataFormat | (string & {}) | undefined;
+  /** A Boolean value that, if set to true, indicates that ingestion should ignore the first record of every file */
+  ignoreFirstRecord?: boolean | undefined;
+  /** The name of blob storage event type to process. */
+  blobStorageEventType?: BlobStorageEventType | (string & {}) | undefined;
+  /** The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub and storage account. */
+  managedIdentityResourceId?: string | undefined;
+  /** Indication for database routing information from the data connection, by default only database routing information is allowed */
+  databaseRouting?: EventGridConnectionPropertiesInputDatabaseRouting | (string & {}) | undefined;
+}
+/** Class representing an Event Grid data connection. */
+export interface EventGridDataConnectionInput {
+  /** Resource location. */
+  location?: string | undefined;
+  /** Kind of the endpoint for the data connection */
+  kind: EventGridDataConnectionInputKind;
+  /** The properties of the Event Grid data connection. */
+  properties?: EventGridConnectionPropertiesInput | undefined;
+}
+/** Kind of the endpoint for the data connection */
+export type EventGridDataConnectionWithManagedIdentityInputKind = "EventGridWithManagedIdentity";
+/** Indication for database routing information from the data connection, by default only database routing information is allowed */
+export type EventGridConnectionWithManagedIdentityPropertiesInputDatabaseRouting =
+  | "Single"
+  | "Multi";
+/** Class representing the Kusto event grid connection with mandatory managed identity properties. */
+export interface EventGridConnectionWithManagedIdentityPropertiesInput {
+  /** The resource ID of the storage account where the data resides. */
+  storageAccountResourceIdForManagedIdentity: string;
+  /** The resource ID of the event hub that is subscribed to the storage account events. */
+  eventHubResourceIdForManagedIdentity: string;
+  /** The resource ID where the event grid is configured to send events. */
+  eventGridResourceId?: string | undefined;
+  /** The event hub consumer group. */
+  consumerGroup: string;
+  /** The table where the data should be ingested. Optionally the table information can be added to each message. */
+  tableName?: string | undefined;
+  /** The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message. */
+  mappingRuleName?: string | undefined;
+  /** The data format of the message. Optionally the data format can be added to each message. */
+  dataFormat?: EventGridDataFormat | (string & {}) | undefined;
+  /** A Boolean value that, if set to true, indicates that ingestion should ignore the first record of every file */
+  ignoreFirstRecord?: boolean | undefined;
+  /** The name of blob storage event type to process. */
+  blobStorageEventType?: BlobStorageEventType | (string & {}) | undefined;
+  /** The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub and storage account. */
+  managedIdentityResourceId: string;
+  /** Indication for database routing information from the data connection, by default only database routing information is allowed */
+  databaseRouting?:
+    | EventGridConnectionWithManagedIdentityPropertiesInputDatabaseRouting
+    | (string & {})
+    | undefined;
+}
+/** Class representing an Event Grid data connection with mandatory managed identity. */
+export interface EventGridDataConnectionWithManagedIdentityInput {
+  /** Resource location. */
+  location?: string | undefined;
+  /** Kind of the endpoint for the data connection */
+  kind: EventGridDataConnectionWithManagedIdentityInputKind;
+  /** The properties of the Event Grid data connection with mandatory managed identity. */
+  properties?: EventGridConnectionWithManagedIdentityPropertiesInput | undefined;
+}
+/** Kind of the endpoint for the data connection */
+export type EventHubDataConnectionInputKind = "EventHub";
+/** The data format of the message. Optionally the data format can be added to each message. */
+export type EventHubDataFormat =
+  | "MULTIJSON"
+  | "JSON"
+  | "CSV"
+  | "TSV"
+  | "SCSV"
+  | "SOHSV"
+  | "PSV"
+  | "TXT"
+  | "RAW"
+  | "SINGLEJSON"
+  | "AVRO"
+  | "TSVE"
+  | "PARQUET"
+  | "ORC"
+  | "APACHEAVRO"
+  | "W3CLOGFILE"
+  | "AZMONSTREAM";
+/** System properties of the event hub */
+export type EventHubConnectionPropertiesInputEventSystemPropertiesList = Array<string>;
+/** The compression type */
+export type EventHubConnectionPropertiesInputCompression = "None" | "GZip";
+/** Indication for database routing information from the data connection, by default only database routing information is allowed */
+export type EventHubConnectionPropertiesInputDatabaseRouting = "Single" | "Multi";
+/** Class representing the Kusto event hub connection properties. */
+export interface EventHubConnectionPropertiesInput {
+  /** The resource ID of the event hub to be used to create a data connection. */
+  eventHubResourceId: string;
+  /** The event hub consumer group. */
+  consumerGroup: string;
+  /** The table where the data should be ingested. Optionally the table information can be added to each message. */
+  tableName?: string | undefined;
+  /** The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message. */
+  mappingRuleName?: string | undefined;
+  /** The data format of the message. Optionally the data format can be added to each message. */
+  dataFormat?: EventHubDataFormat | (string & {}) | undefined;
+  /** System properties of the event hub */
+  eventSystemProperties?: EventHubConnectionPropertiesInputEventSystemPropertiesList | undefined;
+  /** The compression type */
+  compression?: EventHubConnectionPropertiesInputCompression | (string & {}) | undefined;
+  /** The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub. */
+  managedIdentityResourceId?: string | undefined;
+  /** Indication for database routing information from the data connection, by default only database routing information is allowed */
+  databaseRouting?: EventHubConnectionPropertiesInputDatabaseRouting | (string & {}) | undefined;
+  /** When defined, the data connection retrieves existing Event hub events created since the Retrieval start date. It can only retrieve events retained by the Event hub, based on its retention period. */
+  retrievalStartDate?: string | undefined;
+}
+/** Class representing an event hub data connection. */
+export interface EventHubDataConnectionInput {
+  /** Resource location. */
+  location?: string | undefined;
+  /** Kind of the endpoint for the data connection */
+  kind: EventHubDataConnectionInputKind;
+  /** The Event Hub data connection properties to validate. */
+  properties?: EventHubConnectionPropertiesInput | undefined;
+}
+/** Kind of the endpoint for the data connection */
+export type EventHubDataConnectionWithManagedIdentityInputKind = "EventHubWithManagedIdentity";
+/** System properties of the event hub */
+export type EventHubConnectionWithManagedIdentityPropertiesInputEventSystemPropertiesList =
+  Array<string>;
+/** The compression type */
+export type EventHubConnectionWithManagedIdentityPropertiesInputCompression = "None" | "GZip";
+/** Indication for database routing information from the data connection, by default only database routing information is allowed */
+export type EventHubConnectionWithManagedIdentityPropertiesInputDatabaseRouting =
+  | "Single"
+  | "Multi";
+/** Class representing the Kusto event hub connection with required managed identity properties. */
+export interface EventHubConnectionWithManagedIdentityPropertiesInput {
+  /** The resource ID of the event hub to be used to create a data connection. */
+  eventHubResourceIdForManagedIdentity: string;
+  /** The event hub consumer group. */
+  consumerGroup: string;
+  /** The table where the data should be ingested. Optionally the table information can be added to each message. */
+  tableName?: string | undefined;
+  /** The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message. */
+  mappingRuleName?: string | undefined;
+  /** The data format of the message. Optionally the data format can be added to each message. */
+  dataFormat?: EventHubDataFormat | (string & {}) | undefined;
+  /** System properties of the event hub */
+  eventSystemProperties?:
+    | EventHubConnectionWithManagedIdentityPropertiesInputEventSystemPropertiesList
+    | undefined;
+  /** The compression type */
+  compression?:
+    | EventHubConnectionWithManagedIdentityPropertiesInputCompression
+    | (string & {})
+    | undefined;
+  /** The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub. */
+  managedIdentityResourceId: string;
+  /** Indication for database routing information from the data connection, by default only database routing information is allowed */
+  databaseRouting?:
+    | EventHubConnectionWithManagedIdentityPropertiesInputDatabaseRouting
+    | (string & {})
+    | undefined;
+  /** When defined, the data connection retrieves existing Event hub events created since the Retrieval start date. It can only retrieve events retained by the Event hub, based on its retention period. */
+  retrievalStartDate?: string | undefined;
+}
+/** Class representing an event hub data connection with required managed identity. */
+export interface EventHubDataConnectionWithManagedIdentityInput {
+  /** Resource location. */
+  location?: string | undefined;
+  /** Kind of the endpoint for the data connection */
+  kind: EventHubDataConnectionWithManagedIdentityInputKind;
+  /** The Event Hub data connection properties to validate. */
+  properties?: EventHubConnectionWithManagedIdentityPropertiesInput | undefined;
+}
+/** Kind of the endpoint for the data connection */
+export type IotHubDataConnectionInputKind = "IotHub";
+/** The data format of the message. Optionally the data format can be added to each message. */
+export type IotHubDataFormat =
+  | "MULTIJSON"
+  | "JSON"
+  | "CSV"
+  | "TSV"
+  | "SCSV"
+  | "SOHSV"
+  | "PSV"
+  | "TXT"
+  | "RAW"
+  | "SINGLEJSON"
+  | "AVRO"
+  | "TSVE"
+  | "PARQUET"
+  | "ORC"
+  | "APACHEAVRO"
+  | "W3CLOGFILE"
+  | "AZMONSTREAM";
+/** System properties of the iot hub */
+export type IotHubConnectionPropertiesEventSystemPropertiesList = Array<string>;
+/** Indication for database routing information from the data connection, by default only database routing information is allowed */
+export type IotHubConnectionPropertiesDatabaseRouting = "Single" | "Multi";
+/** Class representing the Kusto Iot hub connection properties. */
+export interface IotHubConnectionProperties {
+  /** The resource ID of the Iot hub to be used to create a data connection. */
+  iotHubResourceId: string;
+  /** The iot hub consumer group. */
+  consumerGroup: string;
+  /** The table where the data should be ingested. Optionally the table information can be added to each message. */
+  tableName?: string | undefined;
+  /** The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message. */
+  mappingRuleName?: string | undefined;
+  /** The data format of the message. Optionally the data format can be added to each message. */
+  dataFormat?: IotHubDataFormat | (string & {}) | undefined;
+  /** System properties of the iot hub */
+  eventSystemProperties?: IotHubConnectionPropertiesEventSystemPropertiesList | undefined;
+  /** The name of the share access policy */
+  sharedAccessPolicyName: string;
+  /** Indication for database routing information from the data connection, by default only database routing information is allowed */
+  databaseRouting?: IotHubConnectionPropertiesDatabaseRouting | (string & {}) | undefined;
+  /** When defined, the data connection retrieves existing Event hub events created since the Retrieval start date. It can only retrieve events retained by the Event hub, based on its retention period. */
+  retrievalStartDate?: string | undefined;
+}
+/** Class representing an iot hub data connection. */
+export interface IotHubDataConnectionInput {
+  /** Resource location. */
+  location?: string | undefined;
+  /** Kind of the endpoint for the data connection */
+  kind: IotHubDataConnectionInputKind;
+  /** The Iot Hub data connection properties. */
+  properties?: IotHubConnectionProperties | undefined;
+}
+/** Class representing an data connection. */
+export type DataConnectionInput =
+  | CosmosDbDataConnectionInput
+  | EventGridDataConnectionInput
+  | EventGridDataConnectionWithManagedIdentityInput
+  | EventHubDataConnectionInput
+  | EventHubDataConnectionWithManagedIdentityInput
+  | IotHubDataConnectionInput;
 export interface DataConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1234,14 +1572,33 @@ export interface DataConnectionsCreateOrUpdateRequest {
   databaseName: string;
   /** The name of the data connection. */
   dataConnectionName: string;
-  /** Resource location. */
-  location?: string | undefined;
-  /** Kind of the endpoint for the data connection */
-  kind: DataConnectionKind | (string & {});
-  /** The data connection properties. */
-  properties?: DataConnectionProperties | undefined;
+  body: DataConnectionInput;
 }
-export interface DataConnectionsCreateOrUpdateResponse {
+/** Kind of the endpoint for the data connection */
+export type CosmosDbDataConnectionKind = "CosmosDb";
+/** Class representing the Kusto CosmosDb data connection properties. */
+export interface CosmosDbDataConnectionProperties {
+  /** The case-sensitive name of the existing target table in your cluster. Retrieved data is ingested into this table. */
+  tableName: string;
+  /** The name of an existing mapping rule to use when ingesting the retrieved data. */
+  mappingRuleName?: string | undefined;
+  /** The resource ID of a managed system or user-assigned identity. The identity is used to authenticate with Cosmos DB. */
+  managedIdentityResourceId: string;
+  /** The object ID of the managed identity resource. */
+  managedIdentityObjectId?: string | undefined;
+  /** The resource ID of the Cosmos DB account used to create the data connection. */
+  cosmosDbAccountResourceId: string;
+  /** The name of an existing database in the Cosmos DB account. */
+  cosmosDbDatabase: string;
+  /** The name of an existing container in the Cosmos DB database. */
+  cosmosDbContainer: string;
+  /** Optional. If defined, the data connection retrieves Cosmos DB documents created or updated after the specified retrieval start date. */
+  retrievalStartDate?: string | undefined;
+  /** The provisioned state of the resource. */
+  provisioningState?: ProvisioningState | undefined;
+}
+/** Class representing a CosmosDb data connection. */
+export interface CosmosDbDataConnection {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string | undefined;
   /** The name of the resource */
@@ -1253,21 +1610,245 @@ export interface DataConnectionsCreateOrUpdateResponse {
   /** Resource location. */
   location?: string | undefined;
   /** Kind of the endpoint for the data connection */
-  kind?: DataConnectionKind | undefined;
-  /** A link to the status monitor */
-  azureAsyncOperation?: string | undefined;
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string | undefined;
-  /** The data connection properties. */
-  properties?: DataConnectionProperties | undefined;
+  kind: CosmosDbDataConnectionKind;
+  /** The properties of the CosmosDb data connection. */
+  properties?: CosmosDbDataConnectionProperties | undefined;
 }
-/** Class representing an data connection. */
-export interface DataConnectionInput {
+/** Kind of the endpoint for the data connection */
+export type EventGridDataConnectionKind = "EventGrid";
+/** Indication for database routing information from the data connection, by default only database routing information is allowed */
+export type EventGridConnectionPropertiesDatabaseRouting = "Single" | "Multi";
+/** Class representing the Kusto event grid connection properties. */
+export interface EventGridConnectionProperties {
+  /** The resource ID of the storage account where the data resides. */
+  storageAccountResourceId: string;
+  /** The resource ID of the event grid that is subscribed to the storage account events. */
+  eventGridResourceId?: string | undefined;
+  /** The resource ID where the event grid is configured to send events. */
+  eventHubResourceId: string;
+  /** The event hub consumer group. */
+  consumerGroup: string;
+  /** The table where the data should be ingested. Optionally the table information can be added to each message. */
+  tableName?: string | undefined;
+  /** The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message. */
+  mappingRuleName?: string | undefined;
+  /** The data format of the message. Optionally the data format can be added to each message. */
+  dataFormat?: EventGridDataFormat | undefined;
+  /** A Boolean value that, if set to true, indicates that ingestion should ignore the first record of every file */
+  ignoreFirstRecord?: boolean | undefined;
+  /** The name of blob storage event type to process. */
+  blobStorageEventType?: BlobStorageEventType | undefined;
+  /** The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub and storage account. */
+  managedIdentityResourceId?: string | undefined;
+  /** The object ID of managedIdentityResourceId */
+  managedIdentityObjectId?: string | undefined;
+  /** Indication for database routing information from the data connection, by default only database routing information is allowed */
+  databaseRouting?: EventGridConnectionPropertiesDatabaseRouting | undefined;
+  /** The provisioned state of the resource. */
+  provisioningState?: ProvisioningState | undefined;
+}
+/** Class representing an Event Grid data connection. */
+export interface EventGridDataConnection {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
   /** Resource location. */
   location?: string | undefined;
   /** Kind of the endpoint for the data connection */
-  kind: DataConnectionKind | (string & {});
+  kind: EventGridDataConnectionKind;
+  /** The properties of the Event Grid data connection. */
+  properties?: EventGridConnectionProperties | undefined;
 }
+/** Kind of the endpoint for the data connection */
+export type EventGridDataConnectionWithManagedIdentityKind = "EventGridWithManagedIdentity";
+/** Indication for database routing information from the data connection, by default only database routing information is allowed */
+export type EventGridConnectionWithManagedIdentityPropertiesDatabaseRouting = "Single" | "Multi";
+/** Class representing the Kusto event grid connection with mandatory managed identity properties. */
+export interface EventGridConnectionWithManagedIdentityProperties {
+  /** The resource ID of the storage account where the data resides. */
+  storageAccountResourceIdForManagedIdentity: string;
+  /** The resource ID of the event hub that is subscribed to the storage account events. */
+  eventHubResourceIdForManagedIdentity: string;
+  /** The resource ID where the event grid is configured to send events. */
+  eventGridResourceId?: string | undefined;
+  /** The event hub consumer group. */
+  consumerGroup: string;
+  /** The table where the data should be ingested. Optionally the table information can be added to each message. */
+  tableName?: string | undefined;
+  /** The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message. */
+  mappingRuleName?: string | undefined;
+  /** The data format of the message. Optionally the data format can be added to each message. */
+  dataFormat?: EventGridDataFormat | undefined;
+  /** A Boolean value that, if set to true, indicates that ingestion should ignore the first record of every file */
+  ignoreFirstRecord?: boolean | undefined;
+  /** The name of blob storage event type to process. */
+  blobStorageEventType?: BlobStorageEventType | undefined;
+  /** The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub and storage account. */
+  managedIdentityResourceId: string;
+  /** The object ID of managedIdentityResourceId */
+  managedIdentityObjectId?: string | undefined;
+  /** Indication for database routing information from the data connection, by default only database routing information is allowed */
+  databaseRouting?: EventGridConnectionWithManagedIdentityPropertiesDatabaseRouting | undefined;
+  /** The provisioned state of the resource. */
+  provisioningState?: ProvisioningState | undefined;
+}
+/** Class representing an Event Grid data connection with mandatory managed identity. */
+export interface EventGridDataConnectionWithManagedIdentity {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource location. */
+  location?: string | undefined;
+  /** Kind of the endpoint for the data connection */
+  kind: EventGridDataConnectionWithManagedIdentityKind;
+  /** The properties of the Event Grid data connection with mandatory managed identity. */
+  properties?: EventGridConnectionWithManagedIdentityProperties | undefined;
+}
+/** Kind of the endpoint for the data connection */
+export type EventHubDataConnectionKind = "EventHub";
+/** System properties of the event hub */
+export type EventHubConnectionPropertiesEventSystemPropertiesList = Array<string>;
+/** The compression type */
+export type EventHubConnectionPropertiesCompression = "None" | "GZip";
+/** Indication for database routing information from the data connection, by default only database routing information is allowed */
+export type EventHubConnectionPropertiesDatabaseRouting = "Single" | "Multi";
+/** Class representing the Kusto event hub connection properties. */
+export interface EventHubConnectionProperties {
+  /** The resource ID of the event hub to be used to create a data connection. */
+  eventHubResourceId: string;
+  /** The event hub consumer group. */
+  consumerGroup: string;
+  /** The table where the data should be ingested. Optionally the table information can be added to each message. */
+  tableName?: string | undefined;
+  /** The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message. */
+  mappingRuleName?: string | undefined;
+  /** The data format of the message. Optionally the data format can be added to each message. */
+  dataFormat?: EventHubDataFormat | undefined;
+  /** System properties of the event hub */
+  eventSystemProperties?: EventHubConnectionPropertiesEventSystemPropertiesList | undefined;
+  /** The compression type */
+  compression?: EventHubConnectionPropertiesCompression | undefined;
+  /** The provisioned state of the resource. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub. */
+  managedIdentityResourceId?: string | undefined;
+  /** The object ID of the managedIdentityResourceId */
+  managedIdentityObjectId?: string | undefined;
+  /** Indication for database routing information from the data connection, by default only database routing information is allowed */
+  databaseRouting?: EventHubConnectionPropertiesDatabaseRouting | undefined;
+  /** When defined, the data connection retrieves existing Event hub events created since the Retrieval start date. It can only retrieve events retained by the Event hub, based on its retention period. */
+  retrievalStartDate?: string | undefined;
+}
+/** Class representing an event hub data connection. */
+export interface EventHubDataConnection {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource location. */
+  location?: string | undefined;
+  /** Kind of the endpoint for the data connection */
+  kind: EventHubDataConnectionKind;
+  /** The Event Hub data connection properties to validate. */
+  properties?: EventHubConnectionProperties | undefined;
+}
+/** Kind of the endpoint for the data connection */
+export type EventHubDataConnectionWithManagedIdentityKind = "EventHubWithManagedIdentity";
+/** System properties of the event hub */
+export type EventHubConnectionWithManagedIdentityPropertiesEventSystemPropertiesList =
+  Array<string>;
+/** The compression type */
+export type EventHubConnectionWithManagedIdentityPropertiesCompression = "None" | "GZip";
+/** Indication for database routing information from the data connection, by default only database routing information is allowed */
+export type EventHubConnectionWithManagedIdentityPropertiesDatabaseRouting = "Single" | "Multi";
+/** Class representing the Kusto event hub connection with required managed identity properties. */
+export interface EventHubConnectionWithManagedIdentityProperties {
+  /** The resource ID of the event hub to be used to create a data connection. */
+  eventHubResourceIdForManagedIdentity: string;
+  /** The event hub consumer group. */
+  consumerGroup: string;
+  /** The table where the data should be ingested. Optionally the table information can be added to each message. */
+  tableName?: string | undefined;
+  /** The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message. */
+  mappingRuleName?: string | undefined;
+  /** The data format of the message. Optionally the data format can be added to each message. */
+  dataFormat?: EventHubDataFormat | undefined;
+  /** System properties of the event hub */
+  eventSystemProperties?:
+    | EventHubConnectionWithManagedIdentityPropertiesEventSystemPropertiesList
+    | undefined;
+  /** The compression type */
+  compression?: EventHubConnectionWithManagedIdentityPropertiesCompression | undefined;
+  /** The provisioned state of the resource. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub. */
+  managedIdentityResourceId: string;
+  /** The object ID of the managedIdentityResourceId */
+  managedIdentityObjectId?: string | undefined;
+  /** Indication for database routing information from the data connection, by default only database routing information is allowed */
+  databaseRouting?: EventHubConnectionWithManagedIdentityPropertiesDatabaseRouting | undefined;
+  /** When defined, the data connection retrieves existing Event hub events created since the Retrieval start date. It can only retrieve events retained by the Event hub, based on its retention period. */
+  retrievalStartDate?: string | undefined;
+}
+/** Class representing an event hub data connection with required managed identity. */
+export interface EventHubDataConnectionWithManagedIdentity {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource location. */
+  location?: string | undefined;
+  /** Kind of the endpoint for the data connection */
+  kind: EventHubDataConnectionWithManagedIdentityKind;
+  /** The Event Hub data connection properties to validate. */
+  properties?: EventHubConnectionWithManagedIdentityProperties | undefined;
+}
+/** Kind of the endpoint for the data connection */
+export type IotHubDataConnectionKind = "IotHub";
+/** Class representing an iot hub data connection. */
+export interface IotHubDataConnection {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource location. */
+  location?: string | undefined;
+  /** Kind of the endpoint for the data connection */
+  kind: IotHubDataConnectionKind;
+  /** The Iot Hub data connection properties. */
+  properties?: IotHubConnectionProperties | undefined;
+}
+/** Class representing an data connection. */
+export type DataConnection =
+  | CosmosDbDataConnection
+  | EventGridDataConnection
+  | EventGridDataConnectionWithManagedIdentity
+  | EventHubDataConnection
+  | EventHubDataConnectionWithManagedIdentity
+  | IotHubDataConnection;
+export type DataConnectionsCreateOrUpdateResponse = DataConnection;
 export interface DataConnectionsDataConnectionValidationRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1596,22 +2177,7 @@ export interface GetDatabaseRequest {
   /** The name of the database in the Kusto cluster. */
   databaseName: string;
 }
-export interface GetDatabaseResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string | undefined;
-  /** The name of the resource */
-  name?: string | undefined;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string | undefined;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData | undefined;
-  /** Resource location. */
-  location?: string | undefined;
-  /** Kind of the database */
-  kind: Kind;
-  /** The database properties. */
-  properties?: ReadWriteDatabaseProperties | undefined;
-}
+export type GetDatabaseResponse = Database;
 export interface GetDatabasePrincipalAssignmentRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1648,22 +2214,7 @@ export interface GetDataConnectionRequest {
   /** The name of the data connection. */
   dataConnectionName: string;
 }
-export interface GetDataConnectionResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string | undefined;
-  /** The name of the resource */
-  name?: string | undefined;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string | undefined;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData | undefined;
-  /** Resource location. */
-  location?: string | undefined;
-  /** Kind of the endpoint for the data connection */
-  kind: DataConnectionKind;
-  /** The data connection properties. */
-  properties?: DataConnectionProperties | undefined;
-}
+export type GetDataConnectionResponse = DataConnection;
 export interface GetManagedPrivateEndpointRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -2238,21 +2789,6 @@ export interface ListDatabaseByClusterRequest {
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string | undefined;
 }
-/** Class representing a Kusto database. */
-export interface Database {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string | undefined;
-  /** The name of the resource */
-  name?: string | undefined;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string | undefined;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData | undefined;
-  /** Resource location. */
-  location?: string | undefined;
-  /** Kind of the database */
-  kind: Kind;
-}
 /** The Database items on this page */
 export type DatabaseListResultValueList = Array<Database>;
 /** The response of a Database list operation. */
@@ -2313,21 +2849,6 @@ export interface ListDataConnectionByDatabaseRequest {
   clusterName: string;
   /** The name of the database in the Kusto cluster. */
   databaseName: string;
-}
-/** Class representing an data connection. */
-export interface DataConnection {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string | undefined;
-  /** The name of the resource */
-  name?: string | undefined;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string | undefined;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData | undefined;
-  /** Resource location. */
-  location?: string | undefined;
-  /** Kind of the endpoint for the data connection */
-  kind: DataConnectionKind;
 }
 /** The list of Kusto data connections. */
 export type DataConnectionListResultValueList = Array<DataConnection>;
@@ -2819,33 +3340,9 @@ export interface UpdateDatabaseRequest {
   databaseName: string;
   /** By default, any user who run operation on a database become an Admin on it. This property allows the caller to exclude the caller from Admins list. */
   callerRole?: UpdateDatabaseRequestCallerRole | (string & {}) | undefined;
-  /** Resource location. */
-  location?: string | undefined;
-  /** Kind of the database */
-  kind: Kind | (string & {});
-  /** The database properties. */
-  properties?: ReadWriteDatabaseProperties | undefined;
+  body: DatabaseInput;
 }
-export interface UpdateDatabaseResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string | undefined;
-  /** The name of the resource */
-  name?: string | undefined;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string | undefined;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData | undefined;
-  /** Resource location. */
-  location?: string | undefined;
-  /** Kind of the database */
-  kind?: Kind | undefined;
-  /** A link to the status monitor */
-  azureAsyncOperation?: string | undefined;
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string | undefined;
-  /** The database properties. */
-  properties?: ReadWriteDatabaseProperties | undefined;
-}
+export type UpdateDatabaseResponse = Database;
 export interface UpdateDataConnectionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -2857,35 +3354,9 @@ export interface UpdateDataConnectionRequest {
   databaseName: string;
   /** The name of the data connection. */
   dataConnectionName: string;
-  /** Resource location. */
-  location?: string | undefined;
-  /** Kind of the endpoint for the data connection */
-  kind: DataConnectionKind | (string & {});
-  /** The data connection properties. */
-  properties?: DataConnectionProperties | undefined;
+  body: DataConnectionInput;
 }
-export interface UpdateDataConnectionResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string | undefined;
-  /** The name of the resource */
-  name?: string | undefined;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string | undefined;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData | undefined;
-  /** Resource location. */
-  location?: string | undefined;
-  /** Kind of the endpoint for the data connection */
-  kind?: DataConnectionKind | undefined;
-  /** A link to the status monitor */
-  azureAsyncOperation?: string | undefined;
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string | undefined;
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number | undefined;
-  /** The data connection properties. */
-  properties?: DataConnectionProperties | undefined;
-}
+export type UpdateDataConnectionResponse = DataConnection;
 export interface UpdateManagedPrivateEndpointRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -3020,8 +3491,8 @@ export const AddDatabasePrincipals: API.OperationMethod<
   AddDatabasePrincipalsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<AddDatabasePrincipalsRequest>,
-  output: __S(482, __c30, 2) as any as S.Schema<DatabasePrincipalListResult>,
+  input: __S(544, __c34, 0) as any as S.Schema<AddDatabasePrincipalsRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<DatabasePrincipalListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3037,10 +3508,10 @@ export const AttachedDatabaseConfigurationsCreateOrUpdate: API.OperationMethod<
   AttachedDatabaseConfigurationsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(673, __c42, 1) as any as S.Schema<AttachedDatabaseConfigurationsCreateOrUpdateRequest>,
+  input: __S(753, __c47, 1) as any as S.Schema<AttachedDatabaseConfigurationsCreateOrUpdateRequest>,
   output: __S(
-    674,
-    __c42,
+    754,
+    __c47,
     2,
   ) as any as S.Schema<AttachedDatabaseConfigurationsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -3059,11 +3530,11 @@ export const CheckAttachedDatabaseConfigurationNameAvailability: API.OperationMe
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    992,
-    __c62,
+    1072,
+    __c67,
     0,
   ) as any as S.Schema<CheckAttachedDatabaseConfigurationNameAvailabilityRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<CheckNameResult>,
+  output: __S(1088, __c68, 0) as any as S.Schema<CheckNameResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3079,8 +3550,8 @@ export const CheckClusterNameAvailability: API.OperationMethod<
   CheckClusterNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<CheckClusterNameAvailabilityRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<CheckNameResult>,
+  input: __S(1360, __c85, 0) as any as S.Schema<CheckClusterNameAvailabilityRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<CheckNameResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3097,11 +3568,11 @@ export const CheckClusterPrincipalAssignmentNameAvailability: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1504,
-    __c94,
+    1568,
+    __c98,
     0,
   ) as any as S.Schema<CheckClusterPrincipalAssignmentNameAvailabilityRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<CheckNameResult>,
+  output: __S(1088, __c68, 0) as any as S.Schema<CheckNameResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3117,8 +3588,8 @@ export const CheckDatabaseNameAvailability: API.OperationMethod<
   CheckDatabaseNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<CheckDatabaseNameAvailabilityRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<CheckNameResult>,
+  input: __S(1744, __c109, 0) as any as S.Schema<CheckDatabaseNameAvailabilityRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<CheckNameResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3135,11 +3606,11 @@ export const CheckDatabasePrincipalAssignmentNameAvailability: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1856,
-    __c116,
+    1920,
+    __c120,
     0,
   ) as any as S.Schema<CheckDatabasePrincipalAssignmentNameAvailabilityRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<CheckNameResult>,
+  output: __S(1088, __c68, 0) as any as S.Schema<CheckNameResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3155,8 +3626,8 @@ export const CheckDataConnectionNameAvailability: API.OperationMethod<
   CheckDataConnectionNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<CheckDataConnectionNameAvailabilityRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<CheckNameResult>,
+  input: __S(1968, __c123, 0) as any as S.Schema<CheckDataConnectionNameAvailabilityRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<CheckNameResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3173,7 +3644,7 @@ export const CheckManagedPrivateEndpointNameAvailability: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<CheckManagedPrivateEndpointNameAvailabilityRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<CheckNameResult>,
+  output: __S(1088, __c68, 0) as any as S.Schema<CheckNameResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3190,7 +3661,7 @@ export const CheckSandboxCustomImageNameAvailability: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<CheckSandboxCustomImageNameAvailabilityRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<CheckNameResult>,
+  output: __S(1088, __c68, 0) as any as S.Schema<CheckNameResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3207,7 +3678,7 @@ export const CheckScriptNameAvailability: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<CheckScriptNameAvailabilityRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<CheckNameResult>,
+  output: __S(1088, __c68, 0) as any as S.Schema<CheckNameResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3309,7 +3780,7 @@ export const DatabasesCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<DatabasesCreateOrUpdateRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<DatabasesCreateOrUpdateResponse>,
+  output: __S(432, __c27, 0) as any as S.Schema<DatabasesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3325,8 +3796,8 @@ export const DataConnectionsCreateOrUpdate: API.OperationMethod<
   DataConnectionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<DataConnectionsCreateOrUpdateRequest>,
-  output: __S(433, __c27, 1) as any as S.Schema<DataConnectionsCreateOrUpdateResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<DataConnectionsCreateOrUpdateRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<DataConnectionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3342,8 +3813,8 @@ export const DataConnectionsDataConnectionValidation: API.OperationMethod<
   DataConnectionsDataConnectionValidationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(513, __c32, 1) as any as S.Schema<DataConnectionsDataConnectionValidationRequest>,
-  output: __S(516, __c32, 4) as any as S.Schema<DataConnectionValidationListResult>,
+  input: __S(592, __c37, 0) as any as S.Schema<DataConnectionsDataConnectionValidationRequest>,
+  output: __S(595, __c37, 3) as any as S.Schema<DataConnectionValidationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3359,7 +3830,7 @@ export const DeleteAttachedDatabaseConfiguration: API.OperationMethod<
   DeleteAttachedDatabaseConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<DeleteAttachedDatabaseConfigurationRequest>,
+  input: __S(608, __c38, 0) as any as S.Schema<DeleteAttachedDatabaseConfigurationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteAttachedDatabaseConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3376,7 +3847,7 @@ export const DeleteCluster: API.OperationMethod<
   DeleteClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<DeleteClusterRequest>,
+  input: __S(624, __c39, 0) as any as S.Schema<DeleteClusterRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3393,7 +3864,7 @@ export const DeleteClusterPrincipalAssignment: API.OperationMethod<
   DeleteClusterPrincipalAssignmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<DeleteClusterPrincipalAssignmentRequest>,
+  input: __S(640, __c40, 0) as any as S.Schema<DeleteClusterPrincipalAssignmentRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteClusterPrincipalAssignmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3410,7 +3881,7 @@ export const DeleteDatabase: API.OperationMethod<
   DeleteDatabaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<DeleteDatabaseRequest>,
+  input: __S(656, __c41, 0) as any as S.Schema<DeleteDatabaseRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteDatabaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3427,7 +3898,7 @@ export const DeleteDatabasePrincipalAssignment: API.OperationMethod<
   DeleteDatabasePrincipalAssignmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<DeleteDatabasePrincipalAssignmentRequest>,
+  input: __S(672, __c42, 0) as any as S.Schema<DeleteDatabasePrincipalAssignmentRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteDatabasePrincipalAssignmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3444,7 +3915,7 @@ export const DeleteDataConnection: API.OperationMethod<
   DeleteDataConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<DeleteDataConnectionRequest>,
+  input: __S(688, __c43, 0) as any as S.Schema<DeleteDataConnectionRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteDataConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3461,7 +3932,7 @@ export const DeleteManagedPrivateEndpoint: API.OperationMethod<
   DeleteManagedPrivateEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<DeleteManagedPrivateEndpointRequest>,
+  input: __S(704, __c44, 0) as any as S.Schema<DeleteManagedPrivateEndpointRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteManagedPrivateEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3478,7 +3949,7 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   DeletePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
+  input: __S(720, __c45, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3495,7 +3966,7 @@ export const DeleteSandboxCustomImage: API.OperationMethod<
   DeleteSandboxCustomImageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<DeleteSandboxCustomImageRequest>,
+  input: __S(736, __c46, 0) as any as S.Schema<DeleteSandboxCustomImageRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteSandboxCustomImageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3512,7 +3983,7 @@ export const DeleteScript: API.OperationMethod<
   DeleteScriptError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<DeleteScriptRequest>,
+  input: __S(832, __c52, 0) as any as S.Schema<DeleteScriptRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteScriptResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3529,7 +4000,7 @@ export const DetachClusterFollowerDatabases: API.OperationMethod<
   DetachClusterFollowerDatabasesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<DetachClusterFollowerDatabasesRequest>,
+  input: __S(848, __c53, 0) as any as S.Schema<DetachClusterFollowerDatabasesRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DetachClusterFollowerDatabasesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3546,8 +4017,8 @@ export const GetAttachedDatabaseConfiguration: API.OperationMethod<
   GetAttachedDatabaseConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<GetAttachedDatabaseConfigurationRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<GetAttachedDatabaseConfigurationResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<GetAttachedDatabaseConfigurationRequest>,
+  output: __S(880, __c55, 0) as any as S.Schema<GetAttachedDatabaseConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3563,8 +4034,8 @@ export const GetCluster: API.OperationMethod<
   GetClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<GetClusterRequest>,
-  output: __S(832, __c52, 0) as any as S.Schema<GetClusterResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<GetClusterRequest>,
+  output: __S(912, __c57, 0) as any as S.Schema<GetClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3580,8 +4051,8 @@ export const GetClusterPrincipalAssignment: API.OperationMethod<
   GetClusterPrincipalAssignmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<GetClusterPrincipalAssignmentRequest>,
-  output: __S(864, __c54, 0) as any as S.Schema<GetClusterPrincipalAssignmentResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<GetClusterPrincipalAssignmentRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<GetClusterPrincipalAssignmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3597,8 +4068,8 @@ export const GetDatabase: API.OperationMethod<
   GetDatabaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<GetDatabaseRequest>,
-  output: __S(881, __c55, 1) as any as S.Schema<GetDatabaseResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<GetDatabaseRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<GetDatabaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3614,8 +4085,8 @@ export const GetDatabasePrincipalAssignment: API.OperationMethod<
   GetDatabasePrincipalAssignmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<GetDatabasePrincipalAssignmentRequest>,
-  output: __S(864, __c54, 0) as any as S.Schema<GetDatabasePrincipalAssignmentResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<GetDatabasePrincipalAssignmentRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<GetDatabasePrincipalAssignmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3631,8 +4102,8 @@ export const GetDataConnection: API.OperationMethod<
   GetDataConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<GetDataConnectionRequest>,
-  output: __S(913, __c57, 1) as any as S.Schema<GetDataConnectionResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<GetDataConnectionRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<GetDataConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3648,8 +4119,8 @@ export const GetManagedPrivateEndpoint: API.OperationMethod<
   GetManagedPrivateEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<GetManagedPrivateEndpointRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<GetManagedPrivateEndpointResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<GetManagedPrivateEndpointRequest>,
+  output: __S(1024, __c64, 0) as any as S.Schema<GetManagedPrivateEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3665,8 +4136,8 @@ export const GetOperationsResult: API.OperationMethod<
   GetOperationsResultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<GetOperationsResultRequest>,
-  output: __S(979, __c61, 3) as any as S.Schema<OperationResult>,
+  input: __S(1056, __c66, 0) as any as S.Schema<GetOperationsResultRequest>,
+  output: __S(1059, __c66, 3) as any as S.Schema<OperationResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3682,7 +4153,7 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   GetPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
+  input: __S(1104, __c69, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3699,8 +4170,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   GetPrivateLinkResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
-  output: __S(1057, __c66, 1) as any as S.Schema<GetPrivateLinkResourceResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
+  output: __S(1137, __c71, 1) as any as S.Schema<GetPrivateLinkResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3716,8 +4187,8 @@ export const GetSandboxCustomImage: API.OperationMethod<
   GetSandboxCustomImageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<GetSandboxCustomImageRequest>,
-  output: __S(1088, __c68, 0) as any as S.Schema<GetSandboxCustomImageResponse>,
+  input: __S(1152, __c72, 0) as any as S.Schema<GetSandboxCustomImageRequest>,
+  output: __S(1168, __c73, 0) as any as S.Schema<GetSandboxCustomImageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3733,8 +4204,8 @@ export const GetScript: API.OperationMethod<
   GetScriptError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<GetScriptRequest>,
-  output: __S(1136, __c71, 0) as any as S.Schema<GetScriptResponse>,
+  input: __S(1200, __c75, 0) as any as S.Schema<GetScriptRequest>,
+  output: __S(1216, __c76, 0) as any as S.Schema<GetScriptResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3750,8 +4221,8 @@ export const InviteDatabaseFollower: API.OperationMethod<
   InviteDatabaseFollowerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<InviteDatabaseFollowerRequest>,
-  output: __S(1169, __c73, 1) as any as S.Schema<DatabaseInviteFollowerResult>,
+  input: __S(1248, __c78, 0) as any as S.Schema<InviteDatabaseFollowerRequest>,
+  output: __S(1249, __c78, 1) as any as S.Schema<DatabaseInviteFollowerResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3767,8 +4238,8 @@ export const ListAttachedDatabaseConfigurationByCluster: API.OperationMethod<
   ListAttachedDatabaseConfigurationByClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<ListAttachedDatabaseConfigurationByClusterRequest>,
-  output: __S(1186, __c74, 2) as any as S.Schema<AttachedDatabaseConfigurationListResult>,
+  input: __S(1264, __c79, 0) as any as S.Schema<ListAttachedDatabaseConfigurationByClusterRequest>,
+  output: __S(1266, __c79, 2) as any as S.Schema<AttachedDatabaseConfigurationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3784,8 +4255,8 @@ export const ListClusterByResourceGroup: API.OperationMethod<
   ListClusterByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<ListClusterByResourceGroupRequest>,
-  output: __S(1217, __c76, 1) as any as S.Schema<ClusterListResult>,
+  input: __S(1280, __c80, 0) as any as S.Schema<ListClusterByResourceGroupRequest>,
+  output: __S(1297, __c81, 1) as any as S.Schema<ClusterListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3801,8 +4272,8 @@ export const ListClusterCalloutPolicies: API.OperationMethod<
   ListClusterCalloutPoliciesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<ListClusterCalloutPoliciesRequest>,
-  output: __S(1233, __c77, 1) as any as S.Schema<CalloutPoliciesList>,
+  input: __S(1312, __c82, 0) as any as S.Schema<ListClusterCalloutPoliciesRequest>,
+  output: __S(1313, __c82, 1) as any as S.Schema<CalloutPoliciesList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3818,8 +4289,8 @@ export const ListClusterFollowerDatabases: API.OperationMethod<
   ListClusterFollowerDatabasesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<ListClusterFollowerDatabasesRequest>,
-  output: __S(1250, __c78, 2) as any as S.Schema<FollowerDatabaseListResult>,
+  input: __S(1328, __c83, 0) as any as S.Schema<ListClusterFollowerDatabasesRequest>,
+  output: __S(1330, __c83, 2) as any as S.Schema<FollowerDatabaseListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3835,7 +4306,7 @@ export const ListClusterLanguageExtensions: API.OperationMethod<
   ListClusterLanguageExtensionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<ListClusterLanguageExtensionsRequest>,
+  input: __S(1344, __c84, 0) as any as S.Schema<ListClusterLanguageExtensionsRequest>,
   output: __S(256, __c16, 0) as any as S.Schema<LanguageExtensionsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3853,11 +4324,11 @@ export const ListClusterOutboundNetworkDependenciesEndpoints: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1296,
-    __c81,
+    1376,
+    __c86,
     0,
   ) as any as S.Schema<ListClusterOutboundNetworkDependenciesEndpointsRequest>,
-  output: __S(1304, __c81, 8) as any as S.Schema<OutboundNetworkDependenciesEndpointListResult>,
+  output: __S(1384, __c86, 8) as any as S.Schema<OutboundNetworkDependenciesEndpointListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3873,8 +4344,8 @@ export const ListClusterPrincipalAssignments: API.OperationMethod<
   ListClusterPrincipalAssignmentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<ListClusterPrincipalAssignmentsRequest>,
-  output: __S(1329, __c83, 1) as any as S.Schema<ClusterPrincipalAssignmentListResult>,
+  input: __S(1392, __c87, 0) as any as S.Schema<ListClusterPrincipalAssignmentsRequest>,
+  output: __S(1409, __c88, 1) as any as S.Schema<ClusterPrincipalAssignmentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3890,8 +4361,8 @@ export const ListClusters: API.OperationMethod<
   ListClustersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<ListClustersRequest>,
-  output: __S(1217, __c76, 1) as any as S.Schema<ClusterListResult>,
+  input: __S(1424, __c89, 0) as any as S.Schema<ListClustersRequest>,
+  output: __S(1297, __c81, 1) as any as S.Schema<ClusterListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3907,8 +4378,8 @@ export const ListClusterSkus: API.OperationMethod<
   ListClusterSkusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<ListClusterSkusRequest>,
-  output: __S(1385, __c86, 9) as any as S.Schema<SkuDescriptionList>,
+  input: __S(1440, __c90, 0) as any as S.Schema<ListClusterSkusRequest>,
+  output: __S(1465, __c91, 9) as any as S.Schema<SkuDescriptionList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3924,8 +4395,8 @@ export const ListClusterSkusByResource: API.OperationMethod<
   ListClusterSkusByResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<ListClusterSkusByResourceRequest>,
-  output: __S(1396, __c87, 4) as any as S.Schema<ListResourceSkusResult>,
+  input: __S(1472, __c92, 0) as any as S.Schema<ListClusterSkusByResourceRequest>,
+  output: __S(1476, __c92, 4) as any as S.Schema<ListResourceSkusResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3941,8 +4412,8 @@ export const ListDatabaseByCluster: API.OperationMethod<
   ListDatabaseByClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<ListDatabaseByClusterRequest>,
-  output: __S(1409, __c88, 1) as any as S.Schema<DatabaseListResult>,
+  input: __S(1488, __c93, 0) as any as S.Schema<ListDatabaseByClusterRequest>,
+  output: __S(1490, __c93, 2) as any as S.Schema<DatabaseListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3958,8 +4429,8 @@ export const ListDatabasePrincipalAssignments: API.OperationMethod<
   ListDatabasePrincipalAssignmentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<ListDatabasePrincipalAssignmentsRequest>,
-  output: __S(1329, __c83, 1) as any as S.Schema<DatabasePrincipalAssignmentListResult>,
+  input: __S(1504, __c94, 0) as any as S.Schema<ListDatabasePrincipalAssignmentsRequest>,
+  output: __S(1409, __c88, 1) as any as S.Schema<DatabasePrincipalAssignmentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3975,8 +4446,8 @@ export const ListDatabasePrincipals: API.OperationMethod<
   ListDatabasePrincipalsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<ListDatabasePrincipalsRequest>,
-  output: __S(482, __c30, 2) as any as S.Schema<DatabasePrincipalListResult>,
+  input: __S(1520, __c95, 0) as any as S.Schema<ListDatabasePrincipalsRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<DatabasePrincipalListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3992,8 +4463,8 @@ export const ListDataConnectionByDatabase: API.OperationMethod<
   ListDataConnectionByDatabaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<ListDataConnectionByDatabaseRequest>,
-  output: __S(1473, __c92, 1) as any as S.Schema<DataConnectionListResult>,
+  input: __S(1536, __c96, 0) as any as S.Schema<ListDataConnectionByDatabaseRequest>,
+  output: __S(1538, __c96, 2) as any as S.Schema<DataConnectionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4009,8 +4480,8 @@ export const ListManagedPrivateEndpoints: API.OperationMethod<
   ListManagedPrivateEndpointsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<ListManagedPrivateEndpointsRequest>,
-  output: __S(1490, __c93, 2) as any as S.Schema<ManagedPrivateEndpointListResult>,
+  input: __S(1552, __c97, 0) as any as S.Schema<ListManagedPrivateEndpointsRequest>,
+  output: __S(1554, __c97, 2) as any as S.Schema<ManagedPrivateEndpointListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4026,8 +4497,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(1524, __c95, 4) as any as S.Schema<OperationListResult>,
+  input: __S(1584, __c99, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(1588, __c99, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4043,8 +4514,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   ListPrivateEndpointConnectionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
-  output: __S(1537, __c96, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
+  input: __S(1600, __c100, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
+  output: __S(1601, __c100, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4060,8 +4531,8 @@ export const ListPrivateLinkResources: API.OperationMethod<
   ListPrivateLinkResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
-  output: __S(1554, __c97, 2) as any as S.Schema<PrivateLinkResourceListResult>,
+  input: __S(1616, __c101, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
+  output: __S(1618, __c101, 2) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4077,8 +4548,8 @@ export const ListSandboxCustomImageByCluster: API.OperationMethod<
   ListSandboxCustomImageByClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<ListSandboxCustomImageByClusterRequest>,
-  output: __S(1570, __c98, 2) as any as S.Schema<SandboxCustomImagesListResult>,
+  input: __S(1632, __c102, 0) as any as S.Schema<ListSandboxCustomImageByClusterRequest>,
+  output: __S(1634, __c102, 2) as any as S.Schema<SandboxCustomImagesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4094,8 +4565,8 @@ export const ListScriptByDatabase: API.OperationMethod<
   ListScriptByDatabaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<ListScriptByDatabaseRequest>,
-  output: __S(1586, __c99, 2) as any as S.Schema<ScriptListResult>,
+  input: __S(1648, __c103, 0) as any as S.Schema<ListScriptByDatabaseRequest>,
+  output: __S(1650, __c103, 2) as any as S.Schema<ScriptListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4111,8 +4582,8 @@ export const ListSkus: API.OperationMethod<
   ListSkusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<ListSkusRequest>,
-  output: __S(1385, __c86, 9) as any as S.Schema<SkuDescriptionList>,
+  input: __S(1664, __c104, 0) as any as S.Schema<ListSkusRequest>,
+  output: __S(1465, __c91, 9) as any as S.Schema<SkuDescriptionList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4128,8 +4599,8 @@ export const ManagedPrivateEndpointsCreateOrUpdate: API.OperationMethod<
   ManagedPrivateEndpointsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<ManagedPrivateEndpointsCreateOrUpdateRequest>,
-  output: __S(1617, __c101, 1) as any as S.Schema<ManagedPrivateEndpointsCreateOrUpdateResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<ManagedPrivateEndpointsCreateOrUpdateRequest>,
+  output: __S(1681, __c105, 1) as any as S.Schema<ManagedPrivateEndpointsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4145,7 +4616,7 @@ export const MigrateCluster: API.OperationMethod<
   MigrateClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<MigrateClusterRequest>,
+  input: __S(1696, __c106, 0) as any as S.Schema<MigrateClusterRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<MigrateClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4162,8 +4633,8 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
   PrivateEndpointConnectionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1650, __c103, 2) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateRequest>,
-  output: __S(1651, __c103, 3) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateResponse>,
+  input: __S(1714, __c107, 2) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateRequest>,
+  output: __S(1715, __c107, 3) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4179,7 +4650,7 @@ export const RemoveClusterCalloutPolicy: API.OperationMethod<
   RemoveClusterCalloutPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<RemoveClusterCalloutPolicyRequest>,
+  input: __S(1728, __c108, 0) as any as S.Schema<RemoveClusterCalloutPolicyRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RemoveClusterCalloutPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4196,7 +4667,7 @@ export const RemoveClusterLanguageExtensions: API.OperationMethod<
   RemoveClusterLanguageExtensionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<RemoveClusterLanguageExtensionsRequest>,
+  input: __S(1760, __c110, 0) as any as S.Schema<RemoveClusterLanguageExtensionsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RemoveClusterLanguageExtensionsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4213,8 +4684,8 @@ export const RemoveDatabasePrincipals: API.OperationMethod<
   RemoveDatabasePrincipalsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<RemoveDatabasePrincipalsRequest>,
-  output: __S(482, __c30, 2) as any as S.Schema<DatabasePrincipalListResult>,
+  input: __S(1776, __c111, 0) as any as S.Schema<RemoveDatabasePrincipalsRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<DatabasePrincipalListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4230,8 +4701,8 @@ export const SandboxCustomImagesCreateOrUpdate: API.OperationMethod<
   SandboxCustomImagesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<SandboxCustomImagesCreateOrUpdateRequest>,
-  output: __S(1729, __c108, 1) as any as S.Schema<SandboxCustomImagesCreateOrUpdateResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<SandboxCustomImagesCreateOrUpdateRequest>,
+  output: __S(1793, __c112, 1) as any as S.Schema<SandboxCustomImagesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4247,8 +4718,8 @@ export const ScriptsCreateOrUpdate: API.OperationMethod<
   ScriptsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<ScriptsCreateOrUpdateRequest>,
-  output: __S(1745, __c109, 1) as any as S.Schema<ScriptsCreateOrUpdateResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<ScriptsCreateOrUpdateRequest>,
+  output: __S(1809, __c113, 1) as any as S.Schema<ScriptsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4264,7 +4735,7 @@ export const StartCluster: API.OperationMethod<
   StartClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<StartClusterRequest>,
+  input: __S(1824, __c114, 0) as any as S.Schema<StartClusterRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StartClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4281,7 +4752,7 @@ export const StopCluster: API.OperationMethod<
   StopClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<StopClusterRequest>,
+  input: __S(1840, __c115, 0) as any as S.Schema<StopClusterRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StopClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4298,8 +4769,8 @@ export const UpdateCluster: API.OperationMethod<
   UpdateClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<UpdateClusterRequest>,
-  output: __S(1793, __c112, 1) as any as S.Schema<UpdateClusterResponse>,
+  input: __S(1856, __c116, 0) as any as S.Schema<UpdateClusterRequest>,
+  output: __S(1857, __c116, 1) as any as S.Schema<UpdateClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4315,8 +4786,8 @@ export const UpdateDatabase: API.OperationMethod<
   UpdateDatabaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<UpdateDatabaseRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<UpdateDatabaseResponse>,
+  input: __S(1872, __c117, 0) as any as S.Schema<UpdateDatabaseRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<UpdateDatabaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4332,8 +4803,8 @@ export const UpdateDataConnection: API.OperationMethod<
   UpdateDataConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<UpdateDataConnectionRequest>,
-  output: __S(1825, __c114, 1) as any as S.Schema<UpdateDataConnectionResponse>,
+  input: __S(1888, __c118, 0) as any as S.Schema<UpdateDataConnectionRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<UpdateDataConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4349,8 +4820,8 @@ export const UpdateManagedPrivateEndpoint: API.OperationMethod<
   UpdateManagedPrivateEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<UpdateManagedPrivateEndpointRequest>,
-  output: __S(1841, __c115, 1) as any as S.Schema<UpdateManagedPrivateEndpointResponse>,
+  input: __S(1904, __c119, 0) as any as S.Schema<UpdateManagedPrivateEndpointRequest>,
+  output: __S(1905, __c119, 1) as any as S.Schema<UpdateManagedPrivateEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4366,8 +4837,8 @@ export const UpdateSandboxCustomImage: API.OperationMethod<
   UpdateSandboxCustomImageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<UpdateSandboxCustomImageRequest>,
-  output: __S(1873, __c117, 1) as any as S.Schema<UpdateSandboxCustomImageResponse>,
+  input: __S(1936, __c121, 0) as any as S.Schema<UpdateSandboxCustomImageRequest>,
+  output: __S(1937, __c121, 1) as any as S.Schema<UpdateSandboxCustomImageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4383,8 +4854,8 @@ export const UpdateScript: API.OperationMethod<
   UpdateScriptError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<UpdateScriptRequest>,
-  output: __S(1889, __c118, 1) as any as S.Schema<UpdateScriptResponse>,
+  input: __S(1952, __c122, 0) as any as S.Schema<UpdateScriptRequest>,
+  output: __S(1953, __c122, 1) as any as S.Schema<UpdateScriptResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4577,7 +5048,7 @@ function __c9(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
           properties: S.optional(__S(160, __c10, 0)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -4614,7 +5085,7 @@ function __c11(j: number): any {
           location: S.String,
           properties: S.optional(__S(320, __c20, 0)),
           sku: __S(272, __c17, 0),
-          zones: S.optional(__S(704, __c44, 0)),
+          zones: S.optional(__S(784, __c49, 0)),
           identity: S.optional(__S(323, __c20, 3)),
         }).pipe(
           T.Http({
@@ -4631,12 +5102,12 @@ function __c11(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
           tags: S.optional(__S(304, __c19, 0)),
           location: S.optional(S.String),
           properties: S.optional(__S(310, __c19, 6)),
           sku: S.optional(__S(272, __c17, 0)),
-          zones: S.optional(__S(704, __c44, 0)),
+          zones: S.optional(__S(784, __c49, 0)),
           identity: S.optional(__S(313, __c19, 9)),
           etag: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
@@ -4694,7 +5165,7 @@ function __c14(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
           properties: S.optional(__S(210, __c13, 2)),
         }),
       ).annotate({ identifier: "PrivateEndpointConnection" });
@@ -4801,12 +5272,12 @@ function __c19(j: number): any {
           languageExtensions: S.optional(__S(256, __c16, 0)),
           enableDoubleEncryption: S.optional(S.Boolean),
           publicNetworkAccess: S.optional(S.String),
-          allowedIpRangeList: S.optional(__S(704, __c44, 0)),
+          allowedIpRangeList: S.optional(__S(784, __c49, 0)),
           engineType: S.optional(S.String),
           acceptedAudiences: S.optional(__S(306, __c19, 2)),
           enableAutoStop: S.optional(S.Boolean),
           restrictOutboundNetworkAccess: S.optional(S.String),
-          allowedFqdnList: S.optional(__S(704, __c44, 0)),
+          allowedFqdnList: S.optional(__S(784, __c49, 0)),
           calloutPolicies: S.optional(__S(241, __c15, 1)),
           publicIPType: S.optional(S.String),
           virtualClusterGraduationProperties: S.optional(S.String),
@@ -4853,12 +5324,12 @@ function __c20(j: number): any {
           languageExtensions: S.optional(__S(256, __c16, 0)),
           enableDoubleEncryption: S.optional(S.Boolean),
           publicNetworkAccess: S.optional(S.String),
-          allowedIpRangeList: S.optional(__S(704, __c44, 0)),
+          allowedIpRangeList: S.optional(__S(784, __c49, 0)),
           engineType: S.optional(S.String),
           acceptedAudiences: S.optional(__S(306, __c19, 2)),
           enableAutoStop: S.optional(S.Boolean),
           restrictOutboundNetworkAccess: S.optional(S.String),
-          allowedFqdnList: S.optional(__S(704, __c44, 0)),
+          allowedFqdnList: S.optional(__S(784, __c49, 0)),
           calloutPolicies: S.optional(__S(33, __c2, 1)),
           publicIPType: S.optional(S.String),
           virtualClusterGraduationProperties: S.optional(S.String),
@@ -4900,7 +5371,7 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          findings: S.optional(__S(704, __c44, 0)),
+          findings: S.optional(__S(784, __c49, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -4950,7 +5421,7 @@ function __c23(j: number): any {
           clusterResourceId: S.String,
           attachedDatabaseConfigurationName: S.String,
           databaseName: S.optional(S.String),
-          tableLevelSharingProperties: S.optional(__S(720, __c45, 0)),
+          tableLevelSharingProperties: S.optional(__S(800, __c50, 0)),
           databaseShareOrigin: S.optional(S.String),
         }),
       ).annotate({ identifier: "FollowerDatabaseProperties" });
@@ -4988,9 +5459,7 @@ function __c25(j: number): any {
           clusterName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
           callerRole: S.optional(S.String.pipe(T.Query())),
-          location: S.optional(S.String),
-          kind: S.String,
-          properties: S.optional(__S(416, __c26, 0)),
+          body: __S(452, __c28, 4).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5000,21 +5469,6 @@ function __c25(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DatabasesCreateOrUpdateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          location: S.optional(S.String),
-          kind: S.optional(S.String),
-          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-          properties: S.optional(__S(416, __c26, 0)),
-        }),
-      ).annotate({ identifier: "DatabasesCreateOrUpdateResponse" });
   }
 }
 function __c26(j: number): any {
@@ -5022,53 +5476,77 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          size: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DatabaseStatistics" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          suspensionStartDate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SuspensionDetails" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           provisioningState: S.optional(S.String),
           softDeletePeriod: S.optional(S.String),
           hotCachePeriod: S.optional(S.String),
-          statistics: S.optional(S.Unknown),
-          isFollowed: S.optional(S.Boolean),
-          keyVaultProperties: S.optional(__S(192, __c12, 0)),
-          suspensionDetails: S.optional(S.Unknown),
+          statistics: S.optional(__S(416, __c26, 0)),
+          leaderClusterResourceId: S.optional(S.String),
+          attachedDatabaseConfigurationName: S.optional(S.String),
+          principalsModificationKind: S.optional(S.String),
+          tableLevelSharingProperties: S.optional(__S(800, __c50, 0)),
+          originalDatabaseName: S.optional(S.String),
+          databaseShareOrigin: S.optional(S.String),
+          suspensionDetails: S.optional(__S(417, __c26, 1)),
         }),
-      ).annotate({ identifier: "ReadWriteDatabaseProperties" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          clusterName: S.String.pipe(T.Label()),
-          databaseName: S.String.pipe(T.Label()),
-          dataConnectionName: S.String.pipe(T.Label()),
-          location: S.optional(S.String),
-          kind: S.String,
-          properties: S.optional(__S(448, __c28, 0)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
-            code: 200,
-            apiVersion: "2025-02-14",
-          }),
-        ),
-      ).annotate({ identifier: "DataConnectionsCreateOrUpdateRequest" });
-    case 1:
+      ).annotate({ identifier: "ReadOnlyFollowingDatabaseProperties" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
           location: S.optional(S.String),
-          kind: S.optional(S.String),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
-          properties: S.optional(__S(448, __c28, 0)),
+          kind: S.String,
+          properties: S.optional(__S(418, __c26, 2)),
         }),
-      ).annotate({ identifier: "DataConnectionsCreateOrUpdateResponse" });
+      ).annotate({ identifier: "ReadOnlyFollowingDatabase" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          softDeletePeriod: S.optional(S.String),
+          hotCachePeriod: S.optional(S.String),
+          statistics: S.optional(__S(416, __c26, 0)),
+          isFollowed: S.optional(S.Boolean),
+          keyVaultProperties: S.optional(__S(192, __c12, 0)),
+          suspensionDetails: S.optional(__S(417, __c26, 1)),
+        }),
+      ).annotate({ identifier: "ReadWriteDatabaseProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(768, __c48, 0)),
+          location: S.optional(S.String),
+          kind: S.String,
+          properties: S.optional(__S(420, __c26, 4)),
+        }),
+      ).annotate({ identifier: "ReadWriteDatabase" });
+    case 6:
+      return S.Union([__S(419, __c26, 3), __S(421, __c26, 5)]);
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(422, __c26, 6).pipe(T.RawResponseRoot())).annotate({
+        identifier: "DatabasesCreateOrUpdateResponse",
+      });
   }
 }
 function __c28(j: number): any {
@@ -5076,29 +5554,35 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          eventHubResourceId: S.optional(S.String),
-          consumerGroup: S.optional(S.String),
-          tableName: S.optional(S.String),
-          mappingRuleName: S.optional(S.String),
-          dataFormat: S.optional(S.String),
-          eventSystemProperties: S.optional(__S(704, __c44, 0)),
-          compression: S.optional(S.String),
-          provisioningState: S.optional(S.String),
-          managedIdentityResourceId: S.optional(S.String),
-          managedIdentityObjectId: S.optional(S.String),
-          databaseRouting: S.optional(S.String),
-          retrievalStartDate: S.optional(S.String),
-          storageAccountResourceId: S.optional(S.String),
-          eventGridResourceId: S.optional(S.String),
-          ignoreFirstRecord: S.optional(S.Boolean),
-          blobStorageEventType: S.optional(S.String),
-          iotHubResourceId: S.optional(S.String),
-          sharedAccessPolicyName: S.optional(S.String),
-          cosmosDbAccountResourceId: S.optional(S.String),
-          cosmosDbDatabase: S.optional(S.String),
-          cosmosDbContainer: S.optional(S.String),
+          hotCachePeriod: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DataConnectionProperties" });
+      ).annotate({ identifier: "ReadOnlyFollowingDatabasePropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(S.String),
+          kind: S.String,
+          properties: S.optional(__S(448, __c28, 0)),
+        }),
+      ).annotate({ identifier: "ReadOnlyFollowingDatabaseInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          softDeletePeriod: S.optional(S.String),
+          hotCachePeriod: S.optional(S.String),
+          keyVaultProperties: S.optional(__S(192, __c12, 0)),
+        }),
+      ).annotate({ identifier: "ReadWriteDatabasePropertiesInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(S.String),
+          kind: S.String,
+          properties: S.optional(__S(450, __c28, 2)),
+        }),
+      ).annotate({ identifier: "ReadWriteDatabaseInput" });
+    case 4:
+      return S.Union([__S(449, __c28, 1), __S(451, __c28, 3)]);
   }
 }
 function __c29(j: number): any {
@@ -5110,7 +5594,359 @@ function __c29(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
-          value: S.optional(__S(497, __c31, 1)),
+          dataConnectionName: S.String.pipe(T.Label()),
+          body: __S(507, __c31, 11).pipe(T.HttpBody()),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
+            code: 200,
+            apiVersion: "2025-02-14",
+          }),
+        ),
+      ).annotate({ identifier: "DataConnectionsCreateOrUpdateRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          iotHubResourceId: S.String,
+          consumerGroup: S.String,
+          tableName: S.optional(S.String),
+          mappingRuleName: S.optional(S.String),
+          dataFormat: S.optional(S.String),
+          eventSystemProperties: S.optional(__S(784, __c49, 0)),
+          sharedAccessPolicyName: S.String,
+          databaseRouting: S.optional(S.String),
+          retrievalStartDate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IotHubConnectionProperties" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tableName: S.String,
+          mappingRuleName: S.optional(S.String),
+          managedIdentityResourceId: S.String,
+          cosmosDbAccountResourceId: S.String,
+          cosmosDbDatabase: S.String,
+          cosmosDbContainer: S.String,
+          retrievalStartDate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CosmosDbDataConnectionPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(S.String),
+          kind: S.String,
+          properties: S.optional(__S(496, __c31, 0)),
+        }),
+      ).annotate({ identifier: "CosmosDbDataConnectionInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          storageAccountResourceId: S.String,
+          eventGridResourceId: S.optional(S.String),
+          eventHubResourceId: S.String,
+          consumerGroup: S.String,
+          tableName: S.optional(S.String),
+          mappingRuleName: S.optional(S.String),
+          dataFormat: S.optional(S.String),
+          ignoreFirstRecord: S.optional(S.Boolean),
+          blobStorageEventType: S.optional(S.String),
+          managedIdentityResourceId: S.optional(S.String),
+          databaseRouting: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EventGridConnectionPropertiesInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(S.String),
+          kind: S.String,
+          properties: S.optional(__S(498, __c31, 2)),
+        }),
+      ).annotate({ identifier: "EventGridDataConnectionInput" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          storageAccountResourceIdForManagedIdentity: S.String,
+          eventHubResourceIdForManagedIdentity: S.String,
+          eventGridResourceId: S.optional(S.String),
+          consumerGroup: S.String,
+          tableName: S.optional(S.String),
+          mappingRuleName: S.optional(S.String),
+          dataFormat: S.optional(S.String),
+          ignoreFirstRecord: S.optional(S.Boolean),
+          blobStorageEventType: S.optional(S.String),
+          managedIdentityResourceId: S.String,
+          databaseRouting: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EventGridConnectionWithManagedIdentityPropertiesInput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(S.String),
+          kind: S.String,
+          properties: S.optional(__S(500, __c31, 4)),
+        }),
+      ).annotate({ identifier: "EventGridDataConnectionWithManagedIdentityInput" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          eventHubResourceId: S.String,
+          consumerGroup: S.String,
+          tableName: S.optional(S.String),
+          mappingRuleName: S.optional(S.String),
+          dataFormat: S.optional(S.String),
+          eventSystemProperties: S.optional(__S(784, __c49, 0)),
+          compression: S.optional(S.String),
+          managedIdentityResourceId: S.optional(S.String),
+          databaseRouting: S.optional(S.String),
+          retrievalStartDate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EventHubConnectionPropertiesInput" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(S.String),
+          kind: S.String,
+          properties: S.optional(__S(502, __c31, 6)),
+        }),
+      ).annotate({ identifier: "EventHubDataConnectionInput" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          eventHubResourceIdForManagedIdentity: S.String,
+          consumerGroup: S.String,
+          tableName: S.optional(S.String),
+          mappingRuleName: S.optional(S.String),
+          dataFormat: S.optional(S.String),
+          eventSystemProperties: S.optional(__S(784, __c49, 0)),
+          compression: S.optional(S.String),
+          managedIdentityResourceId: S.String,
+          databaseRouting: S.optional(S.String),
+          retrievalStartDate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EventHubConnectionWithManagedIdentityPropertiesInput" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(S.String),
+          kind: S.String,
+          properties: S.optional(__S(504, __c31, 8)),
+        }),
+      ).annotate({ identifier: "EventHubDataConnectionWithManagedIdentityInput" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(S.String),
+          kind: S.String,
+          properties: S.optional(__S(480, __c30, 0)),
+        }),
+      ).annotate({ identifier: "IotHubDataConnectionInput" });
+    case 11:
+      return S.Union([
+        __S(497, __c31, 1),
+        __S(499, __c31, 3),
+        __S(501, __c31, 5),
+        __S(503, __c31, 7),
+        __S(505, __c31, 9),
+        __S(506, __c31, 10),
+      ]);
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tableName: S.String,
+          mappingRuleName: S.optional(S.String),
+          managedIdentityResourceId: S.String,
+          managedIdentityObjectId: S.optional(S.String),
+          cosmosDbAccountResourceId: S.String,
+          cosmosDbDatabase: S.String,
+          cosmosDbContainer: S.String,
+          retrievalStartDate: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CosmosDbDataConnectionProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(768, __c48, 0)),
+          location: S.optional(S.String),
+          kind: S.String,
+          properties: S.optional(__S(512, __c32, 0)),
+        }),
+      ).annotate({ identifier: "CosmosDbDataConnection" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          storageAccountResourceId: S.String,
+          eventGridResourceId: S.optional(S.String),
+          eventHubResourceId: S.String,
+          consumerGroup: S.String,
+          tableName: S.optional(S.String),
+          mappingRuleName: S.optional(S.String),
+          dataFormat: S.optional(S.String),
+          ignoreFirstRecord: S.optional(S.Boolean),
+          blobStorageEventType: S.optional(S.String),
+          managedIdentityResourceId: S.optional(S.String),
+          managedIdentityObjectId: S.optional(S.String),
+          databaseRouting: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EventGridConnectionProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(768, __c48, 0)),
+          location: S.optional(S.String),
+          kind: S.String,
+          properties: S.optional(__S(514, __c32, 2)),
+        }),
+      ).annotate({ identifier: "EventGridDataConnection" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          storageAccountResourceIdForManagedIdentity: S.String,
+          eventHubResourceIdForManagedIdentity: S.String,
+          eventGridResourceId: S.optional(S.String),
+          consumerGroup: S.String,
+          tableName: S.optional(S.String),
+          mappingRuleName: S.optional(S.String),
+          dataFormat: S.optional(S.String),
+          ignoreFirstRecord: S.optional(S.Boolean),
+          blobStorageEventType: S.optional(S.String),
+          managedIdentityResourceId: S.String,
+          managedIdentityObjectId: S.optional(S.String),
+          databaseRouting: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EventGridConnectionWithManagedIdentityProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(768, __c48, 0)),
+          location: S.optional(S.String),
+          kind: S.String,
+          properties: S.optional(__S(516, __c32, 4)),
+        }),
+      ).annotate({ identifier: "EventGridDataConnectionWithManagedIdentity" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          eventHubResourceId: S.String,
+          consumerGroup: S.String,
+          tableName: S.optional(S.String),
+          mappingRuleName: S.optional(S.String),
+          dataFormat: S.optional(S.String),
+          eventSystemProperties: S.optional(__S(784, __c49, 0)),
+          compression: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          managedIdentityResourceId: S.optional(S.String),
+          managedIdentityObjectId: S.optional(S.String),
+          databaseRouting: S.optional(S.String),
+          retrievalStartDate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EventHubConnectionProperties" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(768, __c48, 0)),
+          location: S.optional(S.String),
+          kind: S.String,
+          properties: S.optional(__S(518, __c32, 6)),
+        }),
+      ).annotate({ identifier: "EventHubDataConnection" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          eventHubResourceIdForManagedIdentity: S.String,
+          consumerGroup: S.String,
+          tableName: S.optional(S.String),
+          mappingRuleName: S.optional(S.String),
+          dataFormat: S.optional(S.String),
+          eventSystemProperties: S.optional(__S(784, __c49, 0)),
+          compression: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          managedIdentityResourceId: S.String,
+          managedIdentityObjectId: S.optional(S.String),
+          databaseRouting: S.optional(S.String),
+          retrievalStartDate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EventHubConnectionWithManagedIdentityProperties" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(768, __c48, 0)),
+          location: S.optional(S.String),
+          kind: S.String,
+          properties: S.optional(__S(520, __c32, 8)),
+        }),
+      ).annotate({ identifier: "EventHubDataConnectionWithManagedIdentity" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(768, __c48, 0)),
+          location: S.optional(S.String),
+          kind: S.String,
+          properties: S.optional(__S(480, __c30, 0)),
+        }),
+      ).annotate({ identifier: "IotHubDataConnection" });
+    case 11:
+      return S.Union([
+        __S(513, __c32, 1),
+        __S(515, __c32, 3),
+        __S(517, __c32, 5),
+        __S(519, __c32, 7),
+        __S(521, __c32, 9),
+        __S(522, __c32, 10),
+      ]);
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(523, __c32, 11).pipe(T.RawResponseRoot())).annotate({
+        identifier: "DataConnectionsCreateOrUpdateResponse",
+      });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          clusterName: S.String.pipe(T.Label()),
+          databaseName: S.String.pipe(T.Label()),
+          value: S.optional(__S(577, __c36, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5122,7 +5958,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "AddDatabasePrincipalsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5137,17 +5973,17 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "DatabasePrincipal" });
     case 1:
-      return S.Array(__S(480, __c30, 0));
+      return S.Array(__S(560, __c35, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(481, __c30, 1)),
+          value: S.optional(__S(561, __c35, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabasePrincipalListResult" });
   }
 }
-function __c31(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5161,19 +5997,12 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "DatabasePrincipalInput" });
     case 1:
-      return S.Array(__S(496, __c31, 0));
+      return S.Array(__S(576, __c36, 0));
   }
 }
-function __c32(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String),
-          kind: S.String,
-        }),
-      ).annotate({ identifier: "DataConnectionInput" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -5181,7 +6010,7 @@ function __c32(j: number): any {
           clusterName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
           dataConnectionName: S.optional(S.String),
-          properties: S.optional(__S(512, __c32, 0)),
+          properties: S.optional(__S(507, __c31, 11)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5191,18 +6020,18 @@ function __c32(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DataConnectionsDataConnectionValidationRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           errorMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataConnectionValidationResult" });
+    case 2:
+      return S.Array(__S(593, __c37, 1));
     case 3:
-      return S.Array(__S(514, __c32, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(515, __c32, 3)),
+          value: S.optional(__S(594, __c37, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -5210,7 +6039,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DataConnectionValidationListResult" });
   }
 }
-function __c33(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5230,7 +6059,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DeleteAttachedDatabaseConfigurationRequest" });
   }
 }
-function __c34(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5249,7 +6078,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DeleteClusterRequest" });
   }
 }
-function __c35(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5269,7 +6098,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "DeleteClusterPrincipalAssignmentRequest" });
   }
 }
-function __c36(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5289,7 +6118,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseRequest" });
   }
 }
-function __c37(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5310,7 +6139,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DeleteDatabasePrincipalAssignmentRequest" });
   }
 }
-function __c38(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5331,7 +6160,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "DeleteDataConnectionRequest" });
   }
 }
-function __c39(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5351,7 +6180,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "DeleteManagedPrivateEndpointRequest" });
   }
 }
-function __c40(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5371,7 +6200,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
   }
 }
-function __c41(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5391,7 +6220,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DeleteSandboxCustomImageRequest" });
   }
 }
-function __c42(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5399,7 +6228,7 @@ function __c42(j: number): any {
           databaseName: S.String,
           clusterResourceId: S.String,
           defaultPrincipalsModificationKind: S.String,
-          tableLevelSharingProperties: S.optional(__S(720, __c45, 0)),
+          tableLevelSharingProperties: S.optional(__S(800, __c50, 0)),
           databaseNameOverride: S.optional(S.String),
           databaseNamePrefix: S.optional(S.String),
         }),
@@ -5411,7 +6240,7 @@ function __c42(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           attachedDatabaseConfigurationName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(672, __c42, 0)),
+          properties: S.optional(__S(752, __c47, 0)),
           location: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -5428,8 +6257,8 @@ function __c42(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          properties: S.optional(__S(736, __c46, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
+          properties: S.optional(__S(816, __c51, 0)),
           location: S.optional(S.String),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
@@ -5438,7 +6267,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "AttachedDatabaseConfigurationsCreateOrUpdateResponse" });
   }
 }
-function __c43(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5453,30 +6282,30 @@ function __c43(j: number): any {
       ).annotate({ identifier: "SystemData" });
   }
 }
-function __c44(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c45(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tablesToInclude: S.optional(__S(704, __c44, 0)),
-          tablesToExclude: S.optional(__S(704, __c44, 0)),
-          externalTablesToInclude: S.optional(__S(704, __c44, 0)),
-          externalTablesToExclude: S.optional(__S(704, __c44, 0)),
-          materializedViewsToInclude: S.optional(__S(704, __c44, 0)),
-          materializedViewsToExclude: S.optional(__S(704, __c44, 0)),
-          functionsToInclude: S.optional(__S(704, __c44, 0)),
-          functionsToExclude: S.optional(__S(704, __c44, 0)),
+          tablesToInclude: S.optional(__S(784, __c49, 0)),
+          tablesToExclude: S.optional(__S(784, __c49, 0)),
+          externalTablesToInclude: S.optional(__S(784, __c49, 0)),
+          externalTablesToExclude: S.optional(__S(784, __c49, 0)),
+          materializedViewsToInclude: S.optional(__S(784, __c49, 0)),
+          materializedViewsToExclude: S.optional(__S(784, __c49, 0)),
+          functionsToInclude: S.optional(__S(784, __c49, 0)),
+          functionsToExclude: S.optional(__S(784, __c49, 0)),
         }),
       ).annotate({ identifier: "TableLevelSharingProperties" });
   }
 }
-function __c46(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5484,16 +6313,16 @@ function __c46(j: number): any {
           provisioningState: S.optional(S.String),
           databaseName: S.String,
           clusterResourceId: S.String,
-          attachedDatabaseNames: S.optional(__S(704, __c44, 0)),
+          attachedDatabaseNames: S.optional(__S(784, __c49, 0)),
           defaultPrincipalsModificationKind: S.String,
-          tableLevelSharingProperties: S.optional(__S(720, __c45, 0)),
+          tableLevelSharingProperties: S.optional(__S(800, __c50, 0)),
           databaseNameOverride: S.optional(S.String),
           databaseNamePrefix: S.optional(S.String),
         }),
       ).annotate({ identifier: "AttachedDatabaseConfigurationProperties" });
   }
 }
-function __c47(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5514,7 +6343,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "DeleteScriptRequest" });
   }
 }
-function __c48(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5535,7 +6364,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "DetachClusterFollowerDatabasesRequest" });
   }
 }
-function __c49(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5555,7 +6384,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetAttachedDatabaseConfigurationRequest" });
   }
 }
-function __c50(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5563,14 +6392,14 @@ function __c50(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          properties: S.optional(__S(736, __c46, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
+          properties: S.optional(__S(816, __c51, 0)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetAttachedDatabaseConfigurationResponse" });
   }
 }
-function __c51(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5589,7 +6418,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetClusterRequest" });
   }
 }
-function __c52(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5597,19 +6426,19 @@ function __c52(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
           tags: S.optional(__S(304, __c19, 0)),
           location: S.String,
           properties: S.optional(__S(310, __c19, 6)),
           sku: __S(272, __c17, 0),
-          zones: S.optional(__S(704, __c44, 0)),
+          zones: S.optional(__S(784, __c49, 0)),
           identity: S.optional(__S(313, __c19, 9)),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetClusterResponse" });
   }
 }
-function __c53(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5629,7 +6458,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetClusterPrincipalAssignmentRequest" });
   }
 }
-function __c54(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5637,13 +6466,13 @@ function __c54(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
           properties: S.optional(__S(160, __c10, 0)),
         }),
       ).annotate({ identifier: "GetClusterPrincipalAssignmentResponse" });
   }
 }
-function __c55(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5661,21 +6490,9 @@ function __c55(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetDatabaseRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          location: S.optional(S.String),
-          kind: S.String,
-          properties: S.optional(__S(416, __c26, 0)),
-        }),
-      ).annotate({ identifier: "GetDatabaseResponse" });
   }
 }
-function __c56(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5696,7 +6513,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GetDatabasePrincipalAssignmentRequest" });
   }
 }
-function __c57(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5715,21 +6532,9 @@ function __c57(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetDataConnectionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          location: S.optional(S.String),
-          kind: S.String,
-          properties: S.optional(__S(448, __c28, 0)),
-        }),
-      ).annotate({ identifier: "GetDataConnectionResponse" });
   }
 }
-function __c58(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5749,7 +6554,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetManagedPrivateEndpointRequest" });
   }
 }
-function __c59(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5757,13 +6562,13 @@ function __c59(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          properties: S.optional(__S(960, __c60, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
+          properties: S.optional(__S(1040, __c65, 0)),
         }),
       ).annotate({ identifier: "GetManagedPrivateEndpointResponse" });
   }
 }
-function __c60(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5777,7 +6582,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ManagedPrivateEndpointProperties" });
   }
 }
-function __c61(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5818,13 +6623,13 @@ function __c61(j: number): any {
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           percentComplete: S.optional(S.Number),
-          properties: S.optional(__S(977, __c61, 1)),
-          error: S.optional(__S(978, __c61, 2)),
+          properties: S.optional(__S(1057, __c66, 1)),
+          error: S.optional(__S(1058, __c66, 2)),
         }),
       ).annotate({ identifier: "OperationResult" });
   }
 }
-function __c62(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5845,7 +6650,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "CheckAttachedDatabaseConfigurationNameAvailabilityRequest" });
   }
 }
-function __c63(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5858,7 +6663,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "CheckNameResult" });
   }
 }
-function __c64(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5878,7 +6683,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
   }
 }
-function __c65(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5898,14 +6703,14 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GetPrivateLinkResourceRequest" });
   }
 }
-function __c66(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           groupId: S.optional(S.String),
-          requiredMembers: S.optional(__S(704, __c44, 0)),
-          requiredZoneNames: S.optional(__S(704, __c44, 0)),
+          requiredMembers: S.optional(__S(784, __c49, 0)),
+          requiredZoneNames: S.optional(__S(784, __c49, 0)),
         }),
       ).annotate({ identifier: "PrivateLinkResourceProperties" });
     case 1:
@@ -5914,13 +6719,13 @@ function __c66(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          properties: S.optional(__S(1056, __c66, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
+          properties: S.optional(__S(1136, __c71, 0)),
         }),
       ).annotate({ identifier: "GetPrivateLinkResourceResponse" });
   }
 }
-function __c67(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5940,7 +6745,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "GetSandboxCustomImageRequest" });
   }
 }
-function __c68(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5948,13 +6753,13 @@ function __c68(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          properties: S.optional(__S(1104, __c69, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
+          properties: S.optional(__S(1184, __c74, 0)),
         }),
       ).annotate({ identifier: "GetSandboxCustomImageResponse" });
   }
 }
-function __c69(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5968,7 +6773,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "SandboxCustomImageProperties" });
   }
 }
-function __c70(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5989,7 +6794,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GetScriptRequest" });
   }
 }
-function __c71(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5997,13 +6802,13 @@ function __c71(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          properties: S.optional(__S(1152, __c72, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
+          properties: S.optional(__S(1232, __c77, 0)),
         }),
       ).annotate({ identifier: "GetScriptResponse" });
   }
 }
-function __c72(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6021,7 +6826,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "ScriptProperties" });
   }
 }
-function __c73(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6031,7 +6836,7 @@ function __c73(j: number): any {
           clusterName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
           inviteeEmail: S.String,
-          tableLevelSharingProperties: S.optional(__S(720, __c45, 0)),
+          tableLevelSharingProperties: S.optional(__S(800, __c50, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6049,7 +6854,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "DatabaseInviteFollowerResult" });
   }
 }
-function __c74(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6067,17 +6872,17 @@ function __c74(j: number): any {
         ),
       ).annotate({ identifier: "ListAttachedDatabaseConfigurationByClusterRequest" });
     case 1:
-      return S.Array(__S(800, __c50, 0));
+      return S.Array(__S(880, __c55, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1185, __c74, 1)),
+          value: S.optional(__S(1265, __c79, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AttachedDatabaseConfigurationListResult" });
   }
 }
-function __c75(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6095,20 +6900,20 @@ function __c75(j: number): any {
       ).annotate({ identifier: "ListClusterByResourceGroupRequest" });
   }
 }
-function __c76(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(832, __c52, 0));
+      return S.Array(__S(912, __c57, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1216, __c76, 0)),
+          value: S.optional(__S(1296, __c81, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterListResult" });
   }
 }
-function __c77(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6134,7 +6939,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "CalloutPoliciesList" });
   }
 }
-function __c78(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6156,13 +6961,13 @@ function __c78(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1249, __c78, 1)),
+          value: S.optional(__S(1329, __c83, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FollowerDatabaseListResult" });
   }
 }
-function __c79(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6181,7 +6986,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "ListClusterLanguageExtensionsRequest" });
   }
 }
-function __c80(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6201,7 +7006,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "CheckClusterNameAvailabilityRequest" });
   }
 }
-function __c81(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6226,21 +7031,21 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "EndpointDetail" });
     case 2:
-      return S.Array(__S(1297, __c81, 1));
+      return S.Array(__S(1377, __c86, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           domainName: S.optional(S.String),
-          endpointDetails: S.optional(__S(1298, __c81, 2)),
+          endpointDetails: S.optional(__S(1378, __c86, 2)),
         }),
       ).annotate({ identifier: "EndpointDependency" });
     case 4:
-      return S.Array(__S(1299, __c81, 3));
+      return S.Array(__S(1379, __c86, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           category: S.optional(S.String),
-          endpoints: S.optional(__S(1300, __c81, 4)),
+          endpoints: S.optional(__S(1380, __c86, 4)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "OutboundNetworkDependenciesEndpointProperties" });
@@ -6250,23 +7055,23 @@ function __c81(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          properties: S.optional(__S(1301, __c81, 5)),
+          systemData: S.optional(__S(768, __c48, 0)),
+          properties: S.optional(__S(1381, __c86, 5)),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "OutboundNetworkDependenciesEndpoint" });
     case 7:
-      return S.Array(__S(1302, __c81, 6));
+      return S.Array(__S(1382, __c86, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1303, __c81, 7),
+          value: __S(1383, __c86, 7),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OutboundNetworkDependenciesEndpointListResult" });
   }
 }
-function __c82(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6285,20 +7090,20 @@ function __c82(j: number): any {
       ).annotate({ identifier: "ListClusterPrincipalAssignmentsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(864, __c54, 0));
+      return S.Array(__S(944, __c59, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1328, __c83, 0)),
+          value: S.optional(__S(1408, __c88, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterPrincipalAssignmentListResult" });
   }
 }
-function __c84(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6315,7 +7120,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "ListClustersRequest" });
   }
 }
-function __c85(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6332,7 +7137,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "ListClusterSkusRequest" });
   }
 }
-function __c86(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6342,26 +7147,26 @@ function __c86(j: number): any {
         }),
       ).annotate({ identifier: "ResourceSkuCapabilities" });
     case 1:
-      return S.Array(__S(1376, __c86, 0));
+      return S.Array(__S(1456, __c91, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(__S(704, __c44, 0)),
-          capabilities: S.optional(__S(1377, __c86, 1)),
+          name: S.optional(__S(784, __c49, 0)),
+          capabilities: S.optional(__S(1457, __c91, 1)),
         }),
       ).annotate({ identifier: "ResourceSkuZoneDetails" });
     case 3:
-      return S.Array(__S(1378, __c86, 2));
+      return S.Array(__S(1458, __c91, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           location: S.String,
-          zones: S.optional(__S(704, __c44, 0)),
-          zoneDetails: S.optional(__S(1379, __c86, 3)),
+          zones: S.optional(__S(784, __c49, 0)),
+          zoneDetails: S.optional(__S(1459, __c91, 3)),
         }),
       ).annotate({ identifier: "SkuLocationInfoItem" });
     case 5:
-      return S.Array(__S(1380, __c86, 4));
+      return S.Array(__S(1460, __c91, 4));
     case 6:
       return S.Array(S.Unknown);
     case 7:
@@ -6370,23 +7175,23 @@ function __c86(j: number): any {
           resourceType: S.optional(S.String),
           name: S.optional(S.String),
           tier: S.optional(S.String),
-          locations: S.optional(__S(704, __c44, 0)),
-          locationInfo: S.optional(__S(1381, __c86, 5)),
-          restrictions: S.optional(__S(1382, __c86, 6)),
+          locations: S.optional(__S(784, __c49, 0)),
+          locationInfo: S.optional(__S(1461, __c91, 5)),
+          restrictions: S.optional(__S(1462, __c91, 6)),
         }),
       ).annotate({ identifier: "SkuDescription" });
     case 8:
-      return S.Array(__S(1383, __c86, 7));
+      return S.Array(__S(1463, __c91, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1384, __c86, 8)),
+          value: S.optional(__S(1464, __c91, 8)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SkuDescriptionList" });
   }
 }
-function __c87(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6417,21 +7222,21 @@ function __c87(j: number): any {
         S.Struct({
           resourceType: S.optional(S.String),
           sku: S.optional(__S(272, __c17, 0)),
-          capacity: S.optional(__S(1393, __c87, 1)),
+          capacity: S.optional(__S(1473, __c92, 1)),
         }),
       ).annotate({ identifier: "AzureResourceSku" });
     case 3:
-      return S.Array(__S(1394, __c87, 2));
+      return S.Array(__S(1474, __c92, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1395, __c87, 3)),
+          value: S.optional(__S(1475, __c92, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListResourceSkusResult" });
   }
 }
-function __c88(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6451,32 +7256,17 @@ function __c88(j: number): any {
         ),
       ).annotate({ identifier: "ListDatabaseByClusterRequest" });
     case 1:
+      return S.Array(__S(422, __c26, 6));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1425, __c89, 1),
+          value: __S(1489, __c93, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseListResult" });
   }
 }
-function __c89(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          location: S.optional(S.String),
-          kind: S.String,
-        }),
-      ).annotate({ identifier: "Database" });
-    case 1:
-      return S.Array(__S(1424, __c89, 0));
-  }
-}
-function __c90(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6496,7 +7286,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "ListDatabasePrincipalAssignmentsRequest" });
   }
 }
-function __c91(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6516,7 +7306,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "ListDatabasePrincipalsRequest" });
   }
 }
-function __c92(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6535,15 +7325,17 @@ function __c92(j: number): any {
         ),
       ).annotate({ identifier: "ListDataConnectionByDatabaseRequest" });
     case 1:
+      return S.Array(__S(523, __c32, 11));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1425, __c89, 1)),
+          value: S.optional(__S(1537, __c96, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataConnectionListResult" });
   }
 }
-function __c93(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6561,17 +7353,17 @@ function __c93(j: number): any {
         ),
       ).annotate({ identifier: "ListManagedPrivateEndpointsRequest" });
     case 1:
-      return S.Array(__S(944, __c59, 0));
+      return S.Array(__S(1024, __c64, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1489, __c93, 1)),
+          value: S.optional(__S(1553, __c97, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManagedPrivateEndpointListResult" });
   }
 }
-function __c94(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6592,7 +7384,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "CheckClusterPrincipalAssignmentNameAvailabilityRequest" });
   }
 }
-function __c95(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6618,23 +7410,23 @@ function __c95(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          display: S.optional(__S(1521, __c95, 1)),
+          display: S.optional(__S(1585, __c99, 1)),
           origin: S.optional(S.String),
           properties: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(1522, __c95, 2));
+      return S.Array(__S(1586, __c99, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1523, __c95, 3)),
+          value: S.optional(__S(1587, __c99, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
   }
 }
-function __c96(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6660,7 +7452,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
   }
 }
-function __c97(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6678,17 +7470,17 @@ function __c97(j: number): any {
         ),
       ).annotate({ identifier: "ListPrivateLinkResourcesRequest" });
     case 1:
-      return S.Array(__S(1057, __c66, 1));
+      return S.Array(__S(1137, __c71, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1553, __c97, 1)),
+          value: S.optional(__S(1617, __c101, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourceListResult" });
   }
 }
-function __c98(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6706,17 +7498,17 @@ function __c98(j: number): any {
         ),
       ).annotate({ identifier: "ListSandboxCustomImageByClusterRequest" });
     case 1:
-      return S.Array(__S(1088, __c68, 0));
+      return S.Array(__S(1168, __c73, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1569, __c98, 1),
+          value: __S(1633, __c102, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SandboxCustomImagesListResult" });
   }
 }
-function __c99(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6735,17 +7527,17 @@ function __c99(j: number): any {
         ),
       ).annotate({ identifier: "ListScriptByDatabaseRequest" });
     case 1:
-      return S.Array(__S(1136, __c71, 0));
+      return S.Array(__S(1216, __c76, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1585, __c99, 1)),
+          value: S.optional(__S(1649, __c103, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScriptListResult" });
   }
 }
-function __c100(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6763,7 +7555,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "ListSkusRequest" });
   }
 }
-function __c101(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6772,7 +7564,7 @@ function __c101(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           managedPrivateEndpointName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(960, __c60, 0)),
+          properties: S.optional(__S(1040, __c65, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6788,8 +7580,8 @@ function __c101(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          properties: S.optional(__S(960, __c60, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
+          properties: S.optional(__S(1040, __c65, 0)),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
@@ -6797,7 +7589,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "ManagedPrivateEndpointsCreateOrUpdateResponse" });
   }
 }
-function __c102(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6817,7 +7609,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "MigrateClusterRequest" });
   }
 }
-function __c103(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6829,7 +7621,7 @@ function __c103(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          privateLinkServiceConnectionState: __S(1648, __c103, 0),
+          privateLinkServiceConnectionState: __S(1712, __c107, 0),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionPropertiesInput" });
     case 2:
@@ -6839,7 +7631,7 @@ function __c103(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1649, __c103, 1)),
+          properties: S.optional(__S(1713, __c107, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6855,7 +7647,7 @@ function __c103(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
           properties: S.optional(__S(210, __c13, 2)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -6863,7 +7655,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "PrivateEndpointConnectionsCreateOrUpdateResponse" });
   }
 }
-function __c104(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6883,7 +7675,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "RemoveClusterCalloutPolicyRequest" });
   }
 }
-function __c105(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6904,7 +7696,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "CheckDatabaseNameAvailabilityRequest" });
   }
 }
-function __c106(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6925,7 +7717,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "RemoveClusterLanguageExtensionsRequest" });
   }
 }
-function __c107(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6934,7 +7726,7 @@ function __c107(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
-          value: S.optional(__S(497, __c31, 1)),
+          value: S.optional(__S(577, __c36, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6946,7 +7738,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "RemoveDatabasePrincipalsRequest" });
   }
 }
-function __c108(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6955,7 +7747,7 @@ function __c108(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           sandboxCustomImageName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1104, __c69, 0)),
+          properties: S.optional(__S(1184, __c74, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6971,15 +7763,15 @@ function __c108(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          properties: S.optional(__S(1104, __c69, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
+          properties: S.optional(__S(1184, __c74, 0)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "SandboxCustomImagesCreateOrUpdateResponse" });
   }
 }
-function __c109(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6989,7 +7781,7 @@ function __c109(j: number): any {
           clusterName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
           scriptName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1152, __c72, 0)),
+          properties: S.optional(__S(1232, __c77, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7005,8 +7797,8 @@ function __c109(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          properties: S.optional(__S(1152, __c72, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
+          properties: S.optional(__S(1232, __c77, 0)),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
@@ -7014,7 +7806,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "ScriptsCreateOrUpdateResponse" });
   }
 }
-function __c110(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7033,7 +7825,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "StartClusterRequest" });
   }
 }
-function __c111(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7052,7 +7844,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "StopClusterRequest" });
   }
 }
-function __c112(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7063,7 +7855,7 @@ function __c112(j: number): any {
           tags: S.optional(__S(304, __c19, 0)),
           location: S.optional(S.String),
           sku: S.optional(__S(272, __c17, 0)),
-          zones: S.optional(__S(704, __c44, 0)),
+          zones: S.optional(__S(784, __c49, 0)),
           identity: S.optional(__S(323, __c20, 3)),
           properties: S.optional(__S(320, __c20, 0)),
         }).pipe(
@@ -7081,12 +7873,12 @@ function __c112(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
           tags: S.optional(__S(304, __c19, 0)),
           location: S.optional(S.String),
           properties: S.optional(__S(310, __c19, 6)),
           sku: S.optional(__S(272, __c17, 0)),
-          zones: S.optional(__S(704, __c44, 0)),
+          zones: S.optional(__S(784, __c49, 0)),
           identity: S.optional(__S(313, __c19, 9)),
           etag: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
@@ -7096,7 +7888,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "UpdateClusterResponse" });
   }
 }
-function __c113(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7106,9 +7898,7 @@ function __c113(j: number): any {
           clusterName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
           callerRole: S.optional(S.String.pipe(T.Query())),
-          location: S.optional(S.String),
-          kind: S.String,
-          properties: S.optional(__S(416, __c26, 0)),
+          body: __S(452, __c28, 4).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7118,23 +7908,9 @@ function __c113(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateDatabaseRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          location: S.optional(S.String),
-          kind: S.optional(S.String),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
-          properties: S.optional(__S(416, __c26, 0)),
-        }),
-      ).annotate({ identifier: "UpdateDatabaseResponse" });
   }
 }
-function __c114(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7144,9 +7920,7 @@ function __c114(j: number): any {
           clusterName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
           dataConnectionName: S.String.pipe(T.Label()),
-          location: S.optional(S.String),
-          kind: S.String,
-          properties: S.optional(__S(448, __c28, 0)),
+          body: __S(507, __c31, 11).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7156,24 +7930,9 @@ function __c114(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateDataConnectionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          location: S.optional(S.String),
-          kind: S.optional(S.String),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-          properties: S.optional(__S(448, __c28, 0)),
-        }),
-      ).annotate({ identifier: "UpdateDataConnectionResponse" });
   }
 }
-function __c115(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7182,7 +7941,7 @@ function __c115(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           managedPrivateEndpointName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(960, __c60, 0)),
+          properties: S.optional(__S(1040, __c65, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7198,8 +7957,8 @@ function __c115(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          properties: S.optional(__S(960, __c60, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
+          properties: S.optional(__S(1040, __c65, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -7207,7 +7966,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "UpdateManagedPrivateEndpointResponse" });
   }
 }
-function __c116(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7229,7 +7988,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "CheckDatabasePrincipalAssignmentNameAvailabilityRequest" });
   }
 }
-function __c117(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7238,7 +7997,7 @@ function __c117(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           sandboxCustomImageName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1104, __c69, 0)),
+          properties: S.optional(__S(1184, __c74, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7254,8 +8013,8 @@ function __c117(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          properties: S.optional(__S(1104, __c69, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
+          properties: S.optional(__S(1184, __c74, 0)),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
@@ -7263,7 +8022,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "UpdateSandboxCustomImageResponse" });
   }
 }
-function __c118(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7273,7 +8032,7 @@ function __c118(j: number): any {
           clusterName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
           scriptName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1152, __c72, 0)),
+          properties: S.optional(__S(1232, __c77, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7289,8 +8048,8 @@ function __c118(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(688, __c43, 0)),
-          properties: S.optional(__S(1152, __c72, 0)),
+          systemData: S.optional(__S(768, __c48, 0)),
+          properties: S.optional(__S(1232, __c77, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -7298,7 +8057,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "UpdateScriptResponse" });
   }
 }
-function __c119(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

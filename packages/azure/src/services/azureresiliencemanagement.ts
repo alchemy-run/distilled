@@ -214,8 +214,8 @@ export interface ChaosResourcePropertiesOfDrillInput {
 }
 /** RBAC setup mode. */
 export type RBACSetupMode = "AutomatedCustomRole" | "AutomatedBuiltinRoles" | "Manual";
-/** Enum for Drill type object hierarchy. */
-export type DrillType = "Zonal" | "Regional";
+/** The discriminator for the Drill object hierarchy. */
+export type RegionalDrillPropertiesInputDrillType = "Regional";
 /** Drill monitoring properties. */
 export interface MonitoringPropertiesOfDrillInput {
   /** Identity to use for Drill monitoring operations. */
@@ -247,9 +247,9 @@ export interface SliMonitoringProperties {
   slis: SliMonitoringPropertiesSlisList;
 }
 /** The error detail. */
-export interface DrillPropertiesInputErrorDetails {}
+export interface RegionalDrillPropertiesInputErrorDetails {}
 /** Properties of the Resiliency Drill. */
-export interface DrillPropertiesInput {
+export interface RegionalDrillPropertiesInput {
   /** ROPlan properties. */
   recoveryPlanProperties?: RecoveryPlanPropertiesOfDrillInput | undefined;
   /** Goal Assignment properties. */
@@ -261,7 +261,7 @@ export interface DrillPropertiesInput {
   /** RBAC setup mode. */
   rbacSetupMode?: RBACSetupMode | (string & {}) | undefined;
   /** The discriminator for the Drill object hierarchy. */
-  drillType: DrillType | (string & {});
+  drillType: RegionalDrillPropertiesInputDrillType;
   /** Monitoring properties of the Drill. */
   monitoringProperties?: MonitoringPropertiesOfDrillInput | undefined;
   /** Azure Health Model monitoring properties of the Drill. */
@@ -269,8 +269,37 @@ export interface DrillPropertiesInput {
   /** SLI monitoring properties of the Drill. */
   sliMonitoringProperties?: SliMonitoringProperties | undefined;
   /** The error detail. */
-  errorDetails?: DrillPropertiesInputErrorDetails | undefined;
+  errorDetails?: RegionalDrillPropertiesInputErrorDetails | undefined;
 }
+/** The discriminator for the Drill object hierarchy. */
+export type ZonalDrillPropertiesInputDrillType = "Zonal";
+/** The error detail. */
+export type ZonalDrillPropertiesInputErrorDetails = RegionalDrillPropertiesInputErrorDetails;
+/** Definition of Zonal Drill properties. */
+export interface ZonalDrillPropertiesInput {
+  /** ROPlan properties. */
+  recoveryPlanProperties?: RecoveryPlanPropertiesOfDrillInput | undefined;
+  /** Goal Assignment properties. */
+  goalAssignmentProperties?: GoalAssignmentPropertiesOfDrillInput | undefined;
+  /** Properties for internal resources that are created for the Drill. */
+  drillAssetProperties?: AssetPropertiesOfDrill | undefined;
+  /** Chaos Resource properties. */
+  chaosResourceProperties?: ChaosResourcePropertiesOfDrillInput | undefined;
+  /** RBAC setup mode. */
+  rbacSetupMode?: RBACSetupMode | (string & {}) | undefined;
+  /** The discriminator for the Drill object hierarchy. */
+  drillType: ZonalDrillPropertiesInputDrillType;
+  /** Monitoring properties of the Drill. */
+  monitoringProperties?: MonitoringPropertiesOfDrillInput | undefined;
+  /** Azure Health Model monitoring properties of the Drill. */
+  healthModelMonitoringProperties?: HealthModelMonitoringProperties | undefined;
+  /** SLI monitoring properties of the Drill. */
+  sliMonitoringProperties?: SliMonitoringProperties | undefined;
+  /** The error detail. */
+  errorDetails?: RegionalDrillPropertiesInputErrorDetails | undefined;
+}
+/** Properties of the Resiliency Drill. */
+export type DrillPropertiesInput = RegionalDrillPropertiesInput | ZonalDrillPropertiesInput;
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
   | "None"
@@ -278,10 +307,10 @@ export type ManagedServiceIdentityType =
   | "UserAssigned"
   | "SystemAssigned,UserAssigned";
 /** User assigned identity properties */
-export type UserAssignedIdentityInput = DrillPropertiesInputErrorDetails;
+export type UserAssignedIdentityInput = RegionalDrillPropertiesInputErrorDetails;
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateDrillRequestIdentityUserAssignedIdentitiesMap = {
-  [key: string]: DrillPropertiesInputErrorDetails | null | undefined;
+  [key: string]: RegionalDrillPropertiesInputErrorDetails | null | undefined;
 };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateDrillRequestIdentity {
@@ -539,6 +568,8 @@ export interface LastRunProperties {
   /** Attestation state of the last run of this Drill. */
   lastRunAttestation?: DrillAttestation | undefined;
 }
+/** The discriminator for the Drill object hierarchy. */
+export type RegionalDrillPropertiesDrillType = "Regional";
 /** Drill monitoring properties. */
 export interface MonitoringPropertiesOfDrill {
   /** Identity to use for Drill monitoring operations. */
@@ -553,11 +584,11 @@ export interface MonitoringPropertiesOfDrill {
   dataCollectionEndpointId?: string | undefined;
 }
 /** The error details. */
-export type DrillPropertiesErrorDetailsDetailsList = Array<ErrorDetail>;
+export type RegionalDrillPropertiesErrorDetailsDetailsList = Array<ErrorDetail>;
 /** The error additional info. */
-export type DrillPropertiesErrorDetailsAdditionalInfoList = Array<ErrorAdditionalInfo>;
+export type RegionalDrillPropertiesErrorDetailsAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
-export interface DrillPropertiesErrorDetails {
+export interface RegionalDrillPropertiesErrorDetails {
   /** The error code. */
   code?: string | undefined;
   /** The error message. */
@@ -565,12 +596,12 @@ export interface DrillPropertiesErrorDetails {
   /** The error target. */
   target?: string | undefined;
   /** The error details. */
-  details?: DrillPropertiesErrorDetailsDetailsList | undefined;
+  details?: RegionalDrillPropertiesErrorDetailsDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: DrillPropertiesErrorDetailsAdditionalInfoList | undefined;
+  additionalInfo?: RegionalDrillPropertiesErrorDetailsAdditionalInfoList | undefined;
 }
 /** Properties of the Resiliency Drill. */
-export interface DrillProperties {
+export interface RegionalDrillProperties {
   /** Status of the last operation. */
   provisioningState?: ProvisioningState | undefined;
   /** Parent SG resource. */
@@ -600,7 +631,7 @@ export interface DrillProperties {
   /** Last resync and readiness check time. */
   lastResyncReadinessCheckTime?: string | undefined;
   /** The discriminator for the Drill object hierarchy. */
-  drillType: DrillType;
+  drillType: RegionalDrillPropertiesDrillType;
   /** Monitoring properties of the Drill. */
   monitoringProperties?: MonitoringPropertiesOfDrill | undefined;
   /** Azure Health Model monitoring properties of the Drill. */
@@ -608,8 +639,74 @@ export interface DrillProperties {
   /** SLI monitoring properties of the Drill. */
   sliMonitoringProperties?: SliMonitoringProperties | undefined;
   /** The error detail. */
-  errorDetails?: DrillPropertiesErrorDetails | undefined;
+  errorDetails?: RegionalDrillPropertiesErrorDetails | undefined;
 }
+/** The discriminator for the Drill object hierarchy. */
+export type ZonalDrillPropertiesDrillType = "Zonal";
+/** The error details. */
+export type ZonalDrillPropertiesErrorDetailsDetailsList = Array<ErrorDetail>;
+/** The error additional info. */
+export type ZonalDrillPropertiesErrorDetailsAdditionalInfoList = Array<ErrorAdditionalInfo>;
+/** The error detail. */
+export interface ZonalDrillPropertiesErrorDetails {
+  /** The error code. */
+  code?: string | undefined;
+  /** The error message. */
+  message?: string | undefined;
+  /** The error target. */
+  target?: string | undefined;
+  /** The error details. */
+  details?: ZonalDrillPropertiesErrorDetailsDetailsList | undefined;
+  /** The error additional info. */
+  additionalInfo?: ZonalDrillPropertiesErrorDetailsAdditionalInfoList | undefined;
+}
+/** Enum for VM presence. */
+export type VMPresent = "Present" | "Absent";
+/** Definition of Zonal Drill properties. */
+export interface ZonalDrillProperties {
+  /** Status of the last operation. */
+  provisioningState?: ProvisioningState | undefined;
+  /** Parent SG resource. */
+  serviceGroupId?: string | undefined;
+  /** ROPlan properties. */
+  recoveryPlanProperties?: RecoveryPlanPropertiesOfDrill | undefined;
+  /** Goal Assignment properties. */
+  goalAssignmentProperties?: GoalAssignmentPropertiesOfDrill | undefined;
+  /** Properties for internal resources that are created for the Drill. */
+  drillAssetProperties?: AssetPropertiesOfDrill | undefined;
+  /** Chaos Resource properties. */
+  chaosResourceProperties?: ChaosResourcePropertiesOfDrill | undefined;
+  /** Execution state of the Drill. Whether it is currently running or not. */
+  executionState?: ExecutionState | undefined;
+  /** Readiness state of the Drill. */
+  executionReadinessState?: ExecutionReadinessState | undefined;
+  /** RBAC setup mode. */
+  rbacSetupMode?: RBACSetupMode | undefined;
+  /** Attention reason if the ReadinessState is 'NeedsAttention'. */
+  attentionReason?: AttentionReason | undefined;
+  /** Internal System Metadata, to be used by internal components only. */
+  systemMetadata?: SystemMetadata | undefined;
+  /** Last run properties. */
+  lastRunProperties?: LastRunProperties | undefined;
+  /** Last sync time. */
+  lastSyncTime?: string | undefined;
+  /** Last resync and readiness check time. */
+  lastResyncReadinessCheckTime?: string | undefined;
+  /** The discriminator for the Drill object hierarchy. */
+  drillType: ZonalDrillPropertiesDrillType;
+  /** Monitoring properties of the Drill. */
+  monitoringProperties?: MonitoringPropertiesOfDrill | undefined;
+  /** Azure Health Model monitoring properties of the Drill. */
+  healthModelMonitoringProperties?: HealthModelMonitoringProperties | undefined;
+  /** SLI monitoring properties of the Drill. */
+  sliMonitoringProperties?: SliMonitoringProperties | undefined;
+  /** The error detail. */
+  errorDetails?: ZonalDrillPropertiesErrorDetails | undefined;
+  /** An indication whether a VM is included in this Zonal Drill. If not, RO is not needed. */
+  vmsPresent?: VMPresent | undefined;
+}
+/** Properties of the Resiliency Drill. */
+export type DrillProperties = RegionalDrillProperties | ZonalDrillProperties;
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
@@ -898,13 +995,13 @@ export interface DrillActionResponse {
   retryAfter?: number | undefined;
 }
 /** The error detail. */
-export type EnrollmentPropertiesInputErrorDetails = DrillPropertiesInputErrorDetails;
+export type EnrollmentPropertiesInputErrorDetails = RegionalDrillPropertiesInputErrorDetails;
 /** Definition of enrollment properties. */
 export interface EnrollmentPropertiesInput {
   /** ARM resource identifier of the service group associated with this usage plan. */
   serviceGroupId: string;
   /** The error detail. */
-  errorDetails?: DrillPropertiesInputErrorDetails | undefined;
+  errorDetails?: RegionalDrillPropertiesInputErrorDetails | undefined;
 }
 export interface EnrollmentsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1067,9 +1164,9 @@ export interface GetDrillResourceRequest {
   drillResourceName: string;
 }
 /** Active location and zones of the Azure resource. */
-export type DrillResourcePropertiesActiveLocationsList = Array<string>;
+export type RegionalDrillResourcePropertiesActiveLocationsList = Array<string>;
 /** List of recovery locations and zones of the Azure resource. */
-export type DrillResourcePropertiesRecoveryLocationsList = Array<string>;
+export type RegionalDrillResourcePropertiesRecoveryLocationsList = Array<string>;
 /** Drill Resource Inclusion State */
 export type DrillResourceInclusionState = "Excluded" | "Included";
 /** A state type that indicates inclusion of the resource with respect to the resiliency support. */
@@ -1120,16 +1217,18 @@ export interface DrillResourceAttentionReason {
   /** Drill Resource State (wrt SG and RO). */
   resourceState?: DrillResourceAttentionReasonResourceStateList | undefined;
 }
+/** The discriminator for the Drill Resource object hierarchy. Matches the parent Drill type. */
+export type RegionalDrillResourcePropertiesDrillType = "Regional";
 /** Properties of the Resiliency Drill Resource */
-export interface DrillResourceProperties {
+export interface RegionalDrillResourceProperties {
   /** ARM Id of the underlying resource. */
   resourceId: string;
   /** Type of the Drill resource. */
   resourceType: string;
   /** Active location and zones of the Azure resource. */
-  activeLocations?: DrillResourcePropertiesActiveLocationsList | undefined;
+  activeLocations?: RegionalDrillResourcePropertiesActiveLocationsList | undefined;
   /** List of recovery locations and zones of the Azure resource. */
-  recoveryLocations?: DrillResourcePropertiesRecoveryLocationsList | undefined;
+  recoveryLocations?: RegionalDrillResourcePropertiesRecoveryLocationsList | undefined;
   /** Inclusion State of the Drill resource in Drill */
   inclusionState?: DrillResourceInclusionState | undefined;
   /** Inclusion State of the Drill resource in Recovery Plan */
@@ -1157,8 +1256,71 @@ export interface DrillResourceProperties {
   /** Provisioning state */
   provisioningState?: ProvisioningState | undefined;
   /** The discriminator for the Drill Resource object hierarchy. Matches the parent Drill type. */
-  drillType: DrillType;
+  drillType: RegionalDrillResourcePropertiesDrillType;
 }
+/** Active location and zones of the Azure resource. */
+export type ZonalDrillResourcePropertiesActiveLocationsList = Array<string>;
+/** List of recovery locations and zones of the Azure resource. */
+export type ZonalDrillResourcePropertiesRecoveryLocationsList = Array<string>;
+/** The discriminator for the Drill Resource object hierarchy. Matches the parent Drill type. */
+export type ZonalDrillResourcePropertiesDrillType = "Zonal";
+/** Active Resource location and physical zones of Azure Resource. */
+export type ZonalDrillResourcePropertiesActivePhysicalZonesList = Array<string>;
+/** Recovery Resource location and physical zones of HA Azure Resource. */
+export type ZonalDrillResourcePropertiesRecoveryPhysicalZonesList = Array<string>;
+/** HA Status */
+export type HAStatus = "Enabled" | "NotEnabled";
+/** Properties of a resource in a zonal Resiliency Drill. */
+export interface ZonalDrillResourceProperties {
+  /** ARM Id of the underlying resource. */
+  resourceId: string;
+  /** Type of the Drill resource. */
+  resourceType: string;
+  /** Active location and zones of the Azure resource. */
+  activeLocations?: ZonalDrillResourcePropertiesActiveLocationsList | undefined;
+  /** List of recovery locations and zones of the Azure resource. */
+  recoveryLocations?: ZonalDrillResourcePropertiesRecoveryLocationsList | undefined;
+  /** Inclusion State of the Drill resource in Drill */
+  inclusionState?: DrillResourceInclusionState | undefined;
+  /** Inclusion State of the Drill resource in Recovery Plan */
+  recoveryPlanInclusionState?: ResourceInclusionState | undefined;
+  /** Exclusion reason of the Drill resource in Recovery Plan */
+  recoveryPlanExclusionReason?: RecoveryPlanExclusionReason | undefined;
+  /** Protection Solution Type of the Drill resource */
+  resourceProtectionSolutionType?: ResourceProtectionSolutionType | undefined;
+  /** Readiness State of the Drill resource */
+  readinessState?: DrillResourceReadinessState | undefined;
+  /** Fault State of the Drill resource */
+  faultState?: DrillResourceFaultState | undefined;
+  /** Fault Properties */
+  faultProperties?: FaultProperties | undefined;
+  /** ForceInclusion status for this resource. Has the customer forceIncluded it? */
+  forceInclusionState?: ForceInclusionAndUpdate | undefined;
+  /** Attention reason if the Status is 'NeedsAttention'. */
+  attentionReason?: DrillResourceAttentionReason | undefined;
+  /** Recommendation Type Id for the recommendation. */
+  advisorRecommendationTypeId?: string | undefined;
+  /** Last RBAC assignment error, if any. */
+  rbacAssignmentError?: ErrorDetails | undefined;
+  /** Monitoring RBAC assignment error, if any. */
+  monitoringRbacAssignmentError?: ErrorDetails | undefined;
+  /** Provisioning state */
+  provisioningState?: ProvisioningState | undefined;
+  /** The discriminator for the Drill Resource object hierarchy. Matches the parent Drill type. */
+  drillType: ZonalDrillResourcePropertiesDrillType;
+  /** Active Resource location and physical zones of Azure Resource. */
+  activePhysicalZones?: ZonalDrillResourcePropertiesActivePhysicalZonesList | undefined;
+  /** Recovery Resource location and physical zones of HA Azure Resource. */
+  recoveryPhysicalZones?: ZonalDrillResourcePropertiesRecoveryPhysicalZonesList | undefined;
+  /** HA status of the Drill resource */
+  haStatus?: HAStatus | undefined;
+  /** Associated Advisor Recommendation link, if HA is not enabled on this resource. */
+  advisorHaRecommendationId?: string | undefined;
+}
+/** Properties of the Resiliency Drill Resource */
+export type DrillResourceProperties =
+  | RegionalDrillResourceProperties
+  | ZonalDrillResourceProperties;
 export interface GetDrillResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -1266,8 +1428,8 @@ export interface JobExtendedInfo {
 }
 /** User Comments. */
 export type DrillRunPropertiesUserCommentsList = Array<JobUserComment>;
-/** A job type indicates the kind of job. */
-export type JobType = "Invalid" | "RecoveryPlan" | "DrillRun";
+/** The type of job. */
+export type DrillRunPropertiesJobType = "DrillRun";
 /** Job TriggeredBy */
 export type JobTriggeredBy = "System" | "User";
 /** Start mode of Drill. */
@@ -1316,7 +1478,7 @@ export interface DrillRunProperties {
   /** User Comments. */
   userComments?: DrillRunPropertiesUserCommentsList | undefined;
   /** The type of job. */
-  jobType: JobType;
+  jobType: DrillRunPropertiesJobType;
   /** Execution configurations for the job. */
   executionConfigurations?: ExecutionConfigurations | undefined;
   /** Indicates whether the job was triggered by the system or a user. */
@@ -1362,8 +1524,8 @@ export interface GetDrillRunResourceRequest {
 export type DrillRunResourcePropertiesRetryDetailsList = Array<JobRetryDetails>;
 /** User Comments. */
 export type DrillRunResourcePropertiesUserCommentsList = Array<JobUserComment>;
-/** A job resource type indicates the kind of jobresource. */
-export type JobResourceType = "Invalid" | "RecoveryPlan" | "DrillRun";
+/** Discriminator for the JobResource object hierarchy. */
+export type DrillRunResourcePropertiesJobResourceType = "DrillRun";
 /** Properties of a Drill Run resource. */
 export interface DrillRunResourceProperties {
   /** The current status of the job execution. */
@@ -1393,7 +1555,7 @@ export interface DrillRunResourceProperties {
   /** Friendly name of the job-task to which this job resource is associated. */
   taskName?: string | undefined;
   /** Discriminator for the JobResource object hierarchy. */
-  jobResourceType: JobResourceType;
+  jobResourceType: DrillRunResourcePropertiesJobResourceType;
   /** The provisioning state of the Drill Run Resource. */
   provisioningState?: ProvisioningState | undefined;
 }
@@ -1619,6 +1781,8 @@ export interface GetRecoveryJobRequest {
 export type RecoveryJobPropertiesRetryDetailsList = Array<JobRetryDetails>;
 /** User Comments. */
 export type RecoveryJobPropertiesUserCommentsList = Array<JobUserComment>;
+/** The type of job. */
+export type RecoveryJobPropertiesJobType = "RecoveryPlan";
 /** Definition of recovery job associated with Recovery Orchestration Plan. */
 export interface RecoveryJobProperties {
   /** The current status of the job execution. */
@@ -1642,7 +1806,7 @@ export interface RecoveryJobProperties {
   /** User Comments. */
   userComments?: RecoveryJobPropertiesUserCommentsList | undefined;
   /** The type of job. */
-  jobType: JobType;
+  jobType: RecoveryJobPropertiesJobType;
   /** Execution configurations for the job. */
   executionConfigurations?: ExecutionConfigurations | undefined;
   /** Indicates whether the job was triggered by the system or a user. */
@@ -1676,6 +1840,8 @@ export interface GetRecoveryJobResourceRequest {
 export type RecoveryJobResourcePropertiesRetryDetailsList = Array<JobRetryDetails>;
 /** User Comments. */
 export type RecoveryJobResourcePropertiesUserCommentsList = Array<JobUserComment>;
+/** Discriminator for the JobResource object hierarchy. */
+export type RecoveryJobResourcePropertiesJobResourceType = "RecoveryPlan";
 /** An action task type indicates the type of action task. */
 export type ActionTask = "None" | "PreActionTask" | "PostActionTask";
 /** Specifies the type of recovery orchestration group actions. */
@@ -1722,7 +1888,7 @@ export interface RecoveryJobResourceProperties {
   /** Friendly name of the job-task to which this job resource is associated. */
   taskName?: string | undefined;
   /** Discriminator for the JobResource object hierarchy. */
-  jobResourceType: JobResourceType;
+  jobResourceType: RecoveryJobResourcePropertiesJobResourceType;
   /** The provisioning state of the recovery job resource. */
   provisioningState?: ProvisioningState | undefined;
   /** A setting that indicates the protection solution selected. */
@@ -1750,17 +1916,42 @@ export interface GetRecoveryPlanRequest {
 }
 /** Specifies the type of recovery orchestration plan. */
 export type RecoveryPlanType = "Regional" | "Zonal";
-/** Defines an action for the recovery orchestration group. */
-export interface RecoveryGroupBaseAction {
+/** The type of the recovery orchestration group action. */
+export type RecoveryGroupCustomRunbookActionType = "CustomRunbook";
+/** Key-value parameters for the operation. */
+export type RecoveryGroupCustomRunbookActionParametersMap = { [key: string]: string | undefined };
+/** Defines a custom runbook action for the recovery orchestration group. */
+export interface RecoveryGroupCustomRunbookAction {
   /** The name of the recovery orchestration group action. */
   name: string;
   /** A description of the recovery orchestration group action, containing the instructions to be performed during this action. */
   description?: string | undefined;
   /** The type of the recovery orchestration group action. */
-  type: RecoveryGroupActionType | (string & {});
+  type: RecoveryGroupCustomRunbookActionType;
+  /** The maximum amount of time, in minutes, allowed for the action to complete before it times out. */
+  timeoutInMinutes: number;
+  /** The ARM Resource ID of the resource that includes the actionable script, such as a Runbook in an Automation Account. */
+  actionResourceId?: string | undefined;
+  /** Key-value parameters for the operation. */
+  parameters?: RecoveryGroupCustomRunbookActionParametersMap | undefined;
+  /** The identity associated with actionResourceId for RBAC. */
+  associatedIdentity?: AssociatedIdentity | undefined;
+}
+/** The type of the recovery orchestration group action. */
+export type RecoveryGroupManualActionType = "ManualAction";
+/** Defines an action for the recovery orchestration group. */
+export interface RecoveryGroupManualAction {
+  /** The name of the recovery orchestration group action. */
+  name: string;
+  /** A description of the recovery orchestration group action, containing the instructions to be performed during this action. */
+  description?: string | undefined;
+  /** The type of the recovery orchestration group action. */
+  type: RecoveryGroupManualActionType;
   /** The maximum amount of time, in minutes, allowed for the action to complete before it times out. */
   timeoutInMinutes: number;
 }
+/** Defines an action for the recovery orchestration group. */
+export type RecoveryGroupBaseAction = RecoveryGroupCustomRunbookAction | RecoveryGroupManualAction;
 /** Pre-actions for the recovery orchestration group. */
 export type RecoveryGroupPropertiesPreActionsList = Array<RecoveryGroupBaseAction>;
 /** Post-actions for the recovery orchestration group. */
@@ -1993,11 +2184,93 @@ export interface ResourceProtectionSolutionSettings {
 /** A list of ResourceProtectionSolutions with which the recovery orchestration resource is protected. */
 export type RecoveryResourcePropertiesResourceProtectionSolutionsList =
   Array<ResourceProtectionSolutionSettings>;
-/** Definition of recovery orchestration resource protection solution setting with recovery orchestration plan. */
-export interface ResourceBaseProtectionSolutionSetting {
+/** A setting that indicates the resource protected with which recovery solution. */
+export type ResourceCrossZoneVmRecoveryProtectionSettingProtectionSolutionType =
+  "CrossZoneVMRecovery";
+/** Definition of recovery orchestration resource protection with cross-zone (zonally resilient) VM recovery. */
+export interface ResourceCrossZoneVmRecoveryProtectionSetting {
   /** A setting that indicates the resource protected with which recovery solution. */
-  protectionSolutionType: ResourceProtectionSolutionType | (string & {});
+  protectionSolutionType: ResourceCrossZoneVmRecoveryProtectionSettingProtectionSolutionType;
+  /** Customer-requested logical target availability zone for zonal failover (a positive availability-zone id, e.g. "1", "2", "3"; additional zones are accepted where the region exposes them). Always optional; when omitted the service selects a healthy zone. Immutable per failover. */
+  targetZone?: string | undefined;
+  /** ARM resource ID of the Capacity Reservation Group (in the same subscription as the VM) to use when moving the VM to the target zone. */
+  capacityReservationGroupId?: string | undefined;
 }
+/** A setting that indicates the resource protected with which recovery solution. */
+export type ResourceCustomProtectionSettingProtectionSolutionType = "CustomRunbook";
+/** Definition of recovery resource custom action setting with Recovery Orchestration Plan. */
+export interface ResourceCustomProtectionAction {
+  /** The Azure resource ID hosting the custom action automation script. */
+  resourceId: string;
+}
+/** Definition of recovery orchestration resource custom protection setting with recovery orchestration plan. */
+export interface ResourceCustomProtectionSetting {
+  /** A setting that indicates the resource protected with which recovery solution. */
+  protectionSolutionType: ResourceCustomProtectionSettingProtectionSolutionType;
+  /** The Azure resource ID hosting the failover automation script. */
+  failoverAction?: ResourceCustomProtectionAction | undefined;
+  /** The Azure resource ID hosting the failover commit automation script. */
+  failoverCommitAction?: ResourceCustomProtectionAction | undefined;
+  /** The Azure resource ID hosting the test failover automation script. */
+  testFailoverAction?: ResourceCustomProtectionAction | undefined;
+  /** The Azure resource ID hosting the test failover cleanup automation script. */
+  testFailoverCleanupAction?: ResourceCustomProtectionAction | undefined;
+  /** The Azure resource ID hosting the reprotect automation script. */
+  reprotectAction?: ResourceCustomProtectionAction | undefined;
+}
+/** A setting that indicates the resource protected with which recovery solution. */
+export type ResourceNativeProtectionSolutionSettingProtectionSolutionType = "AzureNative";
+/** Definition of recovery orchestration resource protection solution setting with recovery orchestration plan. */
+export interface ResourceNativeProtectionSolutionSetting {
+  /** A setting that indicates the resource protected with which recovery solution. */
+  protectionSolutionType: ResourceNativeProtectionSolutionSettingProtectionSolutionType;
+}
+/** A setting that indicates the resource protected with which recovery solution. */
+export type ResourceSiteRecoveryProtectionSettingProtectionSolutionType = "AzureSiteRecovery";
+/** Definition of recovery resource failover params for site recovery solution. */
+export interface ResourceSiteRecoveryTestFailoverParams {
+  /** The Azure network resource is which will be used for test failover virtual machine. */
+  networkResourceId?: string | undefined;
+}
+/** Definition of recovery resource reprotect params for site recovery solution. */
+export interface ResourceSiteRecoveryTestFailoverCleanupParams {
+  /** Comments for testfailover cleanup */
+  comments?: string | undefined;
+}
+/** Disk Reprotect Input Details */
+export interface DiskReprotectInputDetails {
+  /** Disk Resource Id to Reprotect */
+  diskResourceId?: string | undefined;
+  /** The staging StorageAccount Resource Id. */
+  stagingStorageAccountResourceId?: string | undefined;
+}
+/** Disk Reprotect Input Details */
+export type ResourceSiteRecoveryReprotectParamsDiskReprotectInputDetailsList =
+  Array<DiskReprotectInputDetails>;
+/** Definition of recovery resource reprotect params for site recovery solution. */
+export interface ResourceSiteRecoveryReprotectParams {
+  /** Disk Reprotect Input Details */
+  diskReprotectInputDetails?:
+    | ResourceSiteRecoveryReprotectParamsDiskReprotectInputDetailsList
+    | undefined;
+}
+/** Definition of recovery orchestration resource protection with azure site recovery. */
+export interface ResourceSiteRecoveryProtectionSetting {
+  /** A setting that indicates the resource protected with which recovery solution. */
+  protectionSolutionType: ResourceSiteRecoveryProtectionSettingProtectionSolutionType;
+  /** Test failover params for azure site recovery solution. */
+  testFailoverParams?: ResourceSiteRecoveryTestFailoverParams | undefined;
+  /** Test failover params for azure site recovery solution. */
+  testFailoverCleanupParams?: ResourceSiteRecoveryTestFailoverCleanupParams | undefined;
+  /** Reprotect params for azure site recovery solution. */
+  reprotectParams?: ResourceSiteRecoveryReprotectParams | undefined;
+}
+/** Definition of recovery orchestration resource protection solution setting with recovery orchestration plan. */
+export type ResourceBaseProtectionSolutionSetting =
+  | ResourceCrossZoneVmRecoveryProtectionSetting
+  | ResourceCustomProtectionSetting
+  | ResourceNativeProtectionSolutionSetting
+  | ResourceSiteRecoveryProtectionSetting;
 /** The error details. */
 export type RecoveryResourcePropertiesErrorDetailsDetailsList = Array<ErrorDetail>;
 /** The error additional info. */
@@ -2211,7 +2484,7 @@ export interface GetUsagePlanResponse {
 /** List of service level resources. */
 export type GoalAssignmentPropertiesInputServiceLevelResourcesList = Array<ServiceLevelResource>;
 /** The error detail. */
-export type GoalAssignmentPropertiesInputErrorDetails = DrillPropertiesInputErrorDetails;
+export type GoalAssignmentPropertiesInputErrorDetails = RegionalDrillPropertiesInputErrorDetails;
 /** Properties of a goal assignment. */
 export interface GoalAssignmentPropertiesInput {
   /** Whether zonal resiliency is required for this goal assignment. */
@@ -2219,7 +2492,7 @@ export interface GoalAssignmentPropertiesInput {
   /** List of service level resources. */
   serviceLevelResources?: GoalAssignmentPropertiesInputServiceLevelResourcesList | undefined;
   /** The error detail. */
-  errorDetails?: DrillPropertiesInputErrorDetails | undefined;
+  errorDetails?: RegionalDrillPropertiesInputErrorDetails | undefined;
 }
 export interface GoalAssignmentsCreateOrUpdateRequest {
   /** The name of the service group. */
@@ -2814,7 +3087,7 @@ export interface RecoveryGroupsSettingInput {
   additionalGroups?: RecoveryGroupsSettingInputAdditionalGroupsList | undefined;
 }
 /** The error detail. */
-export type RecoveryPlanPropertiesInputErrorDetails = DrillPropertiesInputErrorDetails;
+export type RecoveryPlanPropertiesInputErrorDetails = RegionalDrillPropertiesInputErrorDetails;
 /** Properties of the recovery orchestration plan. */
 export interface RecoveryPlanPropertiesInput {
   /** The type of the recovery orchestration plan, which can be set during creation but cannot be changed afterward. */
@@ -2824,11 +3097,11 @@ export interface RecoveryPlanPropertiesInput {
   /** Settings for the recovery orchestration groups associated with the recovery orchestration plan. */
   recoveryGroupsSetting: RecoveryGroupsSettingInput;
   /** The error detail. */
-  errorDetails?: DrillPropertiesInputErrorDetails | undefined;
+  errorDetails?: RegionalDrillPropertiesInputErrorDetails | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type RecoveryPlansCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
-  [key: string]: DrillPropertiesInputErrorDetails | null | undefined;
+  [key: string]: RegionalDrillPropertiesInputErrorDetails | null | undefined;
 };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface RecoveryPlansCreateOrUpdateRequestIdentity {
@@ -2977,10 +3250,10 @@ export type AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputType
   | "SystemAssigned,UserAssigned";
 /** User assigned identity properties */
 export type AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUserAssignedIdentitiesValue =
-  DrillPropertiesInputErrorDetails;
+  RegionalDrillPropertiesInputErrorDetails;
 /** The identities assigned to this resource by the user. */
 export type AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUserAssignedIdentitiesMap =
-  { [key: string]: DrillPropertiesInputErrorDetails | undefined };
+  { [key: string]: RegionalDrillPropertiesInputErrorDetails | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput {
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
@@ -3265,7 +3538,7 @@ export interface UpdateRecoveryPlanResponse {
   retryAfter?: number | undefined;
 }
 /** The error detail. */
-export type RecoveryResourcePropertiesInputErrorDetails = DrillPropertiesInputErrorDetails;
+export type RecoveryResourcePropertiesInputErrorDetails = RegionalDrillPropertiesInputErrorDetails;
 /** Definition of recovery orchestration resource property associated with recovery orchestration plan. */
 export interface RecoveryResourcePropertiesInput {
   /** A unique id for the recovery resource, which is a GUID. */
@@ -3281,7 +3554,7 @@ export interface RecoveryResourcePropertiesInput {
   /** Identity details associated to the resource, which will be used for performing any operations on it */
   associatedIdentity?: AssociatedIdentity | undefined;
   /** The error detail. */
-  errorDetails?: DrillPropertiesInputErrorDetails | undefined;
+  errorDetails?: RegionalDrillPropertiesInputErrorDetails | undefined;
 }
 /** RecoveryPlan Resource a AzureResilienceProviderHub resource */
 export interface RecoveryResourceInput {
@@ -3351,13 +3624,13 @@ export interface UpdateUsagePlanResponse {
 /** Resource tags. */
 export type UsagePlansCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** The error detail. */
-export type UsagePlanPropertiesInputErrorDetails = DrillPropertiesInputErrorDetails;
+export type UsagePlanPropertiesInputErrorDetails = RegionalDrillPropertiesInputErrorDetails;
 /** Definition of usage plan properties. */
 export interface UsagePlanPropertiesInput {
   /** The type of the usage plan. */
   planType?: UsagePlanType | (string & {}) | undefined;
   /** The error detail. */
-  errorDetails?: DrillPropertiesInputErrorDetails | undefined;
+  errorDetails?: RegionalDrillPropertiesInputErrorDetails | undefined;
 }
 export interface UsagePlansCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3650,7 +3923,7 @@ export const AddDrillRunNotes: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddDrillRunNotesRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DrillRunActionResponse>,
+  output: __S(32, __c1, 0) as any as S.Schema<DrillRunActionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3666,8 +3939,8 @@ export const CancelRecoveryJob: API.OperationMethod<
   CancelRecoveryJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<CancelRecoveryJobRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<CancelRecoveryJobResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<CancelRecoveryJobRequest>,
+  output: __S(96, __c3, 0) as any as S.Schema<CancelRecoveryJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3683,8 +3956,8 @@ export const CheckDrillsResyncReadiness: API.OperationMethod<
   CheckDrillsResyncReadinessError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<CheckDrillsResyncReadinessRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<CheckDrillsResyncReadinessResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<CheckDrillsResyncReadinessRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<CheckDrillsResyncReadinessResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3700,8 +3973,8 @@ export const CheckRecoveryPlanActionReadiness: API.OperationMethod<
   CheckRecoveryPlanActionReadinessError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<CheckRecoveryPlanActionReadinessRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<RecoveryPlanActionBaseResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<CheckRecoveryPlanActionReadinessRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<RecoveryPlanActionBaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3717,8 +3990,8 @@ export const CommitRecoveryPlanActionsFailover: API.OperationMethod<
   CommitRecoveryPlanActionsFailoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<CommitRecoveryPlanActionsFailoverRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<RecoveryPlanActionBaseResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<CommitRecoveryPlanActionsFailoverRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<RecoveryPlanActionBaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3734,8 +4007,8 @@ export const CompleteDrillRunsMarkAs: API.OperationMethod<
   CompleteDrillRunsMarkAsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<CompleteDrillRunsMarkAsRequest>,
-  output: __S(1265, __c79, 1) as any as S.Schema<MarkAsCompleteResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<CompleteDrillRunsMarkAsRequest>,
+  output: __S(2561, __c80, 1) as any as S.Schema<MarkAsCompleteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3751,8 +4024,8 @@ export const CreateDrill: API.OperationMethod<
   CreateDrillError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1492, __c93, 4) as any as S.Schema<CreateDrillRequest>,
-  output: __S(1493, __c93, 5) as any as S.Schema<CreateDrillResponse>,
+  input: __S(3013, __c94, 5) as any as S.Schema<CreateDrillRequest>,
+  output: __S(3014, __c94, 6) as any as S.Schema<CreateDrillResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3768,8 +4041,8 @@ export const DeleteDrill: API.OperationMethod<
   DeleteDrillError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<DeleteDrillRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<DeleteDrillResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<DeleteDrillRequest>,
+  output: __S(3744, __c117, 0) as any as S.Schema<DeleteDrillResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3785,8 +4058,8 @@ export const DeleteEnrollment: API.OperationMethod<
   DeleteEnrollmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<DeleteEnrollmentRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<DeleteEnrollmentResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<DeleteEnrollmentRequest>,
+  output: __S(3744, __c117, 0) as any as S.Schema<DeleteEnrollmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3802,8 +4075,8 @@ export const DeleteGoalAssignment: API.OperationMethod<
   DeleteGoalAssignmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<DeleteGoalAssignmentRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<DeleteGoalAssignmentResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<DeleteGoalAssignmentRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<DeleteGoalAssignmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3819,8 +4092,8 @@ export const DeleteRecoveryPlan: API.OperationMethod<
   DeleteRecoveryPlanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<DeleteRecoveryPlanRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<DeleteRecoveryPlanResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<DeleteRecoveryPlanRequest>,
+  output: __S(3744, __c117, 0) as any as S.Schema<DeleteRecoveryPlanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3836,8 +4109,8 @@ export const DeleteUsagePlan: API.OperationMethod<
   DeleteUsagePlanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<DeleteUsagePlanRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<DeleteUsagePlanResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<DeleteUsagePlanRequest>,
+  output: __S(3744, __c117, 0) as any as S.Schema<DeleteUsagePlanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3853,8 +4126,8 @@ export const DrillRunsFailOver: API.OperationMethod<
   DrillRunsFailOverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(113, __c7, 1) as any as S.Schema<DrillRunsFailOverRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DrillRunActionResponse>,
+  input: __S(225, __c7, 1) as any as S.Schema<DrillRunsFailOverRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DrillRunActionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3870,8 +4143,8 @@ export const DrillRunsListReportDownloadUrl: API.OperationMethod<
   DrillRunsListReportDownloadUrlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<DrillRunsListReportDownloadUrlRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<ListReportDownloadUrlResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<DrillRunsListReportDownloadUrlRequest>,
+  output: __S(321, __c10, 1) as any as S.Schema<ListReportDownloadUrlResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3887,8 +4160,8 @@ export const DrillRunsReprotect: API.OperationMethod<
   DrillRunsReprotectError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(177, __c11, 1) as any as S.Schema<DrillRunsReprotectRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DrillRunActionResponse>,
+  input: __S(353, __c11, 1) as any as S.Schema<DrillRunsReprotectRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DrillRunActionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3904,8 +4177,8 @@ export const DrillsAddOrUpdateResources: API.OperationMethod<
   DrillsAddOrUpdateResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(212, __c13, 4) as any as S.Schema<DrillsAddOrUpdateResourcesRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<DrillsAddOrUpdateResourcesResponse>,
+  input: __S(420, __c13, 4) as any as S.Schema<DrillsAddOrUpdateResourcesRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<DrillsAddOrUpdateResourcesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3921,8 +4194,8 @@ export const DrillsEnd: API.OperationMethod<
   DrillsEndError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<DrillsEndRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DrillActionResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<DrillsEndRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DrillActionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3938,8 +4211,8 @@ export const EnrollmentsCreateOrUpdate: API.OperationMethod<
   EnrollmentsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(257, __c16, 1) as any as S.Schema<EnrollmentsCreateOrUpdateRequest>,
-  output: __S(258, __c16, 2) as any as S.Schema<EnrollmentsCreateOrUpdateResponse>,
+  input: __S(513, __c16, 1) as any as S.Schema<EnrollmentsCreateOrUpdateRequest>,
+  output: __S(514, __c16, 2) as any as S.Schema<EnrollmentsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3955,8 +4228,8 @@ export const FinalizeRecoveryPlanAction: API.OperationMethod<
   FinalizeRecoveryPlanActionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<FinalizeRecoveryPlanActionRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<FinalizeRecoveryPlanActionResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<FinalizeRecoveryPlanActionRequest>,
+  output: __S(96, __c3, 0) as any as S.Schema<FinalizeRecoveryPlanActionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3972,8 +4245,8 @@ export const GenerateDrillRunReport: API.OperationMethod<
   GenerateDrillRunReportError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GenerateDrillRunReportRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<GenerateDrillRunReportResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<GenerateDrillRunReportRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<GenerateDrillRunReportResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3989,8 +4262,8 @@ export const GetDrill: API.OperationMethod<
   GetDrillError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetDrillRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<GetDrillResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetDrillRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<GetDrillResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4006,8 +4279,8 @@ export const GetDrillResource: API.OperationMethod<
   GetDrillResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetDrillResourceRequest>,
-  output: __S(418, __c26, 2) as any as S.Schema<GetDrillResourceResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetDrillResourceRequest>,
+  output: __S(836, __c26, 4) as any as S.Schema<GetDrillResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4023,8 +4296,8 @@ export const GetDrillRun: API.OperationMethod<
   GetDrillRunError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetDrillRunRequest>,
-  output: __S(482, __c30, 2) as any as S.Schema<GetDrillRunResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<GetDrillRunRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<GetDrillRunResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4040,8 +4313,8 @@ export const GetDrillRunResource: API.OperationMethod<
   GetDrillRunResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetDrillRunResourceRequest>,
-  output: __S(513, __c32, 1) as any as S.Schema<GetDrillRunResourceResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetDrillRunResourceRequest>,
+  output: __S(1025, __c32, 1) as any as S.Schema<GetDrillRunResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4057,8 +4330,8 @@ export const GetEnrollment: API.OperationMethod<
   GetEnrollmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<GetEnrollmentRequest>,
-  output: __S(544, __c34, 0) as any as S.Schema<GetEnrollmentResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetEnrollmentRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<GetEnrollmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4074,8 +4347,8 @@ export const GetGoalAssignment: API.OperationMethod<
   GetGoalAssignmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<GetGoalAssignmentRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<GetGoalAssignmentResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetGoalAssignmentRequest>,
+  output: __S(1184, __c37, 0) as any as S.Schema<GetGoalAssignmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4091,8 +4364,8 @@ export const GetGoalResource: API.OperationMethod<
   GetGoalResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<GetGoalResourceRequest>,
-  output: __S(628, __c39, 4) as any as S.Schema<GetGoalResourceResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetGoalResourceRequest>,
+  output: __S(1252, __c39, 4) as any as S.Schema<GetGoalResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4108,8 +4381,8 @@ export const GetOperationStatus: API.OperationMethod<
   GetOperationStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetOperationStatusRequest>,
-  output: __S(644, __c40, 4) as any as S.Schema<GetOperationStatusResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetOperationStatusRequest>,
+  output: __S(1284, __c40, 4) as any as S.Schema<GetOperationStatusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4125,8 +4398,8 @@ export const GetRecoveryJob: API.OperationMethod<
   GetRecoveryJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<GetRecoveryJobRequest>,
-  output: __S(673, __c42, 1) as any as S.Schema<GetRecoveryJobResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<GetRecoveryJobRequest>,
+  output: __S(1345, __c42, 1) as any as S.Schema<GetRecoveryJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4142,8 +4415,8 @@ export const GetRecoveryJobResource: API.OperationMethod<
   GetRecoveryJobResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<GetRecoveryJobResourceRequest>,
-  output: __S(706, __c44, 2) as any as S.Schema<GetRecoveryJobResourceResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetRecoveryJobResourceRequest>,
+  output: __S(1410, __c44, 2) as any as S.Schema<GetRecoveryJobResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4159,8 +4432,8 @@ export const GetRecoveryPlan: API.OperationMethod<
   GetRecoveryPlanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<GetRecoveryPlanRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<GetRecoveryPlanResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<GetRecoveryPlanRequest>,
+  output: __S(1568, __c49, 0) as any as S.Schema<GetRecoveryPlanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4176,8 +4449,8 @@ export const GetRecoveryResource: API.OperationMethod<
   GetRecoveryResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<GetRecoveryResourceRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<GetRecoveryResourceResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<GetRecoveryResourceRequest>,
+  output: __S(1697, __c53, 1) as any as S.Schema<GetRecoveryResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4193,8 +4466,8 @@ export const GetUnifiedResilienceItem: API.OperationMethod<
   GetUnifiedResilienceItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<GetUnifiedResilienceItemRequest>,
-  output: __S(870, __c54, 6) as any as S.Schema<GetUnifiedResilienceItemResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<GetUnifiedResilienceItemRequest>,
+  output: __S(1766, __c55, 6) as any as S.Schema<GetUnifiedResilienceItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4210,8 +4483,8 @@ export const GetUsagePlan: API.OperationMethod<
   GetUsagePlanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<GetUsagePlanRequest>,
-  output: __S(896, __c56, 0) as any as S.Schema<GetUsagePlanResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<GetUsagePlanRequest>,
+  output: __S(1824, __c57, 0) as any as S.Schema<GetUsagePlanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4227,8 +4500,8 @@ export const GoalAssignmentsCreateOrUpdate: API.OperationMethod<
   GoalAssignmentsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(929, __c58, 1) as any as S.Schema<GoalAssignmentsCreateOrUpdateRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<GoalAssignmentsCreateOrUpdateResponse>,
+  input: __S(1889, __c59, 1) as any as S.Schema<GoalAssignmentsCreateOrUpdateRequest>,
+  output: __S(1920, __c60, 0) as any as S.Schema<GoalAssignmentsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4244,8 +4517,8 @@ export const GoalAssignmentsRecommendCapacity: API.OperationMethod<
   GoalAssignmentsRecommendCapacityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<GoalAssignmentsRecommendCapacityRequest>,
-  output: __S(963, __c60, 3) as any as S.Schema<RecommendCapacityResult>,
+  input: __S(1952, __c61, 0) as any as S.Schema<GoalAssignmentsRecommendCapacityRequest>,
+  output: __S(1955, __c61, 3) as any as S.Schema<RecommendCapacityResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4261,8 +4534,8 @@ export const ListDrillResources: API.OperationMethod<
   ListDrillResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<ListDrillResourcesRequest>,
-  output: __S(978, __c61, 2) as any as S.Schema<DrillResourceListResult>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ListDrillResourcesRequest>,
+  output: __S(1986, __c62, 2) as any as S.Schema<DrillResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4278,8 +4551,8 @@ export const ListDrillRunResources: API.OperationMethod<
   ListDrillRunResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<ListDrillRunResourcesRequest>,
-  output: __S(994, __c62, 2) as any as S.Schema<DrillRunResourceListResult>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ListDrillRunResourcesRequest>,
+  output: __S(2018, __c63, 2) as any as S.Schema<DrillRunResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4295,8 +4568,8 @@ export const ListDrillRuns: API.OperationMethod<
   ListDrillRunsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<ListDrillRunsRequest>,
-  output: __S(1010, __c63, 2) as any as S.Schema<DrillRunListResult>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ListDrillRunsRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<DrillRunListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4312,8 +4585,8 @@ export const ListDrills: API.OperationMethod<
   ListDrillsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<ListDrillsRequest>,
-  output: __S(1026, __c64, 2) as any as S.Schema<DrillListResult>,
+  input: __S(2080, __c65, 0) as any as S.Schema<ListDrillsRequest>,
+  output: __S(2082, __c65, 2) as any as S.Schema<DrillListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4329,8 +4602,8 @@ export const ListEnrollments: API.OperationMethod<
   ListEnrollmentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<ListEnrollmentsRequest>,
-  output: __S(1058, __c66, 2) as any as S.Schema<EnrollmentListResult>,
+  input: __S(2144, __c67, 0) as any as S.Schema<ListEnrollmentsRequest>,
+  output: __S(2146, __c67, 2) as any as S.Schema<EnrollmentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4346,8 +4619,8 @@ export const ListGoalAssignments: API.OperationMethod<
   ListGoalAssignmentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<ListGoalAssignmentsRequest>,
-  output: __S(1074, __c67, 2) as any as S.Schema<GoalAssignmentListResult>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ListGoalAssignmentsRequest>,
+  output: __S(2178, __c68, 2) as any as S.Schema<GoalAssignmentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4363,8 +4636,8 @@ export const ListGoalResources: API.OperationMethod<
   ListGoalResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<ListGoalResourcesRequest>,
-  output: __S(1089, __c68, 1) as any as S.Schema<GoalResourceListResult>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ListGoalResourcesRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<GoalResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4380,8 +4653,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(1124, __c70, 4) as any as S.Schema<ListOperationsResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(2276, __c71, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4397,8 +4670,8 @@ export const ListRecoveryJobResources: API.OperationMethod<
   ListRecoveryJobResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<ListRecoveryJobResourcesRequest>,
-  output: __S(1138, __c71, 2) as any as S.Schema<RecoveryJobResourceListResult>,
+  input: __S(2304, __c72, 0) as any as S.Schema<ListRecoveryJobResourcesRequest>,
+  output: __S(2306, __c72, 2) as any as S.Schema<RecoveryJobResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4414,8 +4687,8 @@ export const ListRecoveryJobs: API.OperationMethod<
   ListRecoveryJobsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<ListRecoveryJobsRequest>,
-  output: __S(1154, __c72, 2) as any as S.Schema<RecoveryJobListResult>,
+  input: __S(2336, __c73, 0) as any as S.Schema<ListRecoveryJobsRequest>,
+  output: __S(2338, __c73, 2) as any as S.Schema<RecoveryJobListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4431,8 +4704,8 @@ export const ListRecoveryPlans: API.OperationMethod<
   ListRecoveryPlansError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<ListRecoveryPlansRequest>,
-  output: __S(1170, __c73, 2) as any as S.Schema<RecoveryPlanListResult>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ListRecoveryPlansRequest>,
+  output: __S(2370, __c74, 2) as any as S.Schema<RecoveryPlanListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4448,8 +4721,8 @@ export const ListRecoveryResources: API.OperationMethod<
   ListRecoveryResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<ListRecoveryResourcesRequest>,
-  output: __S(1185, __c74, 1) as any as S.Schema<RecoveryResourceListResult>,
+  input: __S(2400, __c75, 0) as any as S.Schema<ListRecoveryResourcesRequest>,
+  output: __S(2401, __c75, 1) as any as S.Schema<RecoveryResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4465,8 +4738,8 @@ export const ListUnifiedResilienceItems: API.OperationMethod<
   ListUnifiedResilienceItemsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<ListUnifiedResilienceItemsRequest>,
-  output: __S(1218, __c76, 2) as any as S.Schema<UnifiedResilienceItemListResult>,
+  input: __S(2464, __c77, 0) as any as S.Schema<ListUnifiedResilienceItemsRequest>,
+  output: __S(2466, __c77, 2) as any as S.Schema<UnifiedResilienceItemListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4482,8 +4755,8 @@ export const ListUsagePlanByResourceGroup: API.OperationMethod<
   ListUsagePlanByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<ListUsagePlanByResourceGroupRequest>,
-  output: __S(1249, __c78, 1) as any as S.Schema<UsagePlanListResult>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ListUsagePlanByResourceGroupRequest>,
+  output: __S(2529, __c79, 1) as any as S.Schema<UsagePlanListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4499,8 +4772,8 @@ export const ListUsagePlanBySubscription: API.OperationMethod<
   ListUsagePlanBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<ListUsagePlanBySubscriptionRequest>,
-  output: __S(1249, __c78, 1) as any as S.Schema<UsagePlanListResult>,
+  input: __S(2656, __c83, 0) as any as S.Schema<ListUsagePlanBySubscriptionRequest>,
+  output: __S(2529, __c79, 1) as any as S.Schema<UsagePlanListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4516,8 +4789,8 @@ export const RecoveryPlanActionsFailover: API.OperationMethod<
   RecoveryPlanActionsFailoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<RecoveryPlanActionsFailoverRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<RecoveryPlanActionBaseResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<RecoveryPlanActionsFailoverRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<RecoveryPlanActionBaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4533,8 +4806,8 @@ export const RecoveryPlanActionsReprotect: API.OperationMethod<
   RecoveryPlanActionsReprotectError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<RecoveryPlanActionsReprotectRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<RecoveryPlanActionBaseResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<RecoveryPlanActionsReprotectRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<RecoveryPlanActionBaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4550,8 +4823,8 @@ export const RecoveryPlansCreateOrUpdate: API.OperationMethod<
   RecoveryPlansCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1362, __c85, 2) as any as S.Schema<RecoveryPlansCreateOrUpdateRequest>,
-  output: __S(1363, __c85, 3) as any as S.Schema<RecoveryPlansCreateOrUpdateResponse>,
+  input: __S(2754, __c86, 2) as any as S.Schema<RecoveryPlansCreateOrUpdateRequest>,
+  output: __S(2755, __c86, 3) as any as S.Schema<RecoveryPlansCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4567,8 +4840,8 @@ export const RefreshGoalAssignmentGoalResources: API.OperationMethod<
   RefreshGoalAssignmentGoalResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<RefreshGoalAssignmentGoalResourcesRequest>,
-  output: __S(1393, __c87, 1) as any as S.Schema<RefreshGoalResourcesResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<RefreshGoalAssignmentGoalResourcesRequest>,
+  output: __S(2817, __c88, 1) as any as S.Schema<RefreshGoalResourcesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4584,8 +4857,8 @@ export const ResumeDrillRun: API.OperationMethod<
   ResumeDrillRunError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<ResumeDrillRunRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DrillRunActionResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<ResumeDrillRunRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DrillRunActionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4601,8 +4874,8 @@ export const ResumeRecoveryJob: API.OperationMethod<
   ResumeRecoveryJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<ResumeRecoveryJobRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<ResumeRecoveryJobResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<ResumeRecoveryJobRequest>,
+  output: __S(96, __c3, 0) as any as S.Schema<ResumeRecoveryJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4618,8 +4891,8 @@ export const RetryRecoveryJob: API.OperationMethod<
   RetryRecoveryJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<RetryRecoveryJobRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<RetryRecoveryJobResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<RetryRecoveryJobRequest>,
+  output: __S(96, __c3, 0) as any as S.Schema<RetryRecoveryJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4635,8 +4908,8 @@ export const StartDrill: API.OperationMethod<
   StartDrillError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<StartDrillRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DrillActionResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<StartDrillRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DrillActionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4652,8 +4925,8 @@ export const TestRecoveryPlanActionFailover: API.OperationMethod<
   TestRecoveryPlanActionFailoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<TestRecoveryPlanActionFailoverRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<RecoveryPlanActionBaseResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<TestRecoveryPlanActionFailoverRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<RecoveryPlanActionBaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4669,8 +4942,8 @@ export const TestRecoveryPlanActionFailoverCleanup: API.OperationMethod<
   TestRecoveryPlanActionFailoverCleanupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<TestRecoveryPlanActionFailoverCleanupRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<RecoveryPlanActionBaseResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<TestRecoveryPlanActionFailoverCleanupRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<RecoveryPlanActionBaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4686,8 +4959,8 @@ export const UpdateDrill: API.OperationMethod<
   UpdateDrillError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1671, __c104, 7) as any as S.Schema<UpdateDrillRequest>,
-  output: __S(1672, __c104, 8) as any as S.Schema<UpdateDrillResponse>,
+  input: __S(3367, __c105, 7) as any as S.Schema<UpdateDrillRequest>,
+  output: __S(3368, __c105, 8) as any as S.Schema<UpdateDrillResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4703,8 +4976,8 @@ export const UpdateGoalAssignment: API.OperationMethod<
   UpdateGoalAssignmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1697, __c106, 1) as any as S.Schema<UpdateGoalAssignmentRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<UpdateGoalAssignmentResponse>,
+  input: __S(3425, __c107, 1) as any as S.Schema<UpdateGoalAssignmentRequest>,
+  output: __S(1920, __c60, 0) as any as S.Schema<UpdateGoalAssignmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4720,8 +4993,8 @@ export const UpdateGoalAssignmentGoalResources: API.OperationMethod<
   UpdateGoalAssignmentGoalResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1715, __c107, 3) as any as S.Schema<UpdateGoalAssignmentGoalResourcesRequest>,
-  output: __S(1716, __c107, 4) as any as S.Schema<UpdateGoalResourceResponse>,
+  input: __S(3459, __c108, 3) as any as S.Schema<UpdateGoalAssignmentGoalResourcesRequest>,
+  output: __S(3460, __c108, 4) as any as S.Schema<UpdateGoalResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4737,8 +5010,8 @@ export const UpdateRecoveryPlan: API.OperationMethod<
   UpdateRecoveryPlanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1732, __c108, 4) as any as S.Schema<UpdateRecoveryPlanRequest>,
-  output: __S(1733, __c108, 5) as any as S.Schema<UpdateRecoveryPlanResponse>,
+  input: __S(3492, __c109, 4) as any as S.Schema<UpdateRecoveryPlanRequest>,
+  output: __S(3493, __c109, 5) as any as S.Schema<UpdateRecoveryPlanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4754,8 +5027,8 @@ export const UpdateRecoveryPlanActionResources: API.OperationMethod<
   UpdateRecoveryPlanActionResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1747, __c109, 3) as any as S.Schema<UpdateRecoveryPlanActionResourcesRequest>,
-  output: __S(1748, __c109, 4) as any as S.Schema<UpdateRecoveryResourcesResponse>,
+  input: __S(3523, __c110, 3) as any as S.Schema<UpdateRecoveryPlanActionResourcesRequest>,
+  output: __S(3524, __c110, 4) as any as S.Schema<UpdateRecoveryResourcesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4771,8 +5044,8 @@ export const UpdateUsagePlan: API.OperationMethod<
   UpdateUsagePlanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<UpdateUsagePlanRequest>,
-  output: __S(1761, __c110, 1) as any as S.Schema<UpdateUsagePlanResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<UpdateUsagePlanRequest>,
+  output: __S(3553, __c111, 1) as any as S.Schema<UpdateUsagePlanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4788,8 +5061,8 @@ export const UsagePlansCreateOrUpdate: API.OperationMethod<
   UsagePlansCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1777, __c111, 1) as any as S.Schema<UsagePlansCreateOrUpdateRequest>,
-  output: __S(1778, __c111, 2) as any as S.Schema<UsagePlansCreateOrUpdateResponse>,
+  input: __S(3585, __c112, 1) as any as S.Schema<UsagePlansCreateOrUpdateRequest>,
+  output: __S(3586, __c112, 2) as any as S.Schema<UsagePlansCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4805,8 +5078,8 @@ export const ValidateDrillForExecution: API.OperationMethod<
   ValidateDrillForExecutionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1793, __c112, 1) as any as S.Schema<ValidateDrillForExecutionRequest>,
-  output: __S(1798, __c112, 6) as any as S.Schema<ValidateForExecutionResponse>,
+  input: __S(3617, __c113, 1) as any as S.Schema<ValidateDrillForExecutionRequest>,
+  output: __S(3622, __c113, 6) as any as S.Schema<ValidateForExecutionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4822,8 +5095,8 @@ export const ValidateRecoveryPlanActionForFailover: API.OperationMethod<
   ValidateRecoveryPlanActionForFailoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<ValidateRecoveryPlanActionForFailoverRequest>,
-  output: __S(1831, __c114, 7) as any as S.Schema<ValidateForRecoveryOperationBaseResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<ValidateRecoveryPlanActionForFailoverRequest>,
+  output: __S(3687, __c115, 7) as any as S.Schema<ValidateForRecoveryOperationBaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4840,11 +5113,11 @@ export const ValidateRecoveryPlanActionForFailoverCommit: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1872,
-    __c117,
+    3776,
+    __c118,
     0,
   ) as any as S.Schema<ValidateRecoveryPlanActionForFailoverCommitRequest>,
-  output: __S(1831, __c114, 7) as any as S.Schema<ValidateForRecoveryOperationBaseResponse>,
+  output: __S(3687, __c115, 7) as any as S.Schema<ValidateForRecoveryOperationBaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4860,8 +5133,8 @@ export const ValidateRecoveryPlanActionForOperation: API.OperationMethod<
   ValidateRecoveryPlanActionForOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<ValidateRecoveryPlanActionForOperationRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<ValidateRecoveryPlanActionForOperationResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<ValidateRecoveryPlanActionForOperationRequest>,
+  output: __S(96, __c3, 0) as any as S.Schema<ValidateRecoveryPlanActionForOperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4877,8 +5150,8 @@ export const ValidateRecoveryPlanActionForReprotect: API.OperationMethod<
   ValidateRecoveryPlanActionForReprotectError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<ValidateRecoveryPlanActionForReprotectRequest>,
-  output: __S(1831, __c114, 7) as any as S.Schema<ValidateForRecoveryOperationBaseResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<ValidateRecoveryPlanActionForReprotectRequest>,
+  output: __S(3687, __c115, 7) as any as S.Schema<ValidateForRecoveryOperationBaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4894,8 +5167,8 @@ export const ValidateRecoveryPlanActionForTestFailover: API.OperationMethod<
   ValidateRecoveryPlanActionForTestFailoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<ValidateRecoveryPlanActionForTestFailoverRequest>,
-  output: __S(1831, __c114, 7) as any as S.Schema<ValidateForRecoveryOperationBaseResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<ValidateRecoveryPlanActionForTestFailoverRequest>,
+  output: __S(3687, __c115, 7) as any as S.Schema<ValidateForRecoveryOperationBaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4912,11 +5185,11 @@ export const ValidateRecoveryPlanActionForTestFailoverCleanup: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1936,
-    __c121,
+    3904,
+    __c122,
     0,
   ) as any as S.Schema<ValidateRecoveryPlanActionForTestFailoverCleanupRequest>,
-  output: __S(1831, __c114, 7) as any as S.Schema<ValidateForRecoveryOperationBaseResponse>,
+  output: __S(3687, __c115, 7) as any as S.Schema<ValidateForRecoveryOperationBaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4983,7 +5256,7 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(67, __c4, 3)),
+          error: S.optional(__S(131, __c4, 3)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -4993,7 +5266,7 @@ function __c3(j: number): any {
 function __c4(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(67, __c4, 3)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(131, __c4, 3)));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -5002,15 +5275,15 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "ErrorAdditionalInfo" });
     case 2:
-      return S.Array(__S(65, __c4, 1));
+      return S.Array(__S(129, __c4, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
           target: S.optional(S.String),
-          details: S.optional(__S(64, __c4, 0)),
-          additionalInfo: S.optional(__S(66, __c4, 2)),
+          details: S.optional(__S(128, __c4, 0)),
+          additionalInfo: S.optional(__S(130, __c4, 2)),
         }),
       ).annotate({ identifier: "ErrorDetail" });
   }
@@ -5058,7 +5331,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           failoverDirection: S.String,
-          failoverRequestProperties: S.optional(__S(144, __c9, 0)),
+          failoverRequestProperties: S.optional(__S(288, __c9, 0)),
         }),
       ).annotate({ identifier: "FailoverRequest" });
     case 1:
@@ -5068,7 +5341,7 @@ function __c7(j: number): any {
           drillName: S.String.pipe(T.Label()),
           drillRunName: S.String.pipe(T.Label()),
           autoFailover: S.String,
-          failoverProperties: __S(112, __c7, 0),
+          failoverProperties: __S(224, __c7, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5095,9 +5368,9 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sourceLocations: __S(1504, __c94, 0),
-          selectedResourceIds: S.optional(__S(1504, __c94, 0)),
-          executionConfigurations: S.optional(__S(128, __c8, 0)),
+          sourceLocations: __S(3040, __c95, 0),
+          selectedResourceIds: S.optional(__S(3040, __c95, 0)),
+          executionConfigurations: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "FailoverRequestProperties" });
   }
@@ -5138,7 +5411,7 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          reprotectRequestProperties: S.optional(__S(192, __c12, 0)),
+          reprotectRequestProperties: S.optional(__S(384, __c12, 0)),
         }),
       ).annotate({ identifier: "ReprotectRequest" });
     case 1:
@@ -5147,7 +5420,7 @@ function __c11(j: number): any {
           serviceGroupName: S.String.pipe(T.Label()),
           drillName: S.String.pipe(T.Label()),
           drillRunName: S.String.pipe(T.Label()),
-          reprotectProperties: __S(176, __c11, 0),
+          reprotectProperties: __S(352, __c11, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5164,7 +5437,7 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          selectedResourceIds: S.optional(__S(1504, __c94, 0)),
+          selectedResourceIds: S.optional(__S(3040, __c95, 0)),
         }),
       ).annotate({ identifier: "ReprotectRequestProperties" });
   }
@@ -5174,25 +5447,25 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          overriddenDefaultFault: S.optional(__S(224, __c14, 0)),
-          customFault: S.optional(__S(225, __c14, 1)),
+          overriddenDefaultFault: S.optional(__S(448, __c14, 0)),
+          customFault: S.optional(__S(449, __c14, 1)),
         }),
       ).annotate({ identifier: "FaultPropertiesInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          faultProperties: S.optional(__S(208, __c13, 0)),
+          faultProperties: S.optional(__S(416, __c13, 0)),
         }),
       ).annotate({ identifier: "IncludeOrUpdateResourceInput" });
     case 2:
-      return S.Array(__S(209, __c13, 1));
+      return S.Array(__S(417, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          includeResources: S.optional(__S(210, __c13, 2)),
-          excludeResources: S.optional(__S(1504, __c94, 0)),
-          updateResources: S.optional(__S(210, __c13, 2)),
+          includeResources: S.optional(__S(418, __c13, 2)),
+          excludeResources: S.optional(__S(3040, __c95, 0)),
+          updateResources: S.optional(__S(418, __c13, 2)),
         }),
       ).annotate({ identifier: "ResourceListsInput" });
     case 4:
@@ -5201,7 +5474,7 @@ function __c13(j: number): any {
           serviceGroupName: S.String.pipe(T.Label()),
           drillName: S.String.pipe(T.Label()),
           faultDurationInMin: S.Number,
-          resourceLists: S.optional(__S(211, __c13, 3)),
+          resourceLists: S.optional(__S(419, __c13, 3)),
           forceInclusionAndUpdate: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -5259,7 +5532,7 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serviceGroupId: S.String,
-          errorDetails: S.optional(__S(1552, __c97, 0)),
+          errorDetails: S.optional(__S(3136, __c98, 0)),
         }),
       ).annotate({ identifier: "EnrollmentPropertiesInput" });
     case 1:
@@ -5269,7 +5542,7 @@ function __c16(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           usagePlanName: S.String.pipe(T.Label()),
           enrollmentName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(256, __c16, 0)),
+          properties: S.optional(__S(512, __c16, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5285,8 +5558,8 @@ function __c16(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(272, __c17, 0)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(544, __c17, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -5300,7 +5573,7 @@ function __c17(j: number): any {
         S.Struct({
           serviceGroupId: S.String,
           provisioningState: S.optional(S.String),
-          errorDetails: S.optional(__S(1537, __c96, 1)),
+          errorDetails: S.optional(__S(3105, __c97, 1)),
         }),
       ).annotate({ identifier: "EnrollmentProperties" });
   }
@@ -5344,12 +5617,12 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           generationStatus: S.optional(S.String),
-          stageStatuses: S.optional(__S(321, __c20, 1)),
-          availableFormats: S.optional(__S(1296, __c81, 0)),
+          stageStatuses: S.optional(__S(641, __c20, 1)),
+          availableFormats: S.optional(__S(2624, __c82, 0)),
           lastGeneratedTimestamp: S.optional(S.String),
           schemaVersion: S.optional(S.String),
           finalizationState: S.optional(S.String),
-          lastError: S.optional(__S(1568, __c98, 0)),
+          lastError: S.optional(__S(3168, __c99, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -5365,11 +5638,11 @@ function __c20(j: number): any {
           drillRunStage: S.String,
           generationStatus: S.optional(S.String),
           lastAttemptTimestamp: S.optional(S.String),
-          lastError: S.optional(__S(1568, __c98, 0)),
+          lastError: S.optional(__S(3168, __c99, 0)),
         }),
       ).annotate({ identifier: "ReportStageStatus" });
     case 1:
-      return S.Array(__S(320, __c20, 0));
+      return S.Array(__S(640, __c20, 0));
   }
 }
 function __c21(j: number): any {
@@ -5428,9 +5701,9 @@ function __c24(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(1631, __c101, 15)),
-          identity: S.optional(__S(1586, __c99, 2)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(3281, __c102, 17)),
+          identity: S.optional(__S(3234, __c101, 2)),
         }),
       ).annotate({ identifier: "GetDrillResponse" });
   }
@@ -5462,7 +5735,7 @@ function __c26(j: number): any {
           faultRbacOnTargetResource: S.optional(S.String),
           runbookFaultRbacOnTargets: S.optional(S.String),
           monitoringRbacOnTargets: S.optional(S.String),
-          resourceState: S.optional(__S(1296, __c81, 0)),
+          resourceState: S.optional(__S(2624, __c82, 0)),
         }),
       ).annotate({ identifier: "DrillResourceAttentionReason" });
     case 1:
@@ -5470,32 +5743,61 @@ function __c26(j: number): any {
         S.Struct({
           resourceId: S.String,
           resourceType: S.String,
-          activeLocations: S.optional(__S(1504, __c94, 0)),
-          recoveryLocations: S.optional(__S(1504, __c94, 0)),
+          activeLocations: S.optional(__S(3040, __c95, 0)),
+          recoveryLocations: S.optional(__S(3040, __c95, 0)),
           inclusionState: S.optional(S.String),
           recoveryPlanInclusionState: S.optional(S.String),
           recoveryPlanExclusionReason: S.optional(S.String),
           resourceProtectionSolutionType: S.optional(S.String),
           readinessState: S.optional(S.String),
           faultState: S.optional(S.String),
-          faultProperties: S.optional(__S(433, __c27, 1)),
+          faultProperties: S.optional(__S(865, __c27, 1)),
           forceInclusionState: S.optional(S.String),
-          attentionReason: S.optional(__S(416, __c26, 0)),
+          attentionReason: S.optional(__S(832, __c26, 0)),
           advisorRecommendationTypeId: S.optional(S.String),
-          rbacAssignmentError: S.optional(__S(1568, __c98, 0)),
-          monitoringRbacAssignmentError: S.optional(__S(1568, __c98, 0)),
+          rbacAssignmentError: S.optional(__S(3168, __c99, 0)),
+          monitoringRbacAssignmentError: S.optional(__S(3168, __c99, 0)),
           provisioningState: S.optional(S.String),
           drillType: S.String,
         }),
-      ).annotate({ identifier: "DrillResourceProperties" });
+      ).annotate({ identifier: "RegionalDrillResourceProperties" });
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.String,
+          resourceType: S.String,
+          activeLocations: S.optional(__S(3040, __c95, 0)),
+          recoveryLocations: S.optional(__S(3040, __c95, 0)),
+          inclusionState: S.optional(S.String),
+          recoveryPlanInclusionState: S.optional(S.String),
+          recoveryPlanExclusionReason: S.optional(S.String),
+          resourceProtectionSolutionType: S.optional(S.String),
+          readinessState: S.optional(S.String),
+          faultState: S.optional(S.String),
+          faultProperties: S.optional(__S(865, __c27, 1)),
+          forceInclusionState: S.optional(S.String),
+          attentionReason: S.optional(__S(832, __c26, 0)),
+          advisorRecommendationTypeId: S.optional(S.String),
+          rbacAssignmentError: S.optional(__S(3168, __c99, 0)),
+          monitoringRbacAssignmentError: S.optional(__S(3168, __c99, 0)),
+          provisioningState: S.optional(S.String),
+          drillType: S.String,
+          activePhysicalZones: S.optional(__S(3040, __c95, 0)),
+          recoveryPhysicalZones: S.optional(__S(3040, __c95, 0)),
+          haStatus: S.optional(S.String),
+          advisorHaRecommendationId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ZonalDrillResourceProperties" });
+    case 3:
+      return S.Union([__S(833, __c26, 1), __S(834, __c26, 2)]);
+    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(417, __c26, 1)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(835, __c26, 3)),
         }),
       ).annotate({ identifier: "GetDrillResourceResponse" });
   }
@@ -5503,14 +5805,14 @@ function __c26(j: number): any {
 function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(224, __c14, 0));
+      return S.Array(__S(448, __c14, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          availableFaults: S.optional(__S(432, __c27, 0)),
-          defaultFault: S.optional(__S(224, __c14, 0)),
-          overriddenDefaultFault: S.optional(__S(224, __c14, 0)),
-          customFault: S.optional(__S(225, __c14, 1)),
+          availableFaults: S.optional(__S(864, __c27, 0)),
+          defaultFault: S.optional(__S(448, __c14, 0)),
+          overriddenDefaultFault: S.optional(__S(448, __c14, 0)),
+          customFault: S.optional(__S(449, __c14, 1)),
         }),
       ).annotate({ identifier: "FaultProperties" });
   }
@@ -5541,7 +5843,7 @@ function __c29(j: number): any {
         S.Struct({
           errorCode: S.optional(S.String),
           errorMessage: S.optional(S.String),
-          recommendations: S.optional(__S(1504, __c94, 0)),
+          recommendations: S.optional(__S(3040, __c95, 0)),
         }),
       ).annotate({ identifier: "JobErrorInfo" });
     case 1:
@@ -5553,7 +5855,7 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "JobUserComment" });
     case 2:
-      return S.Array(__S(465, __c29, 1));
+      return S.Array(__S(929, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5561,15 +5863,15 @@ function __c29(j: number): any {
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           duration: S.optional(S.String),
-          errorDetails: S.optional(__S(464, __c29, 0)),
+          errorDetails: S.optional(__S(928, __c29, 0)),
           retryAttempt: S.Number,
-          userComments: S.optional(__S(466, __c29, 2)),
+          userComments: S.optional(__S(930, __c29, 2)),
         }),
       ).annotate({ identifier: "JobRetryDetails" });
     case 4:
-      return S.Array(__S(467, __c29, 3));
+      return S.Array(__S(931, __c29, 3));
     case 5:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(470, __c29, 6)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(934, __c29, 6)));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -5577,21 +5879,21 @@ function __c29(j: number): any {
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           duration: S.optional(S.String),
-          errorDetails: S.optional(__S(464, __c29, 0)),
+          errorDetails: S.optional(__S(928, __c29, 0)),
           taskId: S.optional(S.String),
           taskName: S.optional(S.String),
-          linkedJobIds: S.optional(__S(1504, __c94, 0)),
-          userComments: S.optional(__S(466, __c29, 2)),
-          subTasksList: S.optional(__S(469, __c29, 5)),
-          retryDetails: S.optional(__S(468, __c29, 4)),
+          linkedJobIds: S.optional(__S(3040, __c95, 0)),
+          userComments: S.optional(__S(930, __c29, 2)),
+          subTasksList: S.optional(__S(933, __c29, 5)),
+          retryDetails: S.optional(__S(932, __c29, 4)),
         }),
       ).annotate({ identifier: "JobTaskDetail" });
     case 7:
-      return S.Array(__S(470, __c29, 6));
+      return S.Array(__S(934, __c29, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          tasksList: S.optional(__S(471, __c29, 7)),
+          tasksList: S.optional(__S(935, __c29, 7)),
           dynamicErrorMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobExtendedInfo" });
@@ -5603,12 +5905,12 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           generationStatus: S.optional(S.String),
-          stageStatuses: S.optional(__S(321, __c20, 1)),
-          availableFormats: S.optional(__S(1296, __c81, 0)),
+          stageStatuses: S.optional(__S(641, __c20, 1)),
+          availableFormats: S.optional(__S(2624, __c82, 0)),
           lastGeneratedTimestamp: S.optional(S.String),
           schemaVersion: S.optional(S.String),
           finalizationState: S.optional(S.String),
-          lastError: S.optional(__S(1568, __c98, 0)),
+          lastError: S.optional(__S(3168, __c99, 0)),
         }),
       ).annotate({ identifier: "DrillReportSummary" });
     case 1:
@@ -5618,22 +5920,22 @@ function __c30(j: number): any {
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           duration: S.optional(S.String),
-          errorDetails: S.optional(__S(464, __c29, 0)),
+          errorDetails: S.optional(__S(928, __c29, 0)),
           resourceId: S.optional(S.String),
           operation: S.optional(S.String),
-          retryDetails: S.optional(__S(468, __c29, 4)),
-          jobExtendedInfo: S.optional(__S(472, __c29, 8)),
-          userComments: S.optional(__S(466, __c29, 2)),
+          retryDetails: S.optional(__S(932, __c29, 4)),
+          jobExtendedInfo: S.optional(__S(936, __c29, 8)),
+          userComments: S.optional(__S(930, __c29, 2)),
           jobType: S.String,
-          executionConfigurations: S.optional(__S(128, __c8, 0)),
+          executionConfigurations: S.optional(__S(256, __c8, 0)),
           triggeredBy: S.optional(S.String),
           drillId: S.optional(S.String),
           drillMode: S.optional(S.String),
           attestation: S.optional(S.String),
-          notes: S.optional(__S(1504, __c94, 0)),
-          supportedVerbsForStage: S.optional(__S(1281, __c80, 1)),
+          notes: S.optional(__S(3040, __c95, 0)),
+          supportedVerbsForStage: S.optional(__S(2593, __c81, 1)),
           currentActiveOperationId: S.optional(S.String),
-          report: S.optional(__S(480, __c30, 0)),
+          report: S.optional(__S(960, __c30, 0)),
         }),
       ).annotate({ identifier: "DrillRunProperties" });
     case 2:
@@ -5642,8 +5944,8 @@ function __c30(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(481, __c30, 1)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(961, __c30, 1)),
         }),
       ).annotate({ identifier: "GetDrillRunResponse" });
   }
@@ -5677,12 +5979,12 @@ function __c32(j: number): any {
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           duration: S.optional(S.String),
-          errorDetails: S.optional(__S(464, __c29, 0)),
+          errorDetails: S.optional(__S(928, __c29, 0)),
           resourceId: S.optional(S.String),
           operation: S.optional(S.String),
-          retryDetails: S.optional(__S(468, __c29, 4)),
-          jobExtendedInfo: S.optional(__S(472, __c29, 8)),
-          userComments: S.optional(__S(466, __c29, 2)),
+          retryDetails: S.optional(__S(932, __c29, 4)),
+          jobExtendedInfo: S.optional(__S(936, __c29, 8)),
+          userComments: S.optional(__S(930, __c29, 2)),
           jobId: S.optional(S.String),
           taskId: S.optional(S.String),
           taskName: S.optional(S.String),
@@ -5696,8 +5998,8 @@ function __c32(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(512, __c32, 0)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(1024, __c32, 0)),
         }),
       ).annotate({ identifier: "GetDrillRunResourceResponse" });
   }
@@ -5730,8 +6032,8 @@ function __c34(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(272, __c17, 0)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(544, __c17, 0)),
         }),
       ).annotate({ identifier: "GetEnrollmentResponse" });
   }
@@ -5763,14 +6065,14 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "ServiceLevelResource" });
     case 1:
-      return S.Array(__S(576, __c36, 0));
+      return S.Array(__S(1152, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           requireZonalResiliency: S.Boolean,
-          serviceLevelResources: S.optional(__S(577, __c36, 1)),
+          serviceLevelResources: S.optional(__S(1153, __c36, 1)),
           provisioningState: S.optional(S.String),
-          errorDetails: S.optional(__S(1537, __c96, 1)),
+          errorDetails: S.optional(__S(3105, __c97, 1)),
         }),
       ).annotate({ identifier: "GoalAssignmentProperties" });
   }
@@ -5783,8 +6085,8 @@ function __c37(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(578, __c36, 2)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(1154, __c36, 2)),
         }),
       ).annotate({ identifier: "GetGoalAssignmentResponse" });
   }
@@ -5819,21 +6121,21 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "UserConfirmationItem" });
     case 1:
-      return S.Array(__S(624, __c39, 0));
+      return S.Array(__S(1248, __c39, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           goalParticipation: S.optional(S.String),
           attestationStatus: S.optional(S.String),
           exclusionReason: S.optional(S.String),
-          userConfirmation: S.optional(__S(625, __c39, 1)),
+          userConfirmation: S.optional(__S(1249, __c39, 1)),
         }),
       ).annotate({ identifier: "ResiliencyProperties" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           resourceArmId: S.String,
-          zonalResiliency: S.optional(__S(626, __c39, 2)),
+          zonalResiliency: S.optional(__S(1250, __c39, 2)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoalResourceProperties" });
@@ -5843,8 +6145,8 @@ function __c39(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(627, __c39, 3)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(1251, __c39, 3)),
         }),
       ).annotate({ identifier: "GetGoalResourceResponse" });
   }
@@ -5866,7 +6168,7 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "GetOperationStatusRequest" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(642, __c40, 2)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1282, __c40, 2)));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5877,12 +6179,12 @@ function __c40(j: number): any {
           percentComplete: S.optional(S.Number),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          operations: S.optional(__S(641, __c40, 1)),
-          error: S.optional(__S(67, __c4, 3)),
+          operations: S.optional(__S(1281, __c40, 1)),
+          error: S.optional(__S(131, __c4, 3)),
         }),
       ).annotate({ identifier: "OperationStatusResult" });
     case 3:
-      return S.Array(__S(642, __c40, 2));
+      return S.Array(__S(1282, __c40, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -5893,8 +6195,8 @@ function __c40(j: number): any {
           percentComplete: S.optional(S.Number),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          operations: S.optional(__S(643, __c40, 3)),
-          error: S.optional(__S(67, __c4, 3)),
+          operations: S.optional(__S(1283, __c40, 3)),
+          error: S.optional(__S(131, __c4, 3)),
         }),
       ).annotate({ identifier: "GetOperationStatusResponse" });
   }
@@ -5927,14 +6229,14 @@ function __c42(j: number): any {
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           duration: S.optional(S.String),
-          errorDetails: S.optional(__S(464, __c29, 0)),
+          errorDetails: S.optional(__S(928, __c29, 0)),
           resourceId: S.optional(S.String),
           operation: S.optional(S.String),
-          retryDetails: S.optional(__S(468, __c29, 4)),
-          jobExtendedInfo: S.optional(__S(472, __c29, 8)),
-          userComments: S.optional(__S(466, __c29, 2)),
+          retryDetails: S.optional(__S(932, __c29, 4)),
+          jobExtendedInfo: S.optional(__S(936, __c29, 8)),
+          userComments: S.optional(__S(930, __c29, 2)),
           jobType: S.String,
-          executionConfigurations: S.optional(__S(128, __c8, 0)),
+          executionConfigurations: S.optional(__S(256, __c8, 0)),
           triggeredBy: S.optional(S.String),
           provisioningState: S.optional(S.String),
         }),
@@ -5945,8 +6247,8 @@ function __c42(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(672, __c42, 0)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(1344, __c42, 0)),
         }),
       ).annotate({ identifier: "GetRecoveryJobResponse" });
   }
@@ -5990,19 +6292,19 @@ function __c44(j: number): any {
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           duration: S.optional(S.String),
-          errorDetails: S.optional(__S(464, __c29, 0)),
+          errorDetails: S.optional(__S(928, __c29, 0)),
           resourceId: S.optional(S.String),
           operation: S.optional(S.String),
-          retryDetails: S.optional(__S(468, __c29, 4)),
-          jobExtendedInfo: S.optional(__S(472, __c29, 8)),
-          userComments: S.optional(__S(466, __c29, 2)),
+          retryDetails: S.optional(__S(932, __c29, 4)),
+          jobExtendedInfo: S.optional(__S(936, __c29, 8)),
+          userComments: S.optional(__S(930, __c29, 2)),
           jobId: S.optional(S.String),
           taskId: S.optional(S.String),
           taskName: S.optional(S.String),
           jobResourceType: S.String,
           provisioningState: S.optional(S.String),
           protectionSolutionType: S.optional(S.String),
-          recoveryGroupActionSettings: S.optional(__S(704, __c44, 0)),
+          recoveryGroupActionSettings: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "RecoveryJobResourceProperties" });
     case 2:
@@ -6011,8 +6313,8 @@ function __c44(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(705, __c44, 1)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(1409, __c44, 1)),
         }),
       ).annotate({ identifier: "GetRecoveryJobResourceResponse" });
   }
@@ -6069,19 +6371,25 @@ function __c47(j: number): any {
 function __c48(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(792, __c49, 8)),
-          identity: S.optional(__S(1586, __c99, 2)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(1610, __c50, 10)),
+          identity: S.optional(__S(3234, __c101, 2)),
         }),
       ).annotate({ identifier: "GetRecoveryPlanResponse" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6090,72 +6398,86 @@ function __c49(j: number): any {
           description: S.optional(S.String),
           type: S.String,
           timeoutInMinutes: S.Number,
+          actionResourceId: S.optional(S.String),
+          parameters: S.optional(__S(1536, __c48, 0)),
+          associatedIdentity: S.optional(__S(3200, __c100, 0)),
         }),
-      ).annotate({ identifier: "RecoveryGroupBaseAction" });
+      ).annotate({ identifier: "RecoveryGroupCustomRunbookAction" });
     case 1:
-      return S.Array(__S(784, __c49, 0));
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.optional(S.String),
+          type: S.String,
+          timeoutInMinutes: S.Number,
+        }),
+      ).annotate({ identifier: "RecoveryGroupManualAction" });
     case 2:
+      return S.Union([__S(1600, __c50, 0), __S(1601, __c50, 1)]);
+    case 3:
+      return S.Array(__S(1602, __c50, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           groupUniqueId: S.String,
           orderId: S.Number,
           description: S.String,
-          preActions: S.optional(__S(785, __c49, 1)),
-          postActions: S.optional(__S(785, __c49, 1)),
+          preActions: S.optional(__S(1603, __c50, 3)),
+          postActions: S.optional(__S(1603, __c50, 3)),
         }),
       ).annotate({ identifier: "RecoveryGroupProperties" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(786, __c49, 2)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(1604, __c50, 4)),
         }),
       ).annotate({ identifier: "RecoveryGroup" });
-    case 4:
-      return S.Array(__S(787, __c49, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          defaultGroup: __S(787, __c49, 3),
-          additionalGroups: S.optional(__S(788, __c49, 4)),
-        }),
-      ).annotate({ identifier: "RecoveryGroupsSetting" });
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          lastExecutedAt: S.optional(S.String),
-          operationStatus: S.optional(S.String),
-          errorDetails: S.optional(__S(1537, __c96, 1)),
-          recoveryTimeActual: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RecoveryPlanFailoverOperationStatus" });
+      return S.Array(__S(1605, __c50, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
+          defaultGroup: __S(1605, __c50, 5),
+          additionalGroups: S.optional(__S(1606, __c50, 6)),
+        }),
+      ).annotate({ identifier: "RecoveryGroupsSetting" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
           lastExecutedAt: S.optional(S.String),
           operationStatus: S.optional(S.String),
-          errorDetails: S.optional(__S(1537, __c96, 1)),
+          errorDetails: S.optional(__S(3105, __c97, 1)),
+          recoveryTimeActual: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RecoveryPlanFailoverOperationStatus" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          lastExecutedAt: S.optional(S.String),
+          operationStatus: S.optional(S.String),
+          errorDetails: S.optional(__S(3105, __c97, 1)),
         }),
       ).annotate({ identifier: "RecoveryPlanOperationStatus" });
-    case 8:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
           planType: S.String,
           planState: S.optional(S.String),
           planDescription: S.String,
-          recoveryGroupsSetting: __S(789, __c49, 5),
-          latestFailoverStatus: S.optional(__S(790, __c49, 6)),
-          latestValidationStatus: S.optional(__S(791, __c49, 7)),
-          errorDetails: S.optional(__S(1537, __c96, 1)),
+          recoveryGroupsSetting: __S(1607, __c50, 7),
+          latestFailoverStatus: S.optional(__S(1608, __c50, 8)),
+          latestValidationStatus: S.optional(__S(1609, __c50, 9)),
+          errorDetails: S.optional(__S(3105, __c97, 1)),
         }),
       ).annotate({ identifier: "RecoveryPlanProperties" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6174,7 +6496,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetRecoveryResourceRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6183,28 +6505,96 @@ function __c51(j: number): any {
           protectionStatus: S.optional(S.String),
           resourceId: S.optional(S.String),
           activeLocation: S.optional(S.String),
-          activeLocations: S.optional(__S(1504, __c94, 0)),
-          activePhysicalZones: S.optional(__S(1504, __c94, 0)),
-          recoveryLocations: S.optional(__S(1504, __c94, 0)),
+          activeLocations: S.optional(__S(3040, __c95, 0)),
+          activePhysicalZones: S.optional(__S(3040, __c95, 0)),
+          recoveryLocations: S.optional(__S(3040, __c95, 0)),
           replicationRole: S.optional(S.String),
           primaryResource: S.optional(S.String),
-          replicaResources: S.optional(__S(1504, __c94, 0)),
+          replicaResources: S.optional(__S(3040, __c95, 0)),
           isAutoFailover: S.Boolean,
           failoverState: S.optional(S.String),
           testFailoverState: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceProtectionSolutionSettings" });
     case 1:
-      return S.Array(__S(816, __c51, 0));
+      return S.Array(__S(1664, __c52, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           protectionSolutionType: S.String,
+          targetZone: S.optional(S.String),
+          capacityReservationGroupId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ResourceBaseProtectionSolutionSetting" });
+      ).annotate({ identifier: "ResourceCrossZoneVmRecoveryProtectionSetting" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.String,
+        }),
+      ).annotate({ identifier: "ResourceCustomProtectionAction" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          protectionSolutionType: S.String,
+          failoverAction: S.optional(__S(1667, __c52, 3)),
+          failoverCommitAction: S.optional(__S(1667, __c52, 3)),
+          testFailoverAction: S.optional(__S(1667, __c52, 3)),
+          testFailoverCleanupAction: S.optional(__S(1667, __c52, 3)),
+          reprotectAction: S.optional(__S(1667, __c52, 3)),
+        }),
+      ).annotate({ identifier: "ResourceCustomProtectionSetting" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          protectionSolutionType: S.String,
+        }),
+      ).annotate({ identifier: "ResourceNativeProtectionSolutionSetting" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          networkResourceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceSiteRecoveryTestFailoverParams" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          comments: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceSiteRecoveryTestFailoverCleanupParams" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          diskResourceId: S.optional(S.String),
+          stagingStorageAccountResourceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DiskReprotectInputDetails" });
+    case 9:
+      return S.Array(__S(1672, __c52, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          diskReprotectInputDetails: S.optional(__S(1673, __c52, 9)),
+        }),
+      ).annotate({ identifier: "ResourceSiteRecoveryReprotectParams" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          protectionSolutionType: S.String,
+          testFailoverParams: S.optional(__S(1670, __c52, 6)),
+          testFailoverCleanupParams: S.optional(__S(1671, __c52, 7)),
+          reprotectParams: S.optional(__S(1674, __c52, 10)),
+        }),
+      ).annotate({ identifier: "ResourceSiteRecoveryProtectionSetting" });
+    case 12:
+      return S.Union([
+        __S(1666, __c52, 2),
+        __S(1668, __c52, 4),
+        __S(1669, __c52, 5),
+        __S(1675, __c52, 11),
+      ]);
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6213,17 +6603,17 @@ function __c52(j: number): any {
           provisioningState: S.optional(S.String),
           resourceId: S.optional(S.String),
           resourceLocation: S.optional(S.String),
-          resourcePhysicalZones: S.optional(__S(1504, __c94, 0)),
+          resourcePhysicalZones: S.optional(__S(3040, __c95, 0)),
           inclusionState: S.optional(S.String),
           needsAttention: S.optional(S.Boolean),
-          attentionReasons: S.optional(__S(1504, __c94, 0)),
+          attentionReasons: S.optional(__S(3040, __c95, 0)),
           protectionStatus: S.optional(S.String),
-          resourceProtectionSolutions: S.optional(__S(817, __c51, 1)),
+          resourceProtectionSolutions: S.optional(__S(1665, __c52, 1)),
           selectedProtectionSolutionType: S.optional(S.String),
-          selectedProtectionSolutionSetting: S.optional(__S(818, __c51, 2)),
+          selectedProtectionSolutionSetting: S.optional(__S(1676, __c52, 12)),
           recoveryGroupId: S.optional(S.String),
-          associatedIdentity: S.optional(__S(1600, __c100, 0)),
-          errorDetails: S.optional(__S(1537, __c96, 1)),
+          associatedIdentity: S.optional(__S(3200, __c100, 0)),
+          errorDetails: S.optional(__S(3105, __c97, 1)),
         }),
       ).annotate({ identifier: "RecoveryResourceProperties" });
     case 1:
@@ -6232,13 +6622,13 @@ function __c52(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(832, __c52, 0)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(1696, __c53, 0)),
         }),
       ).annotate({ identifier: "GetRecoveryResourceResponse" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6256,7 +6646,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetUnifiedResilienceItemRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6268,7 +6658,7 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           assignmentId: S.String,
-          zonalResiliency: S.optional(__S(864, __c54, 0)),
+          zonalResiliency: S.optional(__S(1760, __c55, 0)),
         }),
       ).annotate({ identifier: "GoalsData" });
     case 2:
@@ -6284,7 +6674,7 @@ function __c54(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          zonalResiliency: __S(866, __c54, 2),
+          zonalResiliency: __S(1762, __c55, 2),
         }),
       ).annotate({ identifier: "UnifiedResilienceItemResiliencyPosture" });
     case 4:
@@ -6294,16 +6684,16 @@ function __c54(j: number): any {
           usagePlanEnrollmentArmId: S.optional(S.String),
           usagePlanEnrollmentCreatedOn: S.optional(S.String),
           usagePlanEnrollmentLastUpdatedOn: S.optional(S.String),
-          errorDetails: S.optional(__S(1537, __c96, 1)),
+          errorDetails: S.optional(__S(3105, __c97, 1)),
         }),
       ).annotate({ identifier: "UnifiedResilienceItemBillingInfo" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          goals: __S(865, __c54, 1),
-          resiliencyPosture: __S(867, __c54, 3),
-          billingInfo: S.optional(__S(868, __c54, 4)),
+          goals: __S(1761, __c55, 1),
+          resiliencyPosture: __S(1763, __c55, 3),
+          billingInfo: S.optional(__S(1764, __c55, 4)),
           lastModifiedTime: S.String,
         }),
       ).annotate({ identifier: "UnifiedResilienceItemProperties" });
@@ -6313,13 +6703,13 @@ function __c54(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(869, __c54, 5)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(1765, __c55, 5)),
         }),
       ).annotate({ identifier: "GetUnifiedResilienceItemResponse" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6338,7 +6728,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GetUsagePlanRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6346,26 +6736,12 @@ function __c56(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          tags: S.optional(__S(912, __c57, 0)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          tags: S.optional(__S(1536, __c48, 0)),
           location: S.String,
-          properties: S.optional(__S(913, __c57, 1)),
+          properties: S.optional(__S(1856, __c58, 0)),
         }),
       ).annotate({ identifier: "GetUsagePlanResponse" });
-  }
-}
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          planType: S.optional(S.String),
-          provisioningState: S.optional(S.String),
-          errorDetails: S.optional(__S(1537, __c96, 1)),
-        }),
-      ).annotate({ identifier: "UsagePlanProperties" });
   }
 }
 function __c58(j: number): any {
@@ -6373,9 +6749,21 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          planType: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          errorDetails: S.optional(__S(3105, __c97, 1)),
+        }),
+      ).annotate({ identifier: "UsagePlanProperties" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           requireZonalResiliency: S.Boolean,
-          serviceLevelResources: S.optional(__S(577, __c36, 1)),
-          errorDetails: S.optional(__S(1552, __c97, 0)),
+          serviceLevelResources: S.optional(__S(1153, __c36, 1)),
+          errorDetails: S.optional(__S(3136, __c98, 0)),
         }),
       ).annotate({ identifier: "GoalAssignmentPropertiesInput" });
     case 1:
@@ -6383,7 +6771,7 @@ function __c58(j: number): any {
         S.Struct({
           serviceGroupName: S.String.pipe(T.Label()),
           goalAssignmentName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(928, __c58, 0)),
+          properties: S.optional(__S(1888, __c59, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6395,7 +6783,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GoalAssignmentsCreateOrUpdateRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6403,8 +6791,8 @@ function __c59(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(578, __c36, 2)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(1154, __c36, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -6412,14 +6800,14 @@ function __c59(j: number): any {
       ).annotate({ identifier: "GoalAssignmentsCreateOrUpdateResponse" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceGroupName: S.String.pipe(T.Label()),
           goalAssignmentName: S.String.pipe(T.Label()),
-          resourceIds: __S(1504, __c94, 0),
+          resourceIds: __S(3040, __c95, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6439,19 +6827,19 @@ function __c60(j: number): any {
           capacityAssessment: S.optional(S.String),
           error: S.optional(S.String),
           category: S.optional(S.String),
-          suggestedRegions: S.optional(__S(1504, __c94, 0)),
-          suggestedSkus: S.optional(__S(1504, __c94, 0)),
-          steps: S.optional(__S(1504, __c94, 0)),
-          links: S.optional(__S(1504, __c94, 0)),
+          suggestedRegions: S.optional(__S(3040, __c95, 0)),
+          suggestedSkus: S.optional(__S(3040, __c95, 0)),
+          steps: S.optional(__S(3040, __c95, 0)),
+          links: S.optional(__S(3040, __c95, 0)),
         }),
       ).annotate({ identifier: "RecommendCapacityResourceResult" });
     case 2:
-      return S.Array(__S(961, __c60, 1));
+      return S.Array(__S(1953, __c61, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          resourceCapacities: __S(962, __c60, 2),
-          recommendations: __S(1504, __c94, 0),
+          resourceCapacities: __S(1954, __c61, 2),
+          recommendations: __S(3040, __c95, 0),
           agentError: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
@@ -6460,7 +6848,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "RecommendCapacityResult" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6479,17 +6867,17 @@ function __c61(j: number): any {
         ),
       ).annotate({ identifier: "ListDrillResourcesRequest" });
     case 1:
-      return S.Array(__S(418, __c26, 2));
+      return S.Array(__S(836, __c26, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(977, __c61, 1),
+          value: __S(1985, __c62, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DrillResourceListResult" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6507,17 +6895,17 @@ function __c62(j: number): any {
         ),
       ).annotate({ identifier: "ListDrillRunResourcesRequest" });
     case 1:
-      return S.Array(__S(513, __c32, 1));
+      return S.Array(__S(1025, __c32, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(993, __c62, 1),
+          value: __S(2017, __c63, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DrillRunResourceListResult" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6534,17 +6922,17 @@ function __c63(j: number): any {
         ),
       ).annotate({ identifier: "ListDrillRunsRequest" });
     case 1:
-      return S.Array(__S(482, __c30, 2));
+      return S.Array(__S(962, __c30, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1009, __c63, 1),
+          value: __S(2049, __c64, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DrillRunListResult" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6562,17 +6950,17 @@ function __c64(j: number): any {
         ),
       ).annotate({ identifier: "ListDrillsRequest" });
     case 1:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(768, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1025, __c64, 1),
+          value: __S(2081, __c65, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DrillListResult" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6590,7 +6978,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "CommitRecoveryPlanActionsFailoverRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6608,17 +6996,17 @@ function __c66(j: number): any {
         ),
       ).annotate({ identifier: "ListEnrollmentsRequest" });
     case 1:
-      return S.Array(__S(544, __c34, 0));
+      return S.Array(__S(1088, __c34, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1057, __c66, 1),
+          value: __S(2145, __c67, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnrollmentListResult" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6636,17 +7024,17 @@ function __c67(j: number): any {
         ),
       ).annotate({ identifier: "ListGoalAssignmentsRequest" });
     case 1:
-      return S.Array(__S(592, __c37, 0));
+      return S.Array(__S(1184, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1073, __c67, 1),
+          value: __S(2177, __c68, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoalAssignmentListResult" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6667,19 +7055,19 @@ function __c68(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1104, __c69, 0),
+          value: __S(2240, __c70, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoalResourceListResult" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(628, __c39, 4));
+      return S.Array(__S(1252, __c39, 4));
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6706,23 +7094,23 @@ function __c70(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(1121, __c70, 1)),
+          display: S.optional(__S(2273, __c71, 1)),
           origin: S.optional(S.String),
           actionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(1122, __c70, 2));
+      return S.Array(__S(2274, __c71, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1123, __c70, 3)),
+          value: S.optional(__S(2275, __c71, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6740,17 +7128,17 @@ function __c71(j: number): any {
         ),
       ).annotate({ identifier: "ListRecoveryJobResourcesRequest" });
     case 1:
-      return S.Array(__S(706, __c44, 2));
+      return S.Array(__S(1410, __c44, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1137, __c71, 1),
+          value: __S(2305, __c72, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecoveryJobResourceListResult" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6767,17 +7155,17 @@ function __c72(j: number): any {
         ),
       ).annotate({ identifier: "ListRecoveryJobsRequest" });
     case 1:
-      return S.Array(__S(673, __c42, 1));
+      return S.Array(__S(1345, __c42, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1153, __c72, 1),
+          value: __S(2337, __c73, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecoveryJobListResult" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6795,17 +7183,17 @@ function __c73(j: number): any {
         ),
       ).annotate({ identifier: "ListRecoveryPlansRequest" });
     case 1:
-      return S.Array(__S(768, __c48, 0));
+      return S.Array(__S(1568, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1169, __c73, 1),
+          value: __S(2369, __c74, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecoveryPlanListResult" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6824,19 +7212,19 @@ function __c74(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1200, __c75, 0),
+          value: __S(2432, __c76, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecoveryResourceListResult" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(833, __c52, 1));
+      return S.Array(__S(1697, __c53, 1));
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6854,17 +7242,17 @@ function __c76(j: number): any {
         ),
       ).annotate({ identifier: "ListUnifiedResilienceItemsRequest" });
     case 1:
-      return S.Array(__S(870, __c54, 6));
+      return S.Array(__S(1766, __c55, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1217, __c76, 1),
+          value: __S(2465, __c77, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "UnifiedResilienceItemListResult" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6882,20 +7270,20 @@ function __c77(j: number): any {
       ).annotate({ identifier: "ListUsagePlanByResourceGroupRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(896, __c56, 0));
+      return S.Array(__S(1824, __c57, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1248, __c78, 0),
+          value: __S(2528, __c79, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "UsagePlanListResult" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6916,7 +7304,7 @@ function __c79(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          supportedVerbsForStage: S.optional(__S(1281, __c80, 1)),
+          supportedVerbsForStage: S.optional(__S(2593, __c81, 1)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -6924,26 +7312,26 @@ function __c79(j: number): any {
       ).annotate({ identifier: "MarkAsCompleteResponse" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           drillRunStage: S.String,
-          supportedVerbs: __S(1296, __c81, 0),
+          supportedVerbs: __S(2624, __c82, 0),
         }),
       ).annotate({ identifier: "SupportedVerbsForStage" });
     case 1:
-      return S.Array(__S(1280, __c80, 0));
+      return S.Array(__S(2592, __c81, 0));
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6960,7 +7348,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "ListUsagePlanBySubscriptionRequest" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6968,7 +7356,7 @@ function __c83(j: number): any {
           serviceGroupName: S.String.pipe(T.Label()),
           recoveryPlanName: S.String.pipe(T.Label()),
           failoverDirection: S.String,
-          failoverRequestProperties: S.optional(__S(144, __c9, 0)),
+          failoverRequestProperties: S.optional(__S(288, __c9, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6980,14 +7368,14 @@ function __c83(j: number): any {
       ).annotate({ identifier: "RecoveryPlanActionsFailoverRequest" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceGroupName: S.String.pipe(T.Label()),
           recoveryPlanName: S.String.pipe(T.Label()),
-          reprotectRequestProperties: S.optional(__S(192, __c12, 0)),
+          reprotectRequestProperties: S.optional(__S(384, __c12, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6999,13 +7387,13 @@ function __c84(j: number): any {
       ).annotate({ identifier: "RecoveryPlanActionsReprotectRequest" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          defaultGroup: __S(1376, __c86, 0),
-          additionalGroups: S.optional(__S(1377, __c86, 1)),
+          defaultGroup: __S(2784, __c87, 0),
+          additionalGroups: S.optional(__S(2785, __c87, 1)),
         }),
       ).annotate({ identifier: "RecoveryGroupsSettingInput" });
     case 1:
@@ -7013,8 +7401,8 @@ function __c85(j: number): any {
         S.Struct({
           planType: S.String,
           planDescription: S.String,
-          recoveryGroupsSetting: __S(1360, __c85, 0),
-          errorDetails: S.optional(__S(1552, __c97, 0)),
+          recoveryGroupsSetting: __S(2752, __c86, 0),
+          errorDetails: S.optional(__S(3136, __c98, 0)),
         }),
       ).annotate({ identifier: "RecoveryPlanPropertiesInput" });
     case 2:
@@ -7022,8 +7410,8 @@ function __c85(j: number): any {
         S.Struct({
           serviceGroupName: S.String.pipe(T.Label()),
           recoveryPlanName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1361, __c85, 1)),
-          identity: S.optional(__S(1633, __c102, 1)),
+          properties: S.optional(__S(2753, __c86, 1)),
+          identity: S.optional(__S(3297, __c103, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7039,28 +7427,28 @@ function __c85(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(792, __c49, 8)),
-          identity: S.optional(__S(1586, __c99, 2)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(1610, __c50, 10)),
+          identity: S.optional(__S(3234, __c101, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "RecoveryPlansCreateOrUpdateResponse" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(786, __c49, 2)),
+          properties: S.optional(__S(1604, __c50, 4)),
         }),
       ).annotate({ identifier: "RecoveryGroupInput" });
     case 1:
-      return S.Array(__S(1376, __c86, 0));
+      return S.Array(__S(2784, __c87, 0));
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7088,7 +7476,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "RefreshGoalResourcesResponse" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7107,7 +7495,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "ResumeDrillRunRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7127,7 +7515,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "ResumeRecoveryJobRequest" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7146,7 +7534,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "RetryRecoveryJobRequest" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7165,7 +7553,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "StartDrillRequest" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7173,7 +7561,7 @@ function __c92(j: number): any {
           serviceGroupName: S.String.pipe(T.Label()),
           recoveryPlanName: S.String.pipe(T.Label()),
           failoverDirection: S.String,
-          failoverRequestProperties: S.optional(__S(144, __c9, 0)),
+          failoverRequestProperties: S.optional(__S(288, __c9, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7185,49 +7573,51 @@ function __c92(j: number): any {
       ).annotate({ identifier: "TestRecoveryPlanActionFailoverRequest" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          identity: __S(1600, __c100, 0),
+          identity: __S(3200, __c100, 0),
         }),
       ).annotate({ identifier: "RecoveryPlanPropertiesOfDrillInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          identity: __S(1600, __c100, 0),
-          chaosResourceIdentityForFaults: __S(1600, __c100, 0),
+          identity: __S(3200, __c100, 0),
+          chaosResourceIdentityForFaults: __S(3200, __c100, 0),
         }),
       ).annotate({ identifier: "ChaosResourcePropertiesOfDrillInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          identity: S.optional(__S(1600, __c100, 0)),
+          identity: S.optional(__S(3200, __c100, 0)),
         }),
       ).annotate({ identifier: "MonitoringPropertiesOfDrillInput" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          recoveryPlanProperties: S.optional(__S(1488, __c93, 0)),
-          goalAssignmentProperties: S.optional(__S(1488, __c93, 0)),
-          drillAssetProperties: S.optional(__S(1616, __c101, 0)),
-          chaosResourceProperties: S.optional(__S(1489, __c93, 1)),
+          recoveryPlanProperties: S.optional(__S(3008, __c94, 0)),
+          goalAssignmentProperties: S.optional(__S(3008, __c94, 0)),
+          drillAssetProperties: S.optional(__S(3264, __c102, 0)),
+          chaosResourceProperties: S.optional(__S(3009, __c94, 1)),
           rbacSetupMode: S.optional(S.String),
           drillType: S.String,
-          monitoringProperties: S.optional(__S(1490, __c93, 2)),
-          healthModelMonitoringProperties: S.optional(__S(1617, __c101, 1)),
-          sliMonitoringProperties: S.optional(__S(1620, __c101, 4)),
-          errorDetails: S.optional(__S(1552, __c97, 0)),
+          monitoringProperties: S.optional(__S(3010, __c94, 2)),
+          healthModelMonitoringProperties: S.optional(__S(3265, __c102, 1)),
+          sliMonitoringProperties: S.optional(__S(3268, __c102, 4)),
+          errorDetails: S.optional(__S(3136, __c98, 0)),
         }),
-      ).annotate({ identifier: "DrillPropertiesInput" });
+      ).annotate({ identifier: "RegionalDrillPropertiesInput" });
     case 4:
+      return S.Union([__S(3011, __c94, 3), __S(3011, __c94, 3)]);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           serviceGroupName: S.String.pipe(T.Label()),
           drillName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1491, __c93, 3)),
-          identity: S.optional(__S(1633, __c102, 1)),
+          properties: S.optional(__S(3012, __c94, 4)),
+          identity: S.optional(__S(3297, __c103, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7237,28 +7627,28 @@ function __c93(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateDrillRequest" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(1631, __c101, 15)),
-          identity: S.optional(__S(1586, __c99, 2)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(3281, __c102, 17)),
+          identity: S.optional(__S(3234, __c101, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "CreateDrillResponse" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7273,40 +7663,28 @@ function __c95(j: number): any {
       ).annotate({ identifier: "SystemData" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(67, __c4, 3));
+      return S.Array(__S(131, __c4, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
           target: S.optional(S.String),
-          details: S.optional(__S(1536, __c96, 0)),
-          additionalInfo: S.optional(__S(66, __c4, 2)),
+          details: S.optional(__S(3104, __c97, 0)),
+          additionalInfo: S.optional(__S(130, __c4, 2)),
         }),
-      ).annotate({ identifier: "DrillPropertiesErrorDetails" });
-  }
-}
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "DrillPropertiesInputErrorDetails",
-      });
+      ).annotate({ identifier: "RegionalDrillPropertiesErrorDetails" });
   }
 }
 function __c98(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.String,
-          message: S.String,
-          recommendations: S.optional(__S(1504, __c94, 0)),
-        }),
-      ).annotate({ identifier: "ErrorDetails" });
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "RegionalDrillPropertiesInputErrorDetails",
+      });
   }
 }
 function __c99(j: number): any {
@@ -7314,21 +7692,11 @@ function __c99(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          principalId: S.optional(S.String),
-          clientId: S.optional(S.String),
+          code: S.String,
+          message: S.String,
+          recommendations: S.optional(__S(3040, __c95, 0)),
         }),
-      ).annotate({ identifier: "UserAssignedIdentity" });
-    case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(1584, __c99, 0)));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          principalId: S.optional(S.String),
-          tenantId: S.optional(S.String),
-          type: S.String,
-          userAssignedIdentities: S.optional(__S(1585, __c99, 1)),
-        }),
-      ).annotate({ identifier: "CreateDrillResponseIdentity" });
+      ).annotate({ identifier: "ErrorDetails" });
   }
 }
 function __c100(j: number): any {
@@ -7347,6 +7715,28 @@ function __c101(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          principalId: S.optional(S.String),
+          clientId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserAssignedIdentity" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(3232, __c101, 0)));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          principalId: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          type: S.String,
+          userAssignedIdentities: S.optional(__S(3233, __c101, 1)),
+        }),
+      ).annotate({ identifier: "CreateDrillResponseIdentity" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           subscription: S.String,
           region: S.String,
           resourceGroup: S.optional(S.String),
@@ -7355,7 +7745,7 @@ function __c101(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          identity: __S(1600, __c100, 0),
+          identity: __S(3200, __c100, 0),
           healthModelId: S.String,
         }),
       ).annotate({ identifier: "HealthModelMonitoringProperties" });
@@ -7367,18 +7757,18 @@ function __c101(j: number): any {
         }),
       ).annotate({ identifier: "SliSelection" });
     case 3:
-      return S.Array(__S(1618, __c101, 2));
+      return S.Array(__S(3266, __c102, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          identity: __S(1600, __c100, 0),
-          slis: __S(1619, __c101, 3),
+          identity: __S(3200, __c100, 0),
+          slis: __S(3267, __c102, 3),
         }),
       ).annotate({ identifier: "SliMonitoringProperties" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          identity: __S(1600, __c100, 0),
+          identity: __S(3200, __c100, 0),
           recoveryPlanId: S.optional(S.String),
           recoveryPlanResourceExcludedCount: S.optional(S.Number),
         }),
@@ -7386,21 +7776,21 @@ function __c101(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          identity: __S(1600, __c100, 0),
+          identity: __S(3200, __c100, 0),
           goalAssignmentId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoalAssignmentPropertiesOfDrill" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          identity: __S(1600, __c100, 0),
-          chaosResourceIdentityForFaults: __S(1600, __c100, 0),
+          identity: __S(3200, __c100, 0),
+          chaosResourceIdentityForFaults: __S(3200, __c100, 0),
           chaosResourceId: S.optional(S.String),
           faultDurationInMin: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ChaosResourcePropertiesOfDrill" });
     case 8:
-      return S.Array(__S(1568, __c98, 0));
+      return S.Array(__S(3168, __c99, 0));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -7409,44 +7799,44 @@ function __c101(j: number): any {
           exists: S.optional(S.String),
           typeMatch: S.optional(S.String),
           drillRbacOnDestinationAmw: S.optional(S.String),
-          rbacNeededOnDestinationAmws: S.optional(__S(1504, __c94, 0)),
+          rbacNeededOnDestinationAmws: S.optional(__S(3040, __c95, 0)),
         }),
       ).annotate({ identifier: "SliAttentionStatus" });
     case 10:
-      return S.Array(__S(1625, __c101, 9));
+      return S.Array(__S(3273, __c102, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           drillRbacOnChaosResource: S.optional(S.String),
-          rbacNeededForDrillOnChaosResource: S.optional(__S(1504, __c94, 0)),
+          rbacNeededForDrillOnChaosResource: S.optional(__S(3040, __c95, 0)),
           drillRbacOnRecoveryPlan: S.optional(S.String),
-          rbacNeededForDrillOnRecoveryPlan: S.optional(__S(1504, __c94, 0)),
+          rbacNeededForDrillOnRecoveryPlan: S.optional(__S(3040, __c95, 0)),
           roReadiness: S.optional(S.String),
           rbacOnTargetResources: S.optional(S.String),
           runbookFaultRbacOnTargets: S.optional(S.String),
           chaosResource: S.optional(S.String),
-          chaosResourceCreationFailureReasons: S.optional(__S(1504, __c94, 0)),
+          chaosResourceCreationFailureReasons: S.optional(__S(3040, __c95, 0)),
           recoveryPlanAndDrillResourcesState: S.optional(S.String),
           serviceGroupAndDrillResourcesState: S.optional(S.String),
           drillUserMsi: S.optional(S.String),
           chaosResourceUserMsi: S.optional(S.String),
           includedResourceInDrill: S.optional(S.String),
           drillRbacOnMonitoringResources: S.optional(S.String),
-          drillMonitoringErrors: S.optional(__S(1624, __c101, 8)),
+          drillMonitoringErrors: S.optional(__S(3272, __c102, 8)),
           drillMonitoringResources: S.optional(S.String),
           monitoringRbacOnDrillResources: S.optional(S.String),
-          rbacNeededForDrillOnDrillMonitoringResources: S.optional(__S(1504, __c94, 0)),
-          rbacNeededForDrillOnDrillResources: S.optional(__S(1504, __c94, 0)),
-          missingRequiredResourceProviders: S.optional(__S(1504, __c94, 0)),
+          rbacNeededForDrillOnDrillMonitoringResources: S.optional(__S(3040, __c95, 0)),
+          rbacNeededForDrillOnDrillResources: S.optional(__S(3040, __c95, 0)),
+          missingRequiredResourceProviders: S.optional(__S(3040, __c95, 0)),
           monitoringSourceNotConfigured: S.optional(S.Boolean),
           healthModelExists: S.optional(S.String),
           discoveryRuleExists: S.optional(S.String),
           drillRbacOnHealthModel: S.optional(S.String),
-          rbacNeededForDrillOnHealthModel: S.optional(__S(1504, __c94, 0)),
+          rbacNeededForDrillOnHealthModel: S.optional(__S(3040, __c95, 0)),
           drillRbacOnSli: S.optional(S.String),
-          sliAttentionStatuses: S.optional(__S(1626, __c101, 10)),
+          sliAttentionStatuses: S.optional(__S(3274, __c102, 10)),
           drillRbacOnGoalAssignment: S.optional(S.String),
-          rbacNeededForDrillOnGoalAssignment: S.optional(__S(1504, __c94, 0)),
+          rbacNeededForDrillOnGoalAssignment: S.optional(__S(3040, __c95, 0)),
           goalAssignment: S.optional(S.String),
           recoveryPlan: S.optional(S.String),
           healthModelAssociatedWithServiceGroup: S.optional(S.String),
@@ -7456,7 +7846,7 @@ function __c101(j: number): any {
       return S.suspend(() =>
         S.Struct({
           initialConfig: S.String,
-          resourceTypeCategories: S.optional(__S(1296, __c81, 0)),
+          resourceTypeCategories: S.optional(__S(2624, __c82, 0)),
         }),
       ).annotate({ identifier: "SystemMetadata" });
     case 13:
@@ -7471,7 +7861,7 @@ function __c101(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          identity: S.optional(__S(1600, __c100, 0)),
+          identity: S.optional(__S(3200, __c100, 0)),
           logAnalyticsWorkspaceId: S.optional(S.String),
           rawMetricsDataCollectionRuleId: S.optional(S.String),
           serviceGroupMetricsDataCollectionRuleId: S.optional(S.String),
@@ -7483,41 +7873,68 @@ function __c101(j: number): any {
         S.Struct({
           provisioningState: S.optional(S.String),
           serviceGroupId: S.optional(S.String),
-          recoveryPlanProperties: S.optional(__S(1621, __c101, 5)),
-          goalAssignmentProperties: S.optional(__S(1622, __c101, 6)),
-          drillAssetProperties: S.optional(__S(1616, __c101, 0)),
-          chaosResourceProperties: S.optional(__S(1623, __c101, 7)),
+          recoveryPlanProperties: S.optional(__S(3269, __c102, 5)),
+          goalAssignmentProperties: S.optional(__S(3270, __c102, 6)),
+          drillAssetProperties: S.optional(__S(3264, __c102, 0)),
+          chaosResourceProperties: S.optional(__S(3271, __c102, 7)),
           executionState: S.optional(S.String),
           executionReadinessState: S.optional(S.String),
           rbacSetupMode: S.optional(S.String),
-          attentionReason: S.optional(__S(1627, __c101, 11)),
-          systemMetadata: S.optional(__S(1628, __c101, 12)),
-          lastRunProperties: S.optional(__S(1629, __c101, 13)),
+          attentionReason: S.optional(__S(3275, __c102, 11)),
+          systemMetadata: S.optional(__S(3276, __c102, 12)),
+          lastRunProperties: S.optional(__S(3277, __c102, 13)),
           lastSyncTime: S.optional(S.String),
           lastResyncReadinessCheckTime: S.optional(S.String),
           drillType: S.String,
-          monitoringProperties: S.optional(__S(1630, __c101, 14)),
-          healthModelMonitoringProperties: S.optional(__S(1617, __c101, 1)),
-          sliMonitoringProperties: S.optional(__S(1620, __c101, 4)),
-          errorDetails: S.optional(__S(1537, __c96, 1)),
+          monitoringProperties: S.optional(__S(3278, __c102, 14)),
+          healthModelMonitoringProperties: S.optional(__S(3265, __c102, 1)),
+          sliMonitoringProperties: S.optional(__S(3268, __c102, 4)),
+          errorDetails: S.optional(__S(3105, __c97, 1)),
         }),
-      ).annotate({ identifier: "DrillProperties" });
+      ).annotate({ identifier: "RegionalDrillProperties" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          serviceGroupId: S.optional(S.String),
+          recoveryPlanProperties: S.optional(__S(3269, __c102, 5)),
+          goalAssignmentProperties: S.optional(__S(3270, __c102, 6)),
+          drillAssetProperties: S.optional(__S(3264, __c102, 0)),
+          chaosResourceProperties: S.optional(__S(3271, __c102, 7)),
+          executionState: S.optional(S.String),
+          executionReadinessState: S.optional(S.String),
+          rbacSetupMode: S.optional(S.String),
+          attentionReason: S.optional(__S(3275, __c102, 11)),
+          systemMetadata: S.optional(__S(3276, __c102, 12)),
+          lastRunProperties: S.optional(__S(3277, __c102, 13)),
+          lastSyncTime: S.optional(S.String),
+          lastResyncReadinessCheckTime: S.optional(S.String),
+          drillType: S.String,
+          monitoringProperties: S.optional(__S(3278, __c102, 14)),
+          healthModelMonitoringProperties: S.optional(__S(3265, __c102, 1)),
+          sliMonitoringProperties: S.optional(__S(3268, __c102, 4)),
+          errorDetails: S.optional(__S(3105, __c97, 1)),
+          vmsPresent: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ZonalDrillProperties" });
+    case 17:
+      return S.Union([__S(3279, __c102, 15), __S(3280, __c102, 16)]);
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(1552, __c97, 0)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(3136, __c98, 0)));
     case 1:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          userAssignedIdentities: S.optional(__S(1632, __c102, 0)),
+          userAssignedIdentities: S.optional(__S(3296, __c103, 0)),
         }),
       ).annotate({ identifier: "CreateDrillRequestIdentity" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7536,7 +7953,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "TestRecoveryPlanActionFailoverCleanupRequest" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7548,7 +7965,7 @@ function __c104(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          identity: S.optional(__S(1664, __c104, 0)),
+          identity: S.optional(__S(3360, __c105, 0)),
         }),
       ).annotate({ identifier: "RecoveryPlanPropertiesOfDrillUpdate" });
     case 2:
@@ -7561,35 +7978,35 @@ function __c104(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          identity: S.optional(__S(1664, __c104, 0)),
-          chaosResourceIdentityForFaults: S.optional(__S(1664, __c104, 0)),
+          identity: S.optional(__S(3360, __c105, 0)),
+          chaosResourceIdentityForFaults: S.optional(__S(3360, __c105, 0)),
         }),
       ).annotate({ identifier: "ChaosResourcePropertiesOfDrillUpdate" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          identity: S.optional(__S(1664, __c104, 0)),
+          identity: S.optional(__S(3360, __c105, 0)),
           healthModelId: S.optional(S.String),
         }),
       ).annotate({ identifier: "HealthModelMonitoringPropertiesUpdate" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          identity: S.optional(__S(1664, __c104, 0)),
-          slis: S.optional(__S(1619, __c101, 3)),
+          identity: S.optional(__S(3360, __c105, 0)),
+          slis: S.optional(__S(3267, __c102, 3)),
         }),
       ).annotate({ identifier: "SliMonitoringPropertiesUpdate" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          recoveryPlanProperties: S.optional(__S(1665, __c104, 1)),
-          goalAssignmentProperties: S.optional(__S(1665, __c104, 1)),
-          drillAssetProperties: S.optional(__S(1666, __c104, 2)),
-          chaosResourceProperties: S.optional(__S(1667, __c104, 3)),
+          recoveryPlanProperties: S.optional(__S(3361, __c105, 1)),
+          goalAssignmentProperties: S.optional(__S(3361, __c105, 1)),
+          drillAssetProperties: S.optional(__S(3362, __c105, 2)),
+          chaosResourceProperties: S.optional(__S(3363, __c105, 3)),
           rbacSetupMode: S.optional(S.String),
-          monitoringProperties: S.optional(__S(1665, __c104, 1)),
-          healthModelMonitoringProperties: S.optional(S.NullOr(__S(1668, __c104, 4))),
-          sliMonitoringProperties: S.optional(S.NullOr(__S(1669, __c104, 5))),
+          monitoringProperties: S.optional(__S(3361, __c105, 1)),
+          healthModelMonitoringProperties: S.optional(S.NullOr(__S(3364, __c105, 4))),
+          sliMonitoringProperties: S.optional(S.NullOr(__S(3365, __c105, 5))),
         }),
       ).annotate({ identifier: "DrillUpdateProperties" });
     case 7:
@@ -7597,8 +8014,8 @@ function __c104(j: number): any {
         S.Struct({
           serviceGroupName: S.String.pipe(T.Label()),
           drillName: S.String.pipe(T.Label()),
-          identity: S.optional(__S(1681, __c105, 1)),
-          properties: S.optional(__S(1670, __c104, 6)),
+          identity: S.optional(__S(3393, __c106, 1)),
+          properties: S.optional(__S(3366, __c105, 6)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7614,9 +8031,9 @@ function __c104(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(1631, __c101, 15)),
-          identity: S.optional(__S(1586, __c99, 2)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(3281, __c102, 17)),
+          identity: S.optional(__S(3234, __c101, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -7624,28 +8041,28 @@ function __c104(j: number): any {
       ).annotate({ identifier: "UpdateDrillResponse" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(1552, __c97, 0));
+      return S.Record(S.String, __S(3136, __c98, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          userAssignedIdentities: S.optional(__S(1680, __c105, 0)),
+          userAssignedIdentities: S.optional(__S(3392, __c106, 0)),
         }),
       ).annotate({
         identifier: "AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput",
       });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           requireZonalResiliency: S.optional(S.Boolean),
-          serviceLevelResources: S.optional(__S(577, __c36, 1)),
+          serviceLevelResources: S.optional(__S(1153, __c36, 1)),
         }),
       ).annotate({ identifier: "GoalAssignmentPropertiesUpdate" });
     case 1:
@@ -7653,7 +8070,7 @@ function __c106(j: number): any {
         S.Struct({
           serviceGroupName: S.String.pipe(T.Label()),
           goalAssignmentName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1696, __c106, 0)),
+          properties: S.optional(__S(3424, __c107, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7665,29 +8082,29 @@ function __c106(j: number): any {
       ).annotate({ identifier: "UpdateGoalAssignmentRequest" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArmId: S.String,
-          zonalResiliency: S.optional(__S(626, __c39, 2)),
+          zonalResiliency: S.optional(__S(1250, __c39, 2)),
         }),
       ).annotate({ identifier: "GoalResourcePropertiesInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1712, __c107, 0)),
+          properties: S.optional(__S(3456, __c108, 0)),
         }),
       ).annotate({ identifier: "GoalResourceInput" });
     case 2:
-      return S.Array(__S(1713, __c107, 1));
+      return S.Array(__S(3457, __c108, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           serviceGroupName: S.String.pipe(T.Label()),
           goalAssignmentName: S.String.pipe(T.Label()),
-          resources: __S(1714, __c107, 2),
+          resources: __S(3458, __c108, 2),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7700,7 +8117,7 @@ function __c107(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          resources: __S(1104, __c69, 0),
+          resources: __S(2240, __c70, 0),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -7708,7 +8125,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "UpdateGoalResourceResponse" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7716,28 +8133,28 @@ function __c108(j: number): any {
           groupUniqueId: S.optional(S.String),
           orderId: S.optional(S.Number),
           description: S.optional(S.String),
-          preActions: S.optional(__S(785, __c49, 1)),
-          postActions: S.optional(__S(785, __c49, 1)),
+          preActions: S.optional(__S(1603, __c50, 3)),
+          postActions: S.optional(__S(1603, __c50, 3)),
         }),
       ).annotate({ identifier: "RecoveryGroupPropertiesUpdate" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1728, __c108, 0)),
+          properties: S.optional(__S(3488, __c109, 0)),
         }),
       ).annotate({ identifier: "RecoveryGroupUpdateInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          defaultGroup: S.optional(__S(1729, __c108, 1)),
-          additionalGroups: S.optional(__S(1377, __c86, 1)),
+          defaultGroup: S.optional(__S(3489, __c109, 1)),
+          additionalGroups: S.optional(__S(2785, __c87, 1)),
         }),
       ).annotate({ identifier: "RecoveryGroupsSettingUpdateInput" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           planDescription: S.optional(S.String),
-          recoveryGroupsSetting: S.optional(__S(1730, __c108, 2)),
+          recoveryGroupsSetting: S.optional(__S(3490, __c109, 2)),
         }),
       ).annotate({ identifier: "RecoveryPlanPropertiesUpdateInput" });
     case 4:
@@ -7745,8 +8162,8 @@ function __c108(j: number): any {
         S.Struct({
           serviceGroupName: S.String.pipe(T.Label()),
           recoveryPlanName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1731, __c108, 3)),
-          identity: S.optional(__S(1681, __c105, 1)),
+          properties: S.optional(__S(3491, __c109, 3)),
+          identity: S.optional(__S(3393, __c106, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7762,16 +8179,16 @@ function __c108(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          properties: S.optional(__S(792, __c49, 8)),
-          identity: S.optional(__S(1586, __c99, 2)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          properties: S.optional(__S(1610, __c50, 10)),
+          identity: S.optional(__S(3234, __c101, 2)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UpdateRecoveryPlanResponse" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7779,27 +8196,27 @@ function __c109(j: number): any {
           recoveryResourceUniqueId: S.String,
           inclusionState: S.optional(S.String),
           selectedProtectionSolutionType: S.optional(S.String),
-          selectedProtectionSolutionSetting: S.optional(__S(818, __c51, 2)),
+          selectedProtectionSolutionSetting: S.optional(__S(1676, __c52, 12)),
           recoveryGroupId: S.optional(S.String),
-          associatedIdentity: S.optional(__S(1600, __c100, 0)),
-          errorDetails: S.optional(__S(1552, __c97, 0)),
+          associatedIdentity: S.optional(__S(3200, __c100, 0)),
+          errorDetails: S.optional(__S(3136, __c98, 0)),
         }),
       ).annotate({ identifier: "RecoveryResourcePropertiesInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1744, __c109, 0)),
+          properties: S.optional(__S(3520, __c110, 0)),
         }),
       ).annotate({ identifier: "RecoveryResourceInput" });
     case 2:
-      return S.Array(__S(1745, __c109, 1));
+      return S.Array(__S(3521, __c110, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           serviceGroupName: S.String.pipe(T.Label()),
           recoveryPlanName: S.String.pipe(T.Label()),
-          resourcesToUpdate: S.optional(__S(1746, __c109, 2)),
-          resourcesToRemove: S.optional(__S(1504, __c94, 0)),
+          resourcesToUpdate: S.optional(__S(3522, __c110, 2)),
+          resourcesToRemove: S.optional(__S(3040, __c95, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7812,14 +8229,14 @@ function __c109(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          failedResources: S.optional(__S(1200, __c75, 0)),
+          failedResources: S.optional(__S(2432, __c76, 0)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UpdateRecoveryResourcesResponse" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7827,7 +8244,7 @@ function __c110(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           usagePlanName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(912, __c57, 0)),
+          tags: S.optional(__S(1536, __c48, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7843,23 +8260,23 @@ function __c110(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          tags: S.optional(__S(912, __c57, 0)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          tags: S.optional(__S(1536, __c48, 0)),
           location: S.String,
-          properties: S.optional(__S(913, __c57, 1)),
+          properties: S.optional(__S(1856, __c58, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UpdateUsagePlanResponse" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           planType: S.optional(S.String),
-          errorDetails: S.optional(__S(1552, __c97, 0)),
+          errorDetails: S.optional(__S(3136, __c98, 0)),
         }),
       ).annotate({ identifier: "UsagePlanPropertiesInput" });
     case 1:
@@ -7868,9 +8285,9 @@ function __c111(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           usagePlanName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(912, __c57, 0)),
+          tags: S.optional(__S(1536, __c48, 0)),
           location: S.String,
-          properties: S.optional(__S(1776, __c111, 0)),
+          properties: S.optional(__S(3584, __c112, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7886,23 +8303,23 @@ function __c111(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1520, __c95, 0)),
-          tags: S.optional(__S(912, __c57, 0)),
+          systemData: S.optional(__S(3072, __c96, 0)),
+          tags: S.optional(__S(1536, __c48, 0)),
           location: S.String,
-          properties: S.optional(__S(913, __c57, 1)),
+          properties: S.optional(__S(1856, __c58, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UsagePlansCreateOrUpdateResponse" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           operationName: S.optional(S.String),
-          sourceLocations: S.optional(__S(1504, __c94, 0)),
+          sourceLocations: S.optional(__S(3040, __c95, 0)),
         }),
       ).annotate({ identifier: "ValidateForExecutionProperties" });
     case 1:
@@ -7910,7 +8327,7 @@ function __c112(j: number): any {
         S.Struct({
           serviceGroupName: S.String.pipe(T.Label()),
           drillName: S.String.pipe(T.Label()),
-          validateForExecutionProperties: S.optional(__S(1792, __c112, 0)),
+          validateForExecutionProperties: S.optional(__S(3616, __c113, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7925,18 +8342,18 @@ function __c112(j: number): any {
         S.Struct({
           resourceId: S.String,
           drillResourceId: S.optional(S.String),
-          activeLocations: S.optional(__S(1504, __c94, 0)),
-          recoveryLocations: S.optional(__S(1504, __c94, 0)),
-          activePhysicalZones: S.optional(__S(1504, __c94, 0)),
-          recoveryPhysicalZones: S.optional(__S(1504, __c94, 0)),
+          activeLocations: S.optional(__S(3040, __c95, 0)),
+          recoveryLocations: S.optional(__S(3040, __c95, 0)),
+          activePhysicalZones: S.optional(__S(3040, __c95, 0)),
+          recoveryPhysicalZones: S.optional(__S(3040, __c95, 0)),
           drillInclusionState: S.optional(S.String),
           recoveryInclusionState: S.optional(S.String),
           protectionStatus: S.optional(S.String),
           selectedProtectionSolutionType: S.optional(S.String),
-          resourceProtectionSolutions: S.optional(__S(817, __c51, 1)),
-          selectedProtectionSolutionSetting: S.optional(__S(818, __c51, 2)),
+          resourceProtectionSolutions: S.optional(__S(1665, __c52, 1)),
+          selectedProtectionSolutionSetting: S.optional(__S(1676, __c52, 12)),
           faultState: S.optional(S.String),
-          faultProperties: S.optional(__S(433, __c27, 1)),
+          faultProperties: S.optional(__S(865, __c27, 1)),
           resourceProtectionSolutionDisplayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DrillsQualifiedResource" });
@@ -7945,23 +8362,23 @@ function __c112(j: number): any {
         S.Struct({
           drillQualificationState: S.String,
           recoveryQualificationState: S.String,
-          recoveryNotQualifiedReasons: S.optional(__S(1504, __c94, 0)),
-          drillsNotQualifiedReasons: S.optional(__S(1296, __c81, 0)),
+          recoveryNotQualifiedReasons: S.optional(__S(3040, __c95, 0)),
+          drillsNotQualifiedReasons: S.optional(__S(2624, __c82, 0)),
         }),
       ).annotate({ identifier: "ResourceQualificationDetails" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          drillsQualifiedResource: __S(1794, __c112, 2),
-          resourceQualificationDetails: __S(1795, __c112, 3),
+          drillsQualifiedResource: __S(3618, __c113, 2),
+          resourceQualificationDetails: __S(3619, __c113, 3),
         }),
       ).annotate({ identifier: "DrillResourceQualification" });
     case 5:
-      return S.Array(__S(1796, __c112, 4));
+      return S.Array(__S(3620, __c113, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          drillResourceQualifications: __S(1797, __c112, 5),
+          drillResourceQualifications: __S(3621, __c113, 5),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -7969,7 +8386,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "ValidateForExecutionResponse" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7977,7 +8394,7 @@ function __c113(j: number): any {
           serviceGroupName: S.String.pipe(T.Label()),
           recoveryPlanName: S.String.pipe(T.Label()),
           failoverDirection: S.String,
-          failoverRequestProperties: S.optional(__S(144, __c9, 0)),
+          failoverRequestProperties: S.optional(__S(288, __c9, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7989,7 +8406,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "ValidateRecoveryPlanActionForFailoverRequest" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8003,47 +8420,47 @@ function __c114(j: number): any {
         }),
       ).annotate({ identifier: "SkuDetails" });
     case 1:
-      return S.Array(__S(1824, __c114, 0));
+      return S.Array(__S(3680, __c115, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           feasibilityType: S.String,
           resourceType: S.String,
-          currentTargetSku: S.optional(__S(1824, __c114, 0)),
+          currentTargetSku: S.optional(__S(3680, __c115, 0)),
           status: S.String,
-          recommendedTargetSkus: S.optional(__S(1825, __c114, 1)),
+          recommendedTargetSkus: S.optional(__S(3681, __c115, 1)),
         }),
       ).annotate({ identifier: "ResourceFeasibilityReview" });
     case 3:
-      return S.Array(__S(1826, __c114, 2));
+      return S.Array(__S(3682, __c115, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           qualificationState: S.String,
-          notQualifiedReasons: S.optional(__S(1504, __c94, 0)),
-          resourceFeasibilityReviews: S.optional(__S(1827, __c114, 3)),
+          notQualifiedReasons: S.optional(__S(3040, __c95, 0)),
+          resourceFeasibilityReviews: S.optional(__S(3683, __c115, 3)),
         }),
       ).annotate({ identifier: "OperationQualificationDetails" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          recoveryResource: __S(833, __c52, 1),
-          operationQualificationDetails: __S(1828, __c114, 4),
+          recoveryResource: __S(1697, __c53, 1),
+          operationQualificationDetails: __S(3684, __c115, 4),
         }),
       ).annotate({ identifier: "RecoveryResourceQualification" });
     case 6:
-      return S.Array(__S(1829, __c114, 5));
+      return S.Array(__S(3685, __c115, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          recoveryResourceQualifications: __S(1830, __c114, 6),
+          recoveryResourceQualifications: __S(3686, __c115, 6),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "ValidateForRecoveryOperationBaseResponse" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8061,7 +8478,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "DeleteDrillRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8072,7 +8489,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "DeleteDrillResponse" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8090,7 +8507,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "ValidateRecoveryPlanActionForFailoverCommitRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8109,14 +8526,14 @@ function __c118(j: number): any {
       ).annotate({ identifier: "ValidateRecoveryPlanActionForOperationRequest" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceGroupName: S.String.pipe(T.Label()),
           recoveryPlanName: S.String.pipe(T.Label()),
-          reprotectRequestProperties: S.optional(__S(192, __c12, 0)),
+          reprotectRequestProperties: S.optional(__S(384, __c12, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8128,7 +8545,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "ValidateRecoveryPlanActionForReprotectRequest" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8136,7 +8553,7 @@ function __c120(j: number): any {
           serviceGroupName: S.String.pipe(T.Label()),
           recoveryPlanName: S.String.pipe(T.Label()),
           failoverDirection: S.String,
-          failoverRequestProperties: S.optional(__S(144, __c9, 0)),
+          failoverRequestProperties: S.optional(__S(288, __c9, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8148,7 +8565,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "ValidateRecoveryPlanActionForTestFailoverRequest" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8166,7 +8583,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "ValidateRecoveryPlanActionForTestFailoverCleanupRequest" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8186,7 +8603,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "DeleteEnrollmentRequest" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

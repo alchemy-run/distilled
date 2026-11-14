@@ -2301,16 +2301,90 @@ export interface GetJobRequest {
 export type JobType = "deploy" | "publish" | "staging" | "externalValidation" | "uninstall";
 /** Status of a job or job step. */
 export type JobStatus = "NotStarted" | "InProgress" | "Succeeded" | "Failed";
-/** Base Job Parameter */
-export interface JobParameterBase {
+/** Job type discriminator value */
+export type DeployJobParameterJobType = "deploy";
+/** Install Solution Parameter */
+export interface InstallSolutionParameter {
+  /** Solution Version ARM Id */
+  solutionVersionId: string;
+}
+/** Parameters for a deployment job. */
+export interface DeployJobParameter {
   /** Job type discriminator value */
-  jobType: JobType;
+  jobType: DeployJobParameterJobType;
+  parameter?: InstallSolutionParameter | undefined;
+}
+/** Job type discriminator value */
+export type PublishJobParameterJobType = "publish";
+/** Solution Version Parameter */
+export type SolutionVersionParameter = InstallSolutionParameter;
+/** Parameters for a publish job. */
+export interface PublishJobParameter {
+  /** Job type discriminator value */
+  jobType: PublishJobParameterJobType;
+  parameter?: InstallSolutionParameter | undefined;
+}
+/** Job type discriminator value */
+export type UninstallJobParameterJobType = "uninstall";
+/** Uninstall Solution Parameter */
+export interface UninstallSolutionParameter {
+  /** Solution Template ARM Id */
+  solutionTemplateId: string;
+  /** Solution Instance Name */
+  solutionInstanceName?: string | undefined;
+}
+/** Parameters for an Uninstall job. */
+export interface UninstallJobParameter {
+  /** Job type discriminator value */
+  jobType: UninstallJobParameterJobType;
+  parameter?: UninstallSolutionParameter | undefined;
+}
+/** Base Job Parameter */
+export type JobParameterBase = DeployJobParameter | PublishJobParameter | UninstallJobParameter;
+/** Statistics type discriminator value */
+export type DeployJobStepStatisticsStatisticsType = "deploy";
+/** Deploy statistics for a job step, including total, success, and failed counts. */
+export interface DeployJobStepStatistics {
+  /** Statistics type discriminator value */
+  statisticsType: DeployJobStepStatisticsStatisticsType;
+  /** Total count of items processed in this step */
+  totalCount?: number | undefined;
+  /** Count of successful items in this step */
+  successCount?: number | undefined;
+  /** Count of failed items in this step */
+  failedCount?: number | undefined;
+}
+/** Statistics type discriminator value */
+export type PublishJobStepStatisticsStatisticsType = "publish";
+/** Publish statistics for a job step, including total, success, and failed counts. */
+export interface PublishJobStepStatistics {
+  /** Statistics type discriminator value */
+  statisticsType: PublishJobStepStatisticsStatisticsType;
+  /** Total count of items processed in this step */
+  totalCount?: number | undefined;
+  /** Count of successful items in this step */
+  successCount?: number | undefined;
+  /** Count of failed items in this step */
+  failedCount?: number | undefined;
+}
+/** Statistics type discriminator value */
+export type UninstallJobStepStatisticsStatisticsType = "uninstall";
+/** Uninstall statistics for a job step, including total, success, and failed counts. */
+export interface UninstallJobStepStatistics {
+  /** Statistics type discriminator value */
+  statisticsType: UninstallJobStepStatisticsStatisticsType;
+  /** Total count of items processed in this step */
+  totalCount?: number | undefined;
+  /** Count of successful items in this step */
+  successCount?: number | undefined;
+  /** Count of failed items in this step */
+  failedCount?: number | undefined;
 }
 /** Base Job Step Statistics */
-export interface JobStepStatisticsBase {
-  /** Statistics type discriminator value */
-  statisticsType: JobType;
-}
+export type JobStepStatisticsBase =
+  | DeployJobStepStatistics
+  | PublishJobStepStatistics
+  | UninstallJobStepStatistics;
 /** Nested substeps for this step */
 export type JobStepStepsList = Array<JobStep>;
 /** The error details. */
@@ -6553,8 +6627,8 @@ export const BulkSolutionTemplateVersionReviewSolution: API.OperationMethod<
   BulkSolutionTemplateVersionReviewSolutionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c1, 2) as any as S.Schema<BulkSolutionTemplateVersionReviewSolutionRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<BulkSolutionTemplateVersionReviewSolutionResponse>,
+  input: __S(18, __c1, 2) as any as S.Schema<BulkSolutionTemplateVersionReviewSolutionRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<BulkSolutionTemplateVersionReviewSolutionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6570,8 +6644,8 @@ export const ConfigTemplateMetadatasCreateOrUpdate: API.OperationMethod<
   ConfigTemplateMetadatasCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1016, __c127, 0) as any as S.Schema<ConfigTemplateMetadatasCreateOrUpdateRequest>,
-  output: __S(1017, __c127, 1) as any as S.Schema<ConfigTemplateMetadatasCreateOrUpdateResponse>,
+  input: __S(2032, __c127, 0) as any as S.Schema<ConfigTemplateMetadatasCreateOrUpdateRequest>,
+  output: __S(2033, __c127, 1) as any as S.Schema<ConfigTemplateMetadatasCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6587,8 +6661,8 @@ export const ConfigTemplatesCreateOrUpdate: API.OperationMethod<
   ConfigTemplatesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1137, __c142, 1) as any as S.Schema<ConfigTemplatesCreateOrUpdateRequest>,
-  output: __S(1138, __c142, 2) as any as S.Schema<ConfigTemplatesCreateOrUpdateResponse>,
+  input: __S(2273, __c142, 1) as any as S.Schema<ConfigTemplatesCreateOrUpdateRequest>,
+  output: __S(2274, __c142, 2) as any as S.Schema<ConfigTemplatesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6604,8 +6678,8 @@ export const ConfigTemplatesLinkToHierarchies: API.OperationMethod<
   ConfigTemplatesLinkToHierarchiesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1240, __c155, 0) as any as S.Schema<ConfigTemplatesLinkToHierarchiesRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<ConfigTemplatesLinkToHierarchiesResponse>,
+  input: __S(2480, __c155, 0) as any as S.Schema<ConfigTemplatesLinkToHierarchiesRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<ConfigTemplatesLinkToHierarchiesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6621,8 +6695,8 @@ export const ConfigTemplatesUnLinkFromHierarchies: API.OperationMethod<
   ConfigTemplatesUnLinkFromHierarchiesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1400, __c175, 0) as any as S.Schema<ConfigTemplatesUnLinkFromHierarchiesRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<ConfigTemplatesUnLinkFromHierarchiesResponse>,
+  input: __S(2800, __c175, 0) as any as S.Schema<ConfigTemplatesUnLinkFromHierarchiesRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<ConfigTemplatesUnLinkFromHierarchiesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6638,8 +6712,8 @@ export const ConfigTemplateVersionsCreateOrUpdate: API.OperationMethod<
   ConfigTemplateVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c194, 0) as any as S.Schema<ConfigTemplateVersionsCreateOrUpdateRequest>,
-  output: __S(1553, __c194, 1) as any as S.Schema<ConfigTemplateVersionsCreateOrUpdateResponse>,
+  input: __S(3104, __c194, 0) as any as S.Schema<ConfigTemplateVersionsCreateOrUpdateRequest>,
+  output: __S(3105, __c194, 1) as any as S.Schema<ConfigTemplateVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6655,8 +6729,8 @@ export const ConfigurationReferencesCreateOrUpdate: API.OperationMethod<
   ConfigurationReferencesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c222, 0) as any as S.Schema<ConfigurationReferencesCreateOrUpdateRequest>,
-  output: __S(1793, __c224, 1) as any as S.Schema<ConfigurationReferencesCreateOrUpdateResponse>,
+  input: __S(3552, __c222, 0) as any as S.Schema<ConfigurationReferencesCreateOrUpdateRequest>,
+  output: __S(3585, __c224, 1) as any as S.Schema<ConfigurationReferencesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6678,8 +6752,8 @@ export const ConfigurationsCreateOrUpdate: API.OperationMethod<
   ConfigurationsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c248, 0) as any as S.Schema<ConfigurationsCreateOrUpdateRequest>,
-  output: __S(2008, __c251, 0) as any as S.Schema<ConfigurationsCreateOrUpdateResponse>,
+  input: __S(3984, __c249, 0) as any as S.Schema<ConfigurationsCreateOrUpdateRequest>,
+  output: __S(4032, __c252, 0) as any as S.Schema<ConfigurationsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6695,8 +6769,8 @@ export const ContextsCreateOrUpdate: API.OperationMethod<
   ContextsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2201, __c275, 1) as any as S.Schema<ContextsCreateOrUpdateRequest>,
-  output: __S(2202, __c275, 2) as any as S.Schema<ContextsCreateOrUpdateResponse>,
+  input: __S(4417, __c276, 1) as any as S.Schema<ContextsCreateOrUpdateRequest>,
+  output: __S(4418, __c276, 2) as any as S.Schema<ContextsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6712,8 +6786,8 @@ export const CreateConfigTemplateVersion: API.OperationMethod<
   CreateConfigTemplateVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c4, 1) as any as S.Schema<CreateConfigTemplateVersionRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<CreateConfigTemplateVersionResponse>,
+  input: __S(65, __c4, 1) as any as S.Schema<CreateConfigTemplateVersionRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<CreateConfigTemplateVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6729,8 +6803,8 @@ export const CreateSchemaVersion: API.OperationMethod<
   CreateSchemaVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(145, __c18, 1) as any as S.Schema<CreateSchemaVersionRequest>,
-  output: __S(146, __c18, 2) as any as S.Schema<CreateSchemaVersionResponse>,
+  input: __S(289, __c18, 1) as any as S.Schema<CreateSchemaVersionRequest>,
+  output: __S(290, __c18, 2) as any as S.Schema<CreateSchemaVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6746,8 +6820,8 @@ export const CreateSolutionTemplateVersion: API.OperationMethod<
   CreateSolutionTemplateVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(257, __c32, 1) as any as S.Schema<CreateSolutionTemplateVersionRequest>,
-  output: __S(258, __c32, 2) as any as S.Schema<CreateSolutionTemplateVersionResponse>,
+  input: __S(513, __c32, 1) as any as S.Schema<CreateSolutionTemplateVersionRequest>,
+  output: __S(514, __c32, 2) as any as S.Schema<CreateSolutionTemplateVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6763,8 +6837,8 @@ export const DeleteConfigTemplate: API.OperationMethod<
   DeleteConfigTemplateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<DeleteConfigTemplateRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteConfigTemplateResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<DeleteConfigTemplateRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteConfigTemplateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6780,8 +6854,8 @@ export const DeleteConfigTemplateMetadatas: API.OperationMethod<
   DeleteConfigTemplateMetadatasError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(488, __c61, 0) as any as S.Schema<DeleteConfigTemplateMetadatasRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteConfigTemplateMetadatasResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<DeleteConfigTemplateMetadatasRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteConfigTemplateMetadatasResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6797,8 +6871,8 @@ export const DeleteConfigTemplateVersion: API.OperationMethod<
   DeleteConfigTemplateVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<DeleteConfigTemplateVersionRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteConfigTemplateVersionResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<DeleteConfigTemplateVersionRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteConfigTemplateVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6814,8 +6888,8 @@ export const DeleteConfiguration: API.OperationMethod<
   DeleteConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(696, __c87, 0) as any as S.Schema<DeleteConfigurationRequest>,
-  output: __S(1992, __c249, 0) as any as S.Schema<DeleteConfigurationResponse>,
+  input: __S(1392, __c87, 0) as any as S.Schema<DeleteConfigurationRequest>,
+  output: __S(4000, __c250, 0) as any as S.Schema<DeleteConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6831,8 +6905,8 @@ export const DeleteConfigurationReference: API.OperationMethod<
   DeleteConfigurationReferenceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c98, 0) as any as S.Schema<DeleteConfigurationReferenceRequest>,
-  output: __S(1992, __c249, 0) as any as S.Schema<DeleteConfigurationReferenceResponse>,
+  input: __S(1568, __c98, 0) as any as S.Schema<DeleteConfigurationReferenceRequest>,
+  output: __S(4000, __c250, 0) as any as S.Schema<DeleteConfigurationReferenceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6854,8 +6928,8 @@ export const DeleteContext: API.OperationMethod<
   DeleteContextError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c110, 0) as any as S.Schema<DeleteContextRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteContextResponse>,
+  input: __S(1760, __c110, 0) as any as S.Schema<DeleteContextRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteContextResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6871,8 +6945,8 @@ export const DeleteDiagnostic: API.OperationMethod<
   DeleteDiagnosticError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(968, __c121, 0) as any as S.Schema<DeleteDiagnosticRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteDiagnosticResponse>,
+  input: __S(1936, __c121, 0) as any as S.Schema<DeleteDiagnosticRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteDiagnosticResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6888,8 +6962,8 @@ export const DeleteDisconnectedOperation: API.OperationMethod<
   DeleteDisconnectedOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c132, 0) as any as S.Schema<DeleteDisconnectedOperationRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteDisconnectedOperationResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<DeleteDisconnectedOperationRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteDisconnectedOperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6905,8 +6979,8 @@ export const DeleteDynamicConfiguration: API.OperationMethod<
   DeleteDynamicConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1064, __c133, 0) as any as S.Schema<DeleteDynamicConfigurationRequest>,
-  output: __S(1992, __c249, 0) as any as S.Schema<DeleteDynamicConfigurationResponse>,
+  input: __S(2128, __c133, 0) as any as S.Schema<DeleteDynamicConfigurationRequest>,
+  output: __S(4000, __c250, 0) as any as S.Schema<DeleteDynamicConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6922,8 +6996,8 @@ export const DeleteDynamicConfigurationVersion: API.OperationMethod<
   DeleteDynamicConfigurationVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c134, 0) as any as S.Schema<DeleteDynamicConfigurationVersionRequest>,
-  output: __S(1992, __c249, 0) as any as S.Schema<DeleteDynamicConfigurationVersionResponse>,
+  input: __S(2144, __c134, 0) as any as S.Schema<DeleteDynamicConfigurationVersionRequest>,
+  output: __S(4000, __c250, 0) as any as S.Schema<DeleteDynamicConfigurationVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6939,8 +7013,8 @@ export const DeleteDynamicSchema: API.OperationMethod<
   DeleteDynamicSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1080, __c135, 0) as any as S.Schema<DeleteDynamicSchemaRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteDynamicSchemaResponse>,
+  input: __S(2160, __c135, 0) as any as S.Schema<DeleteDynamicSchemaRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteDynamicSchemaResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6956,8 +7030,8 @@ export const DeleteDynamicSchemaVersion: API.OperationMethod<
   DeleteDynamicSchemaVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c136, 0) as any as S.Schema<DeleteDynamicSchemaVersionRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteDynamicSchemaVersionResponse>,
+  input: __S(2176, __c136, 0) as any as S.Schema<DeleteDynamicSchemaVersionRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteDynamicSchemaVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6973,8 +7047,8 @@ export const DeleteExecution: API.OperationMethod<
   DeleteExecutionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1096, __c137, 0) as any as S.Schema<DeleteExecutionRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteExecutionResponse>,
+  input: __S(2192, __c137, 0) as any as S.Schema<DeleteExecutionRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteExecutionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6990,8 +7064,8 @@ export const DeleteHardwareSettings: API.OperationMethod<
   DeleteHardwareSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c138, 0) as any as S.Schema<DeleteHardwareSettingsRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteHardwareSettingsResponse>,
+  input: __S(2208, __c138, 0) as any as S.Schema<DeleteHardwareSettingsRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteHardwareSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7007,8 +7081,8 @@ export const DeleteInstance: API.OperationMethod<
   DeleteInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1112, __c139, 0) as any as S.Schema<DeleteInstanceRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteInstanceResponse>,
+  input: __S(2224, __c139, 0) as any as S.Schema<DeleteInstanceRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7024,8 +7098,8 @@ export const DeleteSchema: API.OperationMethod<
   DeleteSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c140, 0) as any as S.Schema<DeleteSchemaRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteSchemaResponse>,
+  input: __S(2240, __c140, 0) as any as S.Schema<DeleteSchemaRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteSchemaResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7041,8 +7115,8 @@ export const DeleteSchemaReference: API.OperationMethod<
   DeleteSchemaReferenceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1128, __c141, 0) as any as S.Schema<DeleteSchemaReferenceRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteSchemaReferenceResponse>,
+  input: __S(2256, __c141, 0) as any as S.Schema<DeleteSchemaReferenceRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteSchemaReferenceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7064,8 +7138,8 @@ export const DeleteSchemaVersion: API.OperationMethod<
   DeleteSchemaVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1160, __c145, 0) as any as S.Schema<DeleteSchemaVersionRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteSchemaVersionResponse>,
+  input: __S(2320, __c145, 0) as any as S.Schema<DeleteSchemaVersionRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteSchemaVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7081,8 +7155,8 @@ export const DeleteSite: API.OperationMethod<
   DeleteSiteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c146, 0) as any as S.Schema<DeleteSiteRequest>,
-  output: __S(1992, __c249, 0) as any as S.Schema<DeleteSiteResponse>,
+  input: __S(2336, __c146, 0) as any as S.Schema<DeleteSiteRequest>,
+  output: __S(4000, __c250, 0) as any as S.Schema<DeleteSiteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7098,8 +7172,8 @@ export const DeleteSiteReference: API.OperationMethod<
   DeleteSiteReferenceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1176, __c147, 0) as any as S.Schema<DeleteSiteReferenceRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteSiteReferenceResponse>,
+  input: __S(2352, __c147, 0) as any as S.Schema<DeleteSiteReferenceRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteSiteReferenceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7115,8 +7189,8 @@ export const DeleteSitesByServiceGroup: API.OperationMethod<
   DeleteSitesByServiceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c148, 0) as any as S.Schema<DeleteSitesByServiceGroupRequest>,
-  output: __S(1992, __c249, 0) as any as S.Schema<DeleteSitesByServiceGroupResponse>,
+  input: __S(2368, __c148, 0) as any as S.Schema<DeleteSitesByServiceGroupRequest>,
+  output: __S(4000, __c250, 0) as any as S.Schema<DeleteSitesByServiceGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7132,8 +7206,8 @@ export const DeleteSitesBySubscription: API.OperationMethod<
   DeleteSitesBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1192, __c149, 0) as any as S.Schema<DeleteSitesBySubscriptionRequest>,
-  output: __S(1992, __c249, 0) as any as S.Schema<DeleteSitesBySubscriptionResponse>,
+  input: __S(2384, __c149, 0) as any as S.Schema<DeleteSitesBySubscriptionRequest>,
+  output: __S(4000, __c250, 0) as any as S.Schema<DeleteSitesBySubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7149,8 +7223,8 @@ export const DeleteSolution: API.OperationMethod<
   DeleteSolutionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c150, 0) as any as S.Schema<DeleteSolutionRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteSolutionResponse>,
+  input: __S(2400, __c150, 0) as any as S.Schema<DeleteSolutionRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteSolutionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7166,8 +7240,8 @@ export const DeleteSolutionTemplate: API.OperationMethod<
   DeleteSolutionTemplateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1208, __c151, 0) as any as S.Schema<DeleteSolutionTemplateRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteSolutionTemplateResponse>,
+  input: __S(2416, __c151, 0) as any as S.Schema<DeleteSolutionTemplateRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteSolutionTemplateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7183,8 +7257,8 @@ export const DeleteSolutionTemplateVersion: API.OperationMethod<
   DeleteSolutionTemplateVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c152, 0) as any as S.Schema<DeleteSolutionTemplateVersionRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteSolutionTemplateVersionResponse>,
+  input: __S(2432, __c152, 0) as any as S.Schema<DeleteSolutionTemplateVersionRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteSolutionTemplateVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7200,8 +7274,8 @@ export const DeleteSolutionVersion: API.OperationMethod<
   DeleteSolutionVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1224, __c153, 0) as any as S.Schema<DeleteSolutionVersionRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteSolutionVersionResponse>,
+  input: __S(2448, __c153, 0) as any as S.Schema<DeleteSolutionVersionRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteSolutionVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7217,8 +7291,8 @@ export const DeleteTarget: API.OperationMethod<
   DeleteTargetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c154, 0) as any as S.Schema<DeleteTargetRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteTargetResponse>,
+  input: __S(2464, __c154, 0) as any as S.Schema<DeleteTargetRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteTargetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7234,8 +7308,8 @@ export const DeleteWorkflow: API.OperationMethod<
   DeleteWorkflowError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c156, 0) as any as S.Schema<DeleteWorkflowRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteWorkflowResponse>,
+  input: __S(2496, __c156, 0) as any as S.Schema<DeleteWorkflowRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteWorkflowResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7251,8 +7325,8 @@ export const DeleteWorkflowVersion: API.OperationMethod<
   DeleteWorkflowVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1256, __c157, 0) as any as S.Schema<DeleteWorkflowVersionRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteWorkflowVersionResponse>,
+  input: __S(2512, __c157, 0) as any as S.Schema<DeleteWorkflowVersionRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteWorkflowVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7268,8 +7342,8 @@ export const DiagnosticsCreateOrUpdate: API.OperationMethod<
   DiagnosticsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c158, 0) as any as S.Schema<DiagnosticsCreateOrUpdateRequest>,
-  output: __S(1265, __c158, 1) as any as S.Schema<DiagnosticsCreateOrUpdateResponse>,
+  input: __S(2528, __c158, 0) as any as S.Schema<DiagnosticsCreateOrUpdateRequest>,
+  output: __S(2529, __c158, 1) as any as S.Schema<DiagnosticsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7285,8 +7359,8 @@ export const DisconnectedOperationsCreateOrUpdate: API.OperationMethod<
   DisconnectedOperationsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1283, __c160, 3) as any as S.Schema<DisconnectedOperationsCreateOrUpdateRequest>,
-  output: __S(1284, __c160, 4) as any as S.Schema<DisconnectedOperationsCreateOrUpdateResponse>,
+  input: __S(2563, __c160, 3) as any as S.Schema<DisconnectedOperationsCreateOrUpdateRequest>,
+  output: __S(2564, __c160, 4) as any as S.Schema<DisconnectedOperationsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7302,8 +7376,8 @@ export const DynamicConfigurationsCreateOrUpdate: API.OperationMethod<
   DynamicConfigurationsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1305, __c163, 1) as any as S.Schema<DynamicConfigurationsCreateOrUpdateRequest>,
-  output: __S(1306, __c163, 2) as any as S.Schema<DynamicConfigurationsCreateOrUpdateResponse>,
+  input: __S(2609, __c163, 1) as any as S.Schema<DynamicConfigurationsCreateOrUpdateRequest>,
+  output: __S(2610, __c163, 2) as any as S.Schema<DynamicConfigurationsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7319,9 +7393,9 @@ export const DynamicConfigurationVersionsCreateOrUpdate: API.OperationMethod<
   DynamicConfigurationVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1321, __c165, 1) as any as S.Schema<DynamicConfigurationVersionsCreateOrUpdateRequest>,
+  input: __S(2641, __c165, 1) as any as S.Schema<DynamicConfigurationVersionsCreateOrUpdateRequest>,
   output: __S(
-    1322,
+    2642,
     __c165,
     2,
   ) as any as S.Schema<DynamicConfigurationVersionsCreateOrUpdateResponse>,
@@ -7340,8 +7414,8 @@ export const DynamicSchemasCreateOrUpdate: API.OperationMethod<
   DynamicSchemasCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1336, __c167, 0) as any as S.Schema<DynamicSchemasCreateOrUpdateRequest>,
-  output: __S(1337, __c167, 1) as any as S.Schema<DynamicSchemasCreateOrUpdateResponse>,
+  input: __S(2672, __c167, 0) as any as S.Schema<DynamicSchemasCreateOrUpdateRequest>,
+  output: __S(2673, __c167, 1) as any as S.Schema<DynamicSchemasCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7357,8 +7431,8 @@ export const DynamicSchemaVersionsCreateOrUpdate: API.OperationMethod<
   DynamicSchemaVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1352, __c169, 0) as any as S.Schema<DynamicSchemaVersionsCreateOrUpdateRequest>,
-  output: __S(1360, __c170, 0) as any as S.Schema<DynamicSchemaVersionsCreateOrUpdateResponse>,
+  input: __S(2704, __c169, 0) as any as S.Schema<DynamicSchemaVersionsCreateOrUpdateRequest>,
+  output: __S(2720, __c170, 0) as any as S.Schema<DynamicSchemaVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7374,8 +7448,8 @@ export const ExecutionsCreateOrUpdate: API.OperationMethod<
   ExecutionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1369, __c171, 1) as any as S.Schema<ExecutionsCreateOrUpdateRequest>,
-  output: __S(1370, __c171, 2) as any as S.Schema<ExecutionsCreateOrUpdateResponse>,
+  input: __S(2737, __c171, 1) as any as S.Schema<ExecutionsCreateOrUpdateRequest>,
+  output: __S(2738, __c171, 2) as any as S.Schema<ExecutionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7391,8 +7465,8 @@ export const GetArtifact: API.OperationMethod<
   GetArtifactError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1384, __c173, 0) as any as S.Schema<GetArtifactRequest>,
-  output: __S(1393, __c174, 1) as any as S.Schema<GetArtifactResponse>,
+  input: __S(2768, __c173, 0) as any as S.Schema<GetArtifactRequest>,
+  output: __S(2785, __c174, 1) as any as S.Schema<GetArtifactResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7408,8 +7482,8 @@ export const GetConfigTemplate: API.OperationMethod<
   GetConfigTemplateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c176, 0) as any as S.Schema<GetConfigTemplateRequest>,
-  output: __S(1416, __c177, 0) as any as S.Schema<GetConfigTemplateResponse>,
+  input: __S(2816, __c176, 0) as any as S.Schema<GetConfigTemplateRequest>,
+  output: __S(2832, __c177, 0) as any as S.Schema<GetConfigTemplateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7425,8 +7499,8 @@ export const GetConfigTemplateMetadatas: API.OperationMethod<
   GetConfigTemplateMetadatasError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c178, 0) as any as S.Schema<GetConfigTemplateMetadatasRequest>,
-  output: __S(1432, __c179, 0) as any as S.Schema<GetConfigTemplateMetadatasResponse>,
+  input: __S(2848, __c178, 0) as any as S.Schema<GetConfigTemplateMetadatasRequest>,
+  output: __S(2864, __c179, 0) as any as S.Schema<GetConfigTemplateMetadatasResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7442,8 +7516,8 @@ export const GetConfigTemplateSchema: API.OperationMethod<
   GetConfigTemplateSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c180, 0) as any as S.Schema<GetConfigTemplateSchemaRequest>,
-  output: __S(1449, __c181, 1) as any as S.Schema<GetConfigTemplateSchemaResponse>,
+  input: __S(2880, __c180, 0) as any as S.Schema<GetConfigTemplateSchemaRequest>,
+  output: __S(2897, __c181, 1) as any as S.Schema<GetConfigTemplateSchemaResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7459,8 +7533,8 @@ export const GetConfigTemplateVersion: API.OperationMethod<
   GetConfigTemplateVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c182, 0) as any as S.Schema<GetConfigTemplateVersionRequest>,
-  output: __S(1464, __c183, 0) as any as S.Schema<GetConfigTemplateVersionResponse>,
+  input: __S(2912, __c182, 0) as any as S.Schema<GetConfigTemplateVersionRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<GetConfigTemplateVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7476,8 +7550,8 @@ export const GetConfiguration: API.OperationMethod<
   GetConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c184, 0) as any as S.Schema<GetConfigurationRequest>,
-  output: __S(2008, __c251, 0) as any as S.Schema<GetConfigurationResponse>,
+  input: __S(2944, __c184, 0) as any as S.Schema<GetConfigurationRequest>,
+  output: __S(4032, __c252, 0) as any as S.Schema<GetConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7493,8 +7567,8 @@ export const GetConfigurationReference: API.OperationMethod<
   GetConfigurationReferenceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1480, __c185, 0) as any as S.Schema<GetConfigurationReferenceRequest>,
-  output: __S(1793, __c224, 1) as any as S.Schema<GetConfigurationReferenceResponse>,
+  input: __S(2960, __c185, 0) as any as S.Schema<GetConfigurationReferenceRequest>,
+  output: __S(3585, __c224, 1) as any as S.Schema<GetConfigurationReferenceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7516,8 +7590,8 @@ export const GetContext: API.OperationMethod<
   GetContextError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c186, 0) as any as S.Schema<GetContextRequest>,
-  output: __S(1496, __c187, 0) as any as S.Schema<GetContextResponse>,
+  input: __S(2976, __c186, 0) as any as S.Schema<GetContextRequest>,
+  output: __S(2992, __c187, 0) as any as S.Schema<GetContextResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7533,8 +7607,8 @@ export const GetDiagnostic: API.OperationMethod<
   GetDiagnosticError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c188, 0) as any as S.Schema<GetDiagnosticRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<GetDiagnosticResponse>,
+  input: __S(3008, __c188, 0) as any as S.Schema<GetDiagnosticRequest>,
+  output: __S(3024, __c189, 0) as any as S.Schema<GetDiagnosticResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7550,8 +7624,8 @@ export const GetDisconnectedOperation: API.OperationMethod<
   GetDisconnectedOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c190, 0) as any as S.Schema<GetDisconnectedOperationRequest>,
-  output: __S(1528, __c191, 0) as any as S.Schema<GetDisconnectedOperationResponse>,
+  input: __S(3040, __c190, 0) as any as S.Schema<GetDisconnectedOperationRequest>,
+  output: __S(3056, __c191, 0) as any as S.Schema<GetDisconnectedOperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7567,8 +7641,8 @@ export const GetDynamicConfiguration: API.OperationMethod<
   GetDynamicConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c192, 0) as any as S.Schema<GetDynamicConfigurationRequest>,
-  output: __S(1544, __c193, 0) as any as S.Schema<GetDynamicConfigurationResponse>,
+  input: __S(3072, __c192, 0) as any as S.Schema<GetDynamicConfigurationRequest>,
+  output: __S(3088, __c193, 0) as any as S.Schema<GetDynamicConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7584,8 +7658,8 @@ export const GetDynamicConfigurationVersion: API.OperationMethod<
   GetDynamicConfigurationVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1576, __c197, 0) as any as S.Schema<GetDynamicConfigurationVersionRequest>,
-  output: __S(1584, __c198, 0) as any as S.Schema<GetDynamicConfigurationVersionResponse>,
+  input: __S(3152, __c197, 0) as any as S.Schema<GetDynamicConfigurationVersionRequest>,
+  output: __S(3168, __c198, 0) as any as S.Schema<GetDynamicConfigurationVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7601,8 +7675,8 @@ export const GetDynamicSchema: API.OperationMethod<
   GetDynamicSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1592, __c199, 0) as any as S.Schema<GetDynamicSchemaRequest>,
-  output: __S(1600, __c200, 0) as any as S.Schema<GetDynamicSchemaResponse>,
+  input: __S(3184, __c199, 0) as any as S.Schema<GetDynamicSchemaRequest>,
+  output: __S(3200, __c200, 0) as any as S.Schema<GetDynamicSchemaResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7618,8 +7692,8 @@ export const GetDynamicSchemaVersion: API.OperationMethod<
   GetDynamicSchemaVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1608, __c201, 0) as any as S.Schema<GetDynamicSchemaVersionRequest>,
-  output: __S(1616, __c202, 0) as any as S.Schema<GetDynamicSchemaVersionResponse>,
+  input: __S(3216, __c201, 0) as any as S.Schema<GetDynamicSchemaVersionRequest>,
+  output: __S(3232, __c202, 0) as any as S.Schema<GetDynamicSchemaVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7635,8 +7709,8 @@ export const GetExecution: API.OperationMethod<
   GetExecutionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1624, __c203, 0) as any as S.Schema<GetExecutionRequest>,
-  output: __S(1632, __c204, 0) as any as S.Schema<GetExecutionResponse>,
+  input: __S(3248, __c203, 0) as any as S.Schema<GetExecutionRequest>,
+  output: __S(3264, __c204, 0) as any as S.Schema<GetExecutionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7652,8 +7726,8 @@ export const GetHardwareSettings: API.OperationMethod<
   GetHardwareSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1640, __c205, 0) as any as S.Schema<GetHardwareSettingsRequest>,
-  output: __S(1648, __c206, 0) as any as S.Schema<GetHardwareSettingsResponse>,
+  input: __S(3280, __c205, 0) as any as S.Schema<GetHardwareSettingsRequest>,
+  output: __S(3296, __c206, 0) as any as S.Schema<GetHardwareSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7669,8 +7743,8 @@ export const GetHierarchyConfigurationMetadatas: API.OperationMethod<
   GetHierarchyConfigurationMetadatasError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c208, 0) as any as S.Schema<GetHierarchyConfigurationMetadatasRequest>,
-  output: __S(1673, __c209, 1) as any as S.Schema<GetHierarchyConfigurationMetadatasResponse>,
+  input: __S(3328, __c208, 0) as any as S.Schema<GetHierarchyConfigurationMetadatasRequest>,
+  output: __S(3345, __c209, 1) as any as S.Schema<GetHierarchyConfigurationMetadatasResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7692,8 +7766,8 @@ export const GetHierarchyConfigurationMetadataVersion: API.OperationMethod<
   GetHierarchyConfigurationMetadataVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c210, 0) as any as S.Schema<GetHierarchyConfigurationMetadataVersionRequest>,
-  output: __S(1689, __c211, 1) as any as S.Schema<GetHierarchyConfigurationMetadataVersionResponse>,
+  input: __S(3360, __c210, 0) as any as S.Schema<GetHierarchyConfigurationMetadataVersionRequest>,
+  output: __S(3377, __c211, 1) as any as S.Schema<GetHierarchyConfigurationMetadataVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7715,8 +7789,8 @@ export const GetImage: API.OperationMethod<
   GetImageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c212, 0) as any as S.Schema<GetImageRequest>,
-  output: __S(1705, __c213, 1) as any as S.Schema<GetImageResponse>,
+  input: __S(3392, __c212, 0) as any as S.Schema<GetImageRequest>,
+  output: __S(3409, __c213, 1) as any as S.Schema<GetImageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7732,8 +7806,8 @@ export const GetInstance: API.OperationMethod<
   GetInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1720, __c215, 0) as any as S.Schema<GetInstanceRequest>,
-  output: __S(1728, __c216, 0) as any as S.Schema<GetInstanceResponse>,
+  input: __S(3440, __c215, 0) as any as S.Schema<GetInstanceRequest>,
+  output: __S(3456, __c216, 0) as any as S.Schema<GetInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7749,8 +7823,8 @@ export const GetInstanceHistory: API.OperationMethod<
   GetInstanceHistoryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c220, 0) as any as S.Schema<GetInstanceHistoryRequest>,
-  output: __S(1771, __c221, 3) as any as S.Schema<GetInstanceHistoryResponse>,
+  input: __S(3520, __c220, 0) as any as S.Schema<GetInstanceHistoryRequest>,
+  output: __S(3539, __c221, 3) as any as S.Schema<GetInstanceHistoryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7766,8 +7840,8 @@ export const GetJob: API.OperationMethod<
   GetJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1800, __c225, 0) as any as S.Schema<GetJobRequest>,
-  output: __S(1815, __c226, 7) as any as S.Schema<GetJobResponse>,
+  input: __S(3600, __c225, 0) as any as S.Schema<GetJobRequest>,
+  output: __S(3627, __c226, 11) as any as S.Schema<GetJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7786,8 +7860,8 @@ export const GetSchema: API.OperationMethod<
   GetSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c228, 0) as any as S.Schema<GetSchemaRequest>,
-  output: __S(1840, __c230, 0) as any as S.Schema<GetSchemaResponse>,
+  input: __S(3664, __c229, 0) as any as S.Schema<GetSchemaRequest>,
+  output: __S(3696, __c231, 0) as any as S.Schema<GetSchemaResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7803,8 +7877,8 @@ export const GetSchemaReference: API.OperationMethod<
   GetSchemaReferenceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1848, __c231, 0) as any as S.Schema<GetSchemaReferenceRequest>,
-  output: __S(1864, __c233, 0) as any as S.Schema<GetSchemaReferenceResponse>,
+  input: __S(3712, __c232, 0) as any as S.Schema<GetSchemaReferenceRequest>,
+  output: __S(3744, __c234, 0) as any as S.Schema<GetSchemaReferenceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7826,8 +7900,8 @@ export const GetSchemaVersion: API.OperationMethod<
   GetSchemaVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c234, 0) as any as S.Schema<GetSchemaVersionRequest>,
-  output: __S(1616, __c202, 0) as any as S.Schema<GetSchemaVersionResponse>,
+  input: __S(3760, __c235, 0) as any as S.Schema<GetSchemaVersionRequest>,
+  output: __S(3232, __c202, 0) as any as S.Schema<GetSchemaVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7843,8 +7917,8 @@ export const GetSite: API.OperationMethod<
   GetSiteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1880, __c235, 0) as any as S.Schema<GetSiteRequest>,
-  output: __S(1896, __c237, 0) as any as S.Schema<GetSiteResponse>,
+  input: __S(3776, __c236, 0) as any as S.Schema<GetSiteRequest>,
+  output: __S(3808, __c238, 0) as any as S.Schema<GetSiteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7860,8 +7934,8 @@ export const GetSiteReference: API.OperationMethod<
   GetSiteReferenceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c238, 0) as any as S.Schema<GetSiteReferenceRequest>,
-  output: __S(1912, __c239, 0) as any as S.Schema<GetSiteReferenceResponse>,
+  input: __S(3824, __c239, 0) as any as S.Schema<GetSiteReferenceRequest>,
+  output: __S(3840, __c240, 0) as any as S.Schema<GetSiteReferenceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7877,8 +7951,8 @@ export const GetSitesByServiceGroup: API.OperationMethod<
   GetSitesByServiceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1928, __c241, 0) as any as S.Schema<GetSitesByServiceGroupRequest>,
-  output: __S(1896, __c237, 0) as any as S.Schema<GetSitesByServiceGroupResponse>,
+  input: __S(3872, __c242, 0) as any as S.Schema<GetSitesByServiceGroupRequest>,
+  output: __S(3808, __c238, 0) as any as S.Schema<GetSitesByServiceGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7894,8 +7968,8 @@ export const GetSitesBySubscription: API.OperationMethod<
   GetSitesBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c242, 0) as any as S.Schema<GetSitesBySubscriptionRequest>,
-  output: __S(1896, __c237, 0) as any as S.Schema<GetSitesBySubscriptionResponse>,
+  input: __S(3888, __c243, 0) as any as S.Schema<GetSitesBySubscriptionRequest>,
+  output: __S(3808, __c238, 0) as any as S.Schema<GetSitesBySubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7911,8 +7985,8 @@ export const GetSolution: API.OperationMethod<
   GetSolutionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1944, __c243, 0) as any as S.Schema<GetSolutionRequest>,
-  output: __S(1952, __c244, 0) as any as S.Schema<GetSolutionResponse>,
+  input: __S(3904, __c244, 0) as any as S.Schema<GetSolutionRequest>,
+  output: __S(3920, __c245, 0) as any as S.Schema<GetSolutionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7928,8 +8002,8 @@ export const GetSolutionMetadatas: API.OperationMethod<
   GetSolutionMetadatasError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c246, 0) as any as S.Schema<GetSolutionMetadatasRequest>,
-  output: __S(1977, __c247, 1) as any as S.Schema<GetSolutionMetadatasResponse>,
+  input: __S(3952, __c247, 0) as any as S.Schema<GetSolutionMetadatasRequest>,
+  output: __S(3969, __c248, 1) as any as S.Schema<GetSolutionMetadatasResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7951,8 +8025,8 @@ export const GetSolutionMetadataVersion: API.OperationMethod<
   GetSolutionMetadataVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c252, 0) as any as S.Schema<GetSolutionMetadataVersionRequest>,
-  output: __S(2025, __c253, 1) as any as S.Schema<GetSolutionMetadataVersionResponse>,
+  input: __S(4048, __c253, 0) as any as S.Schema<GetSolutionMetadataVersionRequest>,
+  output: __S(4065, __c254, 1) as any as S.Schema<GetSolutionMetadataVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7974,8 +8048,8 @@ export const GetSolutionSchema: API.OperationMethod<
   GetSolutionSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c254, 0) as any as S.Schema<GetSolutionSchemaRequest>,
-  output: __S(2041, __c255, 1) as any as S.Schema<GetSolutionSchemaResponse>,
+  input: __S(4080, __c255, 0) as any as S.Schema<GetSolutionSchemaRequest>,
+  output: __S(4097, __c256, 1) as any as S.Schema<GetSolutionSchemaResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7991,8 +8065,8 @@ export const GetSolutionTemplate: API.OperationMethod<
   GetSolutionTemplateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c256, 0) as any as S.Schema<GetSolutionTemplateRequest>,
-  output: __S(2064, __c258, 0) as any as S.Schema<GetSolutionTemplateResponse>,
+  input: __S(4112, __c257, 0) as any as S.Schema<GetSolutionTemplateRequest>,
+  output: __S(4144, __c259, 0) as any as S.Schema<GetSolutionTemplateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8008,8 +8082,8 @@ export const GetSolutionTemplateVersion: API.OperationMethod<
   GetSolutionTemplateVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2072, __c259, 0) as any as S.Schema<GetSolutionTemplateVersionRequest>,
-  output: __S(2080, __c260, 0) as any as S.Schema<GetSolutionTemplateVersionResponse>,
+  input: __S(4160, __c260, 0) as any as S.Schema<GetSolutionTemplateVersionRequest>,
+  output: __S(4176, __c261, 0) as any as S.Schema<GetSolutionTemplateVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8025,8 +8099,8 @@ export const GetSolutionVersion: API.OperationMethod<
   GetSolutionVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2088, __c261, 0) as any as S.Schema<GetSolutionVersionRequest>,
-  output: __S(2096, __c262, 0) as any as S.Schema<GetSolutionVersionResponse>,
+  input: __S(4192, __c262, 0) as any as S.Schema<GetSolutionVersionRequest>,
+  output: __S(4208, __c263, 0) as any as S.Schema<GetSolutionVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8042,8 +8116,8 @@ export const GetTarget: API.OperationMethod<
   GetTargetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c264, 0) as any as S.Schema<GetTargetRequest>,
-  output: __S(2120, __c265, 0) as any as S.Schema<GetTargetResponse>,
+  input: __S(4240, __c265, 0) as any as S.Schema<GetTargetRequest>,
+  output: __S(4256, __c266, 0) as any as S.Schema<GetTargetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8059,8 +8133,8 @@ export const GetWorkflow: API.OperationMethod<
   GetWorkflowError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2136, __c267, 0) as any as S.Schema<GetWorkflowRequest>,
-  output: __S(2144, __c268, 0) as any as S.Schema<GetWorkflowResponse>,
+  input: __S(4288, __c268, 0) as any as S.Schema<GetWorkflowRequest>,
+  output: __S(4304, __c269, 0) as any as S.Schema<GetWorkflowResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8076,8 +8150,8 @@ export const GetWorkflowVersion: API.OperationMethod<
   GetWorkflowVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c270, 0) as any as S.Schema<GetWorkflowVersionRequest>,
-  output: __S(2168, __c271, 0) as any as S.Schema<GetWorkflowVersionResponse>,
+  input: __S(4336, __c271, 0) as any as S.Schema<GetWorkflowVersionRequest>,
+  output: __S(4352, __c272, 0) as any as S.Schema<GetWorkflowVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8093,8 +8167,8 @@ export const HardwareSettingsCreateOrUpdate: API.OperationMethod<
   HardwareSettingsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2185, __c273, 1) as any as S.Schema<HardwareSettingsCreateOrUpdateRequest>,
-  output: __S(2186, __c273, 2) as any as S.Schema<HardwareSettingsCreateOrUpdateResponse>,
+  input: __S(4385, __c274, 1) as any as S.Schema<HardwareSettingsCreateOrUpdateRequest>,
+  output: __S(4386, __c274, 2) as any as S.Schema<HardwareSettingsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8110,8 +8184,8 @@ export const ImagesListDownloadUri: API.OperationMethod<
   ImagesListDownloadUriError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c274, 0) as any as S.Schema<ImagesListDownloadUriRequest>,
-  output: __S(2193, __c274, 1) as any as S.Schema<ImageDownloadResult>,
+  input: __S(4400, __c275, 0) as any as S.Schema<ImagesListDownloadUriRequest>,
+  output: __S(4401, __c275, 1) as any as S.Schema<ImageDownloadResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8127,8 +8201,8 @@ export const InstallTargetSolution: API.OperationMethod<
   InstallTargetSolutionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2216, __c277, 0) as any as S.Schema<InstallTargetSolutionRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<InstallTargetSolutionResponse>,
+  input: __S(4448, __c278, 0) as any as S.Schema<InstallTargetSolutionRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<InstallTargetSolutionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8144,8 +8218,8 @@ export const InstancesCreateOrUpdate: API.OperationMethod<
   InstancesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2225, __c278, 1) as any as S.Schema<InstancesCreateOrUpdateRequest>,
-  output: __S(2226, __c278, 2) as any as S.Schema<InstancesCreateOrUpdateResponse>,
+  input: __S(4465, __c279, 1) as any as S.Schema<InstancesCreateOrUpdateRequest>,
+  output: __S(4466, __c279, 2) as any as S.Schema<InstancesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8161,8 +8235,8 @@ export const ListArtifactByParent: API.OperationMethod<
   ListArtifactByParentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2232, __c279, 0) as any as S.Schema<ListArtifactByParentRequest>,
-  output: __S(2234, __c279, 2) as any as S.Schema<ArtifactListResult>,
+  input: __S(4480, __c280, 0) as any as S.Schema<ListArtifactByParentRequest>,
+  output: __S(4482, __c280, 2) as any as S.Schema<ArtifactListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8178,8 +8252,8 @@ export const ListConfigTemplateByResourceGroup: API.OperationMethod<
   ListConfigTemplateByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c280, 0) as any as S.Schema<ListConfigTemplateByResourceGroupRequest>,
-  output: __S(2249, __c281, 1) as any as S.Schema<ConfigTemplateListResult>,
+  input: __S(4496, __c281, 0) as any as S.Schema<ListConfigTemplateByResourceGroupRequest>,
+  output: __S(4513, __c282, 1) as any as S.Schema<ConfigTemplateListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8195,8 +8269,8 @@ export const ListConfigTemplateBySubscription: API.OperationMethod<
   ListConfigTemplateBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c282, 0) as any as S.Schema<ListConfigTemplateBySubscriptionRequest>,
-  output: __S(2249, __c281, 1) as any as S.Schema<ConfigTemplateListResult>,
+  input: __S(4528, __c283, 0) as any as S.Schema<ListConfigTemplateBySubscriptionRequest>,
+  output: __S(4513, __c282, 1) as any as S.Schema<ConfigTemplateListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8213,11 +8287,11 @@ export const ListConfigTemplateMetadatasByConfigTemplate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2264,
-    __c283,
+    4544,
+    __c284,
     0,
   ) as any as S.Schema<ListConfigTemplateMetadatasByConfigTemplateRequest>,
-  output: __S(2266, __c283, 2) as any as S.Schema<ConfigTemplateMetadataListResult>,
+  output: __S(4546, __c284, 2) as any as S.Schema<ConfigTemplateMetadataListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8234,11 +8308,11 @@ export const ListConfigTemplateSchemaByConfigTemplateVersion: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2272,
-    __c284,
+    4560,
+    __c285,
     0,
   ) as any as S.Schema<ListConfigTemplateSchemaByConfigTemplateVersionRequest>,
-  output: __S(2274, __c284, 2) as any as S.Schema<ConfigTemplateSchemaListResult>,
+  output: __S(4562, __c285, 2) as any as S.Schema<ConfigTemplateSchemaListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8254,8 +8328,8 @@ export const ListConfigTemplateVersionByConfigTemplate: API.OperationMethod<
   ListConfigTemplateVersionByConfigTemplateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2280, __c285, 0) as any as S.Schema<ListConfigTemplateVersionByConfigTemplateRequest>,
-  output: __S(2282, __c285, 2) as any as S.Schema<ConfigTemplateVersionListResult>,
+  input: __S(4576, __c286, 0) as any as S.Schema<ListConfigTemplateVersionByConfigTemplateRequest>,
+  output: __S(4578, __c286, 2) as any as S.Schema<ConfigTemplateVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8271,8 +8345,8 @@ export const ListConfigurationByResourceGroup: API.OperationMethod<
   ListConfigurationByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c286, 0) as any as S.Schema<ListConfigurationByResourceGroupRequest>,
-  output: __S(2297, __c287, 1) as any as S.Schema<ConfigurationListResult>,
+  input: __S(4592, __c287, 0) as any as S.Schema<ListConfigurationByResourceGroupRequest>,
+  output: __S(4609, __c288, 1) as any as S.Schema<ConfigurationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8288,8 +8362,8 @@ export const ListConfigurationBySubscription: API.OperationMethod<
   ListConfigurationBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c288, 0) as any as S.Schema<ListConfigurationBySubscriptionRequest>,
-  output: __S(2297, __c287, 1) as any as S.Schema<ConfigurationListResult>,
+  input: __S(4624, __c289, 0) as any as S.Schema<ListConfigurationBySubscriptionRequest>,
+  output: __S(4609, __c288, 1) as any as S.Schema<ConfigurationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8305,8 +8379,8 @@ export const ListConfigurationReferences: API.OperationMethod<
   ListConfigurationReferencesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListConfigurationReferencesRequest>,
-  output: __S(42, __c5, 2) as any as S.Schema<ConfigurationReferenceListResult>,
+  input: __S(80, __c5, 0) as any as S.Schema<ListConfigurationReferencesRequest>,
+  output: __S(82, __c5, 2) as any as S.Schema<ConfigurationReferenceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8327,8 +8401,8 @@ export const ListContextByResourceGroup: API.OperationMethod<
   ListContextByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListContextByResourceGroupRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<ContextListResult>,
+  input: __S(96, __c6, 0) as any as S.Schema<ListContextByResourceGroupRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<ContextListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8344,8 +8418,8 @@ export const ListContextBySubscription: API.OperationMethod<
   ListContextBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ListContextBySubscriptionRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<ContextListResult>,
+  input: __S(128, __c8, 0) as any as S.Schema<ListContextBySubscriptionRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<ContextListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8361,8 +8435,8 @@ export const ListDiagnosticByResourceGroup: API.OperationMethod<
   ListDiagnosticByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<ListDiagnosticByResourceGroupRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<DiagnosticListResult>,
+  input: __S(144, __c9, 0) as any as S.Schema<ListDiagnosticByResourceGroupRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<DiagnosticListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8378,8 +8452,8 @@ export const ListDiagnosticBySubscription: API.OperationMethod<
   ListDiagnosticBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<ListDiagnosticBySubscriptionRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<DiagnosticListResult>,
+  input: __S(176, __c11, 0) as any as S.Schema<ListDiagnosticBySubscriptionRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<DiagnosticListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8395,8 +8469,8 @@ export const ListDisconnectedOperationByResourceGroup: API.OperationMethod<
   ListDisconnectedOperationByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<ListDisconnectedOperationByResourceGroupRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<DisconnectedOperationListResult>,
+  input: __S(192, __c12, 0) as any as S.Schema<ListDisconnectedOperationByResourceGroupRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<DisconnectedOperationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8412,8 +8486,8 @@ export const ListDisconnectedOperationBySubscription: API.OperationMethod<
   ListDisconnectedOperationBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<ListDisconnectedOperationBySubscriptionRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<DisconnectedOperationListResult>,
+  input: __S(224, __c14, 0) as any as S.Schema<ListDisconnectedOperationBySubscriptionRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<DisconnectedOperationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8429,8 +8503,8 @@ export const ListDisconnectedOperationDeploymentManifest: API.OperationMethod<
   ListDisconnectedOperationDeploymentManifestError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<ListDisconnectedOperationDeploymentManifestRequest>,
-  output: __S(121, __c15, 1) as any as S.Schema<DisconnectedOperationDeploymentManifest>,
+  input: __S(240, __c15, 0) as any as S.Schema<ListDisconnectedOperationDeploymentManifestRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<DisconnectedOperationDeploymentManifest>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8446,8 +8520,8 @@ export const ListDynamicConfigurationByConfiguration: API.OperationMethod<
   ListDynamicConfigurationByConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<ListDynamicConfigurationByConfigurationRequest>,
-  output: __S(130, __c16, 2) as any as S.Schema<DynamicConfigurationListResult>,
+  input: __S(256, __c16, 0) as any as S.Schema<ListDynamicConfigurationByConfigurationRequest>,
+  output: __S(258, __c16, 2) as any as S.Schema<DynamicConfigurationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8464,11 +8538,11 @@ export const ListDynamicConfigurationVersionByDynamicConfiguration: API.Operatio
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    136,
+    272,
     __c17,
     0,
   ) as any as S.Schema<ListDynamicConfigurationVersionByDynamicConfigurationRequest>,
-  output: __S(138, __c17, 2) as any as S.Schema<DynamicConfigurationVersionListResult>,
+  output: __S(274, __c17, 2) as any as S.Schema<DynamicConfigurationVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8484,8 +8558,8 @@ export const ListDynamicSchemaBySchema: API.OperationMethod<
   ListDynamicSchemaBySchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<ListDynamicSchemaBySchemaRequest>,
-  output: __S(170, __c21, 2) as any as S.Schema<DynamicSchemaListResult>,
+  input: __S(336, __c21, 0) as any as S.Schema<ListDynamicSchemaBySchemaRequest>,
+  output: __S(338, __c21, 2) as any as S.Schema<DynamicSchemaListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8501,8 +8575,8 @@ export const ListDynamicSchemaVersionByDynamicSchema: API.OperationMethod<
   ListDynamicSchemaVersionByDynamicSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<ListDynamicSchemaVersionByDynamicSchemaRequest>,
-  output: __S(185, __c23, 1) as any as S.Schema<DynamicSchemaVersionListResult>,
+  input: __S(352, __c22, 0) as any as S.Schema<ListDynamicSchemaVersionByDynamicSchemaRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<DynamicSchemaVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8518,8 +8592,8 @@ export const ListExecutionByWorkflowVersion: API.OperationMethod<
   ListExecutionByWorkflowVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<ListExecutionByWorkflowVersionRequest>,
-  output: __S(194, __c24, 2) as any as S.Schema<ExecutionListResult>,
+  input: __S(384, __c24, 0) as any as S.Schema<ListExecutionByWorkflowVersionRequest>,
+  output: __S(386, __c24, 2) as any as S.Schema<ExecutionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8535,8 +8609,8 @@ export const ListHardwareSettingsByParent: API.OperationMethod<
   ListHardwareSettingsByParentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<ListHardwareSettingsByParentRequest>,
-  output: __S(202, __c25, 2) as any as S.Schema<HardwareSettingListResult>,
+  input: __S(400, __c25, 0) as any as S.Schema<ListHardwareSettingsByParentRequest>,
+  output: __S(402, __c25, 2) as any as S.Schema<HardwareSettingListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8552,8 +8626,8 @@ export const ListHierarchyConfigurationMetadatasByParent: API.OperationMethod<
   ListHierarchyConfigurationMetadatasByParentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<ListHierarchyConfigurationMetadatasByParentRequest>,
-  output: __S(210, __c26, 2) as any as S.Schema<HierarchyConfigurationMetadataListResult>,
+  input: __S(416, __c26, 0) as any as S.Schema<ListHierarchyConfigurationMetadatasByParentRequest>,
+  output: __S(418, __c26, 2) as any as S.Schema<HierarchyConfigurationMetadataListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8575,11 +8649,11 @@ export const ListHierarchyConfigurationMetadataVersionByParent: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    216,
+    432,
     __c27,
     0,
   ) as any as S.Schema<ListHierarchyConfigurationMetadataVersionByParentRequest>,
-  output: __S(218, __c27, 2) as any as S.Schema<HierarchyConfigurationMetadataVersionListResult>,
+  output: __S(434, __c27, 2) as any as S.Schema<HierarchyConfigurationMetadataVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8601,8 +8675,8 @@ export const ListImageByDisconnectedOperation: API.OperationMethod<
   ListImageByDisconnectedOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<ListImageByDisconnectedOperationRequest>,
-  output: __S(226, __c28, 2) as any as S.Schema<ImageListResult>,
+  input: __S(448, __c28, 0) as any as S.Schema<ListImageByDisconnectedOperationRequest>,
+  output: __S(450, __c28, 2) as any as S.Schema<ImageListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8618,8 +8692,8 @@ export const ListInstanceBySolution: API.OperationMethod<
   ListInstanceBySolutionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<ListInstanceBySolutionRequest>,
-  output: __S(234, __c29, 2) as any as S.Schema<InstanceListResult>,
+  input: __S(464, __c29, 0) as any as S.Schema<ListInstanceBySolutionRequest>,
+  output: __S(466, __c29, 2) as any as S.Schema<InstanceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8635,8 +8709,8 @@ export const ListInstanceHistoryByInstance: API.OperationMethod<
   ListInstanceHistoryByInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<ListInstanceHistoryByInstanceRequest>,
-  output: __S(242, __c30, 2) as any as S.Schema<InstanceHistoryListResult>,
+  input: __S(480, __c30, 0) as any as S.Schema<ListInstanceHistoryByInstanceRequest>,
+  output: __S(482, __c30, 2) as any as S.Schema<InstanceHistoryListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8652,8 +8726,8 @@ export const ListJobByTarget: API.OperationMethod<
   ListJobByTargetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<ListJobByTargetRequest>,
-  output: __S(250, __c31, 2) as any as S.Schema<JobListResult>,
+  input: __S(496, __c31, 0) as any as S.Schema<ListJobByTargetRequest>,
+  output: __S(498, __c31, 2) as any as S.Schema<JobListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8672,8 +8746,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(292, __c36, 4) as any as S.Schema<ListOperationsResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(580, __c36, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8689,8 +8763,8 @@ export const ListSchemaByResourceGroup: API.OperationMethod<
   ListSchemaByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<ListSchemaByResourceGroupRequest>,
-  output: __S(306, __c38, 2) as any as S.Schema<SchemaListResult>,
+  input: __S(592, __c37, 0) as any as S.Schema<ListSchemaByResourceGroupRequest>,
+  output: __S(610, __c38, 2) as any as S.Schema<SchemaListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8706,8 +8780,8 @@ export const ListSchemaBySubscription: API.OperationMethod<
   ListSchemaBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<ListSchemaBySubscriptionRequest>,
-  output: __S(306, __c38, 2) as any as S.Schema<SchemaListResult>,
+  input: __S(624, __c39, 0) as any as S.Schema<ListSchemaBySubscriptionRequest>,
+  output: __S(610, __c38, 2) as any as S.Schema<SchemaListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8723,8 +8797,8 @@ export const ListSchemaReferenceByResourceGroup: API.OperationMethod<
   ListSchemaReferenceByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<ListSchemaReferenceByResourceGroupRequest>,
-  output: __S(322, __c40, 2) as any as S.Schema<SchemaReferenceListResult>,
+  input: __S(640, __c40, 0) as any as S.Schema<ListSchemaReferenceByResourceGroupRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<SchemaReferenceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8743,8 +8817,8 @@ export const ListSchemaVersionBySchema: API.OperationMethod<
   ListSchemaVersionBySchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<ListSchemaVersionBySchemaRequest>,
-  output: __S(185, __c23, 1) as any as S.Schema<SchemaVersionListResult>,
+  input: __S(656, __c41, 0) as any as S.Schema<ListSchemaVersionBySchemaRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<SchemaVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8760,8 +8834,8 @@ export const ListSiteByResourceGroup: API.OperationMethod<
   ListSiteByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<ListSiteByResourceGroupRequest>,
-  output: __S(345, __c43, 1) as any as S.Schema<SiteListResult>,
+  input: __S(672, __c42, 0) as any as S.Schema<ListSiteByResourceGroupRequest>,
+  output: __S(689, __c43, 1) as any as S.Schema<SiteListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8777,8 +8851,8 @@ export const ListSiteReferenceByContext: API.OperationMethod<
   ListSiteReferenceByContextError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<ListSiteReferenceByContextRequest>,
-  output: __S(354, __c44, 2) as any as S.Schema<SiteReferenceListResult>,
+  input: __S(704, __c44, 0) as any as S.Schema<ListSiteReferenceByContextRequest>,
+  output: __S(706, __c44, 2) as any as S.Schema<SiteReferenceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8794,8 +8868,8 @@ export const ListSitesByServiceGroupByServiceGroup: API.OperationMethod<
   ListSitesByServiceGroupByServiceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<ListSitesByServiceGroupByServiceGroupRequest>,
-  output: __S(345, __c43, 1) as any as S.Schema<SiteListResult>,
+  input: __S(720, __c45, 0) as any as S.Schema<ListSitesByServiceGroupByServiceGroupRequest>,
+  output: __S(689, __c43, 1) as any as S.Schema<SiteListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8811,8 +8885,8 @@ export const ListSitesBySubscription: API.OperationMethod<
   ListSitesBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<ListSitesBySubscriptionRequest>,
-  output: __S(345, __c43, 1) as any as S.Schema<SiteListResult>,
+  input: __S(736, __c46, 0) as any as S.Schema<ListSitesBySubscriptionRequest>,
+  output: __S(689, __c43, 1) as any as S.Schema<SiteListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8828,8 +8902,8 @@ export const ListSolutionByTarget: API.OperationMethod<
   ListSolutionByTargetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<ListSolutionByTargetRequest>,
-  output: __S(378, __c47, 2) as any as S.Schema<SolutionListResult>,
+  input: __S(752, __c47, 0) as any as S.Schema<ListSolutionByTargetRequest>,
+  output: __S(754, __c47, 2) as any as S.Schema<SolutionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8845,8 +8919,8 @@ export const ListSolutionMetadatasByParent: API.OperationMethod<
   ListSolutionMetadatasByParentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<ListSolutionMetadatasByParentRequest>,
-  output: __S(394, __c49, 2) as any as S.Schema<SolutionMetadataListResult>,
+  input: __S(784, __c49, 0) as any as S.Schema<ListSolutionMetadatasByParentRequest>,
+  output: __S(786, __c49, 2) as any as S.Schema<SolutionMetadataListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8865,8 +8939,8 @@ export const ListSolutionMetadataVersionByParent: API.OperationMethod<
   ListSolutionMetadataVersionByParentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<ListSolutionMetadataVersionByParentRequest>,
-  output: __S(402, __c50, 2) as any as S.Schema<SolutionMetadataVersionListResult>,
+  input: __S(800, __c50, 0) as any as S.Schema<ListSolutionMetadataVersionByParentRequest>,
+  output: __S(802, __c50, 2) as any as S.Schema<SolutionMetadataVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8888,8 +8962,8 @@ export const ListSolutionSchemaBySolutionTemplateVersion: API.OperationMethod<
   ListSolutionSchemaBySolutionTemplateVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<ListSolutionSchemaBySolutionTemplateVersionRequest>,
-  output: __S(410, __c51, 2) as any as S.Schema<SolutionSchemaListResult>,
+  input: __S(816, __c51, 0) as any as S.Schema<ListSolutionSchemaBySolutionTemplateVersionRequest>,
+  output: __S(818, __c51, 2) as any as S.Schema<SolutionSchemaListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8905,8 +8979,8 @@ export const ListSolutionTemplateByResourceGroup: API.OperationMethod<
   ListSolutionTemplateByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<ListSolutionTemplateByResourceGroupRequest>,
-  output: __S(425, __c53, 1) as any as S.Schema<SolutionTemplateListResult>,
+  input: __S(832, __c52, 0) as any as S.Schema<ListSolutionTemplateByResourceGroupRequest>,
+  output: __S(849, __c53, 1) as any as S.Schema<SolutionTemplateListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8922,8 +8996,8 @@ export const ListSolutionTemplateBySubscription: API.OperationMethod<
   ListSolutionTemplateBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<ListSolutionTemplateBySubscriptionRequest>,
-  output: __S(425, __c53, 1) as any as S.Schema<SolutionTemplateListResult>,
+  input: __S(864, __c54, 0) as any as S.Schema<ListSolutionTemplateBySubscriptionRequest>,
+  output: __S(849, __c53, 1) as any as S.Schema<SolutionTemplateListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8940,11 +9014,11 @@ export const ListSolutionTemplateVersionBySolutionTemplate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    440,
+    880,
     __c55,
     0,
   ) as any as S.Schema<ListSolutionTemplateVersionBySolutionTemplateRequest>,
-  output: __S(442, __c55, 2) as any as S.Schema<SolutionTemplateVersionListResult>,
+  output: __S(882, __c55, 2) as any as S.Schema<SolutionTemplateVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8960,8 +9034,8 @@ export const ListSolutionVersionBySolution: API.OperationMethod<
   ListSolutionVersionBySolutionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<ListSolutionVersionBySolutionRequest>,
-  output: __S(450, __c56, 2) as any as S.Schema<SolutionVersionListResult>,
+  input: __S(896, __c56, 0) as any as S.Schema<ListSolutionVersionBySolutionRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<SolutionVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8977,8 +9051,8 @@ export const ListTargetByResourceGroup: API.OperationMethod<
   ListTargetByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<ListTargetByResourceGroupRequest>,
-  output: __S(465, __c58, 1) as any as S.Schema<TargetListResult>,
+  input: __S(912, __c57, 0) as any as S.Schema<ListTargetByResourceGroupRequest>,
+  output: __S(929, __c58, 1) as any as S.Schema<TargetListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8994,8 +9068,8 @@ export const ListTargetBySubscription: API.OperationMethod<
   ListTargetBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(472, __c59, 0) as any as S.Schema<ListTargetBySubscriptionRequest>,
-  output: __S(465, __c58, 1) as any as S.Schema<TargetListResult>,
+  input: __S(944, __c59, 0) as any as S.Schema<ListTargetBySubscriptionRequest>,
+  output: __S(929, __c58, 1) as any as S.Schema<TargetListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9011,8 +9085,8 @@ export const ListWorkflowByContext: API.OperationMethod<
   ListWorkflowByContextError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<ListWorkflowByContextRequest>,
-  output: __S(482, __c60, 2) as any as S.Schema<WorkflowListResult>,
+  input: __S(960, __c60, 0) as any as S.Schema<ListWorkflowByContextRequest>,
+  output: __S(962, __c60, 2) as any as S.Schema<WorkflowListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9028,8 +9102,8 @@ export const ListWorkflowVersionByWorkflow: API.OperationMethod<
   ListWorkflowVersionByWorkflowError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<ListWorkflowVersionByWorkflowRequest>,
-  output: __S(498, __c62, 2) as any as S.Schema<WorkflowVersionListResult>,
+  input: __S(992, __c62, 0) as any as S.Schema<ListWorkflowVersionByWorkflowRequest>,
+  output: __S(994, __c62, 2) as any as S.Schema<WorkflowVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9045,8 +9119,8 @@ export const PublishTargetSolutionVersion: API.OperationMethod<
   PublishTargetSolutionVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c63, 0) as any as S.Schema<PublishTargetSolutionVersionRequest>,
-  output: __S(512, __c64, 0) as any as S.Schema<PublishTargetSolutionVersionResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<PublishTargetSolutionVersionRequest>,
+  output: __S(1024, __c64, 0) as any as S.Schema<PublishTargetSolutionVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9062,8 +9136,8 @@ export const RemoveConfigTemplateVersion: API.OperationMethod<
   RemoveConfigTemplateVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<RemoveConfigTemplateVersionRequest>,
-  output: __S(528, __c66, 0) as any as S.Schema<RemoveVersionResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<RemoveConfigTemplateVersionRequest>,
+  output: __S(1056, __c66, 0) as any as S.Schema<RemoveVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9079,8 +9153,8 @@ export const RemoveSchemaVersion: API.OperationMethod<
   RemoveSchemaVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(536, __c67, 0) as any as S.Schema<RemoveSchemaVersionRequest>,
-  output: __S(528, __c66, 0) as any as S.Schema<RemoveVersionResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<RemoveSchemaVersionRequest>,
+  output: __S(1056, __c66, 0) as any as S.Schema<RemoveVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9096,8 +9170,8 @@ export const RemoveSolutionTemplateVersion: API.OperationMethod<
   RemoveSolutionTemplateVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<RemoveSolutionTemplateVersionRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<RemoveSolutionTemplateVersionResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<RemoveSolutionTemplateVersionRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<RemoveSolutionTemplateVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9113,8 +9187,8 @@ export const RemoveTargetRevision: API.OperationMethod<
   RemoveTargetRevisionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(552, __c69, 0) as any as S.Schema<RemoveTargetRevisionRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<RemoveTargetRevisionResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<RemoveTargetRevisionRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<RemoveTargetRevisionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9130,8 +9204,8 @@ export const ReviewTargetSolutionVersion: API.OperationMethod<
   ReviewTargetSolutionVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<ReviewTargetSolutionVersionRequest>,
-  output: __S(512, __c64, 0) as any as S.Schema<ReviewTargetSolutionVersionResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<ReviewTargetSolutionVersionRequest>,
+  output: __S(1024, __c64, 0) as any as S.Schema<ReviewTargetSolutionVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9147,8 +9221,8 @@ export const SchemaReferencesCreateOrUpdate: API.OperationMethod<
   SchemaReferencesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(569, __c71, 1) as any as S.Schema<SchemaReferencesCreateOrUpdateRequest>,
-  output: __S(570, __c71, 2) as any as S.Schema<SchemaReferencesCreateOrUpdateResponse>,
+  input: __S(1137, __c71, 1) as any as S.Schema<SchemaReferencesCreateOrUpdateRequest>,
+  output: __S(1138, __c71, 2) as any as S.Schema<SchemaReferencesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9170,8 +9244,8 @@ export const SchemasCreateOrUpdate: API.OperationMethod<
   SchemasCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c72, 0) as any as S.Schema<SchemasCreateOrUpdateRequest>,
-  output: __S(577, __c72, 1) as any as S.Schema<SchemasCreateOrUpdateResponse>,
+  input: __S(1152, __c72, 0) as any as S.Schema<SchemasCreateOrUpdateRequest>,
+  output: __S(1153, __c72, 1) as any as S.Schema<SchemasCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9187,8 +9261,8 @@ export const SchemaVersionsCreateOrUpdate: API.OperationMethod<
   SchemaVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(584, __c73, 0) as any as S.Schema<SchemaVersionsCreateOrUpdateRequest>,
-  output: __S(1360, __c170, 0) as any as S.Schema<SchemaVersionsCreateOrUpdateResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<SchemaVersionsCreateOrUpdateRequest>,
+  output: __S(2720, __c170, 0) as any as S.Schema<SchemaVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9204,8 +9278,8 @@ export const SiteReferencesCreateOrUpdate: API.OperationMethod<
   SiteReferencesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(601, __c75, 1) as any as S.Schema<SiteReferencesCreateOrUpdateRequest>,
-  output: __S(602, __c75, 2) as any as S.Schema<SiteReferencesCreateOrUpdateResponse>,
+  input: __S(1201, __c75, 1) as any as S.Schema<SiteReferencesCreateOrUpdateRequest>,
+  output: __S(1202, __c75, 2) as any as S.Schema<SiteReferencesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9221,8 +9295,8 @@ export const SitesByServiceGroupCreateOrUpdate: API.OperationMethod<
   SitesByServiceGroupCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c76, 0) as any as S.Schema<SitesByServiceGroupCreateOrUpdateRequest>,
-  output: __S(616, __c77, 0) as any as S.Schema<SitesByServiceGroupCreateOrUpdateResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<SitesByServiceGroupCreateOrUpdateRequest>,
+  output: __S(1232, __c77, 0) as any as S.Schema<SitesByServiceGroupCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9238,8 +9312,8 @@ export const SitesBySubscriptionCreateOrUpdate: API.OperationMethod<
   SitesBySubscriptionCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(632, __c79, 0) as any as S.Schema<SitesBySubscriptionCreateOrUpdateRequest>,
-  output: __S(616, __c77, 0) as any as S.Schema<SitesBySubscriptionCreateOrUpdateResponse>,
+  input: __S(1264, __c79, 0) as any as S.Schema<SitesBySubscriptionCreateOrUpdateRequest>,
+  output: __S(1232, __c77, 0) as any as S.Schema<SitesBySubscriptionCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9255,8 +9329,8 @@ export const SitesCreateOrUpdate: API.OperationMethod<
   SitesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c80, 0) as any as S.Schema<SitesCreateOrUpdateRequest>,
-  output: __S(616, __c77, 0) as any as S.Schema<SitesCreateOrUpdateResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<SitesCreateOrUpdateRequest>,
+  output: __S(1232, __c77, 0) as any as S.Schema<SitesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9272,8 +9346,8 @@ export const SolutionsCreateOrUpdate: API.OperationMethod<
   SolutionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(648, __c81, 0) as any as S.Schema<SolutionsCreateOrUpdateRequest>,
-  output: __S(649, __c81, 1) as any as S.Schema<SolutionsCreateOrUpdateResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<SolutionsCreateOrUpdateRequest>,
+  output: __S(1297, __c81, 1) as any as S.Schema<SolutionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9289,8 +9363,8 @@ export const SolutionTemplatesCreateOrUpdate: API.OperationMethod<
   SolutionTemplatesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(657, __c82, 1) as any as S.Schema<SolutionTemplatesCreateOrUpdateRequest>,
-  output: __S(658, __c82, 2) as any as S.Schema<SolutionTemplatesCreateOrUpdateResponse>,
+  input: __S(1313, __c82, 1) as any as S.Schema<SolutionTemplatesCreateOrUpdateRequest>,
+  output: __S(1314, __c82, 2) as any as S.Schema<SolutionTemplatesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9306,8 +9380,8 @@ export const SolutionTemplateVersionsBulkDeploySolution: API.OperationMethod<
   SolutionTemplateVersionsBulkDeploySolutionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(666, __c83, 2) as any as S.Schema<SolutionTemplateVersionsBulkDeploySolutionRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<SolutionTemplateVersionsBulkDeploySolutionResponse>,
+  input: __S(1329, __c83, 1) as any as S.Schema<SolutionTemplateVersionsBulkDeploySolutionRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<SolutionTemplateVersionsBulkDeploySolutionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9323,8 +9397,8 @@ export const SolutionTemplateVersionsBulkPublishSolution: API.OperationMethod<
   SolutionTemplateVersionsBulkPublishSolutionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(674, __c84, 2) as any as S.Schema<SolutionTemplateVersionsBulkPublishSolutionRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<SolutionTemplateVersionsBulkPublishSolutionResponse>,
+  input: __S(1346, __c84, 2) as any as S.Schema<SolutionTemplateVersionsBulkPublishSolutionRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<SolutionTemplateVersionsBulkPublishSolutionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9340,8 +9414,8 @@ export const SolutionTemplateVersionsCreateOrUpdate: API.OperationMethod<
   SolutionTemplateVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(680, __c85, 0) as any as S.Schema<SolutionTemplateVersionsCreateOrUpdateRequest>,
-  output: __S(681, __c85, 1) as any as S.Schema<SolutionTemplateVersionsCreateOrUpdateResponse>,
+  input: __S(1360, __c85, 0) as any as S.Schema<SolutionTemplateVersionsCreateOrUpdateRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<SolutionTemplateVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9357,8 +9431,8 @@ export const SolutionVersionsCreateOrUpdate: API.OperationMethod<
   SolutionVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(689, __c86, 1) as any as S.Schema<SolutionVersionsCreateOrUpdateRequest>,
-  output: __S(690, __c86, 2) as any as S.Schema<SolutionVersionsCreateOrUpdateResponse>,
+  input: __S(1377, __c86, 1) as any as S.Schema<SolutionVersionsCreateOrUpdateRequest>,
+  output: __S(1378, __c86, 2) as any as S.Schema<SolutionVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9374,8 +9448,8 @@ export const TargetsCreateOrUpdate: API.OperationMethod<
   TargetsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(705, __c88, 1) as any as S.Schema<TargetsCreateOrUpdateRequest>,
-  output: __S(706, __c88, 2) as any as S.Schema<TargetsCreateOrUpdateResponse>,
+  input: __S(1409, __c88, 1) as any as S.Schema<TargetsCreateOrUpdateRequest>,
+  output: __S(1410, __c88, 2) as any as S.Schema<TargetsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9391,8 +9465,8 @@ export const TargetsResolveConfiguration: API.OperationMethod<
   TargetsResolveConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(712, __c89, 0) as any as S.Schema<TargetsResolveConfigurationRequest>,
-  output: __S(713, __c89, 1) as any as S.Schema<ResolvedConfiguration>,
+  input: __S(1424, __c89, 0) as any as S.Schema<TargetsResolveConfigurationRequest>,
+  output: __S(1425, __c89, 1) as any as S.Schema<ResolvedConfiguration>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9408,8 +9482,8 @@ export const TargetsUnstageSolutionVersion: API.OperationMethod<
   TargetsUnstageSolutionVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c90, 0) as any as S.Schema<TargetsUnstageSolutionVersionRequest>,
-  output: __S(512, __c64, 0) as any as S.Schema<TargetsUnstageSolutionVersionResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<TargetsUnstageSolutionVersionRequest>,
+  output: __S(1024, __c64, 0) as any as S.Schema<TargetsUnstageSolutionVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9425,8 +9499,8 @@ export const UninstallTargetSolution: API.OperationMethod<
   UninstallTargetSolutionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(728, __c91, 0) as any as S.Schema<UninstallTargetSolutionRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<UninstallTargetSolutionResponse>,
+  input: __S(1456, __c91, 0) as any as S.Schema<UninstallTargetSolutionRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<UninstallTargetSolutionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9442,8 +9516,8 @@ export const UpdateConfigTemplate: API.OperationMethod<
   UpdateConfigTemplateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(737, __c92, 1) as any as S.Schema<UpdateConfigTemplateRequest>,
-  output: __S(1416, __c177, 0) as any as S.Schema<UpdateConfigTemplateResponse>,
+  input: __S(1473, __c92, 1) as any as S.Schema<UpdateConfigTemplateRequest>,
+  output: __S(2832, __c177, 0) as any as S.Schema<UpdateConfigTemplateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9459,8 +9533,8 @@ export const UpdateConfigTemplateMetadatas: API.OperationMethod<
   UpdateConfigTemplateMetadatasError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(744, __c93, 0) as any as S.Schema<UpdateConfigTemplateMetadatasRequest>,
-  output: __S(745, __c93, 1) as any as S.Schema<UpdateConfigTemplateMetadatasResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<UpdateConfigTemplateMetadatasRequest>,
+  output: __S(1489, __c93, 1) as any as S.Schema<UpdateConfigTemplateMetadatasResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9476,8 +9550,8 @@ export const UpdateConfigTemplateVersion: API.OperationMethod<
   UpdateConfigTemplateVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(753, __c94, 1) as any as S.Schema<UpdateConfigTemplateVersionRequest>,
-  output: __S(1464, __c183, 0) as any as S.Schema<UpdateConfigTemplateVersionResponse>,
+  input: __S(1505, __c94, 1) as any as S.Schema<UpdateConfigTemplateVersionRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<UpdateConfigTemplateVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9493,8 +9567,8 @@ export const UpdateConfiguration: API.OperationMethod<
   UpdateConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(760, __c95, 0) as any as S.Schema<UpdateConfigurationRequest>,
-  output: __S(2008, __c251, 0) as any as S.Schema<UpdateConfigurationResponse>,
+  input: __S(1520, __c95, 0) as any as S.Schema<UpdateConfigurationRequest>,
+  output: __S(4032, __c252, 0) as any as S.Schema<UpdateConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9510,8 +9584,8 @@ export const UpdateConfigurationReference: API.OperationMethod<
   UpdateConfigurationReferenceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c96, 0) as any as S.Schema<UpdateConfigurationReferenceRequest>,
-  output: __S(1793, __c224, 1) as any as S.Schema<UpdateConfigurationReferenceResponse>,
+  input: __S(1536, __c96, 0) as any as S.Schema<UpdateConfigurationReferenceRequest>,
+  output: __S(3585, __c224, 1) as any as S.Schema<UpdateConfigurationReferenceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9533,8 +9607,8 @@ export const UpdateContext: API.OperationMethod<
   UpdateContextError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(777, __c97, 1) as any as S.Schema<UpdateContextRequest>,
-  output: __S(778, __c97, 2) as any as S.Schema<UpdateContextResponse>,
+  input: __S(1553, __c97, 1) as any as S.Schema<UpdateContextRequest>,
+  output: __S(1554, __c97, 2) as any as S.Schema<UpdateContextResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9550,8 +9624,8 @@ export const UpdateDiagnostic: API.OperationMethod<
   UpdateDiagnosticError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(792, __c99, 0) as any as S.Schema<UpdateDiagnosticRequest>,
-  output: __S(793, __c99, 1) as any as S.Schema<UpdateDiagnosticResponse>,
+  input: __S(1584, __c99, 0) as any as S.Schema<UpdateDiagnosticRequest>,
+  output: __S(1585, __c99, 1) as any as S.Schema<UpdateDiagnosticResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9567,8 +9641,8 @@ export const UpdateDisconnectedOperation: API.OperationMethod<
   UpdateDisconnectedOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(803, __c100, 3) as any as S.Schema<UpdateDisconnectedOperationRequest>,
-  output: __S(1528, __c191, 0) as any as S.Schema<UpdateDisconnectedOperationResponse>,
+  input: __S(1603, __c100, 3) as any as S.Schema<UpdateDisconnectedOperationRequest>,
+  output: __S(3056, __c191, 0) as any as S.Schema<UpdateDisconnectedOperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9584,8 +9658,8 @@ export const UpdateDynamicConfiguration: API.OperationMethod<
   UpdateDynamicConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(809, __c101, 1) as any as S.Schema<UpdateDynamicConfigurationRequest>,
-  output: __S(1544, __c193, 0) as any as S.Schema<UpdateDynamicConfigurationResponse>,
+  input: __S(1617, __c101, 1) as any as S.Schema<UpdateDynamicConfigurationRequest>,
+  output: __S(3088, __c193, 0) as any as S.Schema<UpdateDynamicConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9601,8 +9675,8 @@ export const UpdateDynamicConfigurationVersion: API.OperationMethod<
   UpdateDynamicConfigurationVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(817, __c102, 1) as any as S.Schema<UpdateDynamicConfigurationVersionRequest>,
-  output: __S(1584, __c198, 0) as any as S.Schema<UpdateDynamicConfigurationVersionResponse>,
+  input: __S(1633, __c102, 1) as any as S.Schema<UpdateDynamicConfigurationVersionRequest>,
+  output: __S(3168, __c198, 0) as any as S.Schema<UpdateDynamicConfigurationVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9618,8 +9692,8 @@ export const UpdateDynamicSchema: API.OperationMethod<
   UpdateDynamicSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(824, __c103, 0) as any as S.Schema<UpdateDynamicSchemaRequest>,
-  output: __S(1600, __c200, 0) as any as S.Schema<UpdateDynamicSchemaResponse>,
+  input: __S(1648, __c103, 0) as any as S.Schema<UpdateDynamicSchemaRequest>,
+  output: __S(3200, __c200, 0) as any as S.Schema<UpdateDynamicSchemaResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9635,8 +9709,8 @@ export const UpdateDynamicSchemaVersion: API.OperationMethod<
   UpdateDynamicSchemaVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c104, 0) as any as S.Schema<UpdateDynamicSchemaVersionRequest>,
-  output: __S(1616, __c202, 0) as any as S.Schema<UpdateDynamicSchemaVersionResponse>,
+  input: __S(1664, __c104, 0) as any as S.Schema<UpdateDynamicSchemaVersionRequest>,
+  output: __S(3232, __c202, 0) as any as S.Schema<UpdateDynamicSchemaVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9652,8 +9726,8 @@ export const UpdateExecution: API.OperationMethod<
   UpdateExecutionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(849, __c106, 1) as any as S.Schema<UpdateExecutionRequest>,
-  output: __S(850, __c106, 2) as any as S.Schema<UpdateExecutionResponse>,
+  input: __S(1697, __c106, 1) as any as S.Schema<UpdateExecutionRequest>,
+  output: __S(1698, __c106, 2) as any as S.Schema<UpdateExecutionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9669,8 +9743,8 @@ export const UpdateInstance: API.OperationMethod<
   UpdateInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(858, __c107, 2) as any as S.Schema<UpdateInstanceRequest>,
-  output: __S(859, __c107, 3) as any as S.Schema<UpdateInstanceResponse>,
+  input: __S(1714, __c107, 2) as any as S.Schema<UpdateInstanceRequest>,
+  output: __S(1715, __c107, 3) as any as S.Schema<UpdateInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9686,8 +9760,8 @@ export const UpdateSchema: API.OperationMethod<
   UpdateSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c108, 0) as any as S.Schema<UpdateSchemaRequest>,
-  output: __S(1840, __c230, 0) as any as S.Schema<UpdateSchemaResponse>,
+  input: __S(1728, __c108, 0) as any as S.Schema<UpdateSchemaRequest>,
+  output: __S(3696, __c231, 0) as any as S.Schema<UpdateSchemaResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9703,8 +9777,8 @@ export const UpdateSchemaReference: API.OperationMethod<
   UpdateSchemaReferenceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(873, __c109, 1) as any as S.Schema<UpdateSchemaReferenceRequest>,
-  output: __S(1864, __c233, 0) as any as S.Schema<UpdateSchemaReferenceResponse>,
+  input: __S(1745, __c109, 1) as any as S.Schema<UpdateSchemaReferenceRequest>,
+  output: __S(3744, __c234, 0) as any as S.Schema<UpdateSchemaReferenceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9726,8 +9800,8 @@ export const UpdateSchemaVersion: API.OperationMethod<
   UpdateSchemaVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(888, __c111, 0) as any as S.Schema<UpdateSchemaVersionRequest>,
-  output: __S(1616, __c202, 0) as any as S.Schema<UpdateSchemaVersionResponse>,
+  input: __S(1776, __c111, 0) as any as S.Schema<UpdateSchemaVersionRequest>,
+  output: __S(3232, __c202, 0) as any as S.Schema<UpdateSchemaVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9743,8 +9817,8 @@ export const UpdateSite: API.OperationMethod<
   UpdateSiteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c112, 0) as any as S.Schema<UpdateSiteRequest>,
-  output: __S(1896, __c237, 0) as any as S.Schema<UpdateSiteResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<UpdateSiteRequest>,
+  output: __S(3808, __c238, 0) as any as S.Schema<UpdateSiteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9760,8 +9834,8 @@ export const UpdateSiteReference: API.OperationMethod<
   UpdateSiteReferenceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(905, __c113, 1) as any as S.Schema<UpdateSiteReferenceRequest>,
-  output: __S(906, __c113, 2) as any as S.Schema<UpdateSiteReferenceResponse>,
+  input: __S(1809, __c113, 1) as any as S.Schema<UpdateSiteReferenceRequest>,
+  output: __S(1810, __c113, 2) as any as S.Schema<UpdateSiteReferenceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9777,8 +9851,8 @@ export const UpdateSitesByServiceGroup: API.OperationMethod<
   UpdateSitesByServiceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c114, 0) as any as S.Schema<UpdateSitesByServiceGroupRequest>,
-  output: __S(1896, __c237, 0) as any as S.Schema<UpdateSitesByServiceGroupResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<UpdateSitesByServiceGroupRequest>,
+  output: __S(3808, __c238, 0) as any as S.Schema<UpdateSitesByServiceGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9794,8 +9868,8 @@ export const UpdateSitesBySubscription: API.OperationMethod<
   UpdateSitesBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(920, __c115, 0) as any as S.Schema<UpdateSitesBySubscriptionRequest>,
-  output: __S(1896, __c237, 0) as any as S.Schema<UpdateSitesBySubscriptionResponse>,
+  input: __S(1840, __c115, 0) as any as S.Schema<UpdateSitesBySubscriptionRequest>,
+  output: __S(3808, __c238, 0) as any as S.Schema<UpdateSitesBySubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9811,8 +9885,8 @@ export const UpdateSolution: API.OperationMethod<
   UpdateSolutionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c116, 0) as any as S.Schema<UpdateSolutionRequest>,
-  output: __S(929, __c116, 1) as any as S.Schema<UpdateSolutionResponse>,
+  input: __S(1856, __c116, 0) as any as S.Schema<UpdateSolutionRequest>,
+  output: __S(1857, __c116, 1) as any as S.Schema<UpdateSolutionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9828,8 +9902,8 @@ export const UpdateSolutionTemplate: API.OperationMethod<
   UpdateSolutionTemplateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(937, __c117, 1) as any as S.Schema<UpdateSolutionTemplateRequest>,
-  output: __S(2064, __c258, 0) as any as S.Schema<UpdateSolutionTemplateResponse>,
+  input: __S(1873, __c117, 1) as any as S.Schema<UpdateSolutionTemplateRequest>,
+  output: __S(4144, __c259, 0) as any as S.Schema<UpdateSolutionTemplateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9845,8 +9919,8 @@ export const UpdateSolutionTemplateVersion: API.OperationMethod<
   UpdateSolutionTemplateVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(945, __c118, 1) as any as S.Schema<UpdateSolutionTemplateVersionRequest>,
-  output: __S(2080, __c260, 0) as any as S.Schema<UpdateSolutionTemplateVersionResponse>,
+  input: __S(1889, __c118, 1) as any as S.Schema<UpdateSolutionTemplateVersionRequest>,
+  output: __S(4176, __c261, 0) as any as S.Schema<UpdateSolutionTemplateVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9862,8 +9936,8 @@ export const UpdateSolutionVersion: API.OperationMethod<
   UpdateSolutionVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(953, __c119, 1) as any as S.Schema<UpdateSolutionVersionRequest>,
-  output: __S(512, __c64, 0) as any as S.Schema<UpdateSolutionVersionResponse>,
+  input: __S(1905, __c119, 1) as any as S.Schema<UpdateSolutionVersionRequest>,
+  output: __S(1024, __c64, 0) as any as S.Schema<UpdateSolutionVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9879,8 +9953,8 @@ export const UpdateTarget: API.OperationMethod<
   UpdateTargetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(961, __c120, 1) as any as S.Schema<UpdateTargetRequest>,
-  output: __S(962, __c120, 2) as any as S.Schema<UpdateTargetResponse>,
+  input: __S(1921, __c120, 1) as any as S.Schema<UpdateTargetRequest>,
+  output: __S(1922, __c120, 2) as any as S.Schema<UpdateTargetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9896,8 +9970,8 @@ export const UpdateTargetExternalValidationStatus: API.OperationMethod<
   UpdateTargetExternalValidationStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c122, 0) as any as S.Schema<UpdateTargetExternalValidationStatusRequest>,
-  output: __S(512, __c64, 0) as any as S.Schema<UpdateTargetExternalValidationStatusResponse>,
+  input: __S(1952, __c122, 0) as any as S.Schema<UpdateTargetExternalValidationStatusRequest>,
+  output: __S(1024, __c64, 0) as any as S.Schema<UpdateTargetExternalValidationStatusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9913,8 +9987,8 @@ export const UpdateWorkflow: API.OperationMethod<
   UpdateWorkflowError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(984, __c123, 0) as any as S.Schema<UpdateWorkflowRequest>,
-  output: __S(985, __c123, 1) as any as S.Schema<UpdateWorkflowResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<UpdateWorkflowRequest>,
+  output: __S(1969, __c123, 1) as any as S.Schema<UpdateWorkflowResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9930,8 +10004,8 @@ export const UpdateWorkflowVersion: API.OperationMethod<
   UpdateWorkflowVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(993, __c124, 1) as any as S.Schema<UpdateWorkflowVersionRequest>,
-  output: __S(994, __c124, 2) as any as S.Schema<UpdateWorkflowVersionResponse>,
+  input: __S(1985, __c124, 1) as any as S.Schema<UpdateWorkflowVersionRequest>,
+  output: __S(1986, __c124, 2) as any as S.Schema<UpdateWorkflowVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9947,8 +10021,8 @@ export const WorkflowsCreateOrUpdate: API.OperationMethod<
   WorkflowsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1000, __c125, 0) as any as S.Schema<WorkflowsCreateOrUpdateRequest>,
-  output: __S(1001, __c125, 1) as any as S.Schema<WorkflowsCreateOrUpdateResponse>,
+  input: __S(2000, __c125, 0) as any as S.Schema<WorkflowsCreateOrUpdateRequest>,
+  output: __S(2001, __c125, 1) as any as S.Schema<WorkflowsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9964,8 +10038,8 @@ export const WorkflowVersionsCreateOrUpdate: API.OperationMethod<
   WorkflowVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1009, __c126, 1) as any as S.Schema<WorkflowVersionsCreateOrUpdateRequest>,
-  output: __S(1010, __c126, 2) as any as S.Schema<WorkflowVersionsCreateOrUpdateResponse>,
+  input: __S(2017, __c126, 1) as any as S.Schema<WorkflowVersionsCreateOrUpdateRequest>,
+  output: __S(2018, __c126, 2) as any as S.Schema<WorkflowVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10013,13 +10087,13 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           targetId: S.String,
-          solutionDependencies: S.optional(__S(18, __c2, 2)),
+          solutionDependencies: S.optional(__S(34, __c2, 2)),
           solutionInstanceName: S.optional(S.String),
           solutionConfiguration: S.optional(S.String),
         }),
       ).annotate({ identifier: "BulkReviewTargetDetails" });
     case 1:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(16, __c1, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10027,9 +10101,9 @@ function __c1(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           solutionTemplateName: S.String.pipe(T.Label()),
           solutionTemplateVersionName: S.String.pipe(T.Label()),
-          targets: __S(9, __c1, 1),
+          targets: __S(17, __c1, 1),
           solutionInstanceName: S.optional(S.String),
-          solutionDependencies: S.optional(__S(18, __c2, 2)),
+          solutionDependencies: S.optional(__S(34, __c2, 2)),
           solutionConfiguration: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -10045,7 +10119,7 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(17, __c2, 1)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -10054,11 +10128,11 @@ function __c2(j: number): any {
           solutionTemplateVersion: S.optional(S.String),
           solutionInstanceName: S.optional(S.String),
           targetId: S.optional(S.String),
-          dependencies: S.optional(__S(16, __c2, 0)),
+          dependencies: S.optional(__S(32, __c2, 0)),
         }),
       ).annotate({ identifier: "SolutionDependencyParameter" });
     case 2:
-      return S.Array(__S(17, __c2, 1));
+      return S.Array(__S(33, __c2, 1));
   }
 }
 function __c3(j: number): any {
@@ -10077,7 +10151,7 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1560, __c195, 0)),
+          properties: S.optional(__S(3120, __c195, 0)),
         }),
       ).annotate({ identifier: "ConfigTemplateVersionInput" });
     case 1:
@@ -10088,7 +10162,7 @@ function __c4(j: number): any {
           configTemplateName: S.String.pipe(T.Label()),
           updateType: S.optional(S.String),
           version: S.optional(S.String),
-          configTemplateVersion: __S(32, __c4, 0),
+          configTemplateVersion: __S(64, __c4, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10104,8 +10178,8 @@ function __c4(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1568, __c196, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3136, __c196, 0)),
           eTag: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -10129,11 +10203,11 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListConfigurationReferencesRequest" });
     case 1:
-      return S.Array(__S(1793, __c224, 1));
+      return S.Array(__S(3585, __c224, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(41, __c5, 1),
+          value: __S(81, __c5, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigurationReferenceListResult" });
@@ -10160,11 +10234,11 @@ function __c6(j: number): any {
 function __c7(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1496, __c187, 0));
+      return S.Array(__S(2992, __c187, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(56, __c7, 0),
+          value: __S(112, __c7, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContextListResult" });
@@ -10208,11 +10282,11 @@ function __c9(j: number): any {
 function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1512, __c189, 0));
+      return S.Array(__S(3024, __c189, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(80, __c10, 0),
+          value: __S(160, __c10, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiagnosticListResult" });
@@ -10256,11 +10330,11 @@ function __c12(j: number): any {
 function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1528, __c191, 0));
+      return S.Array(__S(3056, __c191, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(104, __c13, 0),
+          value: __S(208, __c13, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DisconnectedOperationListResult" });
@@ -10310,8 +10384,8 @@ function __c15(j: number): any {
           billingModel: S.String,
           connectionIntent: S.String,
           cloud: S.optional(S.String),
-          billingConfiguration: S.optional(__S(1290, __c161, 2)),
-          benefitPlans: S.optional(__S(1288, __c161, 0)),
+          billingConfiguration: S.optional(__S(2578, __c161, 2)),
+          benefitPlans: S.optional(__S(2576, __c161, 0)),
         }),
       ).annotate({ identifier: "DisconnectedOperationDeploymentManifest" });
   }
@@ -10334,11 +10408,11 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListDynamicConfigurationByConfigurationRequest" });
     case 1:
-      return S.Array(__S(1544, __c193, 0));
+      return S.Array(__S(3088, __c193, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(129, __c16, 1),
+          value: __S(257, __c16, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DynamicConfigurationListResult" });
@@ -10363,11 +10437,11 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "ListDynamicConfigurationVersionByDynamicConfigurationRequest" });
     case 1:
-      return S.Array(__S(1584, __c198, 0));
+      return S.Array(__S(3168, __c198, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(137, __c17, 1),
+          value: __S(273, __c17, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DynamicConfigurationVersionListResult" });
@@ -10378,7 +10452,7 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(152, __c19, 0)),
+          properties: S.optional(__S(304, __c19, 0)),
         }),
       ).annotate({ identifier: "SchemaVersionInput" });
     case 1:
@@ -10389,7 +10463,7 @@ function __c18(j: number): any {
           schemaName: S.String.pipe(T.Label()),
           updateType: S.optional(S.String),
           version: S.optional(S.String),
-          schemaVersion: __S(144, __c18, 0),
+          schemaVersion: __S(288, __c18, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10405,8 +10479,8 @@ function __c18(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(160, __c20, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(320, __c20, 0)),
           eTag: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -10453,11 +10527,11 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListDynamicSchemaBySchemaRequest" });
     case 1:
-      return S.Array(__S(1600, __c200, 0));
+      return S.Array(__S(3200, __c200, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(169, __c21, 1),
+          value: __S(337, __c21, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DynamicSchemaListResult" });
@@ -10486,11 +10560,11 @@ function __c22(j: number): any {
 function __c23(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1616, __c202, 0));
+      return S.Array(__S(3232, __c202, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(184, __c23, 0),
+          value: __S(368, __c23, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DynamicSchemaVersionListResult" });
@@ -10516,11 +10590,11 @@ function __c24(j: number): any {
         ),
       ).annotate({ identifier: "ListExecutionByWorkflowVersionRequest" });
     case 1:
-      return S.Array(__S(1632, __c204, 0));
+      return S.Array(__S(3264, __c204, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(193, __c24, 1),
+          value: __S(385, __c24, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExecutionListResult" });
@@ -10544,11 +10618,11 @@ function __c25(j: number): any {
         ),
       ).annotate({ identifier: "ListHardwareSettingsByParentRequest" });
     case 1:
-      return S.Array(__S(1648, __c206, 0));
+      return S.Array(__S(3296, __c206, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(201, __c25, 1),
+          value: __S(401, __c25, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "HardwareSettingListResult" });
@@ -10570,11 +10644,11 @@ function __c26(j: number): any {
         ),
       ).annotate({ identifier: "ListHierarchyConfigurationMetadatasByParentRequest" });
     case 1:
-      return S.Array(__S(1673, __c209, 1));
+      return S.Array(__S(3345, __c209, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(209, __c26, 1),
+          value: __S(417, __c26, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "HierarchyConfigurationMetadataListResult" });
@@ -10597,11 +10671,11 @@ function __c27(j: number): any {
         ),
       ).annotate({ identifier: "ListHierarchyConfigurationMetadataVersionByParentRequest" });
     case 1:
-      return S.Array(__S(1689, __c211, 1));
+      return S.Array(__S(3377, __c211, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(217, __c27, 1),
+          value: __S(433, __c27, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "HierarchyConfigurationMetadataVersionListResult" });
@@ -10628,11 +10702,11 @@ function __c28(j: number): any {
         ),
       ).annotate({ identifier: "ListImageByDisconnectedOperationRequest" });
     case 1:
-      return S.Array(__S(1705, __c213, 1));
+      return S.Array(__S(3409, __c213, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(225, __c28, 1),
+          value: __S(449, __c28, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageListResult" });
@@ -10657,11 +10731,11 @@ function __c29(j: number): any {
         ),
       ).annotate({ identifier: "ListInstanceBySolutionRequest" });
     case 1:
-      return S.Array(__S(1728, __c216, 0));
+      return S.Array(__S(3456, __c216, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(233, __c29, 1),
+          value: __S(465, __c29, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstanceListResult" });
@@ -10687,11 +10761,11 @@ function __c30(j: number): any {
         ),
       ).annotate({ identifier: "ListInstanceHistoryByInstanceRequest" });
     case 1:
-      return S.Array(__S(1771, __c221, 3));
+      return S.Array(__S(3539, __c221, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(241, __c30, 1),
+          value: __S(481, __c30, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstanceHistoryListResult" });
@@ -10713,11 +10787,11 @@ function __c31(j: number): any {
         ),
       ).annotate({ identifier: "ListJobByTargetRequest" });
     case 1:
-      return S.Array(__S(1815, __c226, 7));
+      return S.Array(__S(3627, __c226, 11));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(249, __c31, 1),
+          value: __S(497, __c31, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobListResult" });
@@ -10728,7 +10802,7 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(264, __c33, 0)),
+          properties: S.optional(__S(528, __c33, 0)),
         }),
       ).annotate({ identifier: "SolutionTemplateVersionInput" });
     case 1:
@@ -10739,7 +10813,7 @@ function __c32(j: number): any {
           solutionTemplateName: S.String.pipe(T.Label()),
           updateType: S.optional(S.String),
           version: S.optional(S.String),
-          solutionTemplateVersion: __S(256, __c32, 0),
+          solutionTemplateVersion: __S(512, __c32, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10755,8 +10829,8 @@ function __c32(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(280, __c35, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(560, __c35, 0)),
           eTag: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -10770,7 +10844,7 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           configurations: S.optional(S.Unknown),
-          specification: __S(272, __c34, 0),
+          specification: __S(544, __c34, 0),
           orchestratorType: S.optional(S.String),
         }),
       ).annotate({ identifier: "SolutionTemplateVersionPropertiesInput" });
@@ -10788,7 +10862,7 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           configurations: S.optional(S.Unknown),
-          specification: __S(272, __c34, 0),
+          specification: __S(544, __c34, 0),
           orchestratorType: S.optional(S.String),
           internalState: S.optional(S.String),
           provisioningState: S.optional(S.String),
@@ -10823,17 +10897,17 @@ function __c36(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(289, __c36, 1)),
+          display: S.optional(__S(577, __c36, 1)),
           origin: S.optional(S.String),
           actionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(290, __c36, 2));
+      return S.Array(__S(578, __c36, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(291, __c36, 3)),
+          value: S.optional(__S(579, __c36, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -10865,19 +10939,19 @@ function __c38(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(1832, __c229, 0)),
+          properties: S.optional(__S(3680, __c230, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "Schema" });
     case 1:
-      return S.Array(__S(304, __c38, 0));
+      return S.Array(__S(608, __c38, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(305, __c38, 1),
+          value: __S(609, __c38, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SchemaListResult" });
@@ -10916,11 +10990,11 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "ListSchemaReferenceByResourceGroupRequest" });
     case 1:
-      return S.Array(__S(1864, __c233, 0));
+      return S.Array(__S(3744, __c234, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(321, __c40, 1),
+          value: __S(641, __c40, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SchemaReferenceListResult" });
@@ -10966,11 +11040,11 @@ function __c42(j: number): any {
 function __c43(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1896, __c237, 0));
+      return S.Array(__S(3808, __c238, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(344, __c43, 0),
+          value: __S(688, __c43, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteListResult" });
@@ -10994,11 +11068,11 @@ function __c44(j: number): any {
         ),
       ).annotate({ identifier: "ListSiteReferenceByContextRequest" });
     case 1:
-      return S.Array(__S(1912, __c239, 0));
+      return S.Array(__S(3840, __c240, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(353, __c44, 1),
+          value: __S(705, __c44, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteReferenceListResult" });
@@ -11056,11 +11130,11 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "ListSolutionByTargetRequest" });
     case 1:
-      return S.Array(__S(1952, __c244, 0));
+      return S.Array(__S(3920, __c245, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(377, __c47, 1),
+          value: __S(753, __c47, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SolutionListResult" });
@@ -11101,11 +11175,11 @@ function __c49(j: number): any {
         ),
       ).annotate({ identifier: "ListSolutionMetadatasByParentRequest" });
     case 1:
-      return S.Array(__S(1977, __c247, 1));
+      return S.Array(__S(3969, __c248, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(393, __c49, 1),
+          value: __S(785, __c49, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SolutionMetadataListResult" });
@@ -11128,11 +11202,11 @@ function __c50(j: number): any {
         ),
       ).annotate({ identifier: "ListSolutionMetadataVersionByParentRequest" });
     case 1:
-      return S.Array(__S(2025, __c253, 1));
+      return S.Array(__S(4065, __c254, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(401, __c50, 1),
+          value: __S(801, __c50, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SolutionMetadataVersionListResult" });
@@ -11157,11 +11231,11 @@ function __c51(j: number): any {
         ),
       ).annotate({ identifier: "ListSolutionSchemaBySolutionTemplateVersionRequest" });
     case 1:
-      return S.Array(__S(2041, __c255, 1));
+      return S.Array(__S(4097, __c256, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(409, __c51, 1),
+          value: __S(817, __c51, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SolutionSchemaListResult" });
@@ -11188,11 +11262,11 @@ function __c52(j: number): any {
 function __c53(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2064, __c258, 0));
+      return S.Array(__S(4144, __c259, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(424, __c53, 0),
+          value: __S(848, __c53, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SolutionTemplateListResult" });
@@ -11233,11 +11307,11 @@ function __c55(j: number): any {
         ),
       ).annotate({ identifier: "ListSolutionTemplateVersionBySolutionTemplateRequest" });
     case 1:
-      return S.Array(__S(2080, __c260, 0));
+      return S.Array(__S(4176, __c261, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(441, __c55, 1),
+          value: __S(881, __c55, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SolutionTemplateVersionListResult" });
@@ -11262,11 +11336,11 @@ function __c56(j: number): any {
         ),
       ).annotate({ identifier: "ListSolutionVersionBySolutionRequest" });
     case 1:
-      return S.Array(__S(2096, __c262, 0));
+      return S.Array(__S(4208, __c263, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(449, __c56, 1),
+          value: __S(897, __c56, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SolutionVersionListResult" });
@@ -11293,11 +11367,11 @@ function __c57(j: number): any {
 function __c58(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2120, __c265, 0));
+      return S.Array(__S(4256, __c266, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(464, __c58, 0),
+          value: __S(928, __c58, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TargetListResult" });
@@ -11338,11 +11412,11 @@ function __c60(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkflowByContextRequest" });
     case 1:
-      return S.Array(__S(2144, __c268, 0));
+      return S.Array(__S(4304, __c269, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(481, __c60, 1),
+          value: __S(961, __c60, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowListResult" });
@@ -11387,11 +11461,11 @@ function __c62(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkflowVersionByWorkflowRequest" });
     case 1:
-      return S.Array(__S(2168, __c271, 0));
+      return S.Array(__S(4352, __c272, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(497, __c62, 1),
+          value: __S(993, __c62, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowVersionListResult" });
@@ -11425,9 +11499,9 @@ function __c64(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(2110, __c263, 6)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(4230, __c264, 6)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -11536,7 +11610,7 @@ function __c70(j: number): any {
           targetName: S.String.pipe(T.Label()),
           solutionTemplateVersionId: S.String,
           solutionInstanceName: S.optional(S.String),
-          solutionDependencies: S.optional(__S(18, __c2, 2)),
+          solutionDependencies: S.optional(__S(34, __c2, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11561,7 +11635,7 @@ function __c71(j: number): any {
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
           schemaReferenceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(568, __c71, 0)),
+          properties: S.optional(__S(1136, __c71, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11577,8 +11651,8 @@ function __c71(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1856, __c232, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3728, __c233, 0)),
           eTag: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -11594,9 +11668,9 @@ function __c72(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           schemaName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(1152, __c144, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(1992, __c249, 0)),
+          properties: S.optional(__S(4000, __c250, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11612,10 +11686,10 @@ function __c72(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(1832, __c229, 0)),
+          properties: S.optional(__S(3680, __c230, 0)),
           eTag: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -11632,7 +11706,7 @@ function __c73(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           schemaName: S.String.pipe(T.Label()),
           schemaVersionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(152, __c19, 0)),
+          properties: S.optional(__S(304, __c19, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11679,7 +11753,7 @@ function __c75(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           contextName: S.String.pipe(T.Label()),
           siteReferenceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(600, __c75, 0)),
+          properties: S.optional(__S(1200, __c75, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11695,8 +11769,8 @@ function __c75(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1920, __c240, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3856, __c241, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -11710,7 +11784,7 @@ function __c76(j: number): any {
         S.Struct({
           servicegroupName: S.String.pipe(T.Label()),
           siteName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(624, __c78, 0)),
+          properties: S.optional(__S(1248, __c78, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11730,8 +11804,8 @@ function __c77(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1889, __c236, 1)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3793, __c237, 1)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -11745,8 +11819,8 @@ function __c78(j: number): any {
         S.Struct({
           displayName: S.optional(S.String),
           description: S.optional(S.String),
-          siteAddress: S.optional(__S(1888, __c236, 0)),
-          labels: S.optional(__S(1152, __c144, 0)),
+          siteAddress: S.optional(__S(3792, __c237, 0)),
+          labels: S.optional(__S(2304, __c144, 0)),
         }),
       ).annotate({ identifier: "SitePropertiesInput" });
   }
@@ -11758,7 +11832,7 @@ function __c79(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           siteName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(624, __c78, 0)),
+          properties: S.optional(__S(1248, __c78, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11778,7 +11852,7 @@ function __c80(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           siteName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(624, __c78, 0)),
+          properties: S.optional(__S(1248, __c78, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11799,8 +11873,8 @@ function __c81(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           targetName: S.String.pipe(T.Label()),
           solutionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1992, __c249, 0)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          properties: S.optional(__S(4000, __c250, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11816,9 +11890,9 @@ function __c81(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1962, __c245, 2)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3938, __c246, 2)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -11832,7 +11906,7 @@ function __c82(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.String,
-          capabilities: __S(1040, __c130, 0),
+          capabilities: __S(2080, __c130, 0),
           state: S.optional(S.String),
           enableExternalValidation: S.optional(S.Boolean),
         }),
@@ -11843,9 +11917,9 @@ function __c82(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           solutionTemplateName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(1152, __c144, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(656, __c82, 0)),
+          properties: S.optional(__S(1312, __c82, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11861,10 +11935,10 @@ function __c82(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(2056, __c257, 0)),
+          properties: S.optional(__S(4128, __c258, 0)),
           eTag: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -11875,21 +11949,15 @@ function __c82(j: number): any {
 function __c83(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          solutionVersionId: S.String,
-        }),
-      ).annotate({ identifier: "BulkDeployTargetDetails" });
+      return S.Array(__S(3632, __c227, 0));
     case 1:
-      return S.Array(__S(664, __c83, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           solutionTemplateName: S.String.pipe(T.Label()),
           solutionTemplateVersionName: S.String.pipe(T.Label()),
-          targets: __S(665, __c83, 1),
+          targets: __S(1328, __c83, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11907,14 +11975,14 @@ function __c84(j: number): any {
       return S.suspend(() =>
         S.Struct({
           targetId: S.String,
-          solutionDependencies: S.optional(__S(18, __c2, 2)),
+          solutionDependencies: S.optional(__S(34, __c2, 2)),
           solutionInstanceName: S.optional(S.String),
           solutionVersionId: S.optional(S.String),
           solutionConfiguration: S.optional(S.String),
         }),
       ).annotate({ identifier: "BulkPublishTargetDetails" });
     case 1:
-      return S.Array(__S(672, __c84, 0));
+      return S.Array(__S(1344, __c84, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -11922,9 +11990,9 @@ function __c84(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           solutionTemplateName: S.String.pipe(T.Label()),
           solutionTemplateVersionName: S.String.pipe(T.Label()),
-          targets: __S(673, __c84, 1),
+          targets: __S(1345, __c84, 1),
           solutionInstanceName: S.optional(S.String),
-          solutionDependencies: S.optional(__S(18, __c2, 2)),
+          solutionDependencies: S.optional(__S(34, __c2, 2)),
           solutionConfiguration: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -11946,7 +12014,7 @@ function __c85(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           solutionTemplateName: S.String.pipe(T.Label()),
           solutionTemplateVersionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(264, __c33, 0)),
+          properties: S.optional(__S(528, __c33, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11962,8 +12030,8 @@ function __c85(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(280, __c35, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(560, __c35, 0)),
           eTag: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -11976,8 +12044,8 @@ function __c86(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          specification: __S(272, __c34, 0),
-          errorDetails: S.optional(__S(1992, __c249, 0)),
+          specification: __S(544, __c34, 0),
+          errorDetails: S.optional(__S(4000, __c250, 0)),
         }),
       ).annotate({ identifier: "SolutionVersionPropertiesInput" });
     case 1:
@@ -11988,8 +12056,8 @@ function __c86(j: number): any {
           targetName: S.String.pipe(T.Label()),
           solutionName: S.String.pipe(T.Label()),
           solutionVersionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(688, __c86, 0)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          properties: S.optional(__S(1376, __c86, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -12005,9 +12073,9 @@ function __c86(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(2110, __c263, 6)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(4230, __c264, 6)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -12042,8 +12110,8 @@ function __c88(j: number): any {
           description: S.String,
           displayName: S.String,
           contextId: S.String,
-          targetSpecification: S.optional(__S(272, __c34, 0)),
-          capabilities: __S(1040, __c130, 0),
+          targetSpecification: S.optional(__S(544, __c34, 0)),
+          capabilities: __S(2080, __c130, 0),
           hierarchyLevel: S.String,
           solutionScope: S.optional(S.String),
           state: S.optional(S.String),
@@ -12055,10 +12123,10 @@ function __c88(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           targetName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(1152, __c144, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(704, __c88, 0)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          properties: S.optional(__S(1408, __c88, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -12074,12 +12142,12 @@ function __c88(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(2128, __c266, 0)),
+          properties: S.optional(__S(4272, __c267, 0)),
           eTag: S.optional(S.String),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -12096,7 +12164,7 @@ function __c89(j: number): any {
           targetName: S.String.pipe(T.Label()),
           solutionTemplateVersionId: S.String,
           solutionInstanceName: S.optional(S.String),
-          solutionDependencies: S.optional(__S(18, __c2, 2)),
+          solutionDependencies: S.optional(__S(34, __c2, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -12171,8 +12239,8 @@ function __c92(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           configTemplateName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(1152, __c144, 0)),
-          properties: S.optional(__S(736, __c92, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
+          properties: S.optional(__S(1472, __c92, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12193,7 +12261,7 @@ function __c93(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           configTemplateName: S.String.pipe(T.Label()),
           configTemplateMetadataName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1024, __c128, 0)),
+          properties: S.optional(__S(2048, __c128, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12209,8 +12277,8 @@ function __c93(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1050, __c131, 2)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(2098, __c131, 2)),
           eTag: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -12233,7 +12301,7 @@ function __c94(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           configTemplateName: S.String.pipe(T.Label()),
           configTemplateVersionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(752, __c94, 0)),
+          properties: S.optional(__S(1504, __c94, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12253,8 +12321,8 @@ function __c95(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           configurationName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(1152, __c144, 0)),
-          properties: S.optional(__S(1992, __c249, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
+          properties: S.optional(__S(4000, __c250, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12273,7 +12341,7 @@ function __c96(j: number): any {
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
           configurationReferenceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1784, __c223, 0)),
+          properties: S.optional(__S(3568, __c223, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12290,8 +12358,8 @@ function __c97(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          capabilities: S.optional(__S(2209, __c276, 1)),
-          hierarchies: S.optional(__S(2211, __c276, 3)),
+          capabilities: S.optional(__S(4433, __c277, 1)),
+          hierarchies: S.optional(__S(4435, __c277, 3)),
         }),
       ).annotate({ identifier: "ContextUpdateProperties" });
     case 1:
@@ -12300,8 +12368,8 @@ function __c97(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           contextName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(1152, __c144, 0)),
-          properties: S.optional(__S(776, __c97, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
+          properties: S.optional(__S(1552, __c97, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12317,10 +12385,10 @@ function __c97(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(2212, __c276, 4)),
+          properties: S.optional(__S(4436, __c277, 4)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -12353,8 +12421,8 @@ function __c99(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           diagnosticName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1992, __c249, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          properties: S.optional(__S(4000, __c250, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12370,11 +12438,11 @@ function __c99(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(2000, __c250, 0)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          properties: S.optional(__S(4016, __c251, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -12395,8 +12463,8 @@ function __c100(j: number): any {
       return S.suspend(() =>
         S.Struct({
           autoRenew: S.optional(S.String),
-          current: S.optional(__S(800, __c100, 0)),
-          upcoming: S.optional(__S(800, __c100, 0)),
+          current: S.optional(__S(1600, __c100, 0)),
+          upcoming: S.optional(__S(1600, __c100, 0)),
         }),
       ).annotate({ identifier: "BillingConfigurationUpdate" });
     case 2:
@@ -12405,8 +12473,8 @@ function __c100(j: number): any {
           connectionIntent: S.optional(S.String),
           registrationStatus: S.optional(S.String),
           deviceVersion: S.optional(S.String),
-          billingConfiguration: S.optional(__S(801, __c100, 1)),
-          benefitPlans: S.optional(__S(1288, __c161, 0)),
+          billingConfiguration: S.optional(__S(1601, __c100, 1)),
+          benefitPlans: S.optional(__S(2576, __c161, 0)),
         }),
       ).annotate({ identifier: "DisconnectedOperationUpdateProperties" });
     case 3:
@@ -12415,8 +12483,8 @@ function __c100(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          tags: S.optional(__S(1152, __c144, 0)),
-          properties: S.optional(__S(802, __c100, 2)),
+          tags: S.optional(__S(2304, __c144, 0)),
+          properties: S.optional(__S(1602, __c100, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12443,7 +12511,7 @@ function __c101(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           configurationName: S.String.pipe(T.Label()),
           dynamicConfigurationName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(808, __c101, 0)),
+          properties: S.optional(__S(1616, __c101, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12471,7 +12539,7 @@ function __c102(j: number): any {
           configurationName: S.String.pipe(T.Label()),
           dynamicConfigurationName: S.String.pipe(T.Label()),
           dynamicConfigurationVersionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(816, __c102, 0)),
+          properties: S.optional(__S(1632, __c102, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12492,7 +12560,7 @@ function __c103(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           schemaName: S.String.pipe(T.Label()),
           dynamicSchemaName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1992, __c249, 0)),
+          properties: S.optional(__S(4000, __c250, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12514,7 +12582,7 @@ function __c104(j: number): any {
           schemaName: S.String.pipe(T.Label()),
           dynamicSchemaName: S.String.pipe(T.Label()),
           dynamicSchemaVersionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(840, __c105, 0)),
+          properties: S.optional(__S(1680, __c105, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12542,7 +12610,7 @@ function __c106(j: number): any {
       return S.suspend(() =>
         S.Struct({
           workflowVersionId: S.optional(S.String),
-          specification: S.optional(__S(272, __c34, 0)),
+          specification: S.optional(__S(544, __c34, 0)),
         }),
       ).annotate({ identifier: "ExecutionPropertiesUpdate" });
     case 1:
@@ -12554,7 +12622,7 @@ function __c106(j: number): any {
           workflowName: S.String.pipe(T.Label()),
           versionName: S.String.pipe(T.Label()),
           executionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(848, __c106, 0)),
+          properties: S.optional(__S(1696, __c106, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12570,9 +12638,9 @@ function __c106(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1379, __c172, 3)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(2755, __c172, 3)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -12595,7 +12663,7 @@ function __c107(j: number): any {
           solutionVersionId: S.optional(S.String),
           targetId: S.optional(S.String),
           activeState: S.optional(S.String),
-          reconciliationPolicy: S.optional(__S(856, __c107, 0)),
+          reconciliationPolicy: S.optional(__S(1712, __c107, 0)),
           solutionScope: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstancePropertiesUpdate" });
@@ -12607,7 +12675,7 @@ function __c107(j: number): any {
           targetName: S.String.pipe(T.Label()),
           solutionName: S.String.pipe(T.Label()),
           instanceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(857, __c107, 1)),
+          properties: S.optional(__S(1713, __c107, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12623,9 +12691,9 @@ function __c107(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1752, __c219, 0)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3504, __c219, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -12641,8 +12709,8 @@ function __c108(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           schemaName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1992, __c249, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          properties: S.optional(__S(4000, __c250, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12667,7 +12735,7 @@ function __c109(j: number): any {
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
           schemaReferenceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(872, __c109, 0)),
+          properties: S.optional(__S(1744, __c109, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12707,7 +12775,7 @@ function __c111(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           schemaName: S.String.pipe(T.Label()),
           schemaVersionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(840, __c105, 0)),
+          properties: S.optional(__S(1680, __c105, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12727,7 +12795,7 @@ function __c112(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           siteName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(624, __c78, 0)),
+          properties: S.optional(__S(1248, __c78, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12754,7 +12822,7 @@ function __c113(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           contextName: S.String.pipe(T.Label()),
           siteReferenceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(904, __c113, 0)),
+          properties: S.optional(__S(1808, __c113, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12770,8 +12838,8 @@ function __c113(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1920, __c240, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3856, __c241, 0)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -12785,7 +12853,7 @@ function __c114(j: number): any {
         S.Struct({
           servicegroupName: S.String.pipe(T.Label()),
           siteName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(624, __c78, 0)),
+          properties: S.optional(__S(1248, __c78, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12804,7 +12872,7 @@ function __c115(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           siteName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(624, __c78, 0)),
+          properties: S.optional(__S(1248, __c78, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12825,7 +12893,7 @@ function __c116(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           targetName: S.String.pipe(T.Label()),
           solutionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1992, __c249, 0)),
+          properties: S.optional(__S(4000, __c250, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12841,9 +12909,9 @@ function __c116(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1962, __c245, 2)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3938, __c246, 2)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -12857,7 +12925,7 @@ function __c117(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          capabilities: S.optional(__S(1040, __c130, 0)),
+          capabilities: S.optional(__S(2080, __c130, 0)),
           state: S.optional(S.String),
           enableExternalValidation: S.optional(S.Boolean),
         }),
@@ -12868,8 +12936,8 @@ function __c117(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           solutionTemplateName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(1152, __c144, 0)),
-          properties: S.optional(__S(936, __c117, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
+          properties: S.optional(__S(1872, __c117, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12887,7 +12955,7 @@ function __c118(j: number): any {
       return S.suspend(() =>
         S.Struct({
           configurations: S.optional(S.Unknown),
-          specification: S.optional(__S(272, __c34, 0)),
+          specification: S.optional(__S(544, __c34, 0)),
           orchestratorType: S.optional(S.String),
         }),
       ).annotate({ identifier: "SolutionTemplateVersionPropertiesUpdate" });
@@ -12898,7 +12966,7 @@ function __c118(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           solutionTemplateName: S.String.pipe(T.Label()),
           solutionTemplateVersionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(944, __c118, 0)),
+          properties: S.optional(__S(1888, __c118, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12915,7 +12983,7 @@ function __c119(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          specification: S.optional(__S(272, __c34, 0)),
+          specification: S.optional(__S(544, __c34, 0)),
         }),
       ).annotate({ identifier: "SolutionVersionPropertiesUpdate" });
     case 1:
@@ -12926,7 +12994,7 @@ function __c119(j: number): any {
           targetName: S.String.pipe(T.Label()),
           solutionName: S.String.pipe(T.Label()),
           solutionVersionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(952, __c119, 0)),
+          properties: S.optional(__S(1904, __c119, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12946,8 +13014,8 @@ function __c120(j: number): any {
           description: S.optional(S.String),
           displayName: S.optional(S.String),
           contextId: S.optional(S.String),
-          targetSpecification: S.optional(__S(272, __c34, 0)),
-          capabilities: S.optional(__S(1040, __c130, 0)),
+          targetSpecification: S.optional(__S(544, __c34, 0)),
+          capabilities: S.optional(__S(2080, __c130, 0)),
           hierarchyLevel: S.optional(S.String),
           solutionScope: S.optional(S.String),
           state: S.optional(S.String),
@@ -12959,8 +13027,8 @@ function __c120(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           targetName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(1152, __c144, 0)),
-          properties: S.optional(__S(960, __c120, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
+          properties: S.optional(__S(1920, __c120, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12976,12 +13044,12 @@ function __c120(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(2128, __c266, 0)),
+          properties: S.optional(__S(4272, __c267, 0)),
           eTag: S.optional(S.String),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -13016,7 +13084,7 @@ function __c122(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           targetName: S.String.pipe(T.Label()),
           solutionVersionId: S.String,
-          errorDetails: S.optional(__S(1992, __c249, 0)),
+          errorDetails: S.optional(__S(4000, __c250, 0)),
           externalValidationId: S.String,
           validationStatus: S.String,
         }).pipe(
@@ -13039,7 +13107,7 @@ function __c123(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           contextName: S.String.pipe(T.Label()),
           workflowName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1992, __c249, 0)),
+          properties: S.optional(__S(4000, __c250, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -13055,9 +13123,9 @@ function __c123(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(2152, __c269, 0)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(4320, __c270, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -13070,8 +13138,8 @@ function __c124(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          stageSpec: S.optional(__S(2181, __c272, 5)),
-          specification: S.optional(__S(272, __c34, 0)),
+          stageSpec: S.optional(__S(4373, __c273, 5)),
+          specification: S.optional(__S(544, __c34, 0)),
         }),
       ).annotate({ identifier: "WorkflowVersionPropertiesUpdate" });
     case 1:
@@ -13082,7 +13150,7 @@ function __c124(j: number): any {
           contextName: S.String.pipe(T.Label()),
           workflowName: S.String.pipe(T.Label()),
           versionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(992, __c124, 0)),
+          properties: S.optional(__S(1984, __c124, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -13098,9 +13166,9 @@ function __c124(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(2182, __c272, 6)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(4374, __c273, 6)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -13117,8 +13185,8 @@ function __c125(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           contextName: S.String.pipe(T.Label()),
           workflowName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1992, __c249, 0)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          properties: S.optional(__S(4000, __c250, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13134,9 +13202,9 @@ function __c125(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(2152, __c269, 0)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(4320, __c270, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -13149,8 +13217,8 @@ function __c126(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          stageSpec: __S(2181, __c272, 5),
-          specification: S.optional(__S(272, __c34, 0)),
+          stageSpec: __S(4373, __c273, 5),
+          specification: S.optional(__S(544, __c34, 0)),
         }),
       ).annotate({ identifier: "WorkflowVersionPropertiesInput" });
     case 1:
@@ -13161,8 +13229,8 @@ function __c126(j: number): any {
           contextName: S.String.pipe(T.Label()),
           workflowName: S.String.pipe(T.Label()),
           versionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1008, __c126, 0)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          properties: S.optional(__S(2016, __c126, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13178,9 +13246,9 @@ function __c126(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(2182, __c272, 6)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(4374, __c273, 6)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -13197,7 +13265,7 @@ function __c127(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           configTemplateName: S.String.pipe(T.Label()),
           configTemplateMetadataName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1024, __c128, 0)),
+          properties: S.optional(__S(2048, __c128, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13213,8 +13281,8 @@ function __c127(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1050, __c131, 2)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(2098, __c131, 2)),
           eTag: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -13228,8 +13296,8 @@ function __c128(j: number): any {
       return S.suspend(() =>
         S.Struct({
           contextId: S.optional(S.String),
-          linkedHierarchies: S.optional(__S(1049, __c131, 1)),
-          unLinkedHierarchies: S.optional(__S(1049, __c131, 1)),
+          linkedHierarchies: S.optional(__S(2097, __c131, 1)),
+          unLinkedHierarchies: S.optional(__S(2097, __c131, 1)),
         }),
       ).annotate({ identifier: "ConfigTemplateMetadataPropertiesInput" });
   }
@@ -13260,18 +13328,18 @@ function __c131(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hierarchyIds: S.optional(__S(1040, __c130, 0)),
+          hierarchyIds: S.optional(__S(2080, __c130, 0)),
           level: S.optional(S.String),
         }),
       ).annotate({ identifier: "HierarchyMetadata" });
     case 1:
-      return S.Array(__S(1048, __c131, 0));
+      return S.Array(__S(2096, __c131, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           contextId: S.optional(S.String),
-          linkedHierarchies: S.optional(__S(1049, __c131, 1)),
-          unLinkedHierarchies: S.optional(__S(1049, __c131, 1)),
+          linkedHierarchies: S.optional(__S(2097, __c131, 1)),
+          unLinkedHierarchies: S.optional(__S(2097, __c131, 1)),
           templateUniqueIdentifier: S.optional(S.String),
           provisioningState: S.optional(S.String),
         }),
@@ -13493,9 +13561,9 @@ function __c142(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           configTemplateName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(1152, __c144, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(1136, __c142, 0)),
+          properties: S.optional(__S(2272, __c142, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13511,10 +13579,10 @@ function __c142(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(1144, __c143, 0)),
+          properties: S.optional(__S(2288, __c143, 0)),
           eTag: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -13745,7 +13813,7 @@ function __c155(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           configTemplateName: S.String.pipe(T.Label()),
           contextId: S.String,
-          hierarchyIds: S.optional(__S(1040, __c130, 0)),
+          hierarchyIds: S.optional(__S(2080, __c130, 0)),
           level: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -13807,10 +13875,10 @@ function __c158(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           diagnosticName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(1152, __c144, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(1992, __c249, 0)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          properties: S.optional(__S(4000, __c250, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13826,11 +13894,11 @@ function __c158(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(2000, __c250, 0)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          properties: S.optional(__S(4016, __c251, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -13862,8 +13930,8 @@ function __c160(j: number): any {
       return S.suspend(() =>
         S.Struct({
           autoRenew: S.String,
-          current: __S(1280, __c160, 0),
-          upcoming: S.optional(__S(1280, __c160, 0)),
+          current: __S(2560, __c160, 0),
+          upcoming: S.optional(__S(2560, __c160, 0)),
         }),
       ).annotate({ identifier: "BillingConfigurationInput" });
     case 2:
@@ -13872,8 +13940,8 @@ function __c160(j: number): any {
           connectionIntent: S.String,
           registrationStatus: S.optional(S.String),
           deviceVersion: S.optional(S.String),
-          billingConfiguration: S.optional(__S(1281, __c160, 1)),
-          benefitPlans: S.optional(__S(1288, __c161, 0)),
+          billingConfiguration: S.optional(__S(2561, __c160, 1)),
+          benefitPlans: S.optional(__S(2576, __c161, 0)),
         }),
       ).annotate({ identifier: "DisconnectedOperationPropertiesInput" });
     case 3:
@@ -13882,9 +13950,9 @@ function __c160(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          tags: S.optional(__S(1152, __c144, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(1282, __c160, 2)),
+          properties: S.optional(__S(2562, __c160, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13900,10 +13968,10 @@ function __c160(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(1296, __c162, 0)),
+          properties: S.optional(__S(2592, __c162, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -13933,8 +14001,8 @@ function __c161(j: number): any {
         S.Struct({
           autoRenew: S.String,
           billingStatus: S.String,
-          current: __S(1289, __c161, 1),
-          upcoming: S.optional(__S(1289, __c161, 1)),
+          current: __S(2577, __c161, 1),
+          upcoming: S.optional(__S(2577, __c161, 1)),
         }),
       ).annotate({ identifier: "BillingConfiguration" });
   }
@@ -13951,8 +14019,8 @@ function __c162(j: number): any {
           connectionStatus: S.optional(S.String),
           registrationStatus: S.optional(S.String),
           deviceVersion: S.optional(S.String),
-          billingConfiguration: S.optional(__S(1290, __c161, 2)),
-          benefitPlans: S.optional(__S(1288, __c161, 0)),
+          billingConfiguration: S.optional(__S(2578, __c161, 2)),
+          benefitPlans: S.optional(__S(2576, __c161, 0)),
         }),
       ).annotate({ identifier: "DisconnectedOperationProperties" });
   }
@@ -13972,7 +14040,7 @@ function __c163(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           configurationName: S.String.pipe(T.Label()),
           dynamicConfigurationName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1304, __c163, 0)),
+          properties: S.optional(__S(2608, __c163, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13988,8 +14056,8 @@ function __c163(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1312, __c164, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(2624, __c164, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -14026,7 +14094,7 @@ function __c165(j: number): any {
           configurationName: S.String.pipe(T.Label()),
           dynamicConfigurationName: S.String.pipe(T.Label()),
           dynamicConfigurationVersionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1320, __c165, 0)),
+          properties: S.optional(__S(2640, __c165, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -14042,8 +14110,8 @@ function __c165(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1328, __c166, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(2656, __c166, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -14074,7 +14142,7 @@ function __c167(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           schemaName: S.String.pipe(T.Label()),
           dynamicSchemaName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1992, __c249, 0)),
+          properties: S.optional(__S(4000, __c250, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -14090,8 +14158,8 @@ function __c167(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1344, __c168, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(2688, __c168, 0)),
           eTag: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -14122,7 +14190,7 @@ function __c169(j: number): any {
           schemaName: S.String.pipe(T.Label()),
           dynamicSchemaName: S.String.pipe(T.Label()),
           dynamicSchemaVersionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(152, __c19, 0)),
+          properties: S.optional(__S(304, __c19, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -14142,8 +14210,8 @@ function __c170(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(160, __c20, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(320, __c20, 0)),
           eTag: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -14157,7 +14225,7 @@ function __c171(j: number): any {
       return S.suspend(() =>
         S.Struct({
           workflowVersionId: S.String,
-          specification: S.optional(__S(272, __c34, 0)),
+          specification: S.optional(__S(544, __c34, 0)),
         }),
       ).annotate({ identifier: "ExecutionPropertiesInput" });
     case 1:
@@ -14169,8 +14237,8 @@ function __c171(j: number): any {
           workflowName: S.String.pipe(T.Label()),
           versionName: S.String.pipe(T.Label()),
           executionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1368, __c171, 0)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          properties: S.optional(__S(2736, __c171, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -14186,9 +14254,9 @@ function __c171(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1379, __c172, 3)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(2755, __c172, 3)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -14207,27 +14275,27 @@ function __c172(j: number): any {
           nextstage: S.optional(S.String),
           errorMessage: S.optional(S.String),
           isActive: S.optional(S.String),
-          inputs: S.optional(__S(272, __c34, 0)),
-          outputs: S.optional(__S(272, __c34, 0)),
+          inputs: S.optional(__S(544, __c34, 0)),
+          outputs: S.optional(__S(544, __c34, 0)),
         }),
       ).annotate({ identifier: "StageStatus" });
     case 1:
-      return S.Array(__S(1376, __c172, 0));
+      return S.Array(__S(2752, __c172, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           updateTime: S.optional(S.String),
           status: S.optional(S.Number),
           statusMessage: S.optional(S.String),
-          stageHistory: S.optional(__S(1377, __c172, 1)),
+          stageHistory: S.optional(__S(2753, __c172, 1)),
         }),
       ).annotate({ identifier: "ExecutionStatus" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           workflowVersionId: S.String,
-          specification: S.optional(__S(272, __c34, 0)),
-          status: S.optional(__S(1378, __c172, 2)),
+          specification: S.optional(__S(544, __c34, 0)),
+          status: S.optional(__S(2754, __c172, 2)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExecutionProperties" });
@@ -14272,8 +14340,8 @@ function __c174(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1392, __c174, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(2784, __c174, 0)),
         }),
       ).annotate({ identifier: "GetArtifactResponse" });
   }
@@ -14287,7 +14355,7 @@ function __c175(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           configTemplateName: S.String.pipe(T.Label()),
           contextId: S.String,
-          hierarchyIds: S.optional(__S(1040, __c130, 0)),
+          hierarchyIds: S.optional(__S(2080, __c130, 0)),
           level: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -14327,10 +14395,10 @@ function __c177(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(1144, __c143, 0)),
+          properties: S.optional(__S(2288, __c143, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetConfigTemplateResponse" });
@@ -14364,8 +14432,8 @@ function __c179(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1050, __c131, 2)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(2098, __c131, 2)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetConfigTemplateMetadatasResponse" });
@@ -14408,8 +14476,8 @@ function __c181(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1448, __c181, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(2896, __c181, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetConfigTemplateSchemaResponse" });
@@ -14443,8 +14511,8 @@ function __c183(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1568, __c196, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3136, __c196, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetConfigTemplateVersionResponse" });
@@ -14514,10 +14582,10 @@ function __c187(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(2212, __c276, 4)),
+          properties: S.optional(__S(4436, __c277, 4)),
         }),
       ).annotate({ identifier: "GetContextResponse" });
   }
@@ -14549,11 +14617,11 @@ function __c189(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(2000, __c250, 0)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          properties: S.optional(__S(4016, __c251, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDiagnosticResponse" });
@@ -14586,10 +14654,10 @@ function __c191(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(1296, __c162, 0)),
+          properties: S.optional(__S(2592, __c162, 0)),
         }),
       ).annotate({ identifier: "GetDisconnectedOperationResponse" });
   }
@@ -14622,8 +14690,8 @@ function __c193(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1312, __c164, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(2624, __c164, 0)),
         }),
       ).annotate({ identifier: "GetDynamicConfigurationResponse" });
   }
@@ -14637,7 +14705,7 @@ function __c194(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           configTemplateName: S.String.pipe(T.Label()),
           configTemplateVersionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1560, __c195, 0)),
+          properties: S.optional(__S(3120, __c195, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -14653,8 +14721,8 @@ function __c194(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1568, __c196, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3136, __c196, 0)),
           eTag: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -14712,8 +14780,8 @@ function __c198(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1328, __c166, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(2656, __c166, 0)),
         }),
       ).annotate({ identifier: "GetDynamicConfigurationVersionResponse" });
   }
@@ -14746,8 +14814,8 @@ function __c200(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1344, __c168, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(2688, __c168, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDynamicSchemaResponse" });
@@ -14782,8 +14850,8 @@ function __c202(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(160, __c20, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(320, __c20, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDynamicSchemaVersionResponse" });
@@ -14819,9 +14887,9 @@ function __c204(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1379, __c172, 3)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(2755, __c172, 3)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetExecutionResponse" });
@@ -14855,8 +14923,8 @@ function __c206(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1656, __c207, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3312, __c207, 0)),
         }),
       ).annotate({ identifier: "GetHardwareSettingsResponse" });
   }
@@ -14913,8 +14981,8 @@ function __c209(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1672, __c209, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3344, __c209, 0)),
         }),
       ).annotate({ identifier: "GetHierarchyConfigurationMetadatasResponse" });
   }
@@ -14956,8 +15024,8 @@ function __c211(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1688, __c211, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3376, __c211, 0)),
         }),
       ).annotate({ identifier: "GetHierarchyConfigurationMetadataVersionResponse" });
   }
@@ -14993,8 +15061,8 @@ function __c213(j: number): any {
           releaseNotes: S.String,
           releaseDate: S.String,
           releaseType: S.String,
-          compatibleVersions: S.optional(__S(1040, __c130, 0)),
-          updateProperties: S.optional(__S(1712, __c214, 0)),
+          compatibleVersions: S.optional(__S(2080, __c130, 0)),
+          updateProperties: S.optional(__S(3424, __c214, 0)),
         }),
       ).annotate({ identifier: "ImageProperties" });
     case 1:
@@ -15003,8 +15071,8 @@ function __c213(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1704, __c213, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3408, __c213, 0)),
         }),
       ).annotate({ identifier: "GetImageResponse" });
   }
@@ -15052,9 +15120,9 @@ function __c216(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1752, __c219, 0)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3504, __c219, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetInstanceResponse" });
@@ -15070,17 +15138,17 @@ function __c217(j: number): any {
         }),
       ).annotate({ identifier: "ComponentStatus" });
     case 1:
-      return S.Array(__S(1736, __c217, 0));
+      return S.Array(__S(3472, __c217, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           status: S.optional(S.String),
-          componentStatuses: S.optional(__S(1737, __c217, 1)),
+          componentStatuses: S.optional(__S(3473, __c217, 1)),
         }),
       ).annotate({ identifier: "TargetStatus" });
     case 3:
-      return S.Array(__S(1738, __c217, 2));
+      return S.Array(__S(3474, __c217, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -15091,7 +15159,7 @@ function __c217(j: number): any {
           status: S.optional(S.String),
           statusDetails: S.optional(S.String),
           generation: S.optional(S.Number),
-          targetStatuses: S.optional(__S(1739, __c217, 3)),
+          targetStatuses: S.optional(__S(3475, __c217, 3)),
         }),
       ).annotate({ identifier: "DeploymentStatus" });
   }
@@ -15115,9 +15183,9 @@ function __c219(j: number): any {
           solutionVersionId: S.String,
           targetId: S.String,
           activeState: S.optional(S.String),
-          reconciliationPolicy: S.optional(__S(1744, __c218, 0)),
+          reconciliationPolicy: S.optional(__S(3488, __c218, 0)),
           solutionScope: S.optional(S.String),
-          status: S.optional(__S(1740, __c217, 4)),
+          status: S.optional(__S(3476, __c217, 4)),
           deploymentTimestampEpoch: S.optional(S.Number),
           provisioningState: S.optional(S.String),
         }),
@@ -15152,26 +15220,26 @@ function __c221(j: number): any {
       return S.suspend(() =>
         S.Struct({
           solutionVersionId: S.optional(S.String),
-          specification: S.optional(__S(272, __c34, 0)),
+          specification: S.optional(__S(544, __c34, 0)),
         }),
       ).annotate({ identifier: "SolutionVersionSnapshot" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           targetId: S.optional(S.String),
-          targetSpecification: S.optional(__S(272, __c34, 0)),
+          targetSpecification: S.optional(__S(544, __c34, 0)),
           solutionScope: S.optional(S.String),
         }),
       ).annotate({ identifier: "TargetSnapshot" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          solutionVersion: __S(1768, __c221, 0),
-          target: __S(1769, __c221, 1),
+          solutionVersion: __S(3536, __c221, 0),
+          target: __S(3537, __c221, 1),
           solutionScope: S.optional(S.String),
           activeState: S.optional(S.String),
-          reconciliationPolicy: S.optional(__S(1744, __c218, 0)),
-          status: S.optional(__S(1740, __c217, 4)),
+          reconciliationPolicy: S.optional(__S(3488, __c218, 0)),
+          status: S.optional(__S(3476, __c217, 4)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstanceHistoryProperties" });
@@ -15181,9 +15249,9 @@ function __c221(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1770, __c221, 2)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3538, __c221, 2)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetInstanceHistoryResponse" });
@@ -15196,7 +15264,7 @@ function __c222(j: number): any {
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
           configurationReferenceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1784, __c223, 0)),
+          properties: S.optional(__S(3568, __c223, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -15233,8 +15301,8 @@ function __c224(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1792, __c224, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3584, __c224, 0)),
         }),
       ).annotate({ identifier: "ConfigurationReferencesCreateOrUpdateResponse" });
   }
@@ -15263,17 +15331,39 @@ function __c226(j: number): any {
       return S.suspend(() =>
         S.Struct({
           jobType: S.String,
+          parameter: S.optional(__S(3632, __c227, 0)),
         }),
-      ).annotate({ identifier: "JobParameterBase" });
+      ).annotate({ identifier: "DeployJobParameter" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          statisticsType: S.String,
+          solutionTemplateId: S.String,
+          solutionInstanceName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "JobStepStatisticsBase" });
+      ).annotate({ identifier: "UninstallSolutionParameter" });
     case 2:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1811, __c226, 3)));
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          parameter: S.optional(__S(3617, __c226, 1)),
+        }),
+      ).annotate({ identifier: "UninstallJobParameter" });
     case 3:
+      return S.Union([__S(3616, __c226, 0), __S(3616, __c226, 0), __S(3618, __c226, 2)]);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          statisticsType: S.String,
+          totalCount: S.optional(S.Number),
+          successCount: S.optional(S.Number),
+          failedCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DeployJobStepStatistics" });
+    case 5:
+      return S.Union([__S(3620, __c226, 4), __S(3620, __c226, 4), __S(3620, __c226, 4)]);
+    case 6:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3623, __c226, 7)));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -15281,43 +15371,43 @@ function __c226(j: number): any {
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           message: S.optional(S.String),
-          statistics: S.optional(__S(1809, __c226, 1)),
-          steps: S.optional(__S(1810, __c226, 2)),
-          errorDetails: S.optional(__S(1821, __c227, 5)),
+          statistics: S.optional(__S(3621, __c226, 5)),
+          steps: S.optional(__S(3622, __c226, 6)),
+          errorDetails: S.optional(__S(3653, __c228, 5)),
         }),
       ).annotate({ identifier: "JobStep" });
-    case 4:
-      return S.Array(__S(1811, __c226, 3));
-    case 5:
+    case 8:
+      return S.Array(__S(3623, __c226, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           workflowId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdditionalData" });
-    case 6:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           jobType: S.String,
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           status: S.String,
-          jobParameter: S.optional(__S(1808, __c226, 0)),
+          jobParameter: S.optional(__S(3619, __c226, 3)),
           correlationId: S.optional(S.String),
-          steps: S.optional(__S(1812, __c226, 4)),
+          steps: S.optional(__S(3624, __c226, 8)),
           triggeredBy: S.optional(S.String),
           provisioningState: S.optional(S.String),
-          errorDetails: S.optional(__S(1821, __c227, 5)),
-          additionalData: S.optional(__S(1813, __c226, 5)),
+          errorDetails: S.optional(__S(3653, __c228, 5)),
+          additionalData: S.optional(__S(3625, __c226, 9)),
         }),
       ).annotate({ identifier: "JobProperties" });
-    case 7:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1814, __c226, 6)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3626, __c226, 10)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetJobResponse" });
@@ -15326,7 +15416,17 @@ function __c226(j: number): any {
 function __c227(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1819, __c227, 3)));
+      return S.suspend(() =>
+        S.Struct({
+          solutionVersionId: S.String,
+        }),
+      ).annotate({ identifier: "InstallSolutionParameter" });
+  }
+}
+function __c228(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3651, __c228, 3)));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -15335,32 +15435,32 @@ function __c227(j: number): any {
         }),
       ).annotate({ identifier: "ErrorAdditionalInfo" });
     case 2:
-      return S.Array(__S(1817, __c227, 1));
+      return S.Array(__S(3649, __c228, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
           target: S.optional(S.String),
-          details: S.optional(__S(1816, __c227, 0)),
-          additionalInfo: S.optional(__S(1818, __c227, 2)),
+          details: S.optional(__S(3648, __c228, 0)),
+          additionalInfo: S.optional(__S(3650, __c228, 2)),
         }),
       ).annotate({ identifier: "ErrorDetail" });
     case 4:
-      return S.Array(__S(1819, __c227, 3));
+      return S.Array(__S(3651, __c228, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
           target: S.optional(S.String),
-          details: S.optional(__S(1820, __c227, 4)),
-          additionalInfo: S.optional(__S(1818, __c227, 2)),
+          details: S.optional(__S(3652, __c228, 4)),
+          additionalInfo: S.optional(__S(3650, __c228, 2)),
         }),
       ).annotate({ identifier: "JobStepErrorDetails" });
   }
 }
-function __c228(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15379,7 +15479,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "GetSchemaRequest" });
   }
 }
-function __c229(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15390,7 +15490,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "SchemaProperties" });
   }
 }
-function __c230(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15398,16 +15498,16 @@ function __c230(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(1832, __c229, 0)),
+          properties: S.optional(__S(3680, __c230, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSchemaResponse" });
   }
 }
-function __c231(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15425,7 +15525,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "GetSchemaReferenceRequest" });
   }
 }
-function __c232(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15436,7 +15536,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "SchemaReferenceProperties" });
   }
 }
-function __c233(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15444,14 +15544,14 @@ function __c233(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1856, __c232, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3728, __c233, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSchemaReferenceResponse" });
   }
 }
-function __c234(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15471,7 +15571,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "GetSchemaVersionRequest" });
   }
 }
-function __c235(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15490,7 +15590,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "GetSiteRequest" });
   }
 }
-function __c236(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15508,14 +15608,14 @@ function __c236(j: number): any {
         S.Struct({
           displayName: S.optional(S.String),
           description: S.optional(S.String),
-          siteAddress: S.optional(__S(1888, __c236, 0)),
-          labels: S.optional(__S(1152, __c144, 0)),
+          siteAddress: S.optional(__S(3792, __c237, 0)),
+          labels: S.optional(__S(2304, __c144, 0)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteProperties" });
   }
 }
-function __c237(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15523,13 +15623,13 @@ function __c237(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1889, __c236, 1)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3793, __c237, 1)),
         }),
       ).annotate({ identifier: "GetSiteResponse" });
   }
 }
-function __c238(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15549,7 +15649,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "GetSiteReferenceRequest" });
   }
 }
-function __c239(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15557,13 +15657,13 @@ function __c239(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1920, __c240, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3856, __c241, 0)),
         }),
       ).annotate({ identifier: "GetSiteReferenceResponse" });
   }
 }
-function __c240(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15574,7 +15674,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "SiteReferenceProperties" });
   }
 }
-function __c241(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15592,7 +15692,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "GetSitesByServiceGroupRequest" });
   }
 }
-function __c242(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15610,7 +15710,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "GetSitesBySubscriptionRequest" });
   }
 }
-function __c243(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15630,7 +15730,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "GetSolutionRequest" });
   }
 }
-function __c244(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15638,15 +15738,15 @@ function __c244(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1962, __c245, 2)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3938, __c246, 2)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSolutionResponse" });
   }
 }
-function __c245(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15657,19 +15757,19 @@ function __c245(j: number): any {
         }),
       ).annotate({ identifier: "AvailableSolutionTemplateVersion" });
     case 1:
-      return S.Array(__S(1960, __c245, 0));
+      return S.Array(__S(3936, __c246, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           solutionTemplateId: S.optional(S.String),
           displayName: S.optional(S.String),
-          availableSolutionTemplateVersions: S.optional(__S(1961, __c245, 1)),
+          availableSolutionTemplateVersions: S.optional(__S(3937, __c246, 1)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "SolutionProperties" });
   }
 }
-function __c246(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15687,7 +15787,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "GetSolutionMetadatasRequest" });
   }
 }
-function __c247(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15704,13 +15804,13 @@ function __c247(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1976, __c247, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3968, __c248, 0)),
         }),
       ).annotate({ identifier: "GetSolutionMetadatasResponse" });
   }
 }
-function __c248(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15718,9 +15818,9 @@ function __c248(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           configurationName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(1152, __c144, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(1992, __c249, 0)),
+          properties: S.optional(__S(4000, __c250, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -15732,13 +15832,13 @@ function __c248(j: number): any {
       ).annotate({ identifier: "ConfigurationsCreateOrUpdateRequest" });
   }
 }
-function __c249(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "ConfigurationPropertiesInput" });
   }
 }
-function __c250(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15748,7 +15848,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "ConfigurationProperties" });
   }
 }
-function __c251(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15756,15 +15856,15 @@ function __c251(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(2000, __c250, 0)),
+          properties: S.optional(__S(4016, __c251, 0)),
         }),
       ).annotate({ identifier: "ConfigurationsCreateOrUpdateResponse" });
   }
 }
-function __c252(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15783,7 +15883,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "GetSolutionMetadataVersionRequest" });
   }
 }
-function __c253(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15801,13 +15901,13 @@ function __c253(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(2024, __c253, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(4064, __c254, 0)),
         }),
       ).annotate({ identifier: "GetSolutionMetadataVersionResponse" });
   }
 }
-function __c254(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15828,7 +15928,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "GetSolutionSchemaRequest" });
   }
 }
-function __c255(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15845,14 +15945,14 @@ function __c255(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(2040, __c255, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(4096, __c256, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSolutionSchemaResponse" });
   }
 }
-function __c256(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15871,14 +15971,14 @@ function __c256(j: number): any {
       ).annotate({ identifier: "GetSolutionTemplateRequest" });
   }
 }
-function __c257(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uniqueIdentifier: S.optional(S.String),
           description: S.String,
-          capabilities: __S(1040, __c130, 0),
+          capabilities: __S(2080, __c130, 0),
           latestVersion: S.optional(S.String),
           state: S.optional(S.String),
           enableExternalValidation: S.optional(S.Boolean),
@@ -15887,7 +15987,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "SolutionTemplateProperties" });
   }
 }
-function __c258(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15895,16 +15995,16 @@ function __c258(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(2056, __c257, 0)),
+          properties: S.optional(__S(4128, __c258, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSolutionTemplateResponse" });
   }
 }
-function __c259(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15924,7 +16024,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "GetSolutionTemplateVersionRequest" });
   }
 }
-function __c260(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15932,14 +16032,14 @@ function __c260(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(280, __c35, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(560, __c35, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSolutionTemplateVersionResponse" });
   }
 }
-function __c261(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15960,7 +16060,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "GetSolutionVersionRequest" });
   }
 }
-function __c262(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15968,18 +16068,18 @@ function __c262(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(2110, __c263, 6)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(4230, __c264, 6)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSolutionVersionResponse" });
   }
 }
-function __c263(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2105, __c263, 1)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4225, __c264, 1)));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -15988,13 +16088,13 @@ function __c263(j: number): any {
           status: S.String,
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          childStages: S.optional(__S(2104, __c263, 0)),
+          childStages: S.optional(__S(4224, __c264, 0)),
         }),
       ).annotate({ identifier: "StageMap" });
     case 2:
-      return S.Array(__S(2105, __c263, 1));
+      return S.Array(__S(4225, __c264, 1));
     case 3:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2108, __c263, 4)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4228, __c264, 4)));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -16002,11 +16102,11 @@ function __c263(j: number): any {
           solutionInstanceName: S.optional(S.String),
           solutionTemplateVersionId: S.String,
           targetId: S.String,
-          dependencies: S.optional(__S(2107, __c263, 3)),
+          dependencies: S.optional(__S(4227, __c264, 3)),
         }),
       ).annotate({ identifier: "SolutionDependency" });
     case 5:
-      return S.Array(__S(2108, __c263, 4));
+      return S.Array(__S(4228, __c264, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -16015,15 +16115,15 @@ function __c263(j: number): any {
           targetDisplayName: S.optional(S.String),
           configuration: S.optional(S.Unknown),
           targetLevelConfiguration: S.optional(S.Unknown),
-          specification: __S(272, __c34, 0),
+          specification: __S(544, __c34, 0),
           reviewId: S.optional(S.String),
           externalValidationId: S.optional(S.String),
           state: S.optional(S.String),
-          currentStage: S.optional(__S(2105, __c263, 1)),
-          stages: S.optional(__S(2106, __c263, 2)),
+          currentStage: S.optional(__S(4225, __c264, 1)),
+          stages: S.optional(__S(4226, __c264, 2)),
           solutionInstanceName: S.optional(S.String),
-          solutionDependencies: S.optional(__S(2109, __c263, 5)),
-          errorDetails: S.optional(__S(1821, __c227, 5)),
+          solutionDependencies: S.optional(__S(4229, __c264, 5)),
+          errorDetails: S.optional(__S(3653, __c228, 5)),
           latestActionTrackingUri: S.optional(S.String),
           latestActionTriggeredBy: S.optional(S.String),
           actionType: S.optional(S.String),
@@ -16032,7 +16132,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "SolutionVersionProperties" });
   }
 }
-function __c264(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16051,7 +16151,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "GetTargetRequest" });
   }
 }
-function __c265(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16059,17 +16159,17 @@ function __c265(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(2128, __c266, 0)),
+          properties: S.optional(__S(4272, __c267, 0)),
           eTag: S.optional(S.String),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
         }),
       ).annotate({ identifier: "GetTargetResponse" });
   }
 }
-function __c266(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16077,10 +16177,10 @@ function __c266(j: number): any {
           description: S.String,
           displayName: S.String,
           contextId: S.String,
-          targetSpecification: S.optional(__S(272, __c34, 0)),
-          capabilities: __S(1040, __c130, 0),
+          targetSpecification: S.optional(__S(544, __c34, 0)),
+          capabilities: __S(2080, __c130, 0),
           hierarchyLevel: S.String,
-          status: S.optional(__S(1740, __c217, 4)),
+          status: S.optional(__S(3476, __c217, 4)),
           solutionScope: S.optional(S.String),
           state: S.optional(S.String),
           provisioningState: S.optional(S.String),
@@ -16088,7 +16188,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "TargetProperties" });
   }
 }
-function __c267(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16108,7 +16208,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "GetWorkflowRequest" });
   }
 }
-function __c268(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16116,15 +16216,15 @@ function __c268(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(2152, __c269, 0)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(4320, __c270, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWorkflowResponse" });
   }
 }
-function __c269(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16135,7 +16235,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "WorkflowProperties" });
   }
 }
-function __c270(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16156,7 +16256,7 @@ function __c270(j: number): any {
       ).annotate({ identifier: "GetWorkflowVersionRequest" });
   }
 }
-function __c271(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16164,26 +16264,26 @@ function __c271(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(2182, __c272, 6)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(4374, __c273, 6)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWorkflowVersionResponse" });
   }
 }
-function __c272(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           targetId: S.optional(S.String),
-          specification: __S(272, __c34, 0),
+          specification: __S(544, __c34, 0),
         }),
       ).annotate({ identifier: "TaskSpec" });
     case 1:
-      return S.Array(__S(2176, __c272, 0));
+      return S.Array(__S(4368, __c273, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16195,35 +16295,35 @@ function __c272(j: number): any {
       return S.suspend(() =>
         S.Struct({
           concurrency: S.optional(S.Number),
-          errorAction: S.optional(__S(2178, __c272, 2)),
+          errorAction: S.optional(__S(4370, __c273, 2)),
         }),
       ).annotate({ identifier: "TaskOption" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          specification: S.optional(__S(272, __c34, 0)),
-          tasks: S.optional(__S(2177, __c272, 1)),
-          taskOption: S.optional(__S(2179, __c272, 3)),
+          specification: S.optional(__S(544, __c34, 0)),
+          tasks: S.optional(__S(4369, __c273, 1)),
+          taskOption: S.optional(__S(4371, __c273, 3)),
         }),
       ).annotate({ identifier: "StageSpec" });
     case 5:
-      return S.Array(__S(2180, __c272, 4));
+      return S.Array(__S(4372, __c273, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           revision: S.optional(S.Number),
           configuration: S.optional(S.String),
-          stageSpec: __S(2181, __c272, 5),
+          stageSpec: __S(4373, __c273, 5),
           reviewId: S.optional(S.String),
           state: S.optional(S.String),
-          specification: S.optional(__S(272, __c34, 0)),
+          specification: S.optional(__S(544, __c34, 0)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowVersionProperties" });
   }
 }
-function __c273(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16246,7 +16346,7 @@ function __c273(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           hardwareSettingName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2184, __c273, 0)),
+          properties: S.optional(__S(4384, __c274, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16262,15 +16362,15 @@ function __c273(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1656, __c207, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3312, __c207, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "HardwareSettingsCreateOrUpdateResponse" });
   }
 }
-function __c274(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16297,8 +16397,8 @@ function __c274(j: number): any {
           releaseNotes: S.String,
           releaseDate: S.String,
           releaseType: S.String,
-          compatibleVersions: S.optional(__S(1040, __c130, 0)),
-          updateProperties: S.optional(__S(1712, __c214, 0)),
+          compatibleVersions: S.optional(__S(2080, __c130, 0)),
+          updateProperties: S.optional(__S(3424, __c214, 0)),
           transactionId: S.String,
           downloadLink: S.String,
           linkExpiry: S.String,
@@ -16306,13 +16406,13 @@ function __c274(j: number): any {
       ).annotate({ identifier: "ImageDownloadResult" });
   }
 }
-function __c275(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          capabilities: __S(2209, __c276, 1),
-          hierarchies: __S(2211, __c276, 3),
+          capabilities: __S(4433, __c277, 1),
+          hierarchies: __S(4435, __c277, 3),
         }),
       ).annotate({ identifier: "ContextPropertiesInput" });
     case 1:
@@ -16321,9 +16421,9 @@ function __c275(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           contextName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(1152, __c144, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(2200, __c275, 0)),
+          properties: S.optional(__S(4416, __c276, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16339,17 +16439,17 @@ function __c275(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          tags: S.optional(__S(1152, __c144, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          tags: S.optional(__S(2304, __c144, 0)),
           location: S.String,
-          properties: S.optional(__S(2212, __c276, 4)),
+          properties: S.optional(__S(4436, __c277, 4)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "ContextsCreateOrUpdateResponse" });
   }
 }
-function __c276(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16360,7 +16460,7 @@ function __c276(j: number): any {
         }),
       ).annotate({ identifier: "Capability" });
     case 1:
-      return S.Array(__S(2208, __c276, 0));
+      return S.Array(__S(4432, __c277, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16369,19 +16469,19 @@ function __c276(j: number): any {
         }),
       ).annotate({ identifier: "Hierarchy" });
     case 3:
-      return S.Array(__S(2210, __c276, 2));
+      return S.Array(__S(4434, __c277, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           uniqueIdentifier: S.optional(S.String),
-          capabilities: __S(2209, __c276, 1),
-          hierarchies: __S(2211, __c276, 3),
+          capabilities: __S(4433, __c277, 1),
+          hierarchies: __S(4435, __c277, 3),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContextProperties" });
   }
 }
-function __c277(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16401,7 +16501,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "InstallTargetSolutionRequest" });
   }
 }
-function __c278(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16409,7 +16509,7 @@ function __c278(j: number): any {
           solutionVersionId: S.String,
           targetId: S.String,
           activeState: S.optional(S.String),
-          reconciliationPolicy: S.optional(__S(1744, __c218, 0)),
+          reconciliationPolicy: S.optional(__S(3488, __c218, 0)),
           solutionScope: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstancePropertiesInput" });
@@ -16421,8 +16521,8 @@ function __c278(j: number): any {
           targetName: S.String.pipe(T.Label()),
           solutionName: S.String.pipe(T.Label()),
           instanceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2224, __c278, 0)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          properties: S.optional(__S(4464, __c279, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16438,9 +16538,9 @@ function __c278(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(1032, __c129, 0)),
-          properties: S.optional(__S(1752, __c219, 0)),
-          extendedLocation: S.optional(__S(1272, __c159, 0)),
+          systemData: S.optional(__S(2064, __c129, 0)),
+          properties: S.optional(__S(3504, __c219, 0)),
+          extendedLocation: S.optional(__S(2544, __c159, 0)),
           eTag: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -16448,7 +16548,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "InstancesCreateOrUpdateResponse" });
   }
 }
-function __c279(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16467,17 +16567,17 @@ function __c279(j: number): any {
         ),
       ).annotate({ identifier: "ListArtifactByParentRequest" });
     case 1:
-      return S.Array(__S(1393, __c174, 1));
+      return S.Array(__S(2785, __c174, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2233, __c279, 1),
+          value: __S(4481, __c280, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArtifactListResult" });
   }
 }
-function __c280(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16495,20 +16595,20 @@ function __c280(j: number): any {
       ).annotate({ identifier: "ListConfigTemplateByResourceGroupRequest" });
   }
 }
-function __c281(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1416, __c177, 0));
+      return S.Array(__S(2832, __c177, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2248, __c281, 0),
+          value: __S(4512, __c282, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigTemplateListResult" });
   }
 }
-function __c282(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16525,7 +16625,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "ListConfigTemplateBySubscriptionRequest" });
   }
 }
-function __c283(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16543,17 +16643,17 @@ function __c283(j: number): any {
         ),
       ).annotate({ identifier: "ListConfigTemplateMetadatasByConfigTemplateRequest" });
     case 1:
-      return S.Array(__S(1432, __c179, 0));
+      return S.Array(__S(2864, __c179, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2265, __c283, 1),
+          value: __S(4545, __c284, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigTemplateMetadataListResult" });
   }
 }
-function __c284(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16572,17 +16672,17 @@ function __c284(j: number): any {
         ),
       ).annotate({ identifier: "ListConfigTemplateSchemaByConfigTemplateVersionRequest" });
     case 1:
-      return S.Array(__S(1449, __c181, 1));
+      return S.Array(__S(2897, __c181, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2273, __c284, 1),
+          value: __S(4561, __c285, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigTemplateSchemaListResult" });
   }
 }
-function __c285(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16600,17 +16700,17 @@ function __c285(j: number): any {
         ),
       ).annotate({ identifier: "ListConfigTemplateVersionByConfigTemplateRequest" });
     case 1:
-      return S.Array(__S(1464, __c183, 0));
+      return S.Array(__S(2928, __c183, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2281, __c285, 1),
+          value: __S(4577, __c286, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigTemplateVersionListResult" });
   }
 }
-function __c286(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16628,20 +16728,20 @@ function __c286(j: number): any {
       ).annotate({ identifier: "ListConfigurationByResourceGroupRequest" });
   }
 }
-function __c287(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2008, __c251, 0));
+      return S.Array(__S(4032, __c252, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2296, __c287, 0),
+          value: __S(4608, __c288, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigurationListResult" });
   }
 }
-function __c288(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -38,13 +38,8 @@ export interface CarbonEmissionDataAvailableDateRange {
   /** End date parameter, format is yyyy-MM-dd */
   endDate: string;
 }
-/** Enum for Report Type, specifying different report formats for carbon emissions data. Each report type returns different aggregations of carbon emissions across various categories, date range, emissions scope, and other parameters. */
-export type ReportTypeEnum =
-  | "OverallSummaryReport"
-  | "MonthlySummaryReport"
-  | "TopItemsSummaryReport"
-  | "TopItemsMonthlySummaryReport"
-  | "ItemDetailsReport";
+/** The ReportType requested for carbon emissions data. Required. Specifies how data is aggregated and displayed in the output, as explained in the ReportTypeEnum. */
+export type ItemDetailsQueryFilterReportType = "ItemDetailsReport";
 /** Date range to be used with QueryParameter, it should be within 12 months between start and end date. In certain cases, start and end dates must be the same date. */
 export interface DateRange {
   /** Start date parameter in yyyy-MM-01 format. Only the first day of each month is accepted. */
@@ -53,54 +48,249 @@ export interface DateRange {
   end: string;
 }
 /** List of subscription IDs for which carbon emissions data is requested. Required. Each subscription ID should be in lowercase format. The max length of list is 100. */
-export type CarbonServiceQueryCarbonEmissionReportsRequestSubscriptionListList = Array<string>;
+export type ItemDetailsQueryFilterSubscriptionListList = Array<string>;
 /** List of resource group URLs for carbon emissions data. Optional. Each URL must follow the format '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}', and should be in all lowercase. */
-export type CarbonServiceQueryCarbonEmissionReportsRequestResourceGroupUrlListList = Array<string>;
+export type ItemDetailsQueryFilterResourceGroupUrlListList = Array<string>;
 /** List of resource types for carbon emissions data. Optional. Each resource type should be specified in lowercase, following the format 'microsoft.{service}/{resourceType}', e.g., 'microsoft.storage/storageaccounts'. */
-export type CarbonServiceQueryCarbonEmissionReportsRequestResourceTypeListList = Array<string>;
+export type ItemDetailsQueryFilterResourceTypeListList = Array<string>;
 /** List of locations(Azure Region Display Name) for carbon emissions data, with each location specified in lowercase (e.g., 'east us'). Optional. You can use the command 'az account list-locations -o table' to find Azure Region Display Names. */
-export type CarbonServiceQueryCarbonEmissionReportsRequestLocationListList = Array<string>;
+export type ItemDetailsQueryFilterLocationListList = Array<string>;
 /** Supported carbon emission scopes to be used with QueryParameter, as defined by the GHG Protocol. At least one scope must be specified. The output will return a total of all specified scopes. */
 export type EmissionScopeEnum = "Scope1" | "Scope2" | "Scope3";
 /** List of carbon emission scopes. Required. Accepts one or more values from EmissionScopeEnum (e.g., Scope1, Scope2, Scope3) in list form. The output will include the total emissions for the specified scopes. */
-export type CarbonServiceQueryCarbonEmissionReportsRequestCarbonScopeListList = Array<
-  EmissionScopeEnum | (string & {})
->;
-export interface CarbonServiceQueryCarbonEmissionReportsRequest {
+export type ItemDetailsQueryFilterCarbonScopeListList = Array<EmissionScopeEnum | (string & {})>;
+/** Supported category types to be used with QueryParameter. Each type represents a different level of emissions data aggregation. */
+export type CategoryTypeEnum =
+  | "Subscription"
+  | "ResourceGroup"
+  | "Location"
+  | "Resource"
+  | "ResourceType";
+/** Sorting is supported for columns in ItemDetailsReport. This object includes the column names that sorting is allowed for. Select one of these supported values */
+export type OrderByColumnEnum =
+  | "ItemName"
+  | "LatestMonthEmissions"
+  | "PreviousMonthEmissions"
+  | "MonthOverMonthEmissionsChangeRatio"
+  | "MonthlyEmissionsChangeValue"
+  | "ResourceGroup";
+/** Sorting is supported for columns in ItemDetailsReport. This object define sorting direction. */
+export type SortDirectionEnum = "Desc" | "Asc";
+/** Query Parameters for ItemDetailsReport */
+export interface ItemDetailsQueryFilter {
   /** The ReportType requested for carbon emissions data. Required. Specifies how data is aggregated and displayed in the output, as explained in the ReportTypeEnum. */
-  reportType: ReportTypeEnum | (string & {});
+  reportType: ItemDetailsQueryFilterReportType;
   /** The start and end dates for carbon emissions data. Required. For ItemDetailsReport and TopItemsSummaryReport, only one month of data is supported at a time, so start and end dates should be equal within DateRange (e.g., start: 2024-06-01 and end: 2024-06-01). */
   dateRange: DateRange;
   /** List of subscription IDs for which carbon emissions data is requested. Required. Each subscription ID should be in lowercase format. The max length of list is 100. */
-  subscriptionList: CarbonServiceQueryCarbonEmissionReportsRequestSubscriptionListList;
+  subscriptionList: ItemDetailsQueryFilterSubscriptionListList;
+  /** List of resource group URLs for carbon emissions data. Optional. Each URL must follow the format '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}', and should be in all lowercase. */
+  resourceGroupUrlList?: ItemDetailsQueryFilterResourceGroupUrlListList | undefined;
+  /** List of resource types for carbon emissions data. Optional. Each resource type should be specified in lowercase, following the format 'microsoft.{service}/{resourceType}', e.g., 'microsoft.storage/storageaccounts'. */
+  resourceTypeList?: ItemDetailsQueryFilterResourceTypeListList | undefined;
+  /** List of locations(Azure Region Display Name) for carbon emissions data, with each location specified in lowercase (e.g., 'east us'). Optional. You can use the command 'az account list-locations -o table' to find Azure Region Display Names. */
+  locationList?: ItemDetailsQueryFilterLocationListList | undefined;
+  /** List of carbon emission scopes. Required. Accepts one or more values from EmissionScopeEnum (e.g., Scope1, Scope2, Scope3) in list form. The output will include the total emissions for the specified scopes. */
+  carbonScopeList: ItemDetailsQueryFilterCarbonScopeListList;
+  /** Specifies the category type for detailed emissions data, such as Resource, ResourceGroup, ResourceType, Location, or Subscription. See supported types in CategoryTypeEnum. */
+  categoryType: CategoryTypeEnum | (string & {});
+  /** The column name to order the results by. See supported values in OrderByColumnEnum. */
+  orderBy: OrderByColumnEnum | (string & {});
+  /** Direction for sorting results. See supported values in SortDirectionEnum. */
+  sortDirection: SortDirectionEnum | (string & {});
+  /** Number of items to return in one request, max value is 5000. */
+  pageSize: number;
+  /** Pagination token for fetching the next page of data. This token is nullable and will be returned in the previous response if additional data pages are available. */
+  skipToken?: string | undefined;
+}
+/** The ReportType requested for carbon emissions data. Required. Specifies how data is aggregated and displayed in the output, as explained in the ReportTypeEnum. */
+export type MonthlySummaryReportQueryFilterReportType = "MonthlySummaryReport";
+/** List of subscription IDs for which carbon emissions data is requested. Required. Each subscription ID should be in lowercase format. The max length of list is 100. */
+export type MonthlySummaryReportQueryFilterSubscriptionListList = Array<string>;
+/** List of resource group URLs for carbon emissions data. Optional. Each URL must follow the format '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}', and should be in all lowercase. */
+export type MonthlySummaryReportQueryFilterResourceGroupUrlListList = Array<string>;
+/** List of resource types for carbon emissions data. Optional. Each resource type should be specified in lowercase, following the format 'microsoft.{service}/{resourceType}', e.g., 'microsoft.storage/storageaccounts'. */
+export type MonthlySummaryReportQueryFilterResourceTypeListList = Array<string>;
+/** List of locations(Azure Region Display Name) for carbon emissions data, with each location specified in lowercase (e.g., 'east us'). Optional. You can use the command 'az account list-locations -o table' to find Azure Region Display Names. */
+export type MonthlySummaryReportQueryFilterLocationListList = Array<string>;
+/** List of carbon emission scopes. Required. Accepts one or more values from EmissionScopeEnum (e.g., Scope1, Scope2, Scope3) in list form. The output will include the total emissions for the specified scopes. */
+export type MonthlySummaryReportQueryFilterCarbonScopeListList = Array<
+  EmissionScopeEnum | (string & {})
+>;
+/** Shared query filter parameter to configure carbon emissions data queries for all different report type defined in ReportTypeEnum. */
+export interface MonthlySummaryReportQueryFilter {
+  /** The ReportType requested for carbon emissions data. Required. Specifies how data is aggregated and displayed in the output, as explained in the ReportTypeEnum. */
+  reportType: MonthlySummaryReportQueryFilterReportType;
+  /** The start and end dates for carbon emissions data. Required. For ItemDetailsReport and TopItemsSummaryReport, only one month of data is supported at a time, so start and end dates should be equal within DateRange (e.g., start: 2024-06-01 and end: 2024-06-01). */
+  dateRange: DateRange;
+  /** List of subscription IDs for which carbon emissions data is requested. Required. Each subscription ID should be in lowercase format. The max length of list is 100. */
+  subscriptionList: MonthlySummaryReportQueryFilterSubscriptionListList;
+  /** List of resource group URLs for carbon emissions data. Optional. Each URL must follow the format '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}', and should be in all lowercase. */
+  resourceGroupUrlList?: MonthlySummaryReportQueryFilterResourceGroupUrlListList | undefined;
+  /** List of resource types for carbon emissions data. Optional. Each resource type should be specified in lowercase, following the format 'microsoft.{service}/{resourceType}', e.g., 'microsoft.storage/storageaccounts'. */
+  resourceTypeList?: MonthlySummaryReportQueryFilterResourceTypeListList | undefined;
+  /** List of locations(Azure Region Display Name) for carbon emissions data, with each location specified in lowercase (e.g., 'east us'). Optional. You can use the command 'az account list-locations -o table' to find Azure Region Display Names. */
+  locationList?: MonthlySummaryReportQueryFilterLocationListList | undefined;
+  /** List of carbon emission scopes. Required. Accepts one or more values from EmissionScopeEnum (e.g., Scope1, Scope2, Scope3) in list form. The output will include the total emissions for the specified scopes. */
+  carbonScopeList: MonthlySummaryReportQueryFilterCarbonScopeListList;
+}
+/** The ReportType requested for carbon emissions data. Required. Specifies how data is aggregated and displayed in the output, as explained in the ReportTypeEnum. */
+export type OverallSummaryReportQueryFilterReportType = "OverallSummaryReport";
+/** List of subscription IDs for which carbon emissions data is requested. Required. Each subscription ID should be in lowercase format. The max length of list is 100. */
+export type OverallSummaryReportQueryFilterSubscriptionListList = Array<string>;
+/** List of resource group URLs for carbon emissions data. Optional. Each URL must follow the format '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}', and should be in all lowercase. */
+export type OverallSummaryReportQueryFilterResourceGroupUrlListList = Array<string>;
+/** List of resource types for carbon emissions data. Optional. Each resource type should be specified in lowercase, following the format 'microsoft.{service}/{resourceType}', e.g., 'microsoft.storage/storageaccounts'. */
+export type OverallSummaryReportQueryFilterResourceTypeListList = Array<string>;
+/** List of locations(Azure Region Display Name) for carbon emissions data, with each location specified in lowercase (e.g., 'east us'). Optional. You can use the command 'az account list-locations -o table' to find Azure Region Display Names. */
+export type OverallSummaryReportQueryFilterLocationListList = Array<string>;
+/** List of carbon emission scopes. Required. Accepts one or more values from EmissionScopeEnum (e.g., Scope1, Scope2, Scope3) in list form. The output will include the total emissions for the specified scopes. */
+export type OverallSummaryReportQueryFilterCarbonScopeListList = Array<
+  EmissionScopeEnum | (string & {})
+>;
+/** Shared query filter parameter to configure carbon emissions data queries for all different report type defined in ReportTypeEnum. */
+export interface OverallSummaryReportQueryFilter {
+  /** The ReportType requested for carbon emissions data. Required. Specifies how data is aggregated and displayed in the output, as explained in the ReportTypeEnum. */
+  reportType: OverallSummaryReportQueryFilterReportType;
+  /** The start and end dates for carbon emissions data. Required. For ItemDetailsReport and TopItemsSummaryReport, only one month of data is supported at a time, so start and end dates should be equal within DateRange (e.g., start: 2024-06-01 and end: 2024-06-01). */
+  dateRange: DateRange;
+  /** List of subscription IDs for which carbon emissions data is requested. Required. Each subscription ID should be in lowercase format. The max length of list is 100. */
+  subscriptionList: OverallSummaryReportQueryFilterSubscriptionListList;
+  /** List of resource group URLs for carbon emissions data. Optional. Each URL must follow the format '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}', and should be in all lowercase. */
+  resourceGroupUrlList?: OverallSummaryReportQueryFilterResourceGroupUrlListList | undefined;
+  /** List of resource types for carbon emissions data. Optional. Each resource type should be specified in lowercase, following the format 'microsoft.{service}/{resourceType}', e.g., 'microsoft.storage/storageaccounts'. */
+  resourceTypeList?: OverallSummaryReportQueryFilterResourceTypeListList | undefined;
+  /** List of locations(Azure Region Display Name) for carbon emissions data, with each location specified in lowercase (e.g., 'east us'). Optional. You can use the command 'az account list-locations -o table' to find Azure Region Display Names. */
+  locationList?: OverallSummaryReportQueryFilterLocationListList | undefined;
+  /** List of carbon emission scopes. Required. Accepts one or more values from EmissionScopeEnum (e.g., Scope1, Scope2, Scope3) in list form. The output will include the total emissions for the specified scopes. */
+  carbonScopeList: OverallSummaryReportQueryFilterCarbonScopeListList;
+}
+/** The ReportType requested for carbon emissions data. Required. Specifies how data is aggregated and displayed in the output, as explained in the ReportTypeEnum. */
+export type TopItemsMonthlySummaryReportQueryFilterReportType = "TopItemsMonthlySummaryReport";
+/** List of subscription IDs for which carbon emissions data is requested. Required. Each subscription ID should be in lowercase format. The max length of list is 100. */
+export type TopItemsMonthlySummaryReportQueryFilterSubscriptionListList = Array<string>;
+/** List of resource group URLs for carbon emissions data. Optional. Each URL must follow the format '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}', and should be in all lowercase. */
+export type TopItemsMonthlySummaryReportQueryFilterResourceGroupUrlListList = Array<string>;
+/** List of resource types for carbon emissions data. Optional. Each resource type should be specified in lowercase, following the format 'microsoft.{service}/{resourceType}', e.g., 'microsoft.storage/storageaccounts'. */
+export type TopItemsMonthlySummaryReportQueryFilterResourceTypeListList = Array<string>;
+/** List of locations(Azure Region Display Name) for carbon emissions data, with each location specified in lowercase (e.g., 'east us'). Optional. You can use the command 'az account list-locations -o table' to find Azure Region Display Names. */
+export type TopItemsMonthlySummaryReportQueryFilterLocationListList = Array<string>;
+/** List of carbon emission scopes. Required. Accepts one or more values from EmissionScopeEnum (e.g., Scope1, Scope2, Scope3) in list form. The output will include the total emissions for the specified scopes. */
+export type TopItemsMonthlySummaryReportQueryFilterCarbonScopeListList = Array<
+  EmissionScopeEnum | (string & {})
+>;
+/** Query filter parameter to configure TopItemsMonthlySummaryReport queries. */
+export interface TopItemsMonthlySummaryReportQueryFilter {
+  /** The ReportType requested for carbon emissions data. Required. Specifies how data is aggregated and displayed in the output, as explained in the ReportTypeEnum. */
+  reportType: TopItemsMonthlySummaryReportQueryFilterReportType;
+  /** The start and end dates for carbon emissions data. Required. For ItemDetailsReport and TopItemsSummaryReport, only one month of data is supported at a time, so start and end dates should be equal within DateRange (e.g., start: 2024-06-01 and end: 2024-06-01). */
+  dateRange: DateRange;
+  /** List of subscription IDs for which carbon emissions data is requested. Required. Each subscription ID should be in lowercase format. The max length of list is 100. */
+  subscriptionList: TopItemsMonthlySummaryReportQueryFilterSubscriptionListList;
   /** List of resource group URLs for carbon emissions data. Optional. Each URL must follow the format '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}', and should be in all lowercase. */
   resourceGroupUrlList?:
-    | CarbonServiceQueryCarbonEmissionReportsRequestResourceGroupUrlListList
+    | TopItemsMonthlySummaryReportQueryFilterResourceGroupUrlListList
     | undefined;
   /** List of resource types for carbon emissions data. Optional. Each resource type should be specified in lowercase, following the format 'microsoft.{service}/{resourceType}', e.g., 'microsoft.storage/storageaccounts'. */
-  resourceTypeList?: CarbonServiceQueryCarbonEmissionReportsRequestResourceTypeListList | undefined;
+  resourceTypeList?: TopItemsMonthlySummaryReportQueryFilterResourceTypeListList | undefined;
   /** List of locations(Azure Region Display Name) for carbon emissions data, with each location specified in lowercase (e.g., 'east us'). Optional. You can use the command 'az account list-locations -o table' to find Azure Region Display Names. */
-  locationList?: CarbonServiceQueryCarbonEmissionReportsRequestLocationListList | undefined;
+  locationList?: TopItemsMonthlySummaryReportQueryFilterLocationListList | undefined;
   /** List of carbon emission scopes. Required. Accepts one or more values from EmissionScopeEnum (e.g., Scope1, Scope2, Scope3) in list form. The output will include the total emissions for the specified scopes. */
-  carbonScopeList: CarbonServiceQueryCarbonEmissionReportsRequestCarbonScopeListList;
+  carbonScopeList: TopItemsMonthlySummaryReportQueryFilterCarbonScopeListList;
+  /** Specifies the category type to retrieve top-emitting items, aggregated by month. See supported types in CategoryTypeEnum. */
+  categoryType: CategoryTypeEnum | (string & {});
+  /** The number of top items to return, based on emissions. Must be between 1 and 10. */
+  topItems: number;
 }
-/** The response data type of Carbon emission data */
-export type ResponseDataTypeEnum =
-  | "OverallSummaryData"
-  | "MonthlySummaryData"
-  | "TopItemsSummaryData"
-  | "ResourceTopItemsSummaryData"
-  | "ResourceGroupTopItemsSummaryData"
-  | "TopItemsMonthlySummaryData"
-  | "ResourceTopItemsMonthlySummaryData"
-  | "ResourceGroupTopItemsMonthlySummaryData"
-  | "ItemDetailsData"
-  | "ResourceItemDetailsData"
-  | "ResourceGroupItemDetailsData";
-/** The basic response for different query report, all query report result will have these information */
-export interface CarbonEmissionData {
+/** The ReportType requested for carbon emissions data. Required. Specifies how data is aggregated and displayed in the output, as explained in the ReportTypeEnum. */
+export type TopItemsSummaryReportQueryFilterReportType = "TopItemsSummaryReport";
+/** List of subscription IDs for which carbon emissions data is requested. Required. Each subscription ID should be in lowercase format. The max length of list is 100. */
+export type TopItemsSummaryReportQueryFilterSubscriptionListList = Array<string>;
+/** List of resource group URLs for carbon emissions data. Optional. Each URL must follow the format '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}', and should be in all lowercase. */
+export type TopItemsSummaryReportQueryFilterResourceGroupUrlListList = Array<string>;
+/** List of resource types for carbon emissions data. Optional. Each resource type should be specified in lowercase, following the format 'microsoft.{service}/{resourceType}', e.g., 'microsoft.storage/storageaccounts'. */
+export type TopItemsSummaryReportQueryFilterResourceTypeListList = Array<string>;
+/** List of locations(Azure Region Display Name) for carbon emissions data, with each location specified in lowercase (e.g., 'east us'). Optional. You can use the command 'az account list-locations -o table' to find Azure Region Display Names. */
+export type TopItemsSummaryReportQueryFilterLocationListList = Array<string>;
+/** List of carbon emission scopes. Required. Accepts one or more values from EmissionScopeEnum (e.g., Scope1, Scope2, Scope3) in list form. The output will include the total emissions for the specified scopes. */
+export type TopItemsSummaryReportQueryFilterCarbonScopeListList = Array<
+  EmissionScopeEnum | (string & {})
+>;
+/** Query filter parameter to configure TopItemsSummaryReport queries. */
+export interface TopItemsSummaryReportQueryFilter {
+  /** The ReportType requested for carbon emissions data. Required. Specifies how data is aggregated and displayed in the output, as explained in the ReportTypeEnum. */
+  reportType: TopItemsSummaryReportQueryFilterReportType;
+  /** The start and end dates for carbon emissions data. Required. For ItemDetailsReport and TopItemsSummaryReport, only one month of data is supported at a time, so start and end dates should be equal within DateRange (e.g., start: 2024-06-01 and end: 2024-06-01). */
+  dateRange: DateRange;
+  /** List of subscription IDs for which carbon emissions data is requested. Required. Each subscription ID should be in lowercase format. The max length of list is 100. */
+  subscriptionList: TopItemsSummaryReportQueryFilterSubscriptionListList;
+  /** List of resource group URLs for carbon emissions data. Optional. Each URL must follow the format '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}', and should be in all lowercase. */
+  resourceGroupUrlList?: TopItemsSummaryReportQueryFilterResourceGroupUrlListList | undefined;
+  /** List of resource types for carbon emissions data. Optional. Each resource type should be specified in lowercase, following the format 'microsoft.{service}/{resourceType}', e.g., 'microsoft.storage/storageaccounts'. */
+  resourceTypeList?: TopItemsSummaryReportQueryFilterResourceTypeListList | undefined;
+  /** List of locations(Azure Region Display Name) for carbon emissions data, with each location specified in lowercase (e.g., 'east us'). Optional. You can use the command 'az account list-locations -o table' to find Azure Region Display Names. */
+  locationList?: TopItemsSummaryReportQueryFilterLocationListList | undefined;
+  /** List of carbon emission scopes. Required. Accepts one or more values from EmissionScopeEnum (e.g., Scope1, Scope2, Scope3) in list form. The output will include the total emissions for the specified scopes. */
+  carbonScopeList: TopItemsSummaryReportQueryFilterCarbonScopeListList;
+  /** Specifies the category type for which to retrieve top-emitting items. See supported values defined in CategoryTypeEnum. */
+  categoryType: CategoryTypeEnum | (string & {});
+  /** The number of top items to return, based on emissions. This value must be between 1 and 10. */
+  topItems: number;
+}
+/** Shared query filter parameter to configure carbon emissions data queries for all different report type defined in ReportTypeEnum. */
+export type QueryFilter =
+  | ItemDetailsQueryFilter
+  | MonthlySummaryReportQueryFilter
+  | OverallSummaryReportQueryFilter
+  | TopItemsMonthlySummaryReportQueryFilter
+  | TopItemsSummaryReportQueryFilter;
+export interface CarbonServiceQueryCarbonEmissionReportsRequest {
+  body: QueryFilter;
+}
+/** The data type of the query result, indicating the format of the returned response. */
+export type CarbonEmissionItemDetailDataDataType = "ItemDetailsData";
+/** Response for detailed carbon emissions */
+export interface CarbonEmissionItemDetailData {
   /** The data type of the query result, indicating the format of the returned response. */
-  dataType: ResponseDataTypeEnum;
+  dataType: CarbonEmissionItemDetailDataDataType;
+  /** Total carbon emissions for the specified query parameters, measured in kgCO2E. This value represents total emissions over the specified date range (e.g., March-June). */
+  latestMonthEmissions: number;
+  /** Total carbon emissions for the previous month's date range, which is the same period as the specified date range but shifted left by one month (e.g., if the specified range is March - June, the previous month's range will be Feb - May). The value is measured in kgCO2E. */
+  previousMonthEmissions: number;
+  /** The percentage change in carbon emissions between the current and previous DateRange. This is calculated as: (latestMonthEmissions - previousMonthEmissions) / previousMonthEmissions. */
+  monthOverMonthEmissionsChangeRatio?: number | undefined;
+  /** The change in carbon emissions between the current and previous period, calculated as: latestMonthEmissions - previousMonthEmissions. */
+  monthlyEmissionsChangeValue?: number | undefined;
+  /** Item name, it can be resource name, resource type name, location, resource group name or subscriptionId. It depends on category type. */
+  itemName: string;
+  /** Item category, see supported type value defined in CategoryTypeEnum */
+  categoryType: CategoryTypeEnum;
+}
+/** The data type of the query result, indicating the format of the returned response. */
+export type CarbonEmissionMonthlySummaryDataDataType = "MonthlySummaryData";
+/** Response for Monthly Carbon Emissions Summary */
+export interface CarbonEmissionMonthlySummaryData {
+  /** The data type of the query result, indicating the format of the returned response. */
+  dataType: CarbonEmissionMonthlySummaryDataDataType;
+  /** Total carbon emissions for the specified query parameters, measured in kgCO2E. This value represents total emissions over the specified date range (e.g., March-June). */
+  latestMonthEmissions: number;
+  /** Total carbon emissions for the previous month's date range, which is the same period as the specified date range but shifted left by one month (e.g., if the specified range is March - June, the previous month's range will be Feb - May). The value is measured in kgCO2E. */
+  previousMonthEmissions: number;
+  /** The percentage change in carbon emissions between the current and previous DateRange. This is calculated as: (latestMonthEmissions - previousMonthEmissions) / previousMonthEmissions. */
+  monthOverMonthEmissionsChangeRatio?: number | undefined;
+  /** The change in carbon emissions between the current and previous period, calculated as: latestMonthEmissions - previousMonthEmissions. */
+  monthlyEmissionsChangeValue?: number | undefined;
+  /** The date, representing the month, for which the emissions data is reported, formatted as yyyy-MM-dd (e.g., 2024-03-01) */
+  date: string;
+  /** Carbon intensity for the specified month, typically in units of kgCO2E per unit of normalized usage */
+  carbonIntensity: number;
+}
+/** The data type of the query result, indicating the format of the returned response. */
+export type CarbonEmissionOverallSummaryDataDataType = "OverallSummaryData";
+/** The basic response for different query report, all query report result will have these information */
+export interface CarbonEmissionOverallSummaryData {
+  /** The data type of the query result, indicating the format of the returned response. */
+  dataType: CarbonEmissionOverallSummaryDataDataType;
   /** Total carbon emissions for the specified query parameters, measured in kgCO2E. This value represents total emissions over the specified date range (e.g., March-June). */
   latestMonthEmissions: number;
   /** Total carbon emissions for the previous month's date range, which is the same period as the specified date range but shifted left by one month (e.g., if the specified range is March - June, the previous month's range will be Feb - May). The value is measured in kgCO2E. */
@@ -110,6 +300,214 @@ export interface CarbonEmissionData {
   /** The change in carbon emissions between the current and previous period, calculated as: latestMonthEmissions - previousMonthEmissions. */
   monthlyEmissionsChangeValue?: number | undefined;
 }
+/** The data type of the query result, indicating the format of the returned response. */
+export type CarbonEmissionTopItemMonthlySummaryDataDataType = "TopItemsMonthlySummaryData";
+/** Response for Top Items Carbon Emissions by Month */
+export interface CarbonEmissionTopItemMonthlySummaryData {
+  /** The data type of the query result, indicating the format of the returned response. */
+  dataType: CarbonEmissionTopItemMonthlySummaryDataDataType;
+  /** Total carbon emissions for the specified query parameters, measured in kgCO2E. This value represents total emissions over the specified date range (e.g., March-June). */
+  latestMonthEmissions: number;
+  /** Total carbon emissions for the previous month's date range, which is the same period as the specified date range but shifted left by one month (e.g., if the specified range is March - June, the previous month's range will be Feb - May). The value is measured in kgCO2E. */
+  previousMonthEmissions: number;
+  /** The percentage change in carbon emissions between the current and previous DateRange. This is calculated as: (latestMonthEmissions - previousMonthEmissions) / previousMonthEmissions. */
+  monthOverMonthEmissionsChangeRatio?: number | undefined;
+  /** The change in carbon emissions between the current and previous period, calculated as: latestMonthEmissions - previousMonthEmissions. */
+  monthlyEmissionsChangeValue?: number | undefined;
+  /** Item name, it can be resource name, resource type name, location, resource group name or subscriptionId. It depends on category type. */
+  itemName: string;
+  /** Item category, see supported type value defined in CategoryTypeEnum */
+  categoryType: CategoryTypeEnum;
+  /** The date, representing the month, for which the emissions data is reported, formatted as yyyy-MM-dd (e.g., 2024-03-01) */
+  date: string;
+}
+/** The data type of the query result, indicating the format of the returned response. */
+export type CarbonEmissionTopItemsSummaryDataDataType = "TopItemsSummaryData";
+/** Response for Top Items by Category Type */
+export interface CarbonEmissionTopItemsSummaryData {
+  /** The data type of the query result, indicating the format of the returned response. */
+  dataType: CarbonEmissionTopItemsSummaryDataDataType;
+  /** Total carbon emissions for the specified query parameters, measured in kgCO2E. This value represents total emissions over the specified date range (e.g., March-June). */
+  latestMonthEmissions: number;
+  /** Total carbon emissions for the previous month's date range, which is the same period as the specified date range but shifted left by one month (e.g., if the specified range is March - June, the previous month's range will be Feb - May). The value is measured in kgCO2E. */
+  previousMonthEmissions: number;
+  /** The percentage change in carbon emissions between the current and previous DateRange. This is calculated as: (latestMonthEmissions - previousMonthEmissions) / previousMonthEmissions. */
+  monthOverMonthEmissionsChangeRatio?: number | undefined;
+  /** The change in carbon emissions between the current and previous period, calculated as: latestMonthEmissions - previousMonthEmissions. */
+  monthlyEmissionsChangeValue?: number | undefined;
+  /** The identifier of the item being reported on, which could refer to the resource name, resource type name, location, resource group name, or subscription ID, depending on the specified category type. */
+  itemName: string;
+  /** The category type of the item. This defines which dimension the emissions are aggregated by, and the supported values are defined in CategoryTypeEnum (e.g., Subscription, ResourceGroup, Resource, etc.). */
+  categoryType: CategoryTypeEnum;
+}
+/** The data type of the query result, indicating the format of the returned response. */
+export type ResourceCarbonEmissionItemDetailDataDataType = "ResourceItemDetailsData";
+/** Response for Resource detailed carbon emissions */
+export interface ResourceCarbonEmissionItemDetailData {
+  /** The data type of the query result, indicating the format of the returned response. */
+  dataType: ResourceCarbonEmissionItemDetailDataDataType;
+  /** Total carbon emissions for the specified query parameters, measured in kgCO2E. This value represents total emissions over the specified date range (e.g., March-June). */
+  latestMonthEmissions: number;
+  /** Total carbon emissions for the previous month's date range, which is the same period as the specified date range but shifted left by one month (e.g., if the specified range is March - June, the previous month's range will be Feb - May). The value is measured in kgCO2E. */
+  previousMonthEmissions: number;
+  /** The percentage change in carbon emissions between the current and previous DateRange. This is calculated as: (latestMonthEmissions - previousMonthEmissions) / previousMonthEmissions. */
+  monthOverMonthEmissionsChangeRatio?: number | undefined;
+  /** The change in carbon emissions between the current and previous period, calculated as: latestMonthEmissions - previousMonthEmissions. */
+  monthlyEmissionsChangeValue?: number | undefined;
+  /** It's resource name. */
+  itemName: string;
+  /** Resource Item category, see supported value defined in CategoryTypeEnum */
+  categoryType: CategoryTypeEnum;
+  /** Subscription Id */
+  subscriptionId: string;
+  /** Resource Group */
+  resourceGroup: string;
+  /** The fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  resourceId: string;
+  /** Resource Location (e.g., 'east us'). */
+  location?: string | undefined;
+  /** The type of resource, for example: microsoft.storage/storageaccounts */
+  resourceType?: string | undefined;
+}
+/** The data type of the query result, indicating the format of the returned response. */
+export type ResourceCarbonEmissionTopItemMonthlySummaryDataDataType =
+  "ResourceTopItemsMonthlySummaryData";
+/** Response for top items carbon emissions by month for resource */
+export interface ResourceCarbonEmissionTopItemMonthlySummaryData {
+  /** The data type of the query result, indicating the format of the returned response. */
+  dataType: ResourceCarbonEmissionTopItemMonthlySummaryDataDataType;
+  /** Total carbon emissions for the specified query parameters, measured in kgCO2E. This value represents total emissions over the specified date range (e.g., March-June). */
+  latestMonthEmissions: number;
+  /** Total carbon emissions for the previous month's date range, which is the same period as the specified date range but shifted left by one month (e.g., if the specified range is March - June, the previous month's range will be Feb - May). The value is measured in kgCO2E. */
+  previousMonthEmissions: number;
+  /** The percentage change in carbon emissions between the current and previous DateRange. This is calculated as: (latestMonthEmissions - previousMonthEmissions) / previousMonthEmissions. */
+  monthOverMonthEmissionsChangeRatio?: number | undefined;
+  /** The change in carbon emissions between the current and previous period, calculated as: latestMonthEmissions - previousMonthEmissions. */
+  monthlyEmissionsChangeValue?: number | undefined;
+  /** The resource name of resource for Resource Category */
+  itemName: string;
+  /** Resource Item category */
+  categoryType: CategoryTypeEnum;
+  /** Monthly date string, format is yyyy-MM-dd */
+  date: string;
+  /** Subscription Id */
+  subscriptionId: string;
+  /** Resource Group */
+  resourceGroup: string;
+  /** The fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  resourceId: string;
+}
+/** The data type of the query result, indicating the format of the returned response. */
+export type ResourceCarbonEmissionTopItemsSummaryDataDataType = "ResourceTopItemsSummaryData";
+/** Response for Top Items For Resource Category */
+export interface ResourceCarbonEmissionTopItemsSummaryData {
+  /** The data type of the query result, indicating the format of the returned response. */
+  dataType: ResourceCarbonEmissionTopItemsSummaryDataDataType;
+  /** Total carbon emissions for the specified query parameters, measured in kgCO2E. This value represents total emissions over the specified date range (e.g., March-June). */
+  latestMonthEmissions: number;
+  /** Total carbon emissions for the previous month's date range, which is the same period as the specified date range but shifted left by one month (e.g., if the specified range is March - June, the previous month's range will be Feb - May). The value is measured in kgCO2E. */
+  previousMonthEmissions: number;
+  /** The percentage change in carbon emissions between the current and previous DateRange. This is calculated as: (latestMonthEmissions - previousMonthEmissions) / previousMonthEmissions. */
+  monthOverMonthEmissionsChangeRatio?: number | undefined;
+  /** The change in carbon emissions between the current and previous period, calculated as: latestMonthEmissions - previousMonthEmissions. */
+  monthlyEmissionsChangeValue?: number | undefined;
+  /** The resource name of the resource for the Resource Category. */
+  itemName: string;
+  /** The category type of the item. This defines which dimension the emissions are aggregated by, and the supported values are defined in CategoryTypeEnum (e.g., Subscription, ResourceGroup, Resource, etc.). */
+  categoryType: CategoryTypeEnum;
+  /** Subscription Id */
+  subscriptionId: string;
+  /** Resource group name */
+  resourceGroup: string;
+  /** Resource Id, The URI of the resource for the Resource Category. This identifies the resource being reported. */
+  resourceId: string;
+}
+/** The data type of the query result, indicating the format of the returned response. */
+export type ResourceGroupCarbonEmissionItemDetailDataDataType = "ResourceGroupItemDetailsData";
+/** Response for Resource Group detailed carbon emissions */
+export interface ResourceGroupCarbonEmissionItemDetailData {
+  /** The data type of the query result, indicating the format of the returned response. */
+  dataType: ResourceGroupCarbonEmissionItemDetailDataDataType;
+  /** Total carbon emissions for the specified query parameters, measured in kgCO2E. This value represents total emissions over the specified date range (e.g., March-June). */
+  latestMonthEmissions: number;
+  /** Total carbon emissions for the previous month's date range, which is the same period as the specified date range but shifted left by one month (e.g., if the specified range is March - June, the previous month's range will be Feb - May). The value is measured in kgCO2E. */
+  previousMonthEmissions: number;
+  /** The percentage change in carbon emissions between the current and previous DateRange. This is calculated as: (latestMonthEmissions - previousMonthEmissions) / previousMonthEmissions. */
+  monthOverMonthEmissionsChangeRatio?: number | undefined;
+  /** The change in carbon emissions between the current and previous period, calculated as: latestMonthEmissions - previousMonthEmissions. */
+  monthlyEmissionsChangeValue?: number | undefined;
+  /** It's resource group name */
+  itemName: string;
+  /** ResourceGroup Item category */
+  categoryType: CategoryTypeEnum;
+  /** Subscription Id */
+  subscriptionId: string;
+  /** Resource Group url, value format is '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}' */
+  resourceGroupUrl: string;
+}
+/** The data type of the query result, indicating the format of the returned response. */
+export type ResourceGroupCarbonEmissionTopItemMonthlySummaryDataDataType =
+  "ResourceGroupTopItemsMonthlySummaryData";
+/** Response for top items carbon emissions by month for resource group */
+export interface ResourceGroupCarbonEmissionTopItemMonthlySummaryData {
+  /** The data type of the query result, indicating the format of the returned response. */
+  dataType: ResourceGroupCarbonEmissionTopItemMonthlySummaryDataDataType;
+  /** Total carbon emissions for the specified query parameters, measured in kgCO2E. This value represents total emissions over the specified date range (e.g., March-June). */
+  latestMonthEmissions: number;
+  /** Total carbon emissions for the previous month's date range, which is the same period as the specified date range but shifted left by one month (e.g., if the specified range is March - June, the previous month's range will be Feb - May). The value is measured in kgCO2E. */
+  previousMonthEmissions: number;
+  /** The percentage change in carbon emissions between the current and previous DateRange. This is calculated as: (latestMonthEmissions - previousMonthEmissions) / previousMonthEmissions. */
+  monthOverMonthEmissionsChangeRatio?: number | undefined;
+  /** The change in carbon emissions between the current and previous period, calculated as: latestMonthEmissions - previousMonthEmissions. */
+  monthlyEmissionsChangeValue?: number | undefined;
+  /** It's resource group name for ResourceGroup category */
+  itemName: string;
+  /** ResourceGroup Item category */
+  categoryType: CategoryTypeEnum;
+  /** Monthly date string, format is yyyy-MM-dd */
+  date: string;
+  /** Subscription Id */
+  subscriptionId: string;
+  /** Resource Group url, the format is '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}' */
+  resourceGroupUrl: string;
+}
+/** The data type of the query result, indicating the format of the returned response. */
+export type ResourceGroupCarbonEmissionTopItemsSummaryDataDataType =
+  "ResourceGroupTopItemsSummaryData";
+/** Response for Top Items For ResourceGroup */
+export interface ResourceGroupCarbonEmissionTopItemsSummaryData {
+  /** The data type of the query result, indicating the format of the returned response. */
+  dataType: ResourceGroupCarbonEmissionTopItemsSummaryDataDataType;
+  /** Total carbon emissions for the specified query parameters, measured in kgCO2E. This value represents total emissions over the specified date range (e.g., March-June). */
+  latestMonthEmissions: number;
+  /** Total carbon emissions for the previous month's date range, which is the same period as the specified date range but shifted left by one month (e.g., if the specified range is March - June, the previous month's range will be Feb - May). The value is measured in kgCO2E. */
+  previousMonthEmissions: number;
+  /** The percentage change in carbon emissions between the current and previous DateRange. This is calculated as: (latestMonthEmissions - previousMonthEmissions) / previousMonthEmissions. */
+  monthOverMonthEmissionsChangeRatio?: number | undefined;
+  /** The change in carbon emissions between the current and previous period, calculated as: latestMonthEmissions - previousMonthEmissions. */
+  monthlyEmissionsChangeValue?: number | undefined;
+  /** The resourceGroup name of the resource for ResourceGroup Category */
+  itemName: string;
+  /** ResourceGroup Item category */
+  categoryType: CategoryTypeEnum;
+  /** Subscription Id */
+  subscriptionId: string;
+  /** Resource Group url, value format is '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}' */
+  resourceGroupUrl: string;
+}
+/** The basic response for different query report, all query report result will have these information */
+export type CarbonEmissionData =
+  | CarbonEmissionItemDetailData
+  | CarbonEmissionMonthlySummaryData
+  | CarbonEmissionOverallSummaryData
+  | CarbonEmissionTopItemMonthlySummaryData
+  | CarbonEmissionTopItemsSummaryData
+  | ResourceCarbonEmissionItemDetailData
+  | ResourceCarbonEmissionTopItemMonthlySummaryData
+  | ResourceCarbonEmissionTopItemsSummaryData
+  | ResourceGroupCarbonEmissionItemDetailData
+  | ResourceGroupCarbonEmissionTopItemMonthlySummaryData
+  | ResourceGroupCarbonEmissionTopItemsSummaryData;
 /** The CarbonEmissionData items on this page */
 export type CarbonEmissionDataListResultValueList = Array<CarbonEmissionData>;
 /** Enum for Access Decision */
@@ -203,8 +601,8 @@ export const CarbonServiceQueryCarbonEmissionReports: API.OperationMethod<
   CarbonServiceQueryCarbonEmissionReportsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19, __c1, 3) as any as S.Schema<CarbonServiceQueryCarbonEmissionReportsRequest>,
-  output: __S(24, __c1, 8) as any as S.Schema<CarbonEmissionDataListResult>,
+  input: __S(39, __c1, 7) as any as S.Schema<CarbonServiceQueryCarbonEmissionReportsRequest>,
+  output: __S(53, __c1, 21) as any as S.Schema<CarbonEmissionDataListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -220,8 +618,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(36, __c2, 4) as any as S.Schema<ListOperationsResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(68, __c2, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -269,12 +667,57 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           reportType: S.String,
-          dateRange: __S(16, __c1, 0),
-          subscriptionList: __S(17, __c1, 1),
-          resourceGroupUrlList: S.optional(__S(17, __c1, 1)),
-          resourceTypeList: S.optional(__S(17, __c1, 1)),
-          locationList: S.optional(__S(17, __c1, 1)),
-          carbonScopeList: __S(18, __c1, 2),
+          dateRange: __S(32, __c1, 0),
+          subscriptionList: __S(33, __c1, 1),
+          resourceGroupUrlList: S.optional(__S(33, __c1, 1)),
+          resourceTypeList: S.optional(__S(33, __c1, 1)),
+          locationList: S.optional(__S(33, __c1, 1)),
+          carbonScopeList: __S(34, __c1, 2),
+          categoryType: S.String,
+          orderBy: S.String,
+          sortDirection: S.String,
+          pageSize: S.Number,
+          skipToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ItemDetailsQueryFilter" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          reportType: S.String,
+          dateRange: __S(32, __c1, 0),
+          subscriptionList: __S(33, __c1, 1),
+          resourceGroupUrlList: S.optional(__S(33, __c1, 1)),
+          resourceTypeList: S.optional(__S(33, __c1, 1)),
+          locationList: S.optional(__S(33, __c1, 1)),
+          carbonScopeList: __S(34, __c1, 2),
+        }),
+      ).annotate({ identifier: "MonthlySummaryReportQueryFilter" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          reportType: S.String,
+          dateRange: __S(32, __c1, 0),
+          subscriptionList: __S(33, __c1, 1),
+          resourceGroupUrlList: S.optional(__S(33, __c1, 1)),
+          resourceTypeList: S.optional(__S(33, __c1, 1)),
+          locationList: S.optional(__S(33, __c1, 1)),
+          carbonScopeList: __S(34, __c1, 2),
+          categoryType: S.String,
+          topItems: S.Number,
+        }),
+      ).annotate({ identifier: "TopItemsMonthlySummaryReportQueryFilter" });
+    case 6:
+      return S.Union([
+        __S(35, __c1, 3),
+        __S(36, __c1, 4),
+        __S(36, __c1, 4),
+        __S(37, __c1, 5),
+        __S(37, __c1, 5),
+      ]);
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          body: __S(38, __c1, 6).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -284,7 +727,31 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CarbonServiceQueryCarbonEmissionReportsRequest" });
-    case 4:
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          dataType: S.String,
+          latestMonthEmissions: S.Number,
+          previousMonthEmissions: S.Number,
+          monthOverMonthEmissionsChangeRatio: S.optional(S.Number),
+          monthlyEmissionsChangeValue: S.optional(S.Number),
+          itemName: S.String,
+          categoryType: S.String,
+        }),
+      ).annotate({ identifier: "CarbonEmissionItemDetailData" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          dataType: S.String,
+          latestMonthEmissions: S.Number,
+          previousMonthEmissions: S.Number,
+          monthOverMonthEmissionsChangeRatio: S.optional(S.Number),
+          monthlyEmissionsChangeValue: S.optional(S.Number),
+          date: S.String,
+          carbonIntensity: S.Number,
+        }),
+      ).annotate({ identifier: "CarbonEmissionMonthlySummaryData" });
+    case 10:
       return S.suspend(() =>
         S.Struct({
           dataType: S.String,
@@ -293,10 +760,114 @@ function __c1(j: number): any {
           monthOverMonthEmissionsChangeRatio: S.optional(S.Number),
           monthlyEmissionsChangeValue: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "CarbonEmissionData" });
-    case 5:
-      return S.Array(__S(20, __c1, 4));
-    case 6:
+      ).annotate({ identifier: "CarbonEmissionOverallSummaryData" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          dataType: S.String,
+          latestMonthEmissions: S.Number,
+          previousMonthEmissions: S.Number,
+          monthOverMonthEmissionsChangeRatio: S.optional(S.Number),
+          monthlyEmissionsChangeValue: S.optional(S.Number),
+          itemName: S.String,
+          categoryType: S.String,
+          date: S.String,
+        }),
+      ).annotate({ identifier: "CarbonEmissionTopItemMonthlySummaryData" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          dataType: S.String,
+          latestMonthEmissions: S.Number,
+          previousMonthEmissions: S.Number,
+          monthOverMonthEmissionsChangeRatio: S.optional(S.Number),
+          monthlyEmissionsChangeValue: S.optional(S.Number),
+          itemName: S.String,
+          categoryType: S.String,
+          subscriptionId: S.String,
+          resourceGroup: S.String,
+          resourceId: S.String,
+          location: S.optional(S.String),
+          resourceType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceCarbonEmissionItemDetailData" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          dataType: S.String,
+          latestMonthEmissions: S.Number,
+          previousMonthEmissions: S.Number,
+          monthOverMonthEmissionsChangeRatio: S.optional(S.Number),
+          monthlyEmissionsChangeValue: S.optional(S.Number),
+          itemName: S.String,
+          categoryType: S.String,
+          date: S.String,
+          subscriptionId: S.String,
+          resourceGroup: S.String,
+          resourceId: S.String,
+        }),
+      ).annotate({ identifier: "ResourceCarbonEmissionTopItemMonthlySummaryData" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          dataType: S.String,
+          latestMonthEmissions: S.Number,
+          previousMonthEmissions: S.Number,
+          monthOverMonthEmissionsChangeRatio: S.optional(S.Number),
+          monthlyEmissionsChangeValue: S.optional(S.Number),
+          itemName: S.String,
+          categoryType: S.String,
+          subscriptionId: S.String,
+          resourceGroup: S.String,
+          resourceId: S.String,
+        }),
+      ).annotate({ identifier: "ResourceCarbonEmissionTopItemsSummaryData" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          dataType: S.String,
+          latestMonthEmissions: S.Number,
+          previousMonthEmissions: S.Number,
+          monthOverMonthEmissionsChangeRatio: S.optional(S.Number),
+          monthlyEmissionsChangeValue: S.optional(S.Number),
+          itemName: S.String,
+          categoryType: S.String,
+          subscriptionId: S.String,
+          resourceGroupUrl: S.String,
+        }),
+      ).annotate({ identifier: "ResourceGroupCarbonEmissionItemDetailData" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          dataType: S.String,
+          latestMonthEmissions: S.Number,
+          previousMonthEmissions: S.Number,
+          monthOverMonthEmissionsChangeRatio: S.optional(S.Number),
+          monthlyEmissionsChangeValue: S.optional(S.Number),
+          itemName: S.String,
+          categoryType: S.String,
+          date: S.String,
+          subscriptionId: S.String,
+          resourceGroupUrl: S.String,
+        }),
+      ).annotate({ identifier: "ResourceGroupCarbonEmissionTopItemMonthlySummaryData" });
+    case 17:
+      return S.Union([
+        __S(40, __c1, 8),
+        __S(41, __c1, 9),
+        __S(42, __c1, 10),
+        __S(43, __c1, 11),
+        __S(40, __c1, 8),
+        __S(44, __c1, 12),
+        __S(45, __c1, 13),
+        __S(46, __c1, 14),
+        __S(47, __c1, 15),
+        __S(48, __c1, 16),
+        __S(47, __c1, 15),
+      ]);
+    case 18:
+      return S.Array(__S(49, __c1, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String,
@@ -304,14 +875,14 @@ function __c1(j: number): any {
           denialReason: S.optional(S.String),
         }),
       ).annotate({ identifier: "SubscriptionAccessDecision" });
-    case 7:
-      return S.Array(__S(22, __c1, 6));
-    case 8:
+    case 20:
+      return S.Array(__S(51, __c1, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
-          value: __S(21, __c1, 5),
+          value: __S(50, __c1, 18),
           skipToken: S.optional(S.String),
-          subscriptionAccessDecisionList: S.optional(__S(23, __c1, 7)),
+          subscriptionAccessDecisionList: S.optional(__S(52, __c1, 20)),
         }),
       ).annotate({ identifier: "CarbonEmissionDataListResult" });
   }
@@ -343,17 +914,17 @@ function __c2(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(33, __c2, 1)),
+          display: S.optional(__S(65, __c2, 1)),
           origin: S.optional(S.String),
           actionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(34, __c2, 2));
+      return S.Array(__S(66, __c2, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(35, __c2, 3)),
+          value: S.optional(__S(67, __c2, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });

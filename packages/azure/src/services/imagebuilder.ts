@@ -107,6 +107,8 @@ export interface SystemData {
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: string | undefined;
 }
+/** The kind of trigger. */
+export type SourceImageTriggerPropertiesKind = "SourceImage";
 /** Describes the status of a trigger */
 export interface TriggerStatus {
   /** The status code. */
@@ -125,9 +127,9 @@ export type ProvisioningState =
   | "Deleting"
   | "Canceled";
 /** Describes the properties of a trigger */
-export interface TriggerProperties {
+export interface SourceImageTriggerProperties {
   /** The kind of trigger. */
-  kind: string;
+  kind: SourceImageTriggerPropertiesKind;
   /** Trigger status */
   status?: TriggerStatus | undefined;
   /** Provisioning state of the resource */
@@ -143,7 +145,7 @@ export interface GetTriggerResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
   /** The properties of a trigger */
-  properties?: TriggerProperties | undefined;
+  properties?: SourceImageTriggerProperties | undefined;
 }
 export interface GetVirtualMachineImageTemplateRequest {
   /** The ID of the target subscription. */
@@ -155,62 +157,155 @@ export interface GetVirtualMachineImageTemplateRequest {
 }
 /** Resource tags. */
 export type GetVirtualMachineImageTemplateResponseTagsMap = { [key: string]: string | undefined };
-/** Describes a virtual machine image source for building, customizing and distributing */
-export interface ImageTemplateSource {
+/** Specifies the type of source image you want to start with. */
+export type ImageTemplateManagedImageSourceType = "ManagedImage";
+/** Describes an image source that is a managed image in customer subscription. This image must reside in the same subscription and region as the Image Builder template. */
+export interface ImageTemplateManagedImageSource {
   /** Specifies the type of source image you want to start with. */
-  type: string;
-  /** PlatformImage: image publisher, e.g. `Canonical`. */
-  publisher?: string | undefined;
-  /** PlatformImage: image offer, e.g. `ubuntu-24_04-lts`. */
-  offer?: string | undefined;
-  /** PlatformImage: image SKU, e.g. `server`. */
-  sku?: string | undefined;
-  /** PlatformImage: image version or `latest`. */
-  version?: string | undefined;
-  /** PlatformImage: resolved image version (read-only). */
-  exactVersion?: string | undefined;
-  /** PlatformImage: marketplace purchase plan (`planName`, `planProduct`, `planPublisher`). */
-  planInfo?: unknown | undefined;
-  /** ManagedImage: ARM resource ID of the managed image. */
-  imageId?: string | undefined;
-  /** SharedImageVersion: ARM resource ID of the gallery image version. */
-  imageVersionId?: string | undefined;
+  type: ImageTemplateManagedImageSourceType;
+  /** ARM resource id of the managed image in customer subscription */
+  imageId: string;
 }
-/** Describes a unit of image customization */
-export interface ImageTemplateCustomizer {
+/** Specifies the type of source image you want to start with. */
+export type ImageTemplatePlatformImageSourceType = "PlatformImage";
+/** Purchase plan configuration for platform image. */
+export interface PlatformImagePurchasePlan {
+  /** Name of the purchase plan. */
+  planName: string;
+  /** Product of the purchase plan. */
+  planProduct: string;
+  /** Publisher of the purchase plan. */
+  planPublisher: string;
+}
+/** Describes an image source from [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). */
+export interface ImageTemplatePlatformImageSource {
+  /** Specifies the type of source image you want to start with. */
+  type: ImageTemplatePlatformImageSourceType;
+  /** Image Publisher in [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). */
+  publisher?: string | undefined;
+  /** Image offer from the [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). */
+  offer?: string | undefined;
+  /** Image sku from the [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). */
+  sku?: string | undefined;
+  /** Image version from the [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). If 'latest' is specified here, the version is evaluated when the image build takes place, not when the template is submitted. */
+  version?: string | undefined;
+  /** Image version from the [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). This readonly field differs from 'version', only if the value specified in 'version' field is 'latest'. */
+  exactVersion?: string | undefined;
+  /** Optional configuration of purchase plan for platform image. */
+  planInfo?: PlatformImagePurchasePlan | undefined;
+}
+/** Specifies the type of source image you want to start with. */
+export type ImageTemplateSharedImageVersionSourceType = "SharedImageVersion";
+/** Describes an image source that is an image version in an Azure Compute Gallery or a Direct Shared Gallery. */
+export interface ImageTemplateSharedImageVersionSource {
+  /** Specifies the type of source image you want to start with. */
+  type: ImageTemplateSharedImageVersionSourceType;
+  /** ARM resource id of the image version. When image version name is 'latest', the version is evaluated when the image build takes place. */
+  imageVersionId: string;
+  /** Exact ARM resource id of the image version. This readonly field differs from the image version Id in 'imageVersionId' only if the version name specified in 'imageVersionId' field is 'latest'. */
+  exactVersion?: string | undefined;
+}
+/** Describes a virtual machine image source for building, customizing and distributing */
+export type ImageTemplateSource =
+  | ImageTemplateManagedImageSource
+  | ImageTemplatePlatformImageSource
+  | ImageTemplateSharedImageVersionSource;
+/** The type of customization tool you want to use on the Image. For example, "Shell" can be shell customizer */
+export type ImageTemplateFileCustomizerType = "File";
+/** Uploads files to VMs (Linux, Windows). Corresponds to Packer file provisioner */
+export interface ImageTemplateFileCustomizer {
   /** The type of customization tool you want to use on the Image. For example, "Shell" can be shell customizer */
-  type: string;
+  type: ImageTemplateFileCustomizerType;
   /** Friendly Name to provide context on what this customization step does */
   name?: string | undefined;
-  /** Shell/PowerShell: URI of the script to run. */
-  scriptUri?: string | undefined;
-  /** Shell/PowerShell/File: SHA256 checksum of the script or file. */
-  sha256Checksum?: string | undefined;
-  /** Shell/PowerShell: array of inline commands. */
-  inline?: unknown | undefined;
-  /** PowerShell: array of valid exit codes. */
-  validExitCodes?: unknown | undefined;
-  /** PowerShell: run with elevated privileges. */
-  runElevated?: boolean | undefined;
-  /** PowerShell: run as the Local System user. */
-  runAsSystem?: boolean | undefined;
-  /** WindowsRestart: command to execute the restart. */
-  restartCommand?: string | undefined;
-  /** WindowsRestart: command to check whether the restart succeeded. */
-  restartCheckCommand?: string | undefined;
-  /** WindowsRestart: restart timeout, e.g. `5m`. */
-  restartTimeout?: string | undefined;
-  /** WindowsUpdate: update search criteria. */
-  searchCriteria?: string | undefined;
-  /** WindowsUpdate: array of update filters. */
-  filters?: unknown | undefined;
-  /** WindowsUpdate: maximum number of updates to apply at a time. */
-  updateLimit?: number | undefined;
-  /** File: URI of the file to download. */
+  /** The URI of the file to be uploaded for customizing the VM. It can be a github link, SAS URI for Azure Storage, etc */
   sourceUri?: string | undefined;
-  /** File: absolute destination path on the build VM. */
+  /** SHA256 checksum of the file provided in the sourceUri field above */
+  sha256Checksum?: string | undefined;
+  /** The absolute path to a file (with nested directory structures already created) where the file (from sourceUri) will be uploaded to in the VM */
   destination?: string | undefined;
 }
+/** The type of customization tool you want to use on the Image. For example, "Shell" can be shell customizer */
+export type ImageTemplatePowerShellCustomizerType = "PowerShell";
+/** Array of PowerShell commands to execute */
+export type ImageTemplatePowerShellCustomizerInlineList = Array<string>;
+/** Valid exit codes for the PowerShell script. [Default: 0] */
+export type ImageTemplatePowerShellCustomizerValidExitCodesList = Array<number>;
+/** Runs the specified PowerShell on the VM (Windows). Corresponds to Packer powershell provisioner. Exactly one of 'scriptUri' or 'inline' can be specified. */
+export interface ImageTemplatePowerShellCustomizer {
+  /** The type of customization tool you want to use on the Image. For example, "Shell" can be shell customizer */
+  type: ImageTemplatePowerShellCustomizerType;
+  /** Friendly Name to provide context on what this customization step does */
+  name?: string | undefined;
+  /** URI of the PowerShell script to be run for customizing. It can be a github link, SAS URI for Azure Storage, etc */
+  scriptUri?: string | undefined;
+  /** SHA256 checksum of the power shell script provided in the scriptUri field above */
+  sha256Checksum?: string | undefined;
+  /** Array of PowerShell commands to execute */
+  inline?: ImageTemplatePowerShellCustomizerInlineList | undefined;
+  /** If specified, the PowerShell script will be run with elevated privileges */
+  runElevated?: boolean | undefined;
+  /** If specified, the PowerShell script will be run with elevated privileges using the Local System user. Can only be true when the runElevated field above is set to true. */
+  runAsSystem?: boolean | undefined;
+  /** Valid exit codes for the PowerShell script. [Default: 0] */
+  validExitCodes?: ImageTemplatePowerShellCustomizerValidExitCodesList | undefined;
+}
+/** The type of customization tool you want to use on the Image. For example, "Shell" can be shell customizer */
+export type ImageTemplateRestartCustomizerType = "WindowsRestart";
+/** Reboots a VM and waits for it to come back online (Windows). Corresponds to Packer windows-restart provisioner */
+export interface ImageTemplateRestartCustomizer {
+  /** The type of customization tool you want to use on the Image. For example, "Shell" can be shell customizer */
+  type: ImageTemplateRestartCustomizerType;
+  /** Friendly Name to provide context on what this customization step does */
+  name?: string | undefined;
+  /** Command to execute the restart [Default: 'shutdown /r /f /t 0 /c "packer restart"'] */
+  restartCommand?: string | undefined;
+  /** Command to check if restart succeeded [Default: ''] */
+  restartCheckCommand?: string | undefined;
+  /** Restart timeout specified as a string of magnitude and unit, e.g. '5m' (5 minutes) or '2h' (2 hours) [Default: '5m'] */
+  restartTimeout?: string | undefined;
+}
+/** The type of customization tool you want to use on the Image. For example, "Shell" can be shell customizer */
+export type ImageTemplateShellCustomizerType = "Shell";
+/** Array of shell commands to execute */
+export type ImageTemplateShellCustomizerInlineList = Array<string>;
+/** Runs a shell script during the customization phase (Linux). Corresponds to Packer shell provisioner. Exactly one of 'scriptUri' or 'inline' can be specified. */
+export interface ImageTemplateShellCustomizer {
+  /** The type of customization tool you want to use on the Image. For example, "Shell" can be shell customizer */
+  type: ImageTemplateShellCustomizerType;
+  /** Friendly Name to provide context on what this customization step does */
+  name?: string | undefined;
+  /** URI of the shell script to be run for customizing. It can be a github link, SAS URI for Azure Storage, etc */
+  scriptUri?: string | undefined;
+  /** SHA256 checksum of the shell script provided in the scriptUri field */
+  sha256Checksum?: string | undefined;
+  /** Array of shell commands to execute */
+  inline?: ImageTemplateShellCustomizerInlineList | undefined;
+}
+/** The type of customization tool you want to use on the Image. For example, "Shell" can be shell customizer */
+export type ImageTemplateWindowsUpdateCustomizerType = "WindowsUpdate";
+/** Array of filters to select updates to apply. Omit or specify empty array to use the default (no filter). Refer to above link for examples and detailed description of this field. */
+export type ImageTemplateWindowsUpdateCustomizerFiltersList = Array<string>;
+/** Installs Windows Updates. Corresponds to Packer Windows Update Provisioner (https://github.com/rgl/packer-provisioner-windows-update) */
+export interface ImageTemplateWindowsUpdateCustomizer {
+  /** The type of customization tool you want to use on the Image. For example, "Shell" can be shell customizer */
+  type: ImageTemplateWindowsUpdateCustomizerType;
+  /** Friendly Name to provide context on what this customization step does */
+  name?: string | undefined;
+  /** Criteria to search updates. Omit or specify empty string to use the default (search all). Refer to above link for examples and detailed description of this field. */
+  searchCriteria?: string | undefined;
+  /** Array of filters to select updates to apply. Omit or specify empty array to use the default (no filter). Refer to above link for examples and detailed description of this field. */
+  filters?: ImageTemplateWindowsUpdateCustomizerFiltersList | undefined;
+  /** Maximum number of updates to apply at a time. Omit or specify 0 to use the default (1000) */
+  updateLimit?: number | undefined;
+}
+/** Describes a unit of image customization */
+export type ImageTemplateCustomizer =
+  | ImageTemplateFileCustomizer
+  | ImageTemplatePowerShellCustomizer
+  | ImageTemplateRestartCustomizer
+  | ImageTemplateShellCustomizer
+  | ImageTemplateWindowsUpdateCustomizer;
 /** Specifies the properties used to describe the customization steps of the image, like Image source etc */
 export type ImageTemplatePropertiesCustomizeList = Array<ImageTemplateCustomizer>;
 /** Enabling this field will improve VM boot time by optimizing the final customized image output. */
@@ -238,29 +333,68 @@ export interface ImageTemplatePropertiesOptimize {
   /** Optimization is applied on the image for specific workloads. */
   workload?: ImageTemplatePropertiesOptimizeWorkload | undefined;
 }
-/** Describes a unit of in-VM validation of image */
-export interface ImageTemplateInVMValidator {
+/** The type of validation you want to use on the Image. For example, "Shell" can be shell validation */
+export type ImageTemplateFileValidatorType = "File";
+/** Uploads files required for validation to VMs (Linux, Windows). Corresponds to Packer file provisioner */
+export interface ImageTemplateFileValidator {
   /** The type of validation you want to use on the Image. For example, "Shell" can be shell validation */
-  type: string;
+  type: ImageTemplateFileValidatorType;
   /** Friendly Name to provide context on what this validation step does */
   name?: string | undefined;
-  /** Shell/PowerShell: URI of the script to run. */
-  scriptUri?: string | undefined;
-  /** Shell/PowerShell/File: SHA256 checksum of the script or file. */
-  sha256Checksum?: string | undefined;
-  /** Shell/PowerShell: array of inline commands. */
-  inline?: unknown | undefined;
-  /** PowerShell: array of valid exit codes. */
-  validExitCodes?: unknown | undefined;
-  /** PowerShell: run with elevated privileges. */
-  runElevated?: boolean | undefined;
-  /** PowerShell: run as the Local System user. */
-  runAsSystem?: boolean | undefined;
-  /** File: URI of the file to download. */
+  /** The URI of the file to be uploaded to the VM for validation. It can be a github link, Azure Storage URI (authorized or SAS), etc */
   sourceUri?: string | undefined;
-  /** File: absolute destination path on the build VM. */
+  /** SHA256 checksum of the file provided in the sourceUri field above */
+  sha256Checksum?: string | undefined;
+  /** The absolute path to a file (with nested directory structures already created) where the file (from sourceUri) will be uploaded to in the VM */
   destination?: string | undefined;
 }
+/** The type of validation you want to use on the Image. For example, "Shell" can be shell validation */
+export type ImageTemplatePowerShellValidatorType = "PowerShell";
+/** Array of PowerShell commands to execute */
+export type ImageTemplatePowerShellValidatorInlineList = Array<string>;
+/** Valid exit codes for the PowerShell script. [Default: 0] */
+export type ImageTemplatePowerShellValidatorValidExitCodesList = Array<number>;
+/** Runs the specified PowerShell script during the validation phase (Windows). Corresponds to Packer powershell provisioner. Exactly one of 'scriptUri' or 'inline' can be specified. */
+export interface ImageTemplatePowerShellValidator {
+  /** The type of validation you want to use on the Image. For example, "Shell" can be shell validation */
+  type: ImageTemplatePowerShellValidatorType;
+  /** Friendly Name to provide context on what this validation step does */
+  name?: string | undefined;
+  /** URI of the PowerShell script to be run for validation. It can be a github link, Azure Storage URI, etc */
+  scriptUri?: string | undefined;
+  /** SHA256 checksum of the power shell script provided in the scriptUri field above */
+  sha256Checksum?: string | undefined;
+  /** Array of PowerShell commands to execute */
+  inline?: ImageTemplatePowerShellValidatorInlineList | undefined;
+  /** If specified, the PowerShell script will be run with elevated privileges */
+  runElevated?: boolean | undefined;
+  /** If specified, the PowerShell script will be run with elevated privileges using the Local System user. Can only be true when the runElevated field above is set to true. */
+  runAsSystem?: boolean | undefined;
+  /** Valid exit codes for the PowerShell script. [Default: 0] */
+  validExitCodes?: ImageTemplatePowerShellValidatorValidExitCodesList | undefined;
+}
+/** The type of validation you want to use on the Image. For example, "Shell" can be shell validation */
+export type ImageTemplateShellValidatorType = "Shell";
+/** Array of shell commands to execute */
+export type ImageTemplateShellValidatorInlineList = Array<string>;
+/** Runs the specified shell script during the validation phase (Linux). Corresponds to Packer shell provisioner. Exactly one of 'scriptUri' or 'inline' can be specified. */
+export interface ImageTemplateShellValidator {
+  /** The type of validation you want to use on the Image. For example, "Shell" can be shell validation */
+  type: ImageTemplateShellValidatorType;
+  /** Friendly Name to provide context on what this validation step does */
+  name?: string | undefined;
+  /** URI of the shell script to be run for validation. It can be a github link, Azure Storage URI, etc */
+  scriptUri?: string | undefined;
+  /** SHA256 checksum of the shell script provided in the scriptUri field */
+  sha256Checksum?: string | undefined;
+  /** Array of shell commands to execute */
+  inline?: ImageTemplateShellValidatorInlineList | undefined;
+}
+/** Describes a unit of in-VM validation of image */
+export type ImageTemplateInVMValidator =
+  | ImageTemplateFileValidator
+  | ImageTemplatePowerShellValidator
+  | ImageTemplateShellValidator;
 /** List of validations to be performed. */
 export type ImageTemplatePropertiesValidateInVMValidationsList = Array<ImageTemplateInVMValidator>;
 /** Configuration options and list of validations to be performed on the resulting image. */
@@ -272,35 +406,109 @@ export interface ImageTemplatePropertiesValidate {
   /** List of validations to be performed. */
   inVMValidations?: ImageTemplatePropertiesValidateInVMValidationsList | undefined;
 }
+/** Type of distribution. */
+export type ImageTemplateManagedImageDistributorType = "ManagedImage";
 /** Tags that will be applied to the artifact once it has been created/updated by the distributor. */
-export type ImageTemplateDistributorArtifactTagsMap = { [key: string]: string | undefined };
-/** Generic distribution object */
-export interface ImageTemplateDistributor {
+export type ImageTemplateManagedImageDistributorArtifactTagsMap = {
+  [key: string]: string | undefined;
+};
+/** Distribute as a Managed Disk Image. */
+export interface ImageTemplateManagedImageDistributor {
   /** Type of distribution. */
-  type: string;
+  type: ImageTemplateManagedImageDistributorType;
   /** The name to be used for the associated RunOutput. */
   runOutputName: string;
   /** Tags that will be applied to the artifact once it has been created/updated by the distributor. */
-  artifactTags?: ImageTemplateDistributorArtifactTagsMap | undefined;
-  /** ManagedImage: ARM resource ID of the managed image to create. */
-  imageId?: string | undefined;
-  /** ManagedImage: Azure location of the managed image. */
-  location?: string | undefined;
-  /** SharedImage: ARM resource ID of the gallery image definition or version. */
-  galleryImageId?: string | undefined;
-  /** SharedImage: (deprecated) regions to replicate to. */
-  replicationRegions?: unknown | undefined;
-  /** SharedImage: target regions with replica counts and storage types. */
-  targetRegions?: unknown | undefined;
-  /** SharedImage: version numbering scheme (`Latest` / `Source`). */
-  versioning?: unknown | undefined;
-  /** SharedImage: (deprecated) storage account type. */
-  storageAccountType?: string | undefined;
-  /** SharedImage: exclude the version from `latest`. */
+  artifactTags?: ImageTemplateManagedImageDistributorArtifactTagsMap | undefined;
+  /** Resource Id of the Managed Disk Image */
+  imageId: string;
+  /** Azure location for the image, should match if image already exists */
+  location: string;
+}
+/** Type of distribution. */
+export type ImageTemplateSharedImageDistributorType = "SharedImage";
+/** Tags that will be applied to the artifact once it has been created/updated by the distributor. */
+export type ImageTemplateSharedImageDistributorArtifactTagsMap = {
+  [key: string]: string | undefined;
+};
+/** [Deprecated] A list of regions that the image will be replicated to. This list can be specified only if targetRegions is not specified. This field is deprecated - use targetRegions instead. */
+export type ImageTemplateSharedImageDistributorReplicationRegionsList = Array<string>;
+/** Specifies the storage account type to be used to store the Azure Compute Gallery image version in. */
+export type SharedImageStorageAccountType = "Standard_LRS" | "Standard_ZRS" | "Premium_LRS";
+/** Describes the target region information. */
+export interface TargetRegion {
+  /** The name of the region. */
+  name: string;
+  /** The number of replicas of the Image Version to be created in this region. Omit to use the default (1). */
+  replicaCount?: number | undefined;
+  /** Specifies the storage account type to be used to store the image in this region. Omit to use the default (Standard_LRS). */
+  storageAccountType?: SharedImageStorageAccountType | (string & {}) | undefined;
+}
+/** The target regions where the distributed Image Version is going to be replicated to. This object supersedes replicationRegions and can be specified only if replicationRegions is not specified. */
+export type ImageTemplateSharedImageDistributorTargetRegionsList = Array<TargetRegion>;
+/** Version numbering scheme to be used. */
+export type DistributeVersionerLatestScheme = "Latest";
+/** Generates version number that will be latest based on existing version numbers. */
+export interface DistributeVersionerLatest {
+  /** Version numbering scheme to be used. */
+  scheme: DistributeVersionerLatestScheme;
+  /** Major version for the generated version number. Determine what is "latest" based on versions with this value as the major version. -1 is equivalent to leaving it unset. */
+  major?: number | undefined;
+}
+/** Version numbering scheme to be used. */
+export type DistributeVersionerSourceScheme = "Source";
+/** Describes how to generate new x.y.z version number for distribution. */
+export interface DistributeVersionerSource {
+  /** Version numbering scheme to be used. */
+  scheme: DistributeVersionerSourceScheme;
+}
+/** Describes how to generate new x.y.z version number for distribution. */
+export type DistributeVersioner = DistributeVersionerLatest | DistributeVersionerSource;
+/** Describes replication mode for distribution in Azure Compute Gallery. Omit to use the default (Full). */
+export type ReplicationMode = "Full" | "Shallow";
+/** Distribute via Azure Compute Gallery. */
+export interface ImageTemplateSharedImageDistributor {
+  /** Type of distribution. */
+  type: ImageTemplateSharedImageDistributorType;
+  /** The name to be used for the associated RunOutput. */
+  runOutputName: string;
+  /** Tags that will be applied to the artifact once it has been created/updated by the distributor. */
+  artifactTags?: ImageTemplateSharedImageDistributorArtifactTagsMap | undefined;
+  /** Resource Id of the Azure Compute Gallery image */
+  galleryImageId: string;
+  /** [Deprecated] A list of regions that the image will be replicated to. This list can be specified only if targetRegions is not specified. This field is deprecated - use targetRegions instead. */
+  replicationRegions?: ImageTemplateSharedImageDistributorReplicationRegionsList | undefined;
+  /** Flag that indicates whether created image version should be excluded from latest. Omit to use the default (false). */
   excludeFromLatest?: boolean | undefined;
-  /** VHD: optional destination blob URI. */
+  /** [Deprecated] Storage account type to be used to store the shared image. Omit to use the default (Standard_LRS). This field can be specified only if replicationRegions is specified. This field is deprecated - use targetRegions instead. */
+  storageAccountType?: SharedImageStorageAccountType | (string & {}) | undefined;
+  /** The target regions where the distributed Image Version is going to be replicated to. This object supersedes replicationRegions and can be specified only if replicationRegions is not specified. */
+  targetRegions?: ImageTemplateSharedImageDistributorTargetRegionsList | undefined;
+  /** Describes how to generate new x.y.z version number for distribution. */
+  versioning?: DistributeVersioner | undefined;
+  /** Describes replication mode for distribution in Azure Compute Gallery. Omit to use the default (Full). */
+  replicationMode?: ReplicationMode | (string & {}) | undefined;
+}
+/** Type of distribution. */
+export type ImageTemplateVhdDistributorType = "VHD";
+/** Tags that will be applied to the artifact once it has been created/updated by the distributor. */
+export type ImageTemplateVhdDistributorArtifactTagsMap = { [key: string]: string | undefined };
+/** Distribute via VHD in a storage account. */
+export interface ImageTemplateVhdDistributor {
+  /** Type of distribution. */
+  type: ImageTemplateVhdDistributorType;
+  /** The name to be used for the associated RunOutput. */
+  runOutputName: string;
+  /** Tags that will be applied to the artifact once it has been created/updated by the distributor. */
+  artifactTags?: ImageTemplateVhdDistributorArtifactTagsMap | undefined;
+  /** Optional Azure Storage URI for the distributed VHD blob. Omit to use the default (empty string) in which case VHD would be published to the storage account in the staging resource group. */
   uri?: string | undefined;
 }
+/** Generic distribution object */
+export type ImageTemplateDistributor =
+  | ImageTemplateManagedImageDistributor
+  | ImageTemplateSharedImageDistributor
+  | ImageTemplateVhdDistributor;
 /** The distribution targets where the image output needs to go to. */
 export type ImageTemplatePropertiesDistributeList = Array<ImageTemplateDistributor>;
 /** If there is a customizer error and this field is set to 'cleanup', the build VM and associated network resources will be cleaned up. This is the default behavior. If there is a customizer error and this field is set to 'abort', the build VM will be preserved. */
@@ -568,7 +776,7 @@ export interface Trigger {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
   /** The properties of a trigger */
-  properties?: TriggerProperties | undefined;
+  properties?: SourceImageTriggerProperties | undefined;
 }
 /** The Trigger items on this page */
 export type TriggerCollectionValueList = Array<Trigger>;
@@ -665,10 +873,12 @@ export interface RunVirtualMachineImageTemplateResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** The kind of trigger. */
+export type SourceImageTriggerPropertiesInputKind = "SourceImage";
 /** Describes the properties of a trigger */
-export interface TriggerPropertiesInput {
+export interface SourceImageTriggerPropertiesInput {
   /** The kind of trigger. */
-  kind: string;
+  kind: SourceImageTriggerPropertiesInputKind | (string & {});
 }
 export interface TriggersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -680,7 +890,7 @@ export interface TriggersCreateOrUpdateRequest {
   /** The name of the trigger */
   triggerName: string;
   /** The properties of a trigger */
-  properties?: TriggerPropertiesInput | undefined;
+  properties?: SourceImageTriggerPropertiesInput | undefined;
 }
 export interface TriggersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -692,7 +902,7 @@ export interface TriggersCreateOrUpdateResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
   /** The properties of a trigger */
-  properties?: TriggerProperties | undefined;
+  properties?: SourceImageTriggerProperties | undefined;
   /** A link to the status monitor */
   azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
@@ -768,6 +978,37 @@ export interface UpdateVirtualMachineImageTemplateResponse {
 export type VirtualMachineImageTemplatesCreateOrUpdateRequestTagsMap = {
   [key: string]: string | undefined;
 };
+/** Specifies the type of source image you want to start with. */
+export type ImageTemplatePlatformImageSourceInputType = "PlatformImage";
+/** Describes an image source from [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). */
+export interface ImageTemplatePlatformImageSourceInput {
+  /** Specifies the type of source image you want to start with. */
+  type: ImageTemplatePlatformImageSourceInputType;
+  /** Image Publisher in [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). */
+  publisher?: string | undefined;
+  /** Image offer from the [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). */
+  offer?: string | undefined;
+  /** Image sku from the [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). */
+  sku?: string | undefined;
+  /** Image version from the [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). If 'latest' is specified here, the version is evaluated when the image build takes place, not when the template is submitted. */
+  version?: string | undefined;
+  /** Optional configuration of purchase plan for platform image. */
+  planInfo?: PlatformImagePurchasePlan | undefined;
+}
+/** Specifies the type of source image you want to start with. */
+export type ImageTemplateSharedImageVersionSourceInputType = "SharedImageVersion";
+/** Describes an image source that is an image version in an Azure Compute Gallery or a Direct Shared Gallery. */
+export interface ImageTemplateSharedImageVersionSourceInput {
+  /** Specifies the type of source image you want to start with. */
+  type: ImageTemplateSharedImageVersionSourceInputType;
+  /** ARM resource id of the image version. When image version name is 'latest', the version is evaluated when the image build takes place. */
+  imageVersionId: string;
+}
+/** Describes a virtual machine image source for building, customizing and distributing */
+export type ImageTemplateSourceInput =
+  | ImageTemplateManagedImageSource
+  | ImageTemplatePlatformImageSourceInput
+  | ImageTemplateSharedImageVersionSourceInput;
 /** Specifies the properties used to describe the customization steps of the image, like Image source etc */
 export type ImageTemplatePropertiesInputCustomizeList = Array<ImageTemplateCustomizer>;
 /** The distribution targets where the image output needs to go to. */
@@ -781,7 +1022,7 @@ export type ImageTemplatePropertiesInputManagedResourceTagsMap = {
 /** Describes the properties of an image template */
 export interface ImageTemplatePropertiesInput {
   /** Specifies the properties used to describe the source image. */
-  source: ImageTemplateSource;
+  source: ImageTemplateSourceInput;
   /** Specifies the properties used to describe the customization steps of the image, like Image source etc */
   customize?: ImageTemplatePropertiesInputCustomizeList | undefined;
   /** Specifies optimization to be performed on image. */
@@ -940,8 +1181,8 @@ export const GetVirtualMachineImageTemplateRunOutput: API.OperationMethod<
   GetVirtualMachineImageTemplateRunOutputError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetVirtualMachineImageTemplateRunOutputRequest>,
-  output: __S(609, __c19, 1) as any as S.Schema<GetVirtualMachineImageTemplateRunOutputResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetVirtualMachineImageTemplateRunOutputRequest>,
+  output: __S(641, __c20, 1) as any as S.Schema<GetVirtualMachineImageTemplateRunOutputResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -957,8 +1198,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(644, __c20, 4) as any as S.Schema<OperationListResult>,
+  input: __S(672, __c21, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(676, __c21, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -974,8 +1215,8 @@ export const ListTriggerByImageTemplate: API.OperationMethod<
   ListTriggerByImageTemplateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<ListTriggerByImageTemplateRequest>,
-  output: __S(674, __c21, 2) as any as S.Schema<TriggerCollection>,
+  input: __S(704, __c22, 0) as any as S.Schema<ListTriggerByImageTemplateRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<TriggerCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -992,11 +1233,11 @@ export const ListVirtualMachineImageTemplateByResourceGroup: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    704,
-    __c22,
+    736,
+    __c23,
     0,
   ) as any as S.Schema<ListVirtualMachineImageTemplateByResourceGroupRequest>,
-  output: __S(737, __c23, 1) as any as S.Schema<ImageTemplateListResult>,
+  output: __S(769, __c24, 1) as any as S.Schema<ImageTemplateListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1012,8 +1253,8 @@ export const ListVirtualMachineImageTemplateRunOutputs: API.OperationMethod<
   ListVirtualMachineImageTemplateRunOutputsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<ListVirtualMachineImageTemplateRunOutputsRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<RunOutputCollection>,
+  input: __S(800, __c25, 0) as any as S.Schema<ListVirtualMachineImageTemplateRunOutputsRequest>,
+  output: __S(802, __c25, 2) as any as S.Schema<RunOutputCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1030,7 +1271,7 @@ export const ListVirtualMachineImageTemplates: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<ListVirtualMachineImageTemplatesRequest>,
-  output: __S(737, __c23, 1) as any as S.Schema<ImageTemplateListResult>,
+  output: __S(769, __c24, 1) as any as S.Schema<ImageTemplateListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1097,8 +1338,8 @@ export const VirtualMachineImageTemplatesCreateOrUpdate: API.OperationMethod<
   VirtualMachineImageTemplatesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(289, __c9, 1) as any as S.Schema<VirtualMachineImageTemplatesCreateOrUpdateRequest>,
-  output: __S(290, __c9, 2) as any as S.Schema<VirtualMachineImageTemplatesCreateOrUpdateResponse>,
+  input: __S(292, __c9, 4) as any as S.Schema<VirtualMachineImageTemplatesCreateOrUpdateRequest>,
+  output: __S(293, __c9, 5) as any as S.Schema<VirtualMachineImageTemplatesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1212,7 +1453,7 @@ function __c6(j: number): any {
         S.Struct({
           kind: S.String,
         }),
-      ).annotate({ identifier: "TriggerPropertiesInput" });
+      ).annotate({ identifier: "SourceImageTriggerPropertiesInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -1249,8 +1490,8 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          distribute: S.optional(__S(555, __c17, 11)),
-          vmProfile: S.optional(__S(561, __c17, 17)),
+          distribute: S.optional(__S(574, __c17, 30)),
+          vmProfile: S.optional(__S(579, __c18, 3)),
         }),
       ).annotate({ identifier: "ImageTemplateUpdateParametersProperties" });
     case 1:
@@ -1280,8 +1521,8 @@ function __c7(j: number): any {
           systemData: S.optional(__S(384, __c12, 0)),
           tags: S.optional(__S(544, __c17, 0)),
           location: S.String,
-          properties: S.optional(__S(564, __c17, 20)),
-          identity: __S(567, __c17, 23),
+          properties: S.optional(__S(582, __c18, 6)),
+          identity: __S(585, __c18, 9),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -1309,21 +1550,41 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          source: __S(545, __c17, 1),
-          customize: S.optional(__S(547, __c17, 3)),
-          optimize: S.optional(__S(550, __c17, 6)),
-          validate: S.optional(__S(553, __c17, 9)),
-          distribute: __S(555, __c17, 11),
-          errorHandling: S.optional(__S(556, __c17, 12)),
+          type: S.String,
+          publisher: S.optional(S.String),
+          offer: S.optional(S.String),
+          sku: S.optional(S.String),
+          version: S.optional(S.String),
+          planInfo: S.optional(__S(546, __c17, 2)),
+        }),
+      ).annotate({ identifier: "ImageTemplatePlatformImageSourceInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          imageVersionId: S.String,
+        }),
+      ).annotate({ identifier: "ImageTemplateSharedImageVersionSourceInput" });
+    case 2:
+      return S.Union([__S(545, __c17, 1), __S(288, __c9, 0), __S(289, __c9, 1)]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          source: __S(290, __c9, 2),
+          customize: S.optional(__S(558, __c17, 14)),
+          optimize: S.optional(__S(561, __c17, 17)),
+          validate: S.optional(__S(564, __c17, 20)),
+          distribute: __S(574, __c17, 30),
+          errorHandling: S.optional(__S(575, __c17, 31)),
           buildTimeoutInMinutes: S.optional(S.Number),
-          vmProfile: S.optional(__S(561, __c17, 17)),
-          additionalDataDisks: S.optional(__S(563, __c17, 19)),
+          vmProfile: S.optional(__S(579, __c18, 3)),
+          additionalDataDisks: S.optional(__S(581, __c18, 5)),
           stagingResourceGroup: S.optional(S.String),
-          autoRun: S.optional(__S(548, __c17, 4)),
+          autoRun: S.optional(__S(559, __c17, 15)),
           managedResourceTags: S.optional(__S(544, __c17, 0)),
         }),
       ).annotate({ identifier: "ImageTemplatePropertiesInput" });
-    case 1:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -1331,7 +1592,7 @@ function __c9(j: number): any {
           imageTemplateName: S.String.pipe(T.Label()),
           tags: S.optional(__S(544, __c17, 0)),
           location: S.String,
-          properties: S.optional(__S(288, __c9, 0)),
+          properties: S.optional(__S(291, __c9, 3)),
           identity: __S(258, __c8, 2),
         }).pipe(
           T.Http({
@@ -1342,7 +1603,7 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "VirtualMachineImageTemplatesCreateOrUpdateRequest" });
-    case 2:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -1351,8 +1612,8 @@ function __c9(j: number): any {
           systemData: S.optional(__S(384, __c12, 0)),
           tags: S.optional(__S(544, __c17, 0)),
           location: S.String,
-          properties: S.optional(__S(564, __c17, 20)),
-          identity: __S(567, __c17, 23),
+          properties: S.optional(__S(582, __c18, 6)),
+          identity: __S(585, __c18, 9),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -1444,7 +1705,7 @@ function __c14(j: number): any {
           status: S.optional(__S(448, __c14, 0)),
           provisioningState: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TriggerProperties" });
+      ).annotate({ identifier: "SourceImageTriggerProperties" });
   }
 }
 function __c15(j: number): any {
@@ -1477,8 +1738,8 @@ function __c16(j: number): any {
           systemData: S.optional(__S(384, __c12, 0)),
           tags: S.optional(__S(544, __c17, 0)),
           location: S.String,
-          properties: S.optional(__S(564, __c17, 20)),
-          identity: __S(567, __c17, 23),
+          properties: S.optional(__S(582, __c18, 6)),
+          identity: __S(585, __c18, 9),
         }),
       ).annotate({ identifier: "GetVirtualMachineImageTemplateResponse" });
   }
@@ -1491,46 +1752,113 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
+          imageId: S.String,
+        }),
+      ).annotate({ identifier: "ImageTemplateManagedImageSource" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          planName: S.String,
+          planProduct: S.String,
+          planPublisher: S.String,
+        }),
+      ).annotate({ identifier: "PlatformImagePurchasePlan" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
           publisher: S.optional(S.String),
           offer: S.optional(S.String),
           sku: S.optional(S.String),
           version: S.optional(S.String),
           exactVersion: S.optional(S.String),
-          planInfo: S.optional(S.Unknown),
-          imageId: S.optional(S.String),
-          imageVersionId: S.optional(S.String),
+          planInfo: S.optional(__S(546, __c17, 2)),
         }),
-      ).annotate({ identifier: "ImageTemplateSource" });
-    case 2:
+      ).annotate({ identifier: "ImageTemplatePlatformImageSource" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          imageVersionId: S.String,
+          exactVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ImageTemplateSharedImageVersionSource" });
+    case 5:
+      return S.Union([__S(545, __c17, 1), __S(547, __c17, 3), __S(548, __c17, 4)]);
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.optional(S.String),
+          sourceUri: S.optional(S.String),
+          sha256Checksum: S.optional(S.String),
+          destination: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ImageTemplateFileCustomizer" });
+    case 7:
+      return S.Array(S.String);
+    case 8:
+      return S.Array(S.Number);
+    case 9:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           name: S.optional(S.String),
           scriptUri: S.optional(S.String),
           sha256Checksum: S.optional(S.String),
-          inline: S.optional(S.Unknown),
-          validExitCodes: S.optional(S.Unknown),
+          inline: S.optional(__S(551, __c17, 7)),
           runElevated: S.optional(S.Boolean),
           runAsSystem: S.optional(S.Boolean),
+          validExitCodes: S.optional(__S(552, __c17, 8)),
+        }),
+      ).annotate({ identifier: "ImageTemplatePowerShellCustomizer" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.optional(S.String),
           restartCommand: S.optional(S.String),
           restartCheckCommand: S.optional(S.String),
           restartTimeout: S.optional(S.String),
-          searchCriteria: S.optional(S.String),
-          filters: S.optional(S.Unknown),
-          updateLimit: S.optional(S.Number),
-          sourceUri: S.optional(S.String),
-          destination: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ImageTemplateCustomizer" });
-    case 3:
-      return S.Array(__S(546, __c17, 2));
-    case 4:
+      ).annotate({ identifier: "ImageTemplateRestartCustomizer" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.optional(S.String),
+          scriptUri: S.optional(S.String),
+          sha256Checksum: S.optional(S.String),
+          inline: S.optional(__S(551, __c17, 7)),
+        }),
+      ).annotate({ identifier: "ImageTemplateShellCustomizer" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.optional(S.String),
+          searchCriteria: S.optional(S.String),
+          filters: S.optional(__S(551, __c17, 7)),
+          updateLimit: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ImageTemplateWindowsUpdateCustomizer" });
+    case 13:
+      return S.Union([
+        __S(550, __c17, 6),
+        __S(553, __c17, 9),
+        __S(554, __c17, 10),
+        __S(555, __c17, 11),
+        __S(556, __c17, 12),
+      ]);
+    case 14:
+      return S.Array(__S(557, __c17, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageTemplatePropertiesOptimizeVmBoot" });
-    case 5:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
@@ -1538,72 +1866,107 @@ function __c17(j: number): any {
           sha256Checksum: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageTemplatePropertiesOptimizeWorkload" });
-    case 6:
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          vmBoot: S.optional(__S(548, __c17, 4)),
-          workload: S.optional(__S(549, __c17, 5)),
+          vmBoot: S.optional(__S(559, __c17, 15)),
+          workload: S.optional(__S(560, __c17, 16)),
         }),
       ).annotate({ identifier: "ImageTemplatePropertiesOptimize" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          name: S.optional(S.String),
-          scriptUri: S.optional(S.String),
-          sha256Checksum: S.optional(S.String),
-          inline: S.optional(S.Unknown),
-          validExitCodes: S.optional(S.Unknown),
-          runElevated: S.optional(S.Boolean),
-          runAsSystem: S.optional(S.Boolean),
-          sourceUri: S.optional(S.String),
-          destination: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ImageTemplateInVMValidator" });
-    case 8:
-      return S.Array(__S(551, __c17, 7));
-    case 9:
+    case 18:
+      return S.Union([__S(550, __c17, 6), __S(553, __c17, 9), __S(555, __c17, 11)]);
+    case 19:
+      return S.Array(__S(562, __c17, 18));
+    case 20:
       return S.suspend(() =>
         S.Struct({
           continueDistributeOnFailure: S.optional(S.Boolean),
           sourceValidationOnly: S.optional(S.Boolean),
-          inVMValidations: S.optional(__S(552, __c17, 8)),
+          inVMValidations: S.optional(__S(563, __c17, 19)),
         }),
       ).annotate({ identifier: "ImageTemplatePropertiesValidate" });
-    case 10:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           runOutputName: S.String,
           artifactTags: S.optional(__S(544, __c17, 0)),
-          imageId: S.optional(S.String),
-          location: S.optional(S.String),
-          galleryImageId: S.optional(S.String),
-          replicationRegions: S.optional(S.Unknown),
-          targetRegions: S.optional(S.Unknown),
-          versioning: S.optional(S.Unknown),
+          imageId: S.String,
+          location: S.String,
+        }),
+      ).annotate({ identifier: "ImageTemplateManagedImageDistributor" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          replicaCount: S.optional(S.Number),
           storageAccountType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TargetRegion" });
+    case 23:
+      return S.Array(__S(566, __c17, 22));
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          scheme: S.String,
+          major: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DistributeVersionerLatest" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          scheme: S.String,
+        }),
+      ).annotate({ identifier: "DistributeVersionerSource" });
+    case 26:
+      return S.Union([__S(568, __c17, 24), __S(569, __c17, 25)]);
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          runOutputName: S.String,
+          artifactTags: S.optional(__S(544, __c17, 0)),
+          galleryImageId: S.String,
+          replicationRegions: S.optional(__S(551, __c17, 7)),
           excludeFromLatest: S.optional(S.Boolean),
+          storageAccountType: S.optional(S.String),
+          targetRegions: S.optional(__S(567, __c17, 23)),
+          versioning: S.optional(__S(570, __c17, 26)),
+          replicationMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ImageTemplateSharedImageDistributor" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          runOutputName: S.String,
+          artifactTags: S.optional(__S(544, __c17, 0)),
           uri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ImageTemplateDistributor" });
-    case 11:
-      return S.Array(__S(554, __c17, 10));
-    case 12:
+      ).annotate({ identifier: "ImageTemplateVhdDistributor" });
+    case 29:
+      return S.Union([__S(565, __c17, 21), __S(571, __c17, 27), __S(572, __c17, 28)]);
+    case 30:
+      return S.Array(__S(573, __c17, 29));
+    case 31:
       return S.suspend(() =>
         S.Struct({
           onCustomizerError: S.optional(S.String),
           onValidationError: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageTemplatePropertiesErrorHandling" });
-    case 13:
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           provisioningErrorCode: S.optional(S.String),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProvisioningError" });
-    case 14:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           startTime: S.optional(S.String),
@@ -1613,9 +1976,7 @@ function __c17(j: number): any {
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageTemplateLastRunStatus" });
-    case 15:
-      return S.Array(S.String);
-    case 16:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subnetId: S.optional(S.String),
@@ -1623,63 +1984,63 @@ function __c17(j: number): any {
           proxyVmSize: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualNetworkConfig" });
-    case 17:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           vmSize: S.optional(S.String),
           osDiskSizeGB: S.optional(S.Number),
-          userAssignedIdentities: S.optional(__S(559, __c17, 15)),
-          vnetConfig: S.optional(__S(560, __c17, 16)),
+          userAssignedIdentities: S.optional(__S(551, __c17, 7)),
+          vnetConfig: S.optional(__S(578, __c18, 2)),
         }),
       ).annotate({ identifier: "ImageTemplateVmProfile" });
-    case 18:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           sizeGB: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DataDisk" });
-    case 19:
-      return S.Array(__S(562, __c17, 18));
-    case 20:
+    case 5:
+      return S.Array(__S(580, __c18, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          source: __S(545, __c17, 1),
-          customize: S.optional(__S(547, __c17, 3)),
-          optimize: S.optional(__S(550, __c17, 6)),
-          validate: S.optional(__S(553, __c17, 9)),
-          distribute: __S(555, __c17, 11),
-          errorHandling: S.optional(__S(556, __c17, 12)),
+          source: __S(549, __c17, 5),
+          customize: S.optional(__S(558, __c17, 14)),
+          optimize: S.optional(__S(561, __c17, 17)),
+          validate: S.optional(__S(564, __c17, 20)),
+          distribute: __S(574, __c17, 30),
+          errorHandling: S.optional(__S(575, __c17, 31)),
           provisioningState: S.optional(S.String),
-          provisioningError: S.optional(__S(557, __c17, 13)),
-          lastRunStatus: S.optional(__S(558, __c17, 14)),
+          provisioningError: S.optional(__S(576, __c18, 0)),
+          lastRunStatus: S.optional(__S(577, __c18, 1)),
           buildTimeoutInMinutes: S.optional(S.Number),
-          vmProfile: S.optional(__S(561, __c17, 17)),
-          additionalDataDisks: S.optional(__S(563, __c17, 19)),
+          vmProfile: S.optional(__S(579, __c18, 3)),
+          additionalDataDisks: S.optional(__S(581, __c18, 5)),
           stagingResourceGroup: S.optional(S.String),
           exactStagingResourceGroup: S.optional(S.String),
-          autoRun: S.optional(__S(548, __c17, 4)),
+          autoRun: S.optional(__S(559, __c17, 15)),
           managedResourceTags: S.optional(__S(544, __c17, 0)),
         }),
       ).annotate({ identifier: "ImageTemplateProperties" });
-    case 21:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
           clientId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserAssignedIdentity" });
-    case 22:
-      return S.Record(S.String, __S(565, __c17, 21));
-    case 23:
+    case 8:
+      return S.Record(S.String, __S(583, __c18, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          userAssignedIdentities: S.optional(__S(566, __c17, 22)),
+          userAssignedIdentities: S.optional(__S(584, __c18, 8)),
         }),
       ).annotate({ identifier: "ImageTemplateIdentity" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1699,7 +2060,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetVirtualMachineImageTemplateRunOutputRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1716,12 +2077,12 @@ function __c19(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(384, __c12, 0)),
-          properties: S.optional(__S(608, __c19, 0)),
+          properties: S.optional(__S(640, __c20, 0)),
         }),
       ).annotate({ identifier: "GetVirtualMachineImageTemplateRunOutputResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1747,24 +2108,24 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          display: S.optional(__S(641, __c20, 1)),
+          display: S.optional(__S(673, __c21, 1)),
           origin: S.optional(S.String),
           properties: S.optional(S.Unknown),
           isDataAction: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(642, __c20, 2));
+      return S.Array(__S(674, __c21, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: __S(643, __c20, 3),
+          value: __S(675, __c21, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1786,13 +2147,13 @@ function __c21(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(673, __c21, 1),
+          value: __S(705, __c22, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TriggerCollection" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1810,20 +2171,20 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ListVirtualMachineImageTemplateByResourceGroupRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(512, __c16, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(736, __c23, 0),
+          value: __S(768, __c24, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageTemplateListResult" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1841,11 +2202,11 @@ function __c24(j: number): any {
         ),
       ).annotate({ identifier: "ListVirtualMachineImageTemplateRunOutputsRequest" });
     case 1:
-      return S.Array(__S(609, __c19, 1));
+      return S.Array(__S(641, __c20, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(769, __c24, 1),
+          value: __S(801, __c25, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RunOutputCollection" });

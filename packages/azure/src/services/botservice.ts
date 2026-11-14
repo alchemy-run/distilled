@@ -429,17 +429,542 @@ export type CreateChannelRequestChannelName =
   | "M365Extensions";
 /** Contains resource tags defined as key/value pairs. */
 export type CreateChannelRequestTagsMap = { [key: string]: string | undefined };
-/** Channel definition */
-export interface ChannelInput {
+/** The channel name */
+export type AlexaChannelInputChannelName = "AlexaChannel";
+/** The parameters to provide for the Alexa channel. */
+export interface AlexaChannelPropertiesInput {
+  /** The Alexa skill Id */
+  alexaSkillId: string;
+  /** Whether this channel is enabled for the bot */
+  isEnabled: boolean;
+}
+/** Alexa channel definition */
+export interface AlexaChannelInput {
   /** The channel name */
-  channelName: string;
+  channelName: AlexaChannelInputChannelName;
   /** Entity Tag of the resource */
   etag?: string | null | undefined;
   /** Specifies the location of the resource. */
   location?: string | undefined;
-  /** Channel-specific properties (polymorphic on `channelName`), e.g. `{ sites: [...] }` for DirectLineChannel/WebChatChannel. */
-  properties?: unknown | undefined;
+  /** The set of properties specific to Alexa channel resource */
+  properties?: AlexaChannelPropertiesInput | undefined;
 }
+/** The channel name */
+export type FacebookChannelInputChannelName = "FacebookChannel";
+/** A Facebook page for Facebook channel registration */
+export interface FacebookPage {
+  /** Page id */
+  id: string;
+  /** Facebook application access token. Value only returned through POST to the action Channel List API, otherwise empty. */
+  accessToken?: string | Redacted.Redacted<string> | undefined;
+}
+/** The list of Facebook pages */
+export type FacebookChannelPropertiesInputPagesList = Array<FacebookPage>;
+/** The parameters to provide for the Facebook channel. */
+export interface FacebookChannelPropertiesInput {
+  /** The list of Facebook pages */
+  pages?: FacebookChannelPropertiesInputPagesList | undefined;
+  /** Facebook application id */
+  appId: string;
+  /** Facebook application secret. Value only returned through POST to the action Channel List API, otherwise empty. */
+  appSecret?: string | undefined;
+  /** Whether this channel is enabled for the bot */
+  isEnabled: boolean;
+}
+/** Facebook channel definition */
+export interface FacebookChannelInput {
+  /** The channel name */
+  channelName: FacebookChannelInputChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to bot facebook channel */
+  properties?: FacebookChannelPropertiesInput | undefined;
+}
+/** The channel name */
+export type EmailChannelInputChannelName = "EmailChannel";
+/** Email channel auth method. 0 Password (Default); 1 Graph. */
+export type EmailChannelAuthMethod = 0 | 1;
+/** The parameters to provide for the Email channel. */
+export interface EmailChannelProperties {
+  /** The email address */
+  emailAddress: string;
+  /** Email channel auth method. 0 Password (Default); 1 Graph. */
+  authMethod?: EmailChannelAuthMethod | (number & {}) | undefined;
+  /** The password for the email address. Value only returned through POST to the action Channel List API, otherwise empty. */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** The magic code for setting up the modern authentication. */
+  magicCode?: string | undefined;
+  /** Whether this channel is enabled for the bot */
+  isEnabled: boolean;
+}
+/** Email channel definition */
+export interface EmailChannelInput {
+  /** The channel name */
+  channelName: EmailChannelInputChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to email channel resource */
+  properties?: EmailChannelProperties | undefined;
+}
+/** The channel name */
+export type OutlookChannelInputChannelName = "OutlookChannel";
+/** Channel definition */
+export interface OutlookChannelInput {
+  /** The channel name */
+  channelName: OutlookChannelInputChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+}
+/** The channel name */
+export type MsTeamsChannelInputChannelName = "MsTeamsChannel";
+/** The parameters to provide for the Microsoft Teams channel. */
+export interface MsTeamsChannelProperties {
+  /** Enable calling for Microsoft Teams channel */
+  enableCalling?: boolean | undefined;
+  /** Webhook for Microsoft Teams channel calls */
+  callingWebhook?: string | undefined;
+  /** Whether this channel is enabled for the bot */
+  isEnabled: boolean;
+  /** Webhook for Microsoft Teams channel calls */
+  incomingCallRoute?: string | undefined;
+  /** Deployment environment for Microsoft Teams channel calls */
+  deploymentEnvironment?: string | undefined;
+  /** Whether this channel accepted terms */
+  acceptedTerms?: boolean | null | undefined;
+}
+/** Microsoft Teams channel definition */
+export interface MsTeamsChannelInput {
+  /** The channel name */
+  channelName: MsTeamsChannelInputChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to Microsoft Teams channel resource */
+  properties?: MsTeamsChannelProperties | undefined;
+}
+/** The channel name */
+export type SkypeChannelInputChannelName = "SkypeChannel";
+/** The parameters to provide for the Microsoft Teams channel. */
+export interface SkypeChannelProperties {
+  /** Enable messaging for Skype channel */
+  enableMessaging?: boolean | undefined;
+  /** Enable media cards for Skype channel */
+  enableMediaCards?: boolean | undefined;
+  /** Enable video for Skype channel */
+  enableVideo?: boolean | undefined;
+  /** Enable calling for Skype channel */
+  enableCalling?: boolean | undefined;
+  /** Enable screen sharing for Skype channel */
+  enableScreenSharing?: boolean | undefined;
+  /** Enable groups for Skype channel */
+  enableGroups?: boolean | undefined;
+  /** Group mode for Skype channel */
+  groupsMode?: string | undefined;
+  /** Calling web hook for Skype channel */
+  callingWebHook?: string | undefined;
+  /** Incoming call route for Skype channel */
+  incomingCallRoute?: string | undefined;
+  /** Whether this channel is enabled for the bot */
+  isEnabled: boolean;
+}
+/** Skype channel definition */
+export interface SkypeChannelInput {
+  /** The channel name */
+  channelName: SkypeChannelInputChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to Skype channel resource */
+  properties?: SkypeChannelProperties | undefined;
+}
+/** The channel name */
+export type KikChannelInputChannelName = "KikChannel";
+/** The parameters to provide for the Kik channel. */
+export interface KikChannelProperties {
+  /** The Kik user name */
+  userName: string;
+  /** Kik API key. Value only returned through POST to the action Channel List API, otherwise empty. */
+  apiKey?: string | Redacted.Redacted<string> | undefined;
+  /** Whether this channel is validated for the bot */
+  isValidated?: boolean | undefined;
+  /** Whether this channel is enabled for the bot */
+  isEnabled: boolean;
+}
+/** Kik channel definition */
+export interface KikChannelInput {
+  /** The channel name */
+  channelName: KikChannelInputChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to Kik channel resource */
+  properties?: KikChannelProperties | undefined;
+}
+/** The channel name */
+export type WebChatChannelInputChannelName = "WebChatChannel";
+/** List of Trusted Origin URLs for this site. This field is applicable only if isSecureSiteEnabled is True. */
+export type SiteInputTrustedOriginsList = Array<string>;
+/** A site for the channel */
+export interface SiteInput {
+  /** Tenant Id */
+  tenantId?: string | undefined;
+  /** Site name */
+  siteName: string;
+  /** Whether this site is enabled for DirectLine channel */
+  isEnabled: boolean;
+  /** Whether this site is EndpointParameters enabled for channel */
+  isEndpointParametersEnabled?: boolean | undefined;
+  /** Whether this site is disabled detailed logging for */
+  isDetailedLoggingEnabled?: boolean | undefined;
+  /** Whether this site is enabled for block user upload. */
+  isBlockUserUploadEnabled?: boolean | null | undefined;
+  /** Whether this no-storage site is disabled detailed logging for */
+  isNoStorageEnabled?: boolean | undefined;
+  /** Entity Tag */
+  eTag?: string | undefined;
+  /** DirectLine application id */
+  appId?: string | undefined;
+  /** Whether this site is enabled for Bot Framework V1 protocol. */
+  isV1Enabled?: boolean | undefined;
+  /** Whether this site is enabled for Bot Framework V3 protocol. */
+  isV3Enabled?: boolean | undefined;
+  /** Whether this site is enabled for authentication with Bot Framework. */
+  isSecureSiteEnabled?: boolean | undefined;
+  /** List of Trusted Origin URLs for this site. This field is applicable only if isSecureSiteEnabled is True. */
+  trustedOrigins?: SiteInputTrustedOriginsList | undefined;
+  /** Whether this site is enabled for Webchat Speech */
+  isWebChatSpeechEnabled?: boolean | undefined;
+  /** Whether this site is enabled for preview versions of Webchat */
+  isWebchatPreviewEnabled?: boolean | undefined;
+}
+/** The list of Web Chat sites */
+export type WebChatChannelPropertiesInputSitesList = Array<SiteInput>;
+/** The parameters to provide for the Web Chat channel. */
+export interface WebChatChannelPropertiesInput {
+  /** The list of Web Chat sites */
+  sites?: WebChatChannelPropertiesInputSitesList | undefined;
+}
+/** Web Chat channel definition */
+export interface WebChatChannelInput {
+  /** The channel name */
+  channelName: WebChatChannelInputChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to Web Chat channel resource */
+  properties?: WebChatChannelPropertiesInput | undefined;
+}
+/** The channel name */
+export type DirectLineChannelInputChannelName = "DirectLineChannel";
+/** The list of Direct Line sites */
+export type DirectLineChannelPropertiesInputSitesList = Array<SiteInput>;
+/** The parameters to provide for the Direct Line channel. */
+export interface DirectLineChannelPropertiesInput {
+  /** The list of Direct Line sites */
+  sites?: DirectLineChannelPropertiesInputSitesList | undefined;
+  /** The extensionKey1 */
+  extensionKey1?: string | undefined;
+  /** The extensionKey2 */
+  extensionKey2?: string | undefined;
+  /** Direct Line embed code of the resource */
+  DirectLineEmbedCode?: string | undefined;
+}
+/** Direct Line channel definition */
+export interface DirectLineChannelInput {
+  /** The channel name */
+  channelName: DirectLineChannelInputChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to Direct Line channel resource */
+  properties?: DirectLineChannelPropertiesInput | undefined;
+}
+/** The channel name */
+export type TelegramChannelInputChannelName = "TelegramChannel";
+/** The parameters to provide for the Telegram channel. */
+export interface TelegramChannelProperties {
+  /** The Telegram access token. Value only returned through POST to the action Channel List API, otherwise empty. */
+  accessToken?: string | Redacted.Redacted<string> | undefined;
+  /** Whether this channel is validated for the bot */
+  isValidated?: boolean | undefined;
+  /** Whether this channel is enabled for the bot */
+  isEnabled: boolean;
+}
+/** Telegram channel definition */
+export interface TelegramChannelInput {
+  /** The channel name */
+  channelName: TelegramChannelInputChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to Telegram channel resource */
+  properties?: TelegramChannelProperties | undefined;
+}
+/** The channel name */
+export type SmsChannelInputChannelName = "SmsChannel";
+/** The parameters to provide for the Sms channel. */
+export interface SmsChannelProperties {
+  /** The Sms phone */
+  phone: string;
+  /** The Sms account SID. Value only returned through POST to the action Channel List API, otherwise empty. */
+  accountSID: string;
+  /** The Sms auth token. Value only returned through POST to the action Channel List API, otherwise empty. */
+  authToken?: string | undefined;
+  /** Whether this channel is validated for the bot */
+  isValidated?: boolean | undefined;
+  /** Whether this channel is enabled for the bot */
+  isEnabled: boolean;
+}
+/** Sms channel definition */
+export interface SmsChannelInput {
+  /** The channel name */
+  channelName: SmsChannelInputChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to Sms channel resource */
+  properties?: SmsChannelProperties | undefined;
+}
+/** The channel name */
+export type SlackChannelInputChannelName = "SlackChannel";
+/** The parameters to provide for the Slack channel. */
+export interface SlackChannelPropertiesInput {
+  /** The Slack client id */
+  clientId?: string | undefined;
+  /** The Slack client secret. Value only returned through POST to the action Channel List API, otherwise empty. */
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
+  /** The Slack verification token. Value only returned through POST to the action Channel List API, otherwise empty. */
+  verificationToken?: string | undefined;
+  /** The Slack permission scopes. */
+  scopes?: string | undefined;
+  /** The Slack landing page Url */
+  landingPageUrl?: string | undefined;
+  /** Whether to register the settings before OAuth validation is performed. Recommended to True. */
+  registerBeforeOAuthFlow?: boolean | undefined;
+  /** The Slack signing secret. */
+  signingSecret?: string | undefined;
+  /** Whether this channel is enabled for the bot */
+  isEnabled: boolean;
+}
+/** Slack channel definition */
+export interface SlackChannelInput {
+  /** The channel name */
+  channelName: SlackChannelInputChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to Slack channel resource */
+  properties?: SlackChannelPropertiesInput | undefined;
+}
+/** The channel name */
+export type LineChannelInputChannelName = "LineChannel";
+/** The properties corresponding to a line channel registration */
+export interface LineRegistrationInput {
+  /** Secret for the line channel registration */
+  channelSecret?: string | undefined;
+  /** Access token for the line channel registration */
+  channelAccessToken?: string | undefined;
+}
+/** The list of line channel registrations */
+export type LineChannelPropertiesInputLineRegistrationsList = Array<LineRegistrationInput>;
+/** The parameters to provide for the Line channel. */
+export interface LineChannelPropertiesInput {
+  /** The list of line channel registrations */
+  lineRegistrations: LineChannelPropertiesInputLineRegistrationsList;
+}
+/** Line channel definition */
+export interface LineChannelInput {
+  /** The channel name */
+  channelName: LineChannelInputChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to line channel resource */
+  properties?: LineChannelPropertiesInput | undefined;
+}
+/** The channel name */
+export type DirectLineSpeechChannelInputChannelName = "DirectLineSpeechChannel";
+/** The parameters to provide for the DirectLine Speech channel. */
+export interface DirectLineSpeechChannelProperties {
+  /** The cognitive service id with this channel registration. */
+  cognitiveServiceResourceId?: string | undefined;
+  /** The cognitive service region with this channel registration. */
+  cognitiveServiceRegion?: string | null | undefined;
+  /** The cognitive service subscription key to use with this channel registration. */
+  cognitiveServiceSubscriptionKey?: string | null | undefined;
+  /** Whether this channel is enabled or not. */
+  isEnabled?: boolean | undefined;
+  /** Custom speech model id (optional). */
+  customVoiceDeploymentId?: string | undefined;
+  /** Custom voice deployment id (optional). */
+  customSpeechModelId?: string | undefined;
+  /** Make this a default bot for chosen cognitive service account. */
+  isDefaultBotForCogSvcAccount?: boolean | undefined;
+}
+/** DirectLine Speech channel definition */
+export interface DirectLineSpeechChannelInput {
+  /** The channel name */
+  channelName: DirectLineSpeechChannelInputChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to DirectLine Speech channel resource */
+  properties?: DirectLineSpeechChannelProperties | undefined;
+}
+/** The channel name */
+export type OmnichannelInputChannelName = "Omnichannel";
+/** Channel definition */
+export interface OmnichannelInput {
+  /** The channel name */
+  channelName: OmnichannelInputChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+}
+/** The channel name */
+export type TelephonyChannelInputChannelName = "TelephonyChannel";
+/** A telephone number for the Telephony channel */
+export interface TelephonyPhoneNumbers {
+  /** The element id. */
+  id?: string | undefined;
+  /** The phone number. */
+  phoneNumber?: string | undefined;
+  /** The endpoint of ACS. */
+  acsEndpoint?: string | null | undefined;
+  /** The secret of ACS. */
+  acsSecret?: string | null | undefined;
+  /** The resource id of ACS. */
+  acsResourceId?: string | null | undefined;
+  /** The subscription key of cognitive service. */
+  cognitiveServiceSubscriptionKey?: string | null | undefined;
+  /** The service region of cognitive service. */
+  cognitiveServiceRegion?: string | null | undefined;
+  /** The resource id of cognitive service. */
+  cognitiveServiceResourceId?: string | null | undefined;
+  /** The default locale of the phone number. */
+  defaultLocale?: string | null | undefined;
+  /** Optional Property that will determine the offering type of the phone. */
+  offerType?: string | null | undefined;
+}
+/** The list of Telephony phone numbers */
+export type TelephonyChannelPropertiesPhoneNumbersList = Array<TelephonyPhoneNumbers>;
+/** A resource Api configuration for the Telephony channel */
+export interface TelephonyChannelResourceApiConfiguration {
+  /** The id of config. */
+  id?: string | undefined;
+  /** The provider name. */
+  providerName?: string | null | undefined;
+  /** The cognitive service subscription key. */
+  cognitiveServiceSubscriptionKey?: string | null | undefined;
+  /** The cognitive service region. */
+  cognitiveServiceRegion?: string | null | undefined;
+  /** The cognitive service resourceId. */
+  cognitiveServiceResourceId?: string | null | undefined;
+  /** The default locale. */
+  defaultLocale?: string | null | undefined;
+}
+/** The list of Telephony api configuration */
+export type TelephonyChannelPropertiesApiConfigurationsList =
+  Array<TelephonyChannelResourceApiConfiguration>;
+/** The parameters to provide for the Direct Line channel. */
+export interface TelephonyChannelProperties {
+  /** The list of Telephony phone numbers */
+  phoneNumbers?: TelephonyChannelPropertiesPhoneNumbersList | undefined;
+  /** The list of Telephony api configuration */
+  apiConfigurations?: TelephonyChannelPropertiesApiConfigurationsList | undefined;
+  /** The extensionKey1 */
+  cognitiveServiceSubscriptionKey?: string | null | undefined;
+  /** The extensionKey2 */
+  cognitiveServiceRegion?: string | null | undefined;
+  /** The default locale of the channel */
+  defaultLocale?: string | null | undefined;
+  /** The premium SKU applied to the channel */
+  premiumSKU?: string | null | undefined;
+  /** Whether the channel is enabled */
+  isEnabled?: boolean | undefined;
+}
+/** Telephony channel definition */
+export interface TelephonyChannelInput {
+  /** The channel name */
+  channelName: TelephonyChannelInputChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to Telephony channel resource */
+  properties?: TelephonyChannelProperties | undefined;
+}
+/** The channel name */
+export type AcsChatChannelInputChannelName = "AcsChatChannel";
+/** Channel definition */
+export interface AcsChatChannelInput {
+  /** The channel name */
+  channelName: AcsChatChannelInputChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+}
+/** The channel name */
+export type SearchAssistantInputChannelName = "SearchAssistant";
+/** Channel definition */
+export interface SearchAssistantInput {
+  /** The channel name */
+  channelName: SearchAssistantInputChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+}
+/** The channel name */
+export type M365ExtensionsInputChannelName = "M365Extensions";
+/** Channel definition */
+export interface M365ExtensionsInput {
+  /** The channel name */
+  channelName: M365ExtensionsInputChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+}
+/** Channel definition */
+export type ChannelInput =
+  | AlexaChannelInput
+  | FacebookChannelInput
+  | EmailChannelInput
+  | OutlookChannelInput
+  | MsTeamsChannelInput
+  | SkypeChannelInput
+  | KikChannelInput
+  | WebChatChannelInput
+  | DirectLineChannelInput
+  | TelegramChannelInput
+  | SmsChannelInput
+  | SlackChannelInput
+  | LineChannelInput
+  | DirectLineSpeechChannelInput
+  | OmnichannelInput
+  | TelephonyChannelInput
+  | AcsChatChannelInput
+  | SearchAssistantInput
+  | M365ExtensionsInput;
 export interface CreateChannelRequest {
   /** Azure Subscription ID. */
   subscriptionId: string;
@@ -466,19 +991,440 @@ export interface CreateChannelRequest {
 export type CreateChannelResponseTagsMap = { [key: string]: string | undefined };
 /** Entity zones */
 export type CreateChannelResponseZonesList = Array<string>;
-/** Channel definition */
-export interface Channel {
+/** The channel name */
+export type AlexaChannelChannelName = "AlexaChannel";
+/** The parameters to provide for the Alexa channel. */
+export interface AlexaChannelProperties {
+  /** The Alexa skill Id */
+  alexaSkillId: string;
+  /** Url fragment used in part of the Uri configured in Alexa */
+  urlFragment?: string | undefined;
+  /** Full Uri used to configured the skill in Alexa */
+  serviceEndpointUri?: string | undefined;
+  /** Whether this channel is enabled for the bot */
+  isEnabled: boolean;
+}
+/** Alexa channel definition */
+export interface AlexaChannel {
   /** The channel name */
-  channelName: string;
+  channelName: AlexaChannelChannelName;
   /** Entity Tag of the resource */
   etag?: string | null | undefined;
   /** Provisioning state of the resource */
   provisioningState?: string | undefined;
   /** Specifies the location of the resource. */
   location?: string | undefined;
-  /** Channel-specific properties (polymorphic on `channelName`), e.g. `{ sites: [...] }` for DirectLineChannel/WebChatChannel. */
-  properties?: unknown | undefined;
+  /** The set of properties specific to Alexa channel resource */
+  properties?: AlexaChannelProperties | undefined;
 }
+/** The channel name */
+export type FacebookChannelChannelName = "FacebookChannel";
+/** The list of Facebook pages */
+export type FacebookChannelPropertiesPagesList = Array<FacebookPage>;
+/** The parameters to provide for the Facebook channel. */
+export interface FacebookChannelProperties {
+  /** Verify token. Value only returned through POST to the action Channel List API, otherwise empty. */
+  verifyToken?: string | undefined;
+  /** The list of Facebook pages */
+  pages?: FacebookChannelPropertiesPagesList | undefined;
+  /** Facebook application id */
+  appId: string;
+  /** Facebook application secret. Value only returned through POST to the action Channel List API, otherwise empty. */
+  appSecret?: string | undefined;
+  /** Callback Url */
+  callbackUrl?: string | undefined;
+  /** Whether this channel is enabled for the bot */
+  isEnabled: boolean;
+}
+/** Facebook channel definition */
+export interface FacebookChannel {
+  /** The channel name */
+  channelName: FacebookChannelChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Provisioning state of the resource */
+  provisioningState?: string | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to bot facebook channel */
+  properties?: FacebookChannelProperties | undefined;
+}
+/** The channel name */
+export type EmailChannelChannelName = "EmailChannel";
+/** Email channel definition */
+export interface EmailChannel {
+  /** The channel name */
+  channelName: EmailChannelChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Provisioning state of the resource */
+  provisioningState?: string | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to email channel resource */
+  properties?: EmailChannelProperties | undefined;
+}
+/** The channel name */
+export type OutlookChannelChannelName = "OutlookChannel";
+/** Channel definition */
+export interface OutlookChannel {
+  /** The channel name */
+  channelName: OutlookChannelChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Provisioning state of the resource */
+  provisioningState?: string | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+}
+/** The channel name */
+export type MsTeamsChannelChannelName = "MsTeamsChannel";
+/** Microsoft Teams channel definition */
+export interface MsTeamsChannel {
+  /** The channel name */
+  channelName: MsTeamsChannelChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Provisioning state of the resource */
+  provisioningState?: string | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to Microsoft Teams channel resource */
+  properties?: MsTeamsChannelProperties | undefined;
+}
+/** The channel name */
+export type SkypeChannelChannelName = "SkypeChannel";
+/** Skype channel definition */
+export interface SkypeChannel {
+  /** The channel name */
+  channelName: SkypeChannelChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Provisioning state of the resource */
+  provisioningState?: string | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to Skype channel resource */
+  properties?: SkypeChannelProperties | undefined;
+}
+/** The channel name */
+export type KikChannelChannelName = "KikChannel";
+/** Kik channel definition */
+export interface KikChannel {
+  /** The channel name */
+  channelName: KikChannelChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Provisioning state of the resource */
+  provisioningState?: string | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to Kik channel resource */
+  properties?: KikChannelProperties | undefined;
+}
+/** The channel name */
+export type WebChatChannelChannelName = "WebChatChannel";
+/** List of Trusted Origin URLs for this site. This field is applicable only if isSecureSiteEnabled is True. */
+export type SiteTrustedOriginsList = Array<string>;
+/** A site for the channel */
+export interface Site {
+  /** Tenant Id */
+  tenantId?: string | undefined;
+  /** Site Id */
+  siteId?: string | undefined;
+  /** Site name */
+  siteName: string;
+  /** Primary key. Value only returned through POST to the action Channel List API, otherwise empty. */
+  key?: string | undefined;
+  /** Secondary key. Value only returned through POST to the action Channel List API, otherwise empty. */
+  key2?: string | undefined;
+  /** Whether this site is enabled for DirectLine channel */
+  isEnabled: boolean;
+  /** Whether this site is token enabled for channel */
+  isTokenEnabled?: boolean | undefined;
+  /** Whether this site is EndpointParameters enabled for channel */
+  isEndpointParametersEnabled?: boolean | undefined;
+  /** Whether this site is disabled detailed logging for */
+  isDetailedLoggingEnabled?: boolean | undefined;
+  /** Whether this site is enabled for block user upload. */
+  isBlockUserUploadEnabled?: boolean | null | undefined;
+  /** Whether this no-storage site is disabled detailed logging for */
+  isNoStorageEnabled?: boolean | undefined;
+  /** Entity Tag */
+  eTag?: string | undefined;
+  /** DirectLine application id */
+  appId?: string | undefined;
+  /** Whether this site is enabled for Bot Framework V1 protocol. */
+  isV1Enabled?: boolean | undefined;
+  /** Whether this site is enabled for Bot Framework V3 protocol. */
+  isV3Enabled?: boolean | undefined;
+  /** Whether this site is enabled for authentication with Bot Framework. */
+  isSecureSiteEnabled?: boolean | undefined;
+  /** List of Trusted Origin URLs for this site. This field is applicable only if isSecureSiteEnabled is True. */
+  trustedOrigins?: SiteTrustedOriginsList | undefined;
+  /** Whether this site is enabled for Webchat Speech */
+  isWebChatSpeechEnabled?: boolean | undefined;
+  /** Whether this site is enabled for preview versions of Webchat */
+  isWebchatPreviewEnabled?: boolean | undefined;
+}
+/** The list of Web Chat sites */
+export type WebChatChannelPropertiesSitesList = Array<Site>;
+/** The parameters to provide for the Web Chat channel. */
+export interface WebChatChannelProperties {
+  /** Web chat control embed code */
+  webChatEmbedCode?: string | undefined;
+  /** The list of Web Chat sites */
+  sites?: WebChatChannelPropertiesSitesList | undefined;
+}
+/** Web Chat channel definition */
+export interface WebChatChannel {
+  /** The channel name */
+  channelName: WebChatChannelChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Provisioning state of the resource */
+  provisioningState?: string | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to Web Chat channel resource */
+  properties?: WebChatChannelProperties | undefined;
+}
+/** The channel name */
+export type DirectLineChannelChannelName = "DirectLineChannel";
+/** The list of Direct Line sites */
+export type DirectLineChannelPropertiesSitesList = Array<Site>;
+/** The parameters to provide for the Direct Line channel. */
+export interface DirectLineChannelProperties {
+  /** The list of Direct Line sites */
+  sites?: DirectLineChannelPropertiesSitesList | undefined;
+  /** The extensionKey1 */
+  extensionKey1?: string | undefined;
+  /** The extensionKey2 */
+  extensionKey2?: string | undefined;
+  /** Direct Line embed code of the resource */
+  DirectLineEmbedCode?: string | undefined;
+}
+/** Direct Line channel definition */
+export interface DirectLineChannel {
+  /** The channel name */
+  channelName: DirectLineChannelChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Provisioning state of the resource */
+  provisioningState?: string | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to Direct Line channel resource */
+  properties?: DirectLineChannelProperties | undefined;
+}
+/** The channel name */
+export type TelegramChannelChannelName = "TelegramChannel";
+/** Telegram channel definition */
+export interface TelegramChannel {
+  /** The channel name */
+  channelName: TelegramChannelChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Provisioning state of the resource */
+  provisioningState?: string | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to Telegram channel resource */
+  properties?: TelegramChannelProperties | undefined;
+}
+/** The channel name */
+export type SmsChannelChannelName = "SmsChannel";
+/** Sms channel definition */
+export interface SmsChannel {
+  /** The channel name */
+  channelName: SmsChannelChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Provisioning state of the resource */
+  provisioningState?: string | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to Sms channel resource */
+  properties?: SmsChannelProperties | undefined;
+}
+/** The channel name */
+export type SlackChannelChannelName = "SlackChannel";
+/** The parameters to provide for the Slack channel. */
+export interface SlackChannelProperties {
+  /** The Slack client id */
+  clientId?: string | undefined;
+  /** The Slack client secret. Value only returned through POST to the action Channel List API, otherwise empty. */
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
+  /** The Slack verification token. Value only returned through POST to the action Channel List API, otherwise empty. */
+  verificationToken?: string | undefined;
+  /** The Slack permission scopes. */
+  scopes?: string | undefined;
+  /** The Slack landing page Url */
+  landingPageUrl?: string | undefined;
+  /** The Slack redirect action */
+  redirectAction?: string | undefined;
+  /** The Sms auth token */
+  lastSubmissionId?: string | undefined;
+  /** Whether to register the settings before OAuth validation is performed. Recommended to True. */
+  registerBeforeOAuthFlow?: boolean | undefined;
+  /** Whether this channel is validated for the bot */
+  IsValidated?: boolean | undefined;
+  /** The Slack signing secret. */
+  signingSecret?: string | undefined;
+  /** Whether this channel is enabled for the bot */
+  isEnabled: boolean;
+}
+/** Slack channel definition */
+export interface SlackChannel {
+  /** The channel name */
+  channelName: SlackChannelChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Provisioning state of the resource */
+  provisioningState?: string | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to Slack channel resource */
+  properties?: SlackChannelProperties | undefined;
+}
+/** The channel name */
+export type LineChannelChannelName = "LineChannel";
+/** The properties corresponding to a line channel registration */
+export interface LineRegistration {
+  /** Id generated for the line channel registration */
+  generatedId?: string | undefined;
+  /** Secret for the line channel registration */
+  channelSecret?: string | undefined;
+  /** Access token for the line channel registration */
+  channelAccessToken?: string | undefined;
+}
+/** The list of line channel registrations */
+export type LineChannelPropertiesLineRegistrationsList = Array<LineRegistration>;
+/** The parameters to provide for the Line channel. */
+export interface LineChannelProperties {
+  /** The list of line channel registrations */
+  lineRegistrations: LineChannelPropertiesLineRegistrationsList;
+  /** Callback Url to enter in line registration. */
+  callbackUrl?: string | undefined;
+  /** Whether this channel is validated for the bot */
+  isValidated?: boolean | undefined;
+}
+/** Line channel definition */
+export interface LineChannel {
+  /** The channel name */
+  channelName: LineChannelChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Provisioning state of the resource */
+  provisioningState?: string | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to line channel resource */
+  properties?: LineChannelProperties | undefined;
+}
+/** The channel name */
+export type DirectLineSpeechChannelChannelName = "DirectLineSpeechChannel";
+/** DirectLine Speech channel definition */
+export interface DirectLineSpeechChannel {
+  /** The channel name */
+  channelName: DirectLineSpeechChannelChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Provisioning state of the resource */
+  provisioningState?: string | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to DirectLine Speech channel resource */
+  properties?: DirectLineSpeechChannelProperties | undefined;
+}
+/** The channel name */
+export type OmnichannelChannelName = "Omnichannel";
+/** Channel definition */
+export interface Omnichannel {
+  /** The channel name */
+  channelName: OmnichannelChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Provisioning state of the resource */
+  provisioningState?: string | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+}
+/** The channel name */
+export type TelephonyChannelChannelName = "TelephonyChannel";
+/** Telephony channel definition */
+export interface TelephonyChannel {
+  /** The channel name */
+  channelName: TelephonyChannelChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Provisioning state of the resource */
+  provisioningState?: string | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+  /** The set of properties specific to Telephony channel resource */
+  properties?: TelephonyChannelProperties | undefined;
+}
+/** The channel name */
+export type AcsChatChannelChannelName = "AcsChatChannel";
+/** Channel definition */
+export interface AcsChatChannel {
+  /** The channel name */
+  channelName: AcsChatChannelChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Provisioning state of the resource */
+  provisioningState?: string | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+}
+/** The channel name */
+export type SearchAssistantChannelName = "SearchAssistant";
+/** Channel definition */
+export interface SearchAssistant {
+  /** The channel name */
+  channelName: SearchAssistantChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Provisioning state of the resource */
+  provisioningState?: string | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+}
+/** The channel name */
+export type M365ExtensionsChannelName = "M365Extensions";
+/** Channel definition */
+export interface M365Extensions {
+  /** The channel name */
+  channelName: M365ExtensionsChannelName;
+  /** Entity Tag of the resource */
+  etag?: string | null | undefined;
+  /** Provisioning state of the resource */
+  provisioningState?: string | undefined;
+  /** Specifies the location of the resource. */
+  location?: string | undefined;
+}
+/** Channel definition */
+export type Channel =
+  | AlexaChannel
+  | FacebookChannel
+  | EmailChannel
+  | OutlookChannel
+  | MsTeamsChannel
+  | SkypeChannel
+  | KikChannel
+  | WebChatChannel
+  | DirectLineChannel
+  | TelegramChannel
+  | SmsChannel
+  | SlackChannel
+  | LineChannel
+  | DirectLineSpeechChannel
+  | Omnichannel
+  | TelephonyChannel
+  | AcsChatChannel
+  | SearchAssistant
+  | M365Extensions;
 export interface CreateChannelResponse {
   /** Specifies the resource ID. */
   id?: string | undefined;
@@ -1073,49 +2019,6 @@ export interface ListChannelWithKeysRequest {
 export type ListChannelWithKeysResponseTagsMap = { [key: string]: string | undefined };
 /** Entity zones */
 export type ListChannelWithKeysResponseZonesList = Array<string>;
-/** List of Trusted Origin URLs for this site. This field is applicable only if isSecureSiteEnabled is True. */
-export type SiteTrustedOriginsList = Array<string>;
-/** A site for the channel */
-export interface Site {
-  /** Tenant Id */
-  tenantId?: string | undefined;
-  /** Site Id */
-  siteId?: string | undefined;
-  /** Site name */
-  siteName: string;
-  /** Primary key. Value only returned through POST to the action Channel List API, otherwise empty. */
-  key?: string | undefined;
-  /** Secondary key. Value only returned through POST to the action Channel List API, otherwise empty. */
-  key2?: string | undefined;
-  /** Whether this site is enabled for DirectLine channel */
-  isEnabled: boolean;
-  /** Whether this site is token enabled for channel */
-  isTokenEnabled?: boolean | undefined;
-  /** Whether this site is EndpointParameters enabled for channel */
-  isEndpointParametersEnabled?: boolean | undefined;
-  /** Whether this site is disabled detailed logging for */
-  isDetailedLoggingEnabled?: boolean | undefined;
-  /** Whether this site is enabled for block user upload. */
-  isBlockUserUploadEnabled?: boolean | null | undefined;
-  /** Whether this no-storage site is disabled detailed logging for */
-  isNoStorageEnabled?: boolean | undefined;
-  /** Entity Tag */
-  eTag?: string | undefined;
-  /** DirectLine application id */
-  appId?: string | undefined;
-  /** Whether this site is enabled for Bot Framework V1 protocol. */
-  isV1Enabled?: boolean | undefined;
-  /** Whether this site is enabled for Bot Framework V3 protocol. */
-  isV3Enabled?: boolean | undefined;
-  /** Whether this site is enabled for authentication with Bot Framework. */
-  isSecureSiteEnabled?: boolean | undefined;
-  /** List of Trusted Origin URLs for this site. This field is applicable only if isSecureSiteEnabled is True. */
-  trustedOrigins?: SiteTrustedOriginsList | undefined;
-  /** Whether this site is enabled for Webchat Speech */
-  isWebChatSpeechEnabled?: boolean | undefined;
-  /** Whether this site is enabled for preview versions of Webchat */
-  isWebchatPreviewEnabled?: boolean | undefined;
-}
 /** The list of sites */
 export type ChannelSettingsSitesList = Array<Site>;
 /** Channel settings definition */
@@ -1480,7 +2383,7 @@ export const CreateBot: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateBotRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<CreateBotResponse>,
+  output: __S(225, __c7, 1) as any as S.Schema<CreateBotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1496,8 +2399,8 @@ export const CreateBotConnection: API.OperationMethod<
   CreateBotConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<CreateBotConnectionRequest>,
-  output: __S(147, __c9, 3) as any as S.Schema<CreateBotConnectionResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<CreateBotConnectionRequest>,
+  output: __S(291, __c9, 3) as any as S.Schema<CreateBotConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1513,8 +2416,8 @@ export const CreateChannel: API.OperationMethod<
   CreateChannelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<CreateChannelRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<CreateChannelResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<CreateChannelRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<CreateChannelResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1530,8 +2433,8 @@ export const CreatePrivateEndpointConnection: API.OperationMethod<
   CreatePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(577, __c36, 1) as any as S.Schema<CreatePrivateEndpointConnectionRequest>,
-  output: __S(83, __c5, 3) as any as S.Schema<CreatePrivateEndpointConnectionResponse>,
+  input: __S(1185, __c37, 1) as any as S.Schema<CreatePrivateEndpointConnectionRequest>,
+  output: __S(163, __c5, 3) as any as S.Schema<CreatePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1547,8 +2450,8 @@ export const DeleteBot: API.OperationMethod<
   DeleteBotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<DeleteBotRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<DeleteBotResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<DeleteBotRequest>,
+  output: __S(1216, __c38, 0) as any as S.Schema<DeleteBotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1564,8 +2467,8 @@ export const DeleteBotConnection: API.OperationMethod<
   DeleteBotConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<DeleteBotConnectionRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<DeleteBotConnectionResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<DeleteBotConnectionRequest>,
+  output: __S(1216, __c38, 0) as any as S.Schema<DeleteBotConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1581,8 +2484,8 @@ export const DeleteChannel: API.OperationMethod<
   DeleteChannelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<DeleteChannelRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<DeleteChannelResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<DeleteChannelRequest>,
+  output: __S(1216, __c38, 0) as any as S.Schema<DeleteChannelResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1598,8 +2501,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   DeletePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
+  output: __S(1216, __c38, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1615,8 +2518,8 @@ export const EmailCreateSignInUrl: API.OperationMethod<
   EmailCreateSignInUrlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<EmailCreateSignInUrlRequest>,
-  output: __S(690, __c43, 2) as any as S.Schema<CreateEmailSignInUrlResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<EmailCreateSignInUrlRequest>,
+  output: __S(1410, __c44, 2) as any as S.Schema<CreateEmailSignInUrlResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1632,8 +2535,8 @@ export const GetBot: API.OperationMethod<
   GetBotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<GetBotRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<GetBotResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetBotRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<GetBotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1649,8 +2552,8 @@ export const GetBotCheckNameAvailability: API.OperationMethod<
   GetBotCheckNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetBotCheckNameAvailabilityRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<CheckNameAvailabilityResponseBody>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetBotCheckNameAvailabilityRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<CheckNameAvailabilityResponseBody>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1666,8 +2569,8 @@ export const GetBotConnection: API.OperationMethod<
   GetBotConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetBotConnectionRequest>,
-  output: __S(147, __c9, 3) as any as S.Schema<GetBotConnectionResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetBotConnectionRequest>,
+  output: __S(291, __c9, 3) as any as S.Schema<GetBotConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1683,8 +2586,8 @@ export const GetChannel: API.OperationMethod<
   GetChannelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetChannelRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<GetChannelResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetChannelRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<GetChannelResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1700,8 +2603,8 @@ export const GetHostSettings: API.OperationMethod<
   GetHostSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetHostSettingsRequest>,
-  output: __S(225, __c14, 1) as any as S.Schema<HostSettingsResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<GetHostSettingsRequest>,
+  output: __S(449, __c14, 1) as any as S.Schema<HostSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1717,8 +2620,8 @@ export const GetOperationResult: API.OperationMethod<
   GetOperationResultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetOperationResultRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<OperationResultsDescription>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetOperationResultRequest>,
+  output: __S(481, __c15, 1) as any as S.Schema<OperationResultsDescription>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1734,8 +2637,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   GetPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
-  output: __S(83, __c5, 3) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
+  output: __S(163, __c5, 3) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1751,8 +2654,8 @@ export const GetQnAMakerEndpointKey: API.OperationMethod<
   GetQnAMakerEndpointKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetQnAMakerEndpointKeyRequest>,
-  output: __S(273, __c17, 1) as any as S.Schema<QnAMakerEndpointKeysResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetQnAMakerEndpointKeyRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<QnAMakerEndpointKeysResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1768,8 +2671,8 @@ export const ListBotByResourceGroup: API.OperationMethod<
   ListBotByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ListBotByResourceGroupRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<BotResponseList>,
+  input: __S(576, __c18, 0) as any as S.Schema<ListBotByResourceGroupRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<BotResponseList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1785,8 +2688,8 @@ export const ListBotConnectionByBotService: API.OperationMethod<
   ListBotConnectionByBotServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ListBotConnectionByBotServiceRequest>,
-  output: __S(322, __c20, 2) as any as S.Schema<ConnectionSettingResponseList>,
+  input: __S(640, __c20, 0) as any as S.Schema<ListBotConnectionByBotServiceRequest>,
+  output: __S(642, __c20, 2) as any as S.Schema<ConnectionSettingResponseList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1802,8 +2705,8 @@ export const ListBotConnectionServiceProviders: API.OperationMethod<
   ListBotConnectionServiceProvidersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<ListBotConnectionServiceProvidersRequest>,
-  output: __S(344, __c21, 8) as any as S.Schema<ServiceProviderResponseList>,
+  input: __S(672, __c21, 0) as any as S.Schema<ListBotConnectionServiceProvidersRequest>,
+  output: __S(680, __c21, 8) as any as S.Schema<ServiceProviderResponseList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1819,8 +2722,8 @@ export const ListBotConnectionWithSecrets: API.OperationMethod<
   ListBotConnectionWithSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<ListBotConnectionWithSecretsRequest>,
-  output: __S(147, __c9, 3) as any as S.Schema<ListBotConnectionWithSecretsResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<ListBotConnectionWithSecretsRequest>,
+  output: __S(291, __c9, 3) as any as S.Schema<ListBotConnectionWithSecretsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1836,8 +2739,8 @@ export const ListBots: API.OperationMethod<
   ListBotsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<ListBotsRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<BotResponseList>,
+  input: __S(896, __c28, 0) as any as S.Schema<ListBotsRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<BotResponseList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1853,8 +2756,8 @@ export const ListChannelByResourceGroup: API.OperationMethod<
   ListChannelByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<ListChannelByResourceGroupRequest>,
-  output: __S(450, __c28, 2) as any as S.Schema<ChannelResponseList>,
+  input: __S(928, __c29, 0) as any as S.Schema<ListChannelByResourceGroupRequest>,
+  output: __S(930, __c29, 2) as any as S.Schema<ChannelResponseList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1870,8 +2773,8 @@ export const ListChannelWithKeys: API.OperationMethod<
   ListChannelWithKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<ListChannelWithKeysRequest>,
-  output: __S(468, __c29, 4) as any as S.Schema<ListChannelWithKeysResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<ListChannelWithKeysRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ListChannelWithKeysResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1887,8 +2790,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(484, __c30, 4) as any as S.Schema<OperationEntityListResult>,
+  input: __S(992, __c31, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(996, __c31, 4) as any as S.Schema<OperationEntityListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1904,8 +2807,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   ListPrivateEndpointConnectionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
-  output: __S(497, __c31, 1) as any as S.Schema<ListPrivateEndpointConnectionsResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
+  output: __S(1025, __c32, 1) as any as S.Schema<ListPrivateEndpointConnectionsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1921,8 +2824,8 @@ export const ListPrivateLinkResourceByBotResource: API.OperationMethod<
   ListPrivateLinkResourceByBotResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<ListPrivateLinkResourceByBotResourceRequest>,
-  output: __S(516, __c32, 4) as any as S.Schema<ListPrivateLinkResourceByBotResourceResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<ListPrivateLinkResourceByBotResourceRequest>,
+  output: __S(1060, __c33, 4) as any as S.Schema<ListPrivateLinkResourceByBotResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1938,8 +2841,8 @@ export const RegenerateDirectLineKeys: API.OperationMethod<
   RegenerateDirectLineKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<RegenerateDirectLineKeysRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<RegenerateDirectLineKeysResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<RegenerateDirectLineKeysRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<RegenerateDirectLineKeysResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1955,8 +2858,8 @@ export const UpdateBot: API.OperationMethod<
   UpdateBotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<UpdateBotRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<UpdateBotResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<UpdateBotRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<UpdateBotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1972,8 +2875,8 @@ export const UpdateBotConnection: API.OperationMethod<
   UpdateBotConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<UpdateBotConnectionRequest>,
-  output: __S(147, __c9, 3) as any as S.Schema<UpdateBotConnectionResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<UpdateBotConnectionRequest>,
+  output: __S(291, __c9, 3) as any as S.Schema<UpdateBotConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1989,8 +2892,8 @@ export const UpdateChannel: API.OperationMethod<
   UpdateChannelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<UpdateChannelRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<UpdateChannelResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<UpdateChannelRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<UpdateChannelResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2008,11 +2911,11 @@ function __c0(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          tags: S.optional(__S(48, __c3, 0)),
-          sku: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(96, __c3, 0)),
+          sku: S.optional(__S(32, __c1, 0)),
           kind: S.optional(S.NullOr(S.String)),
           etag: S.optional(S.String),
-          properties: S.optional(__S(64, __c4, 0)),
+          properties: S.optional(__S(128, __c4, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2062,8 +2965,8 @@ function __c4(j: number): any {
           description: S.optional(S.String),
           iconUrl: S.optional(S.String),
           endpoint: S.NullOr(S.String),
-          allSettings: S.optional(__S(48, __c3, 0)),
-          parameters: S.optional(__S(48, __c3, 0)),
+          allSettings: S.optional(__S(96, __c3, 0)),
+          parameters: S.optional(__S(96, __c3, 0)),
           manifestUrl: S.optional(S.String),
           msaAppType: S.optional(S.String),
           msaAppId: S.String,
@@ -2072,7 +2975,7 @@ function __c4(j: number): any {
           developerAppInsightKey: S.optional(S.String),
           developerAppInsightsApiKey: S.optional(S.String),
           developerAppInsightsApplicationId: S.optional(S.String),
-          luisAppIds: S.optional(__S(32, __c2, 0)),
+          luisAppIds: S.optional(__S(64, __c2, 0)),
           luisKey: S.optional(S.String),
           isCmekEnabled: S.optional(S.Boolean),
           cmekKeyVaultUrl: S.optional(S.String),
@@ -2108,10 +3011,10 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(80, __c5, 0)),
-          privateLinkServiceConnectionState: __S(81, __c5, 1),
+          privateEndpoint: S.optional(__S(160, __c5, 0)),
+          privateLinkServiceConnectionState: __S(161, __c5, 1),
           provisioningState: S.optional(S.String),
-          groupIds: S.optional(__S(32, __c2, 0)),
+          groupIds: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionProperties" });
     case 3:
@@ -2120,7 +3023,7 @@ function __c5(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(82, __c5, 2)),
+          properties: S.optional(__S(162, __c5, 2)),
         }),
       ).annotate({ identifier: "BotPropertiesPrivateEndpointConnectionsItem" });
   }
@@ -2128,7 +3031,7 @@ function __c5(j: number): any {
 function __c6(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(83, __c5, 3));
+      return S.Array(__S(163, __c5, 3));
   }
 }
 function __c7(j: number): any {
@@ -2141,19 +3044,19 @@ function __c7(j: number): any {
           iconUrl: S.optional(S.String),
           endpoint: S.NullOr(S.String),
           endpointVersion: S.optional(S.String),
-          allSettings: S.optional(__S(48, __c3, 0)),
-          parameters: S.optional(__S(48, __c3, 0)),
+          allSettings: S.optional(__S(96, __c3, 0)),
+          parameters: S.optional(__S(96, __c3, 0)),
           manifestUrl: S.optional(S.String),
           msaAppType: S.optional(S.String),
           msaAppId: S.String,
           msaAppTenantId: S.optional(S.String),
           msaAppMSIResourceId: S.optional(S.String),
-          configuredChannels: S.optional(__S(32, __c2, 0)),
-          enabledChannels: S.optional(__S(32, __c2, 0)),
+          configuredChannels: S.optional(__S(64, __c2, 0)),
+          enabledChannels: S.optional(__S(64, __c2, 0)),
           developerAppInsightKey: S.optional(S.String),
           developerAppInsightsApiKey: S.optional(S.String),
           developerAppInsightsApplicationId: S.optional(S.String),
-          luisAppIds: S.optional(__S(32, __c2, 0)),
+          luisAppIds: S.optional(__S(64, __c2, 0)),
           luisKey: S.optional(S.String),
           isCmekEnabled: S.optional(S.Boolean),
           cmekKeyVaultUrl: S.optional(S.String),
@@ -2166,7 +3069,7 @@ function __c7(j: number): any {
           disableLocalAuth: S.optional(S.Boolean),
           schemaTransformationVersion: S.optional(S.NullOr(S.String)),
           storageResourceId: S.optional(S.String),
-          privateEndpointConnections: S.optional(__S(96, __c6, 0)),
+          privateEndpointConnections: S.optional(__S(192, __c6, 0)),
           openWithHint: S.optional(S.String),
           appPasswordHint: S.optional(S.String.pipe(T.SensitiveValue({}))),
           provisioningState: S.optional(S.String),
@@ -2180,12 +3083,12 @@ function __c7(j: number): any {
           name: S.optional(S.String),
           location: S.optional(S.String),
           type: S.optional(S.String),
-          tags: S.optional(__S(48, __c3, 0)),
-          sku: S.optional(__S(49, __c3, 1)),
+          tags: S.optional(__S(96, __c3, 0)),
+          sku: S.optional(__S(97, __c3, 1)),
           kind: S.optional(S.NullOr(S.String)),
           etag: S.optional(S.String),
-          zones: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(112, __c7, 0)),
+          zones: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "CreateBotResponse" });
   }
@@ -2200,11 +3103,11 @@ function __c8(j: number): any {
           resourceName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          tags: S.optional(__S(48, __c3, 0)),
-          sku: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(96, __c3, 0)),
+          sku: S.optional(__S(32, __c1, 0)),
           kind: S.optional(S.NullOr(S.String)),
           etag: S.optional(S.String),
-          properties: S.optional(__S(160, __c10, 0)),
+          properties: S.optional(__S(320, __c10, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2226,7 +3129,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "ConnectionSettingParameter" });
     case 1:
-      return S.Array(__S(144, __c9, 0));
+      return S.Array(__S(288, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2238,7 +3141,7 @@ function __c9(j: number): any {
           scopes: S.optional(S.String),
           serviceProviderId: S.optional(S.String),
           serviceProviderDisplayName: S.optional(S.String),
-          parameters: S.optional(__S(145, __c9, 1)),
+          parameters: S.optional(__S(289, __c9, 1)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectionSettingProperties" });
@@ -2249,12 +3152,12 @@ function __c9(j: number): any {
           name: S.optional(S.String),
           location: S.optional(S.String),
           type: S.optional(S.String),
-          tags: S.optional(__S(48, __c3, 0)),
-          sku: S.optional(__S(49, __c3, 1)),
+          tags: S.optional(__S(96, __c3, 0)),
+          sku: S.optional(__S(97, __c3, 1)),
           kind: S.optional(S.NullOr(S.String)),
           etag: S.optional(S.String),
-          zones: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(146, __c9, 2)),
+          zones: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(290, __c9, 2)),
         }),
       ).annotate({ identifier: "CreateBotConnectionResponse" });
   }
@@ -2271,7 +3174,7 @@ function __c10(j: number): any {
           scopes: S.optional(S.String),
           serviceProviderId: S.optional(S.String),
           serviceProviderDisplayName: S.optional(S.String),
-          parameters: S.optional(__S(145, __c9, 1)),
+          parameters: S.optional(__S(289, __c9, 1)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectionSettingPropertiesInput" });
@@ -2469,12 +3372,12 @@ function __c18(j: number): any {
 function __c19(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(113, __c7, 1));
+      return S.Array(__S(225, __c7, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(304, __c19, 0)),
+          value: S.optional(__S(608, __c19, 0)),
         }),
       ).annotate({ identifier: "BotResponseList" });
   }
@@ -2497,12 +3400,12 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListBotConnectionByBotServiceRequest" });
     case 1:
-      return S.Array(__S(147, __c9, 3));
+      return S.Array(__S(291, __c9, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(321, __c20, 1)),
+          value: S.optional(__S(641, __c20, 1)),
         }),
       ).annotate({ identifier: "ConnectionSettingResponseList" });
   }
@@ -2531,7 +3434,7 @@ function __c21(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          constraints: S.optional(__S(337, __c21, 1)),
+          constraints: S.optional(__S(673, __c21, 1)),
         }),
       ).annotate({ identifier: "ServiceProviderParameterMetadata" });
     case 3:
@@ -2543,11 +3446,11 @@ function __c21(j: number): any {
           description: S.optional(S.String),
           helpUrl: S.optional(S.String),
           default: S.optional(S.String),
-          metadata: S.optional(__S(338, __c21, 2)),
+          metadata: S.optional(__S(674, __c21, 2)),
         }),
       ).annotate({ identifier: "ServiceProviderParameter" });
     case 4:
-      return S.Array(__S(339, __c21, 3));
+      return S.Array(__S(675, __c21, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -2556,22 +3459,22 @@ function __c21(j: number): any {
           serviceProviderName: S.optional(S.String),
           devPortalUrl: S.optional(S.String),
           iconUrl: S.optional(S.String),
-          parameters: S.optional(__S(340, __c21, 4)),
+          parameters: S.optional(__S(676, __c21, 4)),
         }),
       ).annotate({ identifier: "ServiceProviderProperties" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(341, __c21, 5)),
+          properties: S.optional(__S(677, __c21, 5)),
         }),
       ).annotate({ identifier: "ServiceProvider" });
     case 7:
-      return S.Array(__S(342, __c21, 6));
+      return S.Array(__S(678, __c21, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(343, __c21, 7)),
+          value: S.optional(__S(679, __c21, 7)),
         }),
       ).annotate({ identifier: "ServiceProviderResponseList" });
   }
@@ -2586,11 +3489,11 @@ function __c22(j: number): any {
           resourceName: S.String.pipe(T.Label()),
           channelName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          tags: S.optional(__S(48, __c3, 0)),
-          sku: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(96, __c3, 0)),
+          sku: S.optional(__S(32, __c1, 0)),
           kind: S.optional(S.NullOr(S.String)),
           etag: S.optional(S.String),
-          properties: S.optional(__S(400, __c25, 0)),
+          properties: S.optional(__S(857, __c26, 25)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2607,16 +3510,403 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.String,
+          accessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "FacebookPage" });
+    case 1:
+      return S.Array(__S(736, __c23, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          emailAddress: S.String,
+          authMethod: S.optional(S.Number),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          magicCode: S.optional(S.String),
+          isEnabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "EmailChannelProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          enableCalling: S.optional(S.Boolean),
+          callingWebhook: S.optional(S.String),
+          isEnabled: S.Boolean,
+          incomingCallRoute: S.optional(S.String),
+          deploymentEnvironment: S.optional(S.String),
+          acceptedTerms: S.optional(S.NullOr(S.Boolean)),
+        }),
+      ).annotate({ identifier: "MsTeamsChannelProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          enableMessaging: S.optional(S.Boolean),
+          enableMediaCards: S.optional(S.Boolean),
+          enableVideo: S.optional(S.Boolean),
+          enableCalling: S.optional(S.Boolean),
+          enableScreenSharing: S.optional(S.Boolean),
+          enableGroups: S.optional(S.Boolean),
+          groupsMode: S.optional(S.String),
+          callingWebHook: S.optional(S.String),
+          incomingCallRoute: S.optional(S.String),
+          isEnabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "SkypeChannelProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          userName: S.String,
+          apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          isValidated: S.optional(S.Boolean),
+          isEnabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "KikChannelProperties" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          accessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          isValidated: S.optional(S.Boolean),
+          isEnabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "TelegramChannelProperties" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          phone: S.String,
+          accountSID: S.String,
+          authToken: S.optional(S.String),
+          isValidated: S.optional(S.Boolean),
+          isEnabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "SmsChannelProperties" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          cognitiveServiceResourceId: S.optional(S.String),
+          cognitiveServiceRegion: S.optional(S.NullOr(S.String)),
+          cognitiveServiceSubscriptionKey: S.optional(S.NullOr(S.String)),
+          isEnabled: S.optional(S.Boolean),
+          customVoiceDeploymentId: S.optional(S.String),
+          customSpeechModelId: S.optional(S.String),
+          isDefaultBotForCogSvcAccount: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DirectLineSpeechChannelProperties" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          phoneNumber: S.optional(S.String),
+          acsEndpoint: S.optional(S.NullOr(S.String)),
+          acsSecret: S.optional(S.NullOr(S.String)),
+          acsResourceId: S.optional(S.NullOr(S.String)),
+          cognitiveServiceSubscriptionKey: S.optional(S.NullOr(S.String)),
+          cognitiveServiceRegion: S.optional(S.NullOr(S.String)),
+          cognitiveServiceResourceId: S.optional(S.NullOr(S.String)),
+          defaultLocale: S.optional(S.NullOr(S.String)),
+          offerType: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "TelephonyPhoneNumbers" });
+    case 10:
+      return S.Array(__S(745, __c23, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          providerName: S.optional(S.NullOr(S.String)),
+          cognitiveServiceSubscriptionKey: S.optional(S.NullOr(S.String)),
+          cognitiveServiceRegion: S.optional(S.NullOr(S.String)),
+          cognitiveServiceResourceId: S.optional(S.NullOr(S.String)),
+          defaultLocale: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "TelephonyChannelResourceApiConfiguration" });
+    case 12:
+      return S.Array(__S(747, __c23, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          phoneNumbers: S.optional(__S(746, __c23, 10)),
+          apiConfigurations: S.optional(__S(748, __c23, 12)),
+          cognitiveServiceSubscriptionKey: S.optional(S.NullOr(S.String)),
+          cognitiveServiceRegion: S.optional(S.NullOr(S.String)),
+          defaultLocale: S.optional(S.NullOr(S.String)),
+          premiumSKU: S.optional(S.NullOr(S.String)),
+          isEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TelephonyChannelProperties" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          alexaSkillId: S.String,
+          urlFragment: S.optional(S.String),
+          serviceEndpointUri: S.optional(S.String),
+          isEnabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "AlexaChannelProperties" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
           channelName: S.String,
           etag: S.optional(S.NullOr(S.String)),
           provisioningState: S.optional(S.String),
           location: S.optional(S.String),
-          properties: S.optional(S.Unknown),
+          properties: S.optional(__S(750, __c23, 14)),
         }),
-      ).annotate({ identifier: "Channel" });
+      ).annotate({ identifier: "AlexaChannel" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          verifyToken: S.optional(S.String),
+          pages: S.optional(__S(737, __c23, 1)),
+          appId: S.String,
+          appSecret: S.optional(S.String),
+          callbackUrl: S.optional(S.String),
+          isEnabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "FacebookChannelProperties" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          provisioningState: S.optional(S.String),
+          location: S.optional(S.String),
+          properties: S.optional(__S(752, __c23, 16)),
+        }),
+      ).annotate({ identifier: "FacebookChannel" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          provisioningState: S.optional(S.String),
+          location: S.optional(S.String),
+          properties: S.optional(__S(738, __c23, 2)),
+        }),
+      ).annotate({ identifier: "EmailChannel" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          provisioningState: S.optional(S.String),
+          location: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OutlookChannel" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          provisioningState: S.optional(S.String),
+          location: S.optional(S.String),
+          properties: S.optional(__S(739, __c23, 3)),
+        }),
+      ).annotate({ identifier: "MsTeamsChannel" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          provisioningState: S.optional(S.String),
+          location: S.optional(S.String),
+          properties: S.optional(__S(740, __c23, 4)),
+        }),
+      ).annotate({ identifier: "SkypeChannel" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          provisioningState: S.optional(S.String),
+          location: S.optional(S.String),
+          properties: S.optional(__S(741, __c23, 5)),
+        }),
+      ).annotate({ identifier: "KikChannel" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          tenantId: S.optional(S.String),
+          siteId: S.optional(S.String),
+          siteName: S.String,
+          key: S.optional(S.String),
+          key2: S.optional(S.String),
+          isEnabled: S.Boolean,
+          isTokenEnabled: S.optional(S.Boolean),
+          isEndpointParametersEnabled: S.optional(S.Boolean),
+          isDetailedLoggingEnabled: S.optional(S.Boolean),
+          isBlockUserUploadEnabled: S.optional(S.NullOr(S.Boolean)),
+          isNoStorageEnabled: S.optional(S.Boolean),
+          eTag: S.optional(S.String),
+          appId: S.optional(S.String),
+          isV1Enabled: S.optional(S.Boolean),
+          isV3Enabled: S.optional(S.Boolean),
+          isSecureSiteEnabled: S.optional(S.Boolean),
+          trustedOrigins: S.optional(__S(64, __c2, 0)),
+          isWebChatSpeechEnabled: S.optional(S.Boolean),
+          isWebchatPreviewEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Site" });
+    case 24:
+      return S.Array(__S(759, __c23, 23));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          webChatEmbedCode: S.optional(S.String),
+          sites: S.optional(__S(760, __c23, 24)),
+        }),
+      ).annotate({ identifier: "WebChatChannelProperties" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          provisioningState: S.optional(S.String),
+          location: S.optional(S.String),
+          properties: S.optional(__S(761, __c23, 25)),
+        }),
+      ).annotate({ identifier: "WebChatChannel" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          sites: S.optional(__S(760, __c23, 24)),
+          extensionKey1: S.optional(S.String),
+          extensionKey2: S.optional(S.String),
+          DirectLineEmbedCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DirectLineChannelProperties" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          provisioningState: S.optional(S.String),
+          location: S.optional(S.String),
+          properties: S.optional(__S(763, __c23, 27)),
+        }),
+      ).annotate({ identifier: "DirectLineChannel" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          provisioningState: S.optional(S.String),
+          location: S.optional(S.String),
+          properties: S.optional(__S(742, __c23, 6)),
+        }),
+      ).annotate({ identifier: "TelegramChannel" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          provisioningState: S.optional(S.String),
+          location: S.optional(S.String),
+          properties: S.optional(__S(743, __c23, 7)),
+        }),
+      ).annotate({ identifier: "SmsChannel" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          clientId: S.optional(S.String),
+          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          verificationToken: S.optional(S.String),
+          scopes: S.optional(S.String),
+          landingPageUrl: S.optional(S.String),
+          redirectAction: S.optional(S.String),
+          lastSubmissionId: S.optional(S.String),
+          registerBeforeOAuthFlow: S.optional(S.Boolean),
+          IsValidated: S.optional(S.Boolean),
+          signingSecret: S.optional(S.String),
+          isEnabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "SlackChannelProperties" });
   }
 }
 function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          provisioningState: S.optional(S.String),
+          location: S.optional(S.String),
+          properties: S.optional(__S(767, __c23, 31)),
+        }),
+      ).annotate({ identifier: "SlackChannel" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          generatedId: S.optional(S.String),
+          channelSecret: S.optional(S.String),
+          channelAccessToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LineRegistration" });
+    case 2:
+      return S.Array(__S(769, __c24, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          lineRegistrations: __S(770, __c24, 2),
+          callbackUrl: S.optional(S.String),
+          isValidated: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "LineChannelProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          provisioningState: S.optional(S.String),
+          location: S.optional(S.String),
+          properties: S.optional(__S(771, __c24, 3)),
+        }),
+      ).annotate({ identifier: "LineChannel" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          provisioningState: S.optional(S.String),
+          location: S.optional(S.String),
+          properties: S.optional(__S(744, __c23, 8)),
+        }),
+      ).annotate({ identifier: "DirectLineSpeechChannel" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          provisioningState: S.optional(S.String),
+          location: S.optional(S.String),
+          properties: S.optional(__S(749, __c23, 13)),
+        }),
+      ).annotate({ identifier: "TelephonyChannel" });
+    case 7:
+      return S.Union([
+        __S(751, __c23, 15),
+        __S(753, __c23, 17),
+        __S(754, __c23, 18),
+        __S(755, __c23, 19),
+        __S(756, __c23, 20),
+        __S(757, __c23, 21),
+        __S(758, __c23, 22),
+        __S(762, __c23, 26),
+        __S(764, __c23, 28),
+        __S(765, __c23, 29),
+        __S(766, __c23, 30),
+        __S(768, __c24, 0),
+        __S(772, __c24, 4),
+        __S(773, __c24, 5),
+        __S(755, __c23, 19),
+        __S(774, __c24, 6),
+        __S(755, __c23, 19),
+        __S(755, __c23, 19),
+        __S(755, __c23, 19),
+      ]);
+  }
+}
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2625,30 +3915,258 @@ function __c24(j: number): any {
           name: S.optional(S.String),
           location: S.optional(S.String),
           type: S.optional(S.String),
-          tags: S.optional(__S(48, __c3, 0)),
-          sku: S.optional(__S(49, __c3, 1)),
+          tags: S.optional(__S(96, __c3, 0)),
+          sku: S.optional(__S(97, __c3, 1)),
           kind: S.optional(S.NullOr(S.String)),
           etag: S.optional(S.String),
-          zones: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(368, __c23, 0)),
+          zones: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(775, __c24, 7)),
         }),
       ).annotate({ identifier: "CreateChannelResponse" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          alexaSkillId: S.String,
+          isEnabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "AlexaChannelPropertiesInput" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           channelName: S.String,
           etag: S.optional(S.NullOr(S.String)),
           location: S.optional(S.String),
-          properties: S.optional(S.Unknown),
+          properties: S.optional(__S(832, __c26, 0)),
         }),
-      ).annotate({ identifier: "ChannelInput" });
+      ).annotate({ identifier: "AlexaChannelInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          pages: S.optional(__S(737, __c23, 1)),
+          appId: S.String,
+          appSecret: S.optional(S.String),
+          isEnabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "FacebookChannelPropertiesInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          location: S.optional(S.String),
+          properties: S.optional(__S(834, __c26, 2)),
+        }),
+      ).annotate({ identifier: "FacebookChannelInput" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          location: S.optional(S.String),
+          properties: S.optional(__S(738, __c23, 2)),
+        }),
+      ).annotate({ identifier: "EmailChannelInput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          location: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OutlookChannelInput" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          location: S.optional(S.String),
+          properties: S.optional(__S(739, __c23, 3)),
+        }),
+      ).annotate({ identifier: "MsTeamsChannelInput" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          location: S.optional(S.String),
+          properties: S.optional(__S(740, __c23, 4)),
+        }),
+      ).annotate({ identifier: "SkypeChannelInput" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          location: S.optional(S.String),
+          properties: S.optional(__S(741, __c23, 5)),
+        }),
+      ).annotate({ identifier: "KikChannelInput" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          tenantId: S.optional(S.String),
+          siteName: S.String,
+          isEnabled: S.Boolean,
+          isEndpointParametersEnabled: S.optional(S.Boolean),
+          isDetailedLoggingEnabled: S.optional(S.Boolean),
+          isBlockUserUploadEnabled: S.optional(S.NullOr(S.Boolean)),
+          isNoStorageEnabled: S.optional(S.Boolean),
+          eTag: S.optional(S.String),
+          appId: S.optional(S.String),
+          isV1Enabled: S.optional(S.Boolean),
+          isV3Enabled: S.optional(S.Boolean),
+          isSecureSiteEnabled: S.optional(S.Boolean),
+          trustedOrigins: S.optional(__S(64, __c2, 0)),
+          isWebChatSpeechEnabled: S.optional(S.Boolean),
+          isWebchatPreviewEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SiteInput" });
+    case 10:
+      return S.Array(__S(841, __c26, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          sites: S.optional(__S(842, __c26, 10)),
+        }),
+      ).annotate({ identifier: "WebChatChannelPropertiesInput" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          location: S.optional(S.String),
+          properties: S.optional(__S(843, __c26, 11)),
+        }),
+      ).annotate({ identifier: "WebChatChannelInput" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          sites: S.optional(__S(842, __c26, 10)),
+          extensionKey1: S.optional(S.String),
+          extensionKey2: S.optional(S.String),
+          DirectLineEmbedCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DirectLineChannelPropertiesInput" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          location: S.optional(S.String),
+          properties: S.optional(__S(845, __c26, 13)),
+        }),
+      ).annotate({ identifier: "DirectLineChannelInput" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          location: S.optional(S.String),
+          properties: S.optional(__S(742, __c23, 6)),
+        }),
+      ).annotate({ identifier: "TelegramChannelInput" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          location: S.optional(S.String),
+          properties: S.optional(__S(743, __c23, 7)),
+        }),
+      ).annotate({ identifier: "SmsChannelInput" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          clientId: S.optional(S.String),
+          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          verificationToken: S.optional(S.String),
+          scopes: S.optional(S.String),
+          landingPageUrl: S.optional(S.String),
+          registerBeforeOAuthFlow: S.optional(S.Boolean),
+          signingSecret: S.optional(S.String),
+          isEnabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "SlackChannelPropertiesInput" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          location: S.optional(S.String),
+          properties: S.optional(__S(849, __c26, 17)),
+        }),
+      ).annotate({ identifier: "SlackChannelInput" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          channelSecret: S.optional(S.String),
+          channelAccessToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LineRegistrationInput" });
+    case 20:
+      return S.Array(__S(851, __c26, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          lineRegistrations: __S(852, __c26, 20),
+        }),
+      ).annotate({ identifier: "LineChannelPropertiesInput" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          location: S.optional(S.String),
+          properties: S.optional(__S(853, __c26, 21)),
+        }),
+      ).annotate({ identifier: "LineChannelInput" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          location: S.optional(S.String),
+          properties: S.optional(__S(744, __c23, 8)),
+        }),
+      ).annotate({ identifier: "DirectLineSpeechChannelInput" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          channelName: S.String,
+          etag: S.optional(S.NullOr(S.String)),
+          location: S.optional(S.String),
+          properties: S.optional(__S(749, __c23, 13)),
+        }),
+      ).annotate({ identifier: "TelephonyChannelInput" });
+    case 25:
+      return S.Union([
+        __S(833, __c26, 1),
+        __S(835, __c26, 3),
+        __S(836, __c26, 4),
+        __S(837, __c26, 5),
+        __S(838, __c26, 6),
+        __S(839, __c26, 7),
+        __S(840, __c26, 8),
+        __S(844, __c26, 12),
+        __S(846, __c26, 14),
+        __S(847, __c26, 15),
+        __S(848, __c26, 16),
+        __S(850, __c26, 18),
+        __S(854, __c26, 22),
+        __S(855, __c26, 23),
+        __S(837, __c26, 5),
+        __S(856, __c26, 24),
+        __S(837, __c26, 5),
+        __S(837, __c26, 5),
+        __S(837, __c26, 5),
+      ]);
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2668,7 +4186,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "ListBotConnectionWithSecretsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2685,7 +4203,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "ListBotsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2703,17 +4221,17 @@ function __c28(j: number): any {
         ),
       ).annotate({ identifier: "ListChannelByResourceGroupRequest" });
     case 1:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(800, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(449, __c28, 1)),
+          value: S.optional(__S(929, __c29, 1)),
         }),
       ).annotate({ identifier: "ChannelResponseList" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2734,35 +4252,9 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tenantId: S.optional(S.String),
-          siteId: S.optional(S.String),
-          siteName: S.String,
-          key: S.optional(S.String),
-          key2: S.optional(S.String),
-          isEnabled: S.Boolean,
-          isTokenEnabled: S.optional(S.Boolean),
-          isEndpointParametersEnabled: S.optional(S.Boolean),
-          isDetailedLoggingEnabled: S.optional(S.Boolean),
-          isBlockUserUploadEnabled: S.optional(S.NullOr(S.Boolean)),
-          isNoStorageEnabled: S.optional(S.Boolean),
-          eTag: S.optional(S.String),
-          appId: S.optional(S.String),
-          isV1Enabled: S.optional(S.Boolean),
-          isV3Enabled: S.optional(S.Boolean),
-          isSecureSiteEnabled: S.optional(S.Boolean),
-          trustedOrigins: S.optional(__S(32, __c2, 0)),
-          isWebChatSpeechEnabled: S.optional(S.Boolean),
-          isWebchatPreviewEnabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Site" });
-    case 2:
-      return S.Array(__S(465, __c29, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           extensionKey1: S.optional(S.String),
           extensionKey2: S.optional(S.String),
-          sites: S.optional(__S(466, __c29, 2)),
+          sites: S.optional(__S(760, __c23, 24)),
           channelId: S.optional(S.String),
           channelDisplayName: S.optional(S.String),
           botId: S.optional(S.String),
@@ -2772,21 +4264,21 @@ function __c29(j: number): any {
           requireTermsAgreement: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ChannelSettings" });
-    case 4:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           location: S.optional(S.String),
           type: S.optional(S.String),
-          tags: S.optional(__S(48, __c3, 0)),
-          sku: S.optional(__S(49, __c3, 1)),
+          tags: S.optional(__S(96, __c3, 0)),
+          sku: S.optional(__S(97, __c3, 1)),
           kind: S.optional(S.NullOr(S.String)),
           etag: S.optional(S.String),
-          zones: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(368, __c23, 0)),
-          resource: S.optional(__S(368, __c23, 0)),
-          setting: S.optional(__S(467, __c29, 3)),
+          zones: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(775, __c24, 7)),
+          resource: S.optional(__S(775, __c24, 7)),
+          setting: S.optional(__S(961, __c30, 1)),
           provisioningState: S.optional(S.String),
           entityTag: S.optional(S.String),
           changedTime: S.optional(S.String),
@@ -2794,7 +4286,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ListChannelWithKeysResponse" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2820,23 +4312,23 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          display: S.optional(__S(481, __c30, 1)),
+          display: S.optional(__S(993, __c31, 1)),
           origin: S.optional(S.String),
           properties: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "OperationEntity" });
     case 3:
-      return S.Array(__S(482, __c30, 2));
+      return S.Array(__S(994, __c31, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(483, __c30, 3)),
+          value: S.optional(__S(995, __c31, 3)),
         }),
       ).annotate({ identifier: "OperationEntityListResult" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2856,12 +4348,12 @@ function __c31(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(96, __c6, 0)),
+          value: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2882,8 +4374,8 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           groupId: S.optional(S.String),
-          requiredMembers: S.optional(__S(32, __c2, 0)),
-          requiredZoneNames: S.optional(__S(32, __c2, 0)),
+          requiredMembers: S.optional(__S(64, __c2, 0)),
+          requiredZoneNames: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "PrivateLinkResourceProperties" });
     case 2:
@@ -2892,20 +4384,20 @@ function __c32(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(513, __c32, 1)),
+          properties: S.optional(__S(1057, __c33, 1)),
         }),
       ).annotate({ identifier: "PrivateLinkResource" });
     case 3:
-      return S.Array(__S(514, __c32, 2));
+      return S.Array(__S(1058, __c33, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(515, __c32, 3)),
+          value: S.optional(__S(1059, __c33, 3)),
         }),
       ).annotate({ identifier: "ListPrivateLinkResourceByBotResourceResponse" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2927,7 +4419,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "RegenerateDirectLineKeysRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2936,11 +4428,11 @@ function __c34(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          tags: S.optional(__S(48, __c3, 0)),
-          sku: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(96, __c3, 0)),
+          sku: S.optional(__S(32, __c1, 0)),
           kind: S.optional(S.NullOr(S.String)),
           etag: S.optional(S.String),
-          properties: S.optional(__S(64, __c4, 0)),
+          properties: S.optional(__S(128, __c4, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2952,7 +4444,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "UpdateBotRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2962,11 +4454,11 @@ function __c35(j: number): any {
           resourceName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          tags: S.optional(__S(48, __c3, 0)),
-          sku: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(96, __c3, 0)),
+          sku: S.optional(__S(32, __c1, 0)),
           kind: S.optional(S.NullOr(S.String)),
           etag: S.optional(S.String),
-          properties: S.optional(__S(160, __c10, 0)),
+          properties: S.optional(__S(320, __c10, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2978,14 +4470,14 @@ function __c35(j: number): any {
       ).annotate({ identifier: "UpdateBotConnectionRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(592, __c37, 0)),
-          privateLinkServiceConnectionState: __S(81, __c5, 1),
-          groupIds: S.optional(__S(32, __c2, 0)),
+          privateEndpoint: S.optional(__S(1216, __c38, 0)),
+          privateLinkServiceConnectionState: __S(161, __c5, 1),
+          groupIds: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionPropertiesInput" });
     case 1:
@@ -2995,7 +4487,7 @@ function __c36(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(576, __c36, 0)),
+          properties: S.optional(__S(1184, __c37, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -3007,13 +4499,13 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreatePrivateEndpointConnectionRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "PrivateEndpointInput" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3023,11 +4515,11 @@ function __c38(j: number): any {
           resourceName: S.String.pipe(T.Label()),
           channelName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          tags: S.optional(__S(48, __c3, 0)),
-          sku: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(96, __c3, 0)),
+          sku: S.optional(__S(32, __c1, 0)),
           kind: S.optional(S.NullOr(S.String)),
           etag: S.optional(S.String),
-          properties: S.optional(__S(400, __c25, 0)),
+          properties: S.optional(__S(857, __c26, 25)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3039,7 +4531,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "UpdateChannelRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3058,7 +4550,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "DeleteBotRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3078,7 +4570,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DeleteBotConnectionRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3098,7 +4590,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DeleteChannelRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3118,7 +4610,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3146,12 +4638,12 @@ function __c43(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           location: S.optional(S.String),
-          properties: S.optional(__S(689, __c43, 1)),
+          properties: S.optional(__S(1409, __c44, 1)),
         }),
       ).annotate({ identifier: "CreateEmailSignInUrlResponse" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

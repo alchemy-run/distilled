@@ -1,40 +1,9 @@
 {
-  "description": "ConfigurationGroupValue properties are polymorphic on configurationType (Open/Secret) and the schema reference on idType (Open/Secret); the converted model keeps only discriminators, so the payload (`configurationValue`, `secretConfigurationValue`) and reference `id` are stripped. Add them.",
+  "description": "The configuration group schema reference is polymorphic on idType (Open/Secret), but its base `DeploymentResourceIdReference` lives in common.json and is inlined into each property without its subtypes, so the reference keeps only `idType`. Add the reference `id`. `secretConfigurationValue` of the Secret configuration holds secrets the name patterns do not catch: mark it sensitive.",
   "patches": [
     {
       "op": "add",
-      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuePropertiesFormatInput/members/configurationValue",
-      "value": {
-        "target": "smithy.api#String",
-        "traits": {
-          "smithy.api#documentation": "Configuration values as a JSON string (`configurationType: Open`)."
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuePropertiesFormatInput/members/secretConfigurationValue",
-      "value": {
-        "target": "smithy.api#String",
-        "traits": {
-          "smithy.api#documentation": "Secret configuration values as a JSON string (`configurationType: Secret`).",
-          "smithy.api#sensitive": {}
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuePropertiesFormat/members/configurationValue",
-      "value": {
-        "target": "smithy.api#String",
-        "traits": {
-          "smithy.api#documentation": "Configuration values as a JSON string (`configurationType: Open`)."
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuePropertiesFormatInputConfigurationGroupSchemaResourceReference/members/id",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationValueWithSecretsConfigurationGroupSchemaResourceReference/members/id",
       "value": {
         "target": "smithy.api#String",
         "traits": {
@@ -44,13 +13,43 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuePropertiesFormatConfigurationGroupSchemaResourceReference/members/id",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationValueWithSecretsInputConfigurationGroupSchemaResourceReference/members/id",
       "value": {
         "target": "smithy.api#String",
         "traits": {
           "smithy.api#documentation": "ARM resource id of the referenced resource."
         }
       }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationValueWithoutSecretsConfigurationGroupSchemaResourceReference/members/id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM resource id of the referenced resource."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationValueWithoutSecretsInputConfigurationGroupSchemaResourceReference/members/id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM resource id of the referenced resource."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationValueWithSecrets/members/secretConfigurationValue/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationValueWithSecretsInput/members/secretConfigurationValue/traits/smithy.api#sensitive",
+      "value": {}
     }
   ]
 }

@@ -50,30 +50,70 @@ export type BatchDeploymentPropertiesInputEnvironmentVariablesMap = {
 export type BatchDeploymentPropertiesInputPropertiesMap = {
   [key: string]: string | null | undefined;
 };
-/** The enumerated property types for batch deployments. */
-export type BatchDeploymentConfigurationType = "Model" | "PipelineComponent";
-/** Properties relevant to different deployment types. */
-export interface BatchDeploymentConfiguration {
+/** [Required] The type of the deployment */
+export type BatchPipelineComponentDeploymentConfigurationDeploymentConfigurationType =
+  "PipelineComponent";
+/** [Required] Specifies the type of asset reference. */
+export type IdAssetReferenceReferenceType = "Id";
+/** Reference to an asset via its ARM resource ID. */
+export interface IdAssetReference {
+  /** [Required] Specifies the type of asset reference. */
+  referenceType: IdAssetReferenceReferenceType;
+  /** [Required] ARM resource ID of the asset. */
+  assetId: string;
+}
+/** Run-time settings for the pipeline job. */
+export type BatchPipelineComponentDeploymentConfigurationSettingsMap = {
+  [key: string]: string | null | undefined;
+};
+/** The tags which will be applied to the job. */
+export type BatchPipelineComponentDeploymentConfigurationTagsMap = {
+  [key: string]: string | null | undefined;
+};
+/** Properties for a Batch Pipeline Component Deployment. */
+export interface BatchPipelineComponentDeploymentConfiguration {
   /** [Required] The type of the deployment */
-  deploymentConfigurationType: BatchDeploymentConfigurationType | (string & {});
+  deploymentConfigurationType:
+    | BatchPipelineComponentDeploymentConfigurationDeploymentConfigurationType
+    | (string & {});
+  /** The ARM id of the component to be run. */
+  componentId?: IdAssetReference | null | undefined;
+  /** The description which will be applied to the job. */
+  description?: string | null | undefined;
+  /** Run-time settings for the pipeline job. */
+  settings?: BatchPipelineComponentDeploymentConfigurationSettingsMap | null | undefined;
+  /** The tags which will be applied to the job. */
+  tags?: BatchPipelineComponentDeploymentConfigurationTagsMap | null | undefined;
 }
 /** Log verbosity for batch inferencing. Increasing verbosity order for logging is : Warning, Info and Debug. The default value is Info. */
 export type BatchDeploymentPropertiesInputLoggingLevel = "Info" | "Warning" | "Debug";
-/** Enum to determine which reference method to use for an asset. */
-export type ReferenceType = "Id" | "DataPath" | "OutputPath";
-/** Base definition for asset references. */
-export interface AssetReferenceBase {
+/** [Required] Specifies the type of asset reference. */
+export type DataPathAssetReferenceReferenceType = "DataPath";
+/** Reference to an asset via its path in a datastore. */
+export interface DataPathAssetReference {
   /** [Required] Specifies the type of asset reference. */
-  referenceType: ReferenceType | (string & {});
-  /** Id: ARM resource ID of the asset. */
-  assetId?: string | undefined;
-  /** DataPath: ARM resource ID of the datastore. */
-  datastoreId?: string | undefined;
-  /** DataPath/OutputPath: the path. */
-  path?: string | undefined;
-  /** OutputPath: ARM resource ID of the job. */
-  jobId?: string | undefined;
+  referenceType: DataPathAssetReferenceReferenceType;
+  /** ARM resource ID of the datastore where the asset is located. */
+  datastoreId?: string | null | undefined;
+  /** The path of the file/directory in the datastore. */
+  path?: string | null | undefined;
 }
+/** [Required] Specifies the type of asset reference. */
+export type OutputPathAssetReferenceReferenceType = "OutputPath";
+/** Reference to an asset via its path in a job output. */
+export interface OutputPathAssetReference {
+  /** [Required] Specifies the type of asset reference. */
+  referenceType: OutputPathAssetReferenceReferenceType;
+  /** ARM resource ID of the job. */
+  jobId?: string | null | undefined;
+  /** The path of the file/directory in the job output. */
+  path?: string | null | undefined;
+}
+/** Base definition for asset references. */
+export type AssetReferenceBase =
+  | DataPathAssetReference
+  | IdAssetReference
+  | OutputPathAssetReference;
 /** Enum to determine how batch inferencing will handle output */
 export type BatchDeploymentPropertiesInputOutputAction = "SummaryOnly" | "AppendRow";
 /** Additional properties bag. */
@@ -108,7 +148,7 @@ export interface BatchDeploymentPropertiesInput {
   /** Compute target for batch inference operation. */
   compute?: string | null | undefined;
   /** Properties relevant to different deployment types. */
-  deploymentConfiguration?: BatchDeploymentConfiguration | null | undefined;
+  deploymentConfiguration?: BatchPipelineComponentDeploymentConfiguration | null | undefined;
   /** Error threshold, if the error count for the entire input goes above this value, the batch inference will be aborted. Range is [-1, int.MaxValue]. For FileDataset, this value is the count of file failures. For TabularDataset, this value is the count of record failures. If set to -1 (the lower bound), all failures during batch inference will be ignored. */
   errorThreshold?: number | undefined;
   /** Log verbosity for batch inferencing. Increasing verbosity order for logging is : Warning, Info and Debug. The default value is Info. */
@@ -236,7 +276,7 @@ export interface BatchDeploymentProperties {
   /** Compute target for batch inference operation. */
   compute?: string | null | undefined;
   /** Properties relevant to different deployment types. */
-  deploymentConfiguration?: BatchDeploymentConfiguration | null | undefined;
+  deploymentConfiguration?: BatchPipelineComponentDeploymentConfiguration | null | undefined;
   /** Error threshold, if the error count for the entire input goes above this value, the batch inference will be aborted. Range is [-1, int.MaxValue]. For FileDataset, this value is the count of file failures. For TabularDataset, this value is the count of record failures. If set to -1 (the lower bound), all failures during batch inference will be ignored. */
   errorThreshold?: number | undefined;
   /** Log verbosity for batch inferencing. Increasing verbosity order for logging is : Warning, Info and Debug. The default value is Info. */
@@ -680,17 +720,19 @@ export interface CodeVersionsCreateOrGetStartPendingUploadRequest {
     | (string & {})
     | undefined;
 }
-/** Enum to determine the PendingUpload credentials type. */
-export type PendingUploadCredentialType = "SAS";
-export interface PendingUploadCredentialDto {
+/** [Required] Credential type used to authentication with storage. */
+export type SASCredentialDtoCredentialType = "SAS";
+export interface SASCredentialDto {
   /** [Required] Credential type used to authentication with storage. */
-  credentialType: PendingUploadCredentialType;
+  credentialType: SASCredentialDtoCredentialType;
+  /** Full SAS Uri, including the storage, container/blob path and SAS token */
+  sasUri?: string | null | undefined;
 }
 export interface BlobReferenceForConsumptionDto {
   /** Blob URI path for client to upload data. Example: https://blob.windows.core.net/Container/Path */
   blobUri?: string | null | undefined;
   /** Credential info to access storage account */
-  credential?: PendingUploadCredentialDto | null | undefined;
+  credential?: SASCredentialDto | null | undefined;
   /** Arm ID of the storage account to use */
   storageAccountArmId?: string | null | undefined;
 }
@@ -903,21 +945,62 @@ export interface ComponentVersionsCreateOrUpdateResponse {
   properties: ComponentVersionProperties;
 }
 /** The type of compute */
-export type ComputeType =
-  | "AKS"
-  | "Kubernetes"
-  | "AmlCompute"
-  | "ComputeInstance"
-  | "DataFactory"
-  | "VirtualMachine"
-  | "HDInsight"
-  | "Databricks"
-  | "DataLakeAnalytics"
-  | "SynapseSpark";
-/** Machine Learning compute object. */
-export interface ComputeInput {
+export type AKSInputComputeType = "AKS";
+/** Intended usage of the cluster */
+export type AKSSchemaPropertiesInputClusterPurpose = "FastProd" | "DenseProd" | "DevTest";
+/** Enable or disable ssl for scoring */
+export type SslConfigStatus = "Disabled" | "Enabled" | "Auto";
+/** The ssl configuration for scoring */
+export interface SslConfiguration {
+  /** Enable or disable ssl for scoring */
+  status?: SslConfigStatus | (string & {}) | undefined;
+  /** Cert data */
+  cert?: string | null | undefined;
+  /** Key data */
+  key?: string | null | undefined;
+  /** CNAME of the cert */
+  cname?: string | null | undefined;
+  /** Leaf domain label of public endpoint */
+  leafDomainLabel?: string | null | undefined;
+  /** Indicates whether to overwrite existing domain label. */
+  overwriteExistingDomain?: boolean | undefined;
+}
+/** Advance configuration for AKS networking */
+export interface AksNetworkingConfiguration {
+  /** Virtual network subnet resource ID the compute nodes belong to */
+  subnetId?: string | undefined;
+  /** A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges. */
+  serviceCidr?: string | undefined;
+  /** An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr. */
+  dnsServiceIP?: string | undefined;
+  /** A CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the Kubernetes service address range. */
+  dockerBridgeCidr?: string | undefined;
+}
+/** Load Balancer Type */
+export type AKSSchemaPropertiesInputLoadBalancerType = "PublicIp" | "InternalLoadBalancer";
+/** AKS properties */
+export interface AKSSchemaPropertiesInput {
+  /** Cluster full qualified domain name */
+  clusterFqdn?: string | null | undefined;
+  /** Number of agents */
+  agentCount?: number | null | undefined;
+  /** Agent virtual machine size */
+  agentVmSize?: string | null | undefined;
+  /** Intended usage of the cluster */
+  clusterPurpose?: AKSSchemaPropertiesInputClusterPurpose | (string & {}) | undefined;
+  /** SSL configuration */
+  sslConfiguration?: SslConfiguration | null | undefined;
+  /** AKS networking configuration for vnet */
+  aksNetworkingConfiguration?: AksNetworkingConfiguration | null | undefined;
+  /** Load Balancer Type */
+  loadBalancerType?: AKSSchemaPropertiesInputLoadBalancerType | (string & {}) | undefined;
+  /** Load Balancer Subnet */
+  loadBalancerSubnet?: string | null | undefined;
+}
+/** A Machine Learning compute based on AKS. */
+export interface AKSInput {
   /** The type of compute */
-  computeType: ComputeType | (string & {});
+  computeType: AKSInputComputeType;
   /** Location for the underlying compute */
   computeLocation?: string | undefined;
   /** The description of the Machine Learning compute. */
@@ -926,9 +1009,637 @@ export interface ComputeInput {
   resourceId?: string | null | undefined;
   /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
   disableLocalAuth?: boolean | undefined;
-  /** Per-computeType properties (e.g. AmlCompute: vmSize, vmPriority, scaleSettings). */
-  properties?: unknown | undefined;
+  /** AKS properties */
+  properties?: AKSSchemaPropertiesInput | undefined;
 }
+/** The type of compute */
+export type AmlComputeInputComputeType = "AmlCompute";
+/** Compute OS Type */
+export type AmlComputePropertiesInputOsType = "Linux" | "Windows";
+/** Virtual Machine priority */
+export type VmPriority = "Dedicated" | "LowPriority";
+/** Virtual Machine image for Windows AML Compute */
+export interface VirtualMachineImage {
+  /** Virtual Machine image path */
+  id: string;
+}
+/** scale settings for AML Compute */
+export interface ScaleSettings {
+  /** Max number of nodes to use */
+  maxNodeCount: number;
+  /** Min number of nodes to use */
+  minNodeCount?: number | undefined;
+  /** Node Idle Time before scaling down amlCompute. This string needs to be in the RFC Format. */
+  nodeIdleTimeBeforeScaleDown?: string | undefined;
+}
+/** Settings for user account that gets created on each on the nodes of a compute. */
+export interface UserAccountCredentials {
+  /** Name of the administrator user account which can be used to SSH to nodes. */
+  adminUserName: string;
+  /** SSH public key of the administrator user account. */
+  adminUserSshPublicKey?: string | undefined;
+  /** Password of the administrator user account. */
+  adminUserPassword?: string | Redacted.Redacted<string> | undefined;
+}
+/** Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet. */
+export interface ResourceId {
+  /** The ID of the resource */
+  id: string;
+}
+/** State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh port is closed on all nodes of the cluster. Enabled - Indicates that the public ssh port is open on all nodes of the cluster. NotSpecified - Indicates that the public ssh port is closed on all nodes of the cluster if VNet is defined, else is open all public nodes. It can be default only during cluster creation time, after creation it will be either enabled or disabled. */
+export type AmlComputePropertiesInputRemoteLoginPortPublicAccess =
+  | "Enabled"
+  | "Disabled"
+  | "NotSpecified";
+/** AML Compute properties */
+export interface AmlComputePropertiesInput {
+  /** Compute OS Type */
+  osType?: AmlComputePropertiesInputOsType | (string & {}) | undefined;
+  /** Virtual Machine Size */
+  vmSize?: string | undefined;
+  /** Virtual Machine priority */
+  vmPriority?: VmPriority | (string & {}) | undefined;
+  /** Virtual Machine image for AML Compute - windows only */
+  virtualMachineImage?: VirtualMachineImage | null | undefined;
+  /** Network is isolated or not */
+  isolatedNetwork?: boolean | undefined;
+  /** Scale settings for AML Compute */
+  scaleSettings?: ScaleSettings | undefined;
+  /** Credentials for an administrator user account that will be created on each compute node. */
+  userAccountCredentials?: UserAccountCredentials | null | undefined;
+  /** Virtual network subnet resource ID the compute nodes belong to. */
+  subnet?: ResourceId | null | undefined;
+  /** State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh port is closed on all nodes of the cluster. Enabled - Indicates that the public ssh port is open on all nodes of the cluster. NotSpecified - Indicates that the public ssh port is closed on all nodes of the cluster if VNet is defined, else is open all public nodes. It can be default only during cluster creation time, after creation it will be either enabled or disabled. */
+  remoteLoginPortPublicAccess?:
+    | AmlComputePropertiesInputRemoteLoginPortPublicAccess
+    | (string & {})
+    | undefined;
+  /** Enable or disable node public IP address provisioning. Possible values are: Possible values are: true - Indicates that the compute nodes will have public IPs provisioned. false - Indicates that the compute nodes will have a private endpoint and no public IPs. */
+  enableNodePublicIp?: boolean | null | undefined;
+  /** A property bag containing additional properties. */
+  propertyBag?: unknown | null | undefined;
+}
+/** An Azure Machine Learning compute. */
+export interface AmlComputeInput {
+  /** The type of compute */
+  computeType: AmlComputeInputComputeType;
+  /** Location for the underlying compute */
+  computeLocation?: string | undefined;
+  /** The description of the Machine Learning compute. */
+  description?: string | null | undefined;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string | null | undefined;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean | undefined;
+  /** Properties of AmlCompute */
+  properties?: AmlComputePropertiesInput | undefined;
+}
+/** The type of compute */
+export type ComputeInstanceInputComputeType = "ComputeInstance";
+/** Policy for sharing applications on this compute instance among users of parent workspace. If Personal, only the creator can access applications on this compute instance. When Shared, any workspace user can access applications on this instance depending on his/her assigned role. */
+export type ComputeInstancePropertiesInputApplicationSharingPolicy = "Personal" | "Shared";
+/** State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh port is closed on this instance. Enabled - Indicates that the public ssh port is open and accessible according to the VNet/subnet policy if applicable. */
+export type ComputeInstanceSshSettingsInputSshPublicAccess = "Enabled" | "Disabled";
+/** Specifies policy and settings for SSH access. */
+export interface ComputeInstanceSshSettingsInput {
+  /** State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh port is closed on this instance. Enabled - Indicates that the public ssh port is open and accessible according to the VNet/subnet policy if applicable. */
+  sshPublicAccess?: ComputeInstanceSshSettingsInputSshPublicAccess | (string & {}) | undefined;
+  /** Specifies the SSH rsa public key file as a string. Use "ssh-keygen -t rsa -b 2048" to generate your SSH key pairs. */
+  adminPublicKey?: string | undefined;
+}
+/** Type of the image. Possible values are: docker - For docker images. azureml - For AzureML Environment images (custom and curated) */
+export type ImageType = "docker" | "azureml";
+export interface Image {
+  /** Type of the image. Possible values are: docker - For docker images. azureml - For AzureML Environment images (custom and curated) */
+  type?: ImageType | (string & {}) | undefined;
+  /** Image reference URL if type is docker. Environment name if type is azureml */
+  reference?: string | undefined;
+  /** Version of image being used. If latest then skip this field */
+  version?: string | undefined;
+  [key: string]: unknown;
+}
+/** Type of the Environment Variable. Possible values are: local - For local variable */
+export type EnvironmentVariableType = "local";
+export interface EnvironmentVariable {
+  /** Type of the Environment Variable. Possible values are: local - For local variable */
+  type?: EnvironmentVariableType | (string & {}) | undefined;
+  /** Value of the Environment variable */
+  value?: string | undefined;
+  [key: string]: unknown;
+}
+/** Environment Variable for the container */
+export type CustomServiceEnvironmentVariablesMap = {
+  [key: string]: EnvironmentVariable | undefined;
+};
+export interface Docker {
+  /** Indicate whether container shall run in privileged or non-privileged mode. */
+  privileged?: boolean | null | undefined;
+  [key: string]: unknown;
+}
+/** Protocol over which communication will happen over this endpoint */
+export type EndpointProtocol = "tcp" | "udp" | "http";
+export interface Endpoint {
+  /** Protocol over which communication will happen over this endpoint */
+  protocol?: EndpointProtocol | (string & {}) | undefined;
+  /** Name of the Endpoint */
+  name?: string | undefined;
+  /** Application port inside the container. */
+  target?: number | undefined;
+  /** Port over which the application is exposed from container. */
+  published?: number | null | undefined;
+  /** Host IP over which the application is exposed from the container */
+  hostIp?: string | null | undefined;
+}
+/** Configuring the endpoints for the container */
+export type CustomServiceEndpointsList = Array<Endpoint>;
+/** Type of Volume Definition. Possible Values: bind,volume,tmpfs,npipe */
+export type VolumeDefinitionType = "bind" | "volume" | "tmpfs" | "npipe";
+export interface BindOptions {
+  /** Type of Bind Option */
+  propagation?: string | null | undefined;
+  /** Indicate whether to create host path. */
+  createHostPath?: boolean | null | undefined;
+  /** Mention the selinux options. */
+  selinux?: string | null | undefined;
+}
+export interface VolumeOptions {
+  /** Indicate whether volume is nocopy */
+  nocopy?: boolean | null | undefined;
+}
+export interface TmpfsOptions {
+  /** Mention the Tmpfs size */
+  size?: number | undefined;
+}
+export interface VolumeDefinition {
+  /** Type of Volume Definition. Possible Values: bind,volume,tmpfs,npipe */
+  type?: VolumeDefinitionType | (string & {}) | undefined;
+  /** Indicate whether to mount volume as readOnly. Default value for this is false. */
+  readOnly?: boolean | null | undefined;
+  /** Source of the mount. For bind mounts this is the host path. */
+  source?: string | undefined;
+  /** Target of the mount. For bind mounts this is the path in the container. */
+  target?: string | undefined;
+  /** Consistency of the volume */
+  consistency?: string | null | undefined;
+  /** Bind Options of the mount */
+  bind?: BindOptions | null | undefined;
+  /** Volume Options of the mount */
+  volume?: VolumeOptions | null | undefined;
+  /** tmpfs option of the mount */
+  tmpfs?: TmpfsOptions | null | undefined;
+}
+/** Configuring the volumes for the container */
+export type CustomServiceVolumesList = Array<VolumeDefinition>;
+/** Argument to the the runtime */
+export type JupyterKernelConfigArgvList = Array<string>;
+/** Jupyter kernel configuration. */
+export interface JupyterKernelConfig {
+  /** Argument to the the runtime */
+  argv?: JupyterKernelConfigArgvList | undefined;
+  /** Display name of the kernel */
+  displayName?: string | undefined;
+  /** Language of the kernel [Example value: python] */
+  language?: string | undefined;
+}
+/** Specifies the custom service configuration */
+export interface CustomService {
+  /** Name of the Custom Service */
+  name?: string | undefined;
+  /** Describes the Image Specifications */
+  image?: Image | undefined;
+  /** Environment Variable for the container */
+  environmentVariables?: CustomServiceEnvironmentVariablesMap | undefined;
+  /** Describes the docker settings for the image */
+  docker?: Docker | null | undefined;
+  /** Configuring the endpoints for the container */
+  endpoints?: CustomServiceEndpointsList | undefined;
+  /** Configuring the volumes for the container */
+  volumes?: CustomServiceVolumesList | undefined;
+  /** Describes the jupyter kernel settings for the image if its a custom environment */
+  kernel?: JupyterKernelConfig | undefined;
+  [key: string]: unknown;
+}
+/** List of Custom Services added to the compute. */
+export type ComputeInstancePropertiesInputCustomServicesList = Array<CustomService>;
+/** The Compute Instance Authorization type. Available values are personal (default). */
+export type ComputeInstancePropertiesInputComputeInstanceAuthorizationType = "personal";
+/** A user that can be assigned to a compute instance. */
+export interface AssignedUser {
+  /** User's AAD Object Id. */
+  objectId: string;
+  /** User's AAD Tenant Id. */
+  tenantId: string;
+}
+/** Settings for a personal compute instance. */
+export interface PersonalComputeInstanceSettings {
+  /** A user explicitly assigned to a personal compute instance. */
+  assignedUser?: AssignedUser | undefined;
+}
+/** Script reference */
+export interface ScriptReference {
+  /** The storage source of the script: inline, workspace. */
+  scriptSource?: string | undefined;
+  /** The location of scripts in the mounted volume. */
+  scriptData?: string | undefined;
+  /** Optional command line arguments passed to the script to run. */
+  scriptArguments?: string | undefined;
+  /** Optional time period passed to timeout command. */
+  timeout?: string | undefined;
+}
+/** Customized setup scripts */
+export interface ScriptsToExecute {
+  /** Script that's run every time the machine starts. */
+  startupScript?: ScriptReference | undefined;
+  /** Script that's run only once during provision of the compute. */
+  creationScript?: ScriptReference | undefined;
+}
+/** Details of customized scripts to execute for setting up the cluster. */
+export interface SetupScripts {
+  /** Customized setup scripts */
+  scripts?: ScriptsToExecute | undefined;
+}
+/** Is the schedule enabled or disabled? */
+export type ScheduleStatus = "Enabled" | "Disabled";
+/** [Required] The compute power action. */
+export type ComputePowerAction = "Start" | "Stop";
+export type ComputeTriggerType = "Recurrence" | "Cron";
+/** Enum to describe the frequency of a compute recurrence schedule */
+export type ComputeRecurrenceFrequency = "Minute" | "Hour" | "Day" | "Week" | "Month";
+/** [Required] List of hours for the schedule. */
+export type ComputeRecurrenceScheduleHoursList = Array<number>;
+/** [Required] List of minutes for the schedule. */
+export type ComputeRecurrenceScheduleMinutesList = Array<number>;
+/** List of month days for the schedule */
+export type ComputeRecurrenceScheduleMonthDaysList = Array<number>;
+/** Enum of weekday */
+export type ComputeWeekDay =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
+/** List of days for the schedule. */
+export type ComputeRecurrenceScheduleWeekDaysList = Array<ComputeWeekDay | (string & {})>;
+export interface ComputeRecurrenceSchedule {
+  /** [Required] List of hours for the schedule. */
+  hours: ComputeRecurrenceScheduleHoursList;
+  /** [Required] List of minutes for the schedule. */
+  minutes: ComputeRecurrenceScheduleMinutesList;
+  /** List of month days for the schedule */
+  monthDays?: ComputeRecurrenceScheduleMonthDaysList | null | undefined;
+  /** List of days for the schedule. */
+  weekDays?: ComputeRecurrenceScheduleWeekDaysList | null | undefined;
+}
+/** The workflow trigger recurrence for ComputeStartStop schedule type. */
+export interface Recurrence {
+  /** [Required] The frequency to trigger schedule. */
+  frequency?: ComputeRecurrenceFrequency | (string & {}) | undefined;
+  /** [Required] Specifies schedule interval in conjunction with frequency */
+  interval?: number | undefined;
+  /** The start time in yyyy-MM-ddTHH:mm:ss format. */
+  startTime?: string | null | undefined;
+  /** Specifies time zone in which the schedule runs. TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11 */
+  timeZone?: string | undefined;
+  /** [Required] The recurrence schedule. */
+  schedule?: ComputeRecurrenceSchedule | undefined;
+}
+/** The workflow trigger cron for ComputeStartStop schedule type. */
+export interface Cron {
+  /** The start time in yyyy-MM-ddTHH:mm:ss format. */
+  startTime?: string | null | undefined;
+  /** Specifies time zone in which the schedule runs. TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11 */
+  timeZone?: string | undefined;
+  /** [Required] Specifies cron expression of schedule. The expression should follow NCronTab format. */
+  expression?: string | undefined;
+}
+/** The current deployment state of schedule. */
+export type ScheduleProvisioningState = "Completed" | "Provisioning" | "Failed";
+export interface ScheduleBase {
+  /** A system assigned id for the schedule. */
+  id?: string | null | undefined;
+  /** The current deployment state of schedule. */
+  provisioningStatus?: ScheduleProvisioningState | (string & {}) | undefined;
+  /** Is the schedule enabled or disabled? */
+  status?: ScheduleStatus | (string & {}) | undefined;
+}
+/** Compute start stop schedule properties */
+export interface ComputeStartStopScheduleInput {
+  /** Is the schedule enabled or disabled? */
+  status?: ScheduleStatus | (string & {}) | undefined;
+  /** [Required] The compute power action. */
+  action?: ComputePowerAction | (string & {}) | undefined;
+  /** [Required] The schedule trigger type. */
+  triggerType?: ComputeTriggerType | (string & {}) | undefined;
+  /** Required if triggerType is Recurrence. */
+  recurrence?: Recurrence | undefined;
+  /** Required if triggerType is Cron. */
+  cron?: Cron | undefined;
+  /** [Deprecated] Not used any more. */
+  schedule?: ScheduleBase | undefined;
+}
+/** The list of compute start stop schedules to be applied. */
+export type ComputeSchedulesInputComputeStartStopList = Array<ComputeStartStopScheduleInput>;
+/** The list of schedules to be applied on the computes */
+export interface ComputeSchedulesInput {
+  /** The list of compute start stop schedules to be applied. */
+  computeStartStop?: ComputeSchedulesInputComputeStartStopList | undefined;
+}
+/** Compute Instance properties */
+export interface ComputeInstancePropertiesInput {
+  /** Virtual Machine Size */
+  vmSize?: string | undefined;
+  /** Virtual network subnet resource ID the compute nodes belong to. */
+  subnet?: ResourceId | null | undefined;
+  /** Policy for sharing applications on this compute instance among users of parent workspace. If Personal, only the creator can access applications on this compute instance. When Shared, any workspace user can access applications on this instance depending on his/her assigned role. */
+  applicationSharingPolicy?:
+    | ComputeInstancePropertiesInputApplicationSharingPolicy
+    | (string & {})
+    | undefined;
+  /** Specifies policy and settings for SSH access. */
+  sshSettings?: ComputeInstanceSshSettingsInput | null | undefined;
+  /** List of Custom Services added to the compute. */
+  customServices?: ComputeInstancePropertiesInputCustomServicesList | null | undefined;
+  /** The Compute Instance Authorization type. Available values are personal (default). */
+  computeInstanceAuthorizationType?:
+    | ComputeInstancePropertiesInputComputeInstanceAuthorizationType
+    | (string & {})
+    | null
+    | undefined;
+  /** Enable SSO (single sign on). Possible values are: true, false. */
+  enableSSO?: boolean | null | undefined;
+  /** Settings for a personal compute instance. */
+  personalComputeInstanceSettings?: PersonalComputeInstanceSettings | null | undefined;
+  /** Details of customized scripts to execute for setting up the cluster. */
+  setupScripts?: SetupScripts | null | undefined;
+  /** The list of schedules to be applied on the computes. */
+  schedules?: ComputeSchedulesInput | null | undefined;
+  /** Stops compute instance after user defined period of inactivity. Time is defined in ISO8601 format. Minimum is 15 min, maximum is 3 days. */
+  idleTimeBeforeShutdown?: string | undefined;
+  /** Enable or disable node public IP address provisioning. Possible values are: Possible values are: true - Indicates that the compute nodes will have public IPs provisioned. false - Indicates that the compute nodes will have a private endpoint and no public IPs. */
+  enableNodePublicIp?: boolean | null | undefined;
+}
+/** An Azure Machine Learning compute instance. */
+export interface ComputeInstanceInput {
+  /** The type of compute */
+  computeType: ComputeInstanceInputComputeType;
+  /** Location for the underlying compute */
+  computeLocation?: string | undefined;
+  /** The description of the Machine Learning compute. */
+  description?: string | null | undefined;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string | null | undefined;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean | undefined;
+  /** Properties of ComputeInstance */
+  properties?: ComputeInstancePropertiesInput | undefined;
+}
+/** The type of compute */
+export type DataFactoryInputComputeType = "DataFactory";
+/** Machine Learning compute object. */
+export interface DataFactoryInput {
+  /** The type of compute */
+  computeType: DataFactoryInputComputeType;
+  /** Location for the underlying compute */
+  computeLocation?: string | undefined;
+  /** The description of the Machine Learning compute. */
+  description?: string | null | undefined;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string | null | undefined;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean | undefined;
+}
+/** The type of compute */
+export type DataLakeAnalyticsInputComputeType = "DataLakeAnalytics";
+export interface DataLakeAnalyticsSchemaProperties {
+  /** DataLake Store Account Name */
+  dataLakeStoreAccountName?: string | undefined;
+}
+/** A DataLakeAnalytics compute. */
+export interface DataLakeAnalyticsInput {
+  /** The type of compute */
+  computeType: DataLakeAnalyticsInputComputeType;
+  /** Location for the underlying compute */
+  computeLocation?: string | undefined;
+  /** The description of the Machine Learning compute. */
+  description?: string | null | undefined;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string | null | undefined;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean | undefined;
+  properties?: DataLakeAnalyticsSchemaProperties | undefined;
+}
+/** The type of compute */
+export type DatabricksInputComputeType = "Databricks";
+/** Properties of Databricks */
+export interface DatabricksProperties {
+  /** Databricks access token */
+  databricksAccessToken?: string | undefined;
+  /** Workspace Url */
+  workspaceUrl?: string | undefined;
+}
+/** A DataFactory compute. */
+export interface DatabricksInput {
+  /** The type of compute */
+  computeType: DatabricksInputComputeType;
+  /** Location for the underlying compute */
+  computeLocation?: string | undefined;
+  /** The description of the Machine Learning compute. */
+  description?: string | null | undefined;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string | null | undefined;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean | undefined;
+  properties?: DatabricksProperties | undefined;
+}
+/** The type of compute */
+export type HDInsightInputComputeType = "HDInsight";
+/** Admin credentials for virtual machine */
+export interface VirtualMachineSshCredentials {
+  /** Username of admin account */
+  username?: string | undefined;
+  /** Password of admin account */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Public key data */
+  publicKeyData?: string | undefined;
+  /** Private key data */
+  privateKeyData?: string | undefined;
+}
+/** HDInsight compute properties */
+export interface HDInsightProperties {
+  /** Port open for ssh connections on the master node of the cluster. */
+  sshPort?: number | undefined;
+  /** Public IP address of the master node of the cluster. */
+  address?: string | undefined;
+  /** Admin credentials for master node of the cluster */
+  administratorAccount?: VirtualMachineSshCredentials | undefined;
+}
+/** A HDInsight compute. */
+export interface HDInsightInput {
+  /** The type of compute */
+  computeType: HDInsightInputComputeType;
+  /** Location for the underlying compute */
+  computeLocation?: string | undefined;
+  /** The description of the Machine Learning compute. */
+  description?: string | null | undefined;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string | null | undefined;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean | undefined;
+  properties?: HDInsightProperties | undefined;
+}
+/** The type of compute */
+export type KubernetesInputComputeType = "Kubernetes";
+/** Node Selector */
+export type InstanceTypeSchemaNodeSelectorMap = { [key: string]: string | null | undefined };
+/** Resource requests for this instance type */
+export type InstanceTypeSchemaResourcesRequestsMap = { [key: string]: string | undefined };
+/** Resource limits for this instance type */
+export type InstanceTypeSchemaResourcesLimitsMap = { [key: string]: string | undefined };
+/** Resource requests/limits for this instance type */
+export interface InstanceTypeSchemaResources {
+  /** Resource requests for this instance type */
+  requests?: InstanceTypeSchemaResourcesRequestsMap | undefined;
+  /** Resource limits for this instance type */
+  limits?: InstanceTypeSchemaResourcesLimitsMap | undefined;
+}
+/** Instance type schema. */
+export interface InstanceTypeSchema {
+  /** Node Selector */
+  nodeSelector?: InstanceTypeSchemaNodeSelectorMap | null | undefined;
+  /** Resource requests/limits for this instance type */
+  resources?: InstanceTypeSchemaResources | undefined;
+}
+/** Instance Type Schema */
+export type KubernetesPropertiesInstanceTypesMap = {
+  [key: string]: InstanceTypeSchema | undefined;
+};
+/** Kubernetes properties */
+export interface KubernetesProperties {
+  /** Relay connection string. */
+  relayConnectionString?: string | null | undefined;
+  /** ServiceBus connection string. */
+  serviceBusConnectionString?: string | null | undefined;
+  /** Extension principal-id. */
+  extensionPrincipalId?: string | null | undefined;
+  /** Extension instance release train. */
+  extensionInstanceReleaseTrain?: string | undefined;
+  /** VC name. */
+  vcName?: string | undefined;
+  /** Compute namespace */
+  namespace?: string | undefined;
+  /** Default instance type */
+  defaultInstanceType?: string | undefined;
+  /** Instance Type Schema */
+  instanceTypes?: KubernetesPropertiesInstanceTypesMap | undefined;
+}
+/** A Machine Learning compute based on Kubernetes Compute. */
+export interface KubernetesInput {
+  /** The type of compute */
+  computeType: KubernetesInputComputeType;
+  /** Location for the underlying compute */
+  computeLocation?: string | undefined;
+  /** The description of the Machine Learning compute. */
+  description?: string | null | undefined;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string | null | undefined;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean | undefined;
+  /** Properties of Kubernetes */
+  properties?: KubernetesProperties | undefined;
+}
+/** The type of compute */
+export type SynapseSparkInputComputeType = "SynapseSpark";
+/** Auto scale properties */
+export interface AutoScaleProperties {
+  minNodeCount?: number | undefined;
+  enabled?: boolean | undefined;
+  maxNodeCount?: number | undefined;
+}
+/** Auto pause properties */
+export interface AutoPauseProperties {
+  delayInMinutes?: number | undefined;
+  enabled?: boolean | undefined;
+}
+export interface SynapseSparkProperties {
+  /** Auto scale properties. */
+  autoScaleProperties?: AutoScaleProperties | undefined;
+  /** Auto pause properties. */
+  autoPauseProperties?: AutoPauseProperties | undefined;
+  /** Spark version. */
+  sparkVersion?: string | undefined;
+  /** The number of compute nodes currently assigned to the compute. */
+  nodeCount?: number | undefined;
+  /** Node size. */
+  nodeSize?: string | undefined;
+  /** Node size family. */
+  nodeSizeFamily?: string | undefined;
+  /** Azure subscription identifier. */
+  subscriptionId?: string | undefined;
+  /** Name of the resource group in which workspace is located. */
+  resourceGroup?: string | undefined;
+  /** Name of Azure Machine Learning workspace. */
+  workspaceName?: string | undefined;
+  /** Pool name. */
+  poolName?: string | undefined;
+}
+/** A SynapseSpark compute. */
+export interface SynapseSparkInput {
+  /** The type of compute */
+  computeType: SynapseSparkInputComputeType;
+  /** Location for the underlying compute */
+  computeLocation?: string | undefined;
+  /** The description of the Machine Learning compute. */
+  description?: string | null | undefined;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string | null | undefined;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean | undefined;
+  properties?: SynapseSparkProperties | undefined;
+}
+/** The type of compute */
+export type VirtualMachineInputComputeType = "VirtualMachine";
+export interface VirtualMachineSchemaProperties {
+  /** Virtual Machine size */
+  virtualMachineSize?: string | undefined;
+  /** Port open for ssh connections. */
+  sshPort?: number | undefined;
+  /** Notebook server port open for ssh connections. */
+  notebookServerPort?: number | undefined;
+  /** Public IP address of the virtual machine. */
+  address?: string | undefined;
+  /** Admin credentials for virtual machine */
+  administratorAccount?: VirtualMachineSshCredentials | undefined;
+  /** Indicates whether this compute will be used for running notebooks. */
+  isNotebookInstanceCompute?: boolean | undefined;
+}
+/** A Machine Learning compute based on Azure Virtual Machines. */
+export interface VirtualMachineInput {
+  /** The type of compute */
+  computeType: VirtualMachineInputComputeType;
+  /** Location for the underlying compute */
+  computeLocation?: string | undefined;
+  /** The description of the Machine Learning compute. */
+  description?: string | null | undefined;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string | null | undefined;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean | undefined;
+  properties?: VirtualMachineSchemaProperties | undefined;
+}
+/** Machine Learning compute object. */
+export type ComputeInput =
+  | AKSInput
+  | AmlComputeInput
+  | ComputeInstanceInput
+  | DataFactoryInput
+  | DataLakeAnalyticsInput
+  | DatabricksInput
+  | HDInsightInput
+  | KubernetesInput
+  | SynapseSparkInput
+  | VirtualMachineInput;
 /** Contains resource tags defined as key/value pairs. */
 export type ComputeCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** The resource model definition representing SKU */
@@ -955,6 +1666,8 @@ export interface ComputeCreateOrUpdateRequest {
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: BatchDeploymentsCreateOrUpdateRequestIdentity | undefined;
 }
+/** The type of compute */
+export type AKSComputeType = "AKS";
 /** The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed. */
 export type ProvisioningState =
   | "Unknown"
@@ -989,16 +1702,52 @@ export interface ErrorDetail {
   additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ComputeProvisioningErrorsItem {
+export interface AKSProvisioningErrorsItem {
   /** The error object. */
   error?: ErrorDetail | undefined;
 }
 /** Errors during provisioning */
-export type ComputeProvisioningErrorsList = Array<ComputeProvisioningErrorsItem>;
-/** Machine Learning compute object. */
-export interface Compute {
+export type AKSProvisioningErrorsList = Array<AKSProvisioningErrorsItem>;
+/** A system service running on a compute. */
+export interface SystemService {
+  /** The type of this system service. */
+  systemServiceType?: string | undefined;
+  /** Public IP address */
+  publicIpAddress?: string | undefined;
+  /** The version for this type. */
+  version?: string | undefined;
+}
+/** System services */
+export type AKSSchemaPropertiesSystemServicesList = Array<SystemService>;
+/** Intended usage of the cluster */
+export type AKSSchemaPropertiesClusterPurpose = "FastProd" | "DenseProd" | "DevTest";
+/** Load Balancer Type */
+export type AKSSchemaPropertiesLoadBalancerType = "PublicIp" | "InternalLoadBalancer";
+/** AKS properties */
+export interface AKSSchemaProperties {
+  /** Cluster full qualified domain name */
+  clusterFqdn?: string | null | undefined;
+  /** System services */
+  systemServices?: AKSSchemaPropertiesSystemServicesList | null | undefined;
+  /** Number of agents */
+  agentCount?: number | null | undefined;
+  /** Agent virtual machine size */
+  agentVmSize?: string | null | undefined;
+  /** Intended usage of the cluster */
+  clusterPurpose?: AKSSchemaPropertiesClusterPurpose | undefined;
+  /** SSL configuration */
+  sslConfiguration?: SslConfiguration | null | undefined;
+  /** AKS networking configuration for vnet */
+  aksNetworkingConfiguration?: AksNetworkingConfiguration | null | undefined;
+  /** Load Balancer Type */
+  loadBalancerType?: AKSSchemaPropertiesLoadBalancerType | undefined;
+  /** Load Balancer Subnet */
+  loadBalancerSubnet?: string | null | undefined;
+}
+/** A Machine Learning compute based on AKS. */
+export interface AKS {
   /** The type of compute */
-  computeType: ComputeType;
+  computeType: AKSComputeType;
   /** Location for the underlying compute */
   computeLocation?: string | undefined;
   /** The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed. */
@@ -1012,14 +1761,668 @@ export interface Compute {
   /** ARM resource id of the underlying compute */
   resourceId?: string | null | undefined;
   /** Errors during provisioning */
-  provisioningErrors?: ComputeProvisioningErrorsList | null | undefined;
+  provisioningErrors?: AKSProvisioningErrorsList | null | undefined;
   /** Indicating whether the compute was provisioned by user and brought from outside if true, or machine learning service provisioned it if false. */
   isAttachedCompute?: boolean | undefined;
   /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
   disableLocalAuth?: boolean | undefined;
-  /** Per-computeType properties (e.g. AmlCompute: vmSize, vmPriority, scaleSettings, currentNodeCount). */
-  properties?: unknown | undefined;
+  /** AKS properties */
+  properties?: AKSSchemaProperties | undefined;
 }
+/** The type of compute */
+export type AmlComputeComputeType = "AmlCompute";
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export type AmlComputeProvisioningErrorsItem = AKSProvisioningErrorsItem;
+/** Errors during provisioning */
+export type AmlComputeProvisioningErrorsList = Array<AKSProvisioningErrorsItem>;
+/** Compute OS Type */
+export type AmlComputePropertiesOsType = "Linux" | "Windows";
+/** State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh port is closed on all nodes of the cluster. Enabled - Indicates that the public ssh port is open on all nodes of the cluster. NotSpecified - Indicates that the public ssh port is closed on all nodes of the cluster if VNet is defined, else is open all public nodes. It can be default only during cluster creation time, after creation it will be either enabled or disabled. */
+export type AmlComputePropertiesRemoteLoginPortPublicAccess =
+  | "Enabled"
+  | "Disabled"
+  | "NotSpecified";
+/** Allocation state of the compute. Possible values are: steady - Indicates that the compute is not resizing. There are no changes to the number of compute nodes in the compute in progress. A compute enters this state when it is created and when no operations are being performed on the compute to change the number of compute nodes. resizing - Indicates that the compute is resizing; that is, compute nodes are being added to or removed from the compute. */
+export type AllocationState = "Steady" | "Resizing";
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export type AmlComputePropertiesErrorsItem = AKSProvisioningErrorsItem;
+/** Collection of errors encountered by various compute nodes during node setup. */
+export type AmlComputePropertiesErrorsList = Array<AKSProvisioningErrorsItem>;
+/** Counts of various compute node states on the amlCompute. */
+export interface NodeStateCounts {
+  /** Number of compute nodes in idle state. */
+  idleNodeCount?: number | undefined;
+  /** Number of compute nodes which are running jobs. */
+  runningNodeCount?: number | undefined;
+  /** Number of compute nodes which are being prepared. */
+  preparingNodeCount?: number | undefined;
+  /** Number of compute nodes which are in unusable state. */
+  unusableNodeCount?: number | undefined;
+  /** Number of compute nodes which are leaving the amlCompute. */
+  leavingNodeCount?: number | undefined;
+  /** Number of compute nodes which are in preempted state. */
+  preemptedNodeCount?: number | undefined;
+}
+/** AML Compute properties */
+export interface AmlComputeProperties {
+  /** Compute OS Type */
+  osType?: AmlComputePropertiesOsType | undefined;
+  /** Virtual Machine Size */
+  vmSize?: string | undefined;
+  /** Virtual Machine priority */
+  vmPriority?: VmPriority | undefined;
+  /** Virtual Machine image for AML Compute - windows only */
+  virtualMachineImage?: VirtualMachineImage | null | undefined;
+  /** Network is isolated or not */
+  isolatedNetwork?: boolean | undefined;
+  /** Scale settings for AML Compute */
+  scaleSettings?: ScaleSettings | undefined;
+  /** Credentials for an administrator user account that will be created on each compute node. */
+  userAccountCredentials?: UserAccountCredentials | null | undefined;
+  /** Virtual network subnet resource ID the compute nodes belong to. */
+  subnet?: ResourceId | null | undefined;
+  /** State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh port is closed on all nodes of the cluster. Enabled - Indicates that the public ssh port is open on all nodes of the cluster. NotSpecified - Indicates that the public ssh port is closed on all nodes of the cluster if VNet is defined, else is open all public nodes. It can be default only during cluster creation time, after creation it will be either enabled or disabled. */
+  remoteLoginPortPublicAccess?: AmlComputePropertiesRemoteLoginPortPublicAccess | undefined;
+  /** Allocation state of the compute. Possible values are: steady - Indicates that the compute is not resizing. There are no changes to the number of compute nodes in the compute in progress. A compute enters this state when it is created and when no operations are being performed on the compute to change the number of compute nodes. resizing - Indicates that the compute is resizing; that is, compute nodes are being added to or removed from the compute. */
+  allocationState?: AllocationState | undefined;
+  /** The time at which the compute entered its current allocation state. */
+  allocationStateTransitionTime?: string | undefined;
+  /** Collection of errors encountered by various compute nodes during node setup. */
+  errors?: AmlComputePropertiesErrorsList | null | undefined;
+  /** The number of compute nodes currently assigned to the compute. */
+  currentNodeCount?: number | null | undefined;
+  /** The target number of compute nodes for the compute. If the allocationState is resizing, this property denotes the target node count for the ongoing resize operation. If the allocationState is steady, this property denotes the target node count for the previous resize operation. */
+  targetNodeCount?: number | null | undefined;
+  /** Counts of various node states on the compute. */
+  nodeStateCounts?: NodeStateCounts | null | undefined;
+  /** Enable or disable node public IP address provisioning. Possible values are: Possible values are: true - Indicates that the compute nodes will have public IPs provisioned. false - Indicates that the compute nodes will have a private endpoint and no public IPs. */
+  enableNodePublicIp?: boolean | null | undefined;
+  /** A property bag containing additional properties. */
+  propertyBag?: unknown | null | undefined;
+}
+/** An Azure Machine Learning compute. */
+export interface AmlCompute {
+  /** The type of compute */
+  computeType: AmlComputeComputeType;
+  /** Location for the underlying compute */
+  computeLocation?: string | undefined;
+  /** The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The description of the Machine Learning compute. */
+  description?: string | null | undefined;
+  /** The time at which the compute was created. */
+  createdOn?: string | undefined;
+  /** The time at which the compute was last modified. */
+  modifiedOn?: string | undefined;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string | null | undefined;
+  /** Errors during provisioning */
+  provisioningErrors?: AmlComputeProvisioningErrorsList | null | undefined;
+  /** Indicating whether the compute was provisioned by user and brought from outside if true, or machine learning service provisioned it if false. */
+  isAttachedCompute?: boolean | undefined;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean | undefined;
+  /** Properties of AmlCompute */
+  properties?: AmlComputeProperties | undefined;
+}
+/** The type of compute */
+export type ComputeInstanceComputeType = "ComputeInstance";
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export type ComputeInstanceProvisioningErrorsItem = AKSProvisioningErrorsItem;
+/** Errors during provisioning */
+export type ComputeInstanceProvisioningErrorsList = Array<AKSProvisioningErrorsItem>;
+/** Policy for sharing applications on this compute instance among users of parent workspace. If Personal, only the creator can access applications on this compute instance. When Shared, any workspace user can access applications on this instance depending on his/her assigned role. */
+export type ComputeInstancePropertiesApplicationSharingPolicy = "Personal" | "Shared";
+/** State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh port is closed on this instance. Enabled - Indicates that the public ssh port is open and accessible according to the VNet/subnet policy if applicable. */
+export type ComputeInstanceSshSettingsSshPublicAccess = "Enabled" | "Disabled";
+/** Specifies policy and settings for SSH access. */
+export interface ComputeInstanceSshSettings {
+  /** State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh port is closed on this instance. Enabled - Indicates that the public ssh port is open and accessible according to the VNet/subnet policy if applicable. */
+  sshPublicAccess?: ComputeInstanceSshSettingsSshPublicAccess | undefined;
+  /** Describes the admin user name. */
+  adminUserName?: string | undefined;
+  /** Describes the port for connecting through SSH. */
+  sshPort?: number | undefined;
+  /** Specifies the SSH rsa public key file as a string. Use "ssh-keygen -t rsa -b 2048" to generate your SSH key pairs. */
+  adminPublicKey?: string | undefined;
+}
+/** List of Custom Services added to the compute. */
+export type ComputeInstancePropertiesCustomServicesList = Array<CustomService>;
+/** The os patching status. */
+export type PatchStatus =
+  | "CompletedWithWarnings"
+  | "Failed"
+  | "InProgress"
+  | "Succeeded"
+  | "Unknown";
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export type OsPatchingStatusOsPatchingErrorsItem = AKSProvisioningErrorsItem;
+/** Collection of errors encountered when doing os patching. */
+export type OsPatchingStatusOsPatchingErrorsList = Array<AKSProvisioningErrorsItem>;
+/** Returns metadata about the os patching. */
+export interface OsPatchingStatus {
+  /** The os patching status. */
+  patchStatus?: PatchStatus | undefined;
+  /** Time of the latest os patching. */
+  latestPatchTime?: string | undefined;
+  /** Specifies whether this compute instance is pending for reboot to finish os patching. */
+  rebootPending?: boolean | undefined;
+  /** Time of scheduled reboot. */
+  scheduledRebootTime?: string | undefined;
+  /** Collection of errors encountered when doing os patching. */
+  osPatchingErrors?: OsPatchingStatusOsPatchingErrorsList | null | undefined;
+}
+/** Returns metadata about the operating system image for this compute instance. */
+export interface ImageMetadata {
+  /** Specifies the current operating system image version this compute instance is running on. */
+  currentImageVersion?: string | undefined;
+  /** Specifies the latest available operating system image version. */
+  latestImageVersion?: string | undefined;
+  /** Specifies whether this compute instance is running on the latest operating system image. */
+  isLatestOsImageVersion?: boolean | undefined;
+  /** Metadata about the os patching. */
+  osPatchingStatus?: OsPatchingStatus | undefined;
+}
+/** Defines all connectivity endpoints and properties for an ComputeInstance. */
+export interface ComputeInstanceConnectivityEndpoints {
+  /** Public IP Address of this ComputeInstance. */
+  publicIpAddress?: string | null | undefined;
+  /** Private IP Address of this ComputeInstance (local to the VNET in which the compute instance is deployed). */
+  privateIpAddress?: string | null | undefined;
+}
+/** Defines an Aml Instance application and its connectivity endpoint URI. */
+export interface ComputeInstanceApplication {
+  /** Name of the ComputeInstance application. */
+  displayName?: string | undefined;
+  /** Application' endpoint URI. */
+  endpointUri?: string | undefined;
+}
+/** Describes available applications and their endpoints on this ComputeInstance. */
+export type ComputeInstancePropertiesApplicationsList = Array<ComputeInstanceApplication>;
+/** Describes information on user who created this ComputeInstance. */
+export interface ComputeInstanceCreatedBy {
+  /** Name of the user. */
+  userName?: string | null | undefined;
+  /** Uniquely identifies user' Azure Active Directory organization. */
+  userOrgId?: string | undefined;
+  /** Uniquely identifies the user within his/her organization. */
+  userId?: string | null | undefined;
+}
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export type ComputeInstancePropertiesErrorsItem = AKSProvisioningErrorsItem;
+/** Collection of errors encountered on this ComputeInstance. */
+export type ComputeInstancePropertiesErrorsList = Array<AKSProvisioningErrorsItem>;
+/** Current state of an ComputeInstance. */
+export type ComputeInstanceState =
+  | "Creating"
+  | "CreateFailed"
+  | "Deleting"
+  | "Running"
+  | "Restarting"
+  | "Resizing"
+  | "JobRunning"
+  | "SettingUp"
+  | "SetupFailed"
+  | "Starting"
+  | "Stopped"
+  | "Stopping"
+  | "UserSettingUp"
+  | "UserSetupFailed"
+  | "Unknown"
+  | "Unusable";
+/** The Compute Instance Authorization type. Available values are personal (default). */
+export type ComputeInstancePropertiesComputeInstanceAuthorizationType = "personal";
+/** Name of the last operation. */
+export type OperationName =
+  | "Create"
+  | "Start"
+  | "Stop"
+  | "Restart"
+  | "Resize"
+  | "Reimage"
+  | "Delete";
+/** Operation status. */
+export type OperationStatus =
+  | "InProgress"
+  | "Succeeded"
+  | "CreateFailed"
+  | "StartFailed"
+  | "StopFailed"
+  | "RestartFailed"
+  | "ResizeFailed"
+  | "ReimageFailed"
+  | "DeleteFailed";
+/** Trigger of operation. */
+export type OperationTrigger = "User" | "Schedule" | "IdleShutdown";
+/** The last operation on ComputeInstance. */
+export interface ComputeInstanceLastOperation {
+  /** Name of the last operation. */
+  operationName?: OperationName | undefined;
+  /** Time of the last operation. */
+  operationTime?: string | undefined;
+  /** Operation status. */
+  operationStatus?: OperationStatus | undefined;
+  /** Trigger of operation. */
+  operationTrigger?: OperationTrigger | undefined;
+}
+/** The current deployment state of schedule. */
+export type ProvisioningStatus = "Completed" | "Provisioning" | "Failed";
+/** Compute start stop schedule properties */
+export interface ComputeStartStopSchedule {
+  /** A system assigned id for the schedule. */
+  id?: string | null | undefined;
+  /** The current deployment state of schedule. */
+  provisioningStatus?: ProvisioningStatus | undefined;
+  /** Is the schedule enabled or disabled? */
+  status?: ScheduleStatus | undefined;
+  /** [Required] The compute power action. */
+  action?: ComputePowerAction | undefined;
+  /** [Required] The schedule trigger type. */
+  triggerType?: ComputeTriggerType | undefined;
+  /** Required if triggerType is Recurrence. */
+  recurrence?: Recurrence | undefined;
+  /** Required if triggerType is Cron. */
+  cron?: Cron | undefined;
+  /** [Deprecated] Not used any more. */
+  schedule?: ScheduleBase | undefined;
+}
+/** The list of compute start stop schedules to be applied. */
+export type ComputeSchedulesComputeStartStopList = Array<ComputeStartStopSchedule>;
+/** The list of schedules to be applied on the computes */
+export interface ComputeSchedules {
+  /** The list of compute start stop schedules to be applied. */
+  computeStartStop?: ComputeSchedulesComputeStartStopList | undefined;
+}
+/** Auto save settings. */
+export type Autosave = "None" | "Local" | "Remote";
+/** network of this container. */
+export type Network = "Bridge" | "Host";
+/** Environment information */
+export interface ComputeInstanceEnvironmentInfo {
+  /** name of environment. */
+  name?: string | undefined;
+  /** version of environment. */
+  version?: string | undefined;
+}
+/** services of this containers. */
+export type ComputeInstanceContainerServicesList = Array<unknown>;
+/** Defines an Aml Instance container. */
+export interface ComputeInstanceContainer {
+  /** Name of the ComputeInstance container. */
+  name?: string | undefined;
+  /** Auto save settings. */
+  autosave?: Autosave | undefined;
+  /** Information of GPU. */
+  gpu?: string | undefined;
+  /** network of this container. */
+  network?: Network | undefined;
+  /** Environment information of this container. */
+  environment?: ComputeInstanceEnvironmentInfo | undefined;
+  /** services of this containers. */
+  services?: ComputeInstanceContainerServicesList | undefined;
+}
+/** Describes informations of containers on this ComputeInstance. */
+export type ComputeInstancePropertiesContainersList = Array<ComputeInstanceContainer>;
+/** Caching type of Data Disk. */
+export type Caching = "None" | "ReadOnly" | "ReadWrite";
+/** type of this storage account. */
+export type ComputeInstanceDataDiskStorageAccountType = "Standard_LRS" | "Premium_LRS";
+/** Defines an Aml Instance DataDisk. */
+export interface ComputeInstanceDataDisk {
+  /** Caching type of Data Disk. */
+  caching?: Caching | undefined;
+  /** The initial disk size in gigabytes. */
+  diskSizeGB?: number | undefined;
+  /** The lun is used to uniquely identify each data disk. If attaching multiple disks, each should have a distinct lun. */
+  lun?: number | undefined;
+  /** type of this storage account. */
+  storageAccountType?: ComputeInstanceDataDiskStorageAccountType | undefined;
+}
+/** Describes informations of dataDisks on this ComputeInstance. */
+export type ComputeInstancePropertiesDataDisksList = Array<ComputeInstanceDataDisk>;
+/** Data source type. */
+export type SourceType = "Dataset" | "Datastore" | "URI";
+/** Mount Action. */
+export type MountAction = "Mount" | "Unmount";
+/** Mount Mode. */
+export type MountMode = "ReadOnly" | "ReadWrite";
+/** Mount state. */
+export type MountState =
+  | "MountRequested"
+  | "Mounted"
+  | "MountFailed"
+  | "UnmountRequested"
+  | "UnmountFailed"
+  | "Unmounted";
+/** Defines an Aml Instance DataMount. */
+export interface ComputeInstanceDataMount {
+  /** Source of the ComputeInstance data mount. */
+  source?: string | undefined;
+  /** Data source type. */
+  sourceType?: SourceType | undefined;
+  /** name of the ComputeInstance data mount. */
+  mountName?: string | undefined;
+  /** Mount Action. */
+  mountAction?: MountAction | undefined;
+  /** Mount Mode. */
+  mountMode?: MountMode | undefined;
+  /** who this data mount created by. */
+  createdBy?: string | undefined;
+  /** Path of this data mount. */
+  mountPath?: string | undefined;
+  /** Mount state. */
+  mountState?: MountState | undefined;
+  /** The time when the disk mounted. */
+  mountedOn?: string | undefined;
+  /** Error of this data mount. */
+  error?: string | undefined;
+}
+/** Describes informations of dataMounts on this ComputeInstance. */
+export type ComputeInstancePropertiesDataMountsList = Array<ComputeInstanceDataMount>;
+/** Version of computeInstance. */
+export interface ComputeInstanceVersion {
+  /** Runtime of compute instance. */
+  runtime?: string | null | undefined;
+}
+/** Compute Instance properties */
+export interface ComputeInstanceProperties {
+  /** Virtual Machine Size */
+  vmSize?: string | undefined;
+  /** Virtual network subnet resource ID the compute nodes belong to. */
+  subnet?: ResourceId | null | undefined;
+  /** Policy for sharing applications on this compute instance among users of parent workspace. If Personal, only the creator can access applications on this compute instance. When Shared, any workspace user can access applications on this instance depending on his/her assigned role. */
+  applicationSharingPolicy?: ComputeInstancePropertiesApplicationSharingPolicy | undefined;
+  /** Specifies policy and settings for SSH access. */
+  sshSettings?: ComputeInstanceSshSettings | null | undefined;
+  /** List of Custom Services added to the compute. */
+  customServices?: ComputeInstancePropertiesCustomServicesList | null | undefined;
+  /** Returns metadata about the operating system image for this compute instance. */
+  osImageMetadata?: ImageMetadata | undefined;
+  /** Describes all connectivity endpoints available for this ComputeInstance. */
+  connectivityEndpoints?: ComputeInstanceConnectivityEndpoints | undefined;
+  /** Describes available applications and their endpoints on this ComputeInstance. */
+  applications?: ComputeInstancePropertiesApplicationsList | undefined;
+  /** Describes information on user who created this ComputeInstance. */
+  createdBy?: ComputeInstanceCreatedBy | undefined;
+  /** Collection of errors encountered on this ComputeInstance. */
+  errors?: ComputeInstancePropertiesErrorsList | undefined;
+  /** The current state of this ComputeInstance. */
+  state?: ComputeInstanceState | undefined;
+  /** The Compute Instance Authorization type. Available values are personal (default). */
+  computeInstanceAuthorizationType?:
+    | ComputeInstancePropertiesComputeInstanceAuthorizationType
+    | null
+    | undefined;
+  /** Enable SSO (single sign on). Possible values are: true, false. */
+  enableSSO?: boolean | null | undefined;
+  /** Settings for a personal compute instance. */
+  personalComputeInstanceSettings?: PersonalComputeInstanceSettings | null | undefined;
+  /** Details of customized scripts to execute for setting up the cluster. */
+  setupScripts?: SetupScripts | null | undefined;
+  /** The last operation on ComputeInstance. */
+  lastOperation?: ComputeInstanceLastOperation | null | undefined;
+  /** The list of schedules to be applied on the computes. */
+  schedules?: ComputeSchedules | null | undefined;
+  /** Stops compute instance after user defined period of inactivity. Time is defined in ISO8601 format. Minimum is 15 min, maximum is 3 days. */
+  idleTimeBeforeShutdown?: string | undefined;
+  /** Enable or disable node public IP address provisioning. Possible values are: Possible values are: true - Indicates that the compute nodes will have public IPs provisioned. false - Indicates that the compute nodes will have a private endpoint and no public IPs. */
+  enableNodePublicIp?: boolean | null | undefined;
+  /** Describes informations of containers on this ComputeInstance. */
+  containers?: ComputeInstancePropertiesContainersList | null | undefined;
+  /** Describes informations of dataDisks on this ComputeInstance. */
+  dataDisks?: ComputeInstancePropertiesDataDisksList | null | undefined;
+  /** Describes informations of dataMounts on this ComputeInstance. */
+  dataMounts?: ComputeInstancePropertiesDataMountsList | null | undefined;
+  /** ComputeInstance version. */
+  versions?: ComputeInstanceVersion | undefined;
+}
+/** An Azure Machine Learning compute instance. */
+export interface ComputeInstance {
+  /** The type of compute */
+  computeType: ComputeInstanceComputeType;
+  /** Location for the underlying compute */
+  computeLocation?: string | undefined;
+  /** The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The description of the Machine Learning compute. */
+  description?: string | null | undefined;
+  /** The time at which the compute was created. */
+  createdOn?: string | undefined;
+  /** The time at which the compute was last modified. */
+  modifiedOn?: string | undefined;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string | null | undefined;
+  /** Errors during provisioning */
+  provisioningErrors?: ComputeInstanceProvisioningErrorsList | null | undefined;
+  /** Indicating whether the compute was provisioned by user and brought from outside if true, or machine learning service provisioned it if false. */
+  isAttachedCompute?: boolean | undefined;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean | undefined;
+  /** Properties of ComputeInstance */
+  properties?: ComputeInstanceProperties | undefined;
+}
+/** The type of compute */
+export type DataFactoryComputeType = "DataFactory";
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export type DataFactoryProvisioningErrorsItem = AKSProvisioningErrorsItem;
+/** Errors during provisioning */
+export type DataFactoryProvisioningErrorsList = Array<AKSProvisioningErrorsItem>;
+/** Machine Learning compute object. */
+export interface DataFactory {
+  /** The type of compute */
+  computeType: DataFactoryComputeType;
+  /** Location for the underlying compute */
+  computeLocation?: string | undefined;
+  /** The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The description of the Machine Learning compute. */
+  description?: string | null | undefined;
+  /** The time at which the compute was created. */
+  createdOn?: string | undefined;
+  /** The time at which the compute was last modified. */
+  modifiedOn?: string | undefined;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string | null | undefined;
+  /** Errors during provisioning */
+  provisioningErrors?: DataFactoryProvisioningErrorsList | null | undefined;
+  /** Indicating whether the compute was provisioned by user and brought from outside if true, or machine learning service provisioned it if false. */
+  isAttachedCompute?: boolean | undefined;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean | undefined;
+}
+/** The type of compute */
+export type DataLakeAnalyticsComputeType = "DataLakeAnalytics";
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export type DataLakeAnalyticsProvisioningErrorsItem = AKSProvisioningErrorsItem;
+/** Errors during provisioning */
+export type DataLakeAnalyticsProvisioningErrorsList = Array<AKSProvisioningErrorsItem>;
+/** A DataLakeAnalytics compute. */
+export interface DataLakeAnalytics {
+  /** The type of compute */
+  computeType: DataLakeAnalyticsComputeType;
+  /** Location for the underlying compute */
+  computeLocation?: string | undefined;
+  /** The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The description of the Machine Learning compute. */
+  description?: string | null | undefined;
+  /** The time at which the compute was created. */
+  createdOn?: string | undefined;
+  /** The time at which the compute was last modified. */
+  modifiedOn?: string | undefined;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string | null | undefined;
+  /** Errors during provisioning */
+  provisioningErrors?: DataLakeAnalyticsProvisioningErrorsList | null | undefined;
+  /** Indicating whether the compute was provisioned by user and brought from outside if true, or machine learning service provisioned it if false. */
+  isAttachedCompute?: boolean | undefined;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean | undefined;
+  properties?: DataLakeAnalyticsSchemaProperties | undefined;
+}
+/** The type of compute */
+export type DatabricksComputeType = "Databricks";
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export type DatabricksProvisioningErrorsItem = AKSProvisioningErrorsItem;
+/** Errors during provisioning */
+export type DatabricksProvisioningErrorsList = Array<AKSProvisioningErrorsItem>;
+/** A DataFactory compute. */
+export interface Databricks {
+  /** The type of compute */
+  computeType: DatabricksComputeType;
+  /** Location for the underlying compute */
+  computeLocation?: string | undefined;
+  /** The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The description of the Machine Learning compute. */
+  description?: string | null | undefined;
+  /** The time at which the compute was created. */
+  createdOn?: string | undefined;
+  /** The time at which the compute was last modified. */
+  modifiedOn?: string | undefined;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string | null | undefined;
+  /** Errors during provisioning */
+  provisioningErrors?: DatabricksProvisioningErrorsList | null | undefined;
+  /** Indicating whether the compute was provisioned by user and brought from outside if true, or machine learning service provisioned it if false. */
+  isAttachedCompute?: boolean | undefined;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean | undefined;
+  properties?: DatabricksProperties | undefined;
+}
+/** The type of compute */
+export type HDInsightComputeType = "HDInsight";
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export type HDInsightProvisioningErrorsItem = AKSProvisioningErrorsItem;
+/** Errors during provisioning */
+export type HDInsightProvisioningErrorsList = Array<AKSProvisioningErrorsItem>;
+/** A HDInsight compute. */
+export interface HDInsight {
+  /** The type of compute */
+  computeType: HDInsightComputeType;
+  /** Location for the underlying compute */
+  computeLocation?: string | undefined;
+  /** The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The description of the Machine Learning compute. */
+  description?: string | null | undefined;
+  /** The time at which the compute was created. */
+  createdOn?: string | undefined;
+  /** The time at which the compute was last modified. */
+  modifiedOn?: string | undefined;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string | null | undefined;
+  /** Errors during provisioning */
+  provisioningErrors?: HDInsightProvisioningErrorsList | null | undefined;
+  /** Indicating whether the compute was provisioned by user and brought from outside if true, or machine learning service provisioned it if false. */
+  isAttachedCompute?: boolean | undefined;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean | undefined;
+  properties?: HDInsightProperties | undefined;
+}
+/** The type of compute */
+export type KubernetesComputeType = "Kubernetes";
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export type KubernetesProvisioningErrorsItem = AKSProvisioningErrorsItem;
+/** Errors during provisioning */
+export type KubernetesProvisioningErrorsList = Array<AKSProvisioningErrorsItem>;
+/** A Machine Learning compute based on Kubernetes Compute. */
+export interface Kubernetes {
+  /** The type of compute */
+  computeType: KubernetesComputeType;
+  /** Location for the underlying compute */
+  computeLocation?: string | undefined;
+  /** The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The description of the Machine Learning compute. */
+  description?: string | null | undefined;
+  /** The time at which the compute was created. */
+  createdOn?: string | undefined;
+  /** The time at which the compute was last modified. */
+  modifiedOn?: string | undefined;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string | null | undefined;
+  /** Errors during provisioning */
+  provisioningErrors?: KubernetesProvisioningErrorsList | null | undefined;
+  /** Indicating whether the compute was provisioned by user and brought from outside if true, or machine learning service provisioned it if false. */
+  isAttachedCompute?: boolean | undefined;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean | undefined;
+  /** Properties of Kubernetes */
+  properties?: KubernetesProperties | undefined;
+}
+/** The type of compute */
+export type SynapseSparkComputeType = "SynapseSpark";
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export type SynapseSparkProvisioningErrorsItem = AKSProvisioningErrorsItem;
+/** Errors during provisioning */
+export type SynapseSparkProvisioningErrorsList = Array<AKSProvisioningErrorsItem>;
+/** A SynapseSpark compute. */
+export interface SynapseSpark {
+  /** The type of compute */
+  computeType: SynapseSparkComputeType;
+  /** Location for the underlying compute */
+  computeLocation?: string | undefined;
+  /** The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The description of the Machine Learning compute. */
+  description?: string | null | undefined;
+  /** The time at which the compute was created. */
+  createdOn?: string | undefined;
+  /** The time at which the compute was last modified. */
+  modifiedOn?: string | undefined;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string | null | undefined;
+  /** Errors during provisioning */
+  provisioningErrors?: SynapseSparkProvisioningErrorsList | null | undefined;
+  /** Indicating whether the compute was provisioned by user and brought from outside if true, or machine learning service provisioned it if false. */
+  isAttachedCompute?: boolean | undefined;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean | undefined;
+  properties?: SynapseSparkProperties | undefined;
+}
+/** The type of compute */
+export type VirtualMachineComputeType = "VirtualMachine";
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export type VirtualMachineProvisioningErrorsItem = AKSProvisioningErrorsItem;
+/** Errors during provisioning */
+export type VirtualMachineProvisioningErrorsList = Array<AKSProvisioningErrorsItem>;
+/** A Machine Learning compute based on Azure Virtual Machines. */
+export interface VirtualMachine {
+  /** The type of compute */
+  computeType: VirtualMachineComputeType;
+  /** Location for the underlying compute */
+  computeLocation?: string | undefined;
+  /** The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The description of the Machine Learning compute. */
+  description?: string | null | undefined;
+  /** The time at which the compute was created. */
+  createdOn?: string | undefined;
+  /** The time at which the compute was last modified. */
+  modifiedOn?: string | undefined;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string | null | undefined;
+  /** Errors during provisioning */
+  provisioningErrors?: VirtualMachineProvisioningErrorsList | null | undefined;
+  /** Indicating whether the compute was provisioned by user and brought from outside if true, or machine learning service provisioned it if false. */
+  isAttachedCompute?: boolean | undefined;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean | undefined;
+  properties?: VirtualMachineSchemaProperties | undefined;
+}
+/** Machine Learning compute object. */
+export type Compute =
+  | AKS
+  | AmlCompute
+  | ComputeInstance
+  | DataFactory
+  | DataLakeAnalytics
+  | Databricks
+  | HDInsight
+  | Kubernetes
+  | SynapseSpark
+  | VirtualMachine;
 /** Contains resource tags defined as key/value pairs. */
 export type ComputeCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** The resource model definition representing SKU */
@@ -1051,26 +2454,7 @@ export interface ComputeCreateOrUpdateResponse {
   retryAfter?: number | undefined;
 }
 /** Authentication type of the connection target */
-export type ConnectionAuthType =
-  | "PAT"
-  | "ManagedIdentity"
-  | "UsernamePassword"
-  | "None"
-  | "SAS"
-  | "AccountKey"
-  | "ServicePrincipal"
-  | "AccessKey"
-  | "ApiKey"
-  | "CustomKeys"
-  | "OAuth2"
-  | "AAD"
-  | "DelegatedSAS"
-  | "ProjectManagedIdentity"
-  | "AccountManagedIdentity"
-  | "UserEntraToken"
-  | "AgentUserImpersonation"
-  | "AgenticIdentityToken"
-  | "AgenticUser";
+export type AADAuthTypeWorkspaceConnectionPropertiesInputAuthType = "AAD";
 /** Category of the connection */
 export type ConnectionCategory =
   | "PythonFeed"
@@ -1194,28 +2578,375 @@ export type ConnectionCategory =
   | "PowerPlatformEnvironment"
   | "RemoteA2A";
 /** Store user metadata for this connection */
-export type WorkspaceConnectionPropertiesV2InputMetadataMap = { [key: string]: string | undefined };
+export type AADAuthTypeWorkspaceConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
 export type ManagedPERequirement = "Required" | "NotRequired" | "NotApplicable";
 export type ManagedPEStatus = "Inactive" | "Active" | "NotApplicable";
-export type WorkspaceConnectionPropertiesV2InputSharedUserListList = Array<string>;
-export interface WorkspaceConnectionPropertiesV2Input {
+export type AADAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList = Array<string>;
+export interface AADAuthTypeWorkspaceConnectionPropertiesInput {
   /** Authentication type of the connection target */
-  authType: ConnectionAuthType | (string & {});
+  authType: AADAuthTypeWorkspaceConnectionPropertiesInputAuthType;
   /** Category of the connection */
   category?: ConnectionCategory | (string & {}) | undefined;
   error?: string | undefined;
   expiryTime?: string | undefined;
   isSharedToAll?: boolean | undefined;
   /** Store user metadata for this connection */
-  metadata?: WorkspaceConnectionPropertiesV2InputMetadataMap | undefined;
+  metadata?: AADAuthTypeWorkspaceConnectionPropertiesInputMetadataMap | undefined;
   peRequirement?: ManagedPERequirement | (string & {}) | undefined;
   peStatus?: ManagedPEStatus | (string & {}) | undefined;
-  sharedUserList?: WorkspaceConnectionPropertiesV2InputSharedUserListList | undefined;
+  sharedUserList?: AADAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList | undefined;
   target?: string | undefined;
   useWorkspaceManagedIdentity?: boolean | undefined;
-  /** Credentials for the authType (ApiKey: {key}; CustomKeys: {keys}; AccessKey: {accessKeyId, secretAccessKey}; ...). */
-  credentials?: unknown | undefined;
 }
+/** Authentication type of the connection target */
+export type AccessKeyAuthTypeWorkspaceConnectionPropertiesInputAuthType = "AccessKey";
+/** Store user metadata for this connection */
+export type AccessKeyAuthTypeWorkspaceConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type AccessKeyAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList = Array<string>;
+export interface WorkspaceConnectionAccessKey {
+  accessKeyId?: string | Redacted.Redacted<string> | undefined;
+  secretAccessKey?: string | Redacted.Redacted<string> | undefined;
+}
+export interface AccessKeyAuthTypeWorkspaceConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: AccessKeyAuthTypeWorkspaceConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: AccessKeyAuthTypeWorkspaceConnectionPropertiesInputMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?:
+    | AccessKeyAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList
+    | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: WorkspaceConnectionAccessKey | undefined;
+}
+/** Authentication type of the connection target */
+export type AccountKeyAuthTypeWorkspaceConnectionPropertiesInputAuthType = "AccountKey";
+/** Store user metadata for this connection */
+export type AccountKeyAuthTypeWorkspaceConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type AccountKeyAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList = Array<string>;
+/** Account key object for workspace connection credential. */
+export interface WorkspaceConnectionAccountKey {
+  key?: string | undefined;
+}
+/** This connection type covers the account key connection for Azure storage */
+export interface AccountKeyAuthTypeWorkspaceConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: AccountKeyAuthTypeWorkspaceConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: AccountKeyAuthTypeWorkspaceConnectionPropertiesInputMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?:
+    | AccountKeyAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList
+    | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  /** Account key object for workspace connection credential. */
+  credentials?: WorkspaceConnectionAccountKey | undefined;
+}
+/** Authentication type of the connection target */
+export type ApiKeyAuthWorkspaceConnectionPropertiesInputAuthType = "ApiKey";
+/** Store user metadata for this connection */
+export type ApiKeyAuthWorkspaceConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type ApiKeyAuthWorkspaceConnectionPropertiesInputSharedUserListList = Array<string>;
+/** Api key object for workspace connection credential. */
+export type WorkspaceConnectionApiKey = WorkspaceConnectionAccountKey;
+/** This connection type covers the generic ApiKey auth connection categories, for examples: AzureOpenAI: Category:= AzureOpenAI AuthType:= ApiKey (as type discriminator) Credentials:= {ApiKey} as Microsoft.MachineLearning.AccountRP.Contracts.WorkspaceConnection.ApiKey Target:= {ApiBase} CognitiveService: Category:= CognitiveService AuthType:= ApiKey (as type discriminator) Credentials:= {SubscriptionKey} as Microsoft.MachineLearning.AccountRP.Contracts.WorkspaceConnection.ApiKey Target:= ServiceRegion={serviceRegion} CognitiveSearch: Category:= CognitiveSearch AuthType:= ApiKey (as type discriminator) Credentials:= {Key} as Microsoft.MachineLearning.AccountRP.Contracts.WorkspaceConnection.ApiKey Target:= {Endpoint} Use Metadata property bag for ApiType, ApiVersion, Kind and other metadata fields */
+export interface ApiKeyAuthWorkspaceConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: ApiKeyAuthWorkspaceConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: ApiKeyAuthWorkspaceConnectionPropertiesInputMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: ApiKeyAuthWorkspaceConnectionPropertiesInputSharedUserListList | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: WorkspaceConnectionAccountKey | undefined;
+}
+/** Authentication type of the connection target */
+export type CustomKeysWorkspaceConnectionPropertiesInputAuthType = "CustomKeys";
+/** Store user metadata for this connection */
+export type CustomKeysWorkspaceConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type CustomKeysWorkspaceConnectionPropertiesInputSharedUserListList = Array<string>;
+export type CustomKeysKeysMap = { [key: string]: string | undefined };
+/** Custom Keys credential object */
+export interface CustomKeys {
+  keys?: CustomKeysKeysMap | undefined;
+}
+/** Category:= CustomKeys AuthType:= CustomKeys (as type discriminator) Credentials:= {CustomKeys} as Microsoft.MachineLearning.AccountRP.Contracts.WorkspaceConnection.CustomKeys Target:= {any value} Use Metadata property bag for ApiVersion and other metadata fields */
+export interface CustomKeysWorkspaceConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: CustomKeysWorkspaceConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: CustomKeysWorkspaceConnectionPropertiesInputMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: CustomKeysWorkspaceConnectionPropertiesInputSharedUserListList | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  /** Custom Keys credential object */
+  credentials?: CustomKeys | undefined;
+}
+/** Authentication type of the connection target */
+export type ManagedIdentityAuthTypeWorkspaceConnectionPropertiesInputAuthType = "ManagedIdentity";
+/** Store user metadata for this connection */
+export type ManagedIdentityAuthTypeWorkspaceConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type ManagedIdentityAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList =
+  Array<string>;
+export interface WorkspaceConnectionManagedIdentity {
+  clientId?: string | undefined;
+  resourceId?: string | undefined;
+}
+export interface ManagedIdentityAuthTypeWorkspaceConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: ManagedIdentityAuthTypeWorkspaceConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: ManagedIdentityAuthTypeWorkspaceConnectionPropertiesInputMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?:
+    | ManagedIdentityAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList
+    | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: WorkspaceConnectionManagedIdentity | undefined;
+}
+/** Authentication type of the connection target */
+export type NoneAuthTypeWorkspaceConnectionPropertiesInputAuthType = "None";
+/** Store user metadata for this connection */
+export type NoneAuthTypeWorkspaceConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type NoneAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList = Array<string>;
+export interface NoneAuthTypeWorkspaceConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: NoneAuthTypeWorkspaceConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: NoneAuthTypeWorkspaceConnectionPropertiesInputMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: NoneAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+}
+/** Authentication type of the connection target */
+export type OAuth2AuthTypeWorkspaceConnectionPropertiesInputAuthType = "OAuth2";
+/** Store user metadata for this connection */
+export type OAuth2AuthTypeWorkspaceConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type OAuth2AuthTypeWorkspaceConnectionPropertiesInputSharedUserListList = Array<string>;
+/** ClientId and ClientSecret are required. Other properties are optional depending on each OAuth2 provider's implementation. */
+export interface WorkspaceConnectionOAuth2 {
+  /** Required by Concur connection category */
+  authUrl?: string | undefined;
+  /** Client id in the format of UUID */
+  clientId?: string | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
+  /** Required by GoogleAdWords connection category */
+  developerToken?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Required by GoogleBigQuery, GoogleAdWords, Hubspot, QuickBooks, Square, Xero, Zoho where user needs to get RefreshToken offline */
+  refreshToken?: string | Redacted.Redacted<string> | undefined;
+  /** Required by QuickBooks and Xero connection categories */
+  tenantId?: string | undefined;
+  /** Concur, ServiceNow auth server AccessToken grant type is 'Password' which requires UsernamePassword */
+  username?: string | undefined;
+}
+export interface OAuth2AuthTypeWorkspaceConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: OAuth2AuthTypeWorkspaceConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: OAuth2AuthTypeWorkspaceConnectionPropertiesInputMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: OAuth2AuthTypeWorkspaceConnectionPropertiesInputSharedUserListList | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: WorkspaceConnectionOAuth2 | undefined;
+}
+/** Authentication type of the connection target */
+export type PATAuthTypeWorkspaceConnectionPropertiesInputAuthType = "PAT";
+/** Store user metadata for this connection */
+export type PATAuthTypeWorkspaceConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type PATAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList = Array<string>;
+export interface WorkspaceConnectionPersonalAccessToken {
+  pat?: string | undefined;
+}
+export interface PATAuthTypeWorkspaceConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: PATAuthTypeWorkspaceConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: PATAuthTypeWorkspaceConnectionPropertiesInputMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: PATAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: WorkspaceConnectionPersonalAccessToken | undefined;
+}
+/** Authentication type of the connection target */
+export type SASAuthTypeWorkspaceConnectionPropertiesInputAuthType = "SAS";
+/** Store user metadata for this connection */
+export type SASAuthTypeWorkspaceConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type SASAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList = Array<string>;
+export interface WorkspaceConnectionSharedAccessSignature {
+  sas?: string | undefined;
+}
+export interface SASAuthTypeWorkspaceConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: SASAuthTypeWorkspaceConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: SASAuthTypeWorkspaceConnectionPropertiesInputMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: SASAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: WorkspaceConnectionSharedAccessSignature | undefined;
+}
+/** Authentication type of the connection target */
+export type ServicePrincipalAuthTypeWorkspaceConnectionPropertiesInputAuthType = "ServicePrincipal";
+/** Store user metadata for this connection */
+export type ServicePrincipalAuthTypeWorkspaceConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type ServicePrincipalAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList =
+  Array<string>;
+export interface WorkspaceConnectionServicePrincipal {
+  clientId?: string | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
+  tenantId?: string | undefined;
+}
+export interface ServicePrincipalAuthTypeWorkspaceConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: ServicePrincipalAuthTypeWorkspaceConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: ServicePrincipalAuthTypeWorkspaceConnectionPropertiesInputMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?:
+    | ServicePrincipalAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList
+    | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: WorkspaceConnectionServicePrincipal | undefined;
+}
+/** Authentication type of the connection target */
+export type UsernamePasswordAuthTypeWorkspaceConnectionPropertiesInputAuthType = "UsernamePassword";
+/** Store user metadata for this connection */
+export type UsernamePasswordAuthTypeWorkspaceConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type UsernamePasswordAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList =
+  Array<string>;
+export interface WorkspaceConnectionUsernamePassword {
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Optional, required by connections like SalesForce for extra security in addition to UsernamePassword */
+  securityToken?: string | undefined;
+  username?: string | undefined;
+}
+export interface UsernamePasswordAuthTypeWorkspaceConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: UsernamePasswordAuthTypeWorkspaceConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: UsernamePasswordAuthTypeWorkspaceConnectionPropertiesInputMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?:
+    | UsernamePasswordAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList
+    | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: WorkspaceConnectionUsernamePassword | undefined;
+}
+export type WorkspaceConnectionPropertiesV2Input =
+  | AADAuthTypeWorkspaceConnectionPropertiesInput
+  | AccessKeyAuthTypeWorkspaceConnectionPropertiesInput
+  | AccountKeyAuthTypeWorkspaceConnectionPropertiesInput
+  | ApiKeyAuthWorkspaceConnectionPropertiesInput
+  | CustomKeysWorkspaceConnectionPropertiesInput
+  | ManagedIdentityAuthTypeWorkspaceConnectionPropertiesInput
+  | NoneAuthTypeWorkspaceConnectionPropertiesInput
+  | OAuth2AuthTypeWorkspaceConnectionPropertiesInput
+  | PATAuthTypeWorkspaceConnectionPropertiesInput
+  | SASAuthTypeWorkspaceConnectionPropertiesInput
+  | ServicePrincipalAuthTypeWorkspaceConnectionPropertiesInput
+  | UsernamePasswordAuthTypeWorkspaceConnectionPropertiesInput;
 export interface CreateWorkspaceConnectionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1227,6 +2958,8 @@ export interface CreateWorkspaceConnectionRequest {
   connectionName: string;
   properties: WorkspaceConnectionPropertiesV2Input;
 }
+/** Authentication type of the connection target */
+export type AADAuthTypeWorkspaceConnectionPropertiesAuthType = "AAD";
 /** Group based on connection category */
 export type ConnectionGroup =
   | "Azure"
@@ -1237,11 +2970,13 @@ export type ConnectionGroup =
   | "GenericProtocol"
   | "ServicesAndApps";
 /** Store user metadata for this connection */
-export type WorkspaceConnectionPropertiesV2MetadataMap = { [key: string]: string | undefined };
-export type WorkspaceConnectionPropertiesV2SharedUserListList = Array<string>;
-export interface WorkspaceConnectionPropertiesV2 {
+export type AADAuthTypeWorkspaceConnectionPropertiesMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type AADAuthTypeWorkspaceConnectionPropertiesSharedUserListList = Array<string>;
+export interface AADAuthTypeWorkspaceConnectionProperties {
   /** Authentication type of the connection target */
-  authType: ConnectionAuthType;
+  authType: AADAuthTypeWorkspaceConnectionPropertiesAuthType;
   /** Category of the connection */
   category?: ConnectionCategory | undefined;
   /** A type definition that refers the id to an Azure Resource Manager resource. */
@@ -1252,15 +2987,344 @@ export interface WorkspaceConnectionPropertiesV2 {
   group?: ConnectionGroup | undefined;
   isSharedToAll?: boolean | undefined;
   /** Store user metadata for this connection */
-  metadata?: WorkspaceConnectionPropertiesV2MetadataMap | undefined;
+  metadata?: AADAuthTypeWorkspaceConnectionPropertiesMetadataMap | undefined;
   peRequirement?: ManagedPERequirement | undefined;
   peStatus?: ManagedPEStatus | undefined;
-  sharedUserList?: WorkspaceConnectionPropertiesV2SharedUserListList | undefined;
+  sharedUserList?: AADAuthTypeWorkspaceConnectionPropertiesSharedUserListList | undefined;
   target?: string | undefined;
   useWorkspaceManagedIdentity?: boolean | undefined;
-  /** Credentials for the authType; only returned by listSecrets. */
-  credentials?: unknown | undefined;
 }
+/** Authentication type of the connection target */
+export type AccessKeyAuthTypeWorkspaceConnectionPropertiesAuthType = "AccessKey";
+/** Store user metadata for this connection */
+export type AccessKeyAuthTypeWorkspaceConnectionPropertiesMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type AccessKeyAuthTypeWorkspaceConnectionPropertiesSharedUserListList = Array<string>;
+export interface AccessKeyAuthTypeWorkspaceConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: AccessKeyAuthTypeWorkspaceConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: AccessKeyAuthTypeWorkspaceConnectionPropertiesMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | undefined;
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: AccessKeyAuthTypeWorkspaceConnectionPropertiesSharedUserListList | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: WorkspaceConnectionAccessKey | undefined;
+}
+/** Authentication type of the connection target */
+export type AccountKeyAuthTypeWorkspaceConnectionPropertiesAuthType = "AccountKey";
+/** Store user metadata for this connection */
+export type AccountKeyAuthTypeWorkspaceConnectionPropertiesMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type AccountKeyAuthTypeWorkspaceConnectionPropertiesSharedUserListList = Array<string>;
+/** This connection type covers the account key connection for Azure storage */
+export interface AccountKeyAuthTypeWorkspaceConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: AccountKeyAuthTypeWorkspaceConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: AccountKeyAuthTypeWorkspaceConnectionPropertiesMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | undefined;
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: AccountKeyAuthTypeWorkspaceConnectionPropertiesSharedUserListList | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  /** Account key object for workspace connection credential. */
+  credentials?: WorkspaceConnectionAccountKey | undefined;
+}
+/** Authentication type of the connection target */
+export type ApiKeyAuthWorkspaceConnectionPropertiesAuthType = "ApiKey";
+/** Store user metadata for this connection */
+export type ApiKeyAuthWorkspaceConnectionPropertiesMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type ApiKeyAuthWorkspaceConnectionPropertiesSharedUserListList = Array<string>;
+/** This connection type covers the generic ApiKey auth connection categories, for examples: AzureOpenAI: Category:= AzureOpenAI AuthType:= ApiKey (as type discriminator) Credentials:= {ApiKey} as Microsoft.MachineLearning.AccountRP.Contracts.WorkspaceConnection.ApiKey Target:= {ApiBase} CognitiveService: Category:= CognitiveService AuthType:= ApiKey (as type discriminator) Credentials:= {SubscriptionKey} as Microsoft.MachineLearning.AccountRP.Contracts.WorkspaceConnection.ApiKey Target:= ServiceRegion={serviceRegion} CognitiveSearch: Category:= CognitiveSearch AuthType:= ApiKey (as type discriminator) Credentials:= {Key} as Microsoft.MachineLearning.AccountRP.Contracts.WorkspaceConnection.ApiKey Target:= {Endpoint} Use Metadata property bag for ApiType, ApiVersion, Kind and other metadata fields */
+export interface ApiKeyAuthWorkspaceConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: ApiKeyAuthWorkspaceConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: ApiKeyAuthWorkspaceConnectionPropertiesMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | undefined;
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: ApiKeyAuthWorkspaceConnectionPropertiesSharedUserListList | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: WorkspaceConnectionAccountKey | undefined;
+}
+/** Authentication type of the connection target */
+export type CustomKeysWorkspaceConnectionPropertiesAuthType = "CustomKeys";
+/** Store user metadata for this connection */
+export type CustomKeysWorkspaceConnectionPropertiesMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type CustomKeysWorkspaceConnectionPropertiesSharedUserListList = Array<string>;
+/** Category:= CustomKeys AuthType:= CustomKeys (as type discriminator) Credentials:= {CustomKeys} as Microsoft.MachineLearning.AccountRP.Contracts.WorkspaceConnection.CustomKeys Target:= {any value} Use Metadata property bag for ApiVersion and other metadata fields */
+export interface CustomKeysWorkspaceConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: CustomKeysWorkspaceConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: CustomKeysWorkspaceConnectionPropertiesMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | undefined;
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: CustomKeysWorkspaceConnectionPropertiesSharedUserListList | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  /** Custom Keys credential object */
+  credentials?: CustomKeys | undefined;
+}
+/** Authentication type of the connection target */
+export type ManagedIdentityAuthTypeWorkspaceConnectionPropertiesAuthType = "ManagedIdentity";
+/** Store user metadata for this connection */
+export type ManagedIdentityAuthTypeWorkspaceConnectionPropertiesMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type ManagedIdentityAuthTypeWorkspaceConnectionPropertiesSharedUserListList = Array<string>;
+export interface ManagedIdentityAuthTypeWorkspaceConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: ManagedIdentityAuthTypeWorkspaceConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: ManagedIdentityAuthTypeWorkspaceConnectionPropertiesMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | undefined;
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?:
+    | ManagedIdentityAuthTypeWorkspaceConnectionPropertiesSharedUserListList
+    | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: WorkspaceConnectionManagedIdentity | undefined;
+}
+/** Authentication type of the connection target */
+export type NoneAuthTypeWorkspaceConnectionPropertiesAuthType = "None";
+/** Store user metadata for this connection */
+export type NoneAuthTypeWorkspaceConnectionPropertiesMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type NoneAuthTypeWorkspaceConnectionPropertiesSharedUserListList = Array<string>;
+export interface NoneAuthTypeWorkspaceConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: NoneAuthTypeWorkspaceConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: NoneAuthTypeWorkspaceConnectionPropertiesMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | undefined;
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: NoneAuthTypeWorkspaceConnectionPropertiesSharedUserListList | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+}
+/** Authentication type of the connection target */
+export type OAuth2AuthTypeWorkspaceConnectionPropertiesAuthType = "OAuth2";
+/** Store user metadata for this connection */
+export type OAuth2AuthTypeWorkspaceConnectionPropertiesMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type OAuth2AuthTypeWorkspaceConnectionPropertiesSharedUserListList = Array<string>;
+export interface OAuth2AuthTypeWorkspaceConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: OAuth2AuthTypeWorkspaceConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: OAuth2AuthTypeWorkspaceConnectionPropertiesMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | undefined;
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: OAuth2AuthTypeWorkspaceConnectionPropertiesSharedUserListList | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: WorkspaceConnectionOAuth2 | undefined;
+}
+/** Authentication type of the connection target */
+export type PATAuthTypeWorkspaceConnectionPropertiesAuthType = "PAT";
+/** Store user metadata for this connection */
+export type PATAuthTypeWorkspaceConnectionPropertiesMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type PATAuthTypeWorkspaceConnectionPropertiesSharedUserListList = Array<string>;
+export interface PATAuthTypeWorkspaceConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: PATAuthTypeWorkspaceConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: PATAuthTypeWorkspaceConnectionPropertiesMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | undefined;
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: PATAuthTypeWorkspaceConnectionPropertiesSharedUserListList | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: WorkspaceConnectionPersonalAccessToken | undefined;
+}
+/** Authentication type of the connection target */
+export type SASAuthTypeWorkspaceConnectionPropertiesAuthType = "SAS";
+/** Store user metadata for this connection */
+export type SASAuthTypeWorkspaceConnectionPropertiesMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type SASAuthTypeWorkspaceConnectionPropertiesSharedUserListList = Array<string>;
+export interface SASAuthTypeWorkspaceConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: SASAuthTypeWorkspaceConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: SASAuthTypeWorkspaceConnectionPropertiesMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | undefined;
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: SASAuthTypeWorkspaceConnectionPropertiesSharedUserListList | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: WorkspaceConnectionSharedAccessSignature | undefined;
+}
+/** Authentication type of the connection target */
+export type ServicePrincipalAuthTypeWorkspaceConnectionPropertiesAuthType = "ServicePrincipal";
+/** Store user metadata for this connection */
+export type ServicePrincipalAuthTypeWorkspaceConnectionPropertiesMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type ServicePrincipalAuthTypeWorkspaceConnectionPropertiesSharedUserListList = Array<string>;
+export interface ServicePrincipalAuthTypeWorkspaceConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: ServicePrincipalAuthTypeWorkspaceConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: ServicePrincipalAuthTypeWorkspaceConnectionPropertiesMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | undefined;
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?:
+    | ServicePrincipalAuthTypeWorkspaceConnectionPropertiesSharedUserListList
+    | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: WorkspaceConnectionServicePrincipal | undefined;
+}
+/** Authentication type of the connection target */
+export type UsernamePasswordAuthTypeWorkspaceConnectionPropertiesAuthType = "UsernamePassword";
+/** Store user metadata for this connection */
+export type UsernamePasswordAuthTypeWorkspaceConnectionPropertiesMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type UsernamePasswordAuthTypeWorkspaceConnectionPropertiesSharedUserListList = Array<string>;
+export interface UsernamePasswordAuthTypeWorkspaceConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: UsernamePasswordAuthTypeWorkspaceConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: UsernamePasswordAuthTypeWorkspaceConnectionPropertiesMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | undefined;
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?:
+    | UsernamePasswordAuthTypeWorkspaceConnectionPropertiesSharedUserListList
+    | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: WorkspaceConnectionUsernamePassword | undefined;
+}
+export type WorkspaceConnectionPropertiesV2 =
+  | AADAuthTypeWorkspaceConnectionProperties
+  | AccessKeyAuthTypeWorkspaceConnectionProperties
+  | AccountKeyAuthTypeWorkspaceConnectionProperties
+  | ApiKeyAuthWorkspaceConnectionProperties
+  | CustomKeysWorkspaceConnectionProperties
+  | ManagedIdentityAuthTypeWorkspaceConnectionProperties
+  | NoneAuthTypeWorkspaceConnectionProperties
+  | OAuth2AuthTypeWorkspaceConnectionProperties
+  | PATAuthTypeWorkspaceConnectionProperties
+  | SASAuthTypeWorkspaceConnectionProperties
+  | ServicePrincipalAuthTypeWorkspaceConnectionProperties
+  | UsernamePasswordAuthTypeWorkspaceConnectionProperties;
 export interface CreateWorkspaceConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string | undefined;
@@ -1339,66 +3403,322 @@ export interface DataContainersCreateOrUpdateResponse {
   properties: DataContainerProperties;
 }
 /** The asset property dictionary. */
-export type DatastorePropertiesInputPropertiesMap = { [key: string]: string | null | undefined };
+export type AzureBlobDatastoreInputPropertiesMap = { [key: string]: string | null | undefined };
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type DatastorePropertiesInputTagsMap = { [key: string]: string | null | undefined };
-/** Enum to determine the datastore credentials type. */
-export type CredentialsType = "AccountKey" | "Certificate" | "None" | "Sas" | "ServicePrincipal";
-/** Base definition for datastore credentials. */
-export interface DatastoreCredentials {
+export type AzureBlobDatastoreInputTagsMap = { [key: string]: string | null | undefined };
+/** [Required] Credential type used to authentication with storage. */
+export type AccountKeyDatastoreCredentialsCredentialsType = "AccountKey";
+/** [Required] Credential type used to authentication with storage. */
+export type AccountKeyDatastoreSecretsSecretsType = "AccountKey";
+/** Datastore account key secrets. */
+export interface AccountKeyDatastoreSecrets {
   /** [Required] Credential type used to authentication with storage. */
-  credentialsType: CredentialsType | (string & {});
-  /** Credential secrets (AccountKey: {secretsType,key}; Sas: {secretsType,sasToken}; ServicePrincipal: {secretsType,clientSecret}). */
-  secrets?: unknown | undefined;
-  /** ServicePrincipal/Certificate: client ID. */
-  clientId?: string | undefined;
-  /** ServicePrincipal/Certificate: tenant ID. */
-  tenantId?: string | undefined;
-  /** ServicePrincipal/Certificate: authority URL. */
-  authorityUrl?: string | undefined;
-  /** ServicePrincipal/Certificate: resource URL. */
-  resourceUrl?: string | undefined;
+  secretsType: AccountKeyDatastoreSecretsSecretsType;
+  /** Storage account key. */
+  key?: string | null | undefined;
 }
+/** Account key datastore credentials configuration. */
+export interface AccountKeyDatastoreCredentials {
+  /** [Required] Credential type used to authentication with storage. */
+  credentialsType: AccountKeyDatastoreCredentialsCredentialsType;
+  /** [Required] Storage account secrets. */
+  secrets: AccountKeyDatastoreSecrets;
+}
+/** [Required] Credential type used to authentication with storage. */
+export type CertificateDatastoreCredentialsCredentialsType = "Certificate";
+/** [Required] Credential type used to authentication with storage. */
+export type CertificateDatastoreSecretsSecretsType = "Certificate";
+/** Datastore certificate secrets. */
+export interface CertificateDatastoreSecrets {
+  /** [Required] Credential type used to authentication with storage. */
+  secretsType: CertificateDatastoreSecretsSecretsType;
+  /** Service principal certificate. */
+  certificate?: string | null | undefined;
+}
+/** Certificate datastore credentials configuration. */
+export interface CertificateDatastoreCredentials {
+  /** [Required] Credential type used to authentication with storage. */
+  credentialsType: CertificateDatastoreCredentialsCredentialsType;
+  /** Authority URL used for authentication. */
+  authorityUrl?: string | null | undefined;
+  /** [Required] Service principal client ID. */
+  clientId: string;
+  /** Resource the service principal has access to. */
+  resourceUrl?: string | null | undefined;
+  /** [Required] Service principal secrets. */
+  secrets: CertificateDatastoreSecrets;
+  /** [Required] ID of the tenant to which the service principal belongs. */
+  tenantId: string;
+  /** [Required] Thumbprint of the certificate used for authentication. */
+  thumbprint: string;
+}
+/** [Required] Credential type used to authentication with storage. */
+export type NoneDatastoreCredentialsCredentialsType = "None";
+/** Base definition for datastore credentials. */
+export interface NoneDatastoreCredentials {
+  /** [Required] Credential type used to authentication with storage. */
+  credentialsType: NoneDatastoreCredentialsCredentialsType;
+}
+/** [Required] Credential type used to authentication with storage. */
+export type SasDatastoreCredentialsCredentialsType = "Sas";
+/** [Required] Credential type used to authentication with storage. */
+export type SasDatastoreSecretsSecretsType = "Sas";
+/** Datastore SAS secrets. */
+export interface SasDatastoreSecrets {
+  /** [Required] Credential type used to authentication with storage. */
+  secretsType: SasDatastoreSecretsSecretsType;
+  /** Storage container SAS token. */
+  sasToken?: string | null | undefined;
+}
+/** SAS datastore credentials configuration. */
+export interface SasDatastoreCredentials {
+  /** [Required] Credential type used to authentication with storage. */
+  credentialsType: SasDatastoreCredentialsCredentialsType;
+  /** [Required] Storage container secrets. */
+  secrets: SasDatastoreSecrets;
+}
+/** [Required] Credential type used to authentication with storage. */
+export type ServicePrincipalDatastoreCredentialsCredentialsType = "ServicePrincipal";
+/** [Required] Credential type used to authentication with storage. */
+export type ServicePrincipalDatastoreSecretsSecretsType = "ServicePrincipal";
+/** Datastore Service Principal secrets. */
+export interface ServicePrincipalDatastoreSecrets {
+  /** [Required] Credential type used to authentication with storage. */
+  secretsType: ServicePrincipalDatastoreSecretsSecretsType;
+  /** Service principal secret. */
+  clientSecret?: string | Redacted.Redacted<string> | null | undefined;
+}
+/** Service Principal datastore credentials configuration. */
+export interface ServicePrincipalDatastoreCredentials {
+  /** [Required] Credential type used to authentication with storage. */
+  credentialsType: ServicePrincipalDatastoreCredentialsCredentialsType;
+  /** Authority URL used for authentication. */
+  authorityUrl?: string | null | undefined;
+  /** [Required] Service principal client ID. */
+  clientId: string;
+  /** Resource the service principal has access to. */
+  resourceUrl?: string | null | undefined;
+  /** [Required] Service principal secrets. */
+  secrets: ServicePrincipalDatastoreSecrets;
+  /** [Required] ID of the tenant to which the service principal belongs. */
+  tenantId: string;
+}
+/** Base definition for datastore credentials. */
+export type DatastoreCredentials =
+  | AccountKeyDatastoreCredentials
+  | CertificateDatastoreCredentials
+  | NoneDatastoreCredentials
+  | SasDatastoreCredentials
+  | ServicePrincipalDatastoreCredentials;
 /** Enum to determine the datastore contents type. */
-export type DatastoreType =
-  | "AzureBlob"
-  | "AzureDataLakeGen1"
-  | "AzureDataLakeGen2"
-  | "AzureFile"
-  | "OneLake";
-/** Base definition for datastore contents configuration. */
-export interface DatastorePropertiesInput {
+export type AzureBlobDatastoreInputDatastoreType = "AzureBlob";
+/** Indicates which identity to use to authenticate service data access to customer's storage. */
+export type AzureBlobDatastoreInputServiceDataAccessAuthIdentity =
+  | "None"
+  | "WorkspaceSystemAssignedIdentity"
+  | "WorkspaceUserAssignedIdentity";
+/** Azure Blob datastore configuration. */
+export interface AzureBlobDatastoreInput {
   /** The asset description text. */
   description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: DatastorePropertiesInputPropertiesMap | null | undefined;
+  properties?: AzureBlobDatastoreInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: DatastorePropertiesInputTagsMap | null | undefined;
+  tags?: AzureBlobDatastoreInputTagsMap | null | undefined;
   /** [Required] Account credentials. */
   credentials: DatastoreCredentials;
   /** Enum to determine the datastore contents type. */
-  datastoreType: DatastoreType | (string & {});
-  /** accountName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  accountName?: string | undefined;
-  /** containerName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  containerName?: string | undefined;
-  /** fileShareName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  fileShareName?: string | undefined;
-  /** filesystem (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  filesystem?: string | undefined;
-  /** storeName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  storeName?: string | undefined;
-  /** endpoint (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  endpoint?: string | undefined;
-  /** protocol (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  protocol?: string | undefined;
-  /** serviceDataAccessAuthIdentity (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  serviceDataAccessAuthIdentity?: string | undefined;
-  /** resourceGroup (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  resourceGroup?: string | undefined;
-  /** subscriptionId (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  subscriptionId?: string | undefined;
+  datastoreType: AzureBlobDatastoreInputDatastoreType;
+  /** Azure Resource Group name */
+  resourceGroup?: string | null | undefined;
+  /** Azure Subscription Id */
+  subscriptionId?: string | null | undefined;
+  /** Storage account name. */
+  accountName?: string | null | undefined;
+  /** Storage account container name. */
+  containerName?: string | null | undefined;
+  /** Azure cloud endpoint for the storage account. */
+  endpoint?: string | null | undefined;
+  /** Protocol used to communicate with the storage account. */
+  protocol?: string | null | undefined;
+  /** Indicates which identity to use to authenticate service data access to customer's storage. */
+  serviceDataAccessAuthIdentity?:
+    | AzureBlobDatastoreInputServiceDataAccessAuthIdentity
+    | (string & {})
+    | undefined;
 }
+/** The asset property dictionary. */
+export type AzureDataLakeGen1DatastoreInputPropertiesMap = {
+  [key: string]: string | null | undefined;
+};
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type AzureDataLakeGen1DatastoreInputTagsMap = { [key: string]: string | null | undefined };
+/** Enum to determine the datastore contents type. */
+export type AzureDataLakeGen1DatastoreInputDatastoreType = "AzureDataLakeGen1";
+/** Indicates which identity to use to authenticate service data access to customer's storage. */
+export type AzureDataLakeGen1DatastoreInputServiceDataAccessAuthIdentity =
+  | "None"
+  | "WorkspaceSystemAssignedIdentity"
+  | "WorkspaceUserAssignedIdentity";
+/** Azure Data Lake Gen1 datastore configuration. */
+export interface AzureDataLakeGen1DatastoreInput {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: AzureDataLakeGen1DatastoreInputPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: AzureDataLakeGen1DatastoreInputTagsMap | null | undefined;
+  /** [Required] Account credentials. */
+  credentials: DatastoreCredentials;
+  /** Enum to determine the datastore contents type. */
+  datastoreType: AzureDataLakeGen1DatastoreInputDatastoreType;
+  /** Azure Resource Group name */
+  resourceGroup?: string | null | undefined;
+  /** Azure Subscription Id */
+  subscriptionId?: string | null | undefined;
+  /** Indicates which identity to use to authenticate service data access to customer's storage. */
+  serviceDataAccessAuthIdentity?:
+    | AzureDataLakeGen1DatastoreInputServiceDataAccessAuthIdentity
+    | (string & {})
+    | undefined;
+  /** [Required] Azure Data Lake store name. */
+  storeName: string;
+}
+/** The asset property dictionary. */
+export type AzureDataLakeGen2DatastoreInputPropertiesMap = {
+  [key: string]: string | null | undefined;
+};
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type AzureDataLakeGen2DatastoreInputTagsMap = { [key: string]: string | null | undefined };
+/** Enum to determine the datastore contents type. */
+export type AzureDataLakeGen2DatastoreInputDatastoreType = "AzureDataLakeGen2";
+/** Indicates which identity to use to authenticate service data access to customer's storage. */
+export type AzureDataLakeGen2DatastoreInputServiceDataAccessAuthIdentity =
+  | "None"
+  | "WorkspaceSystemAssignedIdentity"
+  | "WorkspaceUserAssignedIdentity";
+/** Azure Data Lake Gen2 datastore configuration. */
+export interface AzureDataLakeGen2DatastoreInput {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: AzureDataLakeGen2DatastoreInputPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: AzureDataLakeGen2DatastoreInputTagsMap | null | undefined;
+  /** [Required] Account credentials. */
+  credentials: DatastoreCredentials;
+  /** Enum to determine the datastore contents type. */
+  datastoreType: AzureDataLakeGen2DatastoreInputDatastoreType;
+  /** Azure Resource Group name */
+  resourceGroup?: string | null | undefined;
+  /** Azure Subscription Id */
+  subscriptionId?: string | null | undefined;
+  /** [Required] Storage account name. */
+  accountName: string;
+  /** Azure cloud endpoint for the storage account. */
+  endpoint?: string | null | undefined;
+  /** [Required] The name of the Data Lake Gen2 filesystem. */
+  filesystem: string;
+  /** Protocol used to communicate with the storage account. */
+  protocol?: string | null | undefined;
+  /** Indicates which identity to use to authenticate service data access to customer's storage. */
+  serviceDataAccessAuthIdentity?:
+    | AzureDataLakeGen2DatastoreInputServiceDataAccessAuthIdentity
+    | (string & {})
+    | undefined;
+}
+/** The asset property dictionary. */
+export type AzureFileDatastoreInputPropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type AzureFileDatastoreInputTagsMap = { [key: string]: string | null | undefined };
+/** Enum to determine the datastore contents type. */
+export type AzureFileDatastoreInputDatastoreType = "AzureFile";
+/** Indicates which identity to use to authenticate service data access to customer's storage. */
+export type AzureFileDatastoreInputServiceDataAccessAuthIdentity =
+  | "None"
+  | "WorkspaceSystemAssignedIdentity"
+  | "WorkspaceUserAssignedIdentity";
+/** Azure File datastore configuration. */
+export interface AzureFileDatastoreInput {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: AzureFileDatastoreInputPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: AzureFileDatastoreInputTagsMap | null | undefined;
+  /** [Required] Account credentials. */
+  credentials: DatastoreCredentials;
+  /** Enum to determine the datastore contents type. */
+  datastoreType: AzureFileDatastoreInputDatastoreType;
+  /** Azure Resource Group name */
+  resourceGroup?: string | null | undefined;
+  /** Azure Subscription Id */
+  subscriptionId?: string | null | undefined;
+  /** [Required] Storage account name. */
+  accountName: string;
+  /** Azure cloud endpoint for the storage account. */
+  endpoint?: string | null | undefined;
+  /** [Required] The name of the Azure file share that the datastore points to. */
+  fileShareName: string;
+  /** Protocol used to communicate with the storage account. */
+  protocol?: string | null | undefined;
+  /** Indicates which identity to use to authenticate service data access to customer's storage. */
+  serviceDataAccessAuthIdentity?:
+    | AzureFileDatastoreInputServiceDataAccessAuthIdentity
+    | (string & {})
+    | undefined;
+}
+/** The asset property dictionary. */
+export type OneLakeDatastoreInputPropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type OneLakeDatastoreInputTagsMap = { [key: string]: string | null | undefined };
+/** Enum to determine the datastore contents type. */
+export type OneLakeDatastoreInputDatastoreType = "OneLake";
+/** [Required] OneLake artifact type */
+export type LakeHouseArtifactArtifactType = "LakeHouse";
+/** OneLake artifact (data source) configuration. */
+export interface LakeHouseArtifact {
+  /** [Required] OneLake artifact name */
+  artifactName: string;
+  /** [Required] OneLake artifact type */
+  artifactType: LakeHouseArtifactArtifactType | (string & {});
+}
+/** Indicates which identity to use to authenticate service data access to customer's storage. */
+export type OneLakeDatastoreInputServiceDataAccessAuthIdentity =
+  | "None"
+  | "WorkspaceSystemAssignedIdentity"
+  | "WorkspaceUserAssignedIdentity";
+/** OneLake (Trident) datastore configuration. */
+export interface OneLakeDatastoreInput {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: OneLakeDatastoreInputPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: OneLakeDatastoreInputTagsMap | null | undefined;
+  /** [Required] Account credentials. */
+  credentials: DatastoreCredentials;
+  /** Enum to determine the datastore contents type. */
+  datastoreType: OneLakeDatastoreInputDatastoreType;
+  /** [Required] OneLake artifact backing the datastore. */
+  artifact: LakeHouseArtifact;
+  /** OneLake endpoint to use for the datastore. */
+  endpoint?: string | null | undefined;
+  /** [Required] OneLake workspace name. */
+  oneLakeWorkspaceName: string;
+  /** Indicates which identity to use to authenticate service data access to customer's storage. */
+  serviceDataAccessAuthIdentity?:
+    | OneLakeDatastoreInputServiceDataAccessAuthIdentity
+    | (string & {})
+    | undefined;
+}
+/** Base definition for datastore contents configuration. */
+export type DatastorePropertiesInput =
+  | AzureBlobDatastoreInput
+  | AzureDataLakeGen1DatastoreInput
+  | AzureDataLakeGen2DatastoreInput
+  | AzureFileDatastoreInput
+  | OneLakeDatastoreInput;
 export interface DatastoresCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1414,44 +3734,204 @@ export interface DatastoresCreateOrUpdateRequest {
   properties: DatastorePropertiesInput;
 }
 /** The asset property dictionary. */
-export type DatastorePropertiesPropertiesMap = { [key: string]: string | null | undefined };
+export type AzureBlobDatastorePropertiesMap = { [key: string]: string | null | undefined };
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type DatastorePropertiesTagsMap = { [key: string]: string | null | undefined };
-/** Base definition for datastore contents configuration. */
-export interface DatastoreProperties {
+export type AzureBlobDatastoreTagsMap = { [key: string]: string | null | undefined };
+/** Enum to determine the datastore contents type. */
+export type AzureBlobDatastoreDatastoreType = "AzureBlob";
+/** Indicates which identity to use to authenticate service data access to customer's storage. */
+export type AzureBlobDatastoreServiceDataAccessAuthIdentity =
+  | "None"
+  | "WorkspaceSystemAssignedIdentity"
+  | "WorkspaceUserAssignedIdentity";
+/** Azure Blob datastore configuration. */
+export interface AzureBlobDatastore {
   /** The asset description text. */
   description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: DatastorePropertiesPropertiesMap | null | undefined;
+  properties?: AzureBlobDatastorePropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: DatastorePropertiesTagsMap | null | undefined;
+  tags?: AzureBlobDatastoreTagsMap | null | undefined;
   /** [Required] Account credentials. */
   credentials: DatastoreCredentials;
   /** Enum to determine the datastore contents type. */
-  datastoreType: DatastoreType;
+  datastoreType: AzureBlobDatastoreDatastoreType;
   /** Readonly property to indicate if datastore is the workspace default datastore */
   isDefault?: boolean | undefined;
-  /** accountName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  accountName?: string | undefined;
-  /** containerName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  containerName?: string | undefined;
-  /** fileShareName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  fileShareName?: string | undefined;
-  /** filesystem (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  filesystem?: string | undefined;
-  /** storeName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  storeName?: string | undefined;
-  /** endpoint (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  endpoint?: string | undefined;
-  /** protocol (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  protocol?: string | undefined;
-  /** serviceDataAccessAuthIdentity (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  serviceDataAccessAuthIdentity?: string | undefined;
-  /** resourceGroup (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  resourceGroup?: string | undefined;
-  /** subscriptionId (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  subscriptionId?: string | undefined;
+  /** Azure Resource Group name */
+  resourceGroup?: string | null | undefined;
+  /** Azure Subscription Id */
+  subscriptionId?: string | null | undefined;
+  /** Storage account name. */
+  accountName?: string | null | undefined;
+  /** Storage account container name. */
+  containerName?: string | null | undefined;
+  /** Azure cloud endpoint for the storage account. */
+  endpoint?: string | null | undefined;
+  /** Protocol used to communicate with the storage account. */
+  protocol?: string | null | undefined;
+  /** Indicates which identity to use to authenticate service data access to customer's storage. */
+  serviceDataAccessAuthIdentity?: AzureBlobDatastoreServiceDataAccessAuthIdentity | undefined;
 }
+/** The asset property dictionary. */
+export type AzureDataLakeGen1DatastorePropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type AzureDataLakeGen1DatastoreTagsMap = { [key: string]: string | null | undefined };
+/** Enum to determine the datastore contents type. */
+export type AzureDataLakeGen1DatastoreDatastoreType = "AzureDataLakeGen1";
+/** Indicates which identity to use to authenticate service data access to customer's storage. */
+export type AzureDataLakeGen1DatastoreServiceDataAccessAuthIdentity =
+  | "None"
+  | "WorkspaceSystemAssignedIdentity"
+  | "WorkspaceUserAssignedIdentity";
+/** Azure Data Lake Gen1 datastore configuration. */
+export interface AzureDataLakeGen1Datastore {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: AzureDataLakeGen1DatastorePropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: AzureDataLakeGen1DatastoreTagsMap | null | undefined;
+  /** [Required] Account credentials. */
+  credentials: DatastoreCredentials;
+  /** Enum to determine the datastore contents type. */
+  datastoreType: AzureDataLakeGen1DatastoreDatastoreType;
+  /** Readonly property to indicate if datastore is the workspace default datastore */
+  isDefault?: boolean | undefined;
+  /** Azure Resource Group name */
+  resourceGroup?: string | null | undefined;
+  /** Azure Subscription Id */
+  subscriptionId?: string | null | undefined;
+  /** Indicates which identity to use to authenticate service data access to customer's storage. */
+  serviceDataAccessAuthIdentity?:
+    | AzureDataLakeGen1DatastoreServiceDataAccessAuthIdentity
+    | undefined;
+  /** [Required] Azure Data Lake store name. */
+  storeName: string;
+}
+/** The asset property dictionary. */
+export type AzureDataLakeGen2DatastorePropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type AzureDataLakeGen2DatastoreTagsMap = { [key: string]: string | null | undefined };
+/** Enum to determine the datastore contents type. */
+export type AzureDataLakeGen2DatastoreDatastoreType = "AzureDataLakeGen2";
+/** Indicates which identity to use to authenticate service data access to customer's storage. */
+export type AzureDataLakeGen2DatastoreServiceDataAccessAuthIdentity =
+  | "None"
+  | "WorkspaceSystemAssignedIdentity"
+  | "WorkspaceUserAssignedIdentity";
+/** Azure Data Lake Gen2 datastore configuration. */
+export interface AzureDataLakeGen2Datastore {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: AzureDataLakeGen2DatastorePropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: AzureDataLakeGen2DatastoreTagsMap | null | undefined;
+  /** [Required] Account credentials. */
+  credentials: DatastoreCredentials;
+  /** Enum to determine the datastore contents type. */
+  datastoreType: AzureDataLakeGen2DatastoreDatastoreType;
+  /** Readonly property to indicate if datastore is the workspace default datastore */
+  isDefault?: boolean | undefined;
+  /** Azure Resource Group name */
+  resourceGroup?: string | null | undefined;
+  /** Azure Subscription Id */
+  subscriptionId?: string | null | undefined;
+  /** [Required] Storage account name. */
+  accountName: string;
+  /** Azure cloud endpoint for the storage account. */
+  endpoint?: string | null | undefined;
+  /** [Required] The name of the Data Lake Gen2 filesystem. */
+  filesystem: string;
+  /** Protocol used to communicate with the storage account. */
+  protocol?: string | null | undefined;
+  /** Indicates which identity to use to authenticate service data access to customer's storage. */
+  serviceDataAccessAuthIdentity?:
+    | AzureDataLakeGen2DatastoreServiceDataAccessAuthIdentity
+    | undefined;
+}
+/** The asset property dictionary. */
+export type AzureFileDatastorePropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type AzureFileDatastoreTagsMap = { [key: string]: string | null | undefined };
+/** Enum to determine the datastore contents type. */
+export type AzureFileDatastoreDatastoreType = "AzureFile";
+/** Indicates which identity to use to authenticate service data access to customer's storage. */
+export type AzureFileDatastoreServiceDataAccessAuthIdentity =
+  | "None"
+  | "WorkspaceSystemAssignedIdentity"
+  | "WorkspaceUserAssignedIdentity";
+/** Azure File datastore configuration. */
+export interface AzureFileDatastore {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: AzureFileDatastorePropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: AzureFileDatastoreTagsMap | null | undefined;
+  /** [Required] Account credentials. */
+  credentials: DatastoreCredentials;
+  /** Enum to determine the datastore contents type. */
+  datastoreType: AzureFileDatastoreDatastoreType;
+  /** Readonly property to indicate if datastore is the workspace default datastore */
+  isDefault?: boolean | undefined;
+  /** Azure Resource Group name */
+  resourceGroup?: string | null | undefined;
+  /** Azure Subscription Id */
+  subscriptionId?: string | null | undefined;
+  /** [Required] Storage account name. */
+  accountName: string;
+  /** Azure cloud endpoint for the storage account. */
+  endpoint?: string | null | undefined;
+  /** [Required] The name of the Azure file share that the datastore points to. */
+  fileShareName: string;
+  /** Protocol used to communicate with the storage account. */
+  protocol?: string | null | undefined;
+  /** Indicates which identity to use to authenticate service data access to customer's storage. */
+  serviceDataAccessAuthIdentity?: AzureFileDatastoreServiceDataAccessAuthIdentity | undefined;
+}
+/** The asset property dictionary. */
+export type OneLakeDatastorePropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type OneLakeDatastoreTagsMap = { [key: string]: string | null | undefined };
+/** Enum to determine the datastore contents type. */
+export type OneLakeDatastoreDatastoreType = "OneLake";
+/** Indicates which identity to use to authenticate service data access to customer's storage. */
+export type OneLakeDatastoreServiceDataAccessAuthIdentity =
+  | "None"
+  | "WorkspaceSystemAssignedIdentity"
+  | "WorkspaceUserAssignedIdentity";
+/** OneLake (Trident) datastore configuration. */
+export interface OneLakeDatastore {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: OneLakeDatastorePropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: OneLakeDatastoreTagsMap | null | undefined;
+  /** [Required] Account credentials. */
+  credentials: DatastoreCredentials;
+  /** Enum to determine the datastore contents type. */
+  datastoreType: OneLakeDatastoreDatastoreType;
+  /** Readonly property to indicate if datastore is the workspace default datastore */
+  isDefault?: boolean | undefined;
+  /** [Required] OneLake artifact backing the datastore. */
+  artifact: LakeHouseArtifact;
+  /** OneLake endpoint to use for the datastore. */
+  endpoint?: string | null | undefined;
+  /** [Required] OneLake workspace name. */
+  oneLakeWorkspaceName: string;
+  /** Indicates which identity to use to authenticate service data access to customer's storage. */
+  serviceDataAccessAuthIdentity?: OneLakeDatastoreServiceDataAccessAuthIdentity | undefined;
+}
+/** Base definition for datastore contents configuration. */
+export type DatastoreProperties =
+  | AzureBlobDatastore
+  | AzureDataLakeGen1Datastore
+  | AzureDataLakeGen2Datastore
+  | AzureFileDatastore
+  | OneLakeDatastore;
 export interface DatastoresCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string | undefined;
@@ -1465,26 +3945,80 @@ export interface DatastoresCreateOrUpdateResponse {
   properties: DatastoreProperties;
 }
 /** The asset property dictionary. */
-export type DataVersionBasePropertiesPropertiesMap = { [key: string]: string | null | undefined };
+export type MLTableDataPropertiesMap = { [key: string]: string | null | undefined };
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type DataVersionBasePropertiesTagsMap = { [key: string]: string | null | undefined };
-/** Data version base definition */
-export interface DataVersionBaseProperties {
+export type MLTableDataTagsMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of data. */
+export type MLTableDataDataType = "mltable";
+/** Uris referenced in the MLTable definition (required for lineage) */
+export type MLTableDataReferencedUrisList = Array<string>;
+/** MLTable data definition */
+export interface MLTableData {
   /** The asset description text. */
   description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: DataVersionBasePropertiesPropertiesMap | null | undefined;
+  properties?: MLTableDataPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: DataVersionBasePropertiesTagsMap | null | undefined;
+  tags?: MLTableDataTagsMap | null | undefined;
   /** If the name version are system generated (anonymous registration). */
   isAnonymous?: boolean | undefined;
   /** Is the asset archived? */
   isArchived?: boolean | undefined;
   /** [Required] Specifies the type of data. */
-  dataType: DataType | (string & {});
+  dataType: MLTableDataDataType;
+  /** [Required] Uri of the data. Example: https://go.microsoft.com/fwlink/?linkid=2202330 */
+  dataUri: string;
+  /** Uris referenced in the MLTable definition (required for lineage) */
+  referencedUris?: MLTableDataReferencedUrisList | null | undefined;
+}
+/** The asset property dictionary. */
+export type UriFileDataVersionPropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type UriFileDataVersionTagsMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of data. */
+export type UriFileDataVersionDataType = "uri_file";
+/** Data version base definition */
+export interface UriFileDataVersion {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: UriFileDataVersionPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: UriFileDataVersionTagsMap | null | undefined;
+  /** If the name version are system generated (anonymous registration). */
+  isAnonymous?: boolean | undefined;
+  /** Is the asset archived? */
+  isArchived?: boolean | undefined;
+  /** [Required] Specifies the type of data. */
+  dataType: UriFileDataVersionDataType;
   /** [Required] Uri of the data. Example: https://go.microsoft.com/fwlink/?linkid=2202330 */
   dataUri: string;
 }
+/** The asset property dictionary. */
+export type UriFolderDataVersionPropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type UriFolderDataVersionTagsMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of data. */
+export type UriFolderDataVersionDataType = "uri_folder";
+/** Data version base definition */
+export interface UriFolderDataVersion {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: UriFolderDataVersionPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: UriFolderDataVersionTagsMap | null | undefined;
+  /** If the name version are system generated (anonymous registration). */
+  isAnonymous?: boolean | undefined;
+  /** Is the asset archived? */
+  isArchived?: boolean | undefined;
+  /** [Required] Specifies the type of data. */
+  dataType: UriFolderDataVersionDataType;
+  /** [Required] Uri of the data. Example: https://go.microsoft.com/fwlink/?linkid=2202330 */
+  dataUri: string;
+}
+/** Data version base definition */
+export type DataVersionBaseProperties = MLTableData | UriFileDataVersion | UriFolderDataVersion;
 export interface DataVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -2462,17 +4996,19 @@ export type EmailNotificationEnableType = "JobCompleted" | "JobFailed" | "JobCan
 export type NotificationSettingEmailOnList = Array<EmailNotificationEnableType | (string & {})>;
 /** This is the email recipient list which has a limitation of 499 characters in total concat with comma separator */
 export type NotificationSettingEmailsList = Array<string>;
-/** Enum to determine the webhook callback service type. */
-export type WebhookType = "AzureDevOps";
+/** [Required] Specifies the type of service to send a callback */
+export type AzureDevOpsWebhookWebhookType = "AzureDevOps";
 /** Webhook base */
-export interface Webhook {
+export interface AzureDevOpsWebhook {
   /** Send callback on a specified notification event */
   eventType?: string | null | undefined;
   /** [Required] Specifies the type of service to send a callback */
-  webhookType: WebhookType | (string & {});
+  webhookType: AzureDevOpsWebhookWebhookType | (string & {});
 }
 /** Send webhook callback to a service. Key is a user-provided name for the webhook. */
-export type NotificationSettingWebhooksMap = { [key: string]: Webhook | null | undefined };
+export type NotificationSettingWebhooksMap = {
+  [key: string]: AzureDevOpsWebhook | null | undefined;
+};
 /** Configuration for notification. */
 export interface NotificationSetting {
   /** Send email notification to user on specified notification type */
@@ -2482,7 +5018,8 @@ export interface NotificationSetting {
   /** Send webhook callback to a service. Key is a user-provided name for the webhook. */
   webhooks?: NotificationSettingWebhooksMap | null | undefined;
 }
-export type TriggerType = "Recurrence" | "Cron";
+/** [Required] */
+export type RecurrenceTriggerTriggerType = "Recurrence";
 /** Enum to describe the frequency of a recurrence schedule */
 export type RecurrenceFrequency = "Minute" | "Hour" | "Day" | "Week" | "Month";
 /** [Required] List of hours for the schedule. */
@@ -2520,7 +5057,7 @@ export interface RecurrenceTrigger {
   /** Specifies time zone in which the schedule runs. TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11 */
   timeZone?: string | undefined;
   /** [Required] */
-  triggerType: TriggerType | (string & {});
+  triggerType: RecurrenceTriggerTriggerType;
   /** [Required] The frequency to trigger schedule. */
   frequency: RecurrenceFrequency | (string & {});
   /** [Required] Specifies schedule interval in conjunction with frequency */
@@ -3304,24 +5841,46 @@ export interface GetJobRequest {
   id: string;
 }
 /** The asset property dictionary. */
-export type JobBasePropertiesPropertiesMap = { [key: string]: string | null | undefined };
+export type AutoMLJobPropertiesMap = { [key: string]: string | null | undefined };
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type JobBasePropertiesTagsMap = { [key: string]: string | null | undefined };
-/** Enum to determine identity framework. */
-export type IdentityConfigurationType = "Managed" | "AMLToken" | "UserIdentity";
+export type AutoMLJobTagsMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of identity framework. */
+export type AmlTokenIdentityType = "AMLToken";
 /** Base definition for identity configuration. */
-export interface IdentityConfiguration {
+export interface AmlToken {
   /** [Required] Specifies the type of identity framework. */
-  identityType: IdentityConfigurationType | (string & {});
+  identityType: AmlTokenIdentityType;
 }
-/** Enum to determine the type of job. */
-export type JobType = "AutoML" | "Command" | "Sweep" | "Pipeline" | "Spark";
-/** The enumerated types for the nodes value */
-export type NodesValueType = "All";
+/** [Required] Specifies the type of identity framework. */
+export type ManagedIdentityIdentityType = "Managed";
+/** Managed identity configuration. */
+export interface ManagedIdentity {
+  /** [Required] Specifies the type of identity framework. */
+  identityType: ManagedIdentityIdentityType;
+  /** Specifies a user-assigned identity by client ID. For system-assigned, do not set this field. */
+  clientId?: string | null | undefined;
+  /** Specifies a user-assigned identity by object ID. For system-assigned, do not set this field. */
+  objectId?: string | null | undefined;
+  /** Specifies a user-assigned identity by ARM resource ID. For system-assigned, do not set this field. */
+  resourceId?: string | null | undefined;
+}
+/** [Required] Specifies the type of identity framework. */
+export type UserIdentityIdentityType = "UserIdentity";
+/** Base definition for identity configuration. */
+export interface UserIdentity {
+  /** [Required] Specifies the type of identity framework. */
+  identityType: UserIdentityIdentityType;
+}
+/** Base definition for identity configuration. */
+export type IdentityConfiguration = AmlToken | ManagedIdentity | UserIdentity;
+/** [Required] Specifies the type of job. */
+export type AutoMLJobJobType = "AutoML";
+/** [Required] Type of the Nodes value */
+export type AllNodesNodesValueType = "All";
 /** Abstract Nodes definition */
-export interface Nodes {
+export interface AllNodes {
   /** [Required] Type of the Nodes value */
-  nodesValueType: NodesValueType | (string & {});
+  nodesValueType: AllNodesNodesValueType | (string & {});
 }
 /** Additional properties to set on the endpoint. */
 export type JobServicePropertiesMap = { [key: string]: string | null | undefined };
@@ -3334,7 +5893,7 @@ export interface JobService {
   /** Endpoint type. */
   jobServiceType?: string | null | undefined;
   /** Nodes that user would like to start the service on. If Nodes is not set or set to null, the service will only be started on leader node. */
-  nodes?: Nodes | null | undefined;
+  nodes?: AllNodes | null | undefined;
   /** Port for endpoint. */
   port?: number | null | undefined;
   /** Additional properties to set on the endpoint. */
@@ -3343,7 +5902,7 @@ export interface JobService {
   status?: string | null | undefined;
 }
 /** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
-export type JobBasePropertiesServicesMap = { [key: string]: JobService | null | undefined };
+export type AutoMLJobServicesMap = { [key: string]: JobService | null | undefined };
 /** The status of a job. */
 export type JobStatus =
   | "NotStarted"
@@ -3360,14 +5919,1380 @@ export type JobStatus =
   | "NotResponding"
   | "Paused"
   | "Unknown";
-/** Base definition for a job. */
-export interface JobBaseProperties {
+/** Environment variables included in the job. */
+export type AutoMLJobEnvironmentVariablesMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of job. */
+export type CustomModelJobOutputJobOutputType = "custom_model";
+/** Output data delivery mode enums. */
+export type CustomModelJobOutputMode = "ReadWriteMount" | "Upload" | "Direct";
+/** Job output definition container information on where to find job output/logs. */
+export interface CustomModelJobOutput {
+  /** Description for the output. */
+  description?: string | null | undefined;
+  /** [Required] Specifies the type of job. */
+  jobOutputType: CustomModelJobOutputJobOutputType;
+  /** Output Asset Name. */
+  assetName?: string | null | undefined;
+  /** Output data delivery mode enums. */
+  mode?: CustomModelJobOutputMode | (string & {}) | undefined;
+  /** Output Asset URI. */
+  uri?: string | null | undefined;
+}
+/** [Required] Specifies the type of job. */
+export type MLFlowModelJobOutputJobOutputType = "mlflow_model";
+/** Output data delivery mode enums. */
+export type MLFlowModelJobOutputMode = "ReadWriteMount" | "Upload" | "Direct";
+/** Job output definition container information on where to find job output/logs. */
+export interface MLFlowModelJobOutput {
+  /** Description for the output. */
+  description?: string | null | undefined;
+  /** [Required] Specifies the type of job. */
+  jobOutputType: MLFlowModelJobOutputJobOutputType;
+  /** Output Asset Name. */
+  assetName?: string | null | undefined;
+  /** Output data delivery mode enums. */
+  mode?: MLFlowModelJobOutputMode | (string & {}) | undefined;
+  /** Output Asset URI. */
+  uri?: string | null | undefined;
+}
+/** [Required] Specifies the type of job. */
+export type MLTableJobOutputJobOutputType = "mltable";
+/** Output data delivery mode enums. */
+export type MLTableJobOutputMode = "ReadWriteMount" | "Upload" | "Direct";
+/** Job output definition container information on where to find job output/logs. */
+export interface MLTableJobOutput {
+  /** Description for the output. */
+  description?: string | null | undefined;
+  /** [Required] Specifies the type of job. */
+  jobOutputType: MLTableJobOutputJobOutputType;
+  /** Output Asset Name. */
+  assetName?: string | null | undefined;
+  /** Output data delivery mode enums. */
+  mode?: MLTableJobOutputMode | (string & {}) | undefined;
+  /** Output Asset URI. */
+  uri?: string | null | undefined;
+}
+/** [Required] Specifies the type of job. */
+export type TritonModelJobOutputJobOutputType = "triton_model";
+/** Output data delivery mode enums. */
+export type TritonModelJobOutputMode = "ReadWriteMount" | "Upload" | "Direct";
+/** Job output definition container information on where to find job output/logs. */
+export interface TritonModelJobOutput {
+  /** Description for the output. */
+  description?: string | null | undefined;
+  /** [Required] Specifies the type of job. */
+  jobOutputType: TritonModelJobOutputJobOutputType;
+  /** Output Asset Name. */
+  assetName?: string | null | undefined;
+  /** Output data delivery mode enums. */
+  mode?: TritonModelJobOutputMode | (string & {}) | undefined;
+  /** Output Asset URI. */
+  uri?: string | null | undefined;
+}
+/** [Required] Specifies the type of job. */
+export type UriFileJobOutputJobOutputType = "uri_file";
+/** Output data delivery mode enums. */
+export type UriFileJobOutputMode = "ReadWriteMount" | "Upload" | "Direct";
+/** Job output definition container information on where to find job output/logs. */
+export interface UriFileJobOutput {
+  /** Description for the output. */
+  description?: string | null | undefined;
+  /** [Required] Specifies the type of job. */
+  jobOutputType: UriFileJobOutputJobOutputType;
+  /** Output Asset Name. */
+  assetName?: string | null | undefined;
+  /** Output data delivery mode enums. */
+  mode?: UriFileJobOutputMode | (string & {}) | undefined;
+  /** Output Asset URI. */
+  uri?: string | null | undefined;
+}
+/** [Required] Specifies the type of job. */
+export type UriFolderJobOutputJobOutputType = "uri_folder";
+/** Output data delivery mode enums. */
+export type UriFolderJobOutputMode = "ReadWriteMount" | "Upload" | "Direct";
+/** Job output definition container information on where to find job output/logs. */
+export interface UriFolderJobOutput {
+  /** Description for the output. */
+  description?: string | null | undefined;
+  /** [Required] Specifies the type of job. */
+  jobOutputType: UriFolderJobOutputJobOutputType;
+  /** Output Asset Name. */
+  assetName?: string | null | undefined;
+  /** Output data delivery mode enums. */
+  mode?: UriFolderJobOutputMode | (string & {}) | undefined;
+  /** Output Asset URI. */
+  uri?: string | null | undefined;
+}
+/** Job output definition container information on where to find job output/logs. */
+export type JobOutput =
+  | CustomModelJobOutput
+  | MLFlowModelJobOutput
+  | MLTableJobOutput
+  | TritonModelJobOutput
+  | UriFileJobOutput
+  | UriFolderJobOutput;
+/** Mapping of output data bindings used in the job. */
+export type AutoMLJobOutputsMap = { [key: string]: JobOutput | null | undefined };
+/** Enum to determine the job tier. */
+export type QueueSettingsJobTier = "Null" | "Spot" | "Basic" | "Standard" | "Premium";
+export interface QueueSettings {
+  /** Enum to determine the job tier. */
+  jobTier?: QueueSettingsJobTier | (string & {}) | undefined;
+}
+/** Additional properties bag. */
+export type JobResourceConfigurationPropertiesMap = { [key: string]: unknown | null | undefined };
+/** Extra arguments to pass to the Docker run command, as a collection. This would override any parameters that have already been set by the system, or in this section. This parameter is only supported for Azure ML compute types. */
+export type JobResourceConfigurationDockerArgsListList = Array<string>;
+export interface JobResourceConfiguration {
+  /** Optional number of instances or nodes used by the compute target. */
+  instanceCount?: number | undefined;
+  /** Optional type of VM used as supported by the compute target. */
+  instanceType?: string | null | undefined;
+  /** Additional properties bag. */
+  properties?: JobResourceConfigurationPropertiesMap | null | undefined;
+  /** Extra arguments to pass to the Docker run command. This would override any parameters that have already been set by the system, or in this section. This parameter is only supported for Azure ML compute types. */
+  dockerArgs?: string | null | undefined;
+  /** Extra arguments to pass to the Docker run command, as a collection. This would override any parameters that have already been set by the system, or in this section. This parameter is only supported for Azure ML compute types. */
+  dockerArgsList?: JobResourceConfigurationDockerArgsListList | null | undefined;
+  /** Size of the docker container's shared memory block. This should be in the format of (number)(unit) where number as to be greater than 0 and the unit can be one of b(bytes), k(kilobytes), m(megabytes), or g(gigabytes). */
+  shmSize?: string | undefined;
+}
+/** Enum for setting log verbosity. */
+export type AutoMLVerticalLogVerbosity =
+  | "NotSet"
+  | "Debug"
+  | "Info"
+  | "Warning"
+  | "Error"
+  | "Critical";
+/** [Required] Task type for AutoMLJob. */
+export type ClassificationTaskType = "Classification";
+/** [Required] Specifies the type of job. */
+export type MLTableJobInputJobInputType = "mltable";
+/** Enum to determine the input data delivery mode. */
+export type MLTableJobInputMode =
+  | "ReadOnlyMount"
+  | "ReadWriteMount"
+  | "Download"
+  | "Direct"
+  | "EvalMount"
+  | "EvalDownload";
+/** Command job definition. */
+export interface MLTableJobInput {
+  /** Description for the input. */
+  description?: string | null | undefined;
+  /** [Required] Specifies the type of job. */
+  jobInputType: MLTableJobInputJobInputType;
+  /** Enum to determine the input data delivery mode. */
+  mode?: MLTableJobInputMode | (string & {}) | undefined;
+  /** [Required] Input Asset URI. */
+  uri: string;
+}
+/** Columns to use for CVSplit data. */
+export type ClassificationCvSplitColumnNamesList = Array<string>;
+/** Enum for all classification models supported by AutoML. */
+export type BlockedTransformers =
+  | "TextTargetEncoder"
+  | "OneHotEncoder"
+  | "CatTargetEncoder"
+  | "TfIdf"
+  | "WoETargetEncoder"
+  | "LabelEncoder"
+  | "WordEmbedding"
+  | "NaiveBayes"
+  | "CountVectorizer"
+  | "HashOneHotEncoder";
+/** These transformers shall not be used in featurization. */
+export type TableVerticalFeaturizationSettingsBlockedTransformersList = Array<
+  BlockedTransformers | (string & {})
+>;
+/** Dictionary of column name and its type (int, float, string, datetime etc). */
+export type TableVerticalFeaturizationSettingsColumnNameAndTypesMap = {
+  [key: string]: string | null | undefined;
+};
+/** Featurization mode - User can keep the default 'Auto' mode and AutoML will take care of necessary transformation of the data in featurization phase. If 'Off' is selected then no featurization is done. If 'Custom' is selected then user can specify additional inputs to customize how featurization is done. */
+export type TableVerticalFeaturizationSettingsMode = "Auto" | "Custom" | "Off";
+/** Fields to apply transformer logic on. */
+export type ColumnTransformerFieldsList = Array<string>;
+/** Column transformer parameters. */
+export interface ColumnTransformer {
+  /** Fields to apply transformer logic on. */
+  fields?: ColumnTransformerFieldsList | null | undefined;
+  /** Different properties to be passed to transformer. Input expected is dictionary of key,value pairs in JSON format. */
+  parameters?: unknown | null | undefined;
+}
+export type TableVerticalFeaturizationSettingsTransformerParamsValueList = Array<ColumnTransformer>;
+/** User can specify additional transformers to be used along with the columns to which it would be applied and parameters for the transformer constructor. */
+export type TableVerticalFeaturizationSettingsTransformerParamsMap = {
+  [key: string]: TableVerticalFeaturizationSettingsTransformerParamsValueList | null | undefined;
+};
+/** Featurization Configuration. */
+export interface TableVerticalFeaturizationSettings {
+  /** Dataset language, useful for the text data. */
+  datasetLanguage?: string | null | undefined;
+  /** These transformers shall not be used in featurization. */
+  blockedTransformers?:
+    | TableVerticalFeaturizationSettingsBlockedTransformersList
+    | null
+    | undefined;
+  /** Dictionary of column name and its type (int, float, string, datetime etc). */
+  columnNameAndTypes?: TableVerticalFeaturizationSettingsColumnNameAndTypesMap | null | undefined;
+  /** Determines whether to use Dnn based featurizers for data featurization. */
+  enableDnnFeaturization?: boolean | undefined;
+  /** Featurization mode - User can keep the default 'Auto' mode and AutoML will take care of necessary transformation of the data in featurization phase. If 'Off' is selected then no featurization is done. If 'Custom' is selected then user can specify additional inputs to customize how featurization is done. */
+  mode?: TableVerticalFeaturizationSettingsMode | (string & {}) | undefined;
+  /** User can specify additional transformers to be used along with the columns to which it would be applied and parameters for the transformer constructor. */
+  transformerParams?: TableVerticalFeaturizationSettingsTransformerParamsMap | null | undefined;
+}
+/** Job execution constraints. */
+export interface TableVerticalLimitSettings {
+  /** Enable early termination, determines whether or not if AutoMLJob will terminate early if there is no score improvement in last 20 iterations. */
+  enableEarlyTermination?: boolean | undefined;
+  /** Exit score for the AutoML job. */
+  exitScore?: number | null | undefined;
+  /** Maximum Concurrent iterations. */
+  maxConcurrentTrials?: number | undefined;
+  /** Max cores per iteration. */
+  maxCoresPerTrial?: number | undefined;
+  /** Number of iterations. */
+  maxTrials?: number | undefined;
+  /** AutoML job timeout. */
+  timeout?: string | undefined;
+  /** Iteration timeout. */
+  trialTimeout?: string | undefined;
+}
+/** [Required] Mode for determining N-Cross validations. */
+export type AutoNCrossValidationsMode = "Auto";
+/** N-Cross validations value. */
+export interface AutoNCrossValidations {
+  /** [Required] Mode for determining N-Cross validations. */
+  mode: AutoNCrossValidationsMode;
+}
+/** [Required] Mode for determining N-Cross validations. */
+export type CustomNCrossValidationsMode = "Custom";
+/** N-Cross validations are specified by user. */
+export interface CustomNCrossValidations {
+  /** [Required] Mode for determining N-Cross validations. */
+  mode: CustomNCrossValidationsMode;
+  /** [Required] N-Cross validations value. */
+  value: number;
+}
+/** N-Cross validations value. */
+export type NCrossValidations = AutoNCrossValidations | CustomNCrossValidations;
+/** Primary metrics for classification tasks. */
+export type ClassificationPrimaryMetric =
+  | "AUCWeighted"
+  | "Accuracy"
+  | "NormMacroRecall"
+  | "AveragePrecisionScoreWeighted"
+  | "PrecisionScoreWeighted";
+/** The meta-learner is a model trained on the output of the individual heterogeneous models.\r\nDefault meta-learners are LogisticRegression for classification tasks (or LogisticRegressionCV if cross-validation is enabled) and ElasticNet for regression/forecasting tasks (or ElasticNetCV if cross-validation is enabled).\r\nThis parameter can be one of the following strings: LogisticRegression, LogisticRegressionCV, LightGBMClassifier, ElasticNet, ElasticNetCV, LightGBMRegressor, or LinearRegression */
+export type StackEnsembleSettingsStackMetaLearnerType =
+  | "None"
+  | "LogisticRegression"
+  | "LogisticRegressionCV"
+  | "LightGBMClassifier"
+  | "ElasticNet"
+  | "ElasticNetCV"
+  | "LightGBMRegressor"
+  | "LinearRegression";
+/** Advances setting to customize StackEnsemble run. */
+export interface StackEnsembleSettings {
+  /** Optional parameters to pass to the initializer of the meta-learner. */
+  stackMetaLearnerKWargs?: unknown | null | undefined;
+  /** Specifies the proportion of the training set (when choosing train and validation type of training) to be reserved for training the meta-learner. Default value is 0.2. */
+  stackMetaLearnerTrainPercentage?: number | undefined;
+  /** The meta-learner is a model trained on the output of the individual heterogeneous models.\r\nDefault meta-learners are LogisticRegression for classification tasks (or LogisticRegressionCV if cross-validation is enabled) and ElasticNet for regression/forecasting tasks (or ElasticNetCV if cross-validation is enabled).\r\nThis parameter can be one of the following strings: LogisticRegression, LogisticRegressionCV, LightGBMClassifier, ElasticNet, ElasticNetCV, LightGBMRegressor, or LinearRegression */
+  stackMetaLearnerType?: StackEnsembleSettingsStackMetaLearnerType | (string & {}) | undefined;
+}
+/** Enum for all classification models supported by AutoML. */
+export type ClassificationModels =
+  | "LogisticRegression"
+  | "SGD"
+  | "MultinomialNaiveBayes"
+  | "BernoulliNaiveBayes"
+  | "SVM"
+  | "LinearSVM"
+  | "KNN"
+  | "DecisionTree"
+  | "RandomForest"
+  | "ExtremeRandomTrees"
+  | "LightGBM"
+  | "GradientBoosting"
+  | "XGBoostClassifier";
+/** Allowed models for classification task. */
+export type ClassificationTrainingSettingsAllowedTrainingAlgorithmsList = Array<
+  ClassificationModels | (string & {})
+>;
+/** Blocked models for classification task. */
+export type ClassificationTrainingSettingsBlockedTrainingAlgorithmsList = Array<
+  ClassificationModels | (string & {})
+>;
+/** Classification Training related configuration. */
+export interface ClassificationTrainingSettings {
+  /** Enable recommendation of DNN models. */
+  enableDnnTraining?: boolean | undefined;
+  /** Flag to turn on explainability on best model. */
+  enableModelExplainability?: boolean | undefined;
+  /** Flag for enabling onnx compatible models. */
+  enableOnnxCompatibleModels?: boolean | undefined;
+  /** Enable stack ensemble run. */
+  enableStackEnsemble?: boolean | undefined;
+  /** Enable voting ensemble run. */
+  enableVoteEnsemble?: boolean | undefined;
+  /** During VotingEnsemble and StackEnsemble model generation, multiple fitted models from the previous child runs are downloaded. Configure this parameter with a higher value than 300 secs, if more time is needed. */
+  ensembleModelDownloadTimeout?: string | undefined;
+  /** Stack ensemble settings for stack ensemble run. */
+  stackEnsembleSettings?: StackEnsembleSettings | null | undefined;
+  /** Allowed models for classification task. */
+  allowedTrainingAlgorithms?:
+    | ClassificationTrainingSettingsAllowedTrainingAlgorithmsList
+    | null
+    | undefined;
+  /** Blocked models for classification task. */
+  blockedTrainingAlgorithms?:
+    | ClassificationTrainingSettingsBlockedTrainingAlgorithmsList
+    | null
+    | undefined;
+}
+/** Classification task in AutoML Table vertical. */
+export interface Classification {
+  /** Enum for setting log verbosity. */
+  logVerbosity?: AutoMLVerticalLogVerbosity | (string & {}) | undefined;
+  /** Target column name: This is prediction values column. Also known as label column name in context of classification tasks. */
+  targetColumnName?: string | null | undefined;
+  /** [Required] Task type for AutoMLJob. */
+  taskType: ClassificationTaskType;
+  /** [Required] Training data input. */
+  trainingData: MLTableJobInput;
+  /** Columns to use for CVSplit data. */
+  cvSplitColumnNames?: ClassificationCvSplitColumnNamesList | null | undefined;
+  /** Featurization inputs needed for AutoML job. */
+  featurizationSettings?: TableVerticalFeaturizationSettings | null | undefined;
+  /** Execution constraints for AutoMLJob. */
+  limitSettings?: TableVerticalLimitSettings | null | undefined;
+  /** Number of cross validation folds to be applied on training dataset when validation dataset is not provided. */
+  nCrossValidations?: NCrossValidations | null | undefined;
+  /** Test data input. */
+  testData?: MLTableJobInput | null | undefined;
+  /** The fraction of test dataset that needs to be set aside for validation purpose. Values between (0.0 , 1.0) Applied when validation dataset is not provided. */
+  testDataSize?: number | null | undefined;
+  /** Validation data inputs. */
+  validationData?: MLTableJobInput | null | undefined;
+  /** The fraction of training dataset that needs to be set aside for validation purpose. Values between (0.0 , 1.0) Applied when validation dataset is not provided. */
+  validationDataSize?: number | null | undefined;
+  /** The name of the sample weight column. Automated ML supports a weighted column as an input, causing rows in the data to be weighted up or down. */
+  weightColumnName?: string | null | undefined;
+  /** Positive label for binary metrics calculation. */
+  positiveLabel?: string | null | undefined;
+  /** Primary metrics for classification tasks. */
+  primaryMetric?: ClassificationPrimaryMetric | (string & {}) | undefined;
+  /** Inputs for training phase for an AutoML Job. */
+  trainingSettings?: ClassificationTrainingSettings | null | undefined;
+}
+/** [Required] Task type for AutoMLJob. */
+export type ForecastingTaskType = "Forecasting";
+/** Columns to use for CVSplit data. */
+export type ForecastingCvSplitColumnNamesList = Array<string>;
+/** Flag for generating lags for the numeric features. */
+export type ForecastingSettingsFeatureLags = "None" | "Auto";
+/** [Required] Set forecast horizon value selection mode. */
+export type AutoForecastHorizonMode = "Auto";
+/** The desired maximum forecast horizon in units of time-series frequency. */
+export interface AutoForecastHorizon {
+  /** [Required] Set forecast horizon value selection mode. */
+  mode: AutoForecastHorizonMode;
+}
+/** [Required] Set forecast horizon value selection mode. */
+export type CustomForecastHorizonMode = "Custom";
+/** The desired maximum forecast horizon in units of time-series frequency. */
+export interface CustomForecastHorizon {
+  /** [Required] Set forecast horizon value selection mode. */
+  mode: CustomForecastHorizonMode;
+  /** [Required] Forecast horizon value. */
+  value: number;
+}
+/** The desired maximum forecast horizon in units of time-series frequency. */
+export type ForecastHorizon = AutoForecastHorizon | CustomForecastHorizon;
+/** [Required] Seasonality mode. */
+export type AutoSeasonalityMode = "Auto";
+/** Forecasting seasonality. */
+export interface AutoSeasonality {
+  /** [Required] Seasonality mode. */
+  mode: AutoSeasonalityMode;
+}
+/** [Required] Seasonality mode. */
+export type CustomSeasonalityMode = "Custom";
+/** Forecasting seasonality. */
+export interface CustomSeasonality {
+  /** [Required] Seasonality mode. */
+  mode: CustomSeasonalityMode;
+  /** [Required] Seasonality value. */
+  value: number;
+}
+/** Forecasting seasonality. */
+export type Seasonality = AutoSeasonality | CustomSeasonality;
+/** The parameter defining how if AutoML should handle short time series. */
+export type ForecastingSettingsShortSeriesHandlingConfig = "None" | "Auto" | "Pad" | "Drop";
+/** Target aggregate function. */
+export type ForecastingSettingsTargetAggregateFunction = "None" | "Sum" | "Max" | "Min" | "Mean";
+/** [Required] Set target lags mode - Auto/Custom */
+export type AutoTargetLagsMode = "Auto";
+/** The number of past periods to lag from the target column. */
+export interface AutoTargetLags {
+  /** [Required] Set target lags mode - Auto/Custom */
+  mode: AutoTargetLagsMode;
+}
+/** [Required] Set target lags mode - Auto/Custom */
+export type CustomTargetLagsMode = "Custom";
+/** [Required] Set target lags values. */
+export type CustomTargetLagsValuesList = Array<number>;
+/** The number of past periods to lag from the target column. */
+export interface CustomTargetLags {
+  /** [Required] Set target lags mode - Auto/Custom */
+  mode: CustomTargetLagsMode;
+  /** [Required] Set target lags values. */
+  values: CustomTargetLagsValuesList;
+}
+/** The number of past periods to lag from the target column. */
+export type TargetLags = AutoTargetLags | CustomTargetLags;
+/** [Required] TargetRollingWindowSiz detection mode. */
+export type AutoTargetRollingWindowSizeMode = "Auto";
+/** Forecasting target rolling window size. */
+export interface AutoTargetRollingWindowSize {
+  /** [Required] TargetRollingWindowSiz detection mode. */
+  mode: AutoTargetRollingWindowSizeMode;
+}
+/** [Required] TargetRollingWindowSiz detection mode. */
+export type CustomTargetRollingWindowSizeMode = "Custom";
+/** Forecasting target rolling window size. */
+export interface CustomTargetRollingWindowSize {
+  /** [Required] TargetRollingWindowSiz detection mode. */
+  mode: CustomTargetRollingWindowSizeMode;
+  /** [Required] TargetRollingWindowSize value. */
+  value: number;
+}
+/** Forecasting target rolling window size. */
+export type TargetRollingWindowSize = AutoTargetRollingWindowSize | CustomTargetRollingWindowSize;
+/** The names of columns used to group a timeseries. It can be used to create multiple series. If grain is not defined, the data set is assumed to be one time-series. This parameter is used with task type forecasting. */
+export type ForecastingSettingsTimeSeriesIdColumnNamesList = Array<string>;
+/** Configure STL Decomposition of the time-series target column. */
+export type ForecastingSettingsUseStl = "None" | "Season" | "SeasonTrend";
+/** Forecasting specific parameters. */
+export interface ForecastingSettings {
+  /** Country or region for holidays for forecasting tasks. These should be ISO 3166 two-letter country/region codes, for example 'US' or 'GB'. */
+  countryOrRegionForHolidays?: string | null | undefined;
+  /** Number of periods between the origin time of one CV fold and the next fold. For example, if `CVStepSize` = 3 for daily data, the origin time for each fold will be three days apart. */
+  cvStepSize?: number | null | undefined;
+  /** Flag for generating lags for the numeric features. */
+  featureLags?: ForecastingSettingsFeatureLags | (string & {}) | undefined;
+  /** The desired maximum forecast horizon in units of time-series frequency. */
+  forecastHorizon?: ForecastHorizon | undefined;
+  /** When forecasting, this parameter represents the period with which the forecast is desired, for example daily, weekly, yearly, etc. The forecast frequency is dataset frequency by default. */
+  frequency?: string | null | undefined;
+  /** Set time series seasonality as an integer multiple of the series frequency. If seasonality is set to 'auto', it will be inferred. */
+  seasonality?: Seasonality | undefined;
+  /** The parameter defining how if AutoML should handle short time series. */
+  shortSeriesHandlingConfig?:
+    | ForecastingSettingsShortSeriesHandlingConfig
+    | (string & {})
+    | undefined;
+  /** Target aggregate function. */
+  targetAggregateFunction?: ForecastingSettingsTargetAggregateFunction | (string & {}) | undefined;
+  /** The number of past periods to lag from the target column. */
+  targetLags?: TargetLags | null | undefined;
+  /** The number of past periods used to create a rolling window average of the target column. */
+  targetRollingWindowSize?: TargetRollingWindowSize | null | undefined;
+  /** The name of the time column. This parameter is required when forecasting to specify the datetime column in the input data used for building the time series and inferring its frequency. */
+  timeColumnName?: string | null | undefined;
+  /** The names of columns used to group a timeseries. It can be used to create multiple series. If grain is not defined, the data set is assumed to be one time-series. This parameter is used with task type forecasting. */
+  timeSeriesIdColumnNames?: ForecastingSettingsTimeSeriesIdColumnNamesList | null | undefined;
+  /** Configure STL Decomposition of the time-series target column. */
+  useStl?: ForecastingSettingsUseStl | (string & {}) | undefined;
+}
+/** Primary metrics for Forecasting task. */
+export type ForecastingPrimaryMetric =
+  | "SpearmanCorrelation"
+  | "NormalizedRootMeanSquaredError"
+  | "R2Score"
+  | "NormalizedMeanAbsoluteError";
+/** Enum for all forecasting models supported by AutoML. */
+export type ForecastingModels =
+  | "AutoArima"
+  | "Prophet"
+  | "Naive"
+  | "SeasonalNaive"
+  | "Average"
+  | "SeasonalAverage"
+  | "ExponentialSmoothing"
+  | "Arimax"
+  | "TCNForecaster"
+  | "ElasticNet"
+  | "GradientBoosting"
+  | "DecisionTree"
+  | "KNN"
+  | "LassoLars"
+  | "SGD"
+  | "RandomForest"
+  | "ExtremeRandomTrees"
+  | "LightGBM"
+  | "XGBoostRegressor";
+/** Allowed models for forecasting task. */
+export type ForecastingTrainingSettingsAllowedTrainingAlgorithmsList = Array<
+  ForecastingModels | (string & {})
+>;
+/** Blocked models for forecasting task. */
+export type ForecastingTrainingSettingsBlockedTrainingAlgorithmsList = Array<
+  ForecastingModels | (string & {})
+>;
+/** Forecasting Training related configuration. */
+export interface ForecastingTrainingSettings {
+  /** Enable recommendation of DNN models. */
+  enableDnnTraining?: boolean | undefined;
+  /** Flag to turn on explainability on best model. */
+  enableModelExplainability?: boolean | undefined;
+  /** Flag for enabling onnx compatible models. */
+  enableOnnxCompatibleModels?: boolean | undefined;
+  /** Enable stack ensemble run. */
+  enableStackEnsemble?: boolean | undefined;
+  /** Enable voting ensemble run. */
+  enableVoteEnsemble?: boolean | undefined;
+  /** During VotingEnsemble and StackEnsemble model generation, multiple fitted models from the previous child runs are downloaded. Configure this parameter with a higher value than 300 secs, if more time is needed. */
+  ensembleModelDownloadTimeout?: string | undefined;
+  /** Stack ensemble settings for stack ensemble run. */
+  stackEnsembleSettings?: StackEnsembleSettings | null | undefined;
+  /** Allowed models for forecasting task. */
+  allowedTrainingAlgorithms?:
+    | ForecastingTrainingSettingsAllowedTrainingAlgorithmsList
+    | null
+    | undefined;
+  /** Blocked models for forecasting task. */
+  blockedTrainingAlgorithms?:
+    | ForecastingTrainingSettingsBlockedTrainingAlgorithmsList
+    | null
+    | undefined;
+}
+/** Forecasting task in AutoML Table vertical. */
+export interface Forecasting {
+  /** Enum for setting log verbosity. */
+  logVerbosity?: AutoMLVerticalLogVerbosity | (string & {}) | undefined;
+  /** Target column name: This is prediction values column. Also known as label column name in context of classification tasks. */
+  targetColumnName?: string | null | undefined;
+  /** [Required] Task type for AutoMLJob. */
+  taskType: ForecastingTaskType;
+  /** [Required] Training data input. */
+  trainingData: MLTableJobInput;
+  /** Columns to use for CVSplit data. */
+  cvSplitColumnNames?: ForecastingCvSplitColumnNamesList | null | undefined;
+  /** Featurization inputs needed for AutoML job. */
+  featurizationSettings?: TableVerticalFeaturizationSettings | null | undefined;
+  /** Execution constraints for AutoMLJob. */
+  limitSettings?: TableVerticalLimitSettings | null | undefined;
+  /** Number of cross validation folds to be applied on training dataset when validation dataset is not provided. */
+  nCrossValidations?: NCrossValidations | null | undefined;
+  /** Test data input. */
+  testData?: MLTableJobInput | null | undefined;
+  /** The fraction of test dataset that needs to be set aside for validation purpose. Values between (0.0 , 1.0) Applied when validation dataset is not provided. */
+  testDataSize?: number | null | undefined;
+  /** Validation data inputs. */
+  validationData?: MLTableJobInput | null | undefined;
+  /** The fraction of training dataset that needs to be set aside for validation purpose. Values between (0.0 , 1.0) Applied when validation dataset is not provided. */
+  validationDataSize?: number | null | undefined;
+  /** The name of the sample weight column. Automated ML supports a weighted column as an input, causing rows in the data to be weighted up or down. */
+  weightColumnName?: string | null | undefined;
+  /** Forecasting task specific inputs. */
+  forecastingSettings?: ForecastingSettings | null | undefined;
+  /** Primary metrics for Forecasting task. */
+  primaryMetric?: ForecastingPrimaryMetric | (string & {}) | undefined;
+  /** Inputs for training phase for an AutoML Job. */
+  trainingSettings?: ForecastingTrainingSettings | null | undefined;
+}
+/** [Required] Task type for AutoMLJob. */
+export type ImageClassificationTaskType = "ImageClassification";
+/** [Required] Specifies the type of job. */
+export type MLFlowModelJobInputJobInputType = "mlflow_model";
+/** Enum to determine the input data delivery mode. */
+export type MLFlowModelJobInputMode =
+  | "ReadOnlyMount"
+  | "ReadWriteMount"
+  | "Download"
+  | "Direct"
+  | "EvalMount"
+  | "EvalDownload";
+/** Command job definition. */
+export interface MLFlowModelJobInput {
+  /** Description for the input. */
+  description?: string | null | undefined;
+  /** [Required] Specifies the type of job. */
+  jobInputType: MLFlowModelJobInputJobInputType;
+  /** Enum to determine the input data delivery mode. */
+  mode?: MLFlowModelJobInputMode | (string & {}) | undefined;
+  /** [Required] Input Asset URI. */
+  uri: string;
+}
+/** Learning rate scheduler enum. */
+export type ImageModelSettingsClassificationLearningRateScheduler =
+  | "None"
+  | "WarmupCosine"
+  | "Step";
+/** Stochastic optimizer for image models. */
+export type ImageModelSettingsClassificationOptimizer = "None" | "Sgd" | "Adam" | "Adamw";
+/** Settings used for training the model. For more information on the available settings please visit the official documentation: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models. */
+export interface ImageModelSettingsClassification {
+  /** Settings for advanced scenarios. */
+  advancedSettings?: string | null | undefined;
+  /** Enable AMSGrad when optimizer is 'adam' or 'adamw'. */
+  amsGradient?: boolean | null | undefined;
+  /** Settings for using Augmentations. */
+  augmentations?: string | null | undefined;
+  /** Value of 'beta1' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1]. */
+  beta1?: number | null | undefined;
+  /** Value of 'beta2' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1]. */
+  beta2?: number | null | undefined;
+  /** Frequency to store model checkpoints. Must be a positive integer. */
+  checkpointFrequency?: number | null | undefined;
+  /** The pretrained checkpoint model for incremental training. */
+  checkpointModel?: MLFlowModelJobInput | null | undefined;
+  /** The id of a previous run that has a pretrained checkpoint for incremental training. */
+  checkpointRunId?: string | null | undefined;
+  /** Whether to use distributed training. */
+  distributed?: boolean | null | undefined;
+  /** Enable early stopping logic during training. */
+  earlyStopping?: boolean | null | undefined;
+  /** Minimum number of epochs or validation evaluations to wait before primary metric improvement is tracked for early stopping. Must be a positive integer. */
+  earlyStoppingDelay?: number | null | undefined;
+  /** Minimum number of epochs or validation evaluations with no primary metric improvement before the run is stopped. Must be a positive integer. */
+  earlyStoppingPatience?: number | null | undefined;
+  /** Enable normalization when exporting ONNX model. */
+  enableOnnxNormalization?: boolean | null | undefined;
+  /** Frequency to evaluate validation dataset to get metric scores. Must be a positive integer. */
+  evaluationFrequency?: number | null | undefined;
+  /** Gradient accumulation means running a configured number of "GradAccumulationStep" steps without updating the model weights while accumulating the gradients of those steps, and then using the accumulated gradients to compute the weight updates. Must be a positive integer. */
+  gradientAccumulationStep?: number | null | undefined;
+  /** Number of layers to freeze for the model. Must be a positive integer. For instance, passing 2 as value for 'seresnext' means freezing layer0 and layer1. For a full list of models supported and details on layer freeze, please see: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models. */
+  layersToFreeze?: number | null | undefined;
+  /** Initial learning rate. Must be a float in the range [0, 1]. */
+  learningRate?: number | null | undefined;
+  /** Learning rate scheduler enum. */
+  learningRateScheduler?:
+    | ImageModelSettingsClassificationLearningRateScheduler
+    | (string & {})
+    | undefined;
+  /** Name of the model to use for training. For more information on the available models please visit the official documentation: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models. */
+  modelName?: string | null | undefined;
+  /** Value of momentum when optimizer is 'sgd'. Must be a float in the range [0, 1]. */
+  momentum?: number | null | undefined;
+  /** Enable nesterov when optimizer is 'sgd'. */
+  nesterov?: boolean | null | undefined;
+  /** Number of training epochs. Must be a positive integer. */
+  numberOfEpochs?: number | null | undefined;
+  /** Number of data loader workers. Must be a non-negative integer. */
+  numberOfWorkers?: number | null | undefined;
+  /** Stochastic optimizer for image models. */
+  optimizer?: ImageModelSettingsClassificationOptimizer | (string & {}) | undefined;
+  /** Random seed to be used when using deterministic training. */
+  randomSeed?: number | null | undefined;
+  /** Value of gamma when learning rate scheduler is 'step'. Must be a float in the range [0, 1]. */
+  stepLRGamma?: number | null | undefined;
+  /** Value of step size when learning rate scheduler is 'step'. Must be a positive integer. */
+  stepLRStepSize?: number | null | undefined;
+  /** Training batch size. Must be a positive integer. */
+  trainingBatchSize?: number | null | undefined;
+  /** Validation batch size. Must be a positive integer. */
+  validationBatchSize?: number | null | undefined;
+  /** Value of cosine cycle when learning rate scheduler is 'warmup_cosine'. Must be a float in the range [0, 1]. */
+  warmupCosineLRCycles?: number | null | undefined;
+  /** Value of warmup epochs when learning rate scheduler is 'warmup_cosine'. Must be a positive integer. */
+  warmupCosineLRWarmupEpochs?: number | null | undefined;
+  /** Value of weight decay when optimizer is 'sgd', 'adam', or 'adamw'. Must be a float in the range[0, 1]. */
+  weightDecay?: number | null | undefined;
+  /** Image crop size that is input to the neural network for the training dataset. Must be a positive integer. */
+  trainingCropSize?: number | null | undefined;
+  /** Image crop size that is input to the neural network for the validation dataset. Must be a positive integer. */
+  validationCropSize?: number | null | undefined;
+  /** Image size to which to resize before cropping for validation dataset. Must be a positive integer. */
+  validationResizeSize?: number | null | undefined;
+  /** Weighted loss. The accepted values are 0 for no weighted loss. 1 for weighted loss with sqrt.(class_weights). 2 for weighted loss with class_weights. Must be 0 or 1 or 2. */
+  weightedLoss?: number | null | undefined;
+}
+/** Distribution expressions to sweep over values of model settings. <example> Some examples are: ``` ModelName = "choice('seresnext', 'resnest50')"; LearningRate = "uniform(0.001, 0.01)"; LayersToFreeze = "choice(0, 2)"; ```</example> For more details on how to compose distribution expressions please check the documentation: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-tune-hyperparameters For more information on the available settings please visit the official documentation: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models. */
+export interface ImageModelDistributionSettingsClassification {
+  /** Enable AMSGrad when optimizer is 'adam' or 'adamw'. */
+  amsGradient?: string | null | undefined;
+  /** Settings for using Augmentations. */
+  augmentations?: string | null | undefined;
+  /** Value of 'beta1' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1]. */
+  beta1?: string | null | undefined;
+  /** Value of 'beta2' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1]. */
+  beta2?: string | null | undefined;
+  /** Whether to use distributer training. */
+  distributed?: string | null | undefined;
+  /** Enable early stopping logic during training. */
+  earlyStopping?: string | null | undefined;
+  /** Minimum number of epochs or validation evaluations to wait before primary metric improvement is tracked for early stopping. Must be a positive integer. */
+  earlyStoppingDelay?: string | null | undefined;
+  /** Minimum number of epochs or validation evaluations with no primary metric improvement before the run is stopped. Must be a positive integer. */
+  earlyStoppingPatience?: string | null | undefined;
+  /** Enable normalization when exporting ONNX model. */
+  enableOnnxNormalization?: string | null | undefined;
+  /** Frequency to evaluate validation dataset to get metric scores. Must be a positive integer. */
+  evaluationFrequency?: string | null | undefined;
+  /** Gradient accumulation means running a configured number of "GradAccumulationStep" steps without updating the model weights while accumulating the gradients of those steps, and then using the accumulated gradients to compute the weight updates. Must be a positive integer. */
+  gradientAccumulationStep?: string | null | undefined;
+  /** Number of layers to freeze for the model. Must be a positive integer. For instance, passing 2 as value for 'seresnext' means freezing layer0 and layer1. For a full list of models supported and details on layer freeze, please see: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models. */
+  layersToFreeze?: string | null | undefined;
+  /** Initial learning rate. Must be a float in the range [0, 1]. */
+  learningRate?: string | null | undefined;
+  /** Type of learning rate scheduler. Must be 'warmup_cosine' or 'step'. */
+  learningRateScheduler?: string | null | undefined;
+  /** Name of the model to use for training. For more information on the available models please visit the official documentation: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models. */
+  modelName?: string | null | undefined;
+  /** Value of momentum when optimizer is 'sgd'. Must be a float in the range [0, 1]. */
+  momentum?: string | null | undefined;
+  /** Enable nesterov when optimizer is 'sgd'. */
+  nesterov?: string | null | undefined;
+  /** Number of training epochs. Must be a positive integer. */
+  numberOfEpochs?: string | null | undefined;
+  /** Number of data loader workers. Must be a non-negative integer. */
+  numberOfWorkers?: string | null | undefined;
+  /** Type of optimizer. Must be either 'sgd', 'adam', or 'adamw'. */
+  optimizer?: string | null | undefined;
+  /** Random seed to be used when using deterministic training. */
+  randomSeed?: string | null | undefined;
+  /** Value of gamma when learning rate scheduler is 'step'. Must be a float in the range [0, 1]. */
+  stepLRGamma?: string | null | undefined;
+  /** Value of step size when learning rate scheduler is 'step'. Must be a positive integer. */
+  stepLRStepSize?: string | null | undefined;
+  /** Training batch size. Must be a positive integer. */
+  trainingBatchSize?: string | null | undefined;
+  /** Validation batch size. Must be a positive integer. */
+  validationBatchSize?: string | null | undefined;
+  /** Value of cosine cycle when learning rate scheduler is 'warmup_cosine'. Must be a float in the range [0, 1]. */
+  warmupCosineLRCycles?: string | null | undefined;
+  /** Value of warmup epochs when learning rate scheduler is 'warmup_cosine'. Must be a positive integer. */
+  warmupCosineLRWarmupEpochs?: string | null | undefined;
+  /** Value of weight decay when optimizer is 'sgd', 'adam', or 'adamw'. Must be a float in the range[0, 1]. */
+  weightDecay?: string | null | undefined;
+  /** Image crop size that is input to the neural network for the training dataset. Must be a positive integer. */
+  trainingCropSize?: string | null | undefined;
+  /** Image crop size that is input to the neural network for the validation dataset. Must be a positive integer. */
+  validationCropSize?: string | null | undefined;
+  /** Image size to which to resize before cropping for validation dataset. Must be a positive integer. */
+  validationResizeSize?: string | null | undefined;
+  /** Weighted loss. The accepted values are 0 for no weighted loss. 1 for weighted loss with sqrt.(class_weights). 2 for weighted loss with class_weights. Must be 0 or 1 or 2. */
+  weightedLoss?: string | null | undefined;
+}
+/** Search space for sampling different combinations of models and their hyperparameters. */
+export type ImageClassificationSearchSpaceList =
+  Array<ImageModelDistributionSettingsClassification>;
+/** Limit settings for the AutoML job. */
+export interface ImageLimitSettings {
+  /** Maximum number of concurrent AutoML iterations. */
+  maxConcurrentTrials?: number | undefined;
+  /** Maximum number of AutoML iterations. */
+  maxTrials?: number | undefined;
+  /** AutoML job timeout. */
+  timeout?: string | undefined;
+}
+/** [Required] Name of policy configuration */
+export type BanditPolicyPolicyType = "Bandit";
+/** Defines an early termination policy based on slack criteria, and a frequency and delay interval for evaluation */
+export interface BanditPolicy {
+  /** Number of intervals by which to delay the first evaluation. */
+  delayEvaluation?: number | undefined;
+  /** Interval (number of runs) between policy evaluations. */
+  evaluationInterval?: number | undefined;
+  /** [Required] Name of policy configuration */
+  policyType: BanditPolicyPolicyType;
+  /** Absolute distance allowed from the best performing run. */
+  slackAmount?: number | undefined;
+  /** Ratio of the allowed distance from the best performing run. */
+  slackFactor?: number | undefined;
+}
+/** [Required] Name of policy configuration */
+export type MedianStoppingPolicyPolicyType = "MedianStopping";
+/** Early termination policies enable canceling poor-performing runs before they complete */
+export interface MedianStoppingPolicy {
+  /** Number of intervals by which to delay the first evaluation. */
+  delayEvaluation?: number | undefined;
+  /** Interval (number of runs) between policy evaluations. */
+  evaluationInterval?: number | undefined;
+  /** [Required] Name of policy configuration */
+  policyType: MedianStoppingPolicyPolicyType;
+}
+/** [Required] Name of policy configuration */
+export type TruncationSelectionPolicyPolicyType = "TruncationSelection";
+/** Defines an early termination policy that cancels a given percentage of runs at each evaluation interval. */
+export interface TruncationSelectionPolicy {
+  /** Number of intervals by which to delay the first evaluation. */
+  delayEvaluation?: number | undefined;
+  /** Interval (number of runs) between policy evaluations. */
+  evaluationInterval?: number | undefined;
+  /** [Required] Name of policy configuration */
+  policyType: TruncationSelectionPolicyPolicyType;
+  /** The percentage of runs to cancel at each evaluation interval. */
+  truncationPercentage?: number | undefined;
+}
+/** Early termination policies enable canceling poor-performing runs before they complete */
+export type EarlyTerminationPolicy =
+  | BanditPolicy
+  | MedianStoppingPolicy
+  | TruncationSelectionPolicy;
+export type SamplingAlgorithmType = "Grid" | "Random" | "Bayesian";
+/** Model sweeping and hyperparameter sweeping related settings. */
+export interface ImageSweepSettings {
+  /** Type of early termination policy. */
+  earlyTermination?: EarlyTerminationPolicy | null | undefined;
+  /** [Required] Type of the hyperparameter sampling algorithms. */
+  samplingAlgorithm: SamplingAlgorithmType | (string & {});
+}
+/** Primary metrics for classification tasks. */
+export type ImageClassificationPrimaryMetric =
+  | "AUCWeighted"
+  | "Accuracy"
+  | "NormMacroRecall"
+  | "AveragePrecisionScoreWeighted"
+  | "PrecisionScoreWeighted";
+/** Image Classification. Multi-class image classification is used when an image is classified with only a single label from a set of classes - e.g. each image is classified as either an image of a 'cat' or a 'dog' or a 'duck'. */
+export interface ImageClassification {
+  /** Enum for setting log verbosity. */
+  logVerbosity?: AutoMLVerticalLogVerbosity | (string & {}) | undefined;
+  /** Target column name: This is prediction values column. Also known as label column name in context of classification tasks. */
+  targetColumnName?: string | null | undefined;
+  /** [Required] Task type for AutoMLJob. */
+  taskType: ImageClassificationTaskType;
+  /** [Required] Training data input. */
+  trainingData: MLTableJobInput;
+  /** Settings used for training the model. */
+  modelSettings?: ImageModelSettingsClassification | null | undefined;
+  /** Search space for sampling different combinations of models and their hyperparameters. */
+  searchSpace?: ImageClassificationSearchSpaceList | null | undefined;
+  /** [Required] Limit settings for the AutoML job. */
+  limitSettings: ImageLimitSettings;
+  /** Model sweeping and hyperparameter sweeping related settings. */
+  sweepSettings?: ImageSweepSettings | null | undefined;
+  /** Validation data inputs. */
+  validationData?: MLTableJobInput | null | undefined;
+  /** The fraction of training dataset that needs to be set aside for validation purpose. Values between (0.0 , 1.0) Applied when validation dataset is not provided. */
+  validationDataSize?: number | null | undefined;
+  /** Primary metrics for classification tasks. */
+  primaryMetric?: ImageClassificationPrimaryMetric | (string & {}) | undefined;
+}
+/** [Required] Task type for AutoMLJob. */
+export type ImageClassificationMultilabelTaskType = "ImageClassificationMultilabel";
+/** Search space for sampling different combinations of models and their hyperparameters. */
+export type ImageClassificationMultilabelSearchSpaceList =
+  Array<ImageModelDistributionSettingsClassification>;
+/** Primary metrics for classification multilabel tasks. */
+export type ImageClassificationMultilabelPrimaryMetric =
+  | "AUCWeighted"
+  | "Accuracy"
+  | "NormMacroRecall"
+  | "AveragePrecisionScoreWeighted"
+  | "PrecisionScoreWeighted"
+  | "IOU";
+/** Image Classification Multilabel. Multi-label image classification is used when an image could have one or more labels from a set of labels - e.g. an image could be labeled with both 'cat' and 'dog'. */
+export interface ImageClassificationMultilabel {
+  /** Enum for setting log verbosity. */
+  logVerbosity?: AutoMLVerticalLogVerbosity | (string & {}) | undefined;
+  /** Target column name: This is prediction values column. Also known as label column name in context of classification tasks. */
+  targetColumnName?: string | null | undefined;
+  /** [Required] Task type for AutoMLJob. */
+  taskType: ImageClassificationMultilabelTaskType;
+  /** [Required] Training data input. */
+  trainingData: MLTableJobInput;
+  /** Settings used for training the model. */
+  modelSettings?: ImageModelSettingsClassification | null | undefined;
+  /** Search space for sampling different combinations of models and their hyperparameters. */
+  searchSpace?: ImageClassificationMultilabelSearchSpaceList | null | undefined;
+  /** [Required] Limit settings for the AutoML job. */
+  limitSettings: ImageLimitSettings;
+  /** Model sweeping and hyperparameter sweeping related settings. */
+  sweepSettings?: ImageSweepSettings | null | undefined;
+  /** Validation data inputs. */
+  validationData?: MLTableJobInput | null | undefined;
+  /** The fraction of training dataset that needs to be set aside for validation purpose. Values between (0.0 , 1.0) Applied when validation dataset is not provided. */
+  validationDataSize?: number | null | undefined;
+  /** Primary metrics for classification multilabel tasks. */
+  primaryMetric?: ImageClassificationMultilabelPrimaryMetric | (string & {}) | undefined;
+}
+/** [Required] Task type for AutoMLJob. */
+export type ImageInstanceSegmentationTaskType = "ImageInstanceSegmentation";
+/** Learning rate scheduler enum. */
+export type ImageModelSettingsObjectDetectionLearningRateScheduler =
+  | "None"
+  | "WarmupCosine"
+  | "Step";
+/** Stochastic optimizer for image models. */
+export type ImageModelSettingsObjectDetectionOptimizer = "None" | "Sgd" | "Adam" | "Adamw";
+/** Image model size. */
+export type ImageModelSettingsObjectDetectionModelSize =
+  | "None"
+  | "Small"
+  | "Medium"
+  | "Large"
+  | "ExtraLarge";
+/** Metric computation method to use for validation metrics in image tasks. */
+export type ImageModelSettingsObjectDetectionValidationMetricType =
+  | "None"
+  | "Coco"
+  | "Voc"
+  | "CocoVoc";
+/** Settings used for training the model. For more information on the available settings please visit the official documentation: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models. */
+export interface ImageModelSettingsObjectDetection {
+  /** Settings for advanced scenarios. */
+  advancedSettings?: string | null | undefined;
+  /** Enable AMSGrad when optimizer is 'adam' or 'adamw'. */
+  amsGradient?: boolean | null | undefined;
+  /** Settings for using Augmentations. */
+  augmentations?: string | null | undefined;
+  /** Value of 'beta1' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1]. */
+  beta1?: number | null | undefined;
+  /** Value of 'beta2' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1]. */
+  beta2?: number | null | undefined;
+  /** Frequency to store model checkpoints. Must be a positive integer. */
+  checkpointFrequency?: number | null | undefined;
+  /** The pretrained checkpoint model for incremental training. */
+  checkpointModel?: MLFlowModelJobInput | null | undefined;
+  /** The id of a previous run that has a pretrained checkpoint for incremental training. */
+  checkpointRunId?: string | null | undefined;
+  /** Whether to use distributed training. */
+  distributed?: boolean | null | undefined;
+  /** Enable early stopping logic during training. */
+  earlyStopping?: boolean | null | undefined;
+  /** Minimum number of epochs or validation evaluations to wait before primary metric improvement is tracked for early stopping. Must be a positive integer. */
+  earlyStoppingDelay?: number | null | undefined;
+  /** Minimum number of epochs or validation evaluations with no primary metric improvement before the run is stopped. Must be a positive integer. */
+  earlyStoppingPatience?: number | null | undefined;
+  /** Enable normalization when exporting ONNX model. */
+  enableOnnxNormalization?: boolean | null | undefined;
+  /** Frequency to evaluate validation dataset to get metric scores. Must be a positive integer. */
+  evaluationFrequency?: number | null | undefined;
+  /** Gradient accumulation means running a configured number of "GradAccumulationStep" steps without updating the model weights while accumulating the gradients of those steps, and then using the accumulated gradients to compute the weight updates. Must be a positive integer. */
+  gradientAccumulationStep?: number | null | undefined;
+  /** Number of layers to freeze for the model. Must be a positive integer. For instance, passing 2 as value for 'seresnext' means freezing layer0 and layer1. For a full list of models supported and details on layer freeze, please see: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models. */
+  layersToFreeze?: number | null | undefined;
+  /** Initial learning rate. Must be a float in the range [0, 1]. */
+  learningRate?: number | null | undefined;
+  /** Learning rate scheduler enum. */
+  learningRateScheduler?:
+    | ImageModelSettingsObjectDetectionLearningRateScheduler
+    | (string & {})
+    | undefined;
+  /** Name of the model to use for training. For more information on the available models please visit the official documentation: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models. */
+  modelName?: string | null | undefined;
+  /** Value of momentum when optimizer is 'sgd'. Must be a float in the range [0, 1]. */
+  momentum?: number | null | undefined;
+  /** Enable nesterov when optimizer is 'sgd'. */
+  nesterov?: boolean | null | undefined;
+  /** Number of training epochs. Must be a positive integer. */
+  numberOfEpochs?: number | null | undefined;
+  /** Number of data loader workers. Must be a non-negative integer. */
+  numberOfWorkers?: number | null | undefined;
+  /** Stochastic optimizer for image models. */
+  optimizer?: ImageModelSettingsObjectDetectionOptimizer | (string & {}) | undefined;
+  /** Random seed to be used when using deterministic training. */
+  randomSeed?: number | null | undefined;
+  /** Value of gamma when learning rate scheduler is 'step'. Must be a float in the range [0, 1]. */
+  stepLRGamma?: number | null | undefined;
+  /** Value of step size when learning rate scheduler is 'step'. Must be a positive integer. */
+  stepLRStepSize?: number | null | undefined;
+  /** Training batch size. Must be a positive integer. */
+  trainingBatchSize?: number | null | undefined;
+  /** Validation batch size. Must be a positive integer. */
+  validationBatchSize?: number | null | undefined;
+  /** Value of cosine cycle when learning rate scheduler is 'warmup_cosine'. Must be a float in the range [0, 1]. */
+  warmupCosineLRCycles?: number | null | undefined;
+  /** Value of warmup epochs when learning rate scheduler is 'warmup_cosine'. Must be a positive integer. */
+  warmupCosineLRWarmupEpochs?: number | null | undefined;
+  /** Value of weight decay when optimizer is 'sgd', 'adam', or 'adamw'. Must be a float in the range[0, 1]. */
+  weightDecay?: number | null | undefined;
+  /** Maximum number of detections per image, for all classes. Must be a positive integer. Note: This settings is not supported for the 'yolov5' algorithm. */
+  boxDetectionsPerImage?: number | null | undefined;
+  /** During inference, only return proposals with a classification score greater than BoxScoreThreshold. Must be a float in the range[0, 1]. */
+  boxScoreThreshold?: number | null | undefined;
+  /** Image size for train and validation. Must be a positive integer. Note: The training run may get into CUDA OOM if the size is too big. Note: This settings is only supported for the 'yolov5' algorithm. */
+  imageSize?: number | null | undefined;
+  /** Maximum size of the image to be rescaled before feeding it to the backbone. Must be a positive integer. Note: training run may get into CUDA OOM if the size is too big. Note: This settings is not supported for the 'yolov5' algorithm. */
+  maxSize?: number | null | undefined;
+  /** Minimum size of the image to be rescaled before feeding it to the backbone. Must be a positive integer. Note: training run may get into CUDA OOM if the size is too big. Note: This settings is not supported for the 'yolov5' algorithm. */
+  minSize?: number | null | undefined;
+  /** Image model size. */
+  modelSize?: ImageModelSettingsObjectDetectionModelSize | (string & {}) | undefined;
+  /** Enable multi-scale image by varying image size by +/- 50%. Note: training run may get into CUDA OOM if no sufficient GPU memory. Note: This settings is only supported for the 'yolov5' algorithm. */
+  multiScale?: boolean | null | undefined;
+  /** IOU threshold used during inference in NMS post processing. Must be a float in the range [0, 1]. */
+  nmsIouThreshold?: number | null | undefined;
+  /** The grid size to use for tiling each image. Note: TileGridSize must not be None to enable small object detection logic. A string containing two integers in mxn format. Note: This settings is not supported for the 'yolov5' algorithm. */
+  tileGridSize?: string | null | undefined;
+  /** Overlap ratio between adjacent tiles in each dimension. Must be float in the range [0, 1). Note: This settings is not supported for the 'yolov5' algorithm. */
+  tileOverlapRatio?: number | null | undefined;
+  /** The IOU threshold to use to perform NMS while merging predictions from tiles and image. Used in validation/ inference. Must be float in the range [0, 1]. Note: This settings is not supported for the 'yolov5' algorithm. */
+  tilePredictionsNmsThreshold?: number | null | undefined;
+  /** IOU threshold to use when computing validation metric. Must be float in the range [0, 1]. */
+  validationIouThreshold?: number | null | undefined;
+  /** Metric computation method to use for validation metrics in image tasks. */
+  validationMetricType?:
+    | ImageModelSettingsObjectDetectionValidationMetricType
+    | (string & {})
+    | undefined;
+}
+/** Distribution expressions to sweep over values of model settings. <example> Some examples are: ``` ModelName = "choice('seresnext', 'resnest50')"; LearningRate = "uniform(0.001, 0.01)"; LayersToFreeze = "choice(0, 2)"; ```</example> For more details on how to compose distribution expressions please check the documentation: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-tune-hyperparameters For more information on the available settings please visit the official documentation: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models. */
+export interface ImageModelDistributionSettingsObjectDetection {
+  /** Enable AMSGrad when optimizer is 'adam' or 'adamw'. */
+  amsGradient?: string | null | undefined;
+  /** Settings for using Augmentations. */
+  augmentations?: string | null | undefined;
+  /** Value of 'beta1' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1]. */
+  beta1?: string | null | undefined;
+  /** Value of 'beta2' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1]. */
+  beta2?: string | null | undefined;
+  /** Whether to use distributer training. */
+  distributed?: string | null | undefined;
+  /** Enable early stopping logic during training. */
+  earlyStopping?: string | null | undefined;
+  /** Minimum number of epochs or validation evaluations to wait before primary metric improvement is tracked for early stopping. Must be a positive integer. */
+  earlyStoppingDelay?: string | null | undefined;
+  /** Minimum number of epochs or validation evaluations with no primary metric improvement before the run is stopped. Must be a positive integer. */
+  earlyStoppingPatience?: string | null | undefined;
+  /** Enable normalization when exporting ONNX model. */
+  enableOnnxNormalization?: string | null | undefined;
+  /** Frequency to evaluate validation dataset to get metric scores. Must be a positive integer. */
+  evaluationFrequency?: string | null | undefined;
+  /** Gradient accumulation means running a configured number of "GradAccumulationStep" steps without updating the model weights while accumulating the gradients of those steps, and then using the accumulated gradients to compute the weight updates. Must be a positive integer. */
+  gradientAccumulationStep?: string | null | undefined;
+  /** Number of layers to freeze for the model. Must be a positive integer. For instance, passing 2 as value for 'seresnext' means freezing layer0 and layer1. For a full list of models supported and details on layer freeze, please see: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models. */
+  layersToFreeze?: string | null | undefined;
+  /** Initial learning rate. Must be a float in the range [0, 1]. */
+  learningRate?: string | null | undefined;
+  /** Type of learning rate scheduler. Must be 'warmup_cosine' or 'step'. */
+  learningRateScheduler?: string | null | undefined;
+  /** Name of the model to use for training. For more information on the available models please visit the official documentation: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models. */
+  modelName?: string | null | undefined;
+  /** Value of momentum when optimizer is 'sgd'. Must be a float in the range [0, 1]. */
+  momentum?: string | null | undefined;
+  /** Enable nesterov when optimizer is 'sgd'. */
+  nesterov?: string | null | undefined;
+  /** Number of training epochs. Must be a positive integer. */
+  numberOfEpochs?: string | null | undefined;
+  /** Number of data loader workers. Must be a non-negative integer. */
+  numberOfWorkers?: string | null | undefined;
+  /** Type of optimizer. Must be either 'sgd', 'adam', or 'adamw'. */
+  optimizer?: string | null | undefined;
+  /** Random seed to be used when using deterministic training. */
+  randomSeed?: string | null | undefined;
+  /** Value of gamma when learning rate scheduler is 'step'. Must be a float in the range [0, 1]. */
+  stepLRGamma?: string | null | undefined;
+  /** Value of step size when learning rate scheduler is 'step'. Must be a positive integer. */
+  stepLRStepSize?: string | null | undefined;
+  /** Training batch size. Must be a positive integer. */
+  trainingBatchSize?: string | null | undefined;
+  /** Validation batch size. Must be a positive integer. */
+  validationBatchSize?: string | null | undefined;
+  /** Value of cosine cycle when learning rate scheduler is 'warmup_cosine'. Must be a float in the range [0, 1]. */
+  warmupCosineLRCycles?: string | null | undefined;
+  /** Value of warmup epochs when learning rate scheduler is 'warmup_cosine'. Must be a positive integer. */
+  warmupCosineLRWarmupEpochs?: string | null | undefined;
+  /** Value of weight decay when optimizer is 'sgd', 'adam', or 'adamw'. Must be a float in the range[0, 1]. */
+  weightDecay?: string | null | undefined;
+  /** Maximum number of detections per image, for all classes. Must be a positive integer. Note: This settings is not supported for the 'yolov5' algorithm. */
+  boxDetectionsPerImage?: string | null | undefined;
+  /** During inference, only return proposals with a classification score greater than BoxScoreThreshold. Must be a float in the range[0, 1]. */
+  boxScoreThreshold?: string | null | undefined;
+  /** Image size for train and validation. Must be a positive integer. Note: The training run may get into CUDA OOM if the size is too big. Note: This settings is only supported for the 'yolov5' algorithm. */
+  imageSize?: string | null | undefined;
+  /** Maximum size of the image to be rescaled before feeding it to the backbone. Must be a positive integer. Note: training run may get into CUDA OOM if the size is too big. Note: This settings is not supported for the 'yolov5' algorithm. */
+  maxSize?: string | null | undefined;
+  /** Minimum size of the image to be rescaled before feeding it to the backbone. Must be a positive integer. Note: training run may get into CUDA OOM if the size is too big. Note: This settings is not supported for the 'yolov5' algorithm. */
+  minSize?: string | null | undefined;
+  /** Model size. Must be 'small', 'medium', 'large', or 'xlarge'. Note: training run may get into CUDA OOM if the model size is too big. Note: This settings is only supported for the 'yolov5' algorithm. */
+  modelSize?: string | null | undefined;
+  /** Enable multi-scale image by varying image size by +/- 50%. Note: training run may get into CUDA OOM if no sufficient GPU memory. Note: This settings is only supported for the 'yolov5' algorithm. */
+  multiScale?: string | null | undefined;
+  /** IOU threshold used during inference in NMS post processing. Must be float in the range [0, 1]. */
+  nmsIouThreshold?: string | null | undefined;
+  /** The grid size to use for tiling each image. Note: TileGridSize must not be None to enable small object detection logic. A string containing two integers in mxn format. Note: This settings is not supported for the 'yolov5' algorithm. */
+  tileGridSize?: string | null | undefined;
+  /** Overlap ratio between adjacent tiles in each dimension. Must be float in the range [0, 1). Note: This settings is not supported for the 'yolov5' algorithm. */
+  tileOverlapRatio?: string | null | undefined;
+  /** The IOU threshold to use to perform NMS while merging predictions from tiles and image. Used in validation/ inference. Must be float in the range [0, 1]. Note: This settings is not supported for the 'yolov5' algorithm. NMS: Non-maximum suppression */
+  tilePredictionsNmsThreshold?: string | null | undefined;
+  /** IOU threshold to use when computing validation metric. Must be float in the range [0, 1]. */
+  validationIouThreshold?: string | null | undefined;
+  /** Metric computation method to use for validation metrics. Must be 'none', 'coco', 'voc', or 'coco_voc'. */
+  validationMetricType?: string | null | undefined;
+}
+/** Search space for sampling different combinations of models and their hyperparameters. */
+export type ImageInstanceSegmentationSearchSpaceList =
+  Array<ImageModelDistributionSettingsObjectDetection>;
+/** Primary metrics for InstanceSegmentation tasks. */
+export type ImageInstanceSegmentationPrimaryMetric = "MeanAveragePrecision";
+/** Image Instance Segmentation. Instance segmentation is used to identify objects in an image at the pixel level, drawing a polygon around each object in the image. */
+export interface ImageInstanceSegmentation {
+  /** Enum for setting log verbosity. */
+  logVerbosity?: AutoMLVerticalLogVerbosity | (string & {}) | undefined;
+  /** Target column name: This is prediction values column. Also known as label column name in context of classification tasks. */
+  targetColumnName?: string | null | undefined;
+  /** [Required] Task type for AutoMLJob. */
+  taskType: ImageInstanceSegmentationTaskType;
+  /** [Required] Training data input. */
+  trainingData: MLTableJobInput;
+  /** Settings used for training the model. */
+  modelSettings?: ImageModelSettingsObjectDetection | null | undefined;
+  /** Search space for sampling different combinations of models and their hyperparameters. */
+  searchSpace?: ImageInstanceSegmentationSearchSpaceList | null | undefined;
+  /** [Required] Limit settings for the AutoML job. */
+  limitSettings: ImageLimitSettings;
+  /** Model sweeping and hyperparameter sweeping related settings. */
+  sweepSettings?: ImageSweepSettings | null | undefined;
+  /** Validation data inputs. */
+  validationData?: MLTableJobInput | null | undefined;
+  /** The fraction of training dataset that needs to be set aside for validation purpose. Values between (0.0 , 1.0) Applied when validation dataset is not provided. */
+  validationDataSize?: number | null | undefined;
+  /** Primary metrics for InstanceSegmentation tasks. */
+  primaryMetric?: ImageInstanceSegmentationPrimaryMetric | (string & {}) | undefined;
+}
+/** [Required] Task type for AutoMLJob. */
+export type ImageObjectDetectionTaskType = "ImageObjectDetection";
+/** Search space for sampling different combinations of models and their hyperparameters. */
+export type ImageObjectDetectionSearchSpaceList =
+  Array<ImageModelDistributionSettingsObjectDetection>;
+/** Primary metrics for Image ObjectDetection task. */
+export type ImageObjectDetectionPrimaryMetric = "MeanAveragePrecision";
+/** Image Object Detection. Object detection is used to identify objects in an image and locate each object with a bounding box e.g. locate all dogs and cats in an image and draw a bounding box around each. */
+export interface ImageObjectDetection {
+  /** Enum for setting log verbosity. */
+  logVerbosity?: AutoMLVerticalLogVerbosity | (string & {}) | undefined;
+  /** Target column name: This is prediction values column. Also known as label column name in context of classification tasks. */
+  targetColumnName?: string | null | undefined;
+  /** [Required] Task type for AutoMLJob. */
+  taskType: ImageObjectDetectionTaskType;
+  /** [Required] Training data input. */
+  trainingData: MLTableJobInput;
+  /** Settings used for training the model. */
+  modelSettings?: ImageModelSettingsObjectDetection | null | undefined;
+  /** Search space for sampling different combinations of models and their hyperparameters. */
+  searchSpace?: ImageObjectDetectionSearchSpaceList | null | undefined;
+  /** [Required] Limit settings for the AutoML job. */
+  limitSettings: ImageLimitSettings;
+  /** Model sweeping and hyperparameter sweeping related settings. */
+  sweepSettings?: ImageSweepSettings | null | undefined;
+  /** Validation data inputs. */
+  validationData?: MLTableJobInput | null | undefined;
+  /** The fraction of training dataset that needs to be set aside for validation purpose. Values between (0.0 , 1.0) Applied when validation dataset is not provided. */
+  validationDataSize?: number | null | undefined;
+  /** Primary metrics for Image ObjectDetection task. */
+  primaryMetric?: ImageObjectDetectionPrimaryMetric | (string & {}) | undefined;
+}
+/** [Required] Task type for AutoMLJob. */
+export type RegressionTaskType = "Regression";
+/** Columns to use for CVSplit data. */
+export type RegressionCvSplitColumnNamesList = Array<string>;
+/** Primary metrics for Regression task. */
+export type RegressionPrimaryMetric =
+  | "SpearmanCorrelation"
+  | "NormalizedRootMeanSquaredError"
+  | "R2Score"
+  | "NormalizedMeanAbsoluteError";
+/** Enum for all Regression models supported by AutoML. */
+export type RegressionModels =
+  | "ElasticNet"
+  | "GradientBoosting"
+  | "DecisionTree"
+  | "KNN"
+  | "LassoLars"
+  | "SGD"
+  | "RandomForest"
+  | "ExtremeRandomTrees"
+  | "LightGBM"
+  | "XGBoostRegressor";
+/** Allowed models for regression task. */
+export type RegressionTrainingSettingsAllowedTrainingAlgorithmsList = Array<
+  RegressionModels | (string & {})
+>;
+/** Blocked models for regression task. */
+export type RegressionTrainingSettingsBlockedTrainingAlgorithmsList = Array<
+  RegressionModels | (string & {})
+>;
+/** Regression Training related configuration. */
+export interface RegressionTrainingSettings {
+  /** Enable recommendation of DNN models. */
+  enableDnnTraining?: boolean | undefined;
+  /** Flag to turn on explainability on best model. */
+  enableModelExplainability?: boolean | undefined;
+  /** Flag for enabling onnx compatible models. */
+  enableOnnxCompatibleModels?: boolean | undefined;
+  /** Enable stack ensemble run. */
+  enableStackEnsemble?: boolean | undefined;
+  /** Enable voting ensemble run. */
+  enableVoteEnsemble?: boolean | undefined;
+  /** During VotingEnsemble and StackEnsemble model generation, multiple fitted models from the previous child runs are downloaded. Configure this parameter with a higher value than 300 secs, if more time is needed. */
+  ensembleModelDownloadTimeout?: string | undefined;
+  /** Stack ensemble settings for stack ensemble run. */
+  stackEnsembleSettings?: StackEnsembleSettings | null | undefined;
+  /** Allowed models for regression task. */
+  allowedTrainingAlgorithms?:
+    | RegressionTrainingSettingsAllowedTrainingAlgorithmsList
+    | null
+    | undefined;
+  /** Blocked models for regression task. */
+  blockedTrainingAlgorithms?:
+    | RegressionTrainingSettingsBlockedTrainingAlgorithmsList
+    | null
+    | undefined;
+}
+/** Regression task in AutoML Table vertical. */
+export interface Regression {
+  /** Enum for setting log verbosity. */
+  logVerbosity?: AutoMLVerticalLogVerbosity | (string & {}) | undefined;
+  /** Target column name: This is prediction values column. Also known as label column name in context of classification tasks. */
+  targetColumnName?: string | null | undefined;
+  /** [Required] Task type for AutoMLJob. */
+  taskType: RegressionTaskType;
+  /** [Required] Training data input. */
+  trainingData: MLTableJobInput;
+  /** Columns to use for CVSplit data. */
+  cvSplitColumnNames?: RegressionCvSplitColumnNamesList | null | undefined;
+  /** Featurization inputs needed for AutoML job. */
+  featurizationSettings?: TableVerticalFeaturizationSettings | null | undefined;
+  /** Execution constraints for AutoMLJob. */
+  limitSettings?: TableVerticalLimitSettings | null | undefined;
+  /** Number of cross validation folds to be applied on training dataset when validation dataset is not provided. */
+  nCrossValidations?: NCrossValidations | null | undefined;
+  /** Test data input. */
+  testData?: MLTableJobInput | null | undefined;
+  /** The fraction of test dataset that needs to be set aside for validation purpose. Values between (0.0 , 1.0) Applied when validation dataset is not provided. */
+  testDataSize?: number | null | undefined;
+  /** Validation data inputs. */
+  validationData?: MLTableJobInput | null | undefined;
+  /** The fraction of training dataset that needs to be set aside for validation purpose. Values between (0.0 , 1.0) Applied when validation dataset is not provided. */
+  validationDataSize?: number | null | undefined;
+  /** The name of the sample weight column. Automated ML supports a weighted column as an input, causing rows in the data to be weighted up or down. */
+  weightColumnName?: string | null | undefined;
+  /** Primary metrics for Regression task. */
+  primaryMetric?: RegressionPrimaryMetric | (string & {}) | undefined;
+  /** Inputs for training phase for an AutoML Job. */
+  trainingSettings?: RegressionTrainingSettings | null | undefined;
+}
+/** [Required] Task type for AutoMLJob. */
+export type TextClassificationTaskType = "TextClassification";
+/** Featurization Configuration. */
+export interface FeaturizationSettings {
+  /** Dataset language, useful for the text data. */
+  datasetLanguage?: string | null | undefined;
+}
+/** Job execution constraints. */
+export interface NlpVerticalLimitSettings {
+  /** Maximum Concurrent AutoML iterations. */
+  maxConcurrentTrials?: number | undefined;
+  /** Number of AutoML iterations. */
+  maxTrials?: number | undefined;
+  /** AutoML job timeout. */
+  timeout?: string | undefined;
+}
+/** Primary metrics for classification tasks. */
+export type TextClassificationPrimaryMetric =
+  | "AUCWeighted"
+  | "Accuracy"
+  | "NormMacroRecall"
+  | "AveragePrecisionScoreWeighted"
+  | "PrecisionScoreWeighted";
+/** Text Classification task in AutoML NLP vertical. NLP - Natural Language Processing. */
+export interface TextClassification {
+  /** Enum for setting log verbosity. */
+  logVerbosity?: AutoMLVerticalLogVerbosity | (string & {}) | undefined;
+  /** Target column name: This is prediction values column. Also known as label column name in context of classification tasks. */
+  targetColumnName?: string | null | undefined;
+  /** [Required] Task type for AutoMLJob. */
+  taskType: TextClassificationTaskType;
+  /** [Required] Training data input. */
+  trainingData: MLTableJobInput;
+  /** Featurization inputs needed for AutoML job. */
+  featurizationSettings?: FeaturizationSettings | null | undefined;
+  /** Execution constraints for AutoMLJob. */
+  limitSettings?: NlpVerticalLimitSettings | null | undefined;
+  /** Validation data inputs. */
+  validationData?: MLTableJobInput | null | undefined;
+  /** Primary metrics for classification tasks. */
+  primaryMetric?: TextClassificationPrimaryMetric | (string & {}) | undefined;
+}
+/** [Required] Task type for AutoMLJob. */
+export type TextClassificationMultilabelTaskType = "TextClassificationMultilabel";
+/** Primary metrics for classification multilabel tasks. */
+export type ClassificationMultilabelPrimaryMetrics =
+  | "AUCWeighted"
+  | "Accuracy"
+  | "NormMacroRecall"
+  | "AveragePrecisionScoreWeighted"
+  | "PrecisionScoreWeighted"
+  | "IOU";
+/** Text Classification Multilabel task in AutoML NLP vertical. NLP - Natural Language Processing. */
+export interface TextClassificationMultilabel {
+  /** Enum for setting log verbosity. */
+  logVerbosity?: AutoMLVerticalLogVerbosity | (string & {}) | undefined;
+  /** Target column name: This is prediction values column. Also known as label column name in context of classification tasks. */
+  targetColumnName?: string | null | undefined;
+  /** [Required] Task type for AutoMLJob. */
+  taskType: TextClassificationMultilabelTaskType;
+  /** [Required] Training data input. */
+  trainingData: MLTableJobInput;
+  /** Featurization inputs needed for AutoML job. */
+  featurizationSettings?: FeaturizationSettings | null | undefined;
+  /** Execution constraints for AutoMLJob. */
+  limitSettings?: NlpVerticalLimitSettings | null | undefined;
+  /** Validation data inputs. */
+  validationData?: MLTableJobInput | null | undefined;
+  /** Primary metric for Text-Classification-Multilabel task. Currently only Accuracy is supported as primary metric, hence user need not set it explicitly. */
+  primaryMetric?: ClassificationMultilabelPrimaryMetrics | (string & {}) | undefined;
+}
+/** [Required] Task type for AutoMLJob. */
+export type TextNerTaskType = "TextNER";
+/** Primary metrics for classification tasks. */
+export type ClassificationPrimaryMetrics =
+  | "AUCWeighted"
+  | "Accuracy"
+  | "NormMacroRecall"
+  | "AveragePrecisionScoreWeighted"
+  | "PrecisionScoreWeighted";
+/** Text-NER task in AutoML NLP vertical. NER - Named Entity Recognition. NLP - Natural Language Processing. */
+export interface TextNer {
+  /** Enum for setting log verbosity. */
+  logVerbosity?: AutoMLVerticalLogVerbosity | (string & {}) | undefined;
+  /** Target column name: This is prediction values column. Also known as label column name in context of classification tasks. */
+  targetColumnName?: string | null | undefined;
+  /** [Required] Task type for AutoMLJob. */
+  taskType: TextNerTaskType;
+  /** [Required] Training data input. */
+  trainingData: MLTableJobInput;
+  /** Featurization inputs needed for AutoML job. */
+  featurizationSettings?: FeaturizationSettings | null | undefined;
+  /** Execution constraints for AutoMLJob. */
+  limitSettings?: NlpVerticalLimitSettings | null | undefined;
+  /** Validation data inputs. */
+  validationData?: MLTableJobInput | null | undefined;
+  /** Primary metric for Text-NER task. Only 'Accuracy' is supported for Text-NER, so user need not set this explicitly. */
+  primaryMetric?: ClassificationPrimaryMetrics | (string & {}) | undefined;
+}
+/** AutoML vertical class. Base class for AutoML verticals - TableVertical/ImageVertical/NLPVertical */
+export type AutoMLVertical =
+  | Classification
+  | Forecasting
+  | ImageClassification
+  | ImageClassificationMultilabel
+  | ImageInstanceSegmentation
+  | ImageObjectDetection
+  | Regression
+  | TextClassification
+  | TextClassificationMultilabel
+  | TextNer;
+/** AutoMLJob class. Use this class for executing AutoML tasks like Classification/Regression etc. See TaskType enum for all the tasks supported. */
+export interface AutoMLJob {
   /** The asset description text. */
   description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: JobBasePropertiesPropertiesMap | null | undefined;
+  properties?: AutoMLJobPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: JobBasePropertiesTagsMap | null | undefined;
+  tags?: AutoMLJobTagsMap | null | undefined;
   /** ARM resource ID of the component resource. */
   componentId?: string | null | undefined;
   /** ARM resource ID of the compute resource. */
@@ -3381,14 +7306,528 @@ export interface JobBaseProperties {
   /** Is the asset archived? */
   isArchived?: boolean | undefined;
   /** [Required] Specifies the type of job. */
-  jobType: JobType;
+  jobType: AutoMLJobJobType;
   /** Notification setting for the job */
   notificationSetting?: NotificationSetting | null | undefined;
   /** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
-  services?: JobBasePropertiesServicesMap | null | undefined;
+  services?: AutoMLJobServicesMap | null | undefined;
   /** Status of the job. */
   status?: JobStatus | undefined;
+  /** The ARM resource ID of the Environment specification for the job. This is optional value to provide, if not provided, AutoML will default this to Production AutoML curated environment version when running the job. */
+  environmentId?: string | null | undefined;
+  /** Environment variables included in the job. */
+  environmentVariables?: AutoMLJobEnvironmentVariablesMap | null | undefined;
+  /** Mapping of output data bindings used in the job. */
+  outputs?: AutoMLJobOutputsMap | null | undefined;
+  /** Queue settings for the job */
+  queueSettings?: QueueSettings | null | undefined;
+  /** Compute Resource configuration for the job. */
+  resources?: JobResourceConfiguration | undefined;
+  /** [Required] This represents scenario which can be one of Tables/NLP/Image */
+  taskDetails: AutoMLVertical;
 }
+/** The asset property dictionary. */
+export type CommandJobPropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type CommandJobTagsMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of job. */
+export type CommandJobJobType = "Command";
+/** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
+export type CommandJobServicesMap = { [key: string]: JobService | null | undefined };
+/** [Required] Specifies the type of distribution framework. */
+export type MpiDistributionType = "Mpi";
+/** MPI distribution configuration. */
+export interface Mpi {
+  /** [Required] Specifies the type of distribution framework. */
+  distributionType: MpiDistributionType;
+  /** Number of processes per MPI node. */
+  processCountPerInstance?: number | null | undefined;
+}
+/** [Required] Specifies the type of distribution framework. */
+export type PyTorchDistributionType = "PyTorch";
+/** PyTorch distribution configuration. */
+export interface PyTorch {
+  /** [Required] Specifies the type of distribution framework. */
+  distributionType: PyTorchDistributionType;
+  /** Number of processes per node. */
+  processCountPerInstance?: number | null | undefined;
+}
+/** [Required] Specifies the type of distribution framework. */
+export type TensorFlowDistributionType = "TensorFlow";
+/** TensorFlow distribution configuration. */
+export interface TensorFlow {
+  /** [Required] Specifies the type of distribution framework. */
+  distributionType: TensorFlowDistributionType;
+  /** Number of parameter server tasks. */
+  parameterServerCount?: number | undefined;
+  /** Number of workers. If not specified, will default to the instance count. */
+  workerCount?: number | null | undefined;
+}
+/** Base definition for job distribution configuration. */
+export type DistributionConfiguration = Mpi | PyTorch | TensorFlow;
+/** Environment variables included in the job. */
+export type CommandJobEnvironmentVariablesMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of job. */
+export type CustomModelJobInputJobInputType = "custom_model";
+/** Enum to determine the input data delivery mode. */
+export type CustomModelJobInputMode =
+  | "ReadOnlyMount"
+  | "ReadWriteMount"
+  | "Download"
+  | "Direct"
+  | "EvalMount"
+  | "EvalDownload";
+/** Command job definition. */
+export interface CustomModelJobInput {
+  /** Description for the input. */
+  description?: string | null | undefined;
+  /** [Required] Specifies the type of job. */
+  jobInputType: CustomModelJobInputJobInputType;
+  /** Enum to determine the input data delivery mode. */
+  mode?: CustomModelJobInputMode | (string & {}) | undefined;
+  /** [Required] Input Asset URI. */
+  uri: string;
+}
+/** [Required] Specifies the type of job. */
+export type LiteralJobInputJobInputType = "literal";
+/** Literal input type. */
+export interface LiteralJobInput {
+  /** Description for the input. */
+  description?: string | null | undefined;
+  /** [Required] Specifies the type of job. */
+  jobInputType: LiteralJobInputJobInputType;
+  /** [Required] Literal value for the input. */
+  value: string;
+}
+/** [Required] Specifies the type of job. */
+export type TritonModelJobInputJobInputType = "triton_model";
+/** Enum to determine the input data delivery mode. */
+export type TritonModelJobInputMode =
+  | "ReadOnlyMount"
+  | "ReadWriteMount"
+  | "Download"
+  | "Direct"
+  | "EvalMount"
+  | "EvalDownload";
+/** Command job definition. */
+export interface TritonModelJobInput {
+  /** Description for the input. */
+  description?: string | null | undefined;
+  /** [Required] Specifies the type of job. */
+  jobInputType: TritonModelJobInputJobInputType;
+  /** Enum to determine the input data delivery mode. */
+  mode?: TritonModelJobInputMode | (string & {}) | undefined;
+  /** [Required] Input Asset URI. */
+  uri: string;
+}
+/** [Required] Specifies the type of job. */
+export type UriFileJobInputJobInputType = "uri_file";
+/** Enum to determine the input data delivery mode. */
+export type UriFileJobInputMode =
+  | "ReadOnlyMount"
+  | "ReadWriteMount"
+  | "Download"
+  | "Direct"
+  | "EvalMount"
+  | "EvalDownload";
+/** Command job definition. */
+export interface UriFileJobInput {
+  /** Description for the input. */
+  description?: string | null | undefined;
+  /** [Required] Specifies the type of job. */
+  jobInputType: UriFileJobInputJobInputType;
+  /** Enum to determine the input data delivery mode. */
+  mode?: UriFileJobInputMode | (string & {}) | undefined;
+  /** [Required] Input Asset URI. */
+  uri: string;
+}
+/** [Required] Specifies the type of job. */
+export type UriFolderJobInputJobInputType = "uri_folder";
+/** Enum to determine the input data delivery mode. */
+export type UriFolderJobInputMode =
+  | "ReadOnlyMount"
+  | "ReadWriteMount"
+  | "Download"
+  | "Direct"
+  | "EvalMount"
+  | "EvalDownload";
+/** Command job definition. */
+export interface UriFolderJobInput {
+  /** Description for the input. */
+  description?: string | null | undefined;
+  /** [Required] Specifies the type of job. */
+  jobInputType: UriFolderJobInputJobInputType;
+  /** Enum to determine the input data delivery mode. */
+  mode?: UriFolderJobInputMode | (string & {}) | undefined;
+  /** [Required] Input Asset URI. */
+  uri: string;
+}
+/** Command job definition. */
+export type JobInput =
+  | CustomModelJobInput
+  | LiteralJobInput
+  | MLFlowModelJobInput
+  | MLTableJobInput
+  | TritonModelJobInput
+  | UriFileJobInput
+  | UriFolderJobInput;
+/** Mapping of input data bindings used in the job. */
+export type CommandJobInputsMap = { [key: string]: JobInput | null | undefined };
+/** [Required] JobLimit type. */
+export type CommandJobLimitsJobLimitsType = "Command";
+export interface CommandJobLimits {
+  /** [Required] JobLimit type. */
+  jobLimitsType: CommandJobLimitsJobLimitsType | (string & {});
+  /** The max run duration in ISO 8601 format, after which the job will be cancelled. Only supports duration with precision as low as Seconds. */
+  timeout?: string | null | undefined;
+}
+/** Mapping of output data bindings used in the job. */
+export type CommandJobOutputsMap = { [key: string]: JobOutput | null | undefined };
+/** Command job definition. */
+export interface CommandJob {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: CommandJobPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: CommandJobTagsMap | null | undefined;
+  /** ARM resource ID of the component resource. */
+  componentId?: string | null | undefined;
+  /** ARM resource ID of the compute resource. */
+  computeId?: string | null | undefined;
+  /** Display name of job. */
+  displayName?: string | null | undefined;
+  /** The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment. */
+  experimentName?: string | undefined;
+  /** Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, UserIdentity or null. Defaults to AmlToken if null. */
+  identity?: IdentityConfiguration | null | undefined;
+  /** Is the asset archived? */
+  isArchived?: boolean | undefined;
+  /** [Required] Specifies the type of job. */
+  jobType: CommandJobJobType;
+  /** Notification setting for the job */
+  notificationSetting?: NotificationSetting | null | undefined;
+  /** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
+  services?: CommandJobServicesMap | null | undefined;
+  /** Status of the job. */
+  status?: JobStatus | undefined;
+  /** ARM resource ID of the code asset. */
+  codeId?: string | null | undefined;
+  /** [Required] The command to execute on startup of the job. eg. "python train.py" */
+  command: string;
+  /** Distribution configuration of the job. If set, this should be one of Mpi, Tensorflow, PyTorch, or null. */
+  distribution?: DistributionConfiguration | null | undefined;
+  /** [Required] The ARM resource ID of the Environment specification for the job. */
+  environmentId: string;
+  /** Environment variables included in the job. */
+  environmentVariables?: CommandJobEnvironmentVariablesMap | null | undefined;
+  /** Mapping of input data bindings used in the job. */
+  inputs?: CommandJobInputsMap | null | undefined;
+  /** Command Job limit. */
+  limits?: CommandJobLimits | null | undefined;
+  /** Mapping of output data bindings used in the job. */
+  outputs?: CommandJobOutputsMap | null | undefined;
+  /** Input parameters. */
+  parameters?: unknown | null | undefined;
+  /** Queue settings for the job */
+  queueSettings?: QueueSettings | null | undefined;
+  /** Compute Resource configuration for the job. */
+  resources?: JobResourceConfiguration | undefined;
+}
+/** The asset property dictionary. */
+export type PipelineJobPropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type PipelineJobTagsMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of job. */
+export type PipelineJobJobType = "Pipeline";
+/** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
+export type PipelineJobServicesMap = { [key: string]: JobService | null | undefined };
+/** Inputs for the pipeline job. */
+export type PipelineJobInputsMap = { [key: string]: JobInput | null | undefined };
+/** Jobs construct the Pipeline Job. */
+export type PipelineJobJobsMap = { [key: string]: unknown | null | undefined };
+/** Outputs for the pipeline job */
+export type PipelineJobOutputsMap = { [key: string]: JobOutput | null | undefined };
+/** Pipeline Job definition: defines generic to MFE attributes. */
+export interface PipelineJob {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: PipelineJobPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: PipelineJobTagsMap | null | undefined;
+  /** ARM resource ID of the component resource. */
+  componentId?: string | null | undefined;
+  /** ARM resource ID of the compute resource. */
+  computeId?: string | null | undefined;
+  /** Display name of job. */
+  displayName?: string | null | undefined;
+  /** The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment. */
+  experimentName?: string | undefined;
+  /** Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, UserIdentity or null. Defaults to AmlToken if null. */
+  identity?: IdentityConfiguration | null | undefined;
+  /** Is the asset archived? */
+  isArchived?: boolean | undefined;
+  /** [Required] Specifies the type of job. */
+  jobType: PipelineJobJobType;
+  /** Notification setting for the job */
+  notificationSetting?: NotificationSetting | null | undefined;
+  /** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
+  services?: PipelineJobServicesMap | null | undefined;
+  /** Status of the job. */
+  status?: JobStatus | undefined;
+  /** Inputs for the pipeline job. */
+  inputs?: PipelineJobInputsMap | null | undefined;
+  /** Jobs construct the Pipeline Job. */
+  jobs?: PipelineJobJobsMap | null | undefined;
+  /** Outputs for the pipeline job */
+  outputs?: PipelineJobOutputsMap | null | undefined;
+  /** Pipeline settings, for things like ContinueRunOnStepFailure etc. */
+  settings?: unknown | null | undefined;
+  /** ARM resource ID of source job. */
+  sourceJobId?: string | null | undefined;
+}
+/** The asset property dictionary. */
+export type SparkJobPropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type SparkJobTagsMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of job. */
+export type SparkJobJobType = "Spark";
+/** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
+export type SparkJobServicesMap = { [key: string]: JobService | null | undefined };
+/** Archive files used in the job. */
+export type SparkJobArchivesList = Array<string>;
+/** Spark configured properties. */
+export type SparkJobConfMap = { [key: string]: string | null | undefined };
+/** [Required] Type of the job's entry point. */
+export type SparkJobPythonEntrySparkJobEntryType = "SparkJobPythonEntry";
+/** Spark job entry point definition. */
+export interface SparkJobPythonEntry {
+  /** [Required] Type of the job's entry point. */
+  sparkJobEntryType: SparkJobPythonEntrySparkJobEntryType;
+  /** [Required] Relative python file path for job entry point. */
+  file: string;
+}
+/** [Required] Type of the job's entry point. */
+export type SparkJobScalaEntrySparkJobEntryType = "SparkJobScalaEntry";
+/** Spark job entry point definition. */
+export interface SparkJobScalaEntry {
+  /** [Required] Type of the job's entry point. */
+  sparkJobEntryType: SparkJobScalaEntrySparkJobEntryType;
+  /** [Required] Scala class name used as entry point. */
+  className: string;
+}
+/** Spark job entry point definition. */
+export type SparkJobEntry = SparkJobPythonEntry | SparkJobScalaEntry;
+/** Environment variables included in the job. */
+export type SparkJobEnvironmentVariablesMap = { [key: string]: string | null | undefined };
+/** Files used in the job. */
+export type SparkJobFilesList = Array<string>;
+/** Mapping of input data bindings used in the job. */
+export type SparkJobInputsMap = { [key: string]: JobInput | null | undefined };
+/** Jar files used in the job. */
+export type SparkJobJarsList = Array<string>;
+/** Mapping of output data bindings used in the job. */
+export type SparkJobOutputsMap = { [key: string]: JobOutput | null | undefined };
+/** Python files used in the job. */
+export type SparkJobPyFilesList = Array<string>;
+export interface SparkResourceConfiguration {
+  /** Optional type of VM used as supported by the compute target. */
+  instanceType?: string | null | undefined;
+  /** Version of spark runtime used for the job. */
+  runtimeVersion?: string | undefined;
+}
+/** Spark job definition. */
+export interface SparkJob {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: SparkJobPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: SparkJobTagsMap | null | undefined;
+  /** ARM resource ID of the component resource. */
+  componentId?: string | null | undefined;
+  /** ARM resource ID of the compute resource. */
+  computeId?: string | null | undefined;
+  /** Display name of job. */
+  displayName?: string | null | undefined;
+  /** The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment. */
+  experimentName?: string | undefined;
+  /** Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, UserIdentity or null. Defaults to AmlToken if null. */
+  identity?: IdentityConfiguration | null | undefined;
+  /** Is the asset archived? */
+  isArchived?: boolean | undefined;
+  /** [Required] Specifies the type of job. */
+  jobType: SparkJobJobType;
+  /** Notification setting for the job */
+  notificationSetting?: NotificationSetting | null | undefined;
+  /** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
+  services?: SparkJobServicesMap | null | undefined;
+  /** Status of the job. */
+  status?: JobStatus | undefined;
+  /** Archive files used in the job. */
+  archives?: SparkJobArchivesList | null | undefined;
+  /** Arguments for the job. */
+  args?: string | null | undefined;
+  /** [Required] arm-id of the code asset. */
+  codeId: string;
+  /** Spark configured properties. */
+  conf?: SparkJobConfMap | null | undefined;
+  /** [Required] The entry to execute on startup of the job. */
+  entry: SparkJobEntry;
+  /** The ARM resource ID of the Environment specification for the job. */
+  environmentId?: string | null | undefined;
+  /** Environment variables included in the job. */
+  environmentVariables?: SparkJobEnvironmentVariablesMap | null | undefined;
+  /** Files used in the job. */
+  files?: SparkJobFilesList | null | undefined;
+  /** Mapping of input data bindings used in the job. */
+  inputs?: SparkJobInputsMap | null | undefined;
+  /** Jar files used in the job. */
+  jars?: SparkJobJarsList | null | undefined;
+  /** Mapping of output data bindings used in the job. */
+  outputs?: SparkJobOutputsMap | null | undefined;
+  /** Python files used in the job. */
+  pyFiles?: SparkJobPyFilesList | null | undefined;
+  /** Queue settings for the job */
+  queueSettings?: QueueSettings | null | undefined;
+  /** Compute Resource configuration for the job. */
+  resources?: SparkResourceConfiguration | null | undefined;
+}
+/** The asset property dictionary. */
+export type SweepJobPropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type SweepJobTagsMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of job. */
+export type SweepJobJobType = "Sweep";
+/** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
+export type SweepJobServicesMap = { [key: string]: JobService | null | undefined };
+/** Mapping of input data bindings used in the job. */
+export type SweepJobInputsMap = { [key: string]: JobInput | null | undefined };
+/** [Required] JobLimit type. */
+export type SweepJobLimitsJobLimitsType = "Sweep";
+/** Sweep Job limit class. */
+export interface SweepJobLimits {
+  /** [Required] JobLimit type. */
+  jobLimitsType: SweepJobLimitsJobLimitsType | (string & {});
+  /** The max run duration in ISO 8601 format, after which the job will be cancelled. Only supports duration with precision as low as Seconds. */
+  timeout?: string | null | undefined;
+  /** Sweep Job max concurrent trials. */
+  maxConcurrentTrials?: number | null | undefined;
+  /** Sweep Job max total trials. */
+  maxTotalTrials?: number | null | undefined;
+  /** Sweep Job Trial timeout value. */
+  trialTimeout?: string | null | undefined;
+}
+/** Defines supported metric goals for hyperparameter tuning */
+export type Goal = "Minimize" | "Maximize";
+/** Optimization objective. */
+export interface Objective {
+  /** [Required] Defines supported metric goals for hyperparameter tuning */
+  goal: Goal | (string & {});
+  /** [Required] Name of the metric to optimize. */
+  primaryMetric: string;
+}
+/** Mapping of output data bindings used in the job. */
+export type SweepJobOutputsMap = { [key: string]: JobOutput | null | undefined };
+/** [Required] The algorithm used for generating hyperparameter values, along with configuration properties */
+export type BayesianSamplingAlgorithmSamplingAlgorithmType = "Bayesian";
+/** The Sampling Algorithm used to generate hyperparameter values, along with properties to configure the algorithm */
+export interface BayesianSamplingAlgorithm {
+  /** [Required] The algorithm used for generating hyperparameter values, along with configuration properties */
+  samplingAlgorithmType: BayesianSamplingAlgorithmSamplingAlgorithmType;
+}
+/** [Required] The algorithm used for generating hyperparameter values, along with configuration properties */
+export type GridSamplingAlgorithmSamplingAlgorithmType = "Grid";
+/** The Sampling Algorithm used to generate hyperparameter values, along with properties to configure the algorithm */
+export interface GridSamplingAlgorithm {
+  /** [Required] The algorithm used for generating hyperparameter values, along with configuration properties */
+  samplingAlgorithmType: GridSamplingAlgorithmSamplingAlgorithmType;
+}
+/** [Required] The algorithm used for generating hyperparameter values, along with configuration properties */
+export type RandomSamplingAlgorithmSamplingAlgorithmType = "Random";
+/** The specific type of random algorithm */
+export type RandomSamplingAlgorithmRule = "Random" | "Sobol";
+/** Defines a Sampling Algorithm that generates values randomly */
+export interface RandomSamplingAlgorithm {
+  /** [Required] The algorithm used for generating hyperparameter values, along with configuration properties */
+  samplingAlgorithmType: RandomSamplingAlgorithmSamplingAlgorithmType;
+  /** The specific type of random algorithm */
+  rule?: RandomSamplingAlgorithmRule | (string & {}) | undefined;
+  /** An optional integer to use as the seed for random number generation */
+  seed?: number | null | undefined;
+}
+/** The Sampling Algorithm used to generate hyperparameter values, along with properties to configure the algorithm */
+export type SamplingAlgorithm =
+  | BayesianSamplingAlgorithm
+  | GridSamplingAlgorithm
+  | RandomSamplingAlgorithm;
+/** Environment variables included in the job. */
+export type TrialComponentEnvironmentVariablesMap = { [key: string]: string | null | undefined };
+/** Trial component definition. */
+export interface TrialComponent {
+  /** ARM resource ID of the code asset. */
+  codeId?: string | null | undefined;
+  /** [Required] The command to execute on startup of the job. eg. "python train.py" */
+  command: string;
+  /** Distribution configuration of the job. If set, this should be one of Mpi, Tensorflow, PyTorch, or null. */
+  distribution?: DistributionConfiguration | null | undefined;
+  /** [Required] The ARM resource ID of the Environment specification for the job. */
+  environmentId: string;
+  /** Environment variables included in the job. */
+  environmentVariables?: TrialComponentEnvironmentVariablesMap | null | undefined;
+  /** Compute Resource configuration for the job. */
+  resources?: JobResourceConfiguration | undefined;
+}
+/** Sweep job definition. */
+export interface SweepJob {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: SweepJobPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: SweepJobTagsMap | null | undefined;
+  /** ARM resource ID of the component resource. */
+  componentId?: string | null | undefined;
+  /** ARM resource ID of the compute resource. */
+  computeId?: string | null | undefined;
+  /** Display name of job. */
+  displayName?: string | null | undefined;
+  /** The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment. */
+  experimentName?: string | undefined;
+  /** Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, UserIdentity or null. Defaults to AmlToken if null. */
+  identity?: IdentityConfiguration | null | undefined;
+  /** Is the asset archived? */
+  isArchived?: boolean | undefined;
+  /** [Required] Specifies the type of job. */
+  jobType: SweepJobJobType;
+  /** Notification setting for the job */
+  notificationSetting?: NotificationSetting | null | undefined;
+  /** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
+  services?: SweepJobServicesMap | null | undefined;
+  /** Status of the job. */
+  status?: JobStatus | undefined;
+  /** Early termination policies enable canceling poor-performing runs before they complete */
+  earlyTermination?: EarlyTerminationPolicy | null | undefined;
+  /** Mapping of input data bindings used in the job. */
+  inputs?: SweepJobInputsMap | null | undefined;
+  /** Sweep Job limit. */
+  limits?: SweepJobLimits | undefined;
+  /** [Required] Optimization objective. */
+  objective: Objective;
+  /** Mapping of output data bindings used in the job. */
+  outputs?: SweepJobOutputsMap | null | undefined;
+  /** Queue settings for the job */
+  queueSettings?: QueueSettings | null | undefined;
+  /** [Required] The hyperparameter sampling algorithm */
+  samplingAlgorithm: SamplingAlgorithm;
+  /** [Required] A dictionary containing each parameter and its distribution. The dictionary key is the name of the parameter */
+  searchSpace: unknown;
+  /** [Required] Trial component definition. */
+  trial: TrialComponent;
+}
+/** Base definition for a job. */
+export type JobBaseProperties = AutoMLJob | CommandJob | PipelineJob | SparkJob | SweepJob;
 export interface GetJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string | undefined;
@@ -3416,22 +7855,82 @@ export type RuleCategory = "Required" | "Recommended" | "UserDefined" | "Depende
 /** Type of a managed network Outbound Rule of a machine learning workspace. */
 export type RuleStatus = "Inactive" | "Active" | "Provisioning" | "Deleting" | "Failed";
 /** Type of a managed network Outbound Rule of a machine learning workspace. */
-export type RuleType = "FQDN" | "PrivateEndpoint" | "ServiceTag";
-export type OutboundRuleParentRuleNamesList = Array<string>;
-/** Outbound Rule for the managed network of a machine learning workspace. */
-export interface OutboundRule {
+export type FqdnOutboundRuleType = "FQDN";
+export type FqdnOutboundRuleParentRuleNamesList = Array<string>;
+/** FQDN Outbound Rule for the managed network of a machine learning workspace. */
+export interface FqdnOutboundRule {
   /** Category of a managed network Outbound Rule of a machine learning workspace. */
   category?: RuleCategory | undefined;
   /** Type of a managed network Outbound Rule of a machine learning workspace. */
   status?: RuleStatus | undefined;
   /** Type of a managed network Outbound Rule of a machine learning workspace. */
-  type: RuleType;
+  type: FqdnOutboundRuleType;
   /** Error information about an outbound rule of a machine learning workspace if RuleStatus is failed. */
   errorInformation?: string | undefined;
-  parentRuleNames?: OutboundRuleParentRuleNamesList | undefined;
-  /** FQDN: the host name; PrivateEndpoint: {serviceResourceId, subresourceTarget, sparkEnabled}; ServiceTag: {serviceTag, protocol, portRanges, action}. */
-  destination?: unknown | undefined;
+  parentRuleNames?: FqdnOutboundRuleParentRuleNamesList | undefined;
+  destination?: string | undefined;
 }
+/** Type of a managed network Outbound Rule of a machine learning workspace. */
+export type PrivateEndpointOutboundRuleType = "PrivateEndpoint";
+export type PrivateEndpointOutboundRuleParentRuleNamesList = Array<string>;
+/** Private Endpoint destination for a Private Endpoint Outbound Rule for the managed network of a machine learning workspace. */
+export interface PrivateEndpointDestination {
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  serviceResourceId?: string | undefined;
+  sparkEnabled?: boolean | undefined;
+  /** Type of a managed network Outbound Rule of a machine learning workspace. */
+  sparkStatus?: RuleStatus | (string & {}) | undefined;
+  subresourceTarget?: string | undefined;
+}
+export type PrivateEndpointOutboundRuleFqdnsList = Array<string>;
+/** Private Endpoint Outbound Rule for the managed network of a machine learning workspace. */
+export interface PrivateEndpointOutboundRule {
+  /** Category of a managed network Outbound Rule of a machine learning workspace. */
+  category?: RuleCategory | undefined;
+  /** Type of a managed network Outbound Rule of a machine learning workspace. */
+  status?: RuleStatus | undefined;
+  /** Type of a managed network Outbound Rule of a machine learning workspace. */
+  type: PrivateEndpointOutboundRuleType;
+  /** Error information about an outbound rule of a machine learning workspace if RuleStatus is failed. */
+  errorInformation?: string | undefined;
+  parentRuleNames?: PrivateEndpointOutboundRuleParentRuleNamesList | undefined;
+  /** Private Endpoint destination for a Private Endpoint Outbound Rule for the managed network of a machine learning workspace. */
+  destination?: PrivateEndpointDestination | undefined;
+  fqdns?: PrivateEndpointOutboundRuleFqdnsList | undefined;
+}
+/** Type of a managed network Outbound Rule of a machine learning workspace. */
+export type ServiceTagOutboundRuleType = "ServiceTag";
+export type ServiceTagOutboundRuleParentRuleNamesList = Array<string>;
+/** The action enum for networking rule. */
+export type RuleAction = "Allow" | "Deny";
+/** Optional, if provided, the ServiceTag property will be ignored. */
+export type ServiceTagDestinationAddressPrefixesList = Array<string>;
+/** Service Tag destination for a Service Tag Outbound Rule for the managed network of a machine learning workspace. */
+export interface ServiceTagDestination {
+  /** The action enum for networking rule. */
+  action?: RuleAction | (string & {}) | undefined;
+  /** Optional, if provided, the ServiceTag property will be ignored. */
+  addressPrefixes?: ServiceTagDestinationAddressPrefixesList | undefined;
+  portRanges?: string | undefined;
+  protocol?: string | undefined;
+  serviceTag?: string | undefined;
+}
+/** Service Tag Outbound Rule for the managed network of a machine learning workspace. */
+export interface ServiceTagOutboundRule {
+  /** Category of a managed network Outbound Rule of a machine learning workspace. */
+  category?: RuleCategory | undefined;
+  /** Type of a managed network Outbound Rule of a machine learning workspace. */
+  status?: RuleStatus | undefined;
+  /** Type of a managed network Outbound Rule of a machine learning workspace. */
+  type: ServiceTagOutboundRuleType;
+  /** Error information about an outbound rule of a machine learning workspace if RuleStatus is failed. */
+  errorInformation?: string | undefined;
+  parentRuleNames?: ServiceTagOutboundRuleParentRuleNamesList | undefined;
+  /** Service Tag destination for a Service Tag Outbound Rule for the managed network of a machine learning workspace. */
+  destination?: ServiceTagDestination | undefined;
+}
+/** Outbound Rule for the managed network of a machine learning workspace. */
+export type OutboundRule = FqdnOutboundRule | PrivateEndpointOutboundRule | ServiceTagOutboundRule;
 export interface GetManagedNetworkSettingsRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string | undefined;
@@ -3621,11 +8120,11 @@ export interface GetOnlineDeploymentRequest {
 /** Resource tags. */
 export type GetOnlineDeploymentResponseTagsMap = { [key: string]: string | undefined };
 /** Environment variables configuration for the deployment. */
-export type OnlineDeploymentPropertiesEnvironmentVariablesMap = {
+export type KubernetesOnlineDeploymentEnvironmentVariablesMap = {
   [key: string]: string | null | undefined;
 };
 /** Property dictionary. Properties can be added, but not removed or altered. */
-export type OnlineDeploymentPropertiesPropertiesMap = { [key: string]: string | null | undefined };
+export type KubernetesOnlineDeploymentPropertiesMap = { [key: string]: string | null | undefined };
 /** Enable or disable data collection. */
 export type CollectionDataCollectionMode = "Enabled" | "Disabled";
 export interface Collection {
@@ -3658,8 +8157,8 @@ export interface DataCollector {
 }
 /** Enum to determine whether PublicNetworkAccess is Enabled or Disabled for egress of a deployment. */
 export type OnlineDeploymentPropertiesEgressPublicNetworkAccess = "Enabled" | "Disabled";
-/** Enum to determine endpoint compute type. */
-export type EndpointComputeType = "Managed" | "Kubernetes" | "AzureMLCompute";
+/** [Required] The compute type of the endpoint. */
+export type KubernetesOnlineDeploymentEndpointComputeType = "Kubernetes";
 /** Deployment container liveness/readiness probe configuration. */
 export interface ProbeSettings {
   /** The number of failures to allow before returning an unhealthy status. */
@@ -3682,23 +8181,47 @@ export interface OnlineRequestSettings {
   /** The scoring timeout in ISO 8601 format. Defaults to 5000ms. */
   requestTimeout?: string | undefined;
 }
-export type ScaleType = "Default" | "TargetUtilization";
+/** [Required] Type of deployment scaling algorithm */
+export type DefaultScaleSettingsScaleType = "Default";
 /** Online deployment scaling configuration. */
-export interface OnlineScaleSettings {
+export interface DefaultScaleSettings {
   /** [Required] Type of deployment scaling algorithm */
-  scaleType: ScaleType | (string & {});
-  /** TargetUtilization: minimum instances. */
-  minInstances?: number | undefined;
-  /** TargetUtilization: maximum instances. */
+  scaleType: DefaultScaleSettingsScaleType;
+}
+/** [Required] Type of deployment scaling algorithm */
+export type TargetUtilizationScaleSettingsScaleType = "TargetUtilization";
+/** Online deployment scaling configuration. */
+export interface TargetUtilizationScaleSettings {
+  /** [Required] Type of deployment scaling algorithm */
+  scaleType: TargetUtilizationScaleSettingsScaleType;
+  /** The maximum number of instances that the deployment can scale to. The quota will be reserved for max_instances. */
   maxInstances?: number | undefined;
-  /** TargetUtilization: polling interval (ISO 8601). */
+  /** The minimum number of instances to always be present. */
+  minInstances?: number | undefined;
+  /** The polling interval in ISO 8691 format. Only supports duration with precision as low as Seconds. */
   pollingInterval?: string | undefined;
-  /** TargetUtilization: scale-down delay. */
-  scaleDownDelay?: string | undefined;
-  /** TargetUtilization: target CPU utilization percentage. */
+  /** Target CPU usage for the autoscaler. */
   targetUtilizationPercentage?: number | undefined;
 }
-export interface OnlineDeploymentProperties {
+/** Online deployment scaling configuration. */
+export type OnlineScaleSettings = DefaultScaleSettings | TargetUtilizationScaleSettings;
+export interface ContainerResourceSettings {
+  /** Number of vCPUs request/limit for container. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ */
+  cpu?: string | null | undefined;
+  /** Number of Nvidia GPU cards request/limit for container. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ */
+  gpu?: string | null | undefined;
+  /** Memory size request/limit for container. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ */
+  memory?: string | null | undefined;
+}
+/** Resource requirements for each container instance within an online deployment. */
+export interface ContainerResourceRequirements {
+  /** Container resource limit info: */
+  containerResourceLimits?: ContainerResourceSettings | null | undefined;
+  /** Container resource request info: */
+  containerResourceRequests?: ContainerResourceSettings | null | undefined;
+}
+/** Properties specific to a KubernetesOnlineDeployment. */
+export interface KubernetesOnlineDeployment {
   /** Code configuration for the endpoint deployment. */
   codeConfiguration?: CodeConfiguration | null | undefined;
   /** Description of the endpoint deployment. */
@@ -3706,9 +8229,9 @@ export interface OnlineDeploymentProperties {
   /** ARM resource ID or AssetId of the environment specification for the endpoint deployment. */
   environmentId?: string | null | undefined;
   /** Environment variables configuration for the deployment. */
-  environmentVariables?: OnlineDeploymentPropertiesEnvironmentVariablesMap | null | undefined;
+  environmentVariables?: KubernetesOnlineDeploymentEnvironmentVariablesMap | null | undefined;
   /** Property dictionary. Properties can be added, but not removed or altered. */
-  properties?: OnlineDeploymentPropertiesPropertiesMap | null | undefined;
+  properties?: KubernetesOnlineDeploymentPropertiesMap | null | undefined;
   /** If true, enables Application Insights logging. */
   appInsightsEnabled?: boolean | undefined;
   /** The mdc configuration, we disable mdc when it's null. */
@@ -3716,7 +8239,55 @@ export interface OnlineDeploymentProperties {
   /** Enum to determine whether PublicNetworkAccess is Enabled or Disabled for egress of a deployment. */
   egressPublicNetworkAccess?: OnlineDeploymentPropertiesEgressPublicNetworkAccess | undefined;
   /** [Required] The compute type of the endpoint. */
-  endpointComputeType: EndpointComputeType;
+  endpointComputeType: KubernetesOnlineDeploymentEndpointComputeType;
+  /** Compute instance type. Default: Standard_F4s_v2. */
+  instanceType?: string | null | undefined;
+  /** Liveness probe monitors the health of the container regularly. */
+  livenessProbe?: ProbeSettings | null | undefined;
+  /** The URI path to the model. */
+  model?: string | null | undefined;
+  /** The path to mount the model in custom container. */
+  modelMountPath?: string | null | undefined;
+  /** Provisioning state for the endpoint deployment. */
+  provisioningState?: DeploymentProvisioningState | undefined;
+  /** Readiness probe validates if the container is ready to serve traffic. The properties and defaults are the same as liveness probe. */
+  readinessProbe?: ProbeSettings | null | undefined;
+  /** Request settings for the deployment. */
+  requestSettings?: OnlineRequestSettings | null | undefined;
+  /** Scale settings for the deployment. If it is null or not provided, it defaults to TargetUtilizationScaleSettings for KubernetesOnlineDeployment and to DefaultScaleSettings for ManagedOnlineDeployment. */
+  scaleSettings?: OnlineScaleSettings | null | undefined;
+  /** Startup probe verify whether an application within a container has started successfully. */
+  startupProbe?: ProbeSettings | null | undefined;
+  /** The resource requirements for the container (cpu and memory). */
+  containerResourceRequirements?: ContainerResourceRequirements | null | undefined;
+}
+/** Environment variables configuration for the deployment. */
+export type ManagedOnlineDeploymentEnvironmentVariablesMap = {
+  [key: string]: string | null | undefined;
+};
+/** Property dictionary. Properties can be added, but not removed or altered. */
+export type ManagedOnlineDeploymentPropertiesMap = { [key: string]: string | null | undefined };
+/** [Required] The compute type of the endpoint. */
+export type ManagedOnlineDeploymentEndpointComputeType = "Managed";
+export interface ManagedOnlineDeployment {
+  /** Code configuration for the endpoint deployment. */
+  codeConfiguration?: CodeConfiguration | null | undefined;
+  /** Description of the endpoint deployment. */
+  description?: string | null | undefined;
+  /** ARM resource ID or AssetId of the environment specification for the endpoint deployment. */
+  environmentId?: string | null | undefined;
+  /** Environment variables configuration for the deployment. */
+  environmentVariables?: ManagedOnlineDeploymentEnvironmentVariablesMap | null | undefined;
+  /** Property dictionary. Properties can be added, but not removed or altered. */
+  properties?: ManagedOnlineDeploymentPropertiesMap | null | undefined;
+  /** If true, enables Application Insights logging. */
+  appInsightsEnabled?: boolean | undefined;
+  /** The mdc configuration, we disable mdc when it's null. */
+  dataCollector?: DataCollector | null | undefined;
+  /** Enum to determine whether PublicNetworkAccess is Enabled or Disabled for egress of a deployment. */
+  egressPublicNetworkAccess?: OnlineDeploymentPropertiesEgressPublicNetworkAccess | undefined;
+  /** [Required] The compute type of the endpoint. */
+  endpointComputeType: ManagedOnlineDeploymentEndpointComputeType;
   /** Compute instance type. Default: Standard_F4s_v2. */
   instanceType?: string | null | undefined;
   /** Liveness probe monitors the health of the container regularly. */
@@ -3736,6 +8307,7 @@ export interface OnlineDeploymentProperties {
   /** Startup probe verify whether an application within a container has started successfully. */
   startupProbe?: ProbeSettings | null | undefined;
 }
+export type OnlineDeploymentProperties = KubernetesOnlineDeployment | ManagedOnlineDeployment;
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetOnlineDeploymentResponseIdentity = BatchDeploymentsCreateOrUpdateResponseIdentity;
 /** The resource model definition representing SKU */
@@ -4243,17 +8815,56 @@ export interface GetRegistryDataReferenceBlobReferenceSASRequest {
   /** Blob uri of the asset to be accessed */
   blobUri?: string | null | undefined;
 }
-/** Enum to determine the DataReference credentials type. */
-export type DataReferenceCredentialType =
-  | "SAS"
-  | "DockerCredentials"
-  | "ManagedIdentity"
-  | "NoCredentials";
+/** [Required] Credential type used to authentication with storage. */
+export type AnonymousAccessCredentialCredentialType = "NoCredentials";
 /** DataReferenceCredential base class */
-export interface DataReferenceCredential {
+export interface AnonymousAccessCredential {
   /** [Required] Credential type used to authentication with storage. */
-  credentialType: DataReferenceCredentialType;
+  credentialType: AnonymousAccessCredentialCredentialType;
 }
+/** [Required] Credential type used to authentication with storage. */
+export type DockerCredentialCredentialType = "DockerCredentials";
+/** Credential for docker with username and password */
+export interface DockerCredential {
+  /** [Required] Credential type used to authentication with storage. */
+  credentialType: DockerCredentialCredentialType;
+  /** DockerCredential user password */
+  password?: string | Redacted.Redacted<string> | null | undefined;
+  /** DockerCredential user name */
+  userName?: string | null | undefined;
+}
+/** [Required] Credential type used to authentication with storage. */
+export type ManagedIdentityCredentialCredentialType = "ManagedIdentity";
+/** Credential for user managed identity */
+export interface ManagedIdentityCredential {
+  /** [Required] Credential type used to authentication with storage. */
+  credentialType: ManagedIdentityCredentialCredentialType;
+  /** ManagedIdentityCredential identity type */
+  managedIdentityType?: string | null | undefined;
+  /** ClientId for the UAMI. For ManagedIdentityType = SystemManaged, this field is null. */
+  userManagedIdentityClientId?: string | null | undefined;
+  /** PrincipalId for the UAMI. For ManagedIdentityType = SystemManaged, this field is null. */
+  userManagedIdentityPrincipalId?: string | null | undefined;
+  /** Full arm scope for the Id. For ManagedIdentityType = SystemManaged, this field is null. */
+  userManagedIdentityResourceId?: string | null | undefined;
+  /** TenantId for the UAMI. For ManagedIdentityType = SystemManaged, this field is null. */
+  userManagedIdentityTenantId?: string | null | undefined;
+}
+/** [Required] Credential type used to authentication with storage. */
+export type SASCredentialCredentialType = "SAS";
+/** Access with full SAS uri */
+export interface SASCredential {
+  /** [Required] Credential type used to authentication with storage. */
+  credentialType: SASCredentialCredentialType;
+  /** Full SAS Uri, including the storage, container/blob path and SAS token */
+  sasUri?: string | null | undefined;
+}
+/** DataReferenceCredential base class */
+export type DataReferenceCredential =
+  | AnonymousAccessCredential
+  | DockerCredential
+  | ManagedIdentityCredential
+  | SASCredential;
 export interface GetBlobReferenceForConsumptionDto {
   /** Blob uri, example: https://blob.windows.core.net/Container/Path */
   blobUri?: string | null | undefined;
@@ -4397,17 +9008,507 @@ export interface GetScheduleRequest {
 export type SchedulePropertiesPropertiesMap = { [key: string]: string | null | undefined };
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type SchedulePropertiesTagsMap = { [key: string]: string | null | undefined };
-export type ScheduleActionType = "CreateJob" | "InvokeBatchEndpoint" | "CreateMonitor";
-export interface ScheduleActionBase {
-  /** [Required] Specifies the action type of the schedule */
-  actionType: ScheduleActionType | (string & {});
-  /** CreateJob: the job definition. */
-  jobDefinition?: unknown | undefined;
-  /** CreateMonitor: the monitor definition. */
-  createMonitorRequest?: unknown | undefined;
-  /** InvokeBatchEndpoint: the endpoint invocation definition. */
-  endpointInvocationDefinition?: unknown | undefined;
+/** [Required] Specifies the action type of the schedule */
+export type CreateMonitorActionActionType = "CreateMonitor";
+/** The email recipient list which has a limitation of 499 characters in total. */
+export type MonitorEmailNotificationSettingsEmailsList = Array<string>;
+export interface MonitorEmailNotificationSettings {
+  /** The email recipient list which has a limitation of 499 characters in total. */
+  emails?: MonitorEmailNotificationSettingsEmailsList | null | undefined;
 }
+export interface MonitorNotificationSettings {
+  /** The AML notification email settings. */
+  emailNotificationSettings?: MonitorEmailNotificationSettings | null | undefined;
+}
+/** [Required] Specifies the type of signal to monitor. */
+export type MonitorServerlessSparkComputeComputeType = "ServerlessSpark";
+/** [Required] Specifies the type of identity to use within the monitoring jobs. */
+export type AmlTokenComputeIdentityComputeIdentityType = "AmlToken";
+/** Monitor compute identity base definition. */
+export interface AmlTokenComputeIdentity {
+  /** [Required] Specifies the type of identity to use within the monitoring jobs. */
+  computeIdentityType: AmlTokenComputeIdentityComputeIdentityType;
+}
+/** [Required] Specifies the type of identity to use within the monitoring jobs. */
+export type ManagedComputeIdentityComputeIdentityType = "ManagedIdentity";
+/** Managed service identity (system assigned and/or user assigned identities) */
+export type ManagedComputeIdentityIdentity = BatchDeploymentsCreateOrUpdateResponseIdentity;
+/** Managed compute identity definition. */
+export interface ManagedComputeIdentity {
+  /** [Required] Specifies the type of identity to use within the monitoring jobs. */
+  computeIdentityType: ManagedComputeIdentityComputeIdentityType;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
+}
+/** Monitor compute identity base definition. */
+export type MonitorComputeIdentityBase = AmlTokenComputeIdentity | ManagedComputeIdentity;
+/** Monitor serverless spark compute definition. */
+export interface MonitorServerlessSparkCompute {
+  /** [Required] Specifies the type of signal to monitor. */
+  computeType: MonitorServerlessSparkComputeComputeType;
+  /** [Required] The identity scheme leveraged to by the spark jobs running on serverless Spark. */
+  computeIdentity: MonitorComputeIdentityBase;
+  /** [Required] The instance type running the Spark job. */
+  instanceType: string;
+  /** [Required] The Spark runtime version. */
+  runtimeVersion: string;
+}
+/** Model task type enum. */
+export type ModelTaskType = "Classification" | "Regression";
+/** Monitoring target definition. */
+export interface MonitoringTarget {
+  /** Reference to the deployment asset targeted by this monitor. */
+  deploymentId?: string | null | undefined;
+  /** Reference to the model asset targeted by this monitor. */
+  modelId?: string | null | undefined;
+  /** [Required] The machine learning task type of the monitored model. */
+  taskType: ModelTaskType | (string & {});
+}
+export type MonitoringNotificationType = "AmlNotification";
+/** The current notification mode for this signal. */
+export type CustomMonitoringSignalNotificationTypesList = Array<
+  MonitoringNotificationType | (string & {})
+>;
+/** Property dictionary. Properties can be added, but not removed or altered. */
+export type CustomMonitoringSignalPropertiesMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of signal to monitor. */
+export type CustomMonitoringSignalSignalType = "Custom";
+/** Mapping of column names to special uses. */
+export type FixedInputDataColumnsMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of signal to monitor. */
+export type FixedInputDataInputDataType = "Fixed";
+/** Enum to determine the Job Input Type. */
+export type JobInputType =
+  | "literal"
+  | "uri_file"
+  | "uri_folder"
+  | "mltable"
+  | "custom_model"
+  | "mlflow_model"
+  | "triton_model";
+/** Monitoring input data base definition. */
+export interface FixedInputData {
+  /** Mapping of column names to special uses. */
+  columns?: FixedInputDataColumnsMap | null | undefined;
+  /** The context metadata of the data source. */
+  dataContext?: string | null | undefined;
+  /** [Required] Specifies the type of signal to monitor. */
+  inputDataType: FixedInputDataInputDataType;
+  /** [Required] Specifies the type of job. */
+  jobInputType: JobInputType | (string & {});
+  /** [Required] Input Asset URI. */
+  uri: string;
+}
+/** Mapping of column names to special uses. */
+export type RollingInputDataColumnsMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of signal to monitor. */
+export type RollingInputDataInputDataType = "Rolling";
+/** Rolling input data definition. */
+export interface RollingInputData {
+  /** Mapping of column names to special uses. */
+  columns?: RollingInputDataColumnsMap | null | undefined;
+  /** The context metadata of the data source. */
+  dataContext?: string | null | undefined;
+  /** [Required] Specifies the type of signal to monitor. */
+  inputDataType: RollingInputDataInputDataType;
+  /** [Required] Specifies the type of job. */
+  jobInputType: JobInputType | (string & {});
+  /** [Required] Input Asset URI. */
+  uri: string;
+  /** Reference to the component asset used to preprocess the data. */
+  preprocessingComponentId?: string | null | undefined;
+  /** [Required] The time offset between the end of the data window and the monitor's current run time. */
+  windowOffset: string;
+  /** [Required] The size of the rolling data window. */
+  windowSize: string;
+}
+/** Mapping of column names to special uses. */
+export type StaticInputDataColumnsMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of signal to monitor. */
+export type StaticInputDataInputDataType = "Static";
+/** Static input data definition. */
+export interface StaticInputData {
+  /** Mapping of column names to special uses. */
+  columns?: StaticInputDataColumnsMap | null | undefined;
+  /** The context metadata of the data source. */
+  dataContext?: string | null | undefined;
+  /** [Required] Specifies the type of signal to monitor. */
+  inputDataType: StaticInputDataInputDataType;
+  /** [Required] Specifies the type of job. */
+  jobInputType: JobInputType | (string & {});
+  /** [Required] Input Asset URI. */
+  uri: string;
+  /** Reference to the component asset used to preprocess the data. */
+  preprocessingComponentId?: string | null | undefined;
+  /** [Required] The end date of the data window. */
+  windowEnd: string;
+  /** [Required] The start date of the data window. */
+  windowStart: string;
+}
+/** Monitoring input data base definition. */
+export type MonitoringInputDataBase = FixedInputData | RollingInputData | StaticInputData;
+/** Monitoring assets to take as input. Key is the component input port name, value is the data asset. */
+export type CustomMonitoringSignalInputAssetsMap = {
+  [key: string]: MonitoringInputDataBase | null | undefined;
+};
+/** Extra component parameters to take as input. Key is the component literal input port name, value is the parameter value. */
+export type CustomMonitoringSignalInputsMap = { [key: string]: JobInput | null | undefined };
+export interface MonitoringThreshold {
+  /** The threshold value. If null, the set default is dependent on the metric type. */
+  value?: number | null | undefined;
+}
+export interface CustomMetricThreshold {
+  /** [Required] The user-defined metric to calculate. */
+  metric: string;
+  /** The threshold value. If null, a default value will be set depending on the selected metric. */
+  threshold?: MonitoringThreshold | null | undefined;
+}
+/** [Required] A list of metrics to calculate and their associated thresholds. */
+export type CustomMonitoringSignalMetricThresholdsList = Array<CustomMetricThreshold>;
+export interface CustomMonitoringSignal {
+  /** The current notification mode for this signal. */
+  notificationTypes?: CustomMonitoringSignalNotificationTypesList | null | undefined;
+  /** Property dictionary. Properties can be added, but not removed or altered. */
+  properties?: CustomMonitoringSignalPropertiesMap | null | undefined;
+  /** [Required] Specifies the type of signal to monitor. */
+  signalType: CustomMonitoringSignalSignalType;
+  /** [Required] Reference to the component asset used to calculate the custom metrics. */
+  componentId: string;
+  /** Monitoring assets to take as input. Key is the component input port name, value is the data asset. */
+  inputAssets?: CustomMonitoringSignalInputAssetsMap | null | undefined;
+  /** Extra component parameters to take as input. Key is the component literal input port name, value is the parameter value. */
+  inputs?: CustomMonitoringSignalInputsMap | null | undefined;
+  /** [Required] A list of metrics to calculate and their associated thresholds. */
+  metricThresholds: CustomMonitoringSignalMetricThresholdsList;
+}
+/** The current notification mode for this signal. */
+export type DataDriftMonitoringSignalNotificationTypesList = Array<
+  MonitoringNotificationType | (string & {})
+>;
+/** Property dictionary. Properties can be added, but not removed or altered. */
+export type DataDriftMonitoringSignalPropertiesMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of signal to monitor. */
+export type DataDriftMonitoringSignalSignalType = "DataDrift";
+export type MonitoringFeatureDataType = "Numerical" | "Categorical";
+/** A dictionary that maps feature names to their respective data types. */
+export type DataDriftMonitoringSignalFeatureDataTypeOverrideMap = {
+  [key: string]: MonitoringFeatureDataType | (string & {}) | undefined;
+};
+/** The mode of operation for computing feature importance. */
+export type FeatureImportanceSettingsMode = "Disabled" | "Enabled";
+export interface FeatureImportanceSettings {
+  /** The mode of operation for computing feature importance. */
+  mode?: FeatureImportanceSettingsMode | (string & {}) | undefined;
+  /** The name of the target column within the input data asset. */
+  targetColumn?: string | null | undefined;
+}
+/** [Required] Specifies the feature filter to leverage when selecting features to calculate metrics over. */
+export type AllFeaturesFilterType = "AllFeatures";
+export interface AllFeatures {
+  /** [Required] Specifies the feature filter to leverage when selecting features to calculate metrics over. */
+  filterType: AllFeaturesFilterType;
+}
+/** [Required] Specifies the feature filter to leverage when selecting features to calculate metrics over. */
+export type FeatureSubsetFilterType = "FeatureSubset";
+/** [Required] The list of features to include. */
+export type FeatureSubsetFeaturesList = Array<string>;
+export interface FeatureSubset {
+  /** [Required] Specifies the feature filter to leverage when selecting features to calculate metrics over. */
+  filterType: FeatureSubsetFilterType;
+  /** [Required] The list of features to include. */
+  features: FeatureSubsetFeaturesList;
+}
+/** [Required] Specifies the feature filter to leverage when selecting features to calculate metrics over. */
+export type TopNFeaturesByAttributionFilterType = "TopNByAttribution";
+export interface TopNFeaturesByAttribution {
+  /** [Required] Specifies the feature filter to leverage when selecting features to calculate metrics over. */
+  filterType: TopNFeaturesByAttributionFilterType;
+  /** The number of top features to include. */
+  top?: number | undefined;
+}
+export type MonitoringFeatureFilterBase = AllFeatures | FeatureSubset | TopNFeaturesByAttribution;
+/** [Required] Specifies the data type of the metric threshold. */
+export type CategoricalDataDriftMetricThresholdDataType = "Categorical";
+export type CategoricalDataDriftMetric =
+  | "JensenShannonDistance"
+  | "PopulationStabilityIndex"
+  | "PearsonsChiSquaredTest";
+export interface CategoricalDataDriftMetricThreshold {
+  /** [Required] Specifies the data type of the metric threshold. */
+  dataType: CategoricalDataDriftMetricThresholdDataType;
+  /** The threshold value. If null, a default value will be set depending on the selected metric. */
+  threshold?: MonitoringThreshold | null | undefined;
+  /** [Required] The categorical data drift metric to calculate. */
+  metric: CategoricalDataDriftMetric | (string & {});
+}
+/** [Required] Specifies the data type of the metric threshold. */
+export type NumericalDataDriftMetricThresholdDataType = "Numerical";
+export type NumericalDataDriftMetric =
+  | "JensenShannonDistance"
+  | "PopulationStabilityIndex"
+  | "NormalizedWassersteinDistance"
+  | "TwoSampleKolmogorovSmirnovTest";
+export interface NumericalDataDriftMetricThreshold {
+  /** [Required] Specifies the data type of the metric threshold. */
+  dataType: NumericalDataDriftMetricThresholdDataType;
+  /** The threshold value. If null, a default value will be set depending on the selected metric. */
+  threshold?: MonitoringThreshold | null | undefined;
+  /** [Required] The numerical data drift metric to calculate. */
+  metric: NumericalDataDriftMetric | (string & {});
+}
+export type DataDriftMetricThresholdBase =
+  | CategoricalDataDriftMetricThreshold
+  | NumericalDataDriftMetricThreshold;
+/** [Required] A list of metrics to calculate and their associated thresholds. */
+export type DataDriftMonitoringSignalMetricThresholdsList = Array<DataDriftMetricThresholdBase>;
+export interface DataDriftMonitoringSignal {
+  /** The current notification mode for this signal. */
+  notificationTypes?: DataDriftMonitoringSignalNotificationTypesList | null | undefined;
+  /** Property dictionary. Properties can be added, but not removed or altered. */
+  properties?: DataDriftMonitoringSignalPropertiesMap | null | undefined;
+  /** [Required] Specifies the type of signal to monitor. */
+  signalType: DataDriftMonitoringSignalSignalType;
+  /** A dictionary that maps feature names to their respective data types. */
+  featureDataTypeOverride?: DataDriftMonitoringSignalFeatureDataTypeOverrideMap | null | undefined;
+  /** The settings for computing feature importance. */
+  featureImportanceSettings?: FeatureImportanceSettings | null | undefined;
+  /** The feature filter which identifies which feature to calculate drift over. */
+  features?: MonitoringFeatureFilterBase | null | undefined;
+  /** [Required] A list of metrics to calculate and their associated thresholds. */
+  metricThresholds: DataDriftMonitoringSignalMetricThresholdsList;
+  /** [Required] The data which drift will be calculated for. */
+  productionData: MonitoringInputDataBase;
+  /** [Required] The data to calculate drift against. */
+  referenceData: MonitoringInputDataBase;
+}
+/** The current notification mode for this signal. */
+export type DataQualityMonitoringSignalNotificationTypesList = Array<
+  MonitoringNotificationType | (string & {})
+>;
+/** Property dictionary. Properties can be added, but not removed or altered. */
+export type DataQualityMonitoringSignalPropertiesMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of signal to monitor. */
+export type DataQualityMonitoringSignalSignalType = "DataQuality";
+/** A dictionary that maps feature names to their respective data types. */
+export type DataQualityMonitoringSignalFeatureDataTypeOverrideMap = {
+  [key: string]: MonitoringFeatureDataType | (string & {}) | undefined;
+};
+/** [Required] Specifies the data type of the metric threshold. */
+export type CategoricalDataQualityMetricThresholdDataType = "Categorical";
+export type CategoricalDataQualityMetric =
+  | "NullValueRate"
+  | "DataTypeErrorRate"
+  | "OutOfBoundsRate";
+export interface CategoricalDataQualityMetricThreshold {
+  /** [Required] Specifies the data type of the metric threshold. */
+  dataType: CategoricalDataQualityMetricThresholdDataType;
+  /** The threshold value. If null, a default value will be set depending on the selected metric. */
+  threshold?: MonitoringThreshold | null | undefined;
+  /** [Required] The categorical data quality metric to calculate. */
+  metric: CategoricalDataQualityMetric | (string & {});
+}
+/** [Required] Specifies the data type of the metric threshold. */
+export type NumericalDataQualityMetricThresholdDataType = "Numerical";
+export type NumericalDataQualityMetric = "NullValueRate" | "DataTypeErrorRate" | "OutOfBoundsRate";
+export interface NumericalDataQualityMetricThreshold {
+  /** [Required] Specifies the data type of the metric threshold. */
+  dataType: NumericalDataQualityMetricThresholdDataType;
+  /** The threshold value. If null, a default value will be set depending on the selected metric. */
+  threshold?: MonitoringThreshold | null | undefined;
+  /** [Required] The numerical data quality metric to calculate. */
+  metric: NumericalDataQualityMetric | (string & {});
+}
+export type DataQualityMetricThresholdBase =
+  | CategoricalDataQualityMetricThreshold
+  | NumericalDataQualityMetricThreshold;
+/** [Required] A list of metrics to calculate and their associated thresholds. */
+export type DataQualityMonitoringSignalMetricThresholdsList = Array<DataQualityMetricThresholdBase>;
+export interface DataQualityMonitoringSignal {
+  /** The current notification mode for this signal. */
+  notificationTypes?: DataQualityMonitoringSignalNotificationTypesList | null | undefined;
+  /** Property dictionary. Properties can be added, but not removed or altered. */
+  properties?: DataQualityMonitoringSignalPropertiesMap | null | undefined;
+  /** [Required] Specifies the type of signal to monitor. */
+  signalType: DataQualityMonitoringSignalSignalType;
+  /** A dictionary that maps feature names to their respective data types. */
+  featureDataTypeOverride?:
+    | DataQualityMonitoringSignalFeatureDataTypeOverrideMap
+    | null
+    | undefined;
+  /** The settings for computing feature importance. */
+  featureImportanceSettings?: FeatureImportanceSettings | null | undefined;
+  /** The features to calculate drift over. */
+  features?: MonitoringFeatureFilterBase | null | undefined;
+  /** [Required] A list of metrics to calculate and their associated thresholds. */
+  metricThresholds: DataQualityMonitoringSignalMetricThresholdsList;
+  /** [Required] The data produced by the production service which drift will be calculated for. */
+  productionData: MonitoringInputDataBase;
+  /** [Required] The data to calculate drift against. */
+  referenceData: MonitoringInputDataBase;
+}
+/** The current notification mode for this signal. */
+export type FeatureAttributionDriftMonitoringSignalNotificationTypesList = Array<
+  MonitoringNotificationType | (string & {})
+>;
+/** Property dictionary. Properties can be added, but not removed or altered. */
+export type FeatureAttributionDriftMonitoringSignalPropertiesMap = {
+  [key: string]: string | null | undefined;
+};
+/** [Required] Specifies the type of signal to monitor. */
+export type FeatureAttributionDriftMonitoringSignalSignalType = "FeatureAttributionDrift";
+/** A dictionary that maps feature names to their respective data types. */
+export type FeatureAttributionDriftMonitoringSignalFeatureDataTypeOverrideMap = {
+  [key: string]: MonitoringFeatureDataType | (string & {}) | undefined;
+};
+export type FeatureAttributionMetric = "NormalizedDiscountedCumulativeGain";
+export interface FeatureAttributionMetricThreshold {
+  /** [Required] The feature attribution metric to calculate. */
+  metric: FeatureAttributionMetric | (string & {});
+  /** The threshold value. If null, a default value will be set depending on the selected metric. */
+  threshold?: MonitoringThreshold | null | undefined;
+}
+/** [Required] The data which drift will be calculated for. */
+export type FeatureAttributionDriftMonitoringSignalProductionDataList =
+  Array<MonitoringInputDataBase>;
+export interface FeatureAttributionDriftMonitoringSignal {
+  /** The current notification mode for this signal. */
+  notificationTypes?:
+    | FeatureAttributionDriftMonitoringSignalNotificationTypesList
+    | null
+    | undefined;
+  /** Property dictionary. Properties can be added, but not removed or altered. */
+  properties?: FeatureAttributionDriftMonitoringSignalPropertiesMap | null | undefined;
+  /** [Required] Specifies the type of signal to monitor. */
+  signalType: FeatureAttributionDriftMonitoringSignalSignalType;
+  /** A dictionary that maps feature names to their respective data types. */
+  featureDataTypeOverride?:
+    | FeatureAttributionDriftMonitoringSignalFeatureDataTypeOverrideMap
+    | null
+    | undefined;
+  /** [Required] The settings for computing feature importance. */
+  featureImportanceSettings: FeatureImportanceSettings;
+  /** [Required] A list of metrics to calculate and their associated thresholds. */
+  metricThreshold: FeatureAttributionMetricThreshold;
+  /** [Required] The data which drift will be calculated for. */
+  productionData: FeatureAttributionDriftMonitoringSignalProductionDataList;
+  /** [Required] The data to calculate drift against. */
+  referenceData: MonitoringInputDataBase;
+}
+/** The current notification mode for this signal. */
+export type PredictionDriftMonitoringSignalNotificationTypesList = Array<
+  MonitoringNotificationType | (string & {})
+>;
+/** Property dictionary. Properties can be added, but not removed or altered. */
+export type PredictionDriftMonitoringSignalPropertiesMap = {
+  [key: string]: string | null | undefined;
+};
+/** [Required] Specifies the type of signal to monitor. */
+export type PredictionDriftMonitoringSignalSignalType = "PredictionDrift";
+/** A dictionary that maps feature names to their respective data types. */
+export type PredictionDriftMonitoringSignalFeatureDataTypeOverrideMap = {
+  [key: string]: MonitoringFeatureDataType | (string & {}) | undefined;
+};
+/** [Required] Specifies the data type of the metric threshold. */
+export type CategoricalPredictionDriftMetricThresholdDataType = "Categorical";
+export type CategoricalPredictionDriftMetric =
+  | "JensenShannonDistance"
+  | "PopulationStabilityIndex"
+  | "PearsonsChiSquaredTest";
+export interface CategoricalPredictionDriftMetricThreshold {
+  /** [Required] Specifies the data type of the metric threshold. */
+  dataType: CategoricalPredictionDriftMetricThresholdDataType;
+  /** The threshold value. If null, a default value will be set depending on the selected metric. */
+  threshold?: MonitoringThreshold | null | undefined;
+  /** [Required] The categorical prediction drift metric to calculate. */
+  metric: CategoricalPredictionDriftMetric | (string & {});
+}
+/** [Required] Specifies the data type of the metric threshold. */
+export type NumericalPredictionDriftMetricThresholdDataType = "Numerical";
+export type NumericalPredictionDriftMetric =
+  | "JensenShannonDistance"
+  | "PopulationStabilityIndex"
+  | "NormalizedWassersteinDistance"
+  | "TwoSampleKolmogorovSmirnovTest";
+export interface NumericalPredictionDriftMetricThreshold {
+  /** [Required] Specifies the data type of the metric threshold. */
+  dataType: NumericalPredictionDriftMetricThresholdDataType;
+  /** The threshold value. If null, a default value will be set depending on the selected metric. */
+  threshold?: MonitoringThreshold | null | undefined;
+  /** [Required] The numerical prediction drift metric to calculate. */
+  metric: NumericalPredictionDriftMetric | (string & {});
+}
+export type PredictionDriftMetricThresholdBase =
+  | CategoricalPredictionDriftMetricThreshold
+  | NumericalPredictionDriftMetricThreshold;
+/** [Required] A list of metrics to calculate and their associated thresholds. */
+export type PredictionDriftMonitoringSignalMetricThresholdsList =
+  Array<PredictionDriftMetricThresholdBase>;
+export interface PredictionDriftMonitoringSignal {
+  /** The current notification mode for this signal. */
+  notificationTypes?: PredictionDriftMonitoringSignalNotificationTypesList | null | undefined;
+  /** Property dictionary. Properties can be added, but not removed or altered. */
+  properties?: PredictionDriftMonitoringSignalPropertiesMap | null | undefined;
+  /** [Required] Specifies the type of signal to monitor. */
+  signalType: PredictionDriftMonitoringSignalSignalType;
+  /** A dictionary that maps feature names to their respective data types. */
+  featureDataTypeOverride?:
+    | PredictionDriftMonitoringSignalFeatureDataTypeOverrideMap
+    | null
+    | undefined;
+  /** [Required] A list of metrics to calculate and their associated thresholds. */
+  metricThresholds: PredictionDriftMonitoringSignalMetricThresholdsList;
+  /** [Required] The data which drift will be calculated for. */
+  productionData: MonitoringInputDataBase;
+  /** [Required] The data to calculate drift against. */
+  referenceData: MonitoringInputDataBase;
+}
+export type MonitoringSignalBase =
+  | CustomMonitoringSignal
+  | DataDriftMonitoringSignal
+  | DataQualityMonitoringSignal
+  | FeatureAttributionDriftMonitoringSignal
+  | PredictionDriftMonitoringSignal;
+/** [Required] The signals to monitor. */
+export type MonitorDefinitionSignalsMap = {
+  [key: string]: MonitoringSignalBase | null | undefined;
+};
+export interface MonitorDefinition {
+  /** The monitor's notification settings. */
+  alertNotificationSettings?: MonitorNotificationSettings | null | undefined;
+  /** [Required] The ARM resource ID of the compute resource to run the monitoring job on. */
+  computeConfiguration: MonitorServerlessSparkCompute;
+  /** The entities targeted by the monitor. */
+  monitoringTarget?: MonitoringTarget | null | undefined;
+  /** [Required] The signals to monitor. */
+  signals: MonitorDefinitionSignalsMap;
+}
+export interface CreateMonitorAction {
+  /** [Required] Specifies the action type of the schedule */
+  actionType: CreateMonitorActionActionType;
+  /** [Required] Defines the monitor. */
+  monitorDefinition: MonitorDefinition;
+}
+/** [Required] Specifies the action type of the schedule */
+export type EndpointScheduleActionActionType = "InvokeBatchEndpoint";
+/** [Required] Defines Schedule action definition details. <see href="TBD" /> */
+export type EndpointScheduleActionEndpointInvocationDefinitionMap = {
+  [key: string]: unknown | undefined;
+};
+export interface EndpointScheduleAction {
+  /** [Required] Specifies the action type of the schedule */
+  actionType: EndpointScheduleActionActionType;
+  /** [Required] Defines Schedule action definition details. <see href="TBD" /> */
+  endpointInvocationDefinition: EndpointScheduleActionEndpointInvocationDefinitionMap;
+}
+/** [Required] Specifies the action type of the schedule */
+export type JobScheduleActionActionType = "CreateJob";
+export interface JobScheduleAction {
+  /** [Required] Specifies the action type of the schedule */
+  actionType: JobScheduleActionActionType;
+  /** [Required] Defines Schedule action definition details. */
+  jobDefinition: JobBaseProperties;
+}
+export type ScheduleActionBase = CreateMonitorAction | EndpointScheduleAction | JobScheduleAction;
 export type ScheduleProvisioningStatus =
   | "Creating"
   | "Updating"
@@ -4415,7 +9516,9 @@ export type ScheduleProvisioningStatus =
   | "Succeeded"
   | "Failed"
   | "Canceled";
-export interface TriggerBase {
+/** [Required] */
+export type CronTriggerTriggerType = "Cron";
+export interface CronTrigger {
   /** Specifies end time of schedule in ISO 8601, but without a UTC offset. Refer https://en.wikipedia.org/wiki/ISO_8601. Recommented format would be "2022-06-01T00:00:01" If not present, the schedule will run indefinitely */
   endTime?: string | null | undefined;
   /** Specifies start time of schedule in ISO 8601 format, but without a UTC offset. */
@@ -4423,16 +9526,11 @@ export interface TriggerBase {
   /** Specifies time zone in which the schedule runs. TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11 */
   timeZone?: string | undefined;
   /** [Required] */
-  triggerType: TriggerType | (string & {});
-  /** Cron: the cron expression. */
-  expression?: string | undefined;
-  /** Recurrence: frequency (Minute, Hour, Day, Week, Month). */
-  frequency?: string | undefined;
-  /** Recurrence: interval. */
-  interval?: number | undefined;
-  /** Recurrence: the recurrence schedule (hours, minutes, weekDays, monthDays). */
-  schedule?: unknown | undefined;
+  triggerType: CronTriggerTriggerType;
+  /** [Required] Specifies cron expression of schedule. The expression should follow NCronTab format. */
+  expression: string;
 }
+export type TriggerBase = CronTrigger | RecurrenceTrigger;
 /** Base definition of a schedule */
 export interface ScheduleProperties {
   /** The asset description text. */
@@ -4824,9 +9922,11 @@ export interface GetWorkspaceConnectionResponse {
   properties: WorkspaceConnectionPropertiesV2;
 }
 /** The asset property dictionary. */
-export type JobBasePropertiesInputPropertiesMap = { [key: string]: string | null | undefined };
+export type AutoMLJobInputPropertiesMap = { [key: string]: string | null | undefined };
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type JobBasePropertiesInputTagsMap = { [key: string]: string | null | undefined };
+export type AutoMLJobInputTagsMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of job. */
+export type AutoMLJobInputJobType = "AutoML";
 /** Additional properties to set on the endpoint. */
 export type JobServiceInputPropertiesMap = { [key: string]: string | null | undefined };
 /** Job endpoint definition */
@@ -4836,24 +9936,26 @@ export interface JobServiceInput {
   /** Endpoint type. */
   jobServiceType?: string | null | undefined;
   /** Nodes that user would like to start the service on. If Nodes is not set or set to null, the service will only be started on leader node. */
-  nodes?: Nodes | null | undefined;
+  nodes?: AllNodes | null | undefined;
   /** Port for endpoint. */
   port?: number | null | undefined;
   /** Additional properties to set on the endpoint. */
   properties?: JobServiceInputPropertiesMap | null | undefined;
 }
 /** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
-export type JobBasePropertiesInputServicesMap = {
-  [key: string]: JobServiceInput | null | undefined;
-};
-/** Base definition for a job. */
-export interface JobBasePropertiesInput {
+export type AutoMLJobInputServicesMap = { [key: string]: JobServiceInput | null | undefined };
+/** Environment variables included in the job. */
+export type AutoMLJobInputEnvironmentVariablesMap = { [key: string]: string | null | undefined };
+/** Mapping of output data bindings used in the job. */
+export type AutoMLJobInputOutputsMap = { [key: string]: JobOutput | null | undefined };
+/** AutoMLJob class. Use this class for executing AutoML tasks like Classification/Regression etc. See TaskType enum for all the tasks supported. */
+export interface AutoMLJobInput {
   /** The asset description text. */
   description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: JobBasePropertiesInputPropertiesMap | null | undefined;
+  properties?: AutoMLJobInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: JobBasePropertiesInputTagsMap | null | undefined;
+  tags?: AutoMLJobInputTagsMap | null | undefined;
   /** ARM resource ID of the component resource. */
   componentId?: string | null | undefined;
   /** ARM resource ID of the compute resource. */
@@ -4867,12 +9969,279 @@ export interface JobBasePropertiesInput {
   /** Is the asset archived? */
   isArchived?: boolean | undefined;
   /** [Required] Specifies the type of job. */
-  jobType: JobType | (string & {});
+  jobType: AutoMLJobInputJobType;
   /** Notification setting for the job */
   notificationSetting?: NotificationSetting | null | undefined;
   /** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
-  services?: JobBasePropertiesInputServicesMap | null | undefined;
+  services?: AutoMLJobInputServicesMap | null | undefined;
+  /** The ARM resource ID of the Environment specification for the job. This is optional value to provide, if not provided, AutoML will default this to Production AutoML curated environment version when running the job. */
+  environmentId?: string | null | undefined;
+  /** Environment variables included in the job. */
+  environmentVariables?: AutoMLJobInputEnvironmentVariablesMap | null | undefined;
+  /** Mapping of output data bindings used in the job. */
+  outputs?: AutoMLJobInputOutputsMap | null | undefined;
+  /** Queue settings for the job */
+  queueSettings?: QueueSettings | null | undefined;
+  /** Compute Resource configuration for the job. */
+  resources?: JobResourceConfiguration | undefined;
+  /** [Required] This represents scenario which can be one of Tables/NLP/Image */
+  taskDetails: AutoMLVertical;
 }
+/** The asset property dictionary. */
+export type CommandJobInputPropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type CommandJobInputTagsMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of job. */
+export type CommandJobInputJobType = "Command";
+/** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
+export type CommandJobInputServicesMap = { [key: string]: JobServiceInput | null | undefined };
+/** Environment variables included in the job. */
+export type CommandJobInputEnvironmentVariablesMap = { [key: string]: string | null | undefined };
+/** Mapping of input data bindings used in the job. */
+export type CommandJobInputInputsMap = { [key: string]: JobInput | null | undefined };
+/** Mapping of output data bindings used in the job. */
+export type CommandJobInputOutputsMap = { [key: string]: JobOutput | null | undefined };
+/** Command job definition. */
+export interface CommandJobInput {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: CommandJobInputPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: CommandJobInputTagsMap | null | undefined;
+  /** ARM resource ID of the component resource. */
+  componentId?: string | null | undefined;
+  /** ARM resource ID of the compute resource. */
+  computeId?: string | null | undefined;
+  /** Display name of job. */
+  displayName?: string | null | undefined;
+  /** The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment. */
+  experimentName?: string | undefined;
+  /** Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, UserIdentity or null. Defaults to AmlToken if null. */
+  identity?: IdentityConfiguration | null | undefined;
+  /** Is the asset archived? */
+  isArchived?: boolean | undefined;
+  /** [Required] Specifies the type of job. */
+  jobType: CommandJobInputJobType;
+  /** Notification setting for the job */
+  notificationSetting?: NotificationSetting | null | undefined;
+  /** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
+  services?: CommandJobInputServicesMap | null | undefined;
+  /** ARM resource ID of the code asset. */
+  codeId?: string | null | undefined;
+  /** [Required] The command to execute on startup of the job. eg. "python train.py" */
+  command: string;
+  /** Distribution configuration of the job. If set, this should be one of Mpi, Tensorflow, PyTorch, or null. */
+  distribution?: DistributionConfiguration | null | undefined;
+  /** [Required] The ARM resource ID of the Environment specification for the job. */
+  environmentId: string;
+  /** Environment variables included in the job. */
+  environmentVariables?: CommandJobInputEnvironmentVariablesMap | null | undefined;
+  /** Mapping of input data bindings used in the job. */
+  inputs?: CommandJobInputInputsMap | null | undefined;
+  /** Command Job limit. */
+  limits?: CommandJobLimits | null | undefined;
+  /** Mapping of output data bindings used in the job. */
+  outputs?: CommandJobInputOutputsMap | null | undefined;
+  /** Queue settings for the job */
+  queueSettings?: QueueSettings | null | undefined;
+  /** Compute Resource configuration for the job. */
+  resources?: JobResourceConfiguration | undefined;
+}
+/** The asset property dictionary. */
+export type PipelineJobInputPropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type PipelineJobInputTagsMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of job. */
+export type PipelineJobInputJobType = "Pipeline";
+/** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
+export type PipelineJobInputServicesMap = { [key: string]: JobServiceInput | null | undefined };
+/** Inputs for the pipeline job. */
+export type PipelineJobInputInputsMap = { [key: string]: JobInput | null | undefined };
+/** Jobs construct the Pipeline Job. */
+export type PipelineJobInputJobsMap = { [key: string]: unknown | null | undefined };
+/** Outputs for the pipeline job */
+export type PipelineJobInputOutputsMap = { [key: string]: JobOutput | null | undefined };
+/** Pipeline Job definition: defines generic to MFE attributes. */
+export interface PipelineJobInput {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: PipelineJobInputPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: PipelineJobInputTagsMap | null | undefined;
+  /** ARM resource ID of the component resource. */
+  componentId?: string | null | undefined;
+  /** ARM resource ID of the compute resource. */
+  computeId?: string | null | undefined;
+  /** Display name of job. */
+  displayName?: string | null | undefined;
+  /** The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment. */
+  experimentName?: string | undefined;
+  /** Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, UserIdentity or null. Defaults to AmlToken if null. */
+  identity?: IdentityConfiguration | null | undefined;
+  /** Is the asset archived? */
+  isArchived?: boolean | undefined;
+  /** [Required] Specifies the type of job. */
+  jobType: PipelineJobInputJobType;
+  /** Notification setting for the job */
+  notificationSetting?: NotificationSetting | null | undefined;
+  /** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
+  services?: PipelineJobInputServicesMap | null | undefined;
+  /** Inputs for the pipeline job. */
+  inputs?: PipelineJobInputInputsMap | null | undefined;
+  /** Jobs construct the Pipeline Job. */
+  jobs?: PipelineJobInputJobsMap | null | undefined;
+  /** Outputs for the pipeline job */
+  outputs?: PipelineJobInputOutputsMap | null | undefined;
+  /** Pipeline settings, for things like ContinueRunOnStepFailure etc. */
+  settings?: unknown | null | undefined;
+  /** ARM resource ID of source job. */
+  sourceJobId?: string | null | undefined;
+}
+/** The asset property dictionary. */
+export type SparkJobInputPropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type SparkJobInputTagsMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of job. */
+export type SparkJobInputJobType = "Spark";
+/** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
+export type SparkJobInputServicesMap = { [key: string]: JobServiceInput | null | undefined };
+/** Archive files used in the job. */
+export type SparkJobInputArchivesList = Array<string>;
+/** Spark configured properties. */
+export type SparkJobInputConfMap = { [key: string]: string | null | undefined };
+/** Environment variables included in the job. */
+export type SparkJobInputEnvironmentVariablesMap = { [key: string]: string | null | undefined };
+/** Files used in the job. */
+export type SparkJobInputFilesList = Array<string>;
+/** Mapping of input data bindings used in the job. */
+export type SparkJobInputInputsMap = { [key: string]: JobInput | null | undefined };
+/** Jar files used in the job. */
+export type SparkJobInputJarsList = Array<string>;
+/** Mapping of output data bindings used in the job. */
+export type SparkJobInputOutputsMap = { [key: string]: JobOutput | null | undefined };
+/** Python files used in the job. */
+export type SparkJobInputPyFilesList = Array<string>;
+/** Spark job definition. */
+export interface SparkJobInput {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: SparkJobInputPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: SparkJobInputTagsMap | null | undefined;
+  /** ARM resource ID of the component resource. */
+  componentId?: string | null | undefined;
+  /** ARM resource ID of the compute resource. */
+  computeId?: string | null | undefined;
+  /** Display name of job. */
+  displayName?: string | null | undefined;
+  /** The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment. */
+  experimentName?: string | undefined;
+  /** Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, UserIdentity or null. Defaults to AmlToken if null. */
+  identity?: IdentityConfiguration | null | undefined;
+  /** Is the asset archived? */
+  isArchived?: boolean | undefined;
+  /** [Required] Specifies the type of job. */
+  jobType: SparkJobInputJobType;
+  /** Notification setting for the job */
+  notificationSetting?: NotificationSetting | null | undefined;
+  /** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
+  services?: SparkJobInputServicesMap | null | undefined;
+  /** Archive files used in the job. */
+  archives?: SparkJobInputArchivesList | null | undefined;
+  /** Arguments for the job. */
+  args?: string | null | undefined;
+  /** [Required] arm-id of the code asset. */
+  codeId: string;
+  /** Spark configured properties. */
+  conf?: SparkJobInputConfMap | null | undefined;
+  /** [Required] The entry to execute on startup of the job. */
+  entry: SparkJobEntry;
+  /** The ARM resource ID of the Environment specification for the job. */
+  environmentId?: string | null | undefined;
+  /** Environment variables included in the job. */
+  environmentVariables?: SparkJobInputEnvironmentVariablesMap | null | undefined;
+  /** Files used in the job. */
+  files?: SparkJobInputFilesList | null | undefined;
+  /** Mapping of input data bindings used in the job. */
+  inputs?: SparkJobInputInputsMap | null | undefined;
+  /** Jar files used in the job. */
+  jars?: SparkJobInputJarsList | null | undefined;
+  /** Mapping of output data bindings used in the job. */
+  outputs?: SparkJobInputOutputsMap | null | undefined;
+  /** Python files used in the job. */
+  pyFiles?: SparkJobInputPyFilesList | null | undefined;
+  /** Queue settings for the job */
+  queueSettings?: QueueSettings | null | undefined;
+  /** Compute Resource configuration for the job. */
+  resources?: SparkResourceConfiguration | null | undefined;
+}
+/** The asset property dictionary. */
+export type SweepJobInputPropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type SweepJobInputTagsMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the type of job. */
+export type SweepJobInputJobType = "Sweep";
+/** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
+export type SweepJobInputServicesMap = { [key: string]: JobServiceInput | null | undefined };
+/** Mapping of input data bindings used in the job. */
+export type SweepJobInputInputsMap = { [key: string]: JobInput | null | undefined };
+/** Mapping of output data bindings used in the job. */
+export type SweepJobInputOutputsMap = { [key: string]: JobOutput | null | undefined };
+/** Sweep job definition. */
+export interface SweepJobInput {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: SweepJobInputPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: SweepJobInputTagsMap | null | undefined;
+  /** ARM resource ID of the component resource. */
+  componentId?: string | null | undefined;
+  /** ARM resource ID of the compute resource. */
+  computeId?: string | null | undefined;
+  /** Display name of job. */
+  displayName?: string | null | undefined;
+  /** The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment. */
+  experimentName?: string | undefined;
+  /** Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, UserIdentity or null. Defaults to AmlToken if null. */
+  identity?: IdentityConfiguration | null | undefined;
+  /** Is the asset archived? */
+  isArchived?: boolean | undefined;
+  /** [Required] Specifies the type of job. */
+  jobType: SweepJobInputJobType;
+  /** Notification setting for the job */
+  notificationSetting?: NotificationSetting | null | undefined;
+  /** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
+  services?: SweepJobInputServicesMap | null | undefined;
+  /** Early termination policies enable canceling poor-performing runs before they complete */
+  earlyTermination?: EarlyTerminationPolicy | null | undefined;
+  /** Mapping of input data bindings used in the job. */
+  inputs?: SweepJobInputInputsMap | null | undefined;
+  /** Sweep Job limit. */
+  limits?: SweepJobLimits | undefined;
+  /** [Required] Optimization objective. */
+  objective: Objective;
+  /** Mapping of output data bindings used in the job. */
+  outputs?: SweepJobInputOutputsMap | null | undefined;
+  /** Queue settings for the job */
+  queueSettings?: QueueSettings | null | undefined;
+  /** [Required] The hyperparameter sampling algorithm */
+  samplingAlgorithm: SamplingAlgorithm;
+  /** [Required] A dictionary containing each parameter and its distribution. The dictionary key is the name of the parameter */
+  searchSpace: unknown;
+  /** [Required] Trial component definition. */
+  trial: TrialComponent;
+}
+/** Base definition for a job. */
+export type JobBasePropertiesInput =
+  | AutoMLJobInput
+  | CommandJobInput
+  | PipelineJobInput
+  | SparkJobInput
+  | SweepJobInput;
 export interface JobsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -5247,11 +10616,40 @@ export interface ListComputeKeysRequest {
   /** Name of the Azure Machine Learning compute. */
   computeName: string;
 }
-/** Secrets related to a Machine Learning compute. Might differ for every type of compute. */
-export interface ComputeSecrets {
+/** The type of compute */
+export type AksComputeSecretsComputeType = "AKS";
+/** Secrets related to a Machine Learning compute based on AKS. */
+export interface AksComputeSecrets {
   /** The type of compute */
-  computeType: ComputeType;
+  computeType: AksComputeSecretsComputeType;
+  /** Content of kubeconfig file that can be used to connect to the Kubernetes cluster. */
+  userKubeConfig?: string | undefined;
+  /** Content of kubeconfig file that can be used to connect to the Kubernetes cluster. */
+  adminKubeConfig?: string | undefined;
+  /** Image registry pull secret. */
+  imagePullSecretName?: string | null | undefined;
 }
+/** The type of compute */
+export type DatabricksComputeSecretsComputeType = "Databricks";
+/** Secrets related to a Machine Learning compute based on Databricks. */
+export interface DatabricksComputeSecrets {
+  /** The type of compute */
+  computeType: DatabricksComputeSecretsComputeType;
+  /** access token for databricks account. */
+  databricksAccessToken?: string | undefined;
+}
+/** The type of compute */
+export type VirtualMachineSecretsComputeType = "VirtualMachine";
+/** Secrets related to a Machine Learning compute based on AKS. */
+export interface VirtualMachineSecrets {
+  /** The type of compute */
+  computeType: VirtualMachineSecretsComputeType;
+  /** Admin credentials for virtual machine. */
+  administratorAccount?: VirtualMachineSshCredentials | undefined;
+}
+/** Secrets related to a Machine Learning compute. Might differ for every type of compute. */
+export type ComputeSecrets = AksComputeSecrets | DatabricksComputeSecrets | VirtualMachineSecrets;
+export type ListComputeKeysResponse = ComputeSecrets;
 export interface ListComputeNodesRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -5382,13 +10780,13 @@ export interface ListDatastoreSecretsRequest {
   /** Number of hours after which the secret will expire. */
   expireAfterHours?: number | undefined;
 }
-/** Enum to determine the datastore secrets type. */
-export type SecretsType = "AccountKey" | "Certificate" | "Sas" | "ServicePrincipal";
 /** Base definition for datastore secrets. */
-export interface DatastoreSecrets {
-  /** [Required] Credential type used to authentication with storage. */
-  secretsType: SecretsType;
-}
+export type DatastoreSecrets =
+  | AccountKeyDatastoreSecrets
+  | CertificateDatastoreSecrets
+  | SasDatastoreSecrets
+  | ServicePrincipalDatastoreSecrets;
+export type ListDatastoreSecretsResponse = DatastoreSecrets;
 export type ListDataVersionsRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListDataVersionsRequest {
   /** The ID of the target subscription. */
@@ -6931,17 +12329,51 @@ export interface ListStorageAccountKeysResult {
   /** The access key of the storage */
   userStorageKey?: string | undefined;
 }
-/** Outbound Rule for the managed network of a machine learning workspace. */
-export interface OutboundRuleInput {
+/** Type of a managed network Outbound Rule of a machine learning workspace. */
+export type FqdnOutboundRuleInputType = "FQDN";
+/** FQDN Outbound Rule for the managed network of a machine learning workspace. */
+export interface FqdnOutboundRuleInput {
   /** Category of a managed network Outbound Rule of a machine learning workspace. */
   category?: RuleCategory | (string & {}) | undefined;
   /** Type of a managed network Outbound Rule of a machine learning workspace. */
   status?: RuleStatus | (string & {}) | undefined;
   /** Type of a managed network Outbound Rule of a machine learning workspace. */
-  type: RuleType | (string & {});
-  /** FQDN: the host name; PrivateEndpoint: {serviceResourceId, subresourceTarget, sparkEnabled}; ServiceTag: {serviceTag, protocol, portRanges, action}. */
-  destination?: unknown | undefined;
+  type: FqdnOutboundRuleInputType;
+  destination?: string | undefined;
 }
+/** Type of a managed network Outbound Rule of a machine learning workspace. */
+export type PrivateEndpointOutboundRuleInputType = "PrivateEndpoint";
+export type PrivateEndpointOutboundRuleInputFqdnsList = Array<string>;
+/** Private Endpoint Outbound Rule for the managed network of a machine learning workspace. */
+export interface PrivateEndpointOutboundRuleInput {
+  /** Category of a managed network Outbound Rule of a machine learning workspace. */
+  category?: RuleCategory | (string & {}) | undefined;
+  /** Type of a managed network Outbound Rule of a machine learning workspace. */
+  status?: RuleStatus | (string & {}) | undefined;
+  /** Type of a managed network Outbound Rule of a machine learning workspace. */
+  type: PrivateEndpointOutboundRuleInputType;
+  /** Private Endpoint destination for a Private Endpoint Outbound Rule for the managed network of a machine learning workspace. */
+  destination?: PrivateEndpointDestination | undefined;
+  fqdns?: PrivateEndpointOutboundRuleInputFqdnsList | undefined;
+}
+/** Type of a managed network Outbound Rule of a machine learning workspace. */
+export type ServiceTagOutboundRuleInputType = "ServiceTag";
+/** Service Tag Outbound Rule for the managed network of a machine learning workspace. */
+export interface ServiceTagOutboundRuleInput {
+  /** Category of a managed network Outbound Rule of a machine learning workspace. */
+  category?: RuleCategory | (string & {}) | undefined;
+  /** Type of a managed network Outbound Rule of a machine learning workspace. */
+  status?: RuleStatus | (string & {}) | undefined;
+  /** Type of a managed network Outbound Rule of a machine learning workspace. */
+  type: ServiceTagOutboundRuleInputType;
+  /** Service Tag destination for a Service Tag Outbound Rule for the managed network of a machine learning workspace. */
+  destination?: ServiceTagDestination | undefined;
+}
+/** Outbound Rule for the managed network of a machine learning workspace. */
+export type OutboundRuleInput =
+  | FqdnOutboundRuleInput
+  | PrivateEndpointOutboundRuleInput
+  | ServiceTagOutboundRuleInput;
 export interface ManagedNetworkSettingsRuleCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -7104,16 +12536,17 @@ export interface ModelVersionsCreateOrUpdateResponse {
 /** Resource tags. */
 export type OnlineDeploymentsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Environment variables configuration for the deployment. */
-export type OnlineDeploymentPropertiesInputEnvironmentVariablesMap = {
+export type KubernetesOnlineDeploymentInputEnvironmentVariablesMap = {
   [key: string]: string | null | undefined;
 };
 /** Property dictionary. Properties can be added, but not removed or altered. */
-export type OnlineDeploymentPropertiesInputPropertiesMap = {
+export type KubernetesOnlineDeploymentInputPropertiesMap = {
   [key: string]: string | null | undefined;
 };
-/** Enum to determine whether PublicNetworkAccess is Enabled or Disabled for egress of a deployment. */
-export type OnlineDeploymentPropertiesInputEgressPublicNetworkAccess = "Enabled" | "Disabled";
-export interface OnlineDeploymentPropertiesInput {
+/** [Required] The compute type of the endpoint. */
+export type KubernetesOnlineDeploymentInputEndpointComputeType = "Kubernetes";
+/** Properties specific to a KubernetesOnlineDeployment. */
+export interface KubernetesOnlineDeploymentInput {
   /** Code configuration for the endpoint deployment. */
   codeConfiguration?: CodeConfiguration | null | undefined;
   /** Description of the endpoint deployment. */
@@ -7121,20 +12554,71 @@ export interface OnlineDeploymentPropertiesInput {
   /** ARM resource ID or AssetId of the environment specification for the endpoint deployment. */
   environmentId?: string | null | undefined;
   /** Environment variables configuration for the deployment. */
-  environmentVariables?: OnlineDeploymentPropertiesInputEnvironmentVariablesMap | null | undefined;
+  environmentVariables?: KubernetesOnlineDeploymentInputEnvironmentVariablesMap | null | undefined;
   /** Property dictionary. Properties can be added, but not removed or altered. */
-  properties?: OnlineDeploymentPropertiesInputPropertiesMap | null | undefined;
+  properties?: KubernetesOnlineDeploymentInputPropertiesMap | null | undefined;
   /** If true, enables Application Insights logging. */
   appInsightsEnabled?: boolean | undefined;
   /** The mdc configuration, we disable mdc when it's null. */
   dataCollector?: DataCollector | null | undefined;
   /** Enum to determine whether PublicNetworkAccess is Enabled or Disabled for egress of a deployment. */
   egressPublicNetworkAccess?:
-    | OnlineDeploymentPropertiesInputEgressPublicNetworkAccess
+    | OnlineDeploymentPropertiesEgressPublicNetworkAccess
     | (string & {})
     | undefined;
   /** [Required] The compute type of the endpoint. */
-  endpointComputeType: EndpointComputeType | (string & {});
+  endpointComputeType: KubernetesOnlineDeploymentInputEndpointComputeType;
+  /** Compute instance type. Default: Standard_F4s_v2. */
+  instanceType?: string | null | undefined;
+  /** Liveness probe monitors the health of the container regularly. */
+  livenessProbe?: ProbeSettings | null | undefined;
+  /** The URI path to the model. */
+  model?: string | null | undefined;
+  /** The path to mount the model in custom container. */
+  modelMountPath?: string | null | undefined;
+  /** Readiness probe validates if the container is ready to serve traffic. The properties and defaults are the same as liveness probe. */
+  readinessProbe?: ProbeSettings | null | undefined;
+  /** Request settings for the deployment. */
+  requestSettings?: OnlineRequestSettings | null | undefined;
+  /** Scale settings for the deployment. If it is null or not provided, it defaults to TargetUtilizationScaleSettings for KubernetesOnlineDeployment and to DefaultScaleSettings for ManagedOnlineDeployment. */
+  scaleSettings?: OnlineScaleSettings | null | undefined;
+  /** Startup probe verify whether an application within a container has started successfully. */
+  startupProbe?: ProbeSettings | null | undefined;
+  /** The resource requirements for the container (cpu and memory). */
+  containerResourceRequirements?: ContainerResourceRequirements | null | undefined;
+}
+/** Environment variables configuration for the deployment. */
+export type ManagedOnlineDeploymentInputEnvironmentVariablesMap = {
+  [key: string]: string | null | undefined;
+};
+/** Property dictionary. Properties can be added, but not removed or altered. */
+export type ManagedOnlineDeploymentInputPropertiesMap = {
+  [key: string]: string | null | undefined;
+};
+/** [Required] The compute type of the endpoint. */
+export type ManagedOnlineDeploymentInputEndpointComputeType = "Managed";
+export interface ManagedOnlineDeploymentInput {
+  /** Code configuration for the endpoint deployment. */
+  codeConfiguration?: CodeConfiguration | null | undefined;
+  /** Description of the endpoint deployment. */
+  description?: string | null | undefined;
+  /** ARM resource ID or AssetId of the environment specification for the endpoint deployment. */
+  environmentId?: string | null | undefined;
+  /** Environment variables configuration for the deployment. */
+  environmentVariables?: ManagedOnlineDeploymentInputEnvironmentVariablesMap | null | undefined;
+  /** Property dictionary. Properties can be added, but not removed or altered. */
+  properties?: ManagedOnlineDeploymentInputPropertiesMap | null | undefined;
+  /** If true, enables Application Insights logging. */
+  appInsightsEnabled?: boolean | undefined;
+  /** The mdc configuration, we disable mdc when it's null. */
+  dataCollector?: DataCollector | null | undefined;
+  /** Enum to determine whether PublicNetworkAccess is Enabled or Disabled for egress of a deployment. */
+  egressPublicNetworkAccess?:
+    | OnlineDeploymentPropertiesEgressPublicNetworkAccess
+    | (string & {})
+    | undefined;
+  /** [Required] The compute type of the endpoint. */
+  endpointComputeType: ManagedOnlineDeploymentInputEndpointComputeType;
   /** Compute instance type. Default: Standard_F4s_v2. */
   instanceType?: string | null | undefined;
   /** Liveness probe monitors the health of the container regularly. */
@@ -7152,6 +12636,9 @@ export interface OnlineDeploymentPropertiesInput {
   /** Startup probe verify whether an application within a container has started successfully. */
   startupProbe?: ProbeSettings | null | undefined;
 }
+export type OnlineDeploymentPropertiesInput =
+  | KubernetesOnlineDeploymentInput
+  | ManagedOnlineDeploymentInput;
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type OnlineDeploymentsCreateOrUpdateRequestIdentity =
   BatchDeploymentsCreateOrUpdateRequestIdentity;
@@ -8092,6 +13579,66 @@ export interface RestartComputeResponse {
 export type SchedulePropertiesInputPropertiesMap = { [key: string]: string | null | undefined };
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type SchedulePropertiesInputTagsMap = { [key: string]: string | null | undefined };
+/** [Required] Specifies the action type of the schedule */
+export type CreateMonitorActionInputActionType = "CreateMonitor";
+/** [Required] Specifies the type of signal to monitor. */
+export type MonitorServerlessSparkComputeInputComputeType = "ServerlessSpark";
+/** [Required] Specifies the type of identity to use within the monitoring jobs. */
+export type ManagedComputeIdentityInputComputeIdentityType = "ManagedIdentity";
+/** Managed service identity (system assigned and/or user assigned identities) */
+export type ManagedComputeIdentityInputIdentity = BatchDeploymentsCreateOrUpdateRequestIdentity;
+/** Managed compute identity definition. */
+export interface ManagedComputeIdentityInput {
+  /** [Required] Specifies the type of identity to use within the monitoring jobs. */
+  computeIdentityType: ManagedComputeIdentityInputComputeIdentityType;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity | undefined;
+}
+/** Monitor compute identity base definition. */
+export type MonitorComputeIdentityBaseInput = AmlTokenComputeIdentity | ManagedComputeIdentityInput;
+/** Monitor serverless spark compute definition. */
+export interface MonitorServerlessSparkComputeInput {
+  /** [Required] Specifies the type of signal to monitor. */
+  computeType: MonitorServerlessSparkComputeInputComputeType | (string & {});
+  /** [Required] The identity scheme leveraged to by the spark jobs running on serverless Spark. */
+  computeIdentity: MonitorComputeIdentityBaseInput;
+  /** [Required] The instance type running the Spark job. */
+  instanceType: string;
+  /** [Required] The Spark runtime version. */
+  runtimeVersion: string;
+}
+/** [Required] The signals to monitor. */
+export type MonitorDefinitionInputSignalsMap = {
+  [key: string]: MonitoringSignalBase | null | undefined;
+};
+export interface MonitorDefinitionInput {
+  /** The monitor's notification settings. */
+  alertNotificationSettings?: MonitorNotificationSettings | null | undefined;
+  /** [Required] The ARM resource ID of the compute resource to run the monitoring job on. */
+  computeConfiguration: MonitorServerlessSparkComputeInput;
+  /** The entities targeted by the monitor. */
+  monitoringTarget?: MonitoringTarget | null | undefined;
+  /** [Required] The signals to monitor. */
+  signals: MonitorDefinitionInputSignalsMap;
+}
+export interface CreateMonitorActionInput {
+  /** [Required] Specifies the action type of the schedule */
+  actionType: CreateMonitorActionInputActionType;
+  /** [Required] Defines the monitor. */
+  monitorDefinition: MonitorDefinitionInput;
+}
+/** [Required] Specifies the action type of the schedule */
+export type JobScheduleActionInputActionType = "CreateJob";
+export interface JobScheduleActionInput {
+  /** [Required] Specifies the action type of the schedule */
+  actionType: JobScheduleActionInputActionType;
+  /** [Required] Defines Schedule action definition details. */
+  jobDefinition: JobBasePropertiesInput;
+}
+export type ScheduleActionBaseInput =
+  | CreateMonitorActionInput
+  | EndpointScheduleAction
+  | JobScheduleActionInput;
 /** Base definition of a schedule */
 export interface SchedulePropertiesInput {
   /** The asset description text. */
@@ -8101,7 +13648,7 @@ export interface SchedulePropertiesInput {
   /** Tag dictionary. Tags can be added, removed, and updated. */
   tags?: SchedulePropertiesInputTagsMap | null | undefined;
   /** [Required] Specifies the action of the schedule */
-  action: ScheduleActionBase;
+  action: ScheduleActionBaseInput;
   /** Display name of schedule. */
   displayName?: string | null | undefined;
   /** Is the schedule enabled? */
@@ -8357,15 +13904,6 @@ export interface UpdateBatchEndpointResponse {
   locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
-}
-/** scale settings for AML Compute */
-export interface ScaleSettings {
-  /** Max number of nodes to use */
-  maxNodeCount: number;
-  /** Min number of nodes to use */
-  minNodeCount?: number | undefined;
-  /** Node Idle Time before scaling down amlCompute. This string needs to be in the RFC Format. */
-  nodeIdleTimeBeforeScaleDown?: string | undefined;
 }
 /** Desired scale settings for the amlCompute. */
 export interface ScaleSettingsInformation {
@@ -9070,8 +14608,8 @@ export const BatchEndpointsCreateOrUpdate: API.OperationMethod<
   BatchEndpointsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(289, __c9, 1) as any as S.Schema<BatchEndpointsCreateOrUpdateRequest>,
-  output: __S(290, __c9, 2) as any as S.Schema<BatchEndpointsCreateOrUpdateResponse>,
+  input: __S(353, __c11, 1) as any as S.Schema<BatchEndpointsCreateOrUpdateRequest>,
+  output: __S(354, __c11, 2) as any as S.Schema<BatchEndpointsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9087,8 +14625,8 @@ export const CancelJob: API.OperationMethod<
   CancelJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<CancelJobRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<CancelJobResponse>,
+  input: __S(5088, __c159, 0) as any as S.Schema<CancelJobRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<CancelJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9104,8 +14642,8 @@ export const CapabilityHostsCreateOrUpdate: API.OperationMethod<
   CapabilityHostsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5953, __c186, 1) as any as S.Schema<CapabilityHostsCreateOrUpdateRequest>,
-  output: __S(5954, __c186, 2) as any as S.Schema<CapabilityHostsCreateOrUpdateResponse>,
+  input: __S(6113, __c191, 1) as any as S.Schema<CapabilityHostsCreateOrUpdateRequest>,
+  output: __S(6114, __c191, 2) as any as S.Schema<CapabilityHostsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9121,8 +14659,8 @@ export const CodeContainersCreateOrUpdate: API.OperationMethod<
   CodeContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<CodeContainersCreateOrUpdateRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<CodeContainersCreateOrUpdateResponse>,
+  input: __S(6528, __c204, 0) as any as S.Schema<CodeContainersCreateOrUpdateRequest>,
+  output: __S(6624, __c207, 0) as any as S.Schema<CodeContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9138,8 +14676,8 @@ export const CodeVersionsCreateOrGetStartPendingUpload: API.OperationMethod<
   CodeVersionsCreateOrGetStartPendingUploadError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<CodeVersionsCreateOrGetStartPendingUploadRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<PendingUploadResponseDto>,
+  input: __S(6976, __c218, 0) as any as S.Schema<CodeVersionsCreateOrGetStartPendingUploadRequest>,
+  output: __S(7009, __c219, 1) as any as S.Schema<PendingUploadResponseDto>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9155,8 +14693,8 @@ export const CodeVersionsCreateOrUpdate: API.OperationMethod<
   CodeVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<CodeVersionsCreateOrUpdateRequest>,
-  output: __S(7552, __c236, 0) as any as S.Schema<CodeVersionsCreateOrUpdateResponse>,
+  input: __S(7648, __c239, 0) as any as S.Schema<CodeVersionsCreateOrUpdateRequest>,
+  output: __S(7712, __c241, 0) as any as S.Schema<CodeVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9172,8 +14710,8 @@ export const ComponentContainersCreateOrUpdate: API.OperationMethod<
   ComponentContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<ComponentContainersCreateOrUpdateRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<ComponentContainersCreateOrUpdateResponse>,
+  input: __S(8256, __c258, 0) as any as S.Schema<ComponentContainersCreateOrUpdateRequest>,
+  output: __S(6624, __c207, 0) as any as S.Schema<ComponentContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9189,8 +14727,8 @@ export const ComponentVersionsCreateOrUpdate: API.OperationMethod<
   ComponentVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<ComponentVersionsCreateOrUpdateRequest>,
-  output: __S(8640, __c270, 0) as any as S.Schema<ComponentVersionsCreateOrUpdateResponse>,
+  input: __S(8832, __c276, 0) as any as S.Schema<ComponentVersionsCreateOrUpdateRequest>,
+  output: __S(8896, __c278, 0) as any as S.Schema<ComponentVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9206,8 +14744,8 @@ export const ComputeCreateOrUpdate: API.OperationMethod<
   ComputeCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9441, __c295, 1) as any as S.Schema<ComputeCreateOrUpdateRequest>,
-  output: __S(9442, __c295, 2) as any as S.Schema<ComputeCreateOrUpdateResponse>,
+  input: __S(9714, __c303, 18) as any as S.Schema<ComputeCreateOrUpdateRequest>,
+  output: __S(9715, __c303, 19) as any as S.Schema<ComputeCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9223,8 +14761,8 @@ export const CreateWorkspaceConnection: API.OperationMethod<
   CreateWorkspaceConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<CreateWorkspaceConnectionRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<CreateWorkspaceConnectionResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<CreateWorkspaceConnectionRequest>,
+  output: __S(500, __c15, 20) as any as S.Schema<CreateWorkspaceConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9240,8 +14778,8 @@ export const DataContainersCreateOrUpdate: API.OperationMethod<
   DataContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<DataContainersCreateOrUpdateRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<DataContainersCreateOrUpdateResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<DataContainersCreateOrUpdateRequest>,
+  output: __S(1280, __c40, 0) as any as S.Schema<DataContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9257,8 +14795,8 @@ export const DatastoresCreateOrUpdate: API.OperationMethod<
   DatastoresCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1633, __c51, 1) as any as S.Schema<DatastoresCreateOrUpdateRequest>,
-  output: __S(1666, __c52, 2) as any as S.Schema<DatastoresCreateOrUpdateResponse>,
+  input: __S(1798, __c56, 6) as any as S.Schema<DatastoresCreateOrUpdateRequest>,
+  output: __S(1837, __c57, 13) as any as S.Schema<DatastoresCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9274,8 +14812,8 @@ export const DataVersionsCreateOrUpdate: API.OperationMethod<
   DataVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<DataVersionsCreateOrUpdateRequest>,
-  output: __S(2112, __c66, 0) as any as S.Schema<DataVersionsCreateOrUpdateResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<DataVersionsCreateOrUpdateRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<DataVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9291,8 +14829,8 @@ export const DeleteBatchDeployment: API.OperationMethod<
   DeleteBatchDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<DeleteBatchDeploymentRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteBatchDeploymentResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<DeleteBatchDeploymentRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteBatchDeploymentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9308,8 +14846,8 @@ export const DeleteBatchEndpoint: API.OperationMethod<
   DeleteBatchEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<DeleteBatchEndpointRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteBatchEndpointResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<DeleteBatchEndpointRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteBatchEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9325,8 +14863,8 @@ export const DeleteCapabilityHost: API.OperationMethod<
   DeleteCapabilityHostError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<DeleteCapabilityHostRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteCapabilityHostResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<DeleteCapabilityHostRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteCapabilityHostResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9342,7 +14880,7 @@ export const DeleteCodeContainer: API.OperationMethod<
   DeleteCodeContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<DeleteCodeContainerRequest>,
+  input: __S(3936, __c123, 0) as any as S.Schema<DeleteCodeContainerRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteCodeContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9359,7 +14897,7 @@ export const DeleteCodeVersion: API.OperationMethod<
   DeleteCodeVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<DeleteCodeVersionRequest>,
+  input: __S(4320, __c135, 0) as any as S.Schema<DeleteCodeVersionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteCodeVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9376,7 +14914,7 @@ export const DeleteComponentContainer: API.OperationMethod<
   DeleteComponentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<DeleteComponentContainerRequest>,
+  input: __S(4736, __c148, 0) as any as S.Schema<DeleteComponentContainerRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteComponentContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9393,7 +14931,7 @@ export const DeleteComponentVersion: API.OperationMethod<
   DeleteComponentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<DeleteComponentVersionRequest>,
+  input: __S(5152, __c161, 0) as any as S.Schema<DeleteComponentVersionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteComponentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9410,8 +14948,8 @@ export const DeleteCompute: API.OperationMethod<
   DeleteComputeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<DeleteComputeRequest>,
-  output: __S(5409, __c169, 1) as any as S.Schema<DeleteComputeResponse>,
+  input: __S(5568, __c174, 0) as any as S.Schema<DeleteComputeRequest>,
+  output: __S(5569, __c174, 1) as any as S.Schema<DeleteComputeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9427,7 +14965,7 @@ export const DeleteDataContainer: API.OperationMethod<
   DeleteDataContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<DeleteDataContainerRequest>,
+  input: __S(5856, __c183, 0) as any as S.Schema<DeleteDataContainerRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteDataContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9444,7 +14982,7 @@ export const DeleteDatastore: API.OperationMethod<
   DeleteDatastoreError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<DeleteDatastoreRequest>,
+  input: __S(5888, __c184, 0) as any as S.Schema<DeleteDatastoreRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteDatastoreResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9461,7 +14999,7 @@ export const DeleteDataVersion: API.OperationMethod<
   DeleteDataVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<DeleteDataVersionRequest>,
+  input: __S(5920, __c185, 0) as any as S.Schema<DeleteDataVersionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteDataVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9478,7 +15016,7 @@ export const DeleteEnvironmentContainer: API.OperationMethod<
   DeleteEnvironmentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<DeleteEnvironmentContainerRequest>,
+  input: __S(5952, __c186, 0) as any as S.Schema<DeleteEnvironmentContainerRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteEnvironmentContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9495,7 +15033,7 @@ export const DeleteEnvironmentVersion: API.OperationMethod<
   DeleteEnvironmentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<DeleteEnvironmentVersionRequest>,
+  input: __S(5984, __c187, 0) as any as S.Schema<DeleteEnvironmentVersionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteEnvironmentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9512,8 +15050,8 @@ export const DeleteFeaturesetContainer: API.OperationMethod<
   DeleteFeaturesetContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<DeleteFeaturesetContainerRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteFeaturesetContainerResponse>,
+  input: __S(6016, __c188, 0) as any as S.Schema<DeleteFeaturesetContainerRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteFeaturesetContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9529,8 +15067,8 @@ export const DeleteFeaturesetVersion: API.OperationMethod<
   DeleteFeaturesetVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<DeleteFeaturesetVersionRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteFeaturesetVersionResponse>,
+  input: __S(6048, __c189, 0) as any as S.Schema<DeleteFeaturesetVersionRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteFeaturesetVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9546,8 +15084,8 @@ export const DeleteFeaturestoreEntityContainer: API.OperationMethod<
   DeleteFeaturestoreEntityContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<DeleteFeaturestoreEntityContainerRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteFeaturestoreEntityContainerResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<DeleteFeaturestoreEntityContainerRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteFeaturestoreEntityContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9563,8 +15101,8 @@ export const DeleteFeaturestoreEntityVersion: API.OperationMethod<
   DeleteFeaturestoreEntityVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<DeleteFeaturestoreEntityVersionRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteFeaturestoreEntityVersionResponse>,
+  input: __S(6208, __c194, 0) as any as S.Schema<DeleteFeaturestoreEntityVersionRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteFeaturestoreEntityVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9580,8 +15118,8 @@ export const DeleteJob: API.OperationMethod<
   DeleteJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<DeleteJobRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteJobResponse>,
+  input: __S(6240, __c195, 0) as any as S.Schema<DeleteJobRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9597,8 +15135,8 @@ export const DeleteManagedNetworkSettingsRule: API.OperationMethod<
   DeleteManagedNetworkSettingsRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<DeleteManagedNetworkSettingsRuleRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteManagedNetworkSettingsRuleResponse>,
+  input: __S(6272, __c196, 0) as any as S.Schema<DeleteManagedNetworkSettingsRuleRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteManagedNetworkSettingsRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9614,8 +15152,8 @@ export const DeleteMarketplaceSubscription: API.OperationMethod<
   DeleteMarketplaceSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<DeleteMarketplaceSubscriptionRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteMarketplaceSubscriptionResponse>,
+  input: __S(6304, __c197, 0) as any as S.Schema<DeleteMarketplaceSubscriptionRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteMarketplaceSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9631,7 +15169,7 @@ export const DeleteModelContainer: API.OperationMethod<
   DeleteModelContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<DeleteModelContainerRequest>,
+  input: __S(6336, __c198, 0) as any as S.Schema<DeleteModelContainerRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteModelContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9648,7 +15186,7 @@ export const DeleteModelVersion: API.OperationMethod<
   DeleteModelVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<DeleteModelVersionRequest>,
+  input: __S(6368, __c199, 0) as any as S.Schema<DeleteModelVersionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteModelVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9665,8 +15203,8 @@ export const DeleteOnlineDeployment: API.OperationMethod<
   DeleteOnlineDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<DeleteOnlineDeploymentRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteOnlineDeploymentResponse>,
+  input: __S(6400, __c200, 0) as any as S.Schema<DeleteOnlineDeploymentRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteOnlineDeploymentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9682,8 +15220,8 @@ export const DeleteOnlineEndpoint: API.OperationMethod<
   DeleteOnlineEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<DeleteOnlineEndpointRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteOnlineEndpointResponse>,
+  input: __S(6432, __c201, 0) as any as S.Schema<DeleteOnlineEndpointRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteOnlineEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9699,7 +15237,7 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   DeletePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
+  input: __S(6464, __c202, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9716,8 +15254,8 @@ export const DeleteRegistry: API.OperationMethod<
   DeleteRegistryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<DeleteRegistryRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryResponse>,
+  input: __S(6496, __c203, 0) as any as S.Schema<DeleteRegistryRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9733,8 +15271,8 @@ export const DeleteRegistryCodeContainer: API.OperationMethod<
   DeleteRegistryCodeContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<DeleteRegistryCodeContainerRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryCodeContainerResponse>,
+  input: __S(6656, __c208, 0) as any as S.Schema<DeleteRegistryCodeContainerRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryCodeContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9750,8 +15288,8 @@ export const DeleteRegistryCodeVersion: API.OperationMethod<
   DeleteRegistryCodeVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<DeleteRegistryCodeVersionRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryCodeVersionResponse>,
+  input: __S(6688, __c209, 0) as any as S.Schema<DeleteRegistryCodeVersionRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryCodeVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9767,8 +15305,8 @@ export const DeleteRegistryComponentContainer: API.OperationMethod<
   DeleteRegistryComponentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<DeleteRegistryComponentContainerRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryComponentContainerResponse>,
+  input: __S(6720, __c210, 0) as any as S.Schema<DeleteRegistryComponentContainerRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryComponentContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9784,8 +15322,8 @@ export const DeleteRegistryComponentVersion: API.OperationMethod<
   DeleteRegistryComponentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<DeleteRegistryComponentVersionRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryComponentVersionResponse>,
+  input: __S(6752, __c211, 0) as any as S.Schema<DeleteRegistryComponentVersionRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryComponentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9801,8 +15339,8 @@ export const DeleteRegistryDataContainer: API.OperationMethod<
   DeleteRegistryDataContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<DeleteRegistryDataContainerRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryDataContainerResponse>,
+  input: __S(6784, __c212, 0) as any as S.Schema<DeleteRegistryDataContainerRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryDataContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9818,8 +15356,8 @@ export const DeleteRegistryDataVersion: API.OperationMethod<
   DeleteRegistryDataVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<DeleteRegistryDataVersionRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryDataVersionResponse>,
+  input: __S(6816, __c213, 0) as any as S.Schema<DeleteRegistryDataVersionRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryDataVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9835,8 +15373,8 @@ export const DeleteRegistryEnvironmentContainer: API.OperationMethod<
   DeleteRegistryEnvironmentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<DeleteRegistryEnvironmentContainerRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryEnvironmentContainerResponse>,
+  input: __S(6848, __c214, 0) as any as S.Schema<DeleteRegistryEnvironmentContainerRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryEnvironmentContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9852,8 +15390,8 @@ export const DeleteRegistryEnvironmentVersion: API.OperationMethod<
   DeleteRegistryEnvironmentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<DeleteRegistryEnvironmentVersionRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryEnvironmentVersionResponse>,
+  input: __S(6880, __c215, 0) as any as S.Schema<DeleteRegistryEnvironmentVersionRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryEnvironmentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9869,8 +15407,8 @@ export const DeleteRegistryModelContainer: API.OperationMethod<
   DeleteRegistryModelContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<DeleteRegistryModelContainerRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryModelContainerResponse>,
+  input: __S(6912, __c216, 0) as any as S.Schema<DeleteRegistryModelContainerRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryModelContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9886,8 +15424,8 @@ export const DeleteRegistryModelVersion: API.OperationMethod<
   DeleteRegistryModelVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<DeleteRegistryModelVersionRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryModelVersionResponse>,
+  input: __S(6944, __c217, 0) as any as S.Schema<DeleteRegistryModelVersionRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryModelVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9903,8 +15441,8 @@ export const DeleteSchedule: API.OperationMethod<
   DeleteScheduleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<DeleteScheduleRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteScheduleResponse>,
+  input: __S(7072, __c221, 0) as any as S.Schema<DeleteScheduleRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteScheduleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9920,8 +15458,8 @@ export const DeleteServerlessEndpoint: API.OperationMethod<
   DeleteServerlessEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<DeleteServerlessEndpointRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteServerlessEndpointResponse>,
+  input: __S(7104, __c222, 0) as any as S.Schema<DeleteServerlessEndpointRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteServerlessEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9937,8 +15475,8 @@ export const DeleteWorkspace: API.OperationMethod<
   DeleteWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<DeleteWorkspaceRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteWorkspaceResponse>,
+  input: __S(7136, __c223, 0) as any as S.Schema<DeleteWorkspaceRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteWorkspaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9954,7 +15492,7 @@ export const DeleteWorkspaceConnection: API.OperationMethod<
   DeleteWorkspaceConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<DeleteWorkspaceConnectionRequest>,
+  input: __S(7168, __c224, 0) as any as S.Schema<DeleteWorkspaceConnectionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteWorkspaceConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9971,8 +15509,8 @@ export const EnvironmentContainersCreateOrUpdate: API.OperationMethod<
   EnvironmentContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<EnvironmentContainersCreateOrUpdateRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<EnvironmentContainersCreateOrUpdateResponse>,
+  input: __S(7200, __c225, 0) as any as S.Schema<EnvironmentContainersCreateOrUpdateRequest>,
+  output: __S(6624, __c207, 0) as any as S.Schema<EnvironmentContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9988,8 +15526,8 @@ export const EnvironmentVersionsCreateOrUpdate: API.OperationMethod<
   EnvironmentVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<EnvironmentVersionsCreateOrUpdateRequest>,
-  output: __S(7136, __c223, 0) as any as S.Schema<EnvironmentVersionsCreateOrUpdateResponse>,
+  input: __S(7232, __c226, 0) as any as S.Schema<EnvironmentVersionsCreateOrUpdateRequest>,
+  output: __S(7296, __c228, 0) as any as S.Schema<EnvironmentVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10005,8 +15543,8 @@ export const FeaturesetContainersCreateOrUpdate: API.OperationMethod<
   FeaturesetContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<FeaturesetContainersCreateOrUpdateRequest>,
-  output: __S(7232, __c226, 0) as any as S.Schema<FeaturesetContainersCreateOrUpdateResponse>,
+  input: __S(7360, __c230, 0) as any as S.Schema<FeaturesetContainersCreateOrUpdateRequest>,
+  output: __S(7392, __c231, 0) as any as S.Schema<FeaturesetContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10022,8 +15560,8 @@ export const FeaturesetVersionsBackfill: API.OperationMethod<
   FeaturesetVersionsBackfillError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7265, __c227, 1) as any as S.Schema<FeaturesetVersionsBackfillRequest>,
-  output: __S(7266, __c227, 2) as any as S.Schema<FeaturesetVersionBackfillResponse>,
+  input: __S(7425, __c232, 1) as any as S.Schema<FeaturesetVersionsBackfillRequest>,
+  output: __S(7426, __c232, 2) as any as S.Schema<FeaturesetVersionBackfillResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10039,8 +15577,8 @@ export const FeaturesetVersionsCreateOrUpdate: API.OperationMethod<
   FeaturesetVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7361, __c230, 1) as any as S.Schema<FeaturesetVersionsCreateOrUpdateRequest>,
-  output: __S(7362, __c230, 2) as any as S.Schema<FeaturesetVersionsCreateOrUpdateResponse>,
+  input: __S(7489, __c234, 1) as any as S.Schema<FeaturesetVersionsCreateOrUpdateRequest>,
+  output: __S(7490, __c234, 2) as any as S.Schema<FeaturesetVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10056,10 +15594,10 @@ export const FeaturestoreEntityContainersCreateOrUpdate: API.OperationMethod<
   FeaturestoreEntityContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<FeaturestoreEntityContainersCreateOrUpdateRequest>,
+  input: __S(7616, __c238, 0) as any as S.Schema<FeaturestoreEntityContainersCreateOrUpdateRequest>,
   output: __S(
-    7232,
-    __c226,
+    7392,
+    __c231,
     0,
   ) as any as S.Schema<FeaturestoreEntityContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -10077,8 +15615,8 @@ export const FeaturestoreEntityVersionsCreateOrUpdate: API.OperationMethod<
   FeaturestoreEntityVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7617, __c238, 1) as any as S.Schema<FeaturestoreEntityVersionsCreateOrUpdateRequest>,
-  output: __S(7618, __c238, 2) as any as S.Schema<FeaturestoreEntityVersionsCreateOrUpdateResponse>,
+  input: __S(7777, __c243, 1) as any as S.Schema<FeaturestoreEntityVersionsCreateOrUpdateRequest>,
+  output: __S(7778, __c243, 2) as any as S.Schema<FeaturestoreEntityVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10094,8 +15632,8 @@ export const GetBatchDeployment: API.OperationMethod<
   GetBatchDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c240, 0) as any as S.Schema<GetBatchDeploymentRequest>,
-  output: __S(7712, __c241, 0) as any as S.Schema<GetBatchDeploymentResponse>,
+  input: __S(7840, __c245, 0) as any as S.Schema<GetBatchDeploymentRequest>,
+  output: __S(7872, __c246, 0) as any as S.Schema<GetBatchDeploymentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10111,8 +15649,8 @@ export const GetBatchEndpoint: API.OperationMethod<
   GetBatchEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7744, __c242, 0) as any as S.Schema<GetBatchEndpointRequest>,
-  output: __S(7776, __c243, 0) as any as S.Schema<GetBatchEndpointResponse>,
+  input: __S(7904, __c247, 0) as any as S.Schema<GetBatchEndpointRequest>,
+  output: __S(7936, __c248, 0) as any as S.Schema<GetBatchEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10128,8 +15666,8 @@ export const GetCapabilityHost: API.OperationMethod<
   GetCapabilityHostError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<GetCapabilityHostRequest>,
-  output: __S(7840, __c245, 0) as any as S.Schema<GetCapabilityHostResponse>,
+  input: __S(7968, __c249, 0) as any as S.Schema<GetCapabilityHostRequest>,
+  output: __S(8000, __c250, 0) as any as S.Schema<GetCapabilityHostResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10145,8 +15683,8 @@ export const GetCodeContainer: API.OperationMethod<
   GetCodeContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7872, __c246, 0) as any as S.Schema<GetCodeContainerRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<GetCodeContainerResponse>,
+  input: __S(8032, __c251, 0) as any as S.Schema<GetCodeContainerRequest>,
+  output: __S(6624, __c207, 0) as any as S.Schema<GetCodeContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10162,8 +15700,8 @@ export const GetCodeVersion: API.OperationMethod<
   GetCodeVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<GetCodeVersionRequest>,
-  output: __S(7552, __c236, 0) as any as S.Schema<GetCodeVersionResponse>,
+  input: __S(8064, __c252, 0) as any as S.Schema<GetCodeVersionRequest>,
+  output: __S(7712, __c241, 0) as any as S.Schema<GetCodeVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10179,8 +15717,8 @@ export const GetComponentContainer: API.OperationMethod<
   GetComponentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<GetComponentContainerRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<GetComponentContainerResponse>,
+  input: __S(8096, __c253, 0) as any as S.Schema<GetComponentContainerRequest>,
+  output: __S(6624, __c207, 0) as any as S.Schema<GetComponentContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10196,8 +15734,8 @@ export const GetComponentVersion: API.OperationMethod<
   GetComponentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7968, __c249, 0) as any as S.Schema<GetComponentVersionRequest>,
-  output: __S(8640, __c270, 0) as any as S.Schema<GetComponentVersionResponse>,
+  input: __S(8128, __c254, 0) as any as S.Schema<GetComponentVersionRequest>,
+  output: __S(8896, __c278, 0) as any as S.Schema<GetComponentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10213,8 +15751,8 @@ export const GetCompute: API.OperationMethod<
   GetComputeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<GetComputeRequest>,
-  output: __S(8032, __c251, 0) as any as S.Schema<GetComputeResponse>,
+  input: __S(8160, __c255, 0) as any as S.Schema<GetComputeRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<GetComputeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10230,8 +15768,8 @@ export const GetDataContainer: API.OperationMethod<
   GetDataContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<GetDataContainerRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<GetDataContainerResponse>,
+  input: __S(8224, __c257, 0) as any as S.Schema<GetDataContainerRequest>,
+  output: __S(1280, __c40, 0) as any as S.Schema<GetDataContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10247,8 +15785,8 @@ export const GetDatastore: API.OperationMethod<
   GetDatastoreError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8128, __c254, 0) as any as S.Schema<GetDatastoreRequest>,
-  output: __S(1666, __c52, 2) as any as S.Schema<GetDatastoreResponse>,
+  input: __S(8288, __c259, 0) as any as S.Schema<GetDatastoreRequest>,
+  output: __S(1837, __c57, 13) as any as S.Schema<GetDatastoreResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10264,8 +15802,8 @@ export const GetDataVersion: API.OperationMethod<
   GetDataVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<GetDataVersionRequest>,
-  output: __S(2112, __c66, 0) as any as S.Schema<GetDataVersionResponse>,
+  input: __S(8320, __c260, 0) as any as S.Schema<GetDataVersionRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<GetDataVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10281,8 +15819,8 @@ export const GetEnvironmentContainer: API.OperationMethod<
   GetEnvironmentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8192, __c256, 0) as any as S.Schema<GetEnvironmentContainerRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<GetEnvironmentContainerResponse>,
+  input: __S(8352, __c261, 0) as any as S.Schema<GetEnvironmentContainerRequest>,
+  output: __S(6624, __c207, 0) as any as S.Schema<GetEnvironmentContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10298,8 +15836,8 @@ export const GetEnvironmentVersion: API.OperationMethod<
   GetEnvironmentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8224, __c257, 0) as any as S.Schema<GetEnvironmentVersionRequest>,
-  output: __S(7136, __c223, 0) as any as S.Schema<GetEnvironmentVersionResponse>,
+  input: __S(8384, __c262, 0) as any as S.Schema<GetEnvironmentVersionRequest>,
+  output: __S(7296, __c228, 0) as any as S.Schema<GetEnvironmentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10315,8 +15853,8 @@ export const GetFeature: API.OperationMethod<
   GetFeatureError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8256, __c258, 0) as any as S.Schema<GetFeatureRequest>,
-  output: __S(8289, __c259, 1) as any as S.Schema<GetFeatureResponse>,
+  input: __S(8416, __c263, 0) as any as S.Schema<GetFeatureRequest>,
+  output: __S(8449, __c264, 1) as any as S.Schema<GetFeatureResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10332,8 +15870,8 @@ export const GetFeaturesetContainerEntity: API.OperationMethod<
   GetFeaturesetContainerEntityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c260, 0) as any as S.Schema<GetFeaturesetContainerEntityRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<GetFeaturesetContainerEntityResponse>,
+  input: __S(8480, __c265, 0) as any as S.Schema<GetFeaturesetContainerEntityRequest>,
+  output: __S(6624, __c207, 0) as any as S.Schema<GetFeaturesetContainerEntityResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10349,8 +15887,8 @@ export const GetFeaturesetVersion: API.OperationMethod<
   GetFeaturesetVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<GetFeaturesetVersionRequest>,
-  output: __S(8384, __c262, 0) as any as S.Schema<GetFeaturesetVersionResponse>,
+  input: __S(8512, __c266, 0) as any as S.Schema<GetFeaturesetVersionRequest>,
+  output: __S(8544, __c267, 0) as any as S.Schema<GetFeaturesetVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10366,8 +15904,8 @@ export const GetFeaturestoreEntityContainerEntity: API.OperationMethod<
   GetFeaturestoreEntityContainerEntityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8416, __c263, 0) as any as S.Schema<GetFeaturestoreEntityContainerEntityRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<GetFeaturestoreEntityContainerEntityResponse>,
+  input: __S(8576, __c268, 0) as any as S.Schema<GetFeaturestoreEntityContainerEntityRequest>,
+  output: __S(6624, __c207, 0) as any as S.Schema<GetFeaturestoreEntityContainerEntityResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10383,8 +15921,8 @@ export const GetFeaturestoreEntityVersion: API.OperationMethod<
   GetFeaturestoreEntityVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c264, 0) as any as S.Schema<GetFeaturestoreEntityVersionRequest>,
-  output: __S(8480, __c265, 0) as any as S.Schema<GetFeaturestoreEntityVersionResponse>,
+  input: __S(8608, __c269, 0) as any as S.Schema<GetFeaturestoreEntityVersionRequest>,
+  output: __S(8640, __c270, 0) as any as S.Schema<GetFeaturestoreEntityVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10400,8 +15938,8 @@ export const GetJob: API.OperationMethod<
   GetJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c266, 0) as any as S.Schema<GetJobRequest>,
-  output: __S(8549, __c267, 5) as any as S.Schema<GetJobResponse>,
+  input: __S(8672, __c271, 0) as any as S.Schema<GetJobRequest>,
+  output: __S(8800, __c275, 0) as any as S.Schema<GetJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10417,8 +15955,8 @@ export const GetManagedNetworkSettingsRule: API.OperationMethod<
   GetManagedNetworkSettingsRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8704, __c272, 0) as any as S.Schema<GetManagedNetworkSettingsRuleRequest>,
-  output: __S(8768, __c274, 0) as any as S.Schema<GetManagedNetworkSettingsRuleResponse>,
+  input: __S(8960, __c280, 0) as any as S.Schema<GetManagedNetworkSettingsRuleRequest>,
+  output: __S(9024, __c282, 0) as any as S.Schema<GetManagedNetworkSettingsRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10434,8 +15972,8 @@ export const GetMarketplaceSubscription: API.OperationMethod<
   GetMarketplaceSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8800, __c275, 0) as any as S.Schema<GetMarketplaceSubscriptionRequest>,
-  output: __S(8832, __c276, 0) as any as S.Schema<GetMarketplaceSubscriptionResponse>,
+  input: __S(9056, __c283, 0) as any as S.Schema<GetMarketplaceSubscriptionRequest>,
+  output: __S(9088, __c284, 0) as any as S.Schema<GetMarketplaceSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10451,8 +15989,8 @@ export const GetModelContainer: API.OperationMethod<
   GetModelContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<GetModelContainerRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<GetModelContainerResponse>,
+  input: __S(9152, __c286, 0) as any as S.Schema<GetModelContainerRequest>,
+  output: __S(6624, __c207, 0) as any as S.Schema<GetModelContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10468,8 +16006,8 @@ export const GetModelVersion: API.OperationMethod<
   GetModelVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8928, __c279, 0) as any as S.Schema<GetModelVersionRequest>,
-  output: __S(8960, __c280, 0) as any as S.Schema<GetModelVersionResponse>,
+  input: __S(9184, __c287, 0) as any as S.Schema<GetModelVersionRequest>,
+  output: __S(9216, __c288, 0) as any as S.Schema<GetModelVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10485,8 +16023,8 @@ export const GetOnlineDeployment: API.OperationMethod<
   GetOnlineDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9024, __c282, 0) as any as S.Schema<GetOnlineDeploymentRequest>,
-  output: __S(9056, __c283, 0) as any as S.Schema<GetOnlineDeploymentResponse>,
+  input: __S(9280, __c290, 0) as any as S.Schema<GetOnlineDeploymentRequest>,
+  output: __S(9312, __c291, 0) as any as S.Schema<GetOnlineDeploymentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10502,8 +16040,8 @@ export const GetOnlineDeploymentLogs: API.OperationMethod<
   GetOnlineDeploymentLogsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9120, __c285, 0) as any as S.Schema<GetOnlineDeploymentLogsRequest>,
-  output: __S(9121, __c285, 1) as any as S.Schema<DeploymentLogs>,
+  input: __S(9376, __c293, 0) as any as S.Schema<GetOnlineDeploymentLogsRequest>,
+  output: __S(9377, __c293, 1) as any as S.Schema<DeploymentLogs>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10519,8 +16057,8 @@ export const GetOnlineEndpoint: API.OperationMethod<
   GetOnlineEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<GetOnlineEndpointRequest>,
-  output: __S(9184, __c287, 0) as any as S.Schema<GetOnlineEndpointResponse>,
+  input: __S(9408, __c294, 0) as any as S.Schema<GetOnlineEndpointRequest>,
+  output: __S(9440, __c295, 0) as any as S.Schema<GetOnlineEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10536,8 +16074,8 @@ export const GetOnlineEndpointToken: API.OperationMethod<
   GetOnlineEndpointTokenError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<GetOnlineEndpointTokenRequest>,
-  output: __S(9249, __c289, 1) as any as S.Schema<EndpointAuthToken>,
+  input: __S(9504, __c297, 0) as any as S.Schema<GetOnlineEndpointTokenRequest>,
+  output: __S(9505, __c297, 1) as any as S.Schema<EndpointAuthToken>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10553,8 +16091,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   GetPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
-  output: __S(9315, __c291, 3) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
+  input: __S(9536, __c298, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
+  output: __S(9571, __c299, 3) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10570,8 +16108,8 @@ export const GetRegistry: API.OperationMethod<
   GetRegistryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9344, __c292, 0) as any as S.Schema<GetRegistryRequest>,
-  output: __S(9408, __c294, 0) as any as S.Schema<GetRegistryResponse>,
+  input: __S(9600, __c300, 0) as any as S.Schema<GetRegistryRequest>,
+  output: __S(9664, __c302, 0) as any as S.Schema<GetRegistryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10587,8 +16125,8 @@ export const GetRegistryCodeContainer: API.OperationMethod<
   GetRegistryCodeContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<GetRegistryCodeContainerRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<GetRegistryCodeContainerResponse>,
+  input: __S(9952, __c311, 0) as any as S.Schema<GetRegistryCodeContainerRequest>,
+  output: __S(6624, __c207, 0) as any as S.Schema<GetRegistryCodeContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10604,8 +16142,8 @@ export const GetRegistryCodeVersion: API.OperationMethod<
   GetRegistryCodeVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<GetRegistryCodeVersionRequest>,
-  output: __S(7552, __c236, 0) as any as S.Schema<GetRegistryCodeVersionResponse>,
+  input: __S(9984, __c312, 0) as any as S.Schema<GetRegistryCodeVersionRequest>,
+  output: __S(7712, __c241, 0) as any as S.Schema<GetRegistryCodeVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10621,8 +16159,8 @@ export const GetRegistryComponentContainer: API.OperationMethod<
   GetRegistryComponentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<GetRegistryComponentContainerRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<GetRegistryComponentContainerResponse>,
+  input: __S(10016, __c313, 0) as any as S.Schema<GetRegistryComponentContainerRequest>,
+  output: __S(6624, __c207, 0) as any as S.Schema<GetRegistryComponentContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10638,8 +16176,8 @@ export const GetRegistryComponentVersion: API.OperationMethod<
   GetRegistryComponentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<GetRegistryComponentVersionRequest>,
-  output: __S(8640, __c270, 0) as any as S.Schema<GetRegistryComponentVersionResponse>,
+  input: __S(10048, __c314, 0) as any as S.Schema<GetRegistryComponentVersionRequest>,
+  output: __S(8896, __c278, 0) as any as S.Schema<GetRegistryComponentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10655,8 +16193,8 @@ export const GetRegistryDataContainer: API.OperationMethod<
   GetRegistryDataContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<GetRegistryDataContainerRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<GetRegistryDataContainerResponse>,
+  input: __S(10080, __c315, 0) as any as S.Schema<GetRegistryDataContainerRequest>,
+  output: __S(1280, __c40, 0) as any as S.Schema<GetRegistryDataContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10672,8 +16210,8 @@ export const GetRegistryDataReferenceBlobReferenceSAS: API.OperationMethod<
   GetRegistryDataReferenceBlobReferenceSASError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9664, __c302, 0) as any as S.Schema<GetRegistryDataReferenceBlobReferenceSASRequest>,
-  output: __S(9665, __c302, 1) as any as S.Schema<GetBlobReferenceSASResponseDto>,
+  input: __S(10112, __c316, 0) as any as S.Schema<GetRegistryDataReferenceBlobReferenceSASRequest>,
+  output: __S(10118, __c316, 6) as any as S.Schema<GetBlobReferenceSASResponseDto>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10689,8 +16227,8 @@ export const GetRegistryDataVersion: API.OperationMethod<
   GetRegistryDataVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9696, __c303, 0) as any as S.Schema<GetRegistryDataVersionRequest>,
-  output: __S(2112, __c66, 0) as any as S.Schema<GetRegistryDataVersionResponse>,
+  input: __S(10144, __c317, 0) as any as S.Schema<GetRegistryDataVersionRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<GetRegistryDataVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10706,8 +16244,8 @@ export const GetRegistryEnvironmentContainer: API.OperationMethod<
   GetRegistryEnvironmentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<GetRegistryEnvironmentContainerRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<GetRegistryEnvironmentContainerResponse>,
+  input: __S(10176, __c318, 0) as any as S.Schema<GetRegistryEnvironmentContainerRequest>,
+  output: __S(6624, __c207, 0) as any as S.Schema<GetRegistryEnvironmentContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10723,8 +16261,8 @@ export const GetRegistryEnvironmentVersion: API.OperationMethod<
   GetRegistryEnvironmentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<GetRegistryEnvironmentVersionRequest>,
-  output: __S(7136, __c223, 0) as any as S.Schema<GetRegistryEnvironmentVersionResponse>,
+  input: __S(10208, __c319, 0) as any as S.Schema<GetRegistryEnvironmentVersionRequest>,
+  output: __S(7296, __c228, 0) as any as S.Schema<GetRegistryEnvironmentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10740,8 +16278,8 @@ export const GetRegistryModelContainer: API.OperationMethod<
   GetRegistryModelContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9792, __c306, 0) as any as S.Schema<GetRegistryModelContainerRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<GetRegistryModelContainerResponse>,
+  input: __S(10240, __c320, 0) as any as S.Schema<GetRegistryModelContainerRequest>,
+  output: __S(6624, __c207, 0) as any as S.Schema<GetRegistryModelContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10757,8 +16295,8 @@ export const GetRegistryModelVersion: API.OperationMethod<
   GetRegistryModelVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetRegistryModelVersionRequest>,
-  output: __S(8960, __c280, 0) as any as S.Schema<GetRegistryModelVersionResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetRegistryModelVersionRequest>,
+  output: __S(9216, __c288, 0) as any as S.Schema<GetRegistryModelVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10774,8 +16312,8 @@ export const GetSchedule: API.OperationMethod<
   GetScheduleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetScheduleRequest>,
-  output: __S(544, __c17, 0) as any as S.Schema<GetScheduleResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetScheduleRequest>,
+  output: __S(608, __c19, 0) as any as S.Schema<GetScheduleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10791,8 +16329,8 @@ export const GetServerlessEndpoint: API.OperationMethod<
   GetServerlessEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetServerlessEndpointRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<GetServerlessEndpointResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetServerlessEndpointRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<GetServerlessEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10808,8 +16346,8 @@ export const GetWorkspace: API.OperationMethod<
   GetWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetWorkspaceRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GetWorkspaceResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetWorkspaceRequest>,
+  output: __S(896, __c28, 0) as any as S.Schema<GetWorkspaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10825,8 +16363,8 @@ export const GetWorkspaceConnection: API.OperationMethod<
   GetWorkspaceConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetWorkspaceConnectionRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<GetWorkspaceConnectionResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetWorkspaceConnectionRequest>,
+  output: __S(500, __c15, 20) as any as S.Schema<GetWorkspaceConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10842,8 +16380,8 @@ export const JobsCreateOrUpdate: API.OperationMethod<
   JobsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(899, __c28, 3) as any as S.Schema<JobsCreateOrUpdateRequest>,
-  output: __S(8549, __c267, 5) as any as S.Schema<JobsCreateOrUpdateResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<JobsCreateOrUpdateRequest>,
+  output: __S(8800, __c275, 0) as any as S.Schema<JobsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10859,8 +16397,8 @@ export const ListBatchDeployments: API.OperationMethod<
   ListBatchDeploymentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<ListBatchDeploymentsRequest>,
-  output: __S(930, __c29, 2) as any as S.Schema<BatchDeploymentTrackedResourceArmPaginatedResult>,
+  input: __S(1088, __c34, 0) as any as S.Schema<ListBatchDeploymentsRequest>,
+  output: __S(1090, __c34, 2) as any as S.Schema<BatchDeploymentTrackedResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10876,8 +16414,8 @@ export const ListBatchEndpointKeys: API.OperationMethod<
   ListBatchEndpointKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<ListBatchEndpointKeysRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<EndpointAuthKeys>,
+  input: __S(1120, __c35, 0) as any as S.Schema<ListBatchEndpointKeysRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<EndpointAuthKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10893,8 +16431,8 @@ export const ListBatchEndpoints: API.OperationMethod<
   ListBatchEndpointsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<ListBatchEndpointsRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<BatchEndpointTrackedResourceArmPaginatedResult>,
+  input: __S(1152, __c36, 0) as any as S.Schema<ListBatchEndpointsRequest>,
+  output: __S(1154, __c36, 2) as any as S.Schema<BatchEndpointTrackedResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10910,8 +16448,8 @@ export const ListCapabilityHosts: API.OperationMethod<
   ListCapabilityHostsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<ListCapabilityHostsRequest>,
-  output: __S(1026, __c32, 2) as any as S.Schema<CapabilityHostListResult>,
+  input: __S(1184, __c37, 0) as any as S.Schema<ListCapabilityHostsRequest>,
+  output: __S(1186, __c37, 2) as any as S.Schema<CapabilityHostListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10927,8 +16465,8 @@ export const ListCodeContainers: API.OperationMethod<
   ListCodeContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<ListCodeContainersRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<CodeContainerResourceArmPaginatedResult>,
+  input: __S(1344, __c42, 0) as any as S.Schema<ListCodeContainersRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<CodeContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10944,8 +16482,8 @@ export const ListCodeVersions: API.OperationMethod<
   ListCodeVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<ListCodeVersionsRequest>,
-  output: __S(1281, __c40, 1) as any as S.Schema<CodeVersionResourceArmPaginatedResult>,
+  input: __S(1408, __c44, 0) as any as S.Schema<ListCodeVersionsRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<CodeVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10961,8 +16499,8 @@ export const ListComponentContainers: API.OperationMethod<
   ListComponentContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<ListComponentContainersRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<ComponentContainerResourceArmPaginatedResult>,
+  input: __S(1472, __c46, 0) as any as S.Schema<ListComponentContainersRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<ComponentContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10978,8 +16516,8 @@ export const ListComponentVersions: API.OperationMethod<
   ListComponentVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<ListComponentVersionsRequest>,
-  output: __S(1377, __c43, 1) as any as S.Schema<ComponentVersionResourceArmPaginatedResult>,
+  input: __S(1504, __c47, 0) as any as S.Schema<ListComponentVersionsRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<ComponentVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10995,8 +16533,8 @@ export const ListCompute: API.OperationMethod<
   ListComputeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<ListComputeRequest>,
-  output: __S(1410, __c44, 2) as any as S.Schema<PaginatedComputeResourcesList>,
+  input: __S(1568, __c49, 0) as any as S.Schema<ListComputeRequest>,
+  output: __S(1570, __c49, 2) as any as S.Schema<PaginatedComputeResourcesList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11008,12 +16546,12 @@ export type ListComputeKeysError = AzureOpError;
 /** Gets secrets related to Machine Learning compute (storage keys, service credentials, etc). */
 export const ListComputeKeys: API.OperationMethod<
   ListComputeKeysRequest,
-  ComputeSecrets,
+  ListComputeKeysResponse,
   ListComputeKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<ListComputeKeysRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<ComputeSecrets>,
+  input: __S(1600, __c50, 0) as any as S.Schema<ListComputeKeysRequest>,
+  output: __S(1605, __c50, 5) as any as S.Schema<ListComputeKeysResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11029,8 +16567,8 @@ export const ListComputeNodes: API.OperationMethod<
   ListComputeNodesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<ListComputeNodesRequest>,
-  output: __S(1475, __c46, 3) as any as S.Schema<AmlComputeNodesInformation>,
+  input: __S(1632, __c51, 0) as any as S.Schema<ListComputeNodesRequest>,
+  output: __S(1635, __c51, 3) as any as S.Schema<AmlComputeNodesInformation>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11046,8 +16584,8 @@ export const ListDataContainers: API.OperationMethod<
   ListDataContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<ListDataContainersRequest>,
-  output: __S(1537, __c48, 1) as any as S.Schema<DataContainerResourceArmPaginatedResult>,
+  input: __S(1664, __c52, 0) as any as S.Schema<ListDataContainersRequest>,
+  output: __S(1697, __c53, 1) as any as S.Schema<DataContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11063,8 +16601,8 @@ export const ListDatastores: API.OperationMethod<
   ListDatastoresError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<ListDatastoresRequest>,
-  output: __S(1570, __c49, 2) as any as S.Schema<DatastoreResourceArmPaginatedResult>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ListDatastoresRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<DatastoreResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11076,12 +16614,12 @@ export type ListDatastoreSecretsError = AzureOpError;
 /** Get datastore secrets. Get datastore secrets. */
 export const ListDatastoreSecrets: API.OperationMethod<
   ListDatastoreSecretsRequest,
-  DatastoreSecrets,
+  ListDatastoreSecretsResponse,
   ListDatastoreSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<ListDatastoreSecretsRequest>,
-  output: __S(1601, __c50, 1) as any as S.Schema<DatastoreSecrets>,
+  input: __S(1760, __c55, 0) as any as S.Schema<ListDatastoreSecretsRequest>,
+  output: __S(1762, __c55, 2) as any as S.Schema<ListDatastoreSecretsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11097,8 +16635,8 @@ export const ListDataVersions: API.OperationMethod<
   ListDataVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<ListDataVersionsRequest>,
-  output: __S(1729, __c54, 1) as any as S.Schema<DataVersionBaseResourceArmPaginatedResult>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ListDataVersionsRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<DataVersionBaseResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11114,8 +16652,8 @@ export const ListEnvironmentContainers: API.OperationMethod<
   ListEnvironmentContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<ListEnvironmentContainersRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<EnvironmentContainerResourceArmPaginatedResult>,
+  input: __S(1952, __c61, 0) as any as S.Schema<ListEnvironmentContainersRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<EnvironmentContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11131,8 +16669,8 @@ export const ListEnvironmentVersions: API.OperationMethod<
   ListEnvironmentVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<ListEnvironmentVersionsRequest>,
-  output: __S(1825, __c57, 1) as any as S.Schema<EnvironmentVersionResourceArmPaginatedResult>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ListEnvironmentVersionsRequest>,
+  output: __S(2017, __c63, 1) as any as S.Schema<EnvironmentVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11148,8 +16686,8 @@ export const ListFeatures: API.OperationMethod<
   ListFeaturesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<ListFeaturesRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<FeatureResourceArmPaginatedResult>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ListFeaturesRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<FeatureResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11165,8 +16703,8 @@ export const ListFeaturesetContainers: API.OperationMethod<
   ListFeaturesetContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ListFeaturesetContainersRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<FeaturesetContainerResourceArmPaginatedResult>,
+  input: __S(2080, __c65, 0) as any as S.Schema<ListFeaturesetContainersRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<FeaturesetContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11182,8 +16720,8 @@ export const ListFeaturesetVersions: API.OperationMethod<
   ListFeaturesetVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ListFeaturesetVersionsRequest>,
-  output: __S(1922, __c60, 2) as any as S.Schema<FeaturesetVersionResourceArmPaginatedResult>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ListFeaturesetVersionsRequest>,
+  output: __S(2114, __c66, 2) as any as S.Schema<FeaturesetVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11199,10 +16737,10 @@ export const ListFeaturestoreEntityContainers: API.OperationMethod<
   ListFeaturestoreEntityContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ListFeaturestoreEntityContainersRequest>,
+  input: __S(2144, __c67, 0) as any as S.Schema<ListFeaturestoreEntityContainersRequest>,
   output: __S(
-    1217,
-    __c38,
+    1377,
+    __c43,
     1,
   ) as any as S.Schema<FeaturestoreEntityContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
@@ -11220,10 +16758,10 @@ export const ListFeaturestoreEntityVersions: API.OperationMethod<
   ListFeaturestoreEntityVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<ListFeaturestoreEntityVersionsRequest>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ListFeaturestoreEntityVersionsRequest>,
   output: __S(
-    1986,
-    __c62,
+    2178,
+    __c68,
     2,
   ) as any as S.Schema<FeaturestoreEntityVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
@@ -11241,8 +16779,8 @@ export const ListJobs: API.OperationMethod<
   ListJobsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ListJobsRequest>,
-  output: __S(2018, __c63, 2) as any as S.Schema<JobBaseResourceArmPaginatedResult>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ListJobsRequest>,
+  output: __S(2210, __c69, 2) as any as S.Schema<JobBaseResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11258,8 +16796,8 @@ export const ListManagedNetworkSettingsRule: API.OperationMethod<
   ListManagedNetworkSettingsRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ListManagedNetworkSettingsRuleRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<OutboundRuleListResult>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ListManagedNetworkSettingsRuleRequest>,
+  output: __S(2242, __c70, 2) as any as S.Schema<OutboundRuleListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11275,8 +16813,8 @@ export const ListMarketplaceSubscriptions: API.OperationMethod<
   ListMarketplaceSubscriptionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<ListMarketplaceSubscriptionsRequest>,
-  output: __S(2178, __c68, 2) as any as S.Schema<MarketplaceSubscriptionResourceArmPaginatedResult>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ListMarketplaceSubscriptionsRequest>,
+  output: __S(2370, __c74, 2) as any as S.Schema<MarketplaceSubscriptionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11292,8 +16830,8 @@ export const ListModelContainers: API.OperationMethod<
   ListModelContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<ListModelContainersRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<ModelContainerResourceArmPaginatedResult>,
+  input: __S(2400, __c75, 0) as any as S.Schema<ListModelContainersRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<ModelContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11309,8 +16847,8 @@ export const ListModelVersions: API.OperationMethod<
   ListModelVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<ListModelVersionsRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<ModelVersionResourceArmPaginatedResult>,
+  input: __S(2432, __c76, 0) as any as S.Schema<ListModelVersionsRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<ModelVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11326,8 +16864,8 @@ export const ListOnlineDeployments: API.OperationMethod<
   ListOnlineDeploymentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<ListOnlineDeploymentsRequest>,
-  output: __S(2306, __c72, 2) as any as S.Schema<OnlineDeploymentTrackedResourceArmPaginatedResult>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ListOnlineDeploymentsRequest>,
+  output: __S(2498, __c78, 2) as any as S.Schema<OnlineDeploymentTrackedResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11343,8 +16881,8 @@ export const ListOnlineDeploymentSkus: API.OperationMethod<
   ListOnlineDeploymentSkusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<ListOnlineDeploymentSkusRequest>,
-  output: __S(2341, __c73, 5) as any as S.Schema<SkuResourceArmPaginatedResult>,
+  input: __S(2528, __c79, 0) as any as S.Schema<ListOnlineDeploymentSkusRequest>,
+  output: __S(2533, __c79, 5) as any as S.Schema<SkuResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11360,8 +16898,8 @@ export const ListOnlineEndpointKeys: API.OperationMethod<
   ListOnlineEndpointKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<ListOnlineEndpointKeysRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<EndpointAuthKeys>,
+  input: __S(2560, __c80, 0) as any as S.Schema<ListOnlineEndpointKeysRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<EndpointAuthKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11377,8 +16915,8 @@ export const ListOnlineEndpoints: API.OperationMethod<
   ListOnlineEndpointsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<ListOnlineEndpointsRequest>,
-  output: __S(2402, __c75, 2) as any as S.Schema<OnlineEndpointTrackedResourceArmPaginatedResult>,
+  input: __S(2592, __c81, 0) as any as S.Schema<ListOnlineEndpointsRequest>,
+  output: __S(2594, __c81, 2) as any as S.Schema<OnlineEndpointTrackedResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11394,8 +16932,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(2436, __c76, 4) as any as S.Schema<ListOperationsResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(2628, __c82, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11411,8 +16949,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   ListPrivateEndpointConnectionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
-  output: __S(2465, __c77, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
+  input: __S(2656, __c83, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
+  output: __S(2657, __c83, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11428,8 +16966,8 @@ export const ListPrivateLinkResources: API.OperationMethod<
   ListPrivateLinkResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
-  output: __S(2500, __c78, 4) as any as S.Schema<PrivateLinkResourceListResult>,
+  input: __S(2688, __c84, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
+  output: __S(2692, __c84, 4) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11445,8 +16983,8 @@ export const ListQuotas: API.OperationMethod<
   ListQuotasError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<ListQuotasRequest>,
-  output: __S(2563, __c80, 3) as any as S.Schema<ListWorkspaceQuotas>,
+  input: __S(2752, __c86, 0) as any as S.Schema<ListQuotasRequest>,
+  output: __S(2755, __c86, 3) as any as S.Schema<ListWorkspaceQuotas>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11462,8 +17000,8 @@ export const ListRegistries: API.OperationMethod<
   ListRegistriesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<ListRegistriesRequest>,
-  output: __S(2657, __c83, 1) as any as S.Schema<RegistryTrackedResourceArmPaginatedResult>,
+  input: __S(2816, __c88, 0) as any as S.Schema<ListRegistriesRequest>,
+  output: __S(2849, __c89, 1) as any as S.Schema<RegistryTrackedResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11479,8 +17017,8 @@ export const ListRegistryBySubscription: API.OperationMethod<
   ListRegistryBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<ListRegistryBySubscriptionRequest>,
-  output: __S(2657, __c83, 1) as any as S.Schema<RegistryTrackedResourceArmPaginatedResult>,
+  input: __S(2880, __c90, 0) as any as S.Schema<ListRegistryBySubscriptionRequest>,
+  output: __S(2849, __c89, 1) as any as S.Schema<RegistryTrackedResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11496,8 +17034,8 @@ export const ListRegistryCodeContainers: API.OperationMethod<
   ListRegistryCodeContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<ListRegistryCodeContainersRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<CodeContainerResourceArmPaginatedResult>,
+  input: __S(2912, __c91, 0) as any as S.Schema<ListRegistryCodeContainersRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<CodeContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11513,8 +17051,8 @@ export const ListRegistryCodeVersions: API.OperationMethod<
   ListRegistryCodeVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<ListRegistryCodeVersionsRequest>,
-  output: __S(1281, __c40, 1) as any as S.Schema<CodeVersionResourceArmPaginatedResult>,
+  input: __S(2944, __c92, 0) as any as S.Schema<ListRegistryCodeVersionsRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<CodeVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11530,8 +17068,8 @@ export const ListRegistryComponentContainers: API.OperationMethod<
   ListRegistryComponentContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<ListRegistryComponentContainersRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<ComponentContainerResourceArmPaginatedResult>,
+  input: __S(2976, __c93, 0) as any as S.Schema<ListRegistryComponentContainersRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<ComponentContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11547,8 +17085,8 @@ export const ListRegistryComponentVersions: API.OperationMethod<
   ListRegistryComponentVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<ListRegistryComponentVersionsRequest>,
-  output: __S(1377, __c43, 1) as any as S.Schema<ComponentVersionResourceArmPaginatedResult>,
+  input: __S(3008, __c94, 0) as any as S.Schema<ListRegistryComponentVersionsRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<ComponentVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11564,8 +17102,8 @@ export const ListRegistryDataContainers: API.OperationMethod<
   ListRegistryDataContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<ListRegistryDataContainersRequest>,
-  output: __S(1537, __c48, 1) as any as S.Schema<DataContainerResourceArmPaginatedResult>,
+  input: __S(3040, __c95, 0) as any as S.Schema<ListRegistryDataContainersRequest>,
+  output: __S(1697, __c53, 1) as any as S.Schema<DataContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11581,8 +17119,8 @@ export const ListRegistryDataVersions: API.OperationMethod<
   ListRegistryDataVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<ListRegistryDataVersionsRequest>,
-  output: __S(1729, __c54, 1) as any as S.Schema<DataVersionBaseResourceArmPaginatedResult>,
+  input: __S(3072, __c96, 0) as any as S.Schema<ListRegistryDataVersionsRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<DataVersionBaseResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11598,8 +17136,8 @@ export const ListRegistryEnvironmentContainers: API.OperationMethod<
   ListRegistryEnvironmentContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<ListRegistryEnvironmentContainersRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<EnvironmentContainerResourceArmPaginatedResult>,
+  input: __S(3104, __c97, 0) as any as S.Schema<ListRegistryEnvironmentContainersRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<EnvironmentContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11615,8 +17153,8 @@ export const ListRegistryEnvironmentVersions: API.OperationMethod<
   ListRegistryEnvironmentVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<ListRegistryEnvironmentVersionsRequest>,
-  output: __S(1825, __c57, 1) as any as S.Schema<EnvironmentVersionResourceArmPaginatedResult>,
+  input: __S(3168, __c99, 0) as any as S.Schema<ListRegistryEnvironmentVersionsRequest>,
+  output: __S(2017, __c63, 1) as any as S.Schema<EnvironmentVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11632,8 +17170,8 @@ export const ListRegistryModelContainers: API.OperationMethod<
   ListRegistryModelContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<ListRegistryModelContainersRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<ModelContainerResourceArmPaginatedResult>,
+  input: __S(3200, __c100, 0) as any as S.Schema<ListRegistryModelContainersRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<ModelContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11649,8 +17187,8 @@ export const ListRegistryModelVersions: API.OperationMethod<
   ListRegistryModelVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<ListRegistryModelVersionsRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<ModelVersionResourceArmPaginatedResult>,
+  input: __S(3232, __c101, 0) as any as S.Schema<ListRegistryModelVersionsRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<ModelVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11666,8 +17204,8 @@ export const ListSchedules: API.OperationMethod<
   ListSchedulesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<ListSchedulesRequest>,
-  output: __S(3074, __c96, 2) as any as S.Schema<ScheduleResourceArmPaginatedResult>,
+  input: __S(3264, __c102, 0) as any as S.Schema<ListSchedulesRequest>,
+  output: __S(3266, __c102, 2) as any as S.Schema<ScheduleResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11683,8 +17221,8 @@ export const ListServerlessEndpointKeys: API.OperationMethod<
   ListServerlessEndpointKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<ListServerlessEndpointKeysRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<EndpointAuthKeys>,
+  input: __S(3296, __c103, 0) as any as S.Schema<ListServerlessEndpointKeysRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<EndpointAuthKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11700,10 +17238,10 @@ export const ListServerlessEndpoints: API.OperationMethod<
   ListServerlessEndpointsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<ListServerlessEndpointsRequest>,
+  input: __S(3328, __c104, 0) as any as S.Schema<ListServerlessEndpointsRequest>,
   output: __S(
-    3138,
-    __c98,
+    3330,
+    __c104,
     2,
   ) as any as S.Schema<ServerlessEndpointTrackedResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
@@ -11721,8 +17259,8 @@ export const ListUsages: API.OperationMethod<
   ListUsagesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<ListUsagesRequest>,
-  output: __S(3171, __c99, 3) as any as S.Schema<ListUsagesResult>,
+  input: __S(3360, __c105, 0) as any as S.Schema<ListUsagesRequest>,
+  output: __S(3363, __c105, 3) as any as S.Schema<ListUsagesResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11738,8 +17276,8 @@ export const ListVirtualMachineSizes: API.OperationMethod<
   ListVirtualMachineSizesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<ListVirtualMachineSizesRequest>,
-  output: __S(3206, __c100, 6) as any as S.Schema<VirtualMachineSizeListResult>,
+  input: __S(3392, __c106, 0) as any as S.Schema<ListVirtualMachineSizesRequest>,
+  output: __S(3398, __c106, 6) as any as S.Schema<VirtualMachineSizeListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11755,8 +17293,8 @@ export const ListWorkspaceByResourceGroup: API.OperationMethod<
   ListWorkspaceByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<ListWorkspaceByResourceGroupRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<WorkspaceListResult>,
+  input: __S(3424, __c107, 0) as any as S.Schema<ListWorkspaceByResourceGroupRequest>,
+  output: __S(3457, __c108, 1) as any as S.Schema<WorkspaceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11772,8 +17310,8 @@ export const ListWorkspaceBySubscription: API.OperationMethod<
   ListWorkspaceBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<ListWorkspaceBySubscriptionRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<WorkspaceListResult>,
+  input: __S(3488, __c109, 0) as any as S.Schema<ListWorkspaceBySubscriptionRequest>,
+  output: __S(3457, __c108, 1) as any as S.Schema<WorkspaceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11789,10 +17327,10 @@ export const ListWorkspaceConnections: API.OperationMethod<
   ListWorkspaceConnectionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<ListWorkspaceConnectionsRequest>,
+  input: __S(3552, __c111, 0) as any as S.Schema<ListWorkspaceConnectionsRequest>,
   output: __S(
-    3362,
-    __c105,
+    3554,
+    __c111,
     2,
   ) as any as S.Schema<WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
@@ -11810,8 +17348,8 @@ export const ListWorkspaceConnectionSecrets: API.OperationMethod<
   ListWorkspaceConnectionSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<ListWorkspaceConnectionSecretsRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<ListWorkspaceConnectionSecretsResponse>,
+  input: __S(3584, __c112, 0) as any as S.Schema<ListWorkspaceConnectionSecretsRequest>,
+  output: __S(500, __c15, 20) as any as S.Schema<ListWorkspaceConnectionSecretsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11827,8 +17365,8 @@ export const ListWorkspaceFeatures: API.OperationMethod<
   ListWorkspaceFeaturesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<ListWorkspaceFeaturesRequest>,
-  output: __S(3427, __c107, 3) as any as S.Schema<ListAmlUserFeatureResult>,
+  input: __S(3616, __c113, 0) as any as S.Schema<ListWorkspaceFeaturesRequest>,
+  output: __S(3619, __c113, 3) as any as S.Schema<ListAmlUserFeatureResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11844,8 +17382,8 @@ export const ListWorkspaceKeys: API.OperationMethod<
   ListWorkspaceKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<ListWorkspaceKeysRequest>,
-  output: __S(3460, __c108, 4) as any as S.Schema<ListWorkspaceKeysResult>,
+  input: __S(3648, __c114, 0) as any as S.Schema<ListWorkspaceKeysRequest>,
+  output: __S(3652, __c114, 4) as any as S.Schema<ListWorkspaceKeysResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11861,8 +17399,8 @@ export const ListWorkspaceNotebookAccessToken: API.OperationMethod<
   ListWorkspaceNotebookAccessTokenError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<ListWorkspaceNotebookAccessTokenRequest>,
-  output: __S(3521, __c110, 1) as any as S.Schema<NotebookAccessTokenResult>,
+  input: __S(3712, __c116, 0) as any as S.Schema<ListWorkspaceNotebookAccessTokenRequest>,
+  output: __S(3713, __c116, 1) as any as S.Schema<NotebookAccessTokenResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11878,8 +17416,8 @@ export const ListWorkspaceNotebookKeys: API.OperationMethod<
   ListWorkspaceNotebookKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<ListWorkspaceNotebookKeysRequest>,
-  output: __S(3488, __c109, 0) as any as S.Schema<ListNotebookKeysResult>,
+  input: __S(3744, __c117, 0) as any as S.Schema<ListWorkspaceNotebookKeysRequest>,
+  output: __S(3680, __c115, 0) as any as S.Schema<ListNotebookKeysResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11896,11 +17434,11 @@ export const ListWorkspaceOutboundNetworkDependenciesEndpoints: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3584,
-    __c112,
+    3776,
+    __c118,
     0,
   ) as any as S.Schema<ListWorkspaceOutboundNetworkDependenciesEndpointsRequest>,
-  output: __S(3592, __c112, 8) as any as S.Schema<ExternalFQDNResponse>,
+  output: __S(3784, __c118, 8) as any as S.Schema<ExternalFQDNResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11916,8 +17454,8 @@ export const ListWorkspaceStorageAccountKeys: API.OperationMethod<
   ListWorkspaceStorageAccountKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<ListWorkspaceStorageAccountKeysRequest>,
-  output: __S(3617, __c113, 1) as any as S.Schema<ListStorageAccountKeysResult>,
+  input: __S(3808, __c119, 0) as any as S.Schema<ListWorkspaceStorageAccountKeysRequest>,
+  output: __S(3809, __c119, 1) as any as S.Schema<ListStorageAccountKeysResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11933,8 +17471,8 @@ export const ManagedNetworkSettingsRuleCreateOrUpdate: API.OperationMethod<
   ManagedNetworkSettingsRuleCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<ManagedNetworkSettingsRuleCreateOrUpdateRequest>,
-  output: __S(3649, __c114, 1) as any as S.Schema<ManagedNetworkSettingsRuleCreateOrUpdateResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<ManagedNetworkSettingsRuleCreateOrUpdateRequest>,
+  output: __S(3841, __c120, 1) as any as S.Schema<ManagedNetworkSettingsRuleCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11950,8 +17488,8 @@ export const MarketplaceSubscriptionsCreateOrUpdate: API.OperationMethod<
   MarketplaceSubscriptionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3713, __c116, 1) as any as S.Schema<MarketplaceSubscriptionsCreateOrUpdateRequest>,
-  output: __S(3714, __c116, 2) as any as S.Schema<MarketplaceSubscriptionsCreateOrUpdateResponse>,
+  input: __S(3905, __c122, 1) as any as S.Schema<MarketplaceSubscriptionsCreateOrUpdateRequest>,
+  output: __S(3906, __c122, 2) as any as S.Schema<MarketplaceSubscriptionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11967,8 +17505,8 @@ export const ModelContainersCreateOrUpdate: API.OperationMethod<
   ModelContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<ModelContainersCreateOrUpdateRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<ModelContainersCreateOrUpdateResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<ModelContainersCreateOrUpdateRequest>,
+  output: __S(6624, __c207, 0) as any as S.Schema<ModelContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11984,8 +17522,8 @@ export const ModelVersionsCreateOrUpdate: API.OperationMethod<
   ModelVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<ModelVersionsCreateOrUpdateRequest>,
-  output: __S(8960, __c280, 0) as any as S.Schema<ModelVersionsCreateOrUpdateResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<ModelVersionsCreateOrUpdateRequest>,
+  output: __S(9216, __c288, 0) as any as S.Schema<ModelVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12001,8 +17539,8 @@ export const OnlineDeploymentsCreateOrUpdate: API.OperationMethod<
   OnlineDeploymentsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3873, __c121, 1) as any as S.Schema<OnlineDeploymentsCreateOrUpdateRequest>,
-  output: __S(3874, __c121, 2) as any as S.Schema<OnlineDeploymentsCreateOrUpdateResponse>,
+  input: __S(4067, __c127, 3) as any as S.Schema<OnlineDeploymentsCreateOrUpdateRequest>,
+  output: __S(4068, __c127, 4) as any as S.Schema<OnlineDeploymentsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12018,8 +17556,8 @@ export const OnlineEndpointsCreateOrUpdate: API.OperationMethod<
   OnlineEndpointsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3905, __c122, 1) as any as S.Schema<OnlineEndpointsCreateOrUpdateRequest>,
-  output: __S(3906, __c122, 2) as any as S.Schema<OnlineEndpointsCreateOrUpdateResponse>,
+  input: __S(4097, __c128, 1) as any as S.Schema<OnlineEndpointsCreateOrUpdateRequest>,
+  output: __S(4098, __c128, 2) as any as S.Schema<OnlineEndpointsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12035,8 +17573,8 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
   PrivateEndpointConnectionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3937, __c123, 1) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateRequest>,
-  output: __S(9315, __c291, 3) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateResponse>,
+  input: __S(4129, __c129, 1) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateRequest>,
+  output: __S(9571, __c299, 3) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12053,13 +17591,13 @@ export const ProvisionManagedNetworkProvisionManagedNetwork: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3968,
-    __c124,
+    4160,
+    __c130,
     0,
   ) as any as S.Schema<ProvisionManagedNetworkProvisionManagedNetworkRequest>,
   output: __S(
-    3969,
-    __c124,
+    4161,
+    __c130,
     1,
   ) as any as S.Schema<ProvisionManagedNetworkProvisionManagedNetworkResponse>,
   errors: [UnknownAzureError],
@@ -12077,8 +17615,8 @@ export const PublishCodeVersion: API.OperationMethod<
   PublishCodeVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<PublishCodeVersionRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<PublishCodeVersionResponse>,
+  input: __S(4192, __c131, 0) as any as S.Schema<PublishCodeVersionRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<PublishCodeVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12094,8 +17632,8 @@ export const PublishComponentVersion: API.OperationMethod<
   PublishComponentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<PublishComponentVersionRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<PublishComponentVersionResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<PublishComponentVersionRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<PublishComponentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12111,8 +17649,8 @@ export const PublishDataVersion: API.OperationMethod<
   PublishDataVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<PublishDataVersionRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<PublishDataVersionResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<PublishDataVersionRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<PublishDataVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12128,8 +17666,8 @@ export const PublishEnvironmentVersion: API.OperationMethod<
   PublishEnvironmentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<PublishEnvironmentVersionRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<PublishEnvironmentVersionResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<PublishEnvironmentVersionRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<PublishEnvironmentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12145,8 +17683,8 @@ export const PublishModelVersion: API.OperationMethod<
   PublishModelVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<PublishModelVersionRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<PublishModelVersionResponse>,
+  input: __S(4352, __c136, 0) as any as S.Schema<PublishModelVersionRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<PublishModelVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12162,8 +17700,8 @@ export const RegenerateOnlineEndpointKeys: API.OperationMethod<
   RegenerateOnlineEndpointKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<RegenerateOnlineEndpointKeysRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<RegenerateOnlineEndpointKeysResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<RegenerateOnlineEndpointKeysRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<RegenerateOnlineEndpointKeysResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12179,8 +17717,8 @@ export const RegenerateServerlessEndpointKeys: API.OperationMethod<
   RegenerateServerlessEndpointKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<RegenerateServerlessEndpointKeysRequest>,
-  output: __S(4225, __c132, 1) as any as S.Schema<RegenerateServerlessEndpointKeysResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<RegenerateServerlessEndpointKeysRequest>,
+  output: __S(4417, __c138, 1) as any as S.Schema<RegenerateServerlessEndpointKeysResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12196,8 +17734,8 @@ export const RegistriesCreateOrUpdate: API.OperationMethod<
   RegistriesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<RegistriesCreateOrUpdateRequest>,
-  output: __S(4257, __c133, 1) as any as S.Schema<RegistriesCreateOrUpdateResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<RegistriesCreateOrUpdateRequest>,
+  output: __S(4449, __c139, 1) as any as S.Schema<RegistriesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12213,8 +17751,8 @@ export const RegistryCodeContainersCreateOrUpdate: API.OperationMethod<
   RegistryCodeContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<RegistryCodeContainersCreateOrUpdateRequest>,
-  output: __S(4352, __c136, 0) as any as S.Schema<RegistryCodeContainersCreateOrUpdateResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<RegistryCodeContainersCreateOrUpdateRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<RegistryCodeContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12231,11 +17769,11 @@ export const RegistryCodeVersionsCreateOrGetStartPendingUpload: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4384,
-    __c137,
+    4576,
+    __c143,
     0,
   ) as any as S.Schema<RegistryCodeVersionsCreateOrGetStartPendingUploadRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<PendingUploadResponseDto>,
+  output: __S(7009, __c219, 1) as any as S.Schema<PendingUploadResponseDto>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12251,8 +17789,8 @@ export const RegistryCodeVersionsCreateOrUpdate: API.OperationMethod<
   RegistryCodeVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<RegistryCodeVersionsCreateOrUpdateRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<RegistryCodeVersionsCreateOrUpdateResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<RegistryCodeVersionsCreateOrUpdateRequest>,
+  output: __S(4609, __c144, 1) as any as S.Schema<RegistryCodeVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12268,10 +17806,10 @@ export const RegistryComponentContainersCreateOrUpdate: API.OperationMethod<
   RegistryComponentContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<RegistryComponentContainersCreateOrUpdateRequest>,
+  input: __S(4640, __c145, 0) as any as S.Schema<RegistryComponentContainersCreateOrUpdateRequest>,
   output: __S(
-    4352,
-    __c136,
+    4544,
+    __c142,
     0,
   ) as any as S.Schema<RegistryComponentContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -12289,8 +17827,8 @@ export const RegistryComponentVersionsCreateOrUpdate: API.OperationMethod<
   RegistryComponentVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<RegistryComponentVersionsCreateOrUpdateRequest>,
-  output: __S(4481, __c140, 1) as any as S.Schema<RegistryComponentVersionsCreateOrUpdateResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<RegistryComponentVersionsCreateOrUpdateRequest>,
+  output: __S(4673, __c146, 1) as any as S.Schema<RegistryComponentVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12306,8 +17844,8 @@ export const RegistryDataContainersCreateOrUpdate: API.OperationMethod<
   RegistryDataContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<RegistryDataContainersCreateOrUpdateRequest>,
-  output: __S(4513, __c141, 1) as any as S.Schema<RegistryDataContainersCreateOrUpdateResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<RegistryDataContainersCreateOrUpdateRequest>,
+  output: __S(4705, __c147, 1) as any as S.Schema<RegistryDataContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12324,11 +17862,11 @@ export const RegistryDataVersionsCreateOrGetStartPendingUpload: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4576,
-    __c143,
+    4768,
+    __c149,
     0,
   ) as any as S.Schema<RegistryDataVersionsCreateOrGetStartPendingUploadRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<PendingUploadResponseDto>,
+  output: __S(7009, __c219, 1) as any as S.Schema<PendingUploadResponseDto>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12344,8 +17882,8 @@ export const RegistryDataVersionsCreateOrUpdate: API.OperationMethod<
   RegistryDataVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<RegistryDataVersionsCreateOrUpdateRequest>,
-  output: __S(4609, __c144, 1) as any as S.Schema<RegistryDataVersionsCreateOrUpdateResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<RegistryDataVersionsCreateOrUpdateRequest>,
+  output: __S(4801, __c150, 1) as any as S.Schema<RegistryDataVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12362,13 +17900,13 @@ export const RegistryEnvironmentContainersCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4640,
-    __c145,
+    4832,
+    __c151,
     0,
   ) as any as S.Schema<RegistryEnvironmentContainersCreateOrUpdateRequest>,
   output: __S(
-    7232,
-    __c226,
+    7392,
+    __c231,
     0,
   ) as any as S.Schema<RegistryEnvironmentContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -12386,10 +17924,10 @@ export const RegistryEnvironmentVersionsCreateOrUpdate: API.OperationMethod<
   RegistryEnvironmentVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<RegistryEnvironmentVersionsCreateOrUpdateRequest>,
+  input: __S(4864, __c152, 0) as any as S.Schema<RegistryEnvironmentVersionsCreateOrUpdateRequest>,
   output: __S(
-    4673,
-    __c146,
+    4865,
+    __c152,
     1,
   ) as any as S.Schema<RegistryEnvironmentVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -12407,8 +17945,8 @@ export const RegistryModelContainersCreateOrUpdate: API.OperationMethod<
   RegistryModelContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<RegistryModelContainersCreateOrUpdateRequest>,
-  output: __S(4352, __c136, 0) as any as S.Schema<RegistryModelContainersCreateOrUpdateResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<RegistryModelContainersCreateOrUpdateRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<RegistryModelContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12425,11 +17963,11 @@ export const RegistryModelVersionsCreateOrGetStartPendingUpload: API.OperationMe
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4736,
-    __c148,
+    4928,
+    __c154,
     0,
   ) as any as S.Schema<RegistryModelVersionsCreateOrGetStartPendingUploadRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<PendingUploadResponseDto>,
+  output: __S(7009, __c219, 1) as any as S.Schema<PendingUploadResponseDto>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12445,8 +17983,8 @@ export const RegistryModelVersionsCreateOrUpdate: API.OperationMethod<
   RegistryModelVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<RegistryModelVersionsCreateOrUpdateRequest>,
-  output: __S(4769, __c149, 1) as any as S.Schema<RegistryModelVersionsCreateOrUpdateResponse>,
+  input: __S(4960, __c155, 0) as any as S.Schema<RegistryModelVersionsCreateOrUpdateRequest>,
+  output: __S(4961, __c155, 1) as any as S.Schema<RegistryModelVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12462,8 +18000,8 @@ export const RemoveRegistryRegions: API.OperationMethod<
   RemoveRegistryRegionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<RemoveRegistryRegionsRequest>,
-  output: __S(4801, __c150, 1) as any as S.Schema<RemoveRegistryRegionsResponse>,
+  input: __S(4992, __c156, 0) as any as S.Schema<RemoveRegistryRegionsRequest>,
+  output: __S(4993, __c156, 1) as any as S.Schema<RemoveRegistryRegionsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12479,8 +18017,8 @@ export const RestartCompute: API.OperationMethod<
   RestartComputeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<RestartComputeRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<RestartComputeResponse>,
+  input: __S(5024, __c157, 0) as any as S.Schema<RestartComputeRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<RestartComputeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12496,8 +18034,8 @@ export const SchedulesCreateOrUpdate: API.OperationMethod<
   SchedulesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4865, __c152, 1) as any as S.Schema<SchedulesCreateOrUpdateRequest>,
-  output: __S(4866, __c152, 2) as any as S.Schema<SchedulesCreateOrUpdateResponse>,
+  input: __S(5064, __c158, 8) as any as S.Schema<SchedulesCreateOrUpdateRequest>,
+  output: __S(5065, __c158, 9) as any as S.Schema<SchedulesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12513,8 +18051,8 @@ export const ServerlessEndpointsCreateOrUpdate: API.OperationMethod<
   ServerlessEndpointsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4993, __c156, 1) as any as S.Schema<ServerlessEndpointsCreateOrUpdateRequest>,
-  output: __S(4994, __c156, 2) as any as S.Schema<ServerlessEndpointsCreateOrUpdateResponse>,
+  input: __S(5185, __c162, 1) as any as S.Schema<ServerlessEndpointsCreateOrUpdateRequest>,
+  output: __S(5186, __c162, 2) as any as S.Schema<ServerlessEndpointsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12530,8 +18068,8 @@ export const StartCompute: API.OperationMethod<
   StartComputeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<StartComputeRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<StartComputeResponse>,
+  input: __S(5216, __c163, 0) as any as S.Schema<StartComputeRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<StartComputeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12547,8 +18085,8 @@ export const StopCompute: API.OperationMethod<
   StopComputeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<StopComputeRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<StopComputeResponse>,
+  input: __S(5248, __c164, 0) as any as S.Schema<StopComputeRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<StopComputeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12564,8 +18102,8 @@ export const UpdateBatchDeployment: API.OperationMethod<
   UpdateBatchDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5089, __c159, 1) as any as S.Schema<UpdateBatchDeploymentRequest>,
-  output: __S(5090, __c159, 2) as any as S.Schema<UpdateBatchDeploymentResponse>,
+  input: __S(5281, __c165, 1) as any as S.Schema<UpdateBatchDeploymentRequest>,
+  output: __S(5282, __c165, 2) as any as S.Schema<UpdateBatchDeploymentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12581,8 +18119,8 @@ export const UpdateBatchEndpoint: API.OperationMethod<
   UpdateBatchEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<UpdateBatchEndpointRequest>,
-  output: __S(5121, __c160, 1) as any as S.Schema<UpdateBatchEndpointResponse>,
+  input: __S(5312, __c166, 0) as any as S.Schema<UpdateBatchEndpointRequest>,
+  output: __S(5313, __c166, 1) as any as S.Schema<UpdateBatchEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12598,8 +18136,8 @@ export const UpdateCompute: API.OperationMethod<
   UpdateComputeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5219, __c163, 3) as any as S.Schema<UpdateComputeRequest>,
-  output: __S(5220, __c163, 4) as any as S.Schema<UpdateComputeResponse>,
+  input: __S(5378, __c168, 2) as any as S.Schema<UpdateComputeRequest>,
+  output: __S(5379, __c168, 3) as any as S.Schema<UpdateComputeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12615,8 +18153,8 @@ export const UpdateOnlineDeployment: API.OperationMethod<
   UpdateOnlineDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<UpdateOnlineDeploymentRequest>,
-  output: __S(5249, __c164, 1) as any as S.Schema<UpdateOnlineDeploymentResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<UpdateOnlineDeploymentRequest>,
+  output: __S(5409, __c169, 1) as any as S.Schema<UpdateOnlineDeploymentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12632,8 +18170,8 @@ export const UpdateOnlineEndpoint: API.OperationMethod<
   UpdateOnlineEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<UpdateOnlineEndpointRequest>,
-  output: __S(5313, __c166, 1) as any as S.Schema<UpdateOnlineEndpointResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<UpdateOnlineEndpointRequest>,
+  output: __S(5473, __c171, 1) as any as S.Schema<UpdateOnlineEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12649,8 +18187,8 @@ export const UpdateQuotas: API.OperationMethod<
   UpdateQuotasError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5346, __c167, 2) as any as S.Schema<UpdateQuotasRequest>,
-  output: __S(5349, __c167, 5) as any as S.Schema<UpdateWorkspaceQuotasResult>,
+  input: __S(5506, __c172, 2) as any as S.Schema<UpdateQuotasRequest>,
+  output: __S(5509, __c172, 5) as any as S.Schema<UpdateWorkspaceQuotasResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12666,8 +18204,8 @@ export const UpdateRegistry: API.OperationMethod<
   UpdateRegistryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<UpdateRegistryRequest>,
-  output: __S(9408, __c294, 0) as any as S.Schema<UpdateRegistryResponse>,
+  input: __S(5536, __c173, 0) as any as S.Schema<UpdateRegistryRequest>,
+  output: __S(9664, __c302, 0) as any as S.Schema<UpdateRegistryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12683,8 +18221,8 @@ export const UpdateServerlessEndpoint: API.OperationMethod<
   UpdateServerlessEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<UpdateServerlessEndpointRequest>,
-  output: __S(5441, __c170, 1) as any as S.Schema<UpdateServerlessEndpointResponse>,
+  input: __S(5600, __c175, 0) as any as S.Schema<UpdateServerlessEndpointRequest>,
+  output: __S(5601, __c175, 1) as any as S.Schema<UpdateServerlessEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12700,8 +18238,8 @@ export const UpdateWorkspace: API.OperationMethod<
   UpdateWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5475, __c171, 3) as any as S.Schema<UpdateWorkspaceRequest>,
-  output: __S(5506, __c172, 2) as any as S.Schema<UpdateWorkspaceResponse>,
+  input: __S(5635, __c176, 3) as any as S.Schema<UpdateWorkspaceRequest>,
+  output: __S(5666, __c177, 2) as any as S.Schema<UpdateWorkspaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12717,8 +18255,8 @@ export const UpdateWorkspaceConnection: API.OperationMethod<
   UpdateWorkspaceConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<UpdateWorkspaceConnectionRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<UpdateWorkspaceConnectionResponse>,
+  input: __S(5696, __c178, 0) as any as S.Schema<UpdateWorkspaceConnectionRequest>,
+  output: __S(500, __c15, 20) as any as S.Schema<UpdateWorkspaceConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12734,8 +18272,8 @@ export const WorkspacesCreateOrUpdate: API.OperationMethod<
   WorkspacesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5569, __c174, 1) as any as S.Schema<WorkspacesCreateOrUpdateRequest>,
-  output: __S(5506, __c172, 2) as any as S.Schema<WorkspacesCreateOrUpdateResponse>,
+  input: __S(5729, __c179, 1) as any as S.Schema<WorkspacesCreateOrUpdateRequest>,
+  output: __S(5666, __c177, 2) as any as S.Schema<WorkspacesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12751,8 +18289,8 @@ export const WorkspacesDiagnose: API.OperationMethod<
   WorkspacesDiagnoseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5601, __c175, 1) as any as S.Schema<WorkspacesDiagnoseRequest>,
-  output: __S(5605, __c175, 5) as any as S.Schema<DiagnoseResponseResult>,
+  input: __S(5761, __c180, 1) as any as S.Schema<WorkspacesDiagnoseRequest>,
+  output: __S(5765, __c180, 5) as any as S.Schema<DiagnoseResponseResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12768,8 +18306,8 @@ export const WorkspacesPrepareNotebook: API.OperationMethod<
   WorkspacesPrepareNotebookError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<WorkspacesPrepareNotebookRequest>,
-  output: __S(5633, __c176, 1) as any as S.Schema<WorkspacesPrepareNotebookResponse>,
+  input: __S(5792, __c181, 0) as any as S.Schema<WorkspacesPrepareNotebookRequest>,
+  output: __S(5793, __c181, 1) as any as S.Schema<WorkspacesPrepareNotebookResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12785,8 +18323,8 @@ export const WorkspacesResyncKeys: API.OperationMethod<
   WorkspacesResyncKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<WorkspacesResyncKeysRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<WorkspacesResyncKeysResponse>,
+  input: __S(5824, __c182, 0) as any as S.Schema<WorkspacesResyncKeysRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<WorkspacesResyncKeysResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12800,22 +18338,22 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          codeConfiguration: S.optional(S.NullOr(__S(256, __c8, 0))),
+          codeConfiguration: S.optional(S.NullOr(__S(320, __c10, 0))),
           description: S.optional(S.NullOr(S.String)),
           environmentId: S.optional(S.NullOr(S.String)),
-          environmentVariables: S.optional(S.NullOr(__S(32, __c1, 0))),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
+          environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
           compute: S.optional(S.NullOr(S.String)),
-          deploymentConfiguration: S.optional(S.NullOr(__S(224, __c7, 0))),
+          deploymentConfiguration: S.optional(S.NullOr(__S(257, __c8, 1))),
           errorThreshold: S.optional(S.Number),
           loggingLevel: S.optional(S.String),
           maxConcurrencyPerInstance: S.optional(S.Number),
           miniBatchSize: S.optional(S.Number),
-          model: S.optional(S.NullOr(__S(225, __c7, 1))),
+          model: S.optional(S.NullOr(__S(260, __c8, 4))),
           outputAction: S.optional(S.String),
           outputFileName: S.optional(S.String),
-          resources: S.optional(S.NullOr(__S(227, __c7, 3))),
-          retrySettings: S.optional(S.NullOr(__S(228, __c7, 4))),
+          resources: S.optional(S.NullOr(__S(261, __c8, 5))),
+          retrySettings: S.optional(S.NullOr(__S(262, __c8, 6))),
         }),
       ).annotate({ identifier: "BatchDeploymentPropertiesInput" });
     case 1:
@@ -12831,7 +18369,7 @@ function __c0(j: number): any {
           properties: __S(0, __c0, 0),
           identity: S.optional(__S(161, __c5, 1)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -12847,13 +18385,13 @@ function __c0(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(229, __c7, 5),
-          identity: S.optional(__S(195, __c6, 3)),
+          properties: __S(263, __c8, 7),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -12861,12 +18399,6 @@ function __c0(j: number): any {
   }
 }
 function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
-  }
-}
-function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12879,6 +18411,12 @@ function __c2(j: number): any {
           lastModifiedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "SystemData" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
   }
 }
 function __c3(j: number): any {
@@ -12911,29 +18449,19 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String,
-          tier: S.optional(S.String),
-          size: S.optional(S.String),
-          family: S.optional(S.String),
-          capacity: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "BatchDeploymentsCreateOrUpdateRequestSku" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           principalId: S.optional(S.String),
           clientId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserAssignedIdentity" });
+    case 1:
+      return S.Record(S.String, __S(192, __c6, 0));
     case 2:
-      return S.Record(S.String, __S(193, __c6, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
           tenantId: S.optional(S.String),
           type: S.String,
-          userAssignedIdentities: S.optional(S.NullOr(__S(194, __c6, 2))),
+          userAssignedIdentities: S.optional(S.NullOr(__S(193, __c6, 1))),
         }),
       ).annotate({ identifier: "BatchDeploymentsCreateOrUpdateResponseIdentity" });
   }
@@ -12943,61 +18471,98 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deploymentConfigurationType: S.String,
+          name: S.String,
+          tier: S.optional(S.String),
+          size: S.optional(S.String),
+          family: S.optional(S.String),
+          capacity: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "BatchDeploymentConfiguration" });
-    case 1:
+      ).annotate({ identifier: "BatchDeploymentsCreateOrUpdateRequestSku" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           referenceType: S.String,
-          assetId: S.optional(S.String),
-          datastoreId: S.optional(S.String),
-          path: S.optional(S.String),
-          jobId: S.optional(S.String),
+          assetId: S.String,
         }),
-      ).annotate({ identifier: "AssetReferenceBase" });
+      ).annotate({ identifier: "IdAssetReference" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          deploymentConfigurationType: S.String,
+          componentId: S.optional(S.NullOr(__S(256, __c8, 0))),
+          description: S.optional(S.NullOr(S.String)),
+          settings: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+        }),
+      ).annotate({ identifier: "BatchPipelineComponentDeploymentConfiguration" });
     case 2:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
+      return S.suspend(() =>
+        S.Struct({
+          referenceType: S.String,
+          datastoreId: S.optional(S.NullOr(S.String)),
+          path: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "DataPathAssetReference" });
     case 3:
+      return S.suspend(() =>
+        S.Struct({
+          referenceType: S.String,
+          jobId: S.optional(S.NullOr(S.String)),
+          path: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "OutputPathAssetReference" });
+    case 4:
+      return S.Union([__S(258, __c8, 2), __S(256, __c8, 0), __S(259, __c8, 3)]);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           instanceCount: S.optional(S.Number),
           instanceType: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(226, __c7, 2))),
+          properties: S.optional(S.NullOr(__S(288, __c9, 0))),
         }),
       ).annotate({ identifier: "ResourceConfiguration" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           maxRetries: S.optional(S.Number),
           timeout: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchRetrySettings" });
-    case 5:
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          codeConfiguration: S.optional(S.NullOr(__S(256, __c8, 0))),
+          codeConfiguration: S.optional(S.NullOr(__S(320, __c10, 0))),
           description: S.optional(S.NullOr(S.String)),
           environmentId: S.optional(S.NullOr(S.String)),
-          environmentVariables: S.optional(S.NullOr(__S(32, __c1, 0))),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
+          environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
           compute: S.optional(S.NullOr(S.String)),
-          deploymentConfiguration: S.optional(S.NullOr(__S(224, __c7, 0))),
+          deploymentConfiguration: S.optional(S.NullOr(__S(257, __c8, 1))),
           errorThreshold: S.optional(S.Number),
           loggingLevel: S.optional(S.String),
           maxConcurrencyPerInstance: S.optional(S.Number),
           miniBatchSize: S.optional(S.Number),
-          model: S.optional(S.NullOr(__S(225, __c7, 1))),
+          model: S.optional(S.NullOr(__S(260, __c8, 4))),
           outputAction: S.optional(S.String),
           outputFileName: S.optional(S.String),
           provisioningState: S.optional(S.String),
-          resources: S.optional(S.NullOr(__S(227, __c7, 3))),
-          retrySettings: S.optional(S.NullOr(__S(228, __c7, 4))),
+          resources: S.optional(S.NullOr(__S(261, __c8, 5))),
+          retrySettings: S.optional(S.NullOr(__S(262, __c8, 6))),
         }),
       ).annotate({ identifier: "BatchDeploymentProperties" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13008,16 +18573,16 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CodeConfiguration" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           authMode: S.String,
           description: S.optional(S.NullOr(S.String)),
-          keys: S.optional(S.NullOr(__S(352, __c11, 0))),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          defaults: S.optional(S.NullOr(__S(320, __c10, 0))),
+          keys: S.optional(S.NullOr(__S(416, __c13, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          defaults: S.optional(S.NullOr(__S(384, __c12, 0))),
         }),
       ).annotate({ identifier: "BatchEndpointPropertiesInput" });
     case 1:
@@ -13029,10 +18594,10 @@ function __c9(j: number): any {
           endpointName: S.String.pipe(T.Label()),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(288, __c9, 0),
+          properties: __S(352, __c11, 0),
           identity: S.optional(__S(161, __c5, 1)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13048,20 +18613,20 @@ function __c9(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(321, __c10, 1),
-          identity: S.optional(__S(195, __c6, 3)),
+          properties: __S(385, __c12, 1),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "BatchEndpointsCreateOrUpdateResponse" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13074,17 +18639,17 @@ function __c10(j: number): any {
         S.Struct({
           authMode: S.String,
           description: S.optional(S.NullOr(S.String)),
-          keys: S.optional(S.NullOr(__S(352, __c11, 0))),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
+          keys: S.optional(S.NullOr(__S(416, __c13, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
           scoringUri: S.optional(S.NullOr(S.String)),
           swaggerUri: S.optional(S.NullOr(S.String)),
-          defaults: S.optional(S.NullOr(__S(320, __c10, 0))),
+          defaults: S.optional(S.NullOr(__S(384, __c12, 0))),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchEndpointProperties" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13095,7 +18660,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "EndpointAuthKeys" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13104,7 +18669,7 @@ function __c12(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
-          properties: __S(448, __c14, 0),
+          properties: __S(522, __c16, 10),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13116,9 +18681,76 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateWorkspaceConnectionRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accessKeyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secretAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "WorkspaceConnectionAccessKey" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkspaceConnectionAccountKey" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          keys: S.optional(__S(96, __c3, 0)),
+        }),
+      ).annotate({ identifier: "CustomKeys" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          clientId: S.optional(S.String),
+          resourceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkspaceConnectionManagedIdentity" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          authUrl: S.optional(S.String),
+          clientId: S.optional(S.String),
+          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          developerToken: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          tenantId: S.optional(S.String),
+          username: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkspaceConnectionOAuth2" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          pat: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkspaceConnectionPersonalAccessToken" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          sas: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkspaceConnectionSharedAccessSignature" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          clientId: S.optional(S.String),
+          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          tenantId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkspaceConnectionServicePrincipal" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          securityToken: S.optional(S.String),
+          username: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkspaceConnectionUsernamePassword" });
+    case 9:
       return S.suspend(() =>
         S.Struct({
           authType: S.String,
@@ -13131,25 +18763,210 @@ function __c13(j: number): any {
           metadata: S.optional(__S(96, __c3, 0)),
           peRequirement: S.optional(S.String),
           peStatus: S.optional(S.String),
-          sharedUserList: S.optional(__S(5984, __c187, 0)),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
           target: S.optional(S.String),
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
-          credentials: S.optional(S.Unknown),
         }),
-      ).annotate({ identifier: "WorkspaceConnectionPropertiesV2" });
-    case 1:
+      ).annotate({ identifier: "AADAuthTypeWorkspaceConnectionProperties" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(480, __c15, 0)),
+        }),
+      ).annotate({ identifier: "AccessKeyAuthTypeWorkspaceConnectionProperties" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(481, __c15, 1)),
+        }),
+      ).annotate({ identifier: "AccountKeyAuthTypeWorkspaceConnectionProperties" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(482, __c15, 2)),
+        }),
+      ).annotate({ identifier: "CustomKeysWorkspaceConnectionProperties" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(483, __c15, 3)),
+        }),
+      ).annotate({ identifier: "ManagedIdentityAuthTypeWorkspaceConnectionProperties" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(484, __c15, 4)),
+        }),
+      ).annotate({ identifier: "OAuth2AuthTypeWorkspaceConnectionProperties" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(485, __c15, 5)),
+        }),
+      ).annotate({ identifier: "PATAuthTypeWorkspaceConnectionProperties" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(486, __c15, 6)),
+        }),
+      ).annotate({ identifier: "SASAuthTypeWorkspaceConnectionProperties" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(487, __c15, 7)),
+        }),
+      ).annotate({ identifier: "ServicePrincipalAuthTypeWorkspaceConnectionProperties" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(488, __c15, 8)),
+        }),
+      ).annotate({ identifier: "UsernamePasswordAuthTypeWorkspaceConnectionProperties" });
+    case 19:
+      return S.Union([
+        __S(489, __c15, 9),
+        __S(490, __c15, 10),
+        __S(491, __c15, 11),
+        __S(491, __c15, 11),
+        __S(492, __c15, 12),
+        __S(493, __c15, 13),
+        __S(489, __c15, 9),
+        __S(494, __c15, 14),
+        __S(495, __c15, 15),
+        __S(496, __c15, 16),
+        __S(497, __c15, 17),
+        __S(498, __c15, 18),
+      ]);
+    case 20:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(416, __c13, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(499, __c15, 19),
         }),
       ).annotate({ identifier: "CreateWorkspaceConnectionResponse" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13162,15 +18979,182 @@ function __c14(j: number): any {
           metadata: S.optional(__S(96, __c3, 0)),
           peRequirement: S.optional(S.String),
           peStatus: S.optional(S.String),
-          sharedUserList: S.optional(__S(5984, __c187, 0)),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
           target: S.optional(S.String),
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
-          credentials: S.optional(S.Unknown),
         }),
-      ).annotate({ identifier: "WorkspaceConnectionPropertiesV2Input" });
+      ).annotate({ identifier: "AADAuthTypeWorkspaceConnectionPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(480, __c15, 0)),
+        }),
+      ).annotate({ identifier: "AccessKeyAuthTypeWorkspaceConnectionPropertiesInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(481, __c15, 1)),
+        }),
+      ).annotate({ identifier: "AccountKeyAuthTypeWorkspaceConnectionPropertiesInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(482, __c15, 2)),
+        }),
+      ).annotate({ identifier: "CustomKeysWorkspaceConnectionPropertiesInput" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(483, __c15, 3)),
+        }),
+      ).annotate({ identifier: "ManagedIdentityAuthTypeWorkspaceConnectionPropertiesInput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(484, __c15, 4)),
+        }),
+      ).annotate({ identifier: "OAuth2AuthTypeWorkspaceConnectionPropertiesInput" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(485, __c15, 5)),
+        }),
+      ).annotate({ identifier: "PATAuthTypeWorkspaceConnectionPropertiesInput" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(486, __c15, 6)),
+        }),
+      ).annotate({ identifier: "SASAuthTypeWorkspaceConnectionPropertiesInput" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(487, __c15, 7)),
+        }),
+      ).annotate({ identifier: "ServicePrincipalAuthTypeWorkspaceConnectionPropertiesInput" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(488, __c15, 8)),
+        }),
+      ).annotate({ identifier: "UsernamePasswordAuthTypeWorkspaceConnectionPropertiesInput" });
+    case 10:
+      return S.Union([
+        __S(512, __c16, 0),
+        __S(513, __c16, 1),
+        __S(514, __c16, 2),
+        __S(514, __c16, 2),
+        __S(515, __c16, 3),
+        __S(516, __c16, 4),
+        __S(512, __c16, 0),
+        __S(517, __c16, 5),
+        __S(518, __c16, 6),
+        __S(519, __c16, 7),
+        __S(520, __c16, 8),
+        __S(521, __c16, 9),
+      ]);
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13191,7 +19175,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetRegistryModelVersionRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13211,7 +19195,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetScheduleRequest" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13219,52 +19203,296 @@ function __c17(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(578, __c18, 2),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(679, __c21, 7),
         }),
       ).annotate({ identifier: "GetScheduleResponse" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          actionType: S.String,
-          jobDefinition: S.optional(S.Unknown),
-          createMonitorRequest: S.optional(S.Unknown),
-          endpointInvocationDefinition: S.optional(S.Unknown),
+          emails: S.optional(S.NullOr(__S(6176, __c193, 0))),
         }),
-      ).annotate({ identifier: "ScheduleActionBase" });
+      ).annotate({ identifier: "MonitorEmailNotificationSettings" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          emailNotificationSettings: S.optional(S.NullOr(__S(640, __c20, 0))),
+        }),
+      ).annotate({ identifier: "MonitorNotificationSettings" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          computeIdentityType: S.String,
+        }),
+      ).annotate({ identifier: "AmlTokenComputeIdentity" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          computeIdentityType: S.String,
+          identity: S.optional(__S(194, __c6, 2)),
+        }),
+      ).annotate({ identifier: "ManagedComputeIdentity" });
+    case 4:
+      return S.Union([__S(642, __c20, 2), __S(643, __c20, 3)]);
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeIdentity: __S(644, __c20, 4),
+          instanceType: S.String,
+          runtimeVersion: S.String,
+        }),
+      ).annotate({ identifier: "MonitorServerlessSparkCompute" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          deploymentId: S.optional(S.NullOr(S.String)),
+          modelId: S.optional(S.NullOr(S.String)),
+          taskType: S.String,
+        }),
+      ).annotate({ identifier: "MonitoringTarget" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          columns: S.optional(S.NullOr(__S(64, __c2, 0))),
+          dataContext: S.optional(S.NullOr(S.String)),
+          inputDataType: S.String,
+          jobInputType: S.String,
+          uri: S.String,
+        }),
+      ).annotate({ identifier: "FixedInputData" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          columns: S.optional(S.NullOr(__S(64, __c2, 0))),
+          dataContext: S.optional(S.NullOr(S.String)),
+          inputDataType: S.String,
+          jobInputType: S.String,
+          uri: S.String,
+          preprocessingComponentId: S.optional(S.NullOr(S.String)),
+          windowOffset: S.String,
+          windowSize: S.String,
+        }),
+      ).annotate({ identifier: "RollingInputData" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          columns: S.optional(S.NullOr(__S(64, __c2, 0))),
+          dataContext: S.optional(S.NullOr(S.String)),
+          inputDataType: S.String,
+          jobInputType: S.String,
+          uri: S.String,
+          preprocessingComponentId: S.optional(S.NullOr(S.String)),
+          windowEnd: S.String,
+          windowStart: S.String,
+        }),
+      ).annotate({ identifier: "StaticInputData" });
+    case 10:
+      return S.Union([__S(647, __c20, 7), __S(648, __c20, 8), __S(649, __c20, 9)]);
+    case 11:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(650, __c20, 10)));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "MonitoringThreshold" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          metric: S.String,
+          threshold: S.optional(S.NullOr(__S(652, __c20, 12))),
+        }),
+      ).annotate({ identifier: "CustomMetricThreshold" });
+    case 14:
+      return S.Array(__S(653, __c20, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          notificationTypes: S.optional(S.NullOr(__S(9728, __c304, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          signalType: S.String,
+          componentId: S.String,
+          inputAssets: S.optional(S.NullOr(__S(651, __c20, 11))),
+          inputs: S.optional(S.NullOr(__S(8755, __c273, 19))),
+          metricThresholds: __S(654, __c20, 14),
+        }),
+      ).annotate({ identifier: "CustomMonitoringSignal" });
+    case 16:
+      return S.Record(S.String, S.String);
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          mode: S.optional(S.String),
+          targetColumn: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "FeatureImportanceSettings" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          filterType: S.String,
+        }),
+      ).annotate({ identifier: "AllFeatures" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          filterType: S.String,
+          features: __S(6176, __c193, 0),
+        }),
+      ).annotate({ identifier: "FeatureSubset" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          filterType: S.String,
+          top: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TopNFeaturesByAttribution" });
+    case 21:
+      return S.Union([__S(658, __c20, 18), __S(659, __c20, 19), __S(660, __c20, 20)]);
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          dataType: S.String,
+          threshold: S.optional(S.NullOr(__S(652, __c20, 12))),
+          metric: S.String,
+        }),
+      ).annotate({ identifier: "CategoricalDataDriftMetricThreshold" });
+    case 23:
+      return S.Union([__S(662, __c20, 22), __S(662, __c20, 22)]);
+    case 24:
+      return S.Array(__S(663, __c20, 23));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          notificationTypes: S.optional(S.NullOr(__S(9728, __c304, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          signalType: S.String,
+          featureDataTypeOverride: S.optional(S.NullOr(__S(656, __c20, 16))),
+          featureImportanceSettings: S.optional(S.NullOr(__S(657, __c20, 17))),
+          features: S.optional(S.NullOr(__S(661, __c20, 21))),
+          metricThresholds: __S(664, __c20, 24),
+          productionData: __S(650, __c20, 10),
+          referenceData: __S(650, __c20, 10),
+        }),
+      ).annotate({ identifier: "DataDriftMonitoringSignal" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          metric: S.String,
+          threshold: S.optional(S.NullOr(__S(652, __c20, 12))),
+        }),
+      ).annotate({ identifier: "FeatureAttributionMetricThreshold" });
+    case 27:
+      return S.Array(__S(650, __c20, 10));
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          notificationTypes: S.optional(S.NullOr(__S(9728, __c304, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          signalType: S.String,
+          featureDataTypeOverride: S.optional(S.NullOr(__S(656, __c20, 16))),
+          featureImportanceSettings: __S(657, __c20, 17),
+          metricThreshold: __S(666, __c20, 26),
+          productionData: __S(667, __c20, 27),
+          referenceData: __S(650, __c20, 10),
+        }),
+      ).annotate({ identifier: "FeatureAttributionDriftMonitoringSignal" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          notificationTypes: S.optional(S.NullOr(__S(9728, __c304, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          signalType: S.String,
+          featureDataTypeOverride: S.optional(S.NullOr(__S(656, __c20, 16))),
+          metricThresholds: __S(664, __c20, 24),
+          productionData: __S(650, __c20, 10),
+          referenceData: __S(650, __c20, 10),
+        }),
+      ).annotate({ identifier: "PredictionDriftMonitoringSignal" });
+    case 30:
+      return S.Union([
+        __S(655, __c20, 15),
+        __S(665, __c20, 25),
+        __S(665, __c20, 25),
+        __S(668, __c20, 28),
+        __S(669, __c20, 29),
+      ]);
+    case 31:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(670, __c20, 30)));
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          alertNotificationSettings: S.optional(S.NullOr(__S(641, __c20, 1))),
+          computeConfiguration: __S(645, __c20, 5),
+          monitoringTarget: S.optional(S.NullOr(__S(646, __c20, 6))),
+          signals: __S(671, __c20, 31),
+        }),
+      ).annotate({ identifier: "MonitorDefinition" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          actionType: S.String,
+          monitorDefinition: __S(672, __c21, 0),
+        }),
+      ).annotate({ identifier: "CreateMonitorAction" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          actionType: S.String,
+          endpointInvocationDefinition: __S(704, __c22, 0),
+        }),
+      ).annotate({ identifier: "EndpointScheduleAction" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          actionType: S.String,
+          jobDefinition: __S(8771, __c274, 3),
+        }),
+      ).annotate({ identifier: "JobScheduleAction" });
+    case 4:
+      return S.Union([__S(673, __c21, 1), __S(674, __c21, 2), __S(675, __c21, 3)]);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           endTime: S.optional(S.NullOr(S.String)),
           startTime: S.optional(S.NullOr(S.String)),
           timeZone: S.optional(S.String),
           triggerType: S.String,
-          expression: S.optional(S.String),
-          frequency: S.optional(S.String),
-          interval: S.optional(S.Number),
-          schedule: S.optional(S.Unknown),
+          expression: S.String,
         }),
-      ).annotate({ identifier: "TriggerBase" });
-    case 2:
+      ).annotate({ identifier: "CronTrigger" });
+    case 6:
+      return S.Union([__S(677, __c21, 5), __S(7520, __c235, 0)]);
+    case 7:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
-          action: __S(576, __c18, 0),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          action: __S(676, __c21, 4),
           displayName: S.optional(S.NullOr(S.String)),
           isEnabled: S.optional(S.Boolean),
           provisioningState: S.optional(S.String),
-          trigger: __S(577, __c18, 1),
+          trigger: __S(678, __c21, 6),
         }),
       ).annotate({ identifier: "ScheduleProperties" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13284,7 +19512,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetServerlessEndpointRequest" });
   }
 }
-function __c20(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13292,18 +19520,18 @@ function __c20(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(675, __c21, 3),
-          identity: S.optional(__S(195, __c6, 3)),
+          properties: __S(803, __c25, 3),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "GetServerlessEndpointResponse" });
   }
 }
-function __c21(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13314,7 +19542,7 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          headers: S.optional(S.NullOr(__S(32, __c1, 0))),
+          headers: S.optional(S.NullOr(__S(64, __c2, 0))),
           uri: S.String,
         }),
       ).annotate({ identifier: "ServerlessInferenceEndpoint" });
@@ -13328,17 +19556,17 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           authMode: S.String,
-          contentSafety: S.optional(S.NullOr(__S(672, __c21, 0))),
+          contentSafety: S.optional(S.NullOr(__S(800, __c25, 0))),
           endpointState: S.optional(S.String),
-          inferenceEndpoint: S.optional(S.NullOr(__S(673, __c21, 1))),
+          inferenceEndpoint: S.optional(S.NullOr(__S(801, __c25, 1))),
           marketplaceSubscriptionId: S.optional(S.NullOr(S.String)),
-          modelSettings: S.optional(S.NullOr(__S(674, __c21, 2))),
+          modelSettings: S.optional(S.NullOr(__S(802, __c25, 2))),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerlessEndpointProperties" });
   }
 }
-function __c22(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13357,13 +19585,13 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetWorkspaceRequest" });
   }
 }
-function __c23(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9315, __c291, 3));
+      return S.Array(__S(9571, __c299, 3));
   }
 }
-function __c24(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13371,18 +19599,18 @@ function __c24(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(816, __c25, 16),
-          identity: S.optional(__S(195, __c6, 3)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(944, __c29, 16),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
           location: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "GetWorkspaceResponse" });
   }
 }
-function __c25(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13402,8 +19630,8 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cosmosDbResourceId: S.optional(S.String),
-          identity: S.optional(__S(800, __c25, 0)),
-          keyVaultProperties: __S(801, __c25, 1),
+          identity: S.optional(__S(928, __c29, 0)),
+          keyVaultProperties: __S(929, __c29, 1),
           searchAccountResourceId: S.optional(S.String),
           status: S.String,
           storageAccountResourceId: S.optional(S.String),
@@ -13418,13 +19646,13 @@ function __c25(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          computeRuntime: S.optional(__S(803, __c25, 3)),
+          computeRuntime: S.optional(__S(931, __c29, 3)),
           offlineStoreConnectionName: S.optional(S.String),
           onlineStoreConnectionName: S.optional(S.String),
         }),
       ).annotate({ identifier: "FeatureStoreSettings" });
     case 5:
-      return S.Record(S.String, __S(8736, __c273, 0));
+      return S.Record(S.String, __S(8997, __c281, 5));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -13438,8 +19666,8 @@ function __c25(j: number): any {
           enableNetworkMonitor: S.optional(S.Boolean),
           isolationMode: S.optional(S.String),
           networkId: S.optional(S.String),
-          outboundRules: S.optional(S.NullOr(__S(805, __c25, 5))),
-          status: S.optional(__S(806, __c25, 6)),
+          outboundRules: S.optional(S.NullOr(__S(933, __c29, 5))),
+          status: S.optional(__S(934, __c29, 6)),
           firewallSku: S.optional(S.String),
           managedNetworkKind: S.optional(S.String),
           firewallPublicIpAddress: S.optional(S.NullOr(S.String)),
@@ -13450,7 +19678,7 @@ function __c25(j: number): any {
         S.Struct({
           fqdn: S.optional(S.String),
           isPrivateLinkEnabled: S.optional(S.Boolean),
-          notebookPreparationError: S.optional(__S(832, __c26, 0)),
+          notebookPreparationError: S.optional(__S(960, __c30, 0)),
           resourceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "NotebookResourceInfo" });
@@ -13470,7 +19698,7 @@ function __c25(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          cosmosDb: S.optional(__S(810, __c25, 10)),
+          cosmosDb: S.optional(__S(938, __c29, 10)),
         }),
       ).annotate({ identifier: "ServiceManagedResourcesSettings" });
     case 12:
@@ -13486,15 +19714,15 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          properties: S.optional(__S(812, __c25, 12)),
+          properties: S.optional(__S(940, __c29, 12)),
         }),
       ).annotate({ identifier: "SharedPrivateLinkResource" });
     case 14:
-      return S.Array(__S(813, __c25, 13));
+      return S.Array(__S(941, __c29, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          additionalWorkspaceStorageAccounts: S.optional(__S(5984, __c187, 0)),
+          additionalWorkspaceStorageAccounts: S.optional(__S(6176, __c193, 0)),
           defaultWorkspaceResourceGroup: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspaceHubConfig" });
@@ -13503,44 +19731,44 @@ function __c25(j: number): any {
         S.Struct({
           allowPublicAccessWhenBehindVnet: S.optional(S.Boolean),
           applicationInsights: S.optional(S.String),
-          associatedWorkspaces: S.optional(__S(5984, __c187, 0)),
+          associatedWorkspaces: S.optional(__S(6176, __c193, 0)),
           containerRegistry: S.optional(S.String),
           description: S.optional(S.String),
           discoveryUrl: S.optional(S.String),
           enableDataIsolation: S.optional(S.Boolean),
           enableServiceSideCMKEncryption: S.optional(S.Boolean),
-          encryption: S.optional(__S(802, __c25, 2)),
-          featureStoreSettings: S.optional(__S(804, __c25, 4)),
+          encryption: S.optional(__S(930, __c29, 2)),
+          featureStoreSettings: S.optional(__S(932, __c29, 4)),
           friendlyName: S.optional(S.String),
           hbiWorkspace: S.optional(S.Boolean),
           hubResourceId: S.optional(S.String),
           imageBuildCompute: S.optional(S.String),
           keyVault: S.optional(S.String),
-          managedNetwork: S.optional(__S(807, __c25, 7)),
+          managedNetwork: S.optional(__S(935, __c29, 7)),
           mlFlowTrackingUri: S.optional(S.String),
-          notebookInfo: S.optional(__S(808, __c25, 8)),
+          notebookInfo: S.optional(__S(936, __c29, 8)),
           primaryUserAssignedIdentity: S.optional(S.String),
-          privateEndpointConnections: S.optional(__S(736, __c23, 0)),
+          privateEndpointConnections: S.optional(__S(864, __c27, 0)),
           privateLinkCount: S.optional(S.Number),
           provisionNetworkNow: S.optional(S.Boolean),
           provisioningState: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
-          serverlessComputeSettings: S.optional(__S(809, __c25, 9)),
-          serviceManagedResourcesSettings: S.optional(__S(811, __c25, 11)),
+          serverlessComputeSettings: S.optional(__S(937, __c29, 9)),
+          serviceManagedResourcesSettings: S.optional(__S(939, __c29, 11)),
           serviceProvisionedResourceGroup: S.optional(S.String),
-          sharedPrivateLinkResources: S.optional(__S(814, __c25, 14)),
+          sharedPrivateLinkResources: S.optional(__S(942, __c29, 14)),
           storageAccount: S.optional(S.String),
           storageHnsEnabled: S.optional(S.Boolean),
           systemDatastoresAuthMode: S.optional(S.String),
           tenantId: S.optional(S.String),
           v1LegacyMode: S.optional(S.Boolean),
-          workspaceHubConfig: S.optional(__S(815, __c25, 15)),
+          workspaceHubConfig: S.optional(__S(943, __c29, 15)),
           workspaceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspaceProperties" });
   }
 }
-function __c26(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13551,7 +19779,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "NotebookPreparationError" });
   }
 }
-function __c27(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13571,45 +19799,16 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetWorkspaceConnectionRequest" });
   }
 }
-function __c28(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          endpoint: S.optional(S.NullOr(S.String)),
-          jobServiceType: S.optional(S.NullOr(S.String)),
-          nodes: S.optional(S.NullOr(__S(8545, __c267, 1))),
-          port: S.optional(S.NullOr(S.Number)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-        }),
-      ).annotate({ identifier: "JobServiceInput" });
-    case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(896, __c28, 0)));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
-          componentId: S.optional(S.NullOr(S.String)),
-          computeId: S.optional(S.NullOr(S.String)),
-          displayName: S.optional(S.NullOr(S.String)),
-          experimentName: S.optional(S.String),
-          identity: S.optional(S.NullOr(__S(8544, __c267, 0))),
-          isArchived: S.optional(S.Boolean),
-          jobType: S.String,
-          notificationSetting: S.optional(S.NullOr(__S(7426, __c232, 2))),
-          services: S.optional(S.NullOr(__S(897, __c28, 1))),
-        }),
-      ).annotate({ identifier: "JobBasePropertiesInput" });
-    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          properties: __S(898, __c28, 2),
+          properties: __S(1063, __c33, 7),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13621,7 +19820,160 @@ function __c28(j: number): any {
       ).annotate({ identifier: "JobsCreateOrUpdateRequest" });
   }
 }
-function __c29(j: number): any {
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          endpoint: S.optional(S.NullOr(S.String)),
+          jobServiceType: S.optional(S.NullOr(S.String)),
+          nodes: S.optional(S.NullOr(__S(8707, __c272, 3))),
+          port: S.optional(S.NullOr(S.Number)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+        }),
+      ).annotate({ identifier: "JobServiceInput" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(1056, __c33, 0)));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          componentId: S.optional(S.NullOr(S.String)),
+          computeId: S.optional(S.NullOr(S.String)),
+          displayName: S.optional(S.NullOr(S.String)),
+          experimentName: S.optional(S.String),
+          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          isArchived: S.optional(S.Boolean),
+          jobType: S.String,
+          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
+          services: S.optional(S.NullOr(__S(1057, __c33, 1))),
+          environmentId: S.optional(S.NullOr(S.String)),
+          environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
+          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
+          queueSettings: S.optional(S.NullOr(__S(8713, __c272, 9))),
+          resources: S.optional(__S(8714, __c272, 10)),
+          taskDetails: __S(8748, __c273, 12),
+        }),
+      ).annotate({ identifier: "AutoMLJobInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          componentId: S.optional(S.NullOr(S.String)),
+          computeId: S.optional(S.NullOr(S.String)),
+          displayName: S.optional(S.NullOr(S.String)),
+          experimentName: S.optional(S.String),
+          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          isArchived: S.optional(S.Boolean),
+          jobType: S.String,
+          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
+          services: S.optional(S.NullOr(__S(1057, __c33, 1))),
+          codeId: S.optional(S.NullOr(S.String)),
+          command: S.String,
+          distribution: S.optional(S.NullOr(__S(8752, __c273, 16))),
+          environmentId: S.String,
+          environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
+          inputs: S.optional(S.NullOr(__S(8755, __c273, 19))),
+          limits: S.optional(S.NullOr(__S(8756, __c273, 20))),
+          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
+          queueSettings: S.optional(S.NullOr(__S(8713, __c272, 9))),
+          resources: S.optional(__S(8714, __c272, 10)),
+        }),
+      ).annotate({ identifier: "CommandJobInput" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          componentId: S.optional(S.NullOr(S.String)),
+          computeId: S.optional(S.NullOr(S.String)),
+          displayName: S.optional(S.NullOr(S.String)),
+          experimentName: S.optional(S.String),
+          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          isArchived: S.optional(S.Boolean),
+          jobType: S.String,
+          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
+          services: S.optional(S.NullOr(__S(1057, __c33, 1))),
+          inputs: S.optional(S.NullOr(__S(8755, __c273, 19))),
+          jobs: S.optional(S.NullOr(__S(288, __c9, 0))),
+          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
+          settings: S.optional(S.NullOr(S.Unknown)),
+          sourceJobId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "PipelineJobInput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          componentId: S.optional(S.NullOr(S.String)),
+          computeId: S.optional(S.NullOr(S.String)),
+          displayName: S.optional(S.NullOr(S.String)),
+          experimentName: S.optional(S.String),
+          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          isArchived: S.optional(S.Boolean),
+          jobType: S.String,
+          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
+          services: S.optional(S.NullOr(__S(1057, __c33, 1))),
+          archives: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          args: S.optional(S.NullOr(S.String)),
+          codeId: S.String,
+          conf: S.optional(S.NullOr(__S(64, __c2, 0))),
+          entry: __S(8761, __c273, 25),
+          environmentId: S.optional(S.NullOr(S.String)),
+          environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
+          files: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          inputs: S.optional(S.NullOr(__S(8755, __c273, 19))),
+          jars: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
+          pyFiles: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          queueSettings: S.optional(S.NullOr(__S(8713, __c272, 9))),
+          resources: S.optional(S.NullOr(__S(8762, __c273, 26))),
+        }),
+      ).annotate({ identifier: "SparkJobInput" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          componentId: S.optional(S.NullOr(S.String)),
+          computeId: S.optional(S.NullOr(S.String)),
+          displayName: S.optional(S.NullOr(S.String)),
+          experimentName: S.optional(S.String),
+          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          isArchived: S.optional(S.Boolean),
+          jobType: S.String,
+          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
+          services: S.optional(S.NullOr(__S(1057, __c33, 1))),
+          earlyTermination: S.optional(S.NullOr(__S(8738, __c273, 2))),
+          inputs: S.optional(S.NullOr(__S(8755, __c273, 19))),
+          limits: S.optional(__S(8764, __c273, 28)),
+          objective: __S(8765, __c273, 29),
+          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
+          queueSettings: S.optional(S.NullOr(__S(8713, __c272, 9))),
+          samplingAlgorithm: __S(8768, __c274, 0),
+          searchSpace: S.Unknown,
+          trial: __S(8769, __c274, 1),
+        }),
+      ).annotate({ identifier: "SweepJobInput" });
+    case 7:
+      return S.Union([
+        __S(1058, __c33, 2),
+        __S(1059, __c33, 3),
+        __S(1060, __c33, 4),
+        __S(1061, __c33, 5),
+        __S(1062, __c33, 6),
+      ]);
+  }
+}
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13643,17 +19995,17 @@ function __c29(j: number): any {
         ),
       ).annotate({ identifier: "ListBatchDeploymentsRequest" });
     case 1:
-      return S.Array(__S(7712, __c241, 0));
+      return S.Array(__S(7872, __c246, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(929, __c29, 1),
+          value: __S(1089, __c34, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchDeploymentTrackedResourceArmPaginatedResult" });
   }
 }
-function __c30(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13673,7 +20025,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ListBatchEndpointKeysRequest" });
   }
 }
-function __c31(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13693,17 +20045,17 @@ function __c31(j: number): any {
         ),
       ).annotate({ identifier: "ListBatchEndpointsRequest" });
     case 1:
-      return S.Array(__S(7776, __c243, 0));
+      return S.Array(__S(7936, __c248, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(993, __c31, 1),
+          value: __S(1153, __c36, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchEndpointTrackedResourceArmPaginatedResult" });
   }
 }
-function __c32(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13721,17 +20073,17 @@ function __c32(j: number): any {
         ),
       ).annotate({ identifier: "ListCapabilityHostsRequest" });
     case 1:
-      return S.Array(__S(7840, __c245, 0));
+      return S.Array(__S(8000, __c250, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1025, __c32, 1),
+          value: __S(1185, __c37, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CapabilityHostListResult" });
   }
 }
-function __c33(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13740,7 +20092,7 @@ function __c33(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(1088, __c34, 0),
+          properties: __S(1248, __c39, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13752,21 +20104,21 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DataContainersCreateOrUpdateRequest" });
   }
 }
-function __c34(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isArchived: S.optional(S.Boolean),
           dataType: S.String,
         }),
       ).annotate({ identifier: "DataContainerPropertiesInput" });
   }
 }
-function __c35(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13774,20 +20126,20 @@ function __c35(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(1152, __c36, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(1312, __c41, 0),
         }),
       ).annotate({ identifier: "DataContainersCreateOrUpdateResponse" });
   }
 }
-function __c36(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isArchived: S.optional(S.Boolean),
           latestVersion: S.optional(S.NullOr(S.String)),
           nextVersion: S.optional(S.NullOr(S.String)),
@@ -13796,7 +20148,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "DataContainerProperties" });
   }
 }
-function __c37(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13816,20 +20168,20 @@ function __c37(j: number): any {
       ).annotate({ identifier: "ListCodeContainersRequest" });
   }
 }
-function __c38(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6464, __c202, 0));
+      return S.Array(__S(6624, __c207, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1216, __c38, 0),
+          value: __S(1376, __c43, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CodeContainerResourceArmPaginatedResult" });
   }
 }
-function __c39(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13854,20 +20206,20 @@ function __c39(j: number): any {
       ).annotate({ identifier: "ListCodeVersionsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7552, __c236, 0));
+      return S.Array(__S(7712, __c241, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1280, __c40, 0),
+          value: __S(1440, __c45, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CodeVersionResourceArmPaginatedResult" });
   }
 }
-function __c41(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13888,7 +20240,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "ListComponentContainersRequest" });
   }
 }
-function __c42(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13912,20 +20264,20 @@ function __c42(j: number): any {
       ).annotate({ identifier: "ListComponentVersionsRequest" });
   }
 }
-function __c43(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8640, __c270, 0));
+      return S.Array(__S(8896, __c278, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1376, __c43, 0),
+          value: __S(1536, __c48, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ComponentVersionResourceArmPaginatedResult" });
   }
 }
-function __c44(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13944,17 +20296,17 @@ function __c44(j: number): any {
         ),
       ).annotate({ identifier: "ListComputeRequest" });
     case 1:
-      return S.Array(__S(8032, __c251, 0));
+      return S.Array(__S(8192, __c256, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1409, __c44, 1),
+          value: __S(1569, __c49, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PaginatedComputeResourcesList" });
   }
 }
-function __c45(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13976,11 +20328,34 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           computeType: S.String,
+          userKubeConfig: S.optional(S.String),
+          adminKubeConfig: S.optional(S.String),
+          imagePullSecretName: S.optional(S.NullOr(S.String)),
         }),
-      ).annotate({ identifier: "ComputeSecrets" });
+      ).annotate({ identifier: "AksComputeSecrets" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          databricksAccessToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DatabricksComputeSecrets" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          administratorAccount: S.optional(__S(9824, __c307, 0)),
+        }),
+      ).annotate({ identifier: "VirtualMachineSecrets" });
+    case 4:
+      return S.Union([__S(1601, __c50, 1), __S(1602, __c50, 2), __S(1603, __c50, 3)]);
+    case 5:
+      return S.suspend(() => __S(1604, __c50, 4).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListComputeKeysResponse",
+      });
   }
 }
-function __c46(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14010,17 +20385,17 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "AmlComputeNodeInformation" });
     case 2:
-      return S.Array(__S(1473, __c46, 1));
+      return S.Array(__S(1633, __c51, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          nodes: S.optional(__S(1474, __c46, 2)),
+          nodes: S.optional(__S(1634, __c51, 2)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AmlComputeNodesInformation" });
   }
 }
-function __c47(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14041,20 +20416,20 @@ function __c47(j: number): any {
       ).annotate({ identifier: "ListDataContainersRequest" });
   }
 }
-function __c48(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1120, __c35, 0));
+      return S.Array(__S(1280, __c40, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1536, __c48, 0),
+          value: __S(1696, __c53, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataContainerResourceArmPaginatedResult" });
   }
 }
-function __c49(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14065,7 +20440,7 @@ function __c49(j: number): any {
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           count: S.optional(S.Number.pipe(T.Query())),
           isDefault: S.optional(S.Boolean.pipe(T.Query())),
-          names: S.optional(__S(5984, __c187, 0).pipe(T.Query())),
+          names: S.optional(__S(6176, __c193, 0).pipe(T.Query())),
           searchText: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           orderByAsc: S.optional(S.Boolean.pipe(T.Query())),
@@ -14079,17 +20454,17 @@ function __c49(j: number): any {
         ),
       ).annotate({ identifier: "ListDatastoresRequest" });
     case 1:
-      return S.Array(__S(1666, __c52, 2));
+      return S.Array(__S(1837, __c57, 13));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1569, __c49, 1),
+          value: __S(1729, __c54, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatastoreResourceArmPaginatedResult" });
   }
 }
-function __c50(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14110,36 +20485,108 @@ function __c50(j: number): any {
         ),
       ).annotate({ identifier: "ListDatastoreSecretsRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          secretsType: S.String,
-        }),
-      ).annotate({ identifier: "DatastoreSecrets" });
+      return S.Union([
+        __S(1856, __c58, 0),
+        __S(1857, __c58, 1),
+        __S(1858, __c58, 2),
+        __S(1859, __c58, 3),
+      ]);
+    case 2:
+      return S.suspend(() => __S(1761, __c55, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListDatastoreSecretsResponse",
+      });
   }
 }
-function __c51(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
-          credentials: __S(1664, __c52, 0),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          credentials: __S(1829, __c57, 5),
           datastoreType: S.String,
-          accountName: S.optional(S.String),
-          containerName: S.optional(S.String),
-          fileShareName: S.optional(S.String),
-          filesystem: S.optional(S.String),
-          storeName: S.optional(S.String),
-          endpoint: S.optional(S.String),
-          protocol: S.optional(S.String),
+          resourceGroup: S.optional(S.NullOr(S.String)),
+          subscriptionId: S.optional(S.NullOr(S.String)),
+          accountName: S.optional(S.NullOr(S.String)),
+          containerName: S.optional(S.NullOr(S.String)),
+          endpoint: S.optional(S.NullOr(S.String)),
+          protocol: S.optional(S.NullOr(S.String)),
           serviceDataAccessAuthIdentity: S.optional(S.String),
-          resourceGroup: S.optional(S.String),
-          subscriptionId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DatastorePropertiesInput" });
+      ).annotate({ identifier: "AzureBlobDatastoreInput" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          credentials: __S(1829, __c57, 5),
+          datastoreType: S.String,
+          resourceGroup: S.optional(S.NullOr(S.String)),
+          subscriptionId: S.optional(S.NullOr(S.String)),
+          serviceDataAccessAuthIdentity: S.optional(S.String),
+          storeName: S.String,
+        }),
+      ).annotate({ identifier: "AzureDataLakeGen1DatastoreInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          credentials: __S(1829, __c57, 5),
+          datastoreType: S.String,
+          resourceGroup: S.optional(S.NullOr(S.String)),
+          subscriptionId: S.optional(S.NullOr(S.String)),
+          accountName: S.String,
+          endpoint: S.optional(S.NullOr(S.String)),
+          filesystem: S.String,
+          protocol: S.optional(S.NullOr(S.String)),
+          serviceDataAccessAuthIdentity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureDataLakeGen2DatastoreInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          credentials: __S(1829, __c57, 5),
+          datastoreType: S.String,
+          resourceGroup: S.optional(S.NullOr(S.String)),
+          subscriptionId: S.optional(S.NullOr(S.String)),
+          accountName: S.String,
+          endpoint: S.optional(S.NullOr(S.String)),
+          fileShareName: S.String,
+          protocol: S.optional(S.NullOr(S.String)),
+          serviceDataAccessAuthIdentity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureFileDatastoreInput" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          credentials: __S(1829, __c57, 5),
+          datastoreType: S.String,
+          artifact: __S(1830, __c57, 6),
+          endpoint: S.optional(S.NullOr(S.String)),
+          oneLakeWorkspaceName: S.String,
+          serviceDataAccessAuthIdentity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OneLakeDatastoreInput" });
+    case 5:
+      return S.Union([
+        __S(1792, __c56, 0),
+        __S(1793, __c56, 1),
+        __S(1794, __c56, 2),
+        __S(1795, __c56, 3),
+        __S(1796, __c56, 4),
+      ]);
+    case 6:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -14147,7 +20594,7 @@ function __c51(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           skipValidation: S.optional(S.Boolean.pipe(T.Query())),
-          properties: __S(1632, __c51, 0),
+          properties: __S(1797, __c56, 5),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -14159,53 +20606,203 @@ function __c51(j: number): any {
       ).annotate({ identifier: "DatastoresCreateOrUpdateRequest" });
   }
 }
-function __c52(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           credentialsType: S.String,
-          secrets: S.optional(S.Unknown),
-          clientId: S.optional(S.String),
-          tenantId: S.optional(S.String),
-          authorityUrl: S.optional(S.String),
-          resourceUrl: S.optional(S.String),
+          secrets: __S(1856, __c58, 0),
         }),
-      ).annotate({ identifier: "DatastoreCredentials" });
+      ).annotate({ identifier: "AccountKeyDatastoreCredentials" });
     case 1:
       return S.suspend(() =>
         S.Struct({
+          credentialsType: S.String,
+          authorityUrl: S.optional(S.NullOr(S.String)),
+          clientId: S.String,
+          resourceUrl: S.optional(S.NullOr(S.String)),
+          secrets: __S(1857, __c58, 1),
+          tenantId: S.String,
+          thumbprint: S.String,
+        }),
+      ).annotate({ identifier: "CertificateDatastoreCredentials" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          credentialsType: S.String,
+        }),
+      ).annotate({ identifier: "NoneDatastoreCredentials" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          credentialsType: S.String,
+          secrets: __S(1858, __c58, 2),
+        }),
+      ).annotate({ identifier: "SasDatastoreCredentials" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          credentialsType: S.String,
+          authorityUrl: S.optional(S.NullOr(S.String)),
+          clientId: S.String,
+          resourceUrl: S.optional(S.NullOr(S.String)),
+          secrets: __S(1859, __c58, 3),
+          tenantId: S.String,
+        }),
+      ).annotate({ identifier: "ServicePrincipalDatastoreCredentials" });
+    case 5:
+      return S.Union([
+        __S(1824, __c57, 0),
+        __S(1825, __c57, 1),
+        __S(1826, __c57, 2),
+        __S(1827, __c57, 3),
+        __S(1828, __c57, 4),
+      ]);
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          artifactName: S.String,
+          artifactType: S.String,
+        }),
+      ).annotate({ identifier: "LakeHouseArtifact" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
-          credentials: __S(1664, __c52, 0),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          credentials: __S(1829, __c57, 5),
           datastoreType: S.String,
           isDefault: S.optional(S.Boolean),
-          accountName: S.optional(S.String),
-          containerName: S.optional(S.String),
-          fileShareName: S.optional(S.String),
-          filesystem: S.optional(S.String),
-          storeName: S.optional(S.String),
-          endpoint: S.optional(S.String),
-          protocol: S.optional(S.String),
+          resourceGroup: S.optional(S.NullOr(S.String)),
+          subscriptionId: S.optional(S.NullOr(S.String)),
+          accountName: S.optional(S.NullOr(S.String)),
+          containerName: S.optional(S.NullOr(S.String)),
+          endpoint: S.optional(S.NullOr(S.String)),
+          protocol: S.optional(S.NullOr(S.String)),
           serviceDataAccessAuthIdentity: S.optional(S.String),
-          resourceGroup: S.optional(S.String),
-          subscriptionId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DatastoreProperties" });
-    case 2:
+      ).annotate({ identifier: "AzureBlobDatastore" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          credentials: __S(1829, __c57, 5),
+          datastoreType: S.String,
+          isDefault: S.optional(S.Boolean),
+          resourceGroup: S.optional(S.NullOr(S.String)),
+          subscriptionId: S.optional(S.NullOr(S.String)),
+          serviceDataAccessAuthIdentity: S.optional(S.String),
+          storeName: S.String,
+        }),
+      ).annotate({ identifier: "AzureDataLakeGen1Datastore" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          credentials: __S(1829, __c57, 5),
+          datastoreType: S.String,
+          isDefault: S.optional(S.Boolean),
+          resourceGroup: S.optional(S.NullOr(S.String)),
+          subscriptionId: S.optional(S.NullOr(S.String)),
+          accountName: S.String,
+          endpoint: S.optional(S.NullOr(S.String)),
+          filesystem: S.String,
+          protocol: S.optional(S.NullOr(S.String)),
+          serviceDataAccessAuthIdentity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureDataLakeGen2Datastore" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          credentials: __S(1829, __c57, 5),
+          datastoreType: S.String,
+          isDefault: S.optional(S.Boolean),
+          resourceGroup: S.optional(S.NullOr(S.String)),
+          subscriptionId: S.optional(S.NullOr(S.String)),
+          accountName: S.String,
+          endpoint: S.optional(S.NullOr(S.String)),
+          fileShareName: S.String,
+          protocol: S.optional(S.NullOr(S.String)),
+          serviceDataAccessAuthIdentity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureFileDatastore" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          credentials: __S(1829, __c57, 5),
+          datastoreType: S.String,
+          isDefault: S.optional(S.Boolean),
+          artifact: __S(1830, __c57, 6),
+          endpoint: S.optional(S.NullOr(S.String)),
+          oneLakeWorkspaceName: S.String,
+          serviceDataAccessAuthIdentity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OneLakeDatastore" });
+    case 12:
+      return S.Union([
+        __S(1831, __c57, 7),
+        __S(1832, __c57, 8),
+        __S(1833, __c57, 9),
+        __S(1834, __c57, 10),
+        __S(1835, __c57, 11),
+      ]);
+    case 13:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(1665, __c52, 1),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(1836, __c57, 12),
         }),
       ).annotate({ identifier: "DatastoresCreateOrUpdateResponse" });
   }
 }
-function __c53(j: number): any {
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          secretsType: S.String,
+          key: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "AccountKeyDatastoreSecrets" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          secretsType: S.String,
+          certificate: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CertificateDatastoreSecrets" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          secretsType: S.String,
+          sasToken: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "SasDatastoreSecrets" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          secretsType: S.String,
+          clientSecret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "ServicePrincipalDatastoreSecrets" });
+  }
+}
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14230,20 +20827,20 @@ function __c53(j: number): any {
       ).annotate({ identifier: "ListDataVersionsRequest" });
   }
 }
-function __c54(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2112, __c66, 0));
+      return S.Array(__S(2304, __c72, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1728, __c54, 0),
+          value: __S(1920, __c60, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataVersionBaseResourceArmPaginatedResult" });
   }
 }
-function __c55(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14264,7 +20861,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "ListEnvironmentContainersRequest" });
   }
 }
-function __c56(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14288,20 +20885,20 @@ function __c56(j: number): any {
       ).annotate({ identifier: "ListEnvironmentVersionsRequest" });
   }
 }
-function __c57(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7136, __c223, 0));
+      return S.Array(__S(7296, __c228, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1824, __c57, 0),
+          value: __S(2016, __c63, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnvironmentVersionResourceArmPaginatedResult" });
   }
 }
-function __c58(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14327,17 +20924,17 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "ListFeaturesRequest" });
     case 1:
-      return S.Array(__S(8289, __c259, 1));
+      return S.Array(__S(8449, __c264, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1857, __c58, 1),
+          value: __S(2049, __c64, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FeatureResourceArmPaginatedResult" });
   }
 }
-function __c59(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14363,7 +20960,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ListFeaturesetContainersRequest" });
   }
 }
-function __c60(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14391,17 +20988,17 @@ function __c60(j: number): any {
         ),
       ).annotate({ identifier: "ListFeaturesetVersionsRequest" });
     case 1:
-      return S.Array(__S(8384, __c262, 0));
+      return S.Array(__S(8544, __c267, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1921, __c60, 1),
+          value: __S(2113, __c66, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FeaturesetVersionResourceArmPaginatedResult" });
   }
 }
-function __c61(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14427,7 +21024,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ListFeaturestoreEntityContainersRequest" });
   }
 }
-function __c62(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14455,17 +21052,17 @@ function __c62(j: number): any {
         ),
       ).annotate({ identifier: "ListFeaturestoreEntityVersionsRequest" });
     case 1:
-      return S.Array(__S(8480, __c265, 0));
+      return S.Array(__S(8640, __c270, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1985, __c62, 1),
+          value: __S(2177, __c68, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FeaturestoreEntityVersionResourceArmPaginatedResult" });
   }
 }
-function __c63(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14488,17 +21085,17 @@ function __c63(j: number): any {
         ),
       ).annotate({ identifier: "ListJobsRequest" });
     case 1:
-      return S.Array(__S(8549, __c267, 5));
+      return S.Array(__S(8800, __c275, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2017, __c63, 1),
+          value: __S(2209, __c69, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobBaseResourceArmPaginatedResult" });
   }
 }
-function __c64(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14516,17 +21113,17 @@ function __c64(j: number): any {
         ),
       ).annotate({ identifier: "ListManagedNetworkSettingsRuleRequest" });
     case 1:
-      return S.Array(__S(8768, __c274, 0));
+      return S.Array(__S(9024, __c282, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2049, __c64, 1),
+          value: __S(2241, __c70, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OutboundRuleListResult" });
   }
 }
-function __c65(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14536,7 +21133,7 @@ function __c65(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(2144, __c67, 0),
+          properties: __S(2338, __c73, 2),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -14548,7 +21145,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "DataVersionsCreateOrUpdateRequest" });
   }
 }
-function __c66(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14556,29 +21153,44 @@ function __c66(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(2144, __c67, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(2338, __c73, 2),
         }),
       ).annotate({ identifier: "DataVersionsCreateOrUpdateResponse" });
   }
 }
-function __c67(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          isAnonymous: S.optional(S.Boolean),
+          isArchived: S.optional(S.Boolean),
+          dataType: S.String,
+          dataUri: S.String,
+          referencedUris: S.optional(S.NullOr(__S(6176, __c193, 0))),
+        }),
+      ).annotate({ identifier: "MLTableData" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
           dataType: S.String,
           dataUri: S.String,
         }),
-      ).annotate({ identifier: "DataVersionBaseProperties" });
+      ).annotate({ identifier: "UriFileDataVersion" });
+    case 2:
+      return S.Union([__S(2336, __c73, 0), __S(2337, __c73, 1), __S(2337, __c73, 1)]);
   }
 }
-function __c68(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14597,17 +21209,17 @@ function __c68(j: number): any {
         ),
       ).annotate({ identifier: "ListMarketplaceSubscriptionsRequest" });
     case 1:
-      return S.Array(__S(8832, __c276, 0));
+      return S.Array(__S(9088, __c284, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2177, __c68, 1),
+          value: __S(2369, __c74, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "MarketplaceSubscriptionResourceArmPaginatedResult" });
   }
 }
-function __c69(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14629,7 +21241,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "ListModelContainersRequest" });
   }
 }
-function __c70(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14659,20 +21271,20 @@ function __c70(j: number): any {
       ).annotate({ identifier: "ListModelVersionsRequest" });
   }
 }
-function __c71(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8960, __c280, 0));
+      return S.Array(__S(9216, __c288, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2272, __c71, 0),
+          value: __S(2464, __c77, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ModelVersionResourceArmPaginatedResult" });
   }
 }
-function __c72(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14694,17 +21306,17 @@ function __c72(j: number): any {
         ),
       ).annotate({ identifier: "ListOnlineDeploymentsRequest" });
     case 1:
-      return S.Array(__S(9056, __c283, 0));
+      return S.Array(__S(9312, __c291, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2305, __c72, 1),
+          value: __S(2497, __c78, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OnlineDeploymentTrackedResourceArmPaginatedResult" });
   }
 }
-function __c73(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14744,23 +21356,23 @@ function __c73(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          capacity: S.optional(S.NullOr(__S(2337, __c73, 1))),
+          capacity: S.optional(S.NullOr(__S(2529, __c79, 1))),
           resourceType: S.optional(S.NullOr(S.String)),
-          sku: S.optional(S.NullOr(__S(2338, __c73, 2))),
+          sku: S.optional(S.NullOr(__S(2530, __c79, 2))),
         }),
       ).annotate({ identifier: "SkuResource" });
     case 4:
-      return S.Array(__S(2339, __c73, 3));
+      return S.Array(__S(2531, __c79, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2340, __c73, 4),
+          value: __S(2532, __c79, 4),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SkuResourceArmPaginatedResult" });
   }
 }
-function __c74(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14780,7 +21392,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "ListOnlineEndpointKeysRequest" });
   }
 }
-function __c75(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14805,17 +21417,17 @@ function __c75(j: number): any {
         ),
       ).annotate({ identifier: "ListOnlineEndpointsRequest" });
     case 1:
-      return S.Array(__S(9184, __c287, 0));
+      return S.Array(__S(9440, __c295, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2401, __c75, 1),
+          value: __S(2593, __c81, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OnlineEndpointTrackedResourceArmPaginatedResult" });
   }
 }
-function __c76(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14842,23 +21454,23 @@ function __c76(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(2433, __c76, 1)),
+          display: S.optional(__S(2625, __c82, 1)),
           origin: S.optional(S.String),
           actionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(2434, __c76, 2));
+      return S.Array(__S(2626, __c82, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2435, __c76, 3)),
+          value: S.optional(__S(2627, __c82, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c77(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14878,13 +21490,13 @@ function __c77(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(736, __c23, 0)),
+          value: S.optional(__S(864, __c27, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
   }
 }
-function __c78(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14905,8 +21517,8 @@ function __c78(j: number): any {
       return S.suspend(() =>
         S.Struct({
           groupId: S.optional(S.String),
-          requiredMembers: S.optional(__S(5984, __c187, 0)),
-          requiredZoneNames: S.optional(__S(5984, __c187, 0)),
+          requiredMembers: S.optional(__S(6176, __c193, 0)),
+          requiredZoneNames: S.optional(__S(6176, __c193, 0)),
         }),
       ).annotate({ identifier: "PrivateLinkResourceProperties" });
     case 2:
@@ -14915,26 +21527,26 @@ function __c78(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          identity: S.optional(__S(195, __c6, 3)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          identity: S.optional(__S(194, __c6, 2)),
           location: S.optional(S.String),
-          properties: S.optional(__S(2497, __c78, 1)),
-          sku: S.optional(__S(192, __c6, 0)),
+          properties: S.optional(__S(2689, __c84, 1)),
+          sku: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "PrivateLinkResource" });
     case 3:
-      return S.Array(__S(2498, __c78, 2));
+      return S.Array(__S(2690, __c84, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2499, __c78, 3)),
+          value: S.optional(__S(2691, __c84, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourceListResult" });
   }
 }
-function __c79(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14955,7 +21567,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "DeleteBatchDeploymentRequest" });
   }
 }
-function __c80(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14977,23 +21589,23 @@ function __c80(j: number): any {
           id: S.optional(S.String),
           amlWorkspaceLocation: S.optional(S.String),
           type: S.optional(S.String),
-          name: S.optional(__S(2592, __c81, 0)),
+          name: S.optional(__S(2784, __c87, 0)),
           limit: S.optional(S.Number),
           unit: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceQuota" });
     case 2:
-      return S.Array(__S(2561, __c80, 1));
+      return S.Array(__S(2753, __c86, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2562, __c80, 2),
+          value: __S(2754, __c86, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWorkspaceQuotas" });
   }
 }
-function __c81(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15004,7 +21616,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "ResourceName" });
   }
 }
-function __c82(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15022,20 +21634,20 @@ function __c82(j: number): any {
       ).annotate({ identifier: "ListRegistriesRequest" });
   }
 }
-function __c83(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9408, __c294, 0));
+      return S.Array(__S(9664, __c302, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2656, __c83, 0),
+          value: __S(2848, __c89, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistryTrackedResourceArmPaginatedResult" });
   }
 }
-function __c84(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15052,7 +21664,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "ListRegistryBySubscriptionRequest" });
   }
 }
-function __c85(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15072,7 +21684,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "ListRegistryCodeContainersRequest" });
   }
 }
-function __c86(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15095,7 +21707,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "ListRegistryCodeVersionsRequest" });
   }
 }
-function __c87(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15115,7 +21727,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "ListRegistryComponentContainersRequest" });
   }
 }
-function __c88(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15138,7 +21750,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "ListRegistryComponentVersionsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15159,7 +21771,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "ListRegistryDataContainersRequest" });
   }
 }
-function __c90(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15184,7 +21796,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "ListRegistryDataVersionsRequest" });
   }
 }
-function __c91(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15205,7 +21817,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "ListRegistryEnvironmentContainersRequest" });
   }
 }
-function __c92(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15225,7 +21837,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "DeleteBatchEndpointRequest" });
   }
 }
-function __c93(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15249,7 +21861,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "ListRegistryEnvironmentVersionsRequest" });
   }
 }
-function __c94(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15270,7 +21882,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "ListRegistryModelContainersRequest" });
   }
 }
-function __c95(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15298,7 +21910,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "ListRegistryModelVersionsRequest" });
   }
 }
-function __c96(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15318,17 +21930,17 @@ function __c96(j: number): any {
         ),
       ).annotate({ identifier: "ListSchedulesRequest" });
     case 1:
-      return S.Array(__S(544, __c17, 0));
+      return S.Array(__S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3073, __c96, 1),
+          value: __S(3265, __c102, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScheduleResourceArmPaginatedResult" });
   }
 }
-function __c97(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15348,7 +21960,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "ListServerlessEndpointKeysRequest" });
   }
 }
-function __c98(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15367,17 +21979,17 @@ function __c98(j: number): any {
         ),
       ).annotate({ identifier: "ListServerlessEndpointsRequest" });
     case 1:
-      return S.Array(__S(640, __c20, 0));
+      return S.Array(__S(768, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3137, __c98, 1),
+          value: __S(3329, __c104, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerlessEndpointTrackedResourceArmPaginatedResult" });
   }
 }
-function __c99(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15402,21 +22014,21 @@ function __c99(j: number): any {
           unit: S.optional(S.String),
           currentValue: S.optional(S.Number),
           limit: S.optional(S.Number),
-          name: S.optional(__S(2592, __c81, 0)),
+          name: S.optional(__S(2784, __c87, 0)),
         }),
       ).annotate({ identifier: "Usage" });
     case 2:
-      return S.Array(__S(3169, __c99, 1));
+      return S.Array(__S(3361, __c105, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3170, __c99, 2),
+          value: __S(3362, __c105, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListUsagesResult" });
   }
 }
-function __c100(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15441,13 +22053,13 @@ function __c100(j: number): any {
         }),
       ).annotate({ identifier: "EstimatedVMPrice" });
     case 2:
-      return S.Array(__S(3201, __c100, 1));
+      return S.Array(__S(3393, __c106, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           billingCurrency: S.String,
           unitOfMeasure: S.String,
-          values: __S(3202, __c100, 2),
+          values: __S(3394, __c106, 2),
         }),
       ).annotate({ identifier: "EstimatedVMPrices" });
     case 4:
@@ -15462,21 +22074,21 @@ function __c100(j: number): any {
           memoryGB: S.optional(S.Number),
           lowPriorityCapable: S.optional(S.Boolean),
           premiumIO: S.optional(S.Boolean),
-          estimatedVMPrices: S.optional(__S(3203, __c100, 3)),
-          supportedComputeTypes: S.optional(__S(5984, __c187, 0)),
+          estimatedVMPrices: S.optional(__S(3395, __c106, 3)),
+          supportedComputeTypes: S.optional(__S(6176, __c193, 0)),
         }),
       ).annotate({ identifier: "VirtualMachineSize" });
     case 5:
-      return S.Array(__S(3204, __c100, 4));
+      return S.Array(__S(3396, __c106, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3205, __c100, 5)),
+          value: S.optional(__S(3397, __c106, 5)),
         }),
       ).annotate({ identifier: "VirtualMachineSizeListResult" });
   }
 }
-function __c101(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15497,20 +22109,20 @@ function __c101(j: number): any {
       ).annotate({ identifier: "ListWorkspaceByResourceGroupRequest" });
   }
 }
-function __c102(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(768, __c24, 0));
+      return S.Array(__S(896, __c28, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3264, __c102, 0),
+          value: __S(3456, __c108, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspaceListResult" });
   }
 }
-function __c103(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15530,7 +22142,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "ListWorkspaceBySubscriptionRequest" });
   }
 }
-function __c104(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15550,7 +22162,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "DeleteCapabilityHostRequest" });
   }
 }
-function __c105(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15571,17 +22183,17 @@ function __c105(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkspaceConnectionsRequest" });
     case 1:
-      return S.Array(__S(417, __c13, 1));
+      return S.Array(__S(500, __c15, 20));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3361, __c105, 1),
+          value: __S(3553, __c111, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult" });
   }
 }
-function __c106(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15601,7 +22213,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "ListWorkspaceConnectionSecretsRequest" });
   }
 }
-function __c107(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15627,17 +22239,17 @@ function __c107(j: number): any {
         }),
       ).annotate({ identifier: "AmlUserFeature" });
     case 2:
-      return S.Array(__S(3425, __c107, 1));
+      return S.Array(__S(3617, __c113, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3426, __c107, 2),
+          value: __S(3618, __c113, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAmlUserFeatureResult" });
   }
 }
-function __c108(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15662,12 +22274,12 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "Password" });
     case 2:
-      return S.Array(__S(3457, __c108, 1));
+      return S.Array(__S(3649, __c114, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           location: S.optional(S.String),
-          passwords: S.optional(__S(3458, __c108, 2)),
+          passwords: S.optional(__S(3650, __c114, 2)),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistryListCredentialsResult" });
@@ -15675,15 +22287,15 @@ function __c108(j: number): any {
       return S.suspend(() =>
         S.Struct({
           appInsightsInstrumentationKey: S.optional(S.String),
-          containerRegistryCredentials: S.optional(__S(3459, __c108, 3)),
-          notebookAccessKeys: S.optional(__S(3488, __c109, 0)),
+          containerRegistryCredentials: S.optional(__S(3651, __c114, 3)),
+          notebookAccessKeys: S.optional(__S(3680, __c115, 0)),
           userStorageArmId: S.optional(S.String),
           userStorageKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWorkspaceKeysResult" });
   }
 }
-function __c109(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15694,7 +22306,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "ListNotebookKeysResult" });
   }
 }
-function __c110(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15726,7 +22338,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "NotebookAccessTokenResult" });
   }
 }
-function __c111(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15745,7 +22357,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "ListWorkspaceNotebookKeysRequest" });
   }
 }
-function __c112(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15769,40 +22381,40 @@ function __c112(j: number): any {
         }),
       ).annotate({ identifier: "FQDNEndpointDetail" });
     case 2:
-      return S.Array(__S(3585, __c112, 1));
+      return S.Array(__S(3777, __c118, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           domainName: S.optional(S.String),
-          endpointDetails: S.optional(__S(3586, __c112, 2)),
+          endpointDetails: S.optional(__S(3778, __c118, 2)),
         }),
       ).annotate({ identifier: "FQDNEndpoint" });
     case 4:
-      return S.Array(__S(3587, __c112, 3));
+      return S.Array(__S(3779, __c118, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           category: S.optional(S.String),
-          endpoints: S.optional(__S(3588, __c112, 4)),
+          endpoints: S.optional(__S(3780, __c118, 4)),
         }),
       ).annotate({ identifier: "FQDNEndpoints" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(3589, __c112, 5)),
+          properties: S.optional(__S(3781, __c118, 5)),
         }),
       ).annotate({ identifier: "FQDNEndpointsPropertyBag" });
     case 7:
-      return S.Array(__S(3590, __c112, 6));
+      return S.Array(__S(3782, __c118, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3591, __c112, 7)),
+          value: S.optional(__S(3783, __c118, 7)),
         }),
       ).annotate({ identifier: "ExternalFQDNResponse" });
   }
 }
-function __c113(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15827,7 +22439,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "ListStorageAccountKeysResult" });
   }
 }
-function __c114(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15836,7 +22448,7 @@ function __c114(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           ruleName: S.String.pipe(T.Label()),
-          properties: __S(3680, __c115, 0),
+          properties: __S(3875, __c121, 3),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -15852,15 +22464,15 @@ function __c114(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8736, __c273, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(8997, __c281, 5),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "ManagedNetworkSettingsRuleCreateOrUpdateResponse" });
   }
 }
-function __c115(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15868,12 +22480,33 @@ function __c115(j: number): any {
           category: S.optional(S.String),
           status: S.optional(S.String),
           type: S.String,
-          destination: S.optional(S.Unknown),
+          destination: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OutboundRuleInput" });
+      ).annotate({ identifier: "FqdnOutboundRuleInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          category: S.optional(S.String),
+          status: S.optional(S.String),
+          type: S.String,
+          destination: S.optional(__S(8993, __c281, 1)),
+          fqdns: S.optional(__S(6176, __c193, 0)),
+        }),
+      ).annotate({ identifier: "PrivateEndpointOutboundRuleInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          category: S.optional(S.String),
+          status: S.optional(S.String),
+          type: S.String,
+          destination: S.optional(__S(8995, __c281, 3)),
+        }),
+      ).annotate({ identifier: "ServiceTagOutboundRuleInput" });
+    case 3:
+      return S.Union([__S(3872, __c121, 0), __S(3873, __c121, 1), __S(3874, __c121, 2)]);
   }
 }
-function __c116(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15888,7 +22521,7 @@ function __c116(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(3712, __c116, 0),
+          properties: __S(3904, __c122, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -15904,14 +22537,14 @@ function __c116(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8865, __c277, 1),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(9121, __c285, 1),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "MarketplaceSubscriptionsCreateOrUpdateResponse" });
   }
 }
-function __c117(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15931,7 +22564,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "DeleteCodeContainerRequest" });
   }
 }
-function __c118(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15940,7 +22573,7 @@ function __c118(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(6400, __c200, 0),
+          properties: __S(6560, __c205, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -15952,7 +22585,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "ModelContainersCreateOrUpdateRequest" });
   }
 }
-function __c119(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15962,7 +22595,7 @@ function __c119(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(3840, __c120, 0),
+          properties: __S(4032, __c126, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -15974,51 +22607,76 @@ function __c119(j: number): any {
       ).annotate({ identifier: "ModelVersionsCreateOrUpdateRequest" });
   }
 }
-function __c120(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
-          flavors: S.optional(S.NullOr(__S(8993, __c281, 1))),
+          flavors: S.optional(S.NullOr(__S(9249, __c289, 1))),
           jobName: S.optional(S.NullOr(S.String)),
           modelType: S.optional(S.NullOr(S.String)),
           modelUri: S.optional(S.NullOr(S.String)),
           stage: S.optional(S.NullOr(S.String)),
-          datasets: S.optional(S.NullOr(__S(8995, __c281, 3))),
+          datasets: S.optional(S.NullOr(__S(9251, __c289, 3))),
         }),
       ).annotate({ identifier: "ModelVersionPropertiesInput" });
   }
 }
-function __c121(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          codeConfiguration: S.optional(S.NullOr(__S(256, __c8, 0))),
+          codeConfiguration: S.optional(S.NullOr(__S(320, __c10, 0))),
           description: S.optional(S.NullOr(S.String)),
           environmentId: S.optional(S.NullOr(S.String)),
-          environmentVariables: S.optional(S.NullOr(__S(32, __c1, 0))),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
+          environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
           appInsightsEnabled: S.optional(S.Boolean),
-          dataCollector: S.optional(S.NullOr(__S(9091, __c284, 3))),
+          dataCollector: S.optional(S.NullOr(__S(9347, __c292, 3))),
           egressPublicNetworkAccess: S.optional(S.String),
           endpointComputeType: S.String,
           instanceType: S.optional(S.NullOr(S.String)),
-          livenessProbe: S.optional(S.NullOr(__S(9092, __c284, 4))),
+          livenessProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
           model: S.optional(S.NullOr(S.String)),
           modelMountPath: S.optional(S.NullOr(S.String)),
-          readinessProbe: S.optional(S.NullOr(__S(9092, __c284, 4))),
-          requestSettings: S.optional(S.NullOr(__S(9093, __c284, 5))),
-          scaleSettings: S.optional(S.NullOr(__S(9094, __c284, 6))),
-          startupProbe: S.optional(S.NullOr(__S(9092, __c284, 4))),
+          readinessProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
+          requestSettings: S.optional(S.NullOr(__S(9349, __c292, 5))),
+          scaleSettings: S.optional(S.NullOr(__S(9352, __c292, 8))),
+          startupProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
+          containerResourceRequirements: S.optional(S.NullOr(__S(9354, __c292, 10))),
         }),
-      ).annotate({ identifier: "OnlineDeploymentPropertiesInput" });
+      ).annotate({ identifier: "KubernetesOnlineDeploymentInput" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          codeConfiguration: S.optional(S.NullOr(__S(320, __c10, 0))),
+          description: S.optional(S.NullOr(S.String)),
+          environmentId: S.optional(S.NullOr(S.String)),
+          environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          appInsightsEnabled: S.optional(S.Boolean),
+          dataCollector: S.optional(S.NullOr(__S(9347, __c292, 3))),
+          egressPublicNetworkAccess: S.optional(S.String),
+          endpointComputeType: S.String,
+          instanceType: S.optional(S.NullOr(S.String)),
+          livenessProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
+          model: S.optional(S.NullOr(S.String)),
+          modelMountPath: S.optional(S.NullOr(S.String)),
+          readinessProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
+          requestSettings: S.optional(S.NullOr(__S(9349, __c292, 5))),
+          scaleSettings: S.optional(S.NullOr(__S(9352, __c292, 8))),
+          startupProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
+        }),
+      ).annotate({ identifier: "ManagedOnlineDeploymentInput" });
+    case 2:
+      return S.Union([__S(4064, __c127, 0), __S(4065, __c127, 1)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -16028,10 +22686,10 @@ function __c121(j: number): any {
           deploymentName: S.String.pipe(T.Label()),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(3872, __c121, 0),
+          properties: __S(4066, __c127, 2),
           identity: S.optional(__S(161, __c5, 1)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16041,37 +22699,37 @@ function __c121(j: number): any {
           }),
         ),
       ).annotate({ identifier: "OnlineDeploymentsCreateOrUpdateRequest" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9095, __c284, 7),
-          identity: S.optional(__S(195, __c6, 3)),
+          properties: __S(9357, __c292, 13),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "OnlineDeploymentsCreateOrUpdateResponse" });
   }
 }
-function __c122(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           authMode: S.String,
           description: S.optional(S.NullOr(S.String)),
-          keys: S.optional(S.NullOr(__S(352, __c11, 0))),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
+          keys: S.optional(S.NullOr(__S(416, __c13, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
           compute: S.optional(S.NullOr(S.String)),
-          mirrorTraffic: S.optional(S.NullOr(__S(9216, __c288, 0))),
+          mirrorTraffic: S.optional(S.NullOr(__S(9472, __c296, 0))),
           publicNetworkAccess: S.optional(S.String),
-          traffic: S.optional(S.NullOr(__S(9216, __c288, 0))),
+          traffic: S.optional(S.NullOr(__S(9472, __c296, 0))),
         }),
       ).annotate({ identifier: "OnlineEndpointPropertiesInput" });
     case 1:
@@ -16083,10 +22741,10 @@ function __c122(j: number): any {
           endpointName: S.String.pipe(T.Label()),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(3904, __c122, 0),
+          properties: __S(4096, __c128, 0),
           identity: S.optional(__S(161, __c5, 1)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16102,25 +22760,25 @@ function __c122(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9217, __c288, 1),
-          identity: S.optional(__S(195, __c6, 3)),
+          properties: __S(9473, __c296, 1),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "OnlineEndpointsCreateOrUpdateResponse" });
   }
 }
-function __c123(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           privateEndpoint: S.optional(__S(128, __c4, 0)),
-          privateLinkServiceConnectionState: S.optional(__S(9313, __c291, 1)),
+          privateLinkServiceConnectionState: S.optional(__S(9569, __c299, 1)),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionPropertiesInput" });
     case 1:
@@ -16130,9 +22788,9 @@ function __c123(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3936, __c123, 0)),
+          properties: S.optional(__S(4128, __c129, 0)),
           identity: S.optional(__S(161, __c5, 1)),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
           location: S.optional(S.String),
           tags: S.optional(__S(96, __c3, 0)),
         }).pipe(
@@ -16146,7 +22804,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "PrivateEndpointConnectionsCreateOrUpdateRequest" });
   }
 }
-function __c124(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16175,7 +22833,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "ProvisionManagedNetworkProvisionManagedNetworkResponse" });
   }
 }
-function __c125(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16199,7 +22857,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "PublishCodeVersionRequest" });
   }
 }
-function __c126(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16223,7 +22881,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "PublishComponentVersionRequest" });
   }
 }
-function __c127(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16247,7 +22905,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "PublishDataVersionRequest" });
   }
 }
-function __c128(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16271,7 +22929,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "PublishEnvironmentVersionRequest" });
   }
 }
-function __c129(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16292,7 +22950,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "DeleteCodeVersionRequest" });
   }
 }
-function __c130(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16316,7 +22974,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "PublishModelVersionRequest" });
   }
 }
-function __c131(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16338,7 +22996,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "RegenerateOnlineEndpointKeysRequest" });
   }
 }
-function __c132(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16369,7 +23027,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "RegenerateServerlessEndpointKeysResponse" });
   }
 }
-function __c133(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16379,10 +23037,10 @@ function __c133(j: number): any {
           registryName: S.String.pipe(T.Label()),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(4292, __c134, 4),
+          properties: __S(4484, __c140, 4),
           identity: S.optional(__S(161, __c5, 1)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16398,20 +23056,20 @@ function __c133(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9393, __c293, 17),
-          identity: S.optional(__S(195, __c6, 3)),
+          properties: __S(9649, __c301, 17),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "RegistriesCreateOrUpdateResponse" });
   }
 }
-function __c134(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16422,9 +23080,9 @@ function __c134(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          groupIds: S.optional(S.NullOr(__S(5984, __c187, 0))),
-          privateEndpoint: S.optional(S.NullOr(__S(4288, __c134, 0))),
-          registryPrivateLinkServiceConnectionState: S.optional(S.NullOr(__S(9381, __c293, 5))),
+          groupIds: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          privateEndpoint: S.optional(S.NullOr(__S(4480, __c140, 0))),
+          registryPrivateLinkServiceConnectionState: S.optional(S.NullOr(__S(9637, __c301, 5))),
           provisioningState: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "RegistryPrivateEndpointConnectionPropertiesInput" });
@@ -16433,27 +23091,27 @@ function __c134(j: number): any {
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
           location: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(4289, __c134, 1))),
+          properties: S.optional(S.NullOr(__S(4481, __c140, 1))),
         }),
       ).annotate({ identifier: "RegistryPrivateEndpointConnectionInput" });
     case 3:
-      return S.Array(__S(4290, __c134, 2));
+      return S.Array(__S(4482, __c140, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           discoveryUrl: S.optional(S.NullOr(S.String)),
           intellectualPropertyPublisher: S.optional(S.NullOr(S.String)),
-          managedResourceGroup: S.optional(S.NullOr(__S(9376, __c293, 0))),
-          managedResourceGroupSettings: S.optional(S.NullOr(__S(9379, __c293, 3))),
+          managedResourceGroup: S.optional(S.NullOr(__S(9632, __c301, 0))),
+          managedResourceGroupSettings: S.optional(S.NullOr(__S(9635, __c301, 3))),
           mlFlowRegistryUri: S.optional(S.NullOr(S.String)),
-          registryPrivateEndpointConnections: S.optional(S.NullOr(__S(4291, __c134, 3))),
+          registryPrivateEndpointConnections: S.optional(S.NullOr(__S(4483, __c140, 3))),
           publicNetworkAccess: S.optional(S.NullOr(S.String)),
-          regionDetails: S.optional(S.NullOr(__S(9392, __c293, 16))),
+          regionDetails: S.optional(S.NullOr(__S(9648, __c301, 16))),
         }),
       ).annotate({ identifier: "RegistryPropertiesInput" });
   }
 }
-function __c135(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16462,7 +23120,7 @@ function __c135(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           codeName: S.String.pipe(T.Label()),
-          properties: __S(6400, __c200, 0),
+          properties: __S(6560, __c205, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16474,7 +23132,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "RegistryCodeContainersCreateOrUpdateRequest" });
   }
 }
-function __c136(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16482,14 +23140,14 @@ function __c136(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(6432, __c201, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(6592, __c206, 0),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "RegistryCodeContainersCreateOrUpdateResponse" });
   }
 }
-function __c137(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16512,7 +23170,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "RegistryCodeVersionsCreateOrGetStartPendingUploadRequest" });
   }
 }
-function __c138(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16522,7 +23180,7 @@ function __c138(j: number): any {
           registryName: S.String.pipe(T.Label()),
           codeName: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(7520, __c235, 0),
+          properties: __S(7680, __c240, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16538,14 +23196,14 @@ function __c138(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(7584, __c237, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(7744, __c242, 0),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "RegistryCodeVersionsCreateOrUpdateResponse" });
   }
 }
-function __c139(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16554,7 +23212,7 @@ function __c139(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           componentName: S.String.pipe(T.Label()),
-          properties: __S(6400, __c200, 0),
+          properties: __S(6560, __c205, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16566,7 +23224,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "RegistryComponentContainersCreateOrUpdateRequest" });
   }
 }
-function __c140(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16576,7 +23234,7 @@ function __c140(j: number): any {
           registryName: S.String.pipe(T.Label()),
           componentName: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(8608, __c269, 0),
+          properties: __S(8864, __c277, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16592,14 +23250,14 @@ function __c140(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8672, __c271, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(8928, __c279, 0),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "RegistryComponentVersionsCreateOrUpdateResponse" });
   }
 }
-function __c141(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16608,7 +23266,7 @@ function __c141(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(1088, __c34, 0),
+          properties: __S(1248, __c39, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16624,15 +23282,15 @@ function __c141(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(1152, __c36, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(1312, __c41, 0),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "RegistryDataContainersCreateOrUpdateResponse" });
   }
 }
-function __c142(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16652,7 +23310,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "DeleteComponentContainerRequest" });
   }
 }
-function __c143(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16675,7 +23333,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "RegistryDataVersionsCreateOrGetStartPendingUploadRequest" });
   }
 }
-function __c144(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16685,7 +23343,7 @@ function __c144(j: number): any {
           registryName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(2144, __c67, 0),
+          properties: __S(2338, __c73, 2),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16701,15 +23359,15 @@ function __c144(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(2144, __c67, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(2338, __c73, 2),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "RegistryDataVersionsCreateOrUpdateResponse" });
   }
 }
-function __c145(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16718,7 +23376,7 @@ function __c145(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           environmentName: S.String.pipe(T.Label()),
-          properties: __S(6400, __c200, 0),
+          properties: __S(6560, __c205, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16730,7 +23388,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "RegistryEnvironmentContainersCreateOrUpdateRequest" });
   }
 }
-function __c146(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16740,7 +23398,7 @@ function __c146(j: number): any {
           registryName: S.String.pipe(T.Label()),
           environmentName: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(7104, __c222, 0),
+          properties: __S(7264, __c227, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16756,14 +23414,14 @@ function __c146(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(7171, __c224, 3),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(7331, __c229, 3),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "RegistryEnvironmentVersionsCreateOrUpdateResponse" });
   }
 }
-function __c147(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16772,7 +23430,7 @@ function __c147(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           modelName: S.String.pipe(T.Label()),
-          properties: __S(6400, __c200, 0),
+          properties: __S(6560, __c205, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16784,7 +23442,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "RegistryModelContainersCreateOrUpdateRequest" });
   }
 }
-function __c148(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16807,7 +23465,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "RegistryModelVersionsCreateOrGetStartPendingUploadRequest" });
   }
 }
-function __c149(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16817,7 +23475,7 @@ function __c149(j: number): any {
           registryName: S.String.pipe(T.Label()),
           modelName: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(3840, __c120, 0),
+          properties: __S(4032, __c126, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16833,14 +23491,14 @@ function __c149(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8996, __c281, 4),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(9252, __c289, 4),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "RegistryModelVersionsCreateOrUpdateResponse" });
   }
 }
-function __c150(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16850,10 +23508,10 @@ function __c150(j: number): any {
           registryName: S.String.pipe(T.Label()),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(4292, __c134, 4),
+          properties: __S(4484, __c140, 4),
           identity: S.optional(__S(161, __c5, 1)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -16869,20 +23527,20 @@ function __c150(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9393, __c293, 17),
-          identity: S.optional(__S(195, __c6, 3)),
+          properties: __S(9649, __c301, 17),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "RemoveRegistryRegionsResponse" });
   }
 }
-function __c151(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16902,28 +23560,71 @@ function __c151(j: number): any {
       ).annotate({ identifier: "RestartComputeRequest" });
   }
 }
-function __c152(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          computeIdentityType: S.String,
+          identity: S.optional(__S(161, __c5, 1)),
+        }),
+      ).annotate({ identifier: "ManagedComputeIdentityInput" });
+    case 1:
+      return S.Union([__S(642, __c20, 2), __S(5056, __c158, 0)]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeIdentity: __S(5057, __c158, 1),
+          instanceType: S.String,
+          runtimeVersion: S.String,
+        }),
+      ).annotate({ identifier: "MonitorServerlessSparkComputeInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          alertNotificationSettings: S.optional(S.NullOr(__S(641, __c20, 1))),
+          computeConfiguration: __S(5058, __c158, 2),
+          monitoringTarget: S.optional(S.NullOr(__S(646, __c20, 6))),
+          signals: __S(671, __c20, 31),
+        }),
+      ).annotate({ identifier: "MonitorDefinitionInput" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          actionType: S.String,
+          monitorDefinition: __S(5059, __c158, 3),
+        }),
+      ).annotate({ identifier: "CreateMonitorActionInput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          actionType: S.String,
+          jobDefinition: __S(1063, __c33, 7),
+        }),
+      ).annotate({ identifier: "JobScheduleActionInput" });
+    case 6:
+      return S.Union([__S(5060, __c158, 4), __S(674, __c21, 2), __S(5061, __c158, 5)]);
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
-          action: __S(576, __c18, 0),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          action: __S(5062, __c158, 6),
           displayName: S.optional(S.NullOr(S.String)),
           isEnabled: S.optional(S.Boolean),
-          trigger: __S(577, __c18, 1),
+          trigger: __S(678, __c21, 6),
         }),
       ).annotate({ identifier: "SchedulePropertiesInput" });
-    case 1:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(4864, __c152, 0),
+          properties: __S(5063, __c158, 7),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16933,20 +23634,20 @@ function __c152(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SchedulesCreateOrUpdateRequest" });
-    case 2:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(578, __c18, 2),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(679, __c21, 7),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "SchedulesCreateOrUpdateResponse" });
   }
 }
-function __c153(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16966,7 +23667,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "CancelJobRequest" });
   }
 }
-function __c154(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16977,7 +23678,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "CancelJobResponse" });
   }
 }
-function __c155(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16998,14 +23699,14 @@ function __c155(j: number): any {
       ).annotate({ identifier: "DeleteComponentVersionRequest" });
   }
 }
-function __c156(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           authMode: S.String,
-          contentSafety: S.optional(S.NullOr(__S(672, __c21, 0))),
-          modelSettings: S.optional(S.NullOr(__S(674, __c21, 2))),
+          contentSafety: S.optional(S.NullOr(__S(800, __c25, 0))),
+          modelSettings: S.optional(S.NullOr(__S(802, __c25, 2))),
         }),
       ).annotate({ identifier: "ServerlessEndpointPropertiesInput" });
     case 1:
@@ -17017,10 +23718,10 @@ function __c156(j: number): any {
           name: S.String.pipe(T.Label()),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(4992, __c156, 0),
+          properties: __S(5184, __c162, 0),
           identity: S.optional(__S(161, __c5, 1)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -17036,19 +23737,19 @@ function __c156(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(675, __c21, 3),
-          identity: S.optional(__S(195, __c6, 3)),
+          properties: __S(803, __c25, 3),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "ServerlessEndpointsCreateOrUpdateResponse" });
   }
 }
-function __c157(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17068,7 +23769,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "StartComputeRequest" });
   }
 }
-function __c158(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17088,7 +23789,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "StopComputeRequest" });
   }
 }
-function __c159(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17104,8 +23805,8 @@ function __c159(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5088, __c159, 0)),
-          tags: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(5280, __c165, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17121,20 +23822,20 @@ function __c159(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(229, __c7, 5),
-          identity: S.optional(__S(195, __c6, 3)),
+          properties: __S(263, __c8, 7),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UpdateBatchDeploymentResponse" });
   }
 }
-function __c160(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17143,8 +23844,8 @@ function __c160(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(32, __c1, 0)),
-          identity: S.optional(__S(5152, __c161, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
+          identity: S.optional(__S(5344, __c167, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17160,66 +23861,52 @@ function __c160(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(321, __c10, 1),
-          identity: S.optional(__S(195, __c6, 3)),
+          properties: __S(385, __c12, 1),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UpdateBatchEndpointResponse" });
   }
 }
-function __c161(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          userAssignedIdentities: S.optional(__S(5184, __c162, 0)),
+          userAssignedIdentities: S.optional(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "PartialManagedServiceIdentity" });
   }
 }
-function __c162(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c163(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          maxNodeCount: S.Number,
-          minNodeCount: S.optional(S.Number),
-          nodeIdleTimeBeforeScaleDown: S.optional(S.String),
+          scaleSettings: S.optional(__S(9859, __c308, 3)),
         }),
-      ).annotate({ identifier: "ScaleSettings" });
+      ).annotate({ identifier: "ScaleSettingsInformation" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          scaleSettings: S.optional(__S(5216, __c163, 0)),
-        }),
-      ).annotate({ identifier: "ScaleSettingsInformation" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          properties: S.optional(__S(5217, __c163, 1)),
+          properties: S.optional(__S(5376, __c168, 0)),
         }),
       ).annotate({ identifier: "ClusterUpdateProperties" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           computeName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5218, __c163, 2)),
+          properties: S.optional(__S(5377, __c168, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17229,25 +23916,25 @@ function __c163(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateComputeRequest" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: S.optional(__S(9478, __c296, 6)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(9936, __c310, 16)),
           location: S.optional(S.String),
           tags: S.optional(S.NullOr(__S(96, __c3, 0))),
-          sku: S.optional(__S(192, __c6, 0)),
-          identity: S.optional(__S(195, __c6, 3)),
+          sku: S.optional(__S(224, __c7, 0)),
+          identity: S.optional(__S(194, __c6, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateComputeResponse" });
   }
 }
-function __c164(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17257,8 +23944,8 @@ function __c164(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(32, __c1, 0)),
-          sku: S.optional(__S(5280, __c165, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
+          sku: S.optional(__S(5440, __c170, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17274,20 +23961,20 @@ function __c164(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9095, __c284, 7),
-          identity: S.optional(__S(195, __c6, 3)),
+          properties: __S(9357, __c292, 13),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UpdateOnlineDeploymentResponse" });
   }
 }
-function __c165(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17301,7 +23988,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "PartialSku" });
   }
 }
-function __c166(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17310,8 +23997,8 @@ function __c166(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(32, __c1, 0)),
-          identity: S.optional(__S(5152, __c161, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
+          identity: S.optional(__S(5344, __c167, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17327,20 +24014,20 @@ function __c166(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9217, __c288, 1),
-          identity: S.optional(__S(195, __c6, 3)),
+          properties: __S(9473, __c296, 1),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UpdateOnlineEndpointResponse" });
   }
 }
-function __c167(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17352,13 +24039,13 @@ function __c167(j: number): any {
         }),
       ).annotate({ identifier: "QuotaBaseProperties" });
     case 1:
-      return S.Array(__S(5344, __c167, 0));
+      return S.Array(__S(5504, __c172, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
-          value: S.optional(__S(5345, __c167, 1)),
+          value: S.optional(__S(5505, __c172, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -17379,17 +24066,17 @@ function __c167(j: number): any {
         }),
       ).annotate({ identifier: "UpdateWorkspaceQuotas" });
     case 4:
-      return S.Array(__S(5347, __c167, 3));
+      return S.Array(__S(5507, __c172, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(5348, __c167, 4)),
+          value: S.optional(__S(5508, __c172, 4)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateWorkspaceQuotasResult" });
   }
 }
-function __c168(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17398,8 +24085,8 @@ function __c168(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           identity: S.optional(__S(161, __c5, 1)),
-          sku: S.optional(__S(5280, __c165, 0)),
-          tags: S.optional(__S(32, __c1, 0)),
+          sku: S.optional(__S(5440, __c170, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17411,7 +24098,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "UpdateRegistryRequest" });
   }
 }
-function __c169(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17439,7 +24126,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "DeleteComputeResponse" });
   }
 }
-function __c170(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17448,9 +24135,9 @@ function __c170(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          tags: S.optional(__S(32, __c1, 0)),
-          identity: S.optional(__S(5152, __c161, 0)),
-          sku: S.optional(__S(5280, __c165, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
+          identity: S.optional(__S(5344, __c167, 0)),
+          sku: S.optional(__S(5440, __c170, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17466,20 +24153,20 @@ function __c170(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(675, __c21, 3),
-          identity: S.optional(__S(195, __c6, 3)),
+          properties: __S(803, __c25, 3),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UpdateServerlessEndpointResponse" });
   }
 }
-function __c171(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17490,7 +24177,7 @@ function __c171(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          keyVaultProperties: __S(5472, __c171, 0),
+          keyVaultProperties: __S(5632, __c176, 0),
         }),
       ).annotate({ identifier: "EncryptionUpdateProperties" });
     case 2:
@@ -17500,15 +24187,15 @@ function __c171(j: number): any {
           containerRegistry: S.optional(S.String),
           description: S.optional(S.String),
           enableDataIsolation: S.optional(S.Boolean),
-          encryption: S.optional(__S(5473, __c171, 1)),
-          featureStoreSettings: S.optional(__S(804, __c25, 4)),
+          encryption: S.optional(__S(5633, __c176, 1)),
+          featureStoreSettings: S.optional(__S(932, __c29, 4)),
           friendlyName: S.optional(S.String),
           imageBuildCompute: S.optional(S.String),
-          managedNetwork: S.optional(__S(5505, __c172, 1)),
+          managedNetwork: S.optional(__S(5665, __c177, 1)),
           primaryUserAssignedIdentity: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
-          serverlessComputeSettings: S.optional(__S(809, __c25, 9)),
-          serviceManagedResourcesSettings: S.optional(__S(811, __c25, 11)),
+          serverlessComputeSettings: S.optional(__S(937, __c29, 9)),
+          serviceManagedResourcesSettings: S.optional(__S(939, __c29, 11)),
           systemDatastoresAuthMode: S.optional(S.String),
           v1LegacyMode: S.optional(S.Boolean),
         }),
@@ -17520,8 +24207,8 @@ function __c171(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           identity: S.optional(__S(161, __c5, 1)),
-          properties: S.optional(__S(5474, __c171, 2)),
-          sku: S.optional(__S(192, __c6, 0)),
+          properties: S.optional(__S(5634, __c176, 2)),
+          sku: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(96, __c3, 0)),
         }).pipe(
           T.Http({
@@ -17534,17 +24221,17 @@ function __c171(j: number): any {
       ).annotate({ identifier: "UpdateWorkspaceRequest" });
   }
 }
-function __c172(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(3680, __c115, 0));
+      return S.Record(S.String, __S(3875, __c121, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
           enableNetworkMonitor: S.optional(S.Boolean),
           isolationMode: S.optional(S.String),
-          outboundRules: S.optional(S.NullOr(__S(5504, __c172, 0))),
-          status: S.optional(__S(806, __c25, 6)),
+          outboundRules: S.optional(S.NullOr(__S(5664, __c177, 0))),
+          status: S.optional(__S(934, __c29, 6)),
           firewallSku: S.optional(S.String),
           managedNetworkKind: S.optional(S.String),
         }),
@@ -17555,12 +24242,12 @@ function __c172(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(816, __c25, 16),
-          identity: S.optional(__S(195, __c6, 3)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(944, __c29, 16),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
           location: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -17568,7 +24255,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "UpdateWorkspaceResponse" });
   }
 }
-function __c173(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17577,7 +24264,7 @@ function __c173(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(448, __c14, 0)),
+          properties: S.optional(__S(522, __c16, 10)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17589,37 +24276,37 @@ function __c173(j: number): any {
       ).annotate({ identifier: "UpdateWorkspaceConnectionRequest" });
   }
 }
-function __c174(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           allowPublicAccessWhenBehindVnet: S.optional(S.Boolean),
           applicationInsights: S.optional(S.String),
-          associatedWorkspaces: S.optional(__S(5984, __c187, 0)),
+          associatedWorkspaces: S.optional(__S(6176, __c193, 0)),
           containerRegistry: S.optional(S.String),
           description: S.optional(S.String),
           discoveryUrl: S.optional(S.String),
           enableDataIsolation: S.optional(S.Boolean),
           enableServiceSideCMKEncryption: S.optional(S.Boolean),
-          encryption: S.optional(__S(802, __c25, 2)),
-          featureStoreSettings: S.optional(__S(804, __c25, 4)),
+          encryption: S.optional(__S(930, __c29, 2)),
+          featureStoreSettings: S.optional(__S(932, __c29, 4)),
           friendlyName: S.optional(S.String),
           hbiWorkspace: S.optional(S.Boolean),
           hubResourceId: S.optional(S.String),
           imageBuildCompute: S.optional(S.String),
           keyVault: S.optional(S.String),
-          managedNetwork: S.optional(__S(5505, __c172, 1)),
+          managedNetwork: S.optional(__S(5665, __c177, 1)),
           primaryUserAssignedIdentity: S.optional(S.String),
           provisionNetworkNow: S.optional(S.Boolean),
           publicNetworkAccess: S.optional(S.String),
-          serverlessComputeSettings: S.optional(__S(809, __c25, 9)),
-          serviceManagedResourcesSettings: S.optional(__S(811, __c25, 11)),
-          sharedPrivateLinkResources: S.optional(__S(814, __c25, 14)),
+          serverlessComputeSettings: S.optional(__S(937, __c29, 9)),
+          serviceManagedResourcesSettings: S.optional(__S(939, __c29, 11)),
+          sharedPrivateLinkResources: S.optional(__S(942, __c29, 14)),
           storageAccount: S.optional(S.String),
           systemDatastoresAuthMode: S.optional(S.String),
           v1LegacyMode: S.optional(S.Boolean),
-          workspaceHubConfig: S.optional(__S(815, __c25, 15)),
+          workspaceHubConfig: S.optional(__S(943, __c29, 15)),
         }),
       ).annotate({ identifier: "WorkspacePropertiesInput" });
     case 1:
@@ -17628,11 +24315,11 @@ function __c174(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
-          properties: __S(5568, __c174, 0),
+          properties: __S(5728, __c179, 0),
           identity: S.optional(__S(161, __c5, 1)),
           kind: S.optional(S.String),
           location: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(96, __c3, 0)),
         }).pipe(
           T.Http({
@@ -17645,21 +24332,21 @@ function __c174(j: number): any {
       ).annotate({ identifier: "WorkspacesCreateOrUpdateRequest" });
   }
 }
-function __c175(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          applicationInsights: S.optional(__S(5184, __c162, 0)),
-          containerRegistry: S.optional(__S(5184, __c162, 0)),
-          dnsResolution: S.optional(__S(5184, __c162, 0)),
-          keyVault: S.optional(__S(5184, __c162, 0)),
-          nsg: S.optional(__S(5184, __c162, 0)),
-          others: S.optional(__S(5184, __c162, 0)),
-          requiredResourceProviders: S.optional(__S(5184, __c162, 0)),
-          resourceLock: S.optional(__S(5184, __c162, 0)),
-          storageAccount: S.optional(__S(5184, __c162, 0)),
-          udr: S.optional(__S(5184, __c162, 0)),
+          applicationInsights: S.optional(__S(704, __c22, 0)),
+          containerRegistry: S.optional(__S(704, __c22, 0)),
+          dnsResolution: S.optional(__S(704, __c22, 0)),
+          keyVault: S.optional(__S(704, __c22, 0)),
+          nsg: S.optional(__S(704, __c22, 0)),
+          others: S.optional(__S(704, __c22, 0)),
+          requiredResourceProviders: S.optional(__S(704, __c22, 0)),
+          resourceLock: S.optional(__S(704, __c22, 0)),
+          storageAccount: S.optional(__S(704, __c22, 0)),
+          udr: S.optional(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "DiagnoseRequestProperties" });
     case 1:
@@ -17668,7 +24355,7 @@ function __c175(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
-          value: S.optional(__S(5600, __c175, 0)),
+          value: S.optional(__S(5760, __c180, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -17687,32 +24374,32 @@ function __c175(j: number): any {
         }),
       ).annotate({ identifier: "DiagnoseResult" });
     case 3:
-      return S.Array(__S(5602, __c175, 2));
+      return S.Array(__S(5762, __c180, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          userDefinedRouteResults: S.optional(__S(5603, __c175, 3)),
-          networkSecurityRuleResults: S.optional(__S(5603, __c175, 3)),
-          resourceLockResults: S.optional(__S(5603, __c175, 3)),
-          dnsResolutionResults: S.optional(__S(5603, __c175, 3)),
-          storageAccountResults: S.optional(__S(5603, __c175, 3)),
-          keyVaultResults: S.optional(__S(5603, __c175, 3)),
-          containerRegistryResults: S.optional(__S(5603, __c175, 3)),
-          applicationInsightsResults: S.optional(__S(5603, __c175, 3)),
-          otherResults: S.optional(__S(5603, __c175, 3)),
+          userDefinedRouteResults: S.optional(__S(5763, __c180, 3)),
+          networkSecurityRuleResults: S.optional(__S(5763, __c180, 3)),
+          resourceLockResults: S.optional(__S(5763, __c180, 3)),
+          dnsResolutionResults: S.optional(__S(5763, __c180, 3)),
+          storageAccountResults: S.optional(__S(5763, __c180, 3)),
+          keyVaultResults: S.optional(__S(5763, __c180, 3)),
+          containerRegistryResults: S.optional(__S(5763, __c180, 3)),
+          applicationInsightsResults: S.optional(__S(5763, __c180, 3)),
+          otherResults: S.optional(__S(5763, __c180, 3)),
         }),
       ).annotate({ identifier: "DiagnoseResponseResultValue" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(5604, __c175, 4)),
+          value: S.optional(__S(5764, __c180, 4)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "DiagnoseResponseResult" });
   }
 }
-function __c176(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17734,7 +24421,7 @@ function __c176(j: number): any {
         S.Struct({
           fqdn: S.optional(S.String),
           isPrivateLinkEnabled: S.optional(S.Boolean),
-          notebookPreparationError: S.optional(__S(832, __c26, 0)),
+          notebookPreparationError: S.optional(__S(960, __c30, 0)),
           resourceId: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -17742,7 +24429,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "WorkspacesPrepareNotebookResponse" });
   }
 }
-function __c177(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17761,7 +24448,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "WorkspacesResyncKeysRequest" });
   }
 }
-function __c178(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17781,7 +24468,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "DeleteDataContainerRequest" });
   }
 }
-function __c179(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17801,7 +24488,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "DeleteDatastoreRequest" });
   }
 }
-function __c180(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17822,7 +24509,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "DeleteDataVersionRequest" });
   }
 }
-function __c181(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17842,7 +24529,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentContainerRequest" });
   }
 }
-function __c182(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17863,7 +24550,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentVersionRequest" });
   }
 }
-function __c183(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17883,7 +24570,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "DeleteFeaturesetContainerRequest" });
   }
 }
-function __c184(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17904,7 +24591,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "DeleteFeaturesetVersionRequest" });
   }
 }
-function __c185(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17924,21 +24611,21 @@ function __c185(j: number): any {
       ).annotate({ identifier: "DeleteFeaturestoreEntityContainerRequest" });
   }
 }
-function __c186(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
-          acaEnvironmentConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
-          aiServicesConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          acaEnvironmentConnections: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          aiServicesConnections: S.optional(S.NullOr(__S(6176, __c193, 0))),
           capabilityHostKind: S.optional(S.String),
           customerSubnet: S.optional(S.NullOr(S.String)),
-          storageConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
-          threadStorageConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
-          vectorStoreConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          storageConnections: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          threadStorageConnections: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          vectorStoreConnections: S.optional(S.NullOr(__S(6176, __c193, 0))),
         }),
       ).annotate({ identifier: "CapabilityHostPropertiesInput" });
     case 1:
@@ -17948,7 +24635,7 @@ function __c186(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(5952, __c186, 0),
+          properties: __S(6112, __c191, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -17964,42 +24651,42 @@ function __c186(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(6016, __c188, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(6144, __c192, 0),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "CapabilityHostsCreateOrUpdateResponse" });
   }
 }
-function __c187(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c188(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
-          acaEnvironmentConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
-          aiServicesConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          acaEnvironmentConnections: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          aiServicesConnections: S.optional(S.NullOr(__S(6176, __c193, 0))),
           capabilityHostKind: S.optional(S.String),
           customerSubnet: S.optional(S.NullOr(S.String)),
           provisioningState: S.optional(S.String),
-          storageConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
-          threadStorageConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
-          vectorStoreConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
-          messages: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          storageConnections: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          threadStorageConnections: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          vectorStoreConnections: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          messages: S.optional(S.NullOr(__S(6176, __c193, 0))),
         }),
       ).annotate({ identifier: "CapabilityHostProperties" });
   }
 }
-function __c189(j: number): any {
+function __c193(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18020,7 +24707,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "DeleteFeaturestoreEntityVersionRequest" });
   }
 }
-function __c190(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18040,7 +24727,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "DeleteJobRequest" });
   }
 }
-function __c191(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18060,7 +24747,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "DeleteManagedNetworkSettingsRuleRequest" });
   }
 }
-function __c192(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18080,7 +24767,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "DeleteMarketplaceSubscriptionRequest" });
   }
 }
-function __c193(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18100,7 +24787,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "DeleteModelContainerRequest" });
   }
 }
-function __c194(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18121,7 +24808,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "DeleteModelVersionRequest" });
   }
 }
-function __c195(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18142,7 +24829,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "DeleteOnlineDeploymentRequest" });
   }
 }
-function __c196(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18162,7 +24849,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "DeleteOnlineEndpointRequest" });
   }
 }
-function __c197(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18182,7 +24869,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
   }
 }
-function __c198(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18201,7 +24888,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "DeleteRegistryRequest" });
   }
 }
-function __c199(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18210,7 +24897,7 @@ function __c199(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(6400, __c200, 0),
+          properties: __S(6560, __c205, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -18222,27 +24909,27 @@ function __c199(j: number): any {
       ).annotate({ identifier: "CodeContainersCreateOrUpdateRequest" });
   }
 }
-function __c200(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isArchived: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CodeContainerPropertiesInput" });
   }
 }
-function __c201(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isArchived: S.optional(S.Boolean),
           latestVersion: S.optional(S.NullOr(S.String)),
           nextVersion: S.optional(S.NullOr(S.String)),
@@ -18251,7 +24938,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "CodeContainerProperties" });
   }
 }
-function __c202(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18259,13 +24946,13 @@ function __c202(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(6432, __c201, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(6592, __c206, 0),
         }),
       ).annotate({ identifier: "CodeContainersCreateOrUpdateResponse" });
   }
 }
-function __c203(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18285,7 +24972,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "DeleteRegistryCodeContainerRequest" });
   }
 }
-function __c204(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18306,7 +24993,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "DeleteRegistryCodeVersionRequest" });
   }
 }
-function __c205(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18326,7 +25013,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "DeleteRegistryComponentContainerRequest" });
   }
 }
-function __c206(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18347,7 +25034,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "DeleteRegistryComponentVersionRequest" });
   }
 }
-function __c207(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18367,7 +25054,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "DeleteRegistryDataContainerRequest" });
   }
 }
-function __c208(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18388,7 +25075,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "DeleteRegistryDataVersionRequest" });
   }
 }
-function __c209(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18408,7 +25095,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "DeleteRegistryEnvironmentContainerRequest" });
   }
 }
-function __c210(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18429,7 +25116,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "DeleteRegistryEnvironmentVersionRequest" });
   }
 }
-function __c211(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18449,7 +25136,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "DeleteRegistryModelContainerRequest" });
   }
 }
-function __c212(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18470,7 +25157,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "DeleteRegistryModelVersionRequest" });
   }
 }
-function __c213(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18493,37 +25180,38 @@ function __c213(j: number): any {
       ).annotate({ identifier: "CodeVersionsCreateOrGetStartPendingUploadRequest" });
   }
 }
-function __c214(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          blobReferenceForConsumption: S.optional(S.NullOr(__S(6881, __c215, 1))),
+          blobUri: S.optional(S.NullOr(S.String)),
+          credential: S.optional(S.NullOr(__S(7040, __c220, 0))),
+          storageAccountArmId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "BlobReferenceForConsumptionDto" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          blobReferenceForConsumption: S.optional(S.NullOr(__S(7008, __c219, 0))),
           pendingUploadId: S.optional(S.NullOr(S.String)),
           pendingUploadType: S.optional(S.String),
         }),
       ).annotate({ identifier: "PendingUploadResponseDto" });
   }
 }
-function __c215(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           credentialType: S.String,
+          sasUri: S.optional(S.NullOr(S.String)),
         }),
-      ).annotate({ identifier: "PendingUploadCredentialDto" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          blobUri: S.optional(S.NullOr(S.String)),
-          credential: S.optional(S.NullOr(__S(6880, __c215, 0))),
-          storageAccountArmId: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "BlobReferenceForConsumptionDto" });
+      ).annotate({ identifier: "SASCredentialDto" });
   }
 }
-function __c216(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18543,7 +25231,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "DeleteScheduleRequest" });
   }
 }
-function __c217(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18563,7 +25251,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "DeleteServerlessEndpointRequest" });
   }
 }
-function __c218(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18583,7 +25271,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "DeleteWorkspaceRequest" });
   }
 }
-function __c219(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18603,7 +25291,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "DeleteWorkspaceConnectionRequest" });
   }
 }
-function __c220(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18612,7 +25300,7 @@ function __c220(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(6400, __c200, 0),
+          properties: __S(6560, __c205, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -18624,7 +25312,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "EnvironmentContainersCreateOrUpdateRequest" });
   }
 }
-function __c221(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18634,7 +25322,7 @@ function __c221(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(7104, __c222, 0),
+          properties: __S(7264, __c227, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -18646,28 +25334,28 @@ function __c221(j: number): any {
       ).annotate({ identifier: "EnvironmentVersionsCreateOrUpdateRequest" });
   }
 }
-function __c222(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
           autoRebuild: S.optional(S.String),
-          build: S.optional(__S(7168, __c224, 0)),
+          build: S.optional(__S(7328, __c229, 0)),
           condaFile: S.optional(S.String),
           image: S.optional(S.String),
-          inferenceConfig: S.optional(__S(7170, __c224, 2)),
+          inferenceConfig: S.optional(__S(7330, __c229, 2)),
           osType: S.optional(S.String),
           stage: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "EnvironmentVersionPropertiesInput" });
   }
 }
-function __c223(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18675,13 +25363,13 @@ function __c223(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(7171, __c224, 3),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(7331, __c229, 3),
         }),
       ).annotate({ identifier: "EnvironmentVersionsCreateOrUpdateResponse" });
   }
 }
-function __c224(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18700,26 +25388,26 @@ function __c224(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          livenessRoute: S.optional(__S(7169, __c224, 1)),
-          readinessRoute: S.optional(__S(7169, __c224, 1)),
-          scoringRoute: S.optional(__S(7169, __c224, 1)),
-          startupRoute: S.optional(S.NullOr(__S(7169, __c224, 1))),
+          livenessRoute: S.optional(__S(7329, __c229, 1)),
+          readinessRoute: S.optional(__S(7329, __c229, 1)),
+          scoringRoute: S.optional(__S(7329, __c229, 1)),
+          startupRoute: S.optional(S.NullOr(__S(7329, __c229, 1))),
         }),
       ).annotate({ identifier: "InferenceContainerProperties" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
           autoRebuild: S.optional(S.String),
-          build: S.optional(__S(7168, __c224, 0)),
+          build: S.optional(__S(7328, __c229, 0)),
           condaFile: S.optional(S.String),
           environmentType: S.optional(S.String),
           image: S.optional(S.String),
-          inferenceConfig: S.optional(__S(7170, __c224, 2)),
+          inferenceConfig: S.optional(__S(7330, __c229, 2)),
           osType: S.optional(S.String),
           provisioningState: S.optional(S.String),
           stage: S.optional(S.NullOr(S.String)),
@@ -18727,7 +25415,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "EnvironmentVersionProperties" });
   }
 }
-function __c225(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18736,7 +25424,7 @@ function __c225(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(6400, __c200, 0),
+          properties: __S(6560, __c205, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -18748,7 +25436,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "FeaturesetContainersCreateOrUpdateRequest" });
   }
 }
-function __c226(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18756,15 +25444,15 @@ function __c226(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(6432, __c201, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(6592, __c206, 0),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "FeaturesetContainersCreateOrUpdateResponse" });
   }
 }
-function __c227(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18781,15 +25469,15 @@ function __c227(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          dataAvailabilityStatus: S.optional(__S(7328, __c229, 0)),
+          dataAvailabilityStatus: S.optional(__S(9728, __c304, 0)),
           description: S.optional(S.String),
           displayName: S.optional(S.String),
-          featureWindow: S.optional(S.NullOr(__S(7264, __c227, 0))),
+          featureWindow: S.optional(S.NullOr(__S(7424, __c232, 0))),
           jobId: S.optional(S.String),
-          properties: S.optional(__S(32, __c1, 0)),
-          resource: S.optional(__S(7296, __c228, 0)),
-          sparkConfiguration: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(64, __c2, 0)),
+          resource: S.optional(__S(7456, __c233, 0)),
+          sparkConfiguration: S.optional(__S(64, __c2, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18802,14 +25490,14 @@ function __c227(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          jobIds: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          jobIds: S.optional(S.NullOr(__S(6176, __c193, 0))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "FeaturesetVersionBackfillResponse" });
   }
 }
-function __c228(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18819,25 +25507,19 @@ function __c228(j: number): any {
       ).annotate({ identifier: "MaterializationComputeResource" });
   }
 }
-function __c229(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c230(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
-          entities: S.optional(S.NullOr(__S(5984, __c187, 0))),
-          materializationSettings: S.optional(S.NullOr(__S(7395, __c231, 3))),
-          specification: S.optional(S.NullOr(__S(7396, __c231, 4))),
+          entities: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          materializationSettings: S.optional(S.NullOr(__S(7552, __c236, 0))),
+          specification: S.optional(S.NullOr(__S(7553, __c236, 1))),
           stage: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "FeaturesetVersionPropertiesInput" });
@@ -18849,7 +25531,7 @@ function __c230(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(7360, __c230, 0),
+          properties: __S(7488, __c234, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -18865,28 +25547,17 @@ function __c230(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(7397, __c231, 5),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(7554, __c236, 2),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "FeaturesetVersionsCreateOrUpdateResponse" });
   }
 }
-function __c231(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Number);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          hours: __S(7392, __c231, 0),
-          minutes: __S(7392, __c231, 0),
-          monthDays: S.optional(S.NullOr(__S(7392, __c231, 0))),
-          weekDays: S.optional(S.NullOr(__S(7328, __c229, 0))),
-        }),
-      ).annotate({ identifier: "RecurrenceSchedule" });
-    case 2:
       return S.suspend(() =>
         S.Struct({
           endTime: S.optional(S.NullOr(S.String)),
@@ -18895,43 +25566,47 @@ function __c231(j: number): any {
           triggerType: S.String,
           frequency: S.String,
           interval: S.Number,
-          schedule: S.optional(S.NullOr(__S(7393, __c231, 1))),
+          schedule: S.optional(S.NullOr(__S(9760, __c305, 0))),
         }),
       ).annotate({ identifier: "RecurrenceTrigger" });
-    case 3:
+  }
+}
+function __c236(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          notification: S.optional(S.NullOr(__S(7426, __c232, 2))),
-          resource: S.optional(S.NullOr(__S(7296, __c228, 0))),
-          schedule: S.optional(S.NullOr(__S(7394, __c231, 2))),
-          sparkConfiguration: S.optional(S.NullOr(__S(32, __c1, 0))),
+          notification: S.optional(S.NullOr(__S(7586, __c237, 2))),
+          resource: S.optional(S.NullOr(__S(7456, __c233, 0))),
+          schedule: S.optional(S.NullOr(__S(7520, __c235, 0))),
+          sparkConfiguration: S.optional(S.NullOr(__S(64, __c2, 0))),
           storeType: S.optional(S.String),
         }),
       ).annotate({ identifier: "MaterializationSettings" });
-    case 4:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           path: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "FeaturesetSpecification" });
-    case 5:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
-          entities: S.optional(S.NullOr(__S(5984, __c187, 0))),
-          materializationSettings: S.optional(S.NullOr(__S(7395, __c231, 3))),
+          entities: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          materializationSettings: S.optional(S.NullOr(__S(7552, __c236, 0))),
           provisioningState: S.optional(S.String),
-          specification: S.optional(S.NullOr(__S(7396, __c231, 4))),
+          specification: S.optional(S.NullOr(__S(7553, __c236, 1))),
           stage: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "FeaturesetVersionProperties" });
   }
 }
-function __c232(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18939,20 +25614,20 @@ function __c232(j: number): any {
           eventType: S.optional(S.NullOr(S.String)),
           webhookType: S.String,
         }),
-      ).annotate({ identifier: "Webhook" });
+      ).annotate({ identifier: "AzureDevOpsWebhook" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(7424, __c232, 0)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(7584, __c237, 0)));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          emailOn: S.optional(S.NullOr(__S(7328, __c229, 0))),
-          emails: S.optional(S.NullOr(__S(5984, __c187, 0))),
-          webhooks: S.optional(S.NullOr(__S(7425, __c232, 1))),
+          emailOn: S.optional(S.NullOr(__S(9728, __c304, 0))),
+          emails: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          webhooks: S.optional(S.NullOr(__S(7585, __c237, 1))),
         }),
       ).annotate({ identifier: "NotificationSetting" });
   }
 }
-function __c233(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18961,7 +25636,7 @@ function __c233(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(6400, __c200, 0),
+          properties: __S(6560, __c205, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -18973,7 +25648,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "FeaturestoreEntityContainersCreateOrUpdateRequest" });
   }
 }
-function __c234(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18983,7 +25658,7 @@ function __c234(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(7520, __c235, 0),
+          properties: __S(7680, __c240, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -18995,14 +25670,14 @@ function __c234(j: number): any {
       ).annotate({ identifier: "CodeVersionsCreateOrUpdateRequest" });
   }
 }
-function __c235(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
           codeUri: S.optional(S.NullOr(S.String)),
@@ -19010,7 +25685,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "CodeVersionPropertiesInput" });
   }
 }
-function __c236(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19018,20 +25693,20 @@ function __c236(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(7584, __c237, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(7744, __c242, 0),
         }),
       ).annotate({ identifier: "CodeVersionsCreateOrUpdateResponse" });
   }
 }
-function __c237(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
           codeUri: S.optional(S.NullOr(S.String)),
@@ -19040,17 +25715,17 @@ function __c237(j: number): any {
       ).annotate({ identifier: "CodeVersionProperties" });
   }
 }
-function __c238(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
-          indexColumns: S.optional(S.NullOr(__S(7649, __c239, 1))),
+          indexColumns: S.optional(S.NullOr(__S(7809, __c244, 1))),
           stage: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "FeaturestoreEntityVersionPropertiesInput" });
@@ -19062,7 +25737,7 @@ function __c238(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(7616, __c238, 0),
+          properties: __S(7776, __c243, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19078,15 +25753,15 @@ function __c238(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(7650, __c239, 2),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(7810, __c244, 2),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "FeaturestoreEntityVersionsCreateOrUpdateResponse" });
   }
 }
-function __c239(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19096,23 +25771,23 @@ function __c239(j: number): any {
         }),
       ).annotate({ identifier: "IndexColumn" });
     case 1:
-      return S.Array(__S(7648, __c239, 0));
+      return S.Array(__S(7808, __c244, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
-          indexColumns: S.optional(S.NullOr(__S(7649, __c239, 1))),
+          indexColumns: S.optional(S.NullOr(__S(7809, __c244, 1))),
           provisioningState: S.optional(S.String),
           stage: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "FeaturestoreEntityVersionProperties" });
   }
 }
-function __c240(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19133,7 +25808,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "GetBatchDeploymentRequest" });
   }
 }
-function __c241(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19141,18 +25816,18 @@ function __c241(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(229, __c7, 5),
-          identity: S.optional(__S(195, __c6, 3)),
+          properties: __S(263, __c8, 7),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "GetBatchDeploymentResponse" });
   }
 }
-function __c242(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19172,7 +25847,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "GetBatchEndpointRequest" });
   }
 }
-function __c243(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19180,18 +25855,18 @@ function __c243(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(321, __c10, 1),
-          identity: S.optional(__S(195, __c6, 3)),
+          properties: __S(385, __c12, 1),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "GetBatchEndpointResponse" });
   }
 }
-function __c244(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19211,7 +25886,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "GetCapabilityHostRequest" });
   }
 }
-function __c245(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19219,13 +25894,13 @@ function __c245(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(6016, __c188, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(6144, __c192, 0),
         }),
       ).annotate({ identifier: "GetCapabilityHostResponse" });
   }
 }
-function __c246(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19245,7 +25920,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "GetCodeContainerRequest" });
   }
 }
-function __c247(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19266,7 +25941,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "GetCodeVersionRequest" });
   }
 }
-function __c248(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19286,7 +25961,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "GetComponentContainerRequest" });
   }
 }
-function __c249(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19307,7 +25982,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "GetComponentVersionRequest" });
   }
 }
-function __c250(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19327,7 +26002,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "GetComputeRequest" });
   }
 }
-function __c251(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19335,17 +26010,17 @@ function __c251(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: S.optional(__S(9478, __c296, 6)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(9936, __c310, 16)),
           location: S.optional(S.String),
           tags: S.optional(S.NullOr(__S(96, __c3, 0))),
-          sku: S.optional(__S(192, __c6, 0)),
-          identity: S.optional(__S(195, __c6, 3)),
+          sku: S.optional(__S(224, __c7, 0)),
+          identity: S.optional(__S(194, __c6, 2)),
         }),
       ).annotate({ identifier: "GetComputeResponse" });
   }
 }
-function __c252(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19365,7 +26040,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "GetDataContainerRequest" });
   }
 }
-function __c253(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19374,7 +26049,7 @@ function __c253(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(6400, __c200, 0),
+          properties: __S(6560, __c205, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19386,7 +26061,7 @@ function __c253(j: number): any {
       ).annotate({ identifier: "ComponentContainersCreateOrUpdateRequest" });
   }
 }
-function __c254(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19406,7 +26081,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "GetDatastoreRequest" });
   }
 }
-function __c255(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19427,7 +26102,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "GetDataVersionRequest" });
   }
 }
-function __c256(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19447,7 +26122,7 @@ function __c256(j: number): any {
       ).annotate({ identifier: "GetEnvironmentContainerRequest" });
   }
 }
-function __c257(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19468,7 +26143,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "GetEnvironmentVersionRequest" });
   }
 }
-function __c258(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19490,14 +26165,14 @@ function __c258(j: number): any {
       ).annotate({ identifier: "GetFeatureRequest" });
   }
 }
-function __c259(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           dataType: S.optional(S.String),
           featureName: S.optional(S.NullOr(S.String)),
         }),
@@ -19508,13 +26183,13 @@ function __c259(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8288, __c259, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(8448, __c264, 0),
         }),
       ).annotate({ identifier: "GetFeatureResponse" });
   }
 }
-function __c260(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19534,7 +26209,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "GetFeaturesetContainerEntityRequest" });
   }
 }
-function __c261(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19555,7 +26230,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "GetFeaturesetVersionRequest" });
   }
 }
-function __c262(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19563,13 +26238,13 @@ function __c262(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(7397, __c231, 5),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(7554, __c236, 2),
         }),
       ).annotate({ identifier: "GetFeaturesetVersionResponse" });
   }
 }
-function __c263(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19589,7 +26264,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "GetFeaturestoreEntityContainerEntityRequest" });
   }
 }
-function __c264(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19610,7 +26285,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "GetFeaturestoreEntityVersionRequest" });
   }
 }
-function __c265(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19618,13 +26293,13 @@ function __c265(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(7650, __c239, 2),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(7810, __c244, 2),
         }),
       ).annotate({ identifier: "GetFeaturestoreEntityVersionResponse" });
   }
 }
-function __c266(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19644,65 +26319,817 @@ function __c266(j: number): any {
       ).annotate({ identifier: "GetJobRequest" });
   }
 }
-function __c267(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           identityType: S.String,
         }),
-      ).annotate({ identifier: "IdentityConfiguration" });
+      ).annotate({ identifier: "AmlToken" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          identityType: S.String,
+          clientId: S.optional(S.NullOr(S.String)),
+          objectId: S.optional(S.NullOr(S.String)),
+          resourceId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ManagedIdentity" });
+    case 2:
+      return S.Union([__S(8704, __c272, 0), __S(8705, __c272, 1), __S(8704, __c272, 0)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           nodesValueType: S.String,
         }),
-      ).annotate({ identifier: "Nodes" });
-    case 2:
+      ).annotate({ identifier: "AllNodes" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           endpoint: S.optional(S.NullOr(S.String)),
           errorMessage: S.optional(S.NullOr(S.String)),
           jobServiceType: S.optional(S.NullOr(S.String)),
-          nodes: S.optional(S.NullOr(__S(8545, __c267, 1))),
+          nodes: S.optional(S.NullOr(__S(8707, __c272, 3))),
           port: S.optional(S.NullOr(S.Number)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
           status: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "JobService" });
-    case 3:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8546, __c267, 2)));
-    case 4:
+    case 5:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8708, __c272, 4)));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          jobOutputType: S.String,
+          assetName: S.optional(S.NullOr(S.String)),
+          mode: S.optional(S.String),
+          uri: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CustomModelJobOutput" });
+    case 7:
+      return S.Union([
+        __S(8710, __c272, 6),
+        __S(8710, __c272, 6),
+        __S(8710, __c272, 6),
+        __S(8710, __c272, 6),
+        __S(8710, __c272, 6),
+        __S(8710, __c272, 6),
+      ]);
+    case 8:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8711, __c272, 7)));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          jobTier: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "QueueSettings" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          instanceCount: S.optional(S.Number),
+          instanceType: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(288, __c9, 0))),
+          dockerArgs: S.optional(S.NullOr(S.String)),
+          dockerArgsList: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          shmSize: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JobResourceConfiguration" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          jobInputType: S.String,
+          mode: S.optional(S.String),
+          uri: S.String,
+        }),
+      ).annotate({ identifier: "MLTableJobInput" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          fields: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          parameters: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "ColumnTransformer" });
+    case 13:
+      return S.Array(__S(8716, __c272, 12));
+    case 14:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8717, __c272, 13)));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          datasetLanguage: S.optional(S.NullOr(S.String)),
+          blockedTransformers: S.optional(S.NullOr(__S(9728, __c304, 0))),
+          columnNameAndTypes: S.optional(S.NullOr(__S(64, __c2, 0))),
+          enableDnnFeaturization: S.optional(S.Boolean),
+          mode: S.optional(S.String),
+          transformerParams: S.optional(S.NullOr(__S(8718, __c272, 14))),
+        }),
+      ).annotate({ identifier: "TableVerticalFeaturizationSettings" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          enableEarlyTermination: S.optional(S.Boolean),
+          exitScore: S.optional(S.NullOr(S.Number)),
+          maxConcurrentTrials: S.optional(S.Number),
+          maxCoresPerTrial: S.optional(S.Number),
+          maxTrials: S.optional(S.Number),
+          timeout: S.optional(S.String),
+          trialTimeout: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TableVerticalLimitSettings" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          mode: S.String,
+        }),
+      ).annotate({ identifier: "AutoNCrossValidations" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          mode: S.String,
+          value: S.Number,
+        }),
+      ).annotate({ identifier: "CustomNCrossValidations" });
+    case 19:
+      return S.Union([__S(8721, __c272, 17), __S(8722, __c272, 18)]);
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          stackMetaLearnerKWargs: S.optional(S.NullOr(S.Unknown)),
+          stackMetaLearnerTrainPercentage: S.optional(S.Number),
+          stackMetaLearnerType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StackEnsembleSettings" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          enableDnnTraining: S.optional(S.Boolean),
+          enableModelExplainability: S.optional(S.Boolean),
+          enableOnnxCompatibleModels: S.optional(S.Boolean),
+          enableStackEnsemble: S.optional(S.Boolean),
+          enableVoteEnsemble: S.optional(S.Boolean),
+          ensembleModelDownloadTimeout: S.optional(S.String),
+          stackEnsembleSettings: S.optional(S.NullOr(__S(8724, __c272, 20))),
+          allowedTrainingAlgorithms: S.optional(S.NullOr(__S(9728, __c304, 0))),
+          blockedTrainingAlgorithms: S.optional(S.NullOr(__S(9728, __c304, 0))),
+        }),
+      ).annotate({ identifier: "ClassificationTrainingSettings" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          logVerbosity: S.optional(S.String),
+          targetColumnName: S.optional(S.NullOr(S.String)),
+          taskType: S.String,
+          trainingData: __S(8715, __c272, 11),
+          cvSplitColumnNames: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          featurizationSettings: S.optional(S.NullOr(__S(8719, __c272, 15))),
+          limitSettings: S.optional(S.NullOr(__S(8720, __c272, 16))),
+          nCrossValidations: S.optional(S.NullOr(__S(8723, __c272, 19))),
+          testData: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          testDataSize: S.optional(S.NullOr(S.Number)),
+          validationData: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          validationDataSize: S.optional(S.NullOr(S.Number)),
+          weightColumnName: S.optional(S.NullOr(S.String)),
+          positiveLabel: S.optional(S.NullOr(S.String)),
+          primaryMetric: S.optional(S.String),
+          trainingSettings: S.optional(S.NullOr(__S(8725, __c272, 21))),
+        }),
+      ).annotate({ identifier: "Classification" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          mode: S.String,
+          values: __S(9792, __c306, 0),
+        }),
+      ).annotate({ identifier: "CustomTargetLags" });
+    case 24:
+      return S.Union([__S(8721, __c272, 17), __S(8727, __c272, 23)]);
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          countryOrRegionForHolidays: S.optional(S.NullOr(S.String)),
+          cvStepSize: S.optional(S.NullOr(S.Number)),
+          featureLags: S.optional(S.String),
+          forecastHorizon: S.optional(__S(8723, __c272, 19)),
+          frequency: S.optional(S.NullOr(S.String)),
+          seasonality: S.optional(__S(8723, __c272, 19)),
+          shortSeriesHandlingConfig: S.optional(S.String),
+          targetAggregateFunction: S.optional(S.String),
+          targetLags: S.optional(S.NullOr(__S(8728, __c272, 24))),
+          targetRollingWindowSize: S.optional(S.NullOr(__S(8723, __c272, 19))),
+          timeColumnName: S.optional(S.NullOr(S.String)),
+          timeSeriesIdColumnNames: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          useStl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ForecastingSettings" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          logVerbosity: S.optional(S.String),
+          targetColumnName: S.optional(S.NullOr(S.String)),
+          taskType: S.String,
+          trainingData: __S(8715, __c272, 11),
+          cvSplitColumnNames: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          featurizationSettings: S.optional(S.NullOr(__S(8719, __c272, 15))),
+          limitSettings: S.optional(S.NullOr(__S(8720, __c272, 16))),
+          nCrossValidations: S.optional(S.NullOr(__S(8723, __c272, 19))),
+          testData: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          testDataSize: S.optional(S.NullOr(S.Number)),
+          validationData: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          validationDataSize: S.optional(S.NullOr(S.Number)),
+          weightColumnName: S.optional(S.NullOr(S.String)),
+          forecastingSettings: S.optional(S.NullOr(__S(8729, __c272, 25))),
+          primaryMetric: S.optional(S.String),
+          trainingSettings: S.optional(S.NullOr(__S(8725, __c272, 21))),
+        }),
+      ).annotate({ identifier: "Forecasting" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          advancedSettings: S.optional(S.NullOr(S.String)),
+          amsGradient: S.optional(S.NullOr(S.Boolean)),
+          augmentations: S.optional(S.NullOr(S.String)),
+          beta1: S.optional(S.NullOr(S.Number)),
+          beta2: S.optional(S.NullOr(S.Number)),
+          checkpointFrequency: S.optional(S.NullOr(S.Number)),
+          checkpointModel: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          checkpointRunId: S.optional(S.NullOr(S.String)),
+          distributed: S.optional(S.NullOr(S.Boolean)),
+          earlyStopping: S.optional(S.NullOr(S.Boolean)),
+          earlyStoppingDelay: S.optional(S.NullOr(S.Number)),
+          earlyStoppingPatience: S.optional(S.NullOr(S.Number)),
+          enableOnnxNormalization: S.optional(S.NullOr(S.Boolean)),
+          evaluationFrequency: S.optional(S.NullOr(S.Number)),
+          gradientAccumulationStep: S.optional(S.NullOr(S.Number)),
+          layersToFreeze: S.optional(S.NullOr(S.Number)),
+          learningRate: S.optional(S.NullOr(S.Number)),
+          learningRateScheduler: S.optional(S.String),
+          modelName: S.optional(S.NullOr(S.String)),
+          momentum: S.optional(S.NullOr(S.Number)),
+          nesterov: S.optional(S.NullOr(S.Boolean)),
+          numberOfEpochs: S.optional(S.NullOr(S.Number)),
+          numberOfWorkers: S.optional(S.NullOr(S.Number)),
+          optimizer: S.optional(S.String),
+          randomSeed: S.optional(S.NullOr(S.Number)),
+          stepLRGamma: S.optional(S.NullOr(S.Number)),
+          stepLRStepSize: S.optional(S.NullOr(S.Number)),
+          trainingBatchSize: S.optional(S.NullOr(S.Number)),
+          validationBatchSize: S.optional(S.NullOr(S.Number)),
+          warmupCosineLRCycles: S.optional(S.NullOr(S.Number)),
+          warmupCosineLRWarmupEpochs: S.optional(S.NullOr(S.Number)),
+          weightDecay: S.optional(S.NullOr(S.Number)),
+          trainingCropSize: S.optional(S.NullOr(S.Number)),
+          validationCropSize: S.optional(S.NullOr(S.Number)),
+          validationResizeSize: S.optional(S.NullOr(S.Number)),
+          weightedLoss: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "ImageModelSettingsClassification" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          amsGradient: S.optional(S.NullOr(S.String)),
+          augmentations: S.optional(S.NullOr(S.String)),
+          beta1: S.optional(S.NullOr(S.String)),
+          beta2: S.optional(S.NullOr(S.String)),
+          distributed: S.optional(S.NullOr(S.String)),
+          earlyStopping: S.optional(S.NullOr(S.String)),
+          earlyStoppingDelay: S.optional(S.NullOr(S.String)),
+          earlyStoppingPatience: S.optional(S.NullOr(S.String)),
+          enableOnnxNormalization: S.optional(S.NullOr(S.String)),
+          evaluationFrequency: S.optional(S.NullOr(S.String)),
+          gradientAccumulationStep: S.optional(S.NullOr(S.String)),
+          layersToFreeze: S.optional(S.NullOr(S.String)),
+          learningRate: S.optional(S.NullOr(S.String)),
+          learningRateScheduler: S.optional(S.NullOr(S.String)),
+          modelName: S.optional(S.NullOr(S.String)),
+          momentum: S.optional(S.NullOr(S.String)),
+          nesterov: S.optional(S.NullOr(S.String)),
+          numberOfEpochs: S.optional(S.NullOr(S.String)),
+          numberOfWorkers: S.optional(S.NullOr(S.String)),
+          optimizer: S.optional(S.NullOr(S.String)),
+          randomSeed: S.optional(S.NullOr(S.String)),
+          stepLRGamma: S.optional(S.NullOr(S.String)),
+          stepLRStepSize: S.optional(S.NullOr(S.String)),
+          trainingBatchSize: S.optional(S.NullOr(S.String)),
+          validationBatchSize: S.optional(S.NullOr(S.String)),
+          warmupCosineLRCycles: S.optional(S.NullOr(S.String)),
+          warmupCosineLRWarmupEpochs: S.optional(S.NullOr(S.String)),
+          weightDecay: S.optional(S.NullOr(S.String)),
+          trainingCropSize: S.optional(S.NullOr(S.String)),
+          validationCropSize: S.optional(S.NullOr(S.String)),
+          validationResizeSize: S.optional(S.NullOr(S.String)),
+          weightedLoss: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ImageModelDistributionSettingsClassification" });
+    case 29:
+      return S.Array(__S(8732, __c272, 28));
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          maxConcurrentTrials: S.optional(S.Number),
+          maxTrials: S.optional(S.Number),
+          timeout: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ImageLimitSettings" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          delayEvaluation: S.optional(S.Number),
+          evaluationInterval: S.optional(S.Number),
+          policyType: S.String,
+          slackAmount: S.optional(S.Number),
+          slackFactor: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "BanditPolicy" });
+  }
+}
+function __c273(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          delayEvaluation: S.optional(S.Number),
+          evaluationInterval: S.optional(S.Number),
+          policyType: S.String,
+        }),
+      ).annotate({ identifier: "MedianStoppingPolicy" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          delayEvaluation: S.optional(S.Number),
+          evaluationInterval: S.optional(S.Number),
+          policyType: S.String,
+          truncationPercentage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TruncationSelectionPolicy" });
+    case 2:
+      return S.Union([__S(8735, __c272, 31), __S(8736, __c273, 0), __S(8737, __c273, 1)]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          earlyTermination: S.optional(S.NullOr(__S(8738, __c273, 2))),
+          samplingAlgorithm: S.String,
+        }),
+      ).annotate({ identifier: "ImageSweepSettings" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          logVerbosity: S.optional(S.String),
+          targetColumnName: S.optional(S.NullOr(S.String)),
+          taskType: S.String,
+          trainingData: __S(8715, __c272, 11),
+          modelSettings: S.optional(S.NullOr(__S(8731, __c272, 27))),
+          searchSpace: S.optional(S.NullOr(__S(8733, __c272, 29))),
+          limitSettings: __S(8734, __c272, 30),
+          sweepSettings: S.optional(S.NullOr(__S(8739, __c273, 3))),
+          validationData: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          validationDataSize: S.optional(S.NullOr(S.Number)),
+          primaryMetric: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ImageClassification" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          advancedSettings: S.optional(S.NullOr(S.String)),
+          amsGradient: S.optional(S.NullOr(S.Boolean)),
+          augmentations: S.optional(S.NullOr(S.String)),
+          beta1: S.optional(S.NullOr(S.Number)),
+          beta2: S.optional(S.NullOr(S.Number)),
+          checkpointFrequency: S.optional(S.NullOr(S.Number)),
+          checkpointModel: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          checkpointRunId: S.optional(S.NullOr(S.String)),
+          distributed: S.optional(S.NullOr(S.Boolean)),
+          earlyStopping: S.optional(S.NullOr(S.Boolean)),
+          earlyStoppingDelay: S.optional(S.NullOr(S.Number)),
+          earlyStoppingPatience: S.optional(S.NullOr(S.Number)),
+          enableOnnxNormalization: S.optional(S.NullOr(S.Boolean)),
+          evaluationFrequency: S.optional(S.NullOr(S.Number)),
+          gradientAccumulationStep: S.optional(S.NullOr(S.Number)),
+          layersToFreeze: S.optional(S.NullOr(S.Number)),
+          learningRate: S.optional(S.NullOr(S.Number)),
+          learningRateScheduler: S.optional(S.String),
+          modelName: S.optional(S.NullOr(S.String)),
+          momentum: S.optional(S.NullOr(S.Number)),
+          nesterov: S.optional(S.NullOr(S.Boolean)),
+          numberOfEpochs: S.optional(S.NullOr(S.Number)),
+          numberOfWorkers: S.optional(S.NullOr(S.Number)),
+          optimizer: S.optional(S.String),
+          randomSeed: S.optional(S.NullOr(S.Number)),
+          stepLRGamma: S.optional(S.NullOr(S.Number)),
+          stepLRStepSize: S.optional(S.NullOr(S.Number)),
+          trainingBatchSize: S.optional(S.NullOr(S.Number)),
+          validationBatchSize: S.optional(S.NullOr(S.Number)),
+          warmupCosineLRCycles: S.optional(S.NullOr(S.Number)),
+          warmupCosineLRWarmupEpochs: S.optional(S.NullOr(S.Number)),
+          weightDecay: S.optional(S.NullOr(S.Number)),
+          boxDetectionsPerImage: S.optional(S.NullOr(S.Number)),
+          boxScoreThreshold: S.optional(S.NullOr(S.Number)),
+          imageSize: S.optional(S.NullOr(S.Number)),
+          maxSize: S.optional(S.NullOr(S.Number)),
+          minSize: S.optional(S.NullOr(S.Number)),
+          modelSize: S.optional(S.String),
+          multiScale: S.optional(S.NullOr(S.Boolean)),
+          nmsIouThreshold: S.optional(S.NullOr(S.Number)),
+          tileGridSize: S.optional(S.NullOr(S.String)),
+          tileOverlapRatio: S.optional(S.NullOr(S.Number)),
+          tilePredictionsNmsThreshold: S.optional(S.NullOr(S.Number)),
+          validationIouThreshold: S.optional(S.NullOr(S.Number)),
+          validationMetricType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ImageModelSettingsObjectDetection" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          amsGradient: S.optional(S.NullOr(S.String)),
+          augmentations: S.optional(S.NullOr(S.String)),
+          beta1: S.optional(S.NullOr(S.String)),
+          beta2: S.optional(S.NullOr(S.String)),
+          distributed: S.optional(S.NullOr(S.String)),
+          earlyStopping: S.optional(S.NullOr(S.String)),
+          earlyStoppingDelay: S.optional(S.NullOr(S.String)),
+          earlyStoppingPatience: S.optional(S.NullOr(S.String)),
+          enableOnnxNormalization: S.optional(S.NullOr(S.String)),
+          evaluationFrequency: S.optional(S.NullOr(S.String)),
+          gradientAccumulationStep: S.optional(S.NullOr(S.String)),
+          layersToFreeze: S.optional(S.NullOr(S.String)),
+          learningRate: S.optional(S.NullOr(S.String)),
+          learningRateScheduler: S.optional(S.NullOr(S.String)),
+          modelName: S.optional(S.NullOr(S.String)),
+          momentum: S.optional(S.NullOr(S.String)),
+          nesterov: S.optional(S.NullOr(S.String)),
+          numberOfEpochs: S.optional(S.NullOr(S.String)),
+          numberOfWorkers: S.optional(S.NullOr(S.String)),
+          optimizer: S.optional(S.NullOr(S.String)),
+          randomSeed: S.optional(S.NullOr(S.String)),
+          stepLRGamma: S.optional(S.NullOr(S.String)),
+          stepLRStepSize: S.optional(S.NullOr(S.String)),
+          trainingBatchSize: S.optional(S.NullOr(S.String)),
+          validationBatchSize: S.optional(S.NullOr(S.String)),
+          warmupCosineLRCycles: S.optional(S.NullOr(S.String)),
+          warmupCosineLRWarmupEpochs: S.optional(S.NullOr(S.String)),
+          weightDecay: S.optional(S.NullOr(S.String)),
+          boxDetectionsPerImage: S.optional(S.NullOr(S.String)),
+          boxScoreThreshold: S.optional(S.NullOr(S.String)),
+          imageSize: S.optional(S.NullOr(S.String)),
+          maxSize: S.optional(S.NullOr(S.String)),
+          minSize: S.optional(S.NullOr(S.String)),
+          modelSize: S.optional(S.NullOr(S.String)),
+          multiScale: S.optional(S.NullOr(S.String)),
+          nmsIouThreshold: S.optional(S.NullOr(S.String)),
+          tileGridSize: S.optional(S.NullOr(S.String)),
+          tileOverlapRatio: S.optional(S.NullOr(S.String)),
+          tilePredictionsNmsThreshold: S.optional(S.NullOr(S.String)),
+          validationIouThreshold: S.optional(S.NullOr(S.String)),
+          validationMetricType: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ImageModelDistributionSettingsObjectDetection" });
+    case 7:
+      return S.Array(__S(8742, __c273, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          logVerbosity: S.optional(S.String),
+          targetColumnName: S.optional(S.NullOr(S.String)),
+          taskType: S.String,
+          trainingData: __S(8715, __c272, 11),
+          modelSettings: S.optional(S.NullOr(__S(8741, __c273, 5))),
+          searchSpace: S.optional(S.NullOr(__S(8743, __c273, 7))),
+          limitSettings: __S(8734, __c272, 30),
+          sweepSettings: S.optional(S.NullOr(__S(8739, __c273, 3))),
+          validationData: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          validationDataSize: S.optional(S.NullOr(S.Number)),
+          primaryMetric: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ImageInstanceSegmentation" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          logVerbosity: S.optional(S.String),
+          targetColumnName: S.optional(S.NullOr(S.String)),
+          taskType: S.String,
+          trainingData: __S(8715, __c272, 11),
+          cvSplitColumnNames: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          featurizationSettings: S.optional(S.NullOr(__S(8719, __c272, 15))),
+          limitSettings: S.optional(S.NullOr(__S(8720, __c272, 16))),
+          nCrossValidations: S.optional(S.NullOr(__S(8723, __c272, 19))),
+          testData: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          testDataSize: S.optional(S.NullOr(S.Number)),
+          validationData: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          validationDataSize: S.optional(S.NullOr(S.Number)),
+          weightColumnName: S.optional(S.NullOr(S.String)),
+          primaryMetric: S.optional(S.String),
+          trainingSettings: S.optional(S.NullOr(__S(8725, __c272, 21))),
+        }),
+      ).annotate({ identifier: "Regression" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          datasetLanguage: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "FeaturizationSettings" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          logVerbosity: S.optional(S.String),
+          targetColumnName: S.optional(S.NullOr(S.String)),
+          taskType: S.String,
+          trainingData: __S(8715, __c272, 11),
+          featurizationSettings: S.optional(S.NullOr(__S(8746, __c273, 10))),
+          limitSettings: S.optional(S.NullOr(__S(8734, __c272, 30))),
+          validationData: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          primaryMetric: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TextClassification" });
+    case 12:
+      return S.Union([
+        __S(8726, __c272, 22),
+        __S(8730, __c272, 26),
+        __S(8740, __c273, 4),
+        __S(8740, __c273, 4),
+        __S(8744, __c273, 8),
+        __S(8744, __c273, 8),
+        __S(8745, __c273, 9),
+        __S(8747, __c273, 11),
+        __S(8747, __c273, 11),
+        __S(8747, __c273, 11),
+      ]);
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           componentId: S.optional(S.NullOr(S.String)),
           computeId: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           experimentName: S.optional(S.String),
-          identity: S.optional(S.NullOr(__S(8544, __c267, 0))),
+          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
           isArchived: S.optional(S.Boolean),
           jobType: S.String,
-          notificationSetting: S.optional(S.NullOr(__S(7426, __c232, 2))),
-          services: S.optional(S.NullOr(__S(8547, __c267, 3))),
+          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
+          services: S.optional(S.NullOr(__S(8709, __c272, 5))),
           status: S.optional(S.String),
+          environmentId: S.optional(S.NullOr(S.String)),
+          environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
+          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
+          queueSettings: S.optional(S.NullOr(__S(8713, __c272, 9))),
+          resources: S.optional(__S(8714, __c272, 10)),
+          taskDetails: __S(8748, __c273, 12),
         }),
-      ).annotate({ identifier: "JobBaseProperties" });
-    case 5:
+      ).annotate({ identifier: "AutoMLJob" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          distributionType: S.String,
+          processCountPerInstance: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "Mpi" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          distributionType: S.String,
+          parameterServerCount: S.optional(S.Number),
+          workerCount: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "TensorFlow" });
+    case 16:
+      return S.Union([__S(8750, __c273, 14), __S(8750, __c273, 14), __S(8751, __c273, 15)]);
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          jobInputType: S.String,
+          value: S.String,
+        }),
+      ).annotate({ identifier: "LiteralJobInput" });
+    case 18:
+      return S.Union([
+        __S(8715, __c272, 11),
+        __S(8753, __c273, 17),
+        __S(8715, __c272, 11),
+        __S(8715, __c272, 11),
+        __S(8715, __c272, 11),
+        __S(8715, __c272, 11),
+        __S(8715, __c272, 11),
+      ]);
+    case 19:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8754, __c273, 18)));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          jobLimitsType: S.String,
+          timeout: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CommandJobLimits" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          componentId: S.optional(S.NullOr(S.String)),
+          computeId: S.optional(S.NullOr(S.String)),
+          displayName: S.optional(S.NullOr(S.String)),
+          experimentName: S.optional(S.String),
+          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          isArchived: S.optional(S.Boolean),
+          jobType: S.String,
+          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
+          services: S.optional(S.NullOr(__S(8709, __c272, 5))),
+          status: S.optional(S.String),
+          codeId: S.optional(S.NullOr(S.String)),
+          command: S.String,
+          distribution: S.optional(S.NullOr(__S(8752, __c273, 16))),
+          environmentId: S.String,
+          environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
+          inputs: S.optional(S.NullOr(__S(8755, __c273, 19))),
+          limits: S.optional(S.NullOr(__S(8756, __c273, 20))),
+          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
+          parameters: S.optional(S.NullOr(S.Unknown)),
+          queueSettings: S.optional(S.NullOr(__S(8713, __c272, 9))),
+          resources: S.optional(__S(8714, __c272, 10)),
+        }),
+      ).annotate({ identifier: "CommandJob" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          componentId: S.optional(S.NullOr(S.String)),
+          computeId: S.optional(S.NullOr(S.String)),
+          displayName: S.optional(S.NullOr(S.String)),
+          experimentName: S.optional(S.String),
+          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          isArchived: S.optional(S.Boolean),
+          jobType: S.String,
+          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
+          services: S.optional(S.NullOr(__S(8709, __c272, 5))),
+          status: S.optional(S.String),
+          inputs: S.optional(S.NullOr(__S(8755, __c273, 19))),
+          jobs: S.optional(S.NullOr(__S(288, __c9, 0))),
+          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
+          settings: S.optional(S.NullOr(S.Unknown)),
+          sourceJobId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "PipelineJob" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          sparkJobEntryType: S.String,
+          file: S.String,
+        }),
+      ).annotate({ identifier: "SparkJobPythonEntry" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          sparkJobEntryType: S.String,
+          className: S.String,
+        }),
+      ).annotate({ identifier: "SparkJobScalaEntry" });
+    case 25:
+      return S.Union([__S(8759, __c273, 23), __S(8760, __c273, 24)]);
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.optional(S.NullOr(S.String)),
+          runtimeVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SparkResourceConfiguration" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          componentId: S.optional(S.NullOr(S.String)),
+          computeId: S.optional(S.NullOr(S.String)),
+          displayName: S.optional(S.NullOr(S.String)),
+          experimentName: S.optional(S.String),
+          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          isArchived: S.optional(S.Boolean),
+          jobType: S.String,
+          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
+          services: S.optional(S.NullOr(__S(8709, __c272, 5))),
+          status: S.optional(S.String),
+          archives: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          args: S.optional(S.NullOr(S.String)),
+          codeId: S.String,
+          conf: S.optional(S.NullOr(__S(64, __c2, 0))),
+          entry: __S(8761, __c273, 25),
+          environmentId: S.optional(S.NullOr(S.String)),
+          environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
+          files: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          inputs: S.optional(S.NullOr(__S(8755, __c273, 19))),
+          jars: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
+          pyFiles: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          queueSettings: S.optional(S.NullOr(__S(8713, __c272, 9))),
+          resources: S.optional(S.NullOr(__S(8762, __c273, 26))),
+        }),
+      ).annotate({ identifier: "SparkJob" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          jobLimitsType: S.String,
+          timeout: S.optional(S.NullOr(S.String)),
+          maxConcurrentTrials: S.optional(S.NullOr(S.Number)),
+          maxTotalTrials: S.optional(S.NullOr(S.Number)),
+          trialTimeout: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "SweepJobLimits" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          goal: S.String,
+          primaryMetric: S.String,
+        }),
+      ).annotate({ identifier: "Objective" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          samplingAlgorithmType: S.String,
+        }),
+      ).annotate({ identifier: "BayesianSamplingAlgorithm" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          samplingAlgorithmType: S.String,
+          rule: S.optional(S.String),
+          seed: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "RandomSamplingAlgorithm" });
+  }
+}
+function __c274(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([__S(8766, __c273, 30), __S(8766, __c273, 30), __S(8767, __c273, 31)]);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          codeId: S.optional(S.NullOr(S.String)),
+          command: S.String,
+          distribution: S.optional(S.NullOr(__S(8752, __c273, 16))),
+          environmentId: S.String,
+          environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
+          resources: S.optional(__S(8714, __c272, 10)),
+        }),
+      ).annotate({ identifier: "TrialComponent" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          componentId: S.optional(S.NullOr(S.String)),
+          computeId: S.optional(S.NullOr(S.String)),
+          displayName: S.optional(S.NullOr(S.String)),
+          experimentName: S.optional(S.String),
+          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          isArchived: S.optional(S.Boolean),
+          jobType: S.String,
+          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
+          services: S.optional(S.NullOr(__S(8709, __c272, 5))),
+          status: S.optional(S.String),
+          earlyTermination: S.optional(S.NullOr(__S(8738, __c273, 2))),
+          inputs: S.optional(S.NullOr(__S(8755, __c273, 19))),
+          limits: S.optional(__S(8764, __c273, 28)),
+          objective: __S(8765, __c273, 29),
+          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
+          queueSettings: S.optional(S.NullOr(__S(8713, __c272, 9))),
+          samplingAlgorithm: __S(8768, __c274, 0),
+          searchSpace: S.Unknown,
+          trial: __S(8769, __c274, 1),
+        }),
+      ).annotate({ identifier: "SweepJob" });
+    case 3:
+      return S.Union([
+        __S(8749, __c273, 13),
+        __S(8757, __c273, 21),
+        __S(8758, __c273, 22),
+        __S(8763, __c273, 27),
+        __S(8770, __c274, 2),
+      ]);
+  }
+}
+function __c275(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8548, __c267, 4),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(8771, __c274, 3),
         }),
       ).annotate({ identifier: "GetJobResponse" });
   }
 }
-function __c268(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19712,7 +27139,7 @@ function __c268(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(8608, __c269, 0),
+          properties: __S(8864, __c277, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19724,14 +27151,14 @@ function __c268(j: number): any {
       ).annotate({ identifier: "ComponentVersionsCreateOrUpdateRequest" });
   }
 }
-function __c269(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
           componentSpec: S.optional(S.NullOr(S.Unknown)),
@@ -19739,7 +27166,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "ComponentVersionPropertiesInput" });
   }
 }
-function __c270(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19747,20 +27174,20 @@ function __c270(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8672, __c271, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(8928, __c279, 0),
         }),
       ).annotate({ identifier: "ComponentVersionsCreateOrUpdateResponse" });
   }
 }
-function __c271(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
           componentSpec: S.optional(S.NullOr(S.Unknown)),
@@ -19769,7 +27196,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "ComponentVersionProperties" });
   }
 }
-function __c272(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19789,7 +27216,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "GetManagedNetworkSettingsRuleRequest" });
   }
 }
-function __c273(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19798,13 +27225,57 @@ function __c273(j: number): any {
           status: S.optional(S.String),
           type: S.String,
           errorInformation: S.optional(S.String),
-          parentRuleNames: S.optional(__S(5984, __c187, 0)),
-          destination: S.optional(S.Unknown),
+          parentRuleNames: S.optional(__S(6176, __c193, 0)),
+          destination: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OutboundRule" });
+      ).annotate({ identifier: "FqdnOutboundRule" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          serviceResourceId: S.optional(S.String),
+          sparkEnabled: S.optional(S.Boolean),
+          sparkStatus: S.optional(S.String),
+          subresourceTarget: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivateEndpointDestination" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          category: S.optional(S.String),
+          status: S.optional(S.String),
+          type: S.String,
+          errorInformation: S.optional(S.String),
+          parentRuleNames: S.optional(__S(6176, __c193, 0)),
+          destination: S.optional(__S(8993, __c281, 1)),
+          fqdns: S.optional(__S(6176, __c193, 0)),
+        }),
+      ).annotate({ identifier: "PrivateEndpointOutboundRule" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.optional(S.String),
+          addressPrefixes: S.optional(__S(6176, __c193, 0)),
+          portRanges: S.optional(S.String),
+          protocol: S.optional(S.String),
+          serviceTag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServiceTagDestination" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          category: S.optional(S.String),
+          status: S.optional(S.String),
+          type: S.String,
+          errorInformation: S.optional(S.String),
+          parentRuleNames: S.optional(__S(6176, __c193, 0)),
+          destination: S.optional(__S(8995, __c281, 3)),
+        }),
+      ).annotate({ identifier: "ServiceTagOutboundRule" });
+    case 5:
+      return S.Union([__S(8992, __c281, 0), __S(8994, __c281, 2), __S(8996, __c281, 4)]);
   }
 }
-function __c274(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19812,13 +27283,13 @@ function __c274(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8736, __c273, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(8997, __c281, 5),
         }),
       ).annotate({ identifier: "GetManagedNetworkSettingsRuleResponse" });
   }
 }
-function __c275(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19838,7 +27309,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "GetMarketplaceSubscriptionRequest" });
   }
 }
-function __c276(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19846,13 +27317,13 @@ function __c276(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8865, __c277, 1),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(9121, __c285, 1),
         }),
       ).annotate({ identifier: "GetMarketplaceSubscriptionResponse" });
   }
 }
-function __c277(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19865,7 +27336,7 @@ function __c277(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          marketplacePlan: S.optional(S.NullOr(__S(8864, __c277, 0))),
+          marketplacePlan: S.optional(S.NullOr(__S(9120, __c285, 0))),
           marketplaceSubscriptionStatus: S.optional(S.String),
           modelId: S.String,
           provisioningState: S.optional(S.String),
@@ -19873,7 +27344,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "MarketplaceSubscriptionProperties" });
   }
 }
-function __c278(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19893,7 +27364,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "GetModelContainerRequest" });
   }
 }
-function __c279(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19914,7 +27385,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "GetModelVersionRequest" });
   }
 }
-function __c280(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19922,22 +27393,22 @@ function __c280(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8996, __c281, 4),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(9252, __c289, 4),
         }),
       ).annotate({ identifier: "GetModelVersionResponse" });
   }
 }
-function __c281(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(32, __c1, 0))),
+          data: S.optional(S.NullOr(__S(64, __c2, 0))),
         }),
       ).annotate({ identifier: "FlavorData" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8992, __c281, 0)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(9248, __c289, 0)));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -19946,27 +27417,27 @@ function __c281(j: number): any {
         }),
       ).annotate({ identifier: "DatasetReference" });
     case 3:
-      return S.Array(__S(8994, __c281, 2));
+      return S.Array(__S(9250, __c289, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
-          flavors: S.optional(S.NullOr(__S(8993, __c281, 1))),
+          flavors: S.optional(S.NullOr(__S(9249, __c289, 1))),
           jobName: S.optional(S.NullOr(S.String)),
           modelType: S.optional(S.NullOr(S.String)),
           modelUri: S.optional(S.NullOr(S.String)),
           provisioningState: S.optional(S.String),
           stage: S.optional(S.NullOr(S.String)),
-          datasets: S.optional(S.NullOr(__S(8995, __c281, 3))),
+          datasets: S.optional(S.NullOr(__S(9251, __c289, 3))),
         }),
       ).annotate({ identifier: "ModelVersionProperties" });
   }
 }
-function __c282(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19987,7 +27458,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "GetOnlineDeploymentRequest" });
   }
 }
-function __c283(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19995,18 +27466,18 @@ function __c283(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9095, __c284, 7),
-          identity: S.optional(__S(195, __c6, 3)),
+          properties: __S(9357, __c292, 13),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "GetOnlineDeploymentResponse" });
   }
 }
-function __c284(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20018,18 +27489,18 @@ function __c284(j: number): any {
         }),
       ).annotate({ identifier: "Collection" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(9088, __c284, 0)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(9344, __c292, 0)));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          captureHeaders: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          captureHeaders: S.optional(S.NullOr(__S(6176, __c193, 0))),
         }),
       ).annotate({ identifier: "RequestLogging" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          collections: __S(9089, __c284, 1),
-          requestLogging: S.optional(S.NullOr(__S(9090, __c284, 2))),
+          collections: __S(9345, __c292, 1),
+          requestLogging: S.optional(S.NullOr(__S(9346, __c292, 2))),
           rollingRate: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataCollector" });
@@ -20055,39 +27526,87 @@ function __c284(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scaleType: S.String,
-          minInstances: S.optional(S.Number),
-          maxInstances: S.optional(S.Number),
-          pollingInterval: S.optional(S.String),
-          scaleDownDelay: S.optional(S.String),
-          targetUtilizationPercentage: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "OnlineScaleSettings" });
+      ).annotate({ identifier: "DefaultScaleSettings" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          codeConfiguration: S.optional(S.NullOr(__S(256, __c8, 0))),
+          scaleType: S.String,
+          maxInstances: S.optional(S.Number),
+          minInstances: S.optional(S.Number),
+          pollingInterval: S.optional(S.String),
+          targetUtilizationPercentage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TargetUtilizationScaleSettings" });
+    case 8:
+      return S.Union([__S(9350, __c292, 6), __S(9351, __c292, 7)]);
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          cpu: S.optional(S.NullOr(S.String)),
+          gpu: S.optional(S.NullOr(S.String)),
+          memory: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ContainerResourceSettings" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          containerResourceLimits: S.optional(S.NullOr(__S(9353, __c292, 9))),
+          containerResourceRequests: S.optional(S.NullOr(__S(9353, __c292, 9))),
+        }),
+      ).annotate({ identifier: "ContainerResourceRequirements" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          codeConfiguration: S.optional(S.NullOr(__S(320, __c10, 0))),
           description: S.optional(S.NullOr(S.String)),
           environmentId: S.optional(S.NullOr(S.String)),
-          environmentVariables: S.optional(S.NullOr(__S(32, __c1, 0))),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
+          environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
           appInsightsEnabled: S.optional(S.Boolean),
-          dataCollector: S.optional(S.NullOr(__S(9091, __c284, 3))),
+          dataCollector: S.optional(S.NullOr(__S(9347, __c292, 3))),
           egressPublicNetworkAccess: S.optional(S.String),
           endpointComputeType: S.String,
           instanceType: S.optional(S.NullOr(S.String)),
-          livenessProbe: S.optional(S.NullOr(__S(9092, __c284, 4))),
+          livenessProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
           model: S.optional(S.NullOr(S.String)),
           modelMountPath: S.optional(S.NullOr(S.String)),
           provisioningState: S.optional(S.String),
-          readinessProbe: S.optional(S.NullOr(__S(9092, __c284, 4))),
-          requestSettings: S.optional(S.NullOr(__S(9093, __c284, 5))),
-          scaleSettings: S.optional(S.NullOr(__S(9094, __c284, 6))),
-          startupProbe: S.optional(S.NullOr(__S(9092, __c284, 4))),
+          readinessProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
+          requestSettings: S.optional(S.NullOr(__S(9349, __c292, 5))),
+          scaleSettings: S.optional(S.NullOr(__S(9352, __c292, 8))),
+          startupProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
+          containerResourceRequirements: S.optional(S.NullOr(__S(9354, __c292, 10))),
         }),
-      ).annotate({ identifier: "OnlineDeploymentProperties" });
+      ).annotate({ identifier: "KubernetesOnlineDeployment" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          codeConfiguration: S.optional(S.NullOr(__S(320, __c10, 0))),
+          description: S.optional(S.NullOr(S.String)),
+          environmentId: S.optional(S.NullOr(S.String)),
+          environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
+          appInsightsEnabled: S.optional(S.Boolean),
+          dataCollector: S.optional(S.NullOr(__S(9347, __c292, 3))),
+          egressPublicNetworkAccess: S.optional(S.String),
+          endpointComputeType: S.String,
+          instanceType: S.optional(S.NullOr(S.String)),
+          livenessProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
+          model: S.optional(S.NullOr(S.String)),
+          modelMountPath: S.optional(S.NullOr(S.String)),
+          provisioningState: S.optional(S.String),
+          readinessProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
+          requestSettings: S.optional(S.NullOr(__S(9349, __c292, 5))),
+          scaleSettings: S.optional(S.NullOr(__S(9352, __c292, 8))),
+          startupProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
+        }),
+      ).annotate({ identifier: "ManagedOnlineDeployment" });
+    case 13:
+      return S.Union([__S(9355, __c292, 11), __S(9356, __c292, 12)]);
   }
 }
-function __c285(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20116,7 +27635,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "DeploymentLogs" });
   }
 }
-function __c286(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20136,7 +27655,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "GetOnlineEndpointRequest" });
   }
 }
-function __c287(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20144,18 +27663,18 @@ function __c287(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9217, __c288, 1),
-          identity: S.optional(__S(195, __c6, 3)),
+          properties: __S(9473, __c296, 1),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "GetOnlineEndpointResponse" });
   }
 }
-function __c288(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
@@ -20164,20 +27683,20 @@ function __c288(j: number): any {
         S.Struct({
           authMode: S.String,
           description: S.optional(S.NullOr(S.String)),
-          keys: S.optional(S.NullOr(__S(352, __c11, 0))),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
+          keys: S.optional(S.NullOr(__S(416, __c13, 0))),
+          properties: S.optional(S.NullOr(__S(64, __c2, 0))),
           scoringUri: S.optional(S.NullOr(S.String)),
           swaggerUri: S.optional(S.NullOr(S.String)),
           compute: S.optional(S.NullOr(S.String)),
-          mirrorTraffic: S.optional(S.NullOr(__S(9216, __c288, 0))),
+          mirrorTraffic: S.optional(S.NullOr(__S(9472, __c296, 0))),
           provisioningState: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
-          traffic: S.optional(S.NullOr(__S(9216, __c288, 0))),
+          traffic: S.optional(S.NullOr(__S(9472, __c296, 0))),
         }),
       ).annotate({ identifier: "OnlineEndpointProperties" });
   }
 }
-function __c289(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20206,7 +27725,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "EndpointAuthToken" });
   }
 }
-function __c290(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20226,7 +27745,7 @@ function __c290(j: number): any {
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
   }
 }
-function __c291(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20246,8 +27765,8 @@ function __c291(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(9312, __c291, 0)),
-          privateLinkServiceConnectionState: S.optional(__S(9313, __c291, 1)),
+          privateEndpoint: S.optional(__S(9568, __c299, 0)),
+          privateLinkServiceConnectionState: S.optional(__S(9569, __c299, 1)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionProperties" });
@@ -20257,17 +27776,17 @@ function __c291(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: S.optional(__S(9314, __c291, 2)),
-          identity: S.optional(__S(195, __c6, 3)),
-          sku: S.optional(__S(192, __c6, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(9570, __c299, 2)),
+          identity: S.optional(__S(194, __c6, 2)),
+          sku: S.optional(__S(224, __c7, 0)),
           location: S.optional(S.String),
           tags: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "GetPrivateEndpointConnectionResponse" });
   }
 }
-function __c292(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20286,7 +27805,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "GetRegistryRequest" });
   }
 }
-function __c293(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20301,11 +27820,11 @@ function __c293(j: number): any {
         }),
       ).annotate({ identifier: "ManagedResourceGroupAssignedIdentities" });
     case 2:
-      return S.Array(__S(9377, __c293, 1));
+      return S.Array(__S(9633, __c301, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          assignedIdentities: S.optional(S.NullOr(__S(9378, __c293, 2))),
+          assignedIdentities: S.optional(S.NullOr(__S(9634, __c301, 2))),
         }),
       ).annotate({ identifier: "ManagedResourceGroupSettings" });
     case 4:
@@ -20326,9 +27845,9 @@ function __c293(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          groupIds: S.optional(S.NullOr(__S(5984, __c187, 0))),
-          privateEndpoint: S.optional(S.NullOr(__S(9380, __c293, 4))),
-          registryPrivateLinkServiceConnectionState: S.optional(S.NullOr(__S(9381, __c293, 5))),
+          groupIds: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          privateEndpoint: S.optional(S.NullOr(__S(9636, __c301, 4))),
+          registryPrivateLinkServiceConnectionState: S.optional(S.NullOr(__S(9637, __c301, 5))),
           provisioningState: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "RegistryPrivateEndpointConnectionProperties" });
@@ -20337,32 +27856,32 @@ function __c293(j: number): any {
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
           location: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(9382, __c293, 6))),
+          properties: S.optional(S.NullOr(__S(9638, __c301, 6))),
         }),
       ).annotate({ identifier: "RegistryPrivateEndpointConnection" });
     case 8:
-      return S.Array(__S(9383, __c293, 7));
+      return S.Array(__S(9639, __c301, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           acrAccountName: S.optional(S.NullOr(S.String)),
           acrAccountSku: S.optional(S.NullOr(S.String)),
-          armResourceId: S.optional(S.NullOr(__S(9376, __c293, 0))),
+          armResourceId: S.optional(S.NullOr(__S(9632, __c301, 0))),
         }),
       ).annotate({ identifier: "SystemCreatedAcrAccount" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          systemCreatedAcrAccount: S.optional(S.NullOr(__S(9385, __c293, 9))),
+          systemCreatedAcrAccount: S.optional(S.NullOr(__S(9641, __c301, 9))),
         }),
       ).annotate({ identifier: "AcrDetails" });
     case 11:
-      return S.Array(__S(9386, __c293, 10));
+      return S.Array(__S(9642, __c301, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           allowBlobPublicAccess: S.optional(S.Boolean),
-          armResourceId: S.optional(S.NullOr(__S(9376, __c293, 0))),
+          armResourceId: S.optional(S.NullOr(__S(9632, __c301, 0))),
           storageAccountHnsEnabled: S.optional(S.Boolean),
           storageAccountName: S.optional(S.NullOr(S.String)),
           storageAccountType: S.optional(S.NullOr(S.String)),
@@ -20371,37 +27890,37 @@ function __c293(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          systemCreatedStorageAccount: S.optional(S.NullOr(__S(9388, __c293, 12))),
+          systemCreatedStorageAccount: S.optional(S.NullOr(__S(9644, __c301, 12))),
         }),
       ).annotate({ identifier: "StorageAccountDetails" });
     case 14:
-      return S.Array(__S(9389, __c293, 13));
+      return S.Array(__S(9645, __c301, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          acrDetails: S.optional(S.NullOr(__S(9387, __c293, 11))),
+          acrDetails: S.optional(S.NullOr(__S(9643, __c301, 11))),
           location: S.optional(S.NullOr(S.String)),
-          storageAccountDetails: S.optional(S.NullOr(__S(9390, __c293, 14))),
+          storageAccountDetails: S.optional(S.NullOr(__S(9646, __c301, 14))),
         }),
       ).annotate({ identifier: "RegistryRegionArmDetails" });
     case 16:
-      return S.Array(__S(9391, __c293, 15));
+      return S.Array(__S(9647, __c301, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           discoveryUrl: S.optional(S.NullOr(S.String)),
           intellectualPropertyPublisher: S.optional(S.NullOr(S.String)),
-          managedResourceGroup: S.optional(S.NullOr(__S(9376, __c293, 0))),
-          managedResourceGroupSettings: S.optional(S.NullOr(__S(9379, __c293, 3))),
+          managedResourceGroup: S.optional(S.NullOr(__S(9632, __c301, 0))),
+          managedResourceGroupSettings: S.optional(S.NullOr(__S(9635, __c301, 3))),
           mlFlowRegistryUri: S.optional(S.NullOr(S.String)),
-          registryPrivateEndpointConnections: S.optional(S.NullOr(__S(9384, __c293, 8))),
+          registryPrivateEndpointConnections: S.optional(S.NullOr(__S(9640, __c301, 8))),
           publicNetworkAccess: S.optional(S.NullOr(S.String)),
-          regionDetails: S.optional(S.NullOr(__S(9392, __c293, 16))),
+          regionDetails: S.optional(S.NullOr(__S(9648, __c301, 16))),
         }),
       ).annotate({ identifier: "RegistryProperties" });
   }
 }
-function __c294(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20409,20 +27928,33 @@ function __c294(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9393, __c293, 17),
-          identity: S.optional(__S(195, __c6, 3)),
+          properties: __S(9649, __c301, 17),
+          identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "GetRegistryResponse" });
   }
 }
-function __c295(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clusterFqdn: S.optional(S.NullOr(S.String)),
+          agentCount: S.optional(S.NullOr(S.Number)),
+          agentVmSize: S.optional(S.NullOr(S.String)),
+          clusterPurpose: S.optional(S.String),
+          sslConfiguration: S.optional(S.NullOr(__S(9856, __c308, 0))),
+          aksNetworkingConfiguration: S.optional(S.NullOr(__S(9857, __c308, 1))),
+          loadBalancerType: S.optional(S.String),
+          loadBalancerSubnet: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "AKSSchemaPropertiesInput" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           computeType: S.String,
@@ -20430,20 +27962,190 @@ function __c295(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           resourceId: S.optional(S.NullOr(S.String)),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(S.Unknown),
+          properties: S.optional(__S(9696, __c303, 0)),
         }),
-      ).annotate({ identifier: "ComputeInput" });
-    case 1:
+      ).annotate({ identifier: "AKSInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          osType: S.optional(S.String),
+          vmSize: S.optional(S.String),
+          vmPriority: S.optional(S.String),
+          virtualMachineImage: S.optional(S.NullOr(__S(9858, __c308, 2))),
+          isolatedNetwork: S.optional(S.Boolean),
+          scaleSettings: S.optional(__S(9859, __c308, 3)),
+          userAccountCredentials: S.optional(S.NullOr(__S(9860, __c308, 4))),
+          subnet: S.optional(S.NullOr(__S(9858, __c308, 2))),
+          remoteLoginPortPublicAccess: S.optional(S.String),
+          enableNodePublicIp: S.optional(S.NullOr(S.Boolean)),
+          propertyBag: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "AmlComputePropertiesInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeLocation: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          resourceId: S.optional(S.NullOr(S.String)),
+          disableLocalAuth: S.optional(S.Boolean),
+          properties: S.optional(__S(9698, __c303, 2)),
+        }),
+      ).annotate({ identifier: "AmlComputeInput" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          sshPublicAccess: S.optional(S.String),
+          adminPublicKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ComputeInstanceSshSettingsInput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          action: S.optional(S.String),
+          triggerType: S.optional(S.String),
+          recurrence: S.optional(__S(9880, __c308, 24)),
+          cron: S.optional(__S(9881, __c308, 25)),
+          schedule: S.optional(__S(9882, __c308, 26)),
+        }),
+      ).annotate({ identifier: "ComputeStartStopScheduleInput" });
+    case 6:
+      return S.Array(__S(9701, __c303, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          computeStartStop: S.optional(__S(9702, __c303, 6)),
+        }),
+      ).annotate({ identifier: "ComputeSchedulesInput" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          vmSize: S.optional(S.String),
+          subnet: S.optional(S.NullOr(__S(9858, __c308, 2))),
+          applicationSharingPolicy: S.optional(S.String),
+          sshSettings: S.optional(S.NullOr(__S(9700, __c303, 4))),
+          customServices: S.optional(S.NullOr(__S(9874, __c308, 18))),
+          computeInstanceAuthorizationType: S.optional(S.NullOr(S.String)),
+          enableSSO: S.optional(S.NullOr(S.Boolean)),
+          personalComputeInstanceSettings: S.optional(S.NullOr(__S(9876, __c308, 20))),
+          setupScripts: S.optional(S.NullOr(__S(9879, __c308, 23))),
+          schedules: S.optional(S.NullOr(__S(9703, __c303, 7))),
+          idleTimeBeforeShutdown: S.optional(S.String),
+          enableNodePublicIp: S.optional(S.NullOr(S.Boolean)),
+        }),
+      ).annotate({ identifier: "ComputeInstancePropertiesInput" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeLocation: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          resourceId: S.optional(S.NullOr(S.String)),
+          disableLocalAuth: S.optional(S.Boolean),
+          properties: S.optional(__S(9704, __c303, 8)),
+        }),
+      ).annotate({ identifier: "ComputeInstanceInput" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeLocation: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          resourceId: S.optional(S.NullOr(S.String)),
+          disableLocalAuth: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DataFactoryInput" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeLocation: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          resourceId: S.optional(S.NullOr(S.String)),
+          disableLocalAuth: S.optional(S.Boolean),
+          properties: S.optional(__S(9883, __c308, 27)),
+        }),
+      ).annotate({ identifier: "DataLakeAnalyticsInput" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeLocation: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          resourceId: S.optional(S.NullOr(S.String)),
+          disableLocalAuth: S.optional(S.Boolean),
+          properties: S.optional(__S(9884, __c308, 28)),
+        }),
+      ).annotate({ identifier: "DatabricksInput" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeLocation: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          resourceId: S.optional(S.NullOr(S.String)),
+          disableLocalAuth: S.optional(S.Boolean),
+          properties: S.optional(__S(9885, __c308, 29)),
+        }),
+      ).annotate({ identifier: "HDInsightInput" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeLocation: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          resourceId: S.optional(S.NullOr(S.String)),
+          disableLocalAuth: S.optional(S.Boolean),
+          properties: S.optional(__S(9889, __c309, 1)),
+        }),
+      ).annotate({ identifier: "KubernetesInput" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeLocation: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          resourceId: S.optional(S.NullOr(S.String)),
+          disableLocalAuth: S.optional(S.Boolean),
+          properties: S.optional(__S(9892, __c309, 4)),
+        }),
+      ).annotate({ identifier: "SynapseSparkInput" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeLocation: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          resourceId: S.optional(S.NullOr(S.String)),
+          disableLocalAuth: S.optional(S.Boolean),
+          properties: S.optional(__S(9893, __c309, 5)),
+        }),
+      ).annotate({ identifier: "VirtualMachineInput" });
+    case 17:
+      return S.Union([
+        __S(9697, __c303, 1),
+        __S(9699, __c303, 3),
+        __S(9705, __c303, 9),
+        __S(9706, __c303, 10),
+        __S(9707, __c303, 11),
+        __S(9708, __c303, 12),
+        __S(9709, __c303, 13),
+        __S(9710, __c303, 14),
+        __S(9711, __c303, 15),
+        __S(9712, __c303, 16),
+      ]);
+    case 18:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           computeName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(9440, __c295, 0)),
+          properties: S.optional(__S(9713, __c303, 17)),
           location: S.optional(S.String),
           tags: S.optional(S.NullOr(__S(96, __c3, 0))),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(224, __c7, 0)),
           identity: S.optional(__S(161, __c5, 1)),
         }).pipe(
           T.Http({
@@ -20454,56 +28156,420 @@ function __c295(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ComputeCreateOrUpdateRequest" });
-    case 2:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: S.optional(__S(9478, __c296, 6)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(9936, __c310, 16)),
           location: S.optional(S.String),
           tags: S.optional(S.NullOr(__S(96, __c3, 0))),
-          sku: S.optional(__S(192, __c6, 0)),
-          identity: S.optional(__S(195, __c6, 3)),
+          sku: S.optional(__S(224, __c7, 0)),
+          identity: S.optional(__S(194, __c6, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "ComputeCreateOrUpdateResponse" });
   }
 }
-function __c296(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(9475, __c296, 3)));
+      return S.Array(S.String);
+  }
+}
+function __c305(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          hours: __S(9792, __c306, 0),
+          minutes: __S(9792, __c306, 0),
+          monthDays: S.optional(S.NullOr(__S(9792, __c306, 0))),
+          weekDays: S.optional(S.NullOr(__S(9728, __c304, 0))),
+        }),
+      ).annotate({ identifier: "ComputeRecurrenceSchedule" });
+  }
+}
+function __c306(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+  }
+}
+function __c307(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          publicKeyData: S.optional(S.String),
+          privateKeyData: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VirtualMachineSshCredentials" });
+  }
+}
+function __c308(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          cert: S.optional(S.NullOr(S.String)),
+          key: S.optional(S.NullOr(S.String)),
+          cname: S.optional(S.NullOr(S.String)),
+          leafDomainLabel: S.optional(S.NullOr(S.String)),
+          overwriteExistingDomain: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SslConfiguration" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subnetId: S.optional(S.String),
+          serviceCidr: S.optional(S.String),
+          dnsServiceIP: S.optional(S.String),
+          dockerBridgeCidr: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AksNetworkingConfiguration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+        }),
+      ).annotate({ identifier: "VirtualMachineImage" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          maxNodeCount: S.Number,
+          minNodeCount: S.optional(S.Number),
+          nodeIdleTimeBeforeScaleDown: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScaleSettings" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          adminUserName: S.String,
+          adminUserSshPublicKey: S.optional(S.String),
+          adminUserPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "UserAccountCredentials" });
+    case 5:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            type: S.optional(S.String),
+            reference: S.optional(S.String),
+            version: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Image" });
+    case 6:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            type: S.optional(S.String),
+            value: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "EnvironmentVariable" });
+    case 7:
+      return S.Record(S.String, __S(9862, __c308, 6));
+    case 8:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            privileged: S.optional(S.NullOr(S.Boolean)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Docker" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          protocol: S.optional(S.String),
+          name: S.optional(S.String),
+          target: S.optional(S.Number),
+          published: S.optional(S.NullOr(S.Number)),
+          hostIp: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "Endpoint" });
+    case 10:
+      return S.Array(__S(9865, __c308, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          propagation: S.optional(S.NullOr(S.String)),
+          createHostPath: S.optional(S.NullOr(S.Boolean)),
+          selinux: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "BindOptions" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          nocopy: S.optional(S.NullOr(S.Boolean)),
+        }),
+      ).annotate({ identifier: "VolumeOptions" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          size: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TmpfsOptions" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          readOnly: S.optional(S.NullOr(S.Boolean)),
+          source: S.optional(S.String),
+          target: S.optional(S.String),
+          consistency: S.optional(S.NullOr(S.String)),
+          bind: S.optional(S.NullOr(__S(9867, __c308, 11))),
+          volume: S.optional(S.NullOr(__S(9868, __c308, 12))),
+          tmpfs: S.optional(S.NullOr(__S(9869, __c308, 13))),
+        }),
+      ).annotate({ identifier: "VolumeDefinition" });
+    case 15:
+      return S.Array(__S(9870, __c308, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          argv: S.optional(__S(6176, __c193, 0)),
+          displayName: S.optional(S.String),
+          language: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JupyterKernelConfig" });
+    case 17:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            name: S.optional(S.String),
+            image: S.optional(__S(9861, __c308, 5)),
+            environmentVariables: S.optional(__S(9863, __c308, 7)),
+            docker: S.optional(S.NullOr(__S(9864, __c308, 8))),
+            endpoints: S.optional(__S(9866, __c308, 10)),
+            volumes: S.optional(__S(9871, __c308, 15)),
+            kernel: S.optional(__S(9872, __c308, 16)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CustomService" });
+    case 18:
+      return S.Array(__S(9873, __c308, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          objectId: S.String,
+          tenantId: S.String,
+        }),
+      ).annotate({ identifier: "AssignedUser" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          assignedUser: S.optional(__S(9875, __c308, 19)),
+        }),
+      ).annotate({ identifier: "PersonalComputeInstanceSettings" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          scriptSource: S.optional(S.String),
+          scriptData: S.optional(S.String),
+          scriptArguments: S.optional(S.String),
+          timeout: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScriptReference" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          startupScript: S.optional(__S(9877, __c308, 21)),
+          creationScript: S.optional(__S(9877, __c308, 21)),
+        }),
+      ).annotate({ identifier: "ScriptsToExecute" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          scripts: S.optional(__S(9878, __c308, 22)),
+        }),
+      ).annotate({ identifier: "SetupScripts" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          frequency: S.optional(S.String),
+          interval: S.optional(S.Number),
+          startTime: S.optional(S.NullOr(S.String)),
+          timeZone: S.optional(S.String),
+          schedule: S.optional(__S(9760, __c305, 0)),
+        }),
+      ).annotate({ identifier: "Recurrence" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.optional(S.NullOr(S.String)),
+          timeZone: S.optional(S.String),
+          expression: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Cron" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.NullOr(S.String)),
+          provisioningStatus: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScheduleBase" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          dataLakeStoreAccountName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataLakeAnalyticsSchemaProperties" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          databricksAccessToken: S.optional(S.String),
+          workspaceUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DatabricksProperties" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          sshPort: S.optional(S.Number),
+          address: S.optional(S.String),
+          administratorAccount: S.optional(__S(9824, __c307, 0)),
+        }),
+      ).annotate({ identifier: "HDInsightProperties" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          requests: S.optional(__S(96, __c3, 0)),
+          limits: S.optional(__S(96, __c3, 0)),
+        }),
+      ).annotate({ identifier: "InstanceTypeSchemaResources" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          nodeSelector: S.optional(S.NullOr(__S(64, __c2, 0))),
+          resources: S.optional(__S(9886, __c308, 30)),
+        }),
+      ).annotate({ identifier: "InstanceTypeSchema" });
+  }
+}
+function __c309(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, __S(9887, __c308, 31));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          relayConnectionString: S.optional(S.NullOr(S.String)),
+          serviceBusConnectionString: S.optional(S.NullOr(S.String)),
+          extensionPrincipalId: S.optional(S.NullOr(S.String)),
+          extensionInstanceReleaseTrain: S.optional(S.String),
+          vcName: S.optional(S.String),
+          namespace: S.optional(S.String),
+          defaultInstanceType: S.optional(S.String),
+          instanceTypes: S.optional(__S(9888, __c309, 0)),
+        }),
+      ).annotate({ identifier: "KubernetesProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          minNodeCount: S.optional(S.Number),
+          enabled: S.optional(S.Boolean),
+          maxNodeCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AutoScaleProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          delayInMinutes: S.optional(S.Number),
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AutoPauseProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          autoScaleProperties: S.optional(__S(9890, __c309, 2)),
+          autoPauseProperties: S.optional(__S(9891, __c309, 3)),
+          sparkVersion: S.optional(S.String),
+          nodeCount: S.optional(S.Number),
+          nodeSize: S.optional(S.String),
+          nodeSizeFamily: S.optional(S.String),
+          subscriptionId: S.optional(S.String),
+          resourceGroup: S.optional(S.String),
+          workspaceName: S.optional(S.String),
+          poolName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SynapseSparkProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          virtualMachineSize: S.optional(S.String),
+          sshPort: S.optional(S.Number),
+          notebookServerPort: S.optional(S.Number),
+          address: S.optional(S.String),
+          administratorAccount: S.optional(__S(9824, __c307, 0)),
+          isNotebookInstanceCompute: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "VirtualMachineSchemaProperties" });
+    case 6:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(9897, __c309, 9)));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           info: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "ErrorAdditionalInfo" });
-    case 2:
-      return S.Array(__S(9473, __c296, 1));
-    case 3:
+    case 8:
+      return S.Array(__S(9895, __c309, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
           target: S.optional(S.String),
-          details: S.optional(__S(9472, __c296, 0)),
-          additionalInfo: S.optional(__S(9474, __c296, 2)),
+          details: S.optional(__S(9894, __c309, 6)),
+          additionalInfo: S.optional(__S(9896, __c309, 8)),
         }),
       ).annotate({ identifier: "ErrorDetail" });
-    case 4:
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(9475, __c296, 3)),
+          error: S.optional(__S(9897, __c309, 9)),
         }),
-      ).annotate({ identifier: "ComputeProvisioningErrorsItem" });
-    case 5:
-      return S.Array(__S(9476, __c296, 4));
-    case 6:
+      ).annotate({ identifier: "AKSProvisioningErrorsItem" });
+    case 11:
+      return S.Array(__S(9898, __c309, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          systemServiceType: S.optional(S.String),
+          publicIpAddress: S.optional(S.String),
+          version: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SystemService" });
+    case 13:
+      return S.Array(__S(9900, __c309, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          clusterFqdn: S.optional(S.NullOr(S.String)),
+          systemServices: S.optional(S.NullOr(__S(9901, __c309, 13))),
+          agentCount: S.optional(S.NullOr(S.Number)),
+          agentVmSize: S.optional(S.NullOr(S.String)),
+          clusterPurpose: S.optional(S.String),
+          sslConfiguration: S.optional(S.NullOr(__S(9856, __c308, 0))),
+          aksNetworkingConfiguration: S.optional(S.NullOr(__S(9857, __c308, 1))),
+          loadBalancerType: S.optional(S.String),
+          loadBalancerSubnet: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "AKSSchemaProperties" });
+    case 15:
       return S.suspend(() =>
         S.Struct({
           computeType: S.String,
@@ -20513,15 +28579,374 @@ function __c296(j: number): any {
           createdOn: S.optional(S.String),
           modifiedOn: S.optional(S.String),
           resourceId: S.optional(S.NullOr(S.String)),
-          provisioningErrors: S.optional(S.NullOr(__S(9477, __c296, 5))),
+          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
           isAttachedCompute: S.optional(S.Boolean),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(S.Unknown),
+          properties: S.optional(__S(9902, __c309, 14)),
         }),
-      ).annotate({ identifier: "Compute" });
+      ).annotate({ identifier: "AKS" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          idleNodeCount: S.optional(S.Number),
+          runningNodeCount: S.optional(S.Number),
+          preparingNodeCount: S.optional(S.Number),
+          unusableNodeCount: S.optional(S.Number),
+          leavingNodeCount: S.optional(S.Number),
+          preemptedNodeCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "NodeStateCounts" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          osType: S.optional(S.String),
+          vmSize: S.optional(S.String),
+          vmPriority: S.optional(S.String),
+          virtualMachineImage: S.optional(S.NullOr(__S(9858, __c308, 2))),
+          isolatedNetwork: S.optional(S.Boolean),
+          scaleSettings: S.optional(__S(9859, __c308, 3)),
+          userAccountCredentials: S.optional(S.NullOr(__S(9860, __c308, 4))),
+          subnet: S.optional(S.NullOr(__S(9858, __c308, 2))),
+          remoteLoginPortPublicAccess: S.optional(S.String),
+          allocationState: S.optional(S.String),
+          allocationStateTransitionTime: S.optional(S.String),
+          errors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          currentNodeCount: S.optional(S.NullOr(S.Number)),
+          targetNodeCount: S.optional(S.NullOr(S.Number)),
+          nodeStateCounts: S.optional(S.NullOr(__S(9904, __c309, 16))),
+          enableNodePublicIp: S.optional(S.NullOr(S.Boolean)),
+          propertyBag: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "AmlComputeProperties" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeLocation: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          createdOn: S.optional(S.String),
+          modifiedOn: S.optional(S.String),
+          resourceId: S.optional(S.NullOr(S.String)),
+          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          isAttachedCompute: S.optional(S.Boolean),
+          disableLocalAuth: S.optional(S.Boolean),
+          properties: S.optional(__S(9905, __c309, 17)),
+        }),
+      ).annotate({ identifier: "AmlCompute" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          sshPublicAccess: S.optional(S.String),
+          adminUserName: S.optional(S.String),
+          sshPort: S.optional(S.Number),
+          adminPublicKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ComputeInstanceSshSettings" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          patchStatus: S.optional(S.String),
+          latestPatchTime: S.optional(S.String),
+          rebootPending: S.optional(S.Boolean),
+          scheduledRebootTime: S.optional(S.String),
+          osPatchingErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+        }),
+      ).annotate({ identifier: "OsPatchingStatus" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          currentImageVersion: S.optional(S.String),
+          latestImageVersion: S.optional(S.String),
+          isLatestOsImageVersion: S.optional(S.Boolean),
+          osPatchingStatus: S.optional(__S(9908, __c309, 20)),
+        }),
+      ).annotate({ identifier: "ImageMetadata" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          publicIpAddress: S.optional(S.NullOr(S.String)),
+          privateIpAddress: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ComputeInstanceConnectivityEndpoints" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          endpointUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ComputeInstanceApplication" });
+    case 24:
+      return S.Array(__S(9911, __c309, 23));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          userName: S.optional(S.NullOr(S.String)),
+          userOrgId: S.optional(S.String),
+          userId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ComputeInstanceCreatedBy" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          operationName: S.optional(S.String),
+          operationTime: S.optional(S.String),
+          operationStatus: S.optional(S.String),
+          operationTrigger: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ComputeInstanceLastOperation" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.NullOr(S.String)),
+          provisioningStatus: S.optional(S.String),
+          status: S.optional(S.String),
+          action: S.optional(S.String),
+          triggerType: S.optional(S.String),
+          recurrence: S.optional(__S(9880, __c308, 24)),
+          cron: S.optional(__S(9881, __c308, 25)),
+          schedule: S.optional(__S(9882, __c308, 26)),
+        }),
+      ).annotate({ identifier: "ComputeStartStopSchedule" });
+    case 28:
+      return S.Array(__S(9915, __c309, 27));
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          computeStartStop: S.optional(__S(9916, __c309, 28)),
+        }),
+      ).annotate({ identifier: "ComputeSchedules" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          version: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ComputeInstanceEnvironmentInfo" });
+    case 31:
+      return S.Array(S.Unknown);
   }
 }
-function __c297(j: number): any {
+function __c310(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          autosave: S.optional(S.String),
+          gpu: S.optional(S.String),
+          network: S.optional(S.String),
+          environment: S.optional(__S(9918, __c309, 30)),
+          services: S.optional(__S(9919, __c309, 31)),
+        }),
+      ).annotate({ identifier: "ComputeInstanceContainer" });
+    case 1:
+      return S.Array(__S(9920, __c310, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          caching: S.optional(S.String),
+          diskSizeGB: S.optional(S.Number),
+          lun: S.optional(S.Number),
+          storageAccountType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ComputeInstanceDataDisk" });
+    case 3:
+      return S.Array(__S(9922, __c310, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          source: S.optional(S.String),
+          sourceType: S.optional(S.String),
+          mountName: S.optional(S.String),
+          mountAction: S.optional(S.String),
+          mountMode: S.optional(S.String),
+          createdBy: S.optional(S.String),
+          mountPath: S.optional(S.String),
+          mountState: S.optional(S.String),
+          mountedOn: S.optional(S.String),
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ComputeInstanceDataMount" });
+    case 5:
+      return S.Array(__S(9924, __c310, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          runtime: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ComputeInstanceVersion" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          vmSize: S.optional(S.String),
+          subnet: S.optional(S.NullOr(__S(9858, __c308, 2))),
+          applicationSharingPolicy: S.optional(S.String),
+          sshSettings: S.optional(S.NullOr(__S(9907, __c309, 19))),
+          customServices: S.optional(S.NullOr(__S(9874, __c308, 18))),
+          osImageMetadata: S.optional(__S(9909, __c309, 21)),
+          connectivityEndpoints: S.optional(__S(9910, __c309, 22)),
+          applications: S.optional(__S(9912, __c309, 24)),
+          createdBy: S.optional(__S(9913, __c309, 25)),
+          errors: S.optional(__S(9899, __c309, 11)),
+          state: S.optional(S.String),
+          computeInstanceAuthorizationType: S.optional(S.NullOr(S.String)),
+          enableSSO: S.optional(S.NullOr(S.Boolean)),
+          personalComputeInstanceSettings: S.optional(S.NullOr(__S(9876, __c308, 20))),
+          setupScripts: S.optional(S.NullOr(__S(9879, __c308, 23))),
+          lastOperation: S.optional(S.NullOr(__S(9914, __c309, 26))),
+          schedules: S.optional(S.NullOr(__S(9917, __c309, 29))),
+          idleTimeBeforeShutdown: S.optional(S.String),
+          enableNodePublicIp: S.optional(S.NullOr(S.Boolean)),
+          containers: S.optional(S.NullOr(__S(9921, __c310, 1))),
+          dataDisks: S.optional(S.NullOr(__S(9923, __c310, 3))),
+          dataMounts: S.optional(S.NullOr(__S(9925, __c310, 5))),
+          versions: S.optional(__S(9926, __c310, 6)),
+        }),
+      ).annotate({ identifier: "ComputeInstanceProperties" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeLocation: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          createdOn: S.optional(S.String),
+          modifiedOn: S.optional(S.String),
+          resourceId: S.optional(S.NullOr(S.String)),
+          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          isAttachedCompute: S.optional(S.Boolean),
+          disableLocalAuth: S.optional(S.Boolean),
+          properties: S.optional(__S(9927, __c310, 7)),
+        }),
+      ).annotate({ identifier: "ComputeInstance" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeLocation: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          createdOn: S.optional(S.String),
+          modifiedOn: S.optional(S.String),
+          resourceId: S.optional(S.NullOr(S.String)),
+          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          isAttachedCompute: S.optional(S.Boolean),
+          disableLocalAuth: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DataFactory" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeLocation: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          createdOn: S.optional(S.String),
+          modifiedOn: S.optional(S.String),
+          resourceId: S.optional(S.NullOr(S.String)),
+          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          isAttachedCompute: S.optional(S.Boolean),
+          disableLocalAuth: S.optional(S.Boolean),
+          properties: S.optional(__S(9883, __c308, 27)),
+        }),
+      ).annotate({ identifier: "DataLakeAnalytics" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeLocation: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          createdOn: S.optional(S.String),
+          modifiedOn: S.optional(S.String),
+          resourceId: S.optional(S.NullOr(S.String)),
+          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          isAttachedCompute: S.optional(S.Boolean),
+          disableLocalAuth: S.optional(S.Boolean),
+          properties: S.optional(__S(9884, __c308, 28)),
+        }),
+      ).annotate({ identifier: "Databricks" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeLocation: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          createdOn: S.optional(S.String),
+          modifiedOn: S.optional(S.String),
+          resourceId: S.optional(S.NullOr(S.String)),
+          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          isAttachedCompute: S.optional(S.Boolean),
+          disableLocalAuth: S.optional(S.Boolean),
+          properties: S.optional(__S(9885, __c308, 29)),
+        }),
+      ).annotate({ identifier: "HDInsight" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeLocation: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          createdOn: S.optional(S.String),
+          modifiedOn: S.optional(S.String),
+          resourceId: S.optional(S.NullOr(S.String)),
+          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          isAttachedCompute: S.optional(S.Boolean),
+          disableLocalAuth: S.optional(S.Boolean),
+          properties: S.optional(__S(9889, __c309, 1)),
+        }),
+      ).annotate({ identifier: "Kubernetes" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeLocation: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          createdOn: S.optional(S.String),
+          modifiedOn: S.optional(S.String),
+          resourceId: S.optional(S.NullOr(S.String)),
+          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          isAttachedCompute: S.optional(S.Boolean),
+          disableLocalAuth: S.optional(S.Boolean),
+          properties: S.optional(__S(9892, __c309, 4)),
+        }),
+      ).annotate({ identifier: "SynapseSpark" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+          computeLocation: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          createdOn: S.optional(S.String),
+          modifiedOn: S.optional(S.String),
+          resourceId: S.optional(S.NullOr(S.String)),
+          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          isAttachedCompute: S.optional(S.Boolean),
+          disableLocalAuth: S.optional(S.Boolean),
+          properties: S.optional(__S(9893, __c309, 5)),
+        }),
+      ).annotate({ identifier: "VirtualMachine" });
+    case 16:
+      return S.Union([
+        __S(9903, __c309, 15),
+        __S(9906, __c309, 18),
+        __S(9928, __c310, 8),
+        __S(9929, __c310, 9),
+        __S(9930, __c310, 10),
+        __S(9931, __c310, 11),
+        __S(9932, __c310, 12),
+        __S(9933, __c310, 13),
+        __S(9934, __c310, 14),
+        __S(9935, __c310, 15),
+      ]);
+  }
+}
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20541,7 +28966,7 @@ function __c297(j: number): any {
       ).annotate({ identifier: "GetRegistryCodeContainerRequest" });
   }
 }
-function __c298(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20562,7 +28987,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "GetRegistryCodeVersionRequest" });
   }
 }
-function __c299(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20582,7 +29007,7 @@ function __c299(j: number): any {
       ).annotate({ identifier: "GetRegistryComponentContainerRequest" });
   }
 }
-function __c300(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20603,7 +29028,7 @@ function __c300(j: number): any {
       ).annotate({ identifier: "GetRegistryComponentVersionRequest" });
   }
 }
-function __c301(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20623,7 +29048,7 @@ function __c301(j: number): any {
       ).annotate({ identifier: "GetRegistryDataContainerRequest" });
   }
 }
-function __c302(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20647,12 +29072,52 @@ function __c302(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          blobReferenceForConsumption: S.optional(S.NullOr(__S(6881, __c215, 1))),
+          credentialType: S.String,
+        }),
+      ).annotate({ identifier: "AnonymousAccessCredential" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          credentialType: S.String,
+          password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          userName: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "DockerCredential" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          credentialType: S.String,
+          managedIdentityType: S.optional(S.NullOr(S.String)),
+          userManagedIdentityClientId: S.optional(S.NullOr(S.String)),
+          userManagedIdentityPrincipalId: S.optional(S.NullOr(S.String)),
+          userManagedIdentityResourceId: S.optional(S.NullOr(S.String)),
+          userManagedIdentityTenantId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ManagedIdentityCredential" });
+    case 4:
+      return S.Union([
+        __S(10113, __c316, 1),
+        __S(10114, __c316, 2),
+        __S(10115, __c316, 3),
+        __S(7040, __c220, 0),
+      ]);
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          blobUri: S.optional(S.NullOr(S.String)),
+          credential: S.optional(S.NullOr(__S(10116, __c316, 4))),
+          storageAccountArmId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "GetBlobReferenceForConsumptionDto" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          blobReferenceForConsumption: S.optional(S.NullOr(__S(10117, __c316, 5))),
         }),
       ).annotate({ identifier: "GetBlobReferenceSASResponseDto" });
   }
 }
-function __c303(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20673,7 +29138,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "GetRegistryDataVersionRequest" });
   }
 }
-function __c304(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20693,7 +29158,7 @@ function __c304(j: number): any {
       ).annotate({ identifier: "GetRegistryEnvironmentContainerRequest" });
   }
 }
-function __c305(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20714,7 +29179,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "GetRegistryEnvironmentVersionRequest" });
   }
 }
-function __c306(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

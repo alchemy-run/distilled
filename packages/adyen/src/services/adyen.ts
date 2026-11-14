@@ -5589,9 +5589,17 @@ export interface StoredPaymentMethodResource {
   /** The type of payment method. */
   type?: string | undefined;
 }
-export interface ShopperIdPaymentMethod {
-  type: string;
+export type PayToPaymentMethodType = "payTo";
+export interface PayToPaymentMethod {
+  type: PayToPaymentMethodType;
+  shopperReference?: string | undefined;
 }
+export type UPIPaymentMethodType = "upi_collect";
+export interface UPIPaymentMethod {
+  type: UPIPaymentMethodType;
+  virtualPaymentAddress?: string | undefined;
+}
+export type ShopperIdPaymentMethod = PayToPaymentMethod | UPIPaymentMethod;
 export interface CreateValidateShopperIdRequest {
   /** The merchant account identifier, with which you want to process the transaction. */
   merchantAccount: string;
@@ -6151,8 +6159,8 @@ export const createValidateShopperId: API.OperationMethod<
   CreateValidateShopperIdError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(897, __c28, 1) as any as S.Schema<CreateValidateShopperIdRequest>,
-  output: __S(898, __c28, 2) as any as S.Schema<ValidateShopperIdResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<CreateValidateShopperIdRequest>,
+  output: __S(897, __c28, 1) as any as S.Schema<ValidateShopperIdResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -7851,20 +7859,14 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.String,
-        }),
-      ).annotate({ identifier: "ShopperIdPaymentMethod" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           merchantAccount: S.String,
-          paymentMethod: __S(896, __c28, 0),
+          paymentMethod: S.Unknown,
           shopperEmail: S.optional(S.String),
           shopperIP: S.optional(S.String),
           shopperReference: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/validateShopperId", code: 200 })),
       ).annotate({ identifier: "CreateValidateShopperIdRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           reason: S.optional(S.String),

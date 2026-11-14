@@ -109,9 +109,9 @@ export interface DeleteReferenceDataSetRequest {
 }
 export interface DeleteReferenceDataSetResponse {}
 /** Key-value pairs of additional properties for the resource. */
-export type EnvironmentsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
+export type Gen1EnvironmentCreateOrUpdateParametersTagsMap = { [key: string]: string | undefined };
 /** The kind of the environment. */
-export type EnvironmentsCreateOrUpdateRequestKind = "Gen1" | "Gen2";
+export type Gen1EnvironmentCreateOrUpdateParametersKind = "Gen1";
 /** The name of this SKU. */
 export type SkuName = "S1" | "S2" | "P1" | "L1";
 /** The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate. */
@@ -121,6 +121,90 @@ export interface Sku {
   /** The capacity of the sku. For Gen1 environments, this value can be changed to support scale out of environments after they have been created. */
   capacity: number;
 }
+/** The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData. */
+export type Gen1EnvironmentCreationPropertiesStorageLimitExceededBehavior =
+  | "PurgeOldData"
+  | "PauseIngress";
+/** The type of the property. */
+export type TimeSeriesIdPropertyType = "String";
+/** The structure of the property that a time series id can have. An environment can have multiple such properties. */
+export interface TimeSeriesIdProperty {
+  /** The name of the property. */
+  name?: string | undefined;
+  /** The type of the property. */
+  type?: TimeSeriesIdPropertyType | (string & {}) | undefined;
+}
+/** The list of event properties which will be used to partition data in the environment. Currently, only a single partition key property is supported. */
+export type Gen1EnvironmentCreationPropertiesPartitionKeyPropertiesList =
+  Array<TimeSeriesIdProperty>;
+/** Properties used to create a Gen1 environment. */
+export interface Gen1EnvironmentCreationProperties {
+  /** ISO8601 timespan specifying the minimum number of days the environment's events will be available for query. */
+  dataRetentionTime: string;
+  /** The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData. */
+  storageLimitExceededBehavior?:
+    | Gen1EnvironmentCreationPropertiesStorageLimitExceededBehavior
+    | (string & {})
+    | undefined;
+  /** The list of event properties which will be used to partition data in the environment. Currently, only a single partition key property is supported. */
+  partitionKeyProperties?: Gen1EnvironmentCreationPropertiesPartitionKeyPropertiesList | undefined;
+}
+/** Parameters supplied to the Create or Update Environment operation for a Gen1 environment. */
+export interface Gen1EnvironmentCreateOrUpdateParameters {
+  /** The location of the resource. */
+  location: string;
+  /** Key-value pairs of additional properties for the resource. */
+  tags?: Gen1EnvironmentCreateOrUpdateParametersTagsMap | undefined;
+  /** The kind of the environment. */
+  kind: Gen1EnvironmentCreateOrUpdateParametersKind;
+  /** The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate. */
+  sku: Sku;
+  properties: Gen1EnvironmentCreationProperties;
+}
+/** Key-value pairs of additional properties for the resource. */
+export type Gen2EnvironmentCreateOrUpdateParametersTagsMap = { [key: string]: string | undefined };
+/** The kind of the environment. */
+export type Gen2EnvironmentCreateOrUpdateParametersKind = "Gen2";
+/** The list of event properties which will be used to define the environment's time series id. */
+export type Gen2EnvironmentCreationPropertiesTimeSeriesIdPropertiesList =
+  Array<TimeSeriesIdProperty>;
+/** The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data. */
+export interface Gen2StorageConfigurationInput {
+  /** The name of the storage account that will hold the environment's Gen2 data. */
+  accountName: string;
+  /** The value of the management key that grants the Time Series Insights service write access to the storage account. This property is not shown in environment responses. */
+  managementKey: string;
+}
+/** The warm store configuration provides the details to create a warm store cache that will retain a copy of the environment's data available for faster query. */
+export interface WarmStoreConfigurationProperties {
+  /** ISO8601 timespan specifying the number of days the environment's events will be available for query from the warm store. */
+  dataRetention: string;
+}
+/** Properties used to create a Gen2 environment. */
+export interface Gen2EnvironmentCreationProperties {
+  /** The list of event properties which will be used to define the environment's time series id. */
+  timeSeriesIdProperties: Gen2EnvironmentCreationPropertiesTimeSeriesIdPropertiesList;
+  /** The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data. */
+  storageConfiguration: Gen2StorageConfigurationInput;
+  /** The warm store configuration provides the details to create a warm store cache that will retain a copy of the environment's data available for faster query. */
+  warmStoreConfiguration?: WarmStoreConfigurationProperties | undefined;
+}
+/** Parameters supplied to the Create or Update Environment operation for a Gen2 environment. */
+export interface Gen2EnvironmentCreateOrUpdateParameters {
+  /** The location of the resource. */
+  location: string;
+  /** Key-value pairs of additional properties for the resource. */
+  tags?: Gen2EnvironmentCreateOrUpdateParametersTagsMap | undefined;
+  /** The kind of the environment. */
+  kind: Gen2EnvironmentCreateOrUpdateParametersKind;
+  /** The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate. */
+  sku: Sku;
+  properties: Gen2EnvironmentCreationProperties;
+}
+/** Parameters supplied to the CreateOrUpdate Environment operation. */
+export type EnvironmentCreateOrUpdateParameters =
+  | Gen1EnvironmentCreateOrUpdateParameters
+  | Gen2EnvironmentCreateOrUpdateParameters;
 export interface EnvironmentsCreateOrUpdateRequest {
   /** Azure Subscription ID. */
   subscriptionId: string;
@@ -128,20 +212,94 @@ export interface EnvironmentsCreateOrUpdateRequest {
   resourceGroupName: string;
   /** Name of the environment */
   environmentName: string;
-  /** The location of the resource. */
-  location: string;
-  /** Key-value pairs of additional properties for the resource. */
-  tags?: EnvironmentsCreateOrUpdateRequestTagsMap | undefined;
-  /** The kind of the environment. */
-  kind: EnvironmentsCreateOrUpdateRequestKind | (string & {});
-  /** The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate. */
-  sku: Sku;
+  body: EnvironmentCreateOrUpdateParameters;
 }
 /** Resource tags */
-export type EnvironmentsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
+export type Gen1EnvironmentResourceTagsMap = { [key: string]: string | undefined };
 /** The kind of the environment. */
-export type EnvironmentsCreateOrUpdateResponseKind = "Gen1" | "Gen2";
-export interface EnvironmentsCreateOrUpdateResponse {
+export type Gen1EnvironmentResourceKind = "Gen1";
+/** The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData. */
+export type Gen1EnvironmentResourcePropertiesStorageLimitExceededBehavior =
+  | "PurgeOldData"
+  | "PauseIngress";
+/** The list of event properties which will be used to partition data in the environment. Currently, only a single partition key property is supported. */
+export type Gen1EnvironmentResourcePropertiesPartitionKeyPropertiesList =
+  Array<TimeSeriesIdProperty>;
+/** Provisioning state of the resource. */
+export type ProvisioningState =
+  | "Accepted"
+  | "Creating"
+  | "Updating"
+  | "Succeeded"
+  | "Failed"
+  | "Deleting";
+/** This string represents the state of ingress operations on an environment. It can be "Disabled", "Ready", "Running", "Paused" or "Unknown" */
+export type IngressEnvironmentStatusState = "Disabled" | "Ready" | "Running" | "Paused" | "Unknown";
+/** An object that contains the details about an environment's state. */
+export interface EnvironmentStateDetails {
+  /** Contains the code that represents the reason of an environment being in a particular state. Can be used to programmatically handle specific cases. */
+  code?: string | undefined;
+  /** A message that describes the state in detail. */
+  message?: string | undefined;
+}
+/** An object that represents the status of ingress on an environment. */
+export interface IngressEnvironmentStatus {
+  /** This string represents the state of ingress operations on an environment. It can be "Disabled", "Ready", "Running", "Paused" or "Unknown" */
+  state?: IngressEnvironmentStatusState | undefined;
+  /** An object that contains the details about an environment's state. */
+  stateDetails?: EnvironmentStateDetails | undefined;
+}
+/** This string represents the state of warm storage properties usage. It can be "Ok", "Error", "Unknown". */
+export type WarmStoragePropertiesUsageState = "Ok" | "Error" | "Unknown";
+/** An object that contains the details about warm storage properties usage state. */
+export interface WarmStoragePropertiesUsageStateDetails {
+  /** A value that represents the number of properties used by the environment for S1/S2 SKU and number of properties used by Warm Store for PAYG SKU */
+  currentCount?: number | undefined;
+  /** A value that represents the maximum number of properties used allowed by the environment for S1/S2 SKU and maximum number of properties allowed by Warm Store for PAYG SKU. */
+  maxCount?: number | undefined;
+}
+/** An object that contains the status of warm storage properties usage. */
+export interface WarmStoragePropertiesUsage {
+  /** This string represents the state of warm storage properties usage. It can be "Ok", "Error", "Unknown". */
+  state?: WarmStoragePropertiesUsageState | undefined;
+  /** An object that contains the details about warm storage properties usage state. */
+  stateDetails?: WarmStoragePropertiesUsageStateDetails | undefined;
+}
+/** An object that represents the status of warm storage on an environment. */
+export interface WarmStorageEnvironmentStatus {
+  /** An object that contains the status of warm storage properties usage. */
+  propertiesUsage?: WarmStoragePropertiesUsage | undefined;
+}
+/** An object that represents the status of the environment, and its internal state in the Time Series Insights service. */
+export interface EnvironmentStatus {
+  /** An object that represents the status of ingress on an environment. */
+  ingress?: IngressEnvironmentStatus | undefined;
+  /** An object that represents the status of warm storage on an environment. */
+  warmStorage?: WarmStorageEnvironmentStatus | undefined;
+}
+/** Properties of the Gen1 environment. */
+export interface Gen1EnvironmentResourceProperties {
+  /** ISO8601 timespan specifying the minimum number of days the environment's events will be available for query. */
+  dataRetentionTime: string;
+  /** The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData. */
+  storageLimitExceededBehavior?:
+    | Gen1EnvironmentResourcePropertiesStorageLimitExceededBehavior
+    | undefined;
+  /** The list of event properties which will be used to partition data in the environment. Currently, only a single partition key property is supported. */
+  partitionKeyProperties?: Gen1EnvironmentResourcePropertiesPartitionKeyPropertiesList | undefined;
+  /** Provisioning state of the resource. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The time the resource was created. */
+  creationTime?: string | undefined;
+  /** An id used to access the environment data, e.g. to query the environment's events or upload reference data for the environment. */
+  dataAccessId?: string | undefined;
+  /** The fully qualified domain name used to access the environment data, e.g. to query the environment's events or upload reference data for the environment. */
+  dataAccessFqdn?: string | undefined;
+  /** An object that represents the status of the environment, and its internal state in the Time Series Insights service. */
+  status?: EnvironmentStatus | undefined;
+}
+/** An environment is a set of time-series data available for query, and is the top level Azure Time Series Insights resource. Gen1 environments have data retention limits. */
+export interface Gen1EnvironmentResource {
   /** Resource Id */
   id?: string | undefined;
   /** Resource name */
@@ -151,16 +309,71 @@ export interface EnvironmentsCreateOrUpdateResponse {
   /** Resource location */
   location: string;
   /** Resource tags */
-  tags?: EnvironmentsCreateOrUpdateResponseTagsMap | undefined;
+  tags?: Gen1EnvironmentResourceTagsMap | undefined;
   /** The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate. */
   sku: Sku;
   /** The kind of the environment. */
-  kind: EnvironmentsCreateOrUpdateResponseKind;
+  kind: Gen1EnvironmentResourceKind;
+  properties: Gen1EnvironmentResourceProperties;
 }
+/** Resource tags */
+export type Gen2EnvironmentResourceTagsMap = { [key: string]: string | undefined };
+/** The kind of the environment. */
+export type Gen2EnvironmentResourceKind = "Gen2";
+/** The list of event properties which will be used to define the environment's time series id. */
+export type Gen2EnvironmentResourcePropertiesTimeSeriesIdPropertiesList =
+  Array<TimeSeriesIdProperty>;
+/** The storage configuration provides the non-secret connection details about the customer storage account that is used to store the environment's data. */
+export interface Gen2StorageConfigurationOutput {
+  /** The name of the storage account that will hold the environment's Gen2 data. */
+  accountName: string;
+}
+/** Properties of the Gen2 environment. */
+export interface Gen2EnvironmentResourceProperties {
+  /** Provisioning state of the resource. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The time the resource was created. */
+  creationTime?: string | undefined;
+  /** An id used to access the environment data, e.g. to query the environment's events or upload reference data for the environment. */
+  dataAccessId?: string | undefined;
+  /** The fully qualified domain name used to access the environment data, e.g. to query the environment's events or upload reference data for the environment. */
+  dataAccessFqdn?: string | undefined;
+  /** An object that represents the status of the environment, and its internal state in the Time Series Insights service. */
+  status?: EnvironmentStatus | undefined;
+  /** The list of event properties which will be used to define the environment's time series id. */
+  timeSeriesIdProperties: Gen2EnvironmentResourcePropertiesTimeSeriesIdPropertiesList;
+  /** The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data. */
+  storageConfiguration: Gen2StorageConfigurationOutput;
+  /** The warm store configuration provides the details to create a warm store cache that will retain a copy of the environment's data available for faster query. */
+  warmStoreConfiguration?: WarmStoreConfigurationProperties | undefined;
+}
+/** An environment is a set of time-series data available for query, and is the top level Azure Time Series Insights resource. Gen2 environments do not have set data retention limits. */
+export interface Gen2EnvironmentResource {
+  /** Resource Id */
+  id?: string | undefined;
+  /** Resource name */
+  name?: string | undefined;
+  /** Resource type */
+  type?: string | undefined;
+  /** Resource location */
+  location: string;
+  /** Resource tags */
+  tags?: Gen2EnvironmentResourceTagsMap | undefined;
+  /** The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate. */
+  sku: Sku;
+  /** The kind of the environment. */
+  kind: Gen2EnvironmentResourceKind;
+  properties: Gen2EnvironmentResourceProperties;
+}
+/** An environment is a set of time-series data available for query, and is the top level Azure Time Series Insights resource. */
+export type EnvironmentResource = Gen1EnvironmentResource | Gen2EnvironmentResource;
+export type EnvironmentsCreateOrUpdateResponse = EnvironmentResource;
 /** Key-value pairs of additional properties for the resource. */
-export type EventSourcesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
+export type EventHubEventSourceCreateOrUpdateParametersInputTagsMap = {
+  [key: string]: string | undefined;
+};
 /** The kind of the event source. */
-export type EventSourcesCreateOrUpdateRequestKind = "Microsoft.EventHub" | "Microsoft.IoTHub";
+export type EventHubEventSourceCreateOrUpdateParametersInputKind = "Microsoft.EventHub";
 /** An enum that represents the format of the local timestamp property that needs to be set. */
 export type LocalTimestampFormat = "Embedded";
 /** An object that represents the offset information for the local timestamp format specified. Should not be specified for LocalTimestampFormat - Embedded. */
@@ -175,6 +388,92 @@ export interface LocalTimestamp {
   /** An object that represents the offset information for the local timestamp format specified. Should not be specified for LocalTimestampFormat - Embedded. */
   timeZoneOffset?: LocalTimestampTimeZoneOffset | undefined;
 }
+/** The type of the ingressStartAt, It can be "EarliestAvailable", "EventSourceCreationTime", "CustomEnqueuedTime". */
+export type IngressStartAtPropertiesType =
+  | "EarliestAvailable"
+  | "EventSourceCreationTime"
+  | "CustomEnqueuedTime";
+/** An object that contains the details about the starting point in time to ingest events. */
+export interface IngressStartAtProperties {
+  /** The type of the ingressStartAt, It can be "EarliestAvailable", "EventSourceCreationTime", "CustomEnqueuedTime". */
+  type?: IngressStartAtPropertiesType | (string & {}) | undefined;
+  /** ISO8601 UTC datetime with seconds precision (milliseconds are optional), specifying the date and time that will be the starting point for Events to be consumed. */
+  time?: string | undefined;
+}
+/** Properties of the EventHub event source that are required on create or update requests. */
+export interface EventHubEventSourceCreationPropertiesInput {
+  /** The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used. */
+  timestampPropertyName?: string | undefined;
+  /** An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events. */
+  localTimestamp?: LocalTimestamp | undefined;
+  /** An object that contains the details about the starting point in time to ingest events. */
+  ingressStartAt?: IngressStartAtProperties | undefined;
+  /** The resource id of the event source in Azure Resource Manager. */
+  eventSourceResourceId: string;
+  /** The name of the service bus that contains the event hub. */
+  serviceBusNamespace: string;
+  /** The name of the event hub. */
+  eventHubName: string;
+  /** The name of the event hub's consumer group that holds the partitions from which events will be read. */
+  consumerGroupName: string;
+  /** The name of the SAS key that grants the Time Series Insights service access to the event hub. The shared access policies for this key must grant 'Listen' permissions to the event hub. */
+  keyName: string;
+  /** The value of the shared access key that grants the Time Series Insights service read access to the event hub. This property is not shown in event source responses. */
+  sharedAccessKey: string;
+}
+/** Parameters supplied to the Create or Update Event Source operation for an EventHub event source. */
+export interface EventHubEventSourceCreateOrUpdateParametersInput {
+  /** The location of the resource. */
+  location: string;
+  /** Key-value pairs of additional properties for the resource. */
+  tags?: EventHubEventSourceCreateOrUpdateParametersInputTagsMap | undefined;
+  /** The kind of the event source. */
+  kind: EventHubEventSourceCreateOrUpdateParametersInputKind;
+  /** An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events. */
+  localTimestamp?: LocalTimestamp | undefined;
+  properties: EventHubEventSourceCreationPropertiesInput;
+}
+/** Key-value pairs of additional properties for the resource. */
+export type IoTHubEventSourceCreateOrUpdateParametersInputTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The kind of the event source. */
+export type IoTHubEventSourceCreateOrUpdateParametersInputKind = "Microsoft.IoTHub";
+/** Properties of the IoTHub event source that are required on create or update requests. */
+export interface IoTHubEventSourceCreationPropertiesInput {
+  /** The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used. */
+  timestampPropertyName?: string | undefined;
+  /** An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events. */
+  localTimestamp?: LocalTimestamp | undefined;
+  /** An object that contains the details about the starting point in time to ingest events. */
+  ingressStartAt?: IngressStartAtProperties | undefined;
+  /** The resource id of the event source in Azure Resource Manager. */
+  eventSourceResourceId: string;
+  /** The name of the iot hub. */
+  iotHubName: string;
+  /** The name of the iot hub's consumer group that holds the partitions from which events will be read. */
+  consumerGroupName: string;
+  /** The name of the Shared Access Policy key that grants the Time Series Insights service access to the iot hub. This shared access policy key must grant 'service connect' permissions to the iot hub. */
+  keyName: string;
+  /** The value of the Shared Access Policy key that grants the Time Series Insights service read access to the iot hub. This property is not shown in event source responses. */
+  sharedAccessKey: string;
+}
+/** Parameters supplied to the Create or Update Event Source operation for an IoTHub event source. */
+export interface IoTHubEventSourceCreateOrUpdateParametersInput {
+  /** The location of the resource. */
+  location: string;
+  /** Key-value pairs of additional properties for the resource. */
+  tags?: IoTHubEventSourceCreateOrUpdateParametersInputTagsMap | undefined;
+  /** The kind of the event source. */
+  kind: IoTHubEventSourceCreateOrUpdateParametersInputKind;
+  /** An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events. */
+  localTimestamp?: LocalTimestamp | undefined;
+  properties: IoTHubEventSourceCreationPropertiesInput;
+}
+/** Parameters supplied to the Create or Update Event Source operation. */
+export type EventSourceCreateOrUpdateParametersInput =
+  | EventHubEventSourceCreateOrUpdateParametersInput
+  | IoTHubEventSourceCreateOrUpdateParametersInput;
 export interface EventSourcesCreateOrUpdateRequest {
   /** Azure Subscription ID. */
   subscriptionId: string;
@@ -184,20 +483,37 @@ export interface EventSourcesCreateOrUpdateRequest {
   environmentName: string;
   /** Name of the event source. */
   eventSourceName: string;
-  /** The location of the resource. */
-  location: string;
-  /** Key-value pairs of additional properties for the resource. */
-  tags?: EventSourcesCreateOrUpdateRequestTagsMap | undefined;
-  /** The kind of the event source. */
-  kind: EventSourcesCreateOrUpdateRequestKind | (string & {});
-  /** An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events. */
-  localTimestamp?: LocalTimestamp | undefined;
+  body: EventSourceCreateOrUpdateParametersInput;
 }
 /** Resource tags */
-export type EventSourcesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
+export type EventHubEventSourceResourceTagsMap = { [key: string]: string | undefined };
 /** The kind of the event source. */
-export type EventSourcesCreateOrUpdateResponseKind = "Microsoft.EventHub" | "Microsoft.IoTHub";
-export interface EventSourcesCreateOrUpdateResponse {
+export type EventHubEventSourceResourceKind = "Microsoft.EventHub";
+/** Properties of the EventHub event source. */
+export interface EventHubEventSourceCommonProperties {
+  /** Provisioning state of the resource. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The time the resource was created. */
+  creationTime?: string | undefined;
+  /** The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used. */
+  timestampPropertyName?: string | undefined;
+  /** An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events. */
+  localTimestamp?: LocalTimestamp | undefined;
+  /** An object that contains the details about the starting point in time to ingest events. */
+  ingressStartAt?: IngressStartAtProperties | undefined;
+  /** The resource id of the event source in Azure Resource Manager. */
+  eventSourceResourceId: string;
+  /** The name of the service bus that contains the event hub. */
+  serviceBusNamespace: string;
+  /** The name of the event hub. */
+  eventHubName: string;
+  /** The name of the event hub's consumer group that holds the partitions from which events will be read. */
+  consumerGroupName: string;
+  /** The name of the SAS key that grants the Time Series Insights service access to the event hub. The shared access policies for this key must grant 'Listen' permissions to the event hub. */
+  keyName: string;
+}
+/** An event source that receives its data from an Azure EventHub. */
+export interface EventHubEventSourceResource {
   /** Resource Id */
   id?: string | undefined;
   /** Resource name */
@@ -207,10 +523,55 @@ export interface EventSourcesCreateOrUpdateResponse {
   /** Resource location */
   location: string;
   /** Resource tags */
-  tags?: EventSourcesCreateOrUpdateResponseTagsMap | undefined;
+  tags?: EventHubEventSourceResourceTagsMap | undefined;
   /** The kind of the event source. */
-  kind: EventSourcesCreateOrUpdateResponseKind;
+  kind: EventHubEventSourceResourceKind;
+  properties: EventHubEventSourceCommonProperties;
 }
+/** Resource tags */
+export type IoTHubEventSourceResourceTagsMap = { [key: string]: string | undefined };
+/** The kind of the event source. */
+export type IoTHubEventSourceResourceKind = "Microsoft.IoTHub";
+/** Properties of the IoTHub event source. */
+export interface IoTHubEventSourceCommonProperties {
+  /** Provisioning state of the resource. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The time the resource was created. */
+  creationTime?: string | undefined;
+  /** The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used. */
+  timestampPropertyName?: string | undefined;
+  /** An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events. */
+  localTimestamp?: LocalTimestamp | undefined;
+  /** An object that contains the details about the starting point in time to ingest events. */
+  ingressStartAt?: IngressStartAtProperties | undefined;
+  /** The resource id of the event source in Azure Resource Manager. */
+  eventSourceResourceId: string;
+  /** The name of the iot hub. */
+  iotHubName: string;
+  /** The name of the iot hub's consumer group that holds the partitions from which events will be read. */
+  consumerGroupName: string;
+  /** The name of the Shared Access Policy key that grants the Time Series Insights service access to the iot hub. This shared access policy key must grant 'service connect' permissions to the iot hub. */
+  keyName: string;
+}
+/** An event source that receives its data from an Azure IoTHub. */
+export interface IoTHubEventSourceResource {
+  /** Resource Id */
+  id?: string | undefined;
+  /** Resource name */
+  name?: string | undefined;
+  /** Resource type */
+  type?: string | undefined;
+  /** Resource location */
+  location: string;
+  /** Resource tags */
+  tags?: IoTHubEventSourceResourceTagsMap | undefined;
+  /** The kind of the event source. */
+  kind: IoTHubEventSourceResourceKind;
+  properties: IoTHubEventSourceCommonProperties;
+}
+/** An environment receives data from one or more event sources. Each event source has associated connection info that allows the Time Series Insights ingress pipeline to connect to and pull data from the event source */
+export type EventSourceResource = EventHubEventSourceResource | IoTHubEventSourceResource;
+export type EventSourcesCreateOrUpdateResponse = EventSourceResource;
 export interface GetAccessPolicyRequest {
   /** Azure Subscription ID. */
   subscriptionId: string;
@@ -240,26 +601,7 @@ export interface GetEnvironmentRequest {
   /** Setting $expand=status will include the status of the internal services of the environment in the Time Series Insights service. */
   _expand?: string | undefined;
 }
-/** Resource tags */
-export type GetEnvironmentResponseTagsMap = { [key: string]: string | undefined };
-/** The kind of the environment. */
-export type GetEnvironmentResponseKind = "Gen1" | "Gen2";
-export interface GetEnvironmentResponse {
-  /** Resource Id */
-  id?: string | undefined;
-  /** Resource name */
-  name?: string | undefined;
-  /** Resource type */
-  type?: string | undefined;
-  /** Resource location */
-  location: string;
-  /** Resource tags */
-  tags?: GetEnvironmentResponseTagsMap | undefined;
-  /** The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate. */
-  sku: Sku;
-  /** The kind of the environment. */
-  kind: GetEnvironmentResponseKind;
-}
+export type GetEnvironmentResponse = EnvironmentResource;
 export interface GetEventSourceRequest {
   /** Azure Subscription ID. */
   subscriptionId: string;
@@ -270,24 +612,7 @@ export interface GetEventSourceRequest {
   /** The name of the Time Series Insights event source associated with the specified environment. */
   eventSourceName: string;
 }
-/** Resource tags */
-export type GetEventSourceResponseTagsMap = { [key: string]: string | undefined };
-/** The kind of the event source. */
-export type GetEventSourceResponseKind = "Microsoft.EventHub" | "Microsoft.IoTHub";
-export interface GetEventSourceResponse {
-  /** Resource Id */
-  id?: string | undefined;
-  /** Resource name */
-  name?: string | undefined;
-  /** Resource type */
-  type?: string | undefined;
-  /** Resource location */
-  location: string;
-  /** Resource tags */
-  tags?: GetEventSourceResponseTagsMap | undefined;
-  /** The kind of the event source. */
-  kind: GetEventSourceResponseKind;
-}
+export type GetEventSourceResponse = EventSourceResource;
 export interface GetReferenceDataSetRequest {
   /** Azure Subscription ID. */
   subscriptionId: string;
@@ -316,14 +641,6 @@ export type ReferenceDataSetResourcePropertiesKeyPropertiesList =
 export type ReferenceDataSetResourcePropertiesDataStringComparisonBehavior =
   | "Ordinal"
   | "OrdinalIgnoreCase";
-/** Provisioning state of the resource. */
-export type ProvisioningState =
-  | "Accepted"
-  | "Creating"
-  | "Updating"
-  | "Succeeded"
-  | "Failed"
-  | "Deleting";
 /** Properties of the reference data set. */
 export interface ReferenceDataSetResourceProperties {
   /** The list of key properties for the reference data set. */
@@ -381,27 +698,6 @@ export interface ListEnvironmentByResourceGroupRequest {
   /** Name of an Azure Resource group. */
   resourceGroupName: string;
 }
-/** Resource tags */
-export type EnvironmentResourceTagsMap = { [key: string]: string | undefined };
-/** The kind of the environment. */
-export type EnvironmentResourceKind = "Gen1" | "Gen2";
-/** An environment is a set of time-series data available for query, and is the top level Azure Time Series Insights resource. */
-export interface EnvironmentResource {
-  /** Resource Id */
-  id?: string | undefined;
-  /** Resource name */
-  name?: string | undefined;
-  /** Resource type */
-  type?: string | undefined;
-  /** Resource location */
-  location: string;
-  /** Resource tags */
-  tags?: EnvironmentResourceTagsMap | undefined;
-  /** The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate. */
-  sku: Sku;
-  /** The kind of the environment. */
-  kind: EnvironmentResourceKind;
-}
 /** Result of the List Environments operation. */
 export type EnvironmentListResponseValueList = Array<EnvironmentResource>;
 /** The response of the List Environments operation. */
@@ -420,25 +716,6 @@ export interface ListEventSourceByEnvironmentRequest {
   resourceGroupName: string;
   /** The name of the Time Series Insights environment associated with the specified resource group. */
   environmentName: string;
-}
-/** Resource tags */
-export type EventSourceResourceTagsMap = { [key: string]: string | undefined };
-/** The kind of the event source. */
-export type EventSourceResourceKind = "Microsoft.EventHub" | "Microsoft.IoTHub";
-/** An environment receives data from one or more event sources. Each event source has associated connection info that allows the Time Series Insights ingress pipeline to connect to and pull data from the event source */
-export interface EventSourceResource {
-  /** Resource Id */
-  id?: string | undefined;
-  /** Resource name */
-  name?: string | undefined;
-  /** Resource type */
-  type?: string | undefined;
-  /** Resource location */
-  location: string;
-  /** Resource tags */
-  tags?: EventSourceResourceTagsMap | undefined;
-  /** The kind of the event source. */
-  kind: EventSourceResourceKind;
 }
 /** Result of the List EventSources operation. */
 export type EventSourceListResponseValueList = Array<EventSourceResource>;
@@ -651,9 +928,63 @@ export interface UpdateAccessPolicyResponse {
   properties?: AccessPolicyResourceProperties | undefined;
 }
 /** The kind of the environment. */
-export type UpdateEnvironmentRequestKind = "Gen1" | "Gen2";
+export type Gen1EnvironmentUpdateParametersKind = "Gen1";
 /** Key-value pairs of additional properties for the environment. */
-export type UpdateEnvironmentRequestTagsMap = { [key: string]: string | undefined };
+export type Gen1EnvironmentUpdateParametersTagsMap = { [key: string]: string | undefined };
+/** The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData. */
+export type Gen1EnvironmentMutablePropertiesStorageLimitExceededBehavior =
+  | "PurgeOldData"
+  | "PauseIngress";
+/** An object that represents a set of mutable Gen1 environment resource properties. */
+export interface Gen1EnvironmentMutableProperties {
+  /** ISO8601 timespan specifying the minimum number of days the environment's events will be available for query. */
+  dataRetentionTime?: string | undefined;
+  /** The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData. */
+  storageLimitExceededBehavior?:
+    | Gen1EnvironmentMutablePropertiesStorageLimitExceededBehavior
+    | (string & {})
+    | undefined;
+}
+/** Parameters supplied to the Update Environment operation to update a Gen1 environment. */
+export interface Gen1EnvironmentUpdateParameters {
+  /** The kind of the environment. */
+  kind: Gen1EnvironmentUpdateParametersKind;
+  /** Key-value pairs of additional properties for the environment. */
+  tags?: Gen1EnvironmentUpdateParametersTagsMap | undefined;
+  /** The sku of the environment. */
+  sku?: Sku | undefined;
+  /** Properties of the Gen1 environment. */
+  properties?: Gen1EnvironmentMutableProperties | undefined;
+}
+/** The kind of the environment. */
+export type Gen2EnvironmentUpdateParametersKind = "Gen2";
+/** Key-value pairs of additional properties for the environment. */
+export type Gen2EnvironmentUpdateParametersTagsMap = { [key: string]: string | undefined };
+/** The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data. */
+export interface Gen2StorageConfigurationMutableProperties {
+  /** The value of the management key that grants the Time Series Insights service write access to the storage account. This property is not shown in environment responses. */
+  managementKey: string;
+}
+/** An object that represents a set of mutable Gen2 environment resource properties. */
+export interface Gen2EnvironmentMutableProperties {
+  /** The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data. */
+  storageConfiguration?: Gen2StorageConfigurationMutableProperties | undefined;
+  /** The warm store configuration provides the details to create a warm store cache that will retain a copy of the environment's data available for faster query. */
+  warmStoreConfiguration?: WarmStoreConfigurationProperties | undefined;
+}
+/** Parameters supplied to the Update Environment operation to update a Gen2 environment. */
+export interface Gen2EnvironmentUpdateParameters {
+  /** The kind of the environment. */
+  kind: Gen2EnvironmentUpdateParametersKind;
+  /** Key-value pairs of additional properties for the environment. */
+  tags?: Gen2EnvironmentUpdateParametersTagsMap | undefined;
+  /** Properties of the Gen2 environment. */
+  properties?: Gen2EnvironmentMutableProperties | undefined;
+}
+/** Parameters supplied to the Update Environment operation. */
+export type EnvironmentUpdateParameters =
+  | Gen1EnvironmentUpdateParameters
+  | Gen2EnvironmentUpdateParameters;
 export interface UpdateEnvironmentRequest {
   /** Azure Subscription ID. */
   subscriptionId: string;
@@ -661,35 +992,53 @@ export interface UpdateEnvironmentRequest {
   resourceGroupName: string;
   /** The name of the Time Series Insights environment associated with the specified resource group. */
   environmentName: string;
-  /** The kind of the environment. */
-  kind: UpdateEnvironmentRequestKind | (string & {});
-  /** Key-value pairs of additional properties for the environment. */
-  tags?: UpdateEnvironmentRequestTagsMap | undefined;
+  body: EnvironmentUpdateParameters;
 }
-/** Resource tags */
-export type UpdateEnvironmentResponseTagsMap = { [key: string]: string | undefined };
-/** The kind of the environment. */
-export type UpdateEnvironmentResponseKind = "Gen1" | "Gen2";
-export interface UpdateEnvironmentResponse {
-  /** Resource Id */
-  id?: string | undefined;
-  /** Resource name */
-  name?: string | undefined;
-  /** Resource type */
-  type?: string | undefined;
-  /** Resource location */
-  location: string;
-  /** Resource tags */
-  tags?: UpdateEnvironmentResponseTagsMap | undefined;
-  /** The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate. */
-  sku: Sku;
-  /** The kind of the environment. */
-  kind: UpdateEnvironmentResponseKind;
+export type UpdateEnvironmentResponse = EnvironmentResource;
+/** The kind of the event source. */
+export type EventHubEventSourceUpdateParametersKind = "Microsoft.EventHub";
+/** Key-value pairs of additional properties for the event source. */
+export type EventHubEventSourceUpdateParametersTagsMap = { [key: string]: string | undefined };
+/** An object that represents a set of mutable EventHub event source resource properties. */
+export interface EventHubEventSourceMutableProperties {
+  /** The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used. */
+  timestampPropertyName?: string | undefined;
+  /** The value of the shared access key that grants the Time Series Insights service read access to the event hub. This property is not shown in event source responses. */
+  sharedAccessKey?: string | undefined;
+}
+/** Parameters supplied to the Update Event Source operation to update an EventHub event source. */
+export interface EventHubEventSourceUpdateParameters {
+  /** The kind of the event source. */
+  kind: EventHubEventSourceUpdateParametersKind;
+  /** Key-value pairs of additional properties for the event source. */
+  tags?: EventHubEventSourceUpdateParametersTagsMap | undefined;
+  /** Properties of the EventHub event source. */
+  properties?: EventHubEventSourceMutableProperties | undefined;
 }
 /** The kind of the event source. */
-export type UpdateEventSourceRequestKind = "Microsoft.EventHub" | "Microsoft.IoTHub";
+export type IoTHubEventSourceUpdateParametersKind = "Microsoft.IoTHub";
 /** Key-value pairs of additional properties for the event source. */
-export type UpdateEventSourceRequestTagsMap = { [key: string]: string | undefined };
+export type IoTHubEventSourceUpdateParametersTagsMap = { [key: string]: string | undefined };
+/** An object that represents a set of mutable IoTHub event source resource properties. */
+export interface IoTHubEventSourceMutableProperties {
+  /** The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used. */
+  timestampPropertyName?: string | undefined;
+  /** The value of the shared access key that grants the Time Series Insights service read access to the iot hub. This property is not shown in event source responses. */
+  sharedAccessKey?: string | undefined;
+}
+/** Parameters supplied to the Update Event Source operation to update an IoTHub event source. */
+export interface IoTHubEventSourceUpdateParameters {
+  /** The kind of the event source. */
+  kind: IoTHubEventSourceUpdateParametersKind;
+  /** Key-value pairs of additional properties for the event source. */
+  tags?: IoTHubEventSourceUpdateParametersTagsMap | undefined;
+  /** Properties of the IoTHub event source. */
+  properties?: IoTHubEventSourceMutableProperties | undefined;
+}
+/** Parameters supplied to the Update Event Source operation. */
+export type EventSourceUpdateParameters =
+  | EventHubEventSourceUpdateParameters
+  | IoTHubEventSourceUpdateParameters;
 export interface UpdateEventSourceRequest {
   /** Azure Subscription ID. */
   subscriptionId: string;
@@ -699,29 +1048,9 @@ export interface UpdateEventSourceRequest {
   environmentName: string;
   /** The name of the Time Series Insights event source associated with the specified environment. */
   eventSourceName: string;
-  /** The kind of the event source. */
-  kind: UpdateEventSourceRequestKind | (string & {});
-  /** Key-value pairs of additional properties for the event source. */
-  tags?: UpdateEventSourceRequestTagsMap | undefined;
+  body: EventSourceUpdateParameters;
 }
-/** Resource tags */
-export type UpdateEventSourceResponseTagsMap = { [key: string]: string | undefined };
-/** The kind of the event source. */
-export type UpdateEventSourceResponseKind = "Microsoft.EventHub" | "Microsoft.IoTHub";
-export interface UpdateEventSourceResponse {
-  /** Resource Id */
-  id?: string | undefined;
-  /** Resource name */
-  name?: string | undefined;
-  /** Resource type */
-  type?: string | undefined;
-  /** Resource location */
-  location: string;
-  /** Resource tags */
-  tags?: UpdateEventSourceResponseTagsMap | undefined;
-  /** The kind of the event source. */
-  kind: UpdateEventSourceResponseKind;
-}
+export type UpdateEventSourceResponse = EventSourceResource;
 /** Key-value pairs of additional properties for the reference data set. */
 export type UpdateReferenceDataSetRequestTagsMap = { [key: string]: string | undefined };
 export interface UpdateReferenceDataSetRequest {
@@ -844,8 +1173,8 @@ export const EnvironmentsCreateOrUpdate: API.OperationMethod<
   EnvironmentsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<EnvironmentsCreateOrUpdateRequest>,
-  output: __S(369, __c23, 1) as any as S.Schema<EnvironmentsCreateOrUpdateResponse>,
+  input: __S(342, __c21, 6) as any as S.Schema<EnvironmentsCreateOrUpdateRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<EnvironmentsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -861,8 +1190,8 @@ export const EventSourcesCreateOrUpdate: API.OperationMethod<
   EventSourcesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(386, __c24, 2) as any as S.Schema<EventSourcesCreateOrUpdateRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<EventSourcesCreateOrUpdateResponse>,
+  input: __S(421, __c26, 5) as any as S.Schema<EventSourcesCreateOrUpdateRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<EventSourcesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -878,7 +1207,7 @@ export const GetAccessPolicy: API.OperationMethod<
   GetAccessPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<GetAccessPolicyRequest>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetAccessPolicyRequest>,
   output: __S(18, __c1, 2) as any as S.Schema<GetAccessPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -895,8 +1224,8 @@ export const GetEnvironment: API.OperationMethod<
   GetEnvironmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetEnvironmentRequest>,
-  output: __S(369, __c23, 1) as any as S.Schema<GetEnvironmentResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetEnvironmentRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<GetEnvironmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -912,8 +1241,8 @@ export const GetEventSource: API.OperationMethod<
   GetEventSourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetEventSourceRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<GetEventSourceResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetEventSourceRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<GetEventSourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -930,7 +1259,7 @@ export const GetReferenceDataSet: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<GetReferenceDataSetRequest>,
-  output: __S(83, __c5, 3) as any as S.Schema<GetReferenceDataSetResponse>,
+  output: __S(81, __c5, 1) as any as S.Schema<GetReferenceDataSetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1049,7 +1378,7 @@ export const ReferenceDataSetsCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(209, __c13, 1) as any as S.Schema<ReferenceDataSetsCreateOrUpdateRequest>,
-  output: __S(83, __c5, 3) as any as S.Schema<ReferenceDataSetsCreateOrUpdateResponse>,
+  output: __S(81, __c5, 1) as any as S.Schema<ReferenceDataSetsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1082,8 +1411,8 @@ export const UpdateEnvironment: API.OperationMethod<
   UpdateEnvironmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<UpdateEnvironmentRequest>,
-  output: __S(369, __c23, 1) as any as S.Schema<UpdateEnvironmentResponse>,
+  input: __S(246, __c15, 6) as any as S.Schema<UpdateEnvironmentRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<UpdateEnvironmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1099,8 +1428,8 @@ export const UpdateEventSource: API.OperationMethod<
   UpdateEventSourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<UpdateEventSourceRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<UpdateEventSourceResponse>,
+  input: __S(275, __c17, 3) as any as S.Schema<UpdateEventSourceRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<UpdateEventSourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1117,7 +1446,7 @@ export const UpdateReferenceDataSet: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<UpdateReferenceDataSetRequest>,
-  output: __S(83, __c5, 3) as any as S.Schema<UpdateReferenceDataSetResponse>,
+  output: __S(81, __c5, 1) as any as S.Schema<UpdateReferenceDataSetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1221,22 +1550,13 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReferenceDataSetKeyProperty" });
-    case 1:
-      return S.Array(__S(80, __c5, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          keyProperties: __S(81, __c5, 1),
+          keyProperties: __S(369, __c23, 1),
           dataStringComparisonBehavior: S.optional(S.String),
           provisioningState: S.optional(S.String),
           creationTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReferenceDataSetResourceProperties" });
-    case 3:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -1244,7 +1564,7 @@ function __c5(j: number): any {
           type: S.optional(S.String),
           location: S.String,
           tags: S.optional(__S(352, __c22, 0)),
-          properties: S.optional(__S(82, __c5, 2)),
+          properties: S.optional(__S(80, __c5, 0)),
         }),
       ).annotate({ identifier: "GetReferenceDataSetResponse" });
   }
@@ -1297,7 +1617,7 @@ function __c7(j: number): any {
 function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(369, __c23, 1));
+      return S.Array(__S(397, __c24, 13));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -1341,7 +1661,7 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListEventSourceByEnvironmentRequest" });
     case 1:
-      return S.Array(__S(400, __c25, 0));
+      return S.Array(__S(439, __c27, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1457,7 +1777,7 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListReferenceDataSetByEnvironmentRequest" });
     case 1:
-      return S.Array(__S(83, __c5, 3));
+      return S.Array(__S(81, __c5, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1471,7 +1791,7 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          keyProperties: __S(81, __c5, 1),
+          keyProperties: __S(369, __c23, 1),
           dataStringComparisonBehavior: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReferenceDataSetCreationProperties" });
@@ -1529,11 +1849,49 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          dataRetentionTime: S.optional(S.String),
+          storageLimitExceededBehavior: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Gen1EnvironmentMutableProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          tags: S.optional(__S(352, __c22, 0)),
+          sku: S.optional(__S(384, __c24, 0)),
+          properties: S.optional(__S(240, __c15, 0)),
+        }),
+      ).annotate({ identifier: "Gen1EnvironmentUpdateParameters" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          managementKey: S.String,
+        }),
+      ).annotate({ identifier: "Gen2StorageConfigurationMutableProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          storageConfiguration: S.optional(__S(242, __c15, 2)),
+          warmStoreConfiguration: S.optional(__S(385, __c24, 1)),
+        }),
+      ).annotate({ identifier: "Gen2EnvironmentMutableProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          tags: S.optional(__S(352, __c22, 0)),
+          properties: S.optional(__S(243, __c15, 3)),
+        }),
+      ).annotate({ identifier: "Gen2EnvironmentUpdateParameters" });
+    case 5:
+      return S.Union([__S(241, __c15, 1), __S(244, __c15, 4)]);
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           environmentName: S.String.pipe(T.Label()),
-          kind: S.String,
-          tags: S.optional(__S(352, __c22, 0)),
+          body: __S(245, __c15, 5).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1569,12 +1927,28 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          timestampPropertyName: S.optional(S.String),
+          sharedAccessKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EventHubEventSourceMutableProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          tags: S.optional(__S(352, __c22, 0)),
+          properties: S.optional(__S(272, __c17, 0)),
+        }),
+      ).annotate({ identifier: "EventHubEventSourceUpdateParameters" });
+    case 2:
+      return S.Union([__S(273, __c17, 1), __S(273, __c17, 1)]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           environmentName: S.String.pipe(T.Label()),
           eventSourceName: S.String.pipe(T.Label()),
-          kind: S.String,
-          tags: S.optional(__S(352, __c22, 0)),
+          body: __S(274, __c17, 2).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1652,13 +2026,55 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          environmentName: S.String.pipe(T.Label()),
+          dataRetentionTime: S.String,
+          storageLimitExceededBehavior: S.optional(S.String),
+          partitionKeyProperties: S.optional(__S(369, __c23, 1)),
+        }),
+      ).annotate({ identifier: "Gen1EnvironmentCreationProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           location: S.String,
           tags: S.optional(__S(352, __c22, 0)),
           kind: S.String,
-          sku: __S(368, __c23, 0),
+          sku: __S(384, __c24, 0),
+          properties: __S(336, __c21, 0),
+        }),
+      ).annotate({ identifier: "Gen1EnvironmentCreateOrUpdateParameters" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          accountName: S.String,
+          managementKey: S.String,
+        }),
+      ).annotate({ identifier: "Gen2StorageConfigurationInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          timeSeriesIdProperties: __S(369, __c23, 1),
+          storageConfiguration: __S(338, __c21, 2),
+          warmStoreConfiguration: S.optional(__S(385, __c24, 1)),
+        }),
+      ).annotate({ identifier: "Gen2EnvironmentCreationProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.String,
+          tags: S.optional(__S(352, __c22, 0)),
+          kind: S.String,
+          sku: __S(384, __c24, 0),
+          properties: __S(339, __c21, 3),
+        }),
+      ).annotate({ identifier: "Gen2EnvironmentCreateOrUpdateParameters" });
+    case 5:
+      return S.Union([__S(337, __c21, 1), __S(340, __c21, 4)]);
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          environmentName: S.String.pipe(T.Label()),
+          body: __S(341, __c21, 5).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1681,22 +2097,12 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String,
-          capacity: S.Number,
-        }),
-      ).annotate({ identifier: "Sku" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          location: S.String,
-          tags: S.optional(__S(352, __c22, 0)),
-          sku: __S(368, __c23, 0),
-          kind: S.String,
         }),
-      ).annotate({ identifier: "EnvironmentsCreateOrUpdateResponse" });
+      ).annotate({ identifier: "TimeSeriesIdProperty" });
+    case 1:
+      return S.Array(__S(368, __c23, 0));
   }
 }
 function __c24(j: number): any {
@@ -1704,27 +2110,186 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          propertyName: S.optional(S.String),
+          name: S.String,
+          capacity: S.Number,
         }),
-      ).annotate({ identifier: "LocalTimestampTimeZoneOffset" });
+      ).annotate({ identifier: "Sku" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          format: S.optional(S.String),
-          timeZoneOffset: S.optional(__S(384, __c24, 0)),
+          dataRetention: S.String,
         }),
-      ).annotate({ identifier: "LocalTimestamp" });
+      ).annotate({ identifier: "WarmStoreConfigurationProperties" });
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnvironmentStateDetails" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          stateDetails: S.optional(__S(386, __c24, 2)),
+        }),
+      ).annotate({ identifier: "IngressEnvironmentStatus" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          currentCount: S.optional(S.Number),
+          maxCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "WarmStoragePropertiesUsageStateDetails" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          stateDetails: S.optional(__S(388, __c24, 4)),
+        }),
+      ).annotate({ identifier: "WarmStoragePropertiesUsage" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          propertiesUsage: S.optional(__S(389, __c24, 5)),
+        }),
+      ).annotate({ identifier: "WarmStorageEnvironmentStatus" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          ingress: S.optional(__S(387, __c24, 3)),
+          warmStorage: S.optional(__S(390, __c24, 6)),
+        }),
+      ).annotate({ identifier: "EnvironmentStatus" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          dataRetentionTime: S.String,
+          storageLimitExceededBehavior: S.optional(S.String),
+          partitionKeyProperties: S.optional(__S(369, __c23, 1)),
+          provisioningState: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          dataAccessId: S.optional(S.String),
+          dataAccessFqdn: S.optional(S.String),
+          status: S.optional(__S(391, __c24, 7)),
+        }),
+      ).annotate({ identifier: "Gen1EnvironmentResourceProperties" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          location: S.String,
+          tags: S.optional(__S(352, __c22, 0)),
+          sku: __S(384, __c24, 0),
+          kind: S.String,
+          properties: __S(392, __c24, 8),
+        }),
+      ).annotate({ identifier: "Gen1EnvironmentResource" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          accountName: S.String,
+        }),
+      ).annotate({ identifier: "Gen2StorageConfigurationOutput" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          dataAccessId: S.optional(S.String),
+          dataAccessFqdn: S.optional(S.String),
+          status: S.optional(__S(391, __c24, 7)),
+          timeSeriesIdProperties: __S(369, __c23, 1),
+          storageConfiguration: __S(394, __c24, 10),
+          warmStoreConfiguration: S.optional(__S(385, __c24, 1)),
+        }),
+      ).annotate({ identifier: "Gen2EnvironmentResourceProperties" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          location: S.String,
+          tags: S.optional(__S(352, __c22, 0)),
+          sku: __S(384, __c24, 0),
+          kind: S.String,
+          properties: __S(395, __c24, 11),
+        }),
+      ).annotate({ identifier: "Gen2EnvironmentResource" });
+    case 13:
+      return S.Union([__S(393, __c24, 9), __S(396, __c24, 12)]);
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(397, __c24, 13).pipe(T.RawResponseRoot())).annotate({
+        identifier: "EnvironmentsCreateOrUpdateResponse",
+      });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          timestampPropertyName: S.optional(S.String),
+          localTimestamp: S.optional(__S(433, __c27, 1)),
+          ingressStartAt: S.optional(__S(434, __c27, 2)),
+          eventSourceResourceId: S.String,
+          serviceBusNamespace: S.String,
+          eventHubName: S.String,
+          consumerGroupName: S.String,
+          keyName: S.String,
+          sharedAccessKey: S.String,
+        }),
+      ).annotate({ identifier: "EventHubEventSourceCreationPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.String,
+          tags: S.optional(__S(352, __c22, 0)),
+          kind: S.String,
+          localTimestamp: S.optional(__S(433, __c27, 1)),
+          properties: __S(416, __c26, 0),
+        }),
+      ).annotate({ identifier: "EventHubEventSourceCreateOrUpdateParametersInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          timestampPropertyName: S.optional(S.String),
+          localTimestamp: S.optional(__S(433, __c27, 1)),
+          ingressStartAt: S.optional(__S(434, __c27, 2)),
+          eventSourceResourceId: S.String,
+          iotHubName: S.String,
+          consumerGroupName: S.String,
+          keyName: S.String,
+          sharedAccessKey: S.String,
+        }),
+      ).annotate({ identifier: "IoTHubEventSourceCreationPropertiesInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.String,
+          tags: S.optional(__S(352, __c22, 0)),
+          kind: S.String,
+          localTimestamp: S.optional(__S(433, __c27, 1)),
+          properties: __S(418, __c26, 2),
+        }),
+      ).annotate({ identifier: "IoTHubEventSourceCreateOrUpdateParametersInput" });
+    case 4:
+      return S.Union([__S(417, __c26, 1), __S(419, __c26, 3)]);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           environmentName: S.String.pipe(T.Label()),
           eventSourceName: S.String.pipe(T.Label()),
-          location: S.String,
-          tags: S.optional(__S(352, __c22, 0)),
-          kind: S.String,
-          localTimestamp: S.optional(__S(385, __c24, 1)),
+          body: __S(420, __c26, 4).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1736,9 +2301,44 @@ function __c24(j: number): any {
       ).annotate({ identifier: "EventSourcesCreateOrUpdateRequest" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          propertyName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LocalTimestampTimeZoneOffset" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          format: S.optional(S.String),
+          timeZoneOffset: S.optional(__S(432, __c27, 0)),
+        }),
+      ).annotate({ identifier: "LocalTimestamp" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          time: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IngressStartAtProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          timestampPropertyName: S.optional(S.String),
+          localTimestamp: S.optional(__S(433, __c27, 1)),
+          ingressStartAt: S.optional(__S(434, __c27, 2)),
+          eventSourceResourceId: S.String,
+          serviceBusNamespace: S.String,
+          eventHubName: S.String,
+          consumerGroupName: S.String,
+          keyName: S.String,
+        }),
+      ).annotate({ identifier: "EventHubEventSourceCommonProperties" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -1747,11 +2347,48 @@ function __c25(j: number): any {
           location: S.String,
           tags: S.optional(__S(352, __c22, 0)),
           kind: S.String,
+          properties: __S(435, __c27, 3),
         }),
-      ).annotate({ identifier: "EventSourcesCreateOrUpdateResponse" });
+      ).annotate({ identifier: "EventHubEventSourceResource" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          timestampPropertyName: S.optional(S.String),
+          localTimestamp: S.optional(__S(433, __c27, 1)),
+          ingressStartAt: S.optional(__S(434, __c27, 2)),
+          eventSourceResourceId: S.String,
+          iotHubName: S.String,
+          consumerGroupName: S.String,
+          keyName: S.String,
+        }),
+      ).annotate({ identifier: "IoTHubEventSourceCommonProperties" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          location: S.String,
+          tags: S.optional(__S(352, __c22, 0)),
+          kind: S.String,
+          properties: __S(437, __c27, 5),
+        }),
+      ).annotate({ identifier: "IoTHubEventSourceResource" });
+    case 7:
+      return S.Union([__S(436, __c27, 4), __S(438, __c27, 6)]);
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(439, __c27, 7).pipe(T.RawResponseRoot())).annotate({
+        identifier: "EventSourcesCreateOrUpdateResponse",
+      });
+  }
+}
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1771,7 +2408,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetAccessPolicyRequest" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1791,7 +2428,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetEnvironmentRequest" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

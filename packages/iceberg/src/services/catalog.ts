@@ -58,6 +58,8 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   initial_default: "initial-default",
   key_id: "key-id",
   key_metadata: "key-metadata",
+  last_assigned_field_id: "last-assigned-field-id",
+  last_assigned_partition_id: "last-assigned-partition-id",
   last_column_id: "last-column-id",
   last_partition_id: "last-partition-id",
   last_sequence_number: "last-sequence-number",
@@ -305,19 +307,76 @@ export interface TableIdentifier {
   namespace: Namespace;
   name: string;
 }
-export interface TableRequirement {
-  type: string;
+export type AssertCreateType = "assert-create";
+/** The table must not already exist; used for create transactions */
+export interface AssertCreate {
+  type: AssertCreateType;
 }
-export type CommitTableRequestInputRequirementsList = Array<TableRequirement>;
-/** Assigning a UUID to a table/view should only be done when creating the table/view. It is not safe to re-assign the UUID if a table/view already has a UUID assigned */
-export interface AssignUUIDUpdate {
-  action: string;
+export type AssertTableUUIDType = "assert-table-uuid";
+/** The table UUID must match the requirement's `uuid` */
+export interface AssertTableUUID {
+  type: AssertTableUUIDType;
   uuid: string;
 }
+export type AssertRefSnapshotIdType = "assert-ref-snapshot-id";
+/** The table branch or tag identified by the requirement's `ref` must reference the requirement's `snapshot-id`. The `snapshot-id` field is required in this object, but in the case of a `null` the ref must not already exist. */
+export interface AssertRefSnapshotId {
+  type: AssertRefSnapshotIdType;
+  ref: string;
+  snapshot_id: number | null;
+}
+export type AssertLastAssignedFieldIdType = "assert-last-assigned-field-id";
+/** The table's last assigned column id must match the requirement's `last-assigned-field-id` */
+export interface AssertLastAssignedFieldId {
+  type: AssertLastAssignedFieldIdType;
+  last_assigned_field_id: number;
+}
+export type AssertCurrentSchemaIdType = "assert-current-schema-id";
+/** The table's current schema id must match the requirement's `current-schema-id` */
+export interface AssertCurrentSchemaId {
+  type: AssertCurrentSchemaIdType;
+  current_schema_id: number;
+}
+export type AssertLastAssignedPartitionIdType = "assert-last-assigned-partition-id";
+/** The table's last assigned partition id must match the requirement's `last-assigned-partition-id` */
+export interface AssertLastAssignedPartitionId {
+  type: AssertLastAssignedPartitionIdType;
+  last_assigned_partition_id: number;
+}
+export type AssertDefaultSpecIdType = "assert-default-spec-id";
+/** The table's default spec id must match the requirement's `default-spec-id` */
+export interface AssertDefaultSpecId {
+  type: AssertDefaultSpecIdType;
+  default_spec_id: number;
+}
+export type AssertDefaultSortOrderIdType = "assert-default-sort-order-id";
+/** The table's default sort order id must match the requirement's `default-sort-order-id` */
+export interface AssertDefaultSortOrderId {
+  type: AssertDefaultSortOrderIdType;
+  default_sort_order_id: number;
+}
+export type TableRequirement =
+  | AssertCreate
+  | AssertTableUUID
+  | AssertRefSnapshotId
+  | AssertLastAssignedFieldId
+  | AssertCurrentSchemaId
+  | AssertLastAssignedPartitionId
+  | AssertDefaultSpecId
+  | AssertDefaultSortOrderId;
+export type CommitTableRequestInputRequirementsList = Array<TableRequirement>;
+export type AssignUUIDUpdateAction = "assign-uuid";
+/** Assigning a UUID to a table/view should only be done when creating the table/view. It is not safe to re-assign the UUID if a table/view already has a UUID assigned */
+export interface AssignUUIDUpdate {
+  action: AssignUUIDUpdateAction;
+  uuid: string;
+}
+export type UpgradeFormatVersionUpdateAction = "upgrade-format-version";
 export interface UpgradeFormatVersionUpdate {
-  action: string;
+  action: UpgradeFormatVersionUpdateAction;
   format_version: number;
 }
+export type AddSchemaUpdateInputAction = "add-schema";
 export type StructTypeFieldsList = Array<StructField>;
 export interface StructType {
   type: string;
@@ -356,16 +415,18 @@ export interface SchemaInput {
   identifier_field_ids?: SchemaInputIdentifierFieldIdsList | undefined;
 }
 export interface AddSchemaUpdateInput {
-  action: string;
+  action: AddSchemaUpdateInputAction;
   schema: SchemaInput;
   /** This optional field is **DEPRECATED for REMOVAL** since it more safe to handle this internally, and shouldn't be exposed to the clients. The highest assigned column ID for the table. This is used to ensure columns are always assigned an unused ID when evolving schemas. When omitted, it will be computed on the server side. */
   last_column_id?: number | undefined;
 }
+export type SetCurrentSchemaUpdateAction = "set-current-schema";
 export interface SetCurrentSchemaUpdate {
-  action: string;
+  action: SetCurrentSchemaUpdateAction;
   /** Schema ID to set as current, or -1 to set last added schema */
   schema_id: number;
 }
+export type AddPartitionSpecUpdateInputAction = "add-spec";
 export interface PartitionField {
   field_id?: number | undefined;
   source_id: number;
@@ -377,14 +438,16 @@ export interface PartitionSpecInput {
   fields: PartitionSpecInputFieldsList;
 }
 export interface AddPartitionSpecUpdateInput {
-  action: string;
+  action: AddPartitionSpecUpdateInputAction;
   spec: PartitionSpecInput;
 }
+export type SetDefaultSpecUpdateAction = "set-default-spec";
 export interface SetDefaultSpecUpdate {
-  action: string;
+  action: SetDefaultSpecUpdateAction;
   /** Partition spec ID to set as the default, or -1 to set last added spec */
   spec_id: number;
 }
+export type AddSortOrderUpdateInputAction = "add-sort-order";
 export type SortDirection = "asc" | "desc";
 export type NullOrder = "nulls-first" | "nulls-last";
 export interface SortField {
@@ -398,14 +461,16 @@ export interface SortOrderInput {
   fields: SortOrderInputFieldsList;
 }
 export interface AddSortOrderUpdateInput {
-  action: string;
+  action: AddSortOrderUpdateInputAction;
   sort_order: SortOrderInput;
 }
+export type SetDefaultSortOrderUpdateAction = "set-default-sort-order";
 export interface SetDefaultSortOrderUpdate {
-  action: string;
+  action: SetDefaultSortOrderUpdateAction;
   /** Sort order ID to set as the default, or -1 to set last added sort order */
   sort_order_id: number;
 }
+export type AddSnapshotUpdateAction = "add-snapshot";
 export type SnapshotSummaryOperation = "append" | "replace" | "overwrite" | "delete";
 export interface SnapshotSummary {
   operation: SnapshotSummaryOperation | (string & {});
@@ -426,12 +491,13 @@ export interface Snapshot {
   schema_id?: number | undefined;
 }
 export interface AddSnapshotUpdate {
-  action: string;
+  action: AddSnapshotUpdateAction;
   snapshot: Snapshot;
 }
+export type SetSnapshotRefUpdateAction = "set-snapshot-ref";
 export type SetSnapshotRefUpdateType = "tag" | "branch";
 export interface SetSnapshotRefUpdate {
-  action: string;
+  action: SetSnapshotRefUpdateAction;
   type: SetSnapshotRefUpdateType | (string & {});
   snapshot_id: number;
   max_ref_age_ms?: number | undefined;
@@ -439,29 +505,35 @@ export interface SetSnapshotRefUpdate {
   min_snapshots_to_keep?: number | undefined;
   ref_name: string;
 }
+export type RemoveSnapshotsUpdateAction = "remove-snapshots";
 export type RemoveSnapshotsUpdateSnapshotIdsList = Array<number>;
 export interface RemoveSnapshotsUpdate {
-  action: string;
+  action: RemoveSnapshotsUpdateAction;
   snapshot_ids: RemoveSnapshotsUpdateSnapshotIdsList;
 }
+export type RemoveSnapshotRefUpdateAction = "remove-snapshot-ref";
 export interface RemoveSnapshotRefUpdate {
-  action: string;
+  action: RemoveSnapshotRefUpdateAction;
   ref_name: string;
 }
+export type SetLocationUpdateAction = "set-location";
 export interface SetLocationUpdate {
-  action: string;
+  action: SetLocationUpdateAction;
   location: string;
 }
+export type SetPropertiesUpdateAction = "set-properties";
 export type SetPropertiesUpdateUpdatesMap = { [key: string]: string | undefined };
 export interface SetPropertiesUpdate {
-  action: string;
+  action: SetPropertiesUpdateAction;
   updates: SetPropertiesUpdateUpdatesMap;
 }
+export type RemovePropertiesUpdateAction = "remove-properties";
 export type RemovePropertiesUpdateRemovalsList = Array<string>;
 export interface RemovePropertiesUpdate {
-  action: string;
+  action: RemovePropertiesUpdateAction;
   removals: RemovePropertiesUpdateRemovalsList;
 }
+export type SetStatisticsUpdateAction = "set-statistics";
 export type BlobMetadataFieldsList = Array<number>;
 export type BlobMetadataPropertiesMap = { [key: string]: string | undefined };
 export interface BlobMetadata {
@@ -480,35 +552,44 @@ export interface StatisticsFile {
   blob_metadata: StatisticsFileBlobMetadataList;
 }
 export interface SetStatisticsUpdate {
-  action: string;
+  action: SetStatisticsUpdateAction;
   /** This optional field is **DEPRECATED for REMOVAL** since it contains redundant information. Clients should use the `statistics.snapshot-id` field instead. */
   snapshot_id?: number | undefined;
   statistics: StatisticsFile;
 }
+export type RemoveStatisticsUpdateAction = "remove-statistics";
 export interface RemoveStatisticsUpdate {
-  action: string;
+  action: RemoveStatisticsUpdateAction;
   snapshot_id: number;
 }
+export type SetPartitionStatisticsUpdateAction = "set-partition-statistics";
 export interface PartitionStatisticsFile {
   snapshot_id: number;
   statistics_path: string;
   file_size_in_bytes: number;
 }
 export interface SetPartitionStatisticsUpdate {
-  action: string;
+  action: SetPartitionStatisticsUpdateAction;
   partition_statistics: PartitionStatisticsFile;
 }
-export type RemovePartitionStatisticsUpdate = RemoveStatisticsUpdate;
+export type RemovePartitionStatisticsUpdateAction = "remove-partition-statistics";
+export interface RemovePartitionStatisticsUpdate {
+  action: RemovePartitionStatisticsUpdateAction;
+  snapshot_id: number;
+}
+export type RemovePartitionSpecsUpdateAction = "remove-partition-specs";
 export type RemovePartitionSpecsUpdateSpecIdsList = Array<number>;
 export interface RemovePartitionSpecsUpdate {
-  action: string;
+  action: RemovePartitionSpecsUpdateAction;
   spec_ids: RemovePartitionSpecsUpdateSpecIdsList;
 }
+export type RemoveSchemasUpdateAction = "remove-schemas";
 export type RemoveSchemasUpdateSchemaIdsList = Array<number>;
 export interface RemoveSchemasUpdate {
-  action: string;
+  action: RemoveSchemasUpdateAction;
   schema_ids: RemoveSchemasUpdateSchemaIdsList;
 }
+export type AddEncryptionKeyUpdateAction = "add-encryption-key";
 export type EncryptedKeyPropertiesMap = { [key: string]: string | undefined };
 export interface EncryptedKey {
   key_id: string;
@@ -517,11 +598,12 @@ export interface EncryptedKey {
   properties?: EncryptedKeyPropertiesMap | undefined;
 }
 export interface AddEncryptionKeyUpdate {
-  action: string;
+  action: AddEncryptionKeyUpdateAction;
   encryption_key: EncryptedKey;
 }
+export type RemoveEncryptionKeyUpdateAction = "remove-encryption-key";
 export interface RemoveEncryptionKeyUpdate {
-  action: string;
+  action: RemoveEncryptionKeyUpdateAction;
   key_id: string;
 }
 export type TableUpdateInput =
@@ -543,7 +625,7 @@ export type TableUpdateInput =
   | SetStatisticsUpdate
   | RemoveStatisticsUpdate
   | SetPartitionStatisticsUpdate
-  | RemoveStatisticsUpdate
+  | RemovePartitionStatisticsUpdate
   | RemovePartitionSpecsUpdate
   | RemoveSchemasUpdate
   | AddEncryptionKeyUpdate
@@ -692,17 +774,87 @@ export interface RemoteSigningConfig {
   /** Static headers the signer client MUST include unchanged in every request to the signing endpoint. */
   headers?: MultiValuedMap | undefined;
 }
-export interface Action {
-  action: string;
+export type MaskAlphanumAction = "mask-alphanum";
+/** Redacts the column value using the following rules to transform Unicode code points: - Digits (U+0030-U+0039, 0-9) are replaced with 'n' - The following punctuation characters are kept as-is: U+0028 '(' LEFT PARENTHESIS U+0029 ')' RIGHT PARENTHESIS U+002C ',' COMMA U+002E '.' FULL STOP U+002D '-' HYPHEN-MINUS U+0040 '@' COMMERCIAL AT - All other Unicode characters (including letters, whitespace, and any punctuation not listed above) are replaced with 'x' For example: "iceberg16112018@apache.org" -> "xxxxxxxnnnnnnnn@xxxxxx.xxx" NULL input is preserved (NULL -> NULL). Applicable to: string */
+export interface MaskAlphanum {
+  action: MaskAlphanumAction;
   /** Field ID of the column being projected. */
   field_id: number;
 }
+export type MaskToFixedValueAction = "mask-to-fixed-value";
+/** Replaces the column value with a type-specific fixed value. Readers must use exactly the values listed below to ensure consistency across implementations. Fixed values by type: - boolean: false - int: 0 - long: 0 - float: 0.0 - double: 0.0 - decimal(p, s): 0 (the unscaled value is 0) - string: "XXXXXXXX" - date: 1970-01-01 - time: 00:00:00 - timestamp: 1970-01-01T00:00:00 - timestamptz: 1970-01-01T00:00:00+00:00 - timestamp_ns: 1970-01-01T00:00:00.000000000 - timestamptz_ns: 1970-01-01T00:00:00.000000000+00:00 - uuid: 00000000-0000-0000-0000-000000000000 - fixed(n): n zero bytes - binary: empty byte sequence - variant: an empty variant object - list: empty list [] - map: empty map {} - struct: struct with each field set to its type-specific default (applied recursively) NULL input is also replaced with the type-specific fixed value; NULL is not preserved. Applicable to: the types with a fixed value defined above. A server must not return mask-to-fixed-value for any other type. */
+export interface MaskToFixedValue {
+  action: MaskToFixedValueAction;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type ReplaceWithNullAction = "replace-with-null";
+/** Replaces the column value with NULL. NULL input is preserved (NULL -> NULL). Applicable to: all optional types. A server must not return replace-with-null for a required (non-nullable) field; a reader that receives one must fail the query. */
+export interface ReplaceWithNull {
+  action: ReplaceWithNullAction;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type ShowFirst4Action = "show-first-4";
+/** Preserves the first 4 Unicode code points of the column value and redacts the remainder using mask-alphanum rules (see MaskAlphanum for the exact character rules). Values with 4 or fewer Unicode code points are returned unchanged. For example: "iceberg16112018@apache.org" -> "icebxxxnnnnnnnn@xxxxxx.xxx" NULL input is preserved (NULL -> NULL). Applicable to: string */
+export interface ShowFirst4 {
+  action: ShowFirst4Action;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type ShowLast4Action = "show-last-4";
+/** Redacts all Unicode code points except the last 4 using mask-alphanum rules (see MaskAlphanum for the exact character rules). Values with 4 or fewer Unicode code points are returned unchanged. For example: "4111-1111-1111-4444" -> "nnnn-nnnn-nnnn-4444" NULL input is preserved (NULL -> NULL). Applicable to: string */
+export interface ShowLast4 {
+  action: ShowLast4Action;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type TruncateToYearAction = "truncate-to-year";
+/** Truncates the column value to year precision, setting month, day, and time components to their minimum values. The output type matches the input type. For example: 2024-07-15 -> 2024-01-01 For timestamptz and timestamptz_ns, truncation is performed in UTC. NULL input is preserved (NULL -> NULL). Applicable to: date, timestamp, timestamptz, timestamp_ns, timestamptz_ns */
+export interface TruncateToYear {
+  action: TruncateToYearAction;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type TruncateToMonthAction = "truncate-to-month";
+/** Truncates the column value to year and month precision, setting day and time components to their minimum values. The output type matches the input type. For example: 2024-07-15 -> 2024-07-01 For timestamptz and timestamptz_ns, truncation is performed in UTC. NULL input is preserved (NULL -> NULL). Applicable to: date, timestamp, timestamptz, timestamp_ns, timestamptz_ns */
+export interface TruncateToMonth {
+  action: TruncateToMonthAction;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type Sha256GlobalAction = "sha-256-global";
+/** Applies SHA-256. Deterministic across all queries and readers: the same input always produces the same output. Input-to-bytes encoding by type: - string: UTF-8 encoded bytes - int: 4 bytes, little-endian - long: 8 bytes, little-endian - binary: raw bytes as-is Output encoding by type: - string: 64-character lowercase hexadecimal string - int: first 4 bytes of the digest, read as a little-endian int - long: first 8 bytes of the digest, read as a little-endian long - binary: the full 32-byte raw SHA-256 digest NULL input is preserved (NULL -> NULL). Applicable to: string, int, long, binary */
+export interface Sha256Global {
+  action: Sha256GlobalAction;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type Sha256QueryLocalAction = "sha-256-query-local";
+/** Applies SHA-256 with a per-query random salt, making the output non-deterministic across queries while remaining consistent within a single query. The definition of a query is left to the implementation. The reader must generate a cryptographically random salt of at least 16 bytes for each query. For each column value, the reader must encode the value to bytes using sha-256-global's input rules, prepend the per-query salt, and compute SHA-256 over the result. Output encoding follows the same rules as sha-256-global. NULL input is preserved (NULL -> NULL). Applicable to: string, int, long, binary */
+export interface Sha256QueryLocal {
+  action: Sha256QueryLocalAction;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type Action =
+  | MaskAlphanum
+  | MaskToFixedValue
+  | ReplaceWithNull
+  | ShowFirst4
+  | ShowLast4
+  | TruncateToYear
+  | TruncateToMonth
+  | Sha256Global
+  | Sha256QueryLocal;
 /** A list of columns that require specific actions to be applied when reading. A server must not return an action for a column whose type is not listed in that action's "Applicable to" set. If absent or empty, no required actions apply; columns not listed are not subject to any required action. 1. For each column listed, the reader must apply the specified action before returning values for that column. 2. The reader must replace all output references to the column with the result of the action, presenting the result under the original field-id. For example, if the action for field-id `9` is mask-alphanum, the reader must return the masked value as field-id `9` in the query output. 3. A server must not return more than one projection for the same field-id in required-column-projections. If a duplicate field-id appears, the reader must fail the query. 4. A server must not return a projection that targets a map's key field-id; a reader that receives one must fail the query. Applying an action to keys can produce duplicate or null keys, which readers silently coalesce or reject, causing data loss. 5. A reader must enforce projections on the columns it is actually reading. Projections referencing columns that are not being read do not apply. 6. A server must not return projections on both a nested-typed field (struct, list, or map) and any field-id nested within it at any depth. A reader that receives such a response must fail the query. */
 export type ReadRestrictionsRequiredColumnProjectionsList = Array<Action>;
 /** Deprecated. Use the bare boolean literal `true` as a predicate instead. */
-export type TrueExpression = TableRequirement;
+export interface TrueExpression {
+  type: string;
+}
 /** Deprecated. Use the bare boolean literal `false` as a predicate instead. */
-export type FalseExpression = TableRequirement;
+export type FalseExpression = TrueExpression;
 export interface AndOrPredicate {
   type: string;
   left: Predicate;
@@ -792,8 +944,8 @@ export interface SetPredicate {
 }
 export type Predicate =
   | boolean
-  | TableRequirement
-  | TableRequirement
+  | TrueExpression
+  | TrueExpression
   | AndOrPredicate
   | NotPredicate
   | UnaryPredicate
@@ -934,6 +1086,7 @@ export interface FetchPlanningResultRequest {
   /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
   xIcebergAccessDelegation?: FetchPlanningResultRequestXIcebergAccessDelegationList | undefined;
 }
+export type PositionDeleteFileContent = "position-deletes";
 export type FileFormat = "avro" | "orc" | "parquet" | "puffin";
 /** A list of partition field values ordered based on the fields of the partition spec specified by the `spec-id` */
 export type PositionDeleteFilePartitionList = Array<PrimitiveTypeValue>;
@@ -946,7 +1099,7 @@ export interface FieldStatistics {
 /** Container struct for per-field metrics structs */
 export type PositionDeleteFileContentStatsMap = { [key: string]: FieldStatistics | undefined };
 export interface PositionDeleteFile {
-  content: string;
+  content: PositionDeleteFileContent;
   file_path: string;
   file_format: FileFormat;
   spec_id: number;
@@ -968,6 +1121,7 @@ export interface PositionDeleteFile {
   /** Length, in bytes, of the delete content; required if content-offset is present */
   content_size_in_bytes?: number | undefined;
 }
+export type EqualityDeleteFileContent = "equality-deletes";
 /** A list of partition field values ordered based on the fields of the partition spec specified by the `spec-id` */
 export type EqualityDeleteFilePartitionList = Array<PrimitiveTypeValue>;
 /** List of splittable offsets */
@@ -977,7 +1131,7 @@ export type EqualityDeleteFileContentStatsMap = { [key: string]: FieldStatistics
 /** List of equality field IDs */
 export type EqualityDeleteFileEqualityIdsList = Array<number>;
 export interface EqualityDeleteFile {
-  content: string;
+  content: EqualityDeleteFileContent;
   file_path: string;
   file_format: FileFormat;
   spec_id: number;
@@ -1000,6 +1154,7 @@ export interface EqualityDeleteFile {
 export type DeleteFile = PositionDeleteFile | EqualityDeleteFile;
 /** Delete files referenced by file scan tasks */
 export type CompletedPlanningResultDeleteFilesList = Array<DeleteFile>;
+export type DataFileContent = "data";
 /** A list of partition field values ordered based on the fields of the partition spec specified by the `spec-id` */
 export type DataFilePartitionList = Array<PrimitiveTypeValue>;
 /** List of splittable offsets */
@@ -1027,7 +1182,7 @@ export interface ValueMap {
   values?: ValueMapValuesList | undefined;
 }
 export interface DataFile {
-  content: string;
+  content: DataFileContent;
   file_path: string;
   file_format: FileFormat;
   spec_id: number;
@@ -1491,12 +1646,14 @@ export interface AssertViewUUID {
   uuid: string;
 }
 export type ReplaceViewRequestRequirementsList = Array<AssertViewUUID>;
+export type AddViewVersionUpdateAction = "add-view-version";
 export interface AddViewVersionUpdate {
-  action: string;
+  action: AddViewVersionUpdateAction;
   view_version: ViewVersion;
 }
+export type SetCurrentViewVersionUpdateAction = "set-current-view-version";
 export interface SetCurrentViewVersionUpdate {
-  action: string;
+  action: SetCurrentViewVersionUpdateAction;
   /** The view version id to set as current, or -1 to set last added view version id */
   view_version_id: number;
 }
@@ -1700,7 +1857,7 @@ export const createTable: API.OperationMethod<
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(290, __c9, 2) as any as S.Schema<CreateTableRequest>,
-  output: __S(484, __c15, 4) as any as S.Schema<LoadTableResult>,
+  output: __S(483, __c15, 3) as any as S.Schema<LoadTableResult>,
   errors: [AlreadyExistsException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2010,7 +2167,7 @@ export const loadTable: API.OperationMethod<
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<LoadTableRequest>,
-  output: __S(484, __c15, 4) as any as S.Schema<LoadTableResult>,
+  output: __S(483, __c15, 3) as any as S.Schema<LoadTableResult>,
   errors: [NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2082,7 +2239,7 @@ export const registerTable: API.OperationMethod<
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<RegisterTableRequest>,
-  output: __S(484, __c15, 4) as any as S.Schema<LoadTableResult>,
+  output: __S(483, __c15, 3) as any as S.Schema<LoadTableResult>,
   errors: [AlreadyExistsException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2342,8 +2499,8 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           identifier: S.optional(__S(160, __c5, 0)),
-          requirements: __S(193, __c6, 1),
-          updates: __S(194, __c6, 2),
+          requirements: __S(192, __c6, 0),
+          updates: __S(193, __c6, 1),
         }),
       ).annotate({ identifier: "CommitTableRequestInput" });
     case 1:
@@ -2379,14 +2536,8 @@ function __c5(j: number): any {
 function __c6(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-        }),
-      ).annotate({ identifier: "TableRequirement" });
+      return S.Array(S.Unknown);
     case 1:
-      return S.Array(__S(192, __c6, 0));
-    case 2:
       return S.Array(S.Unknown);
   }
 }
@@ -2542,24 +2693,17 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "RemoteSigningConfig" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.String,
-          field_id: S.Number.pipe(T.Body("field-id")),
-        }),
-      ).annotate({ identifier: "Action" });
+      return S.Array(S.Unknown);
     case 2:
-      return S.Array(__S(481, __c15, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           required_column_projections: S.optional(
-            __S(482, __c15, 2).pipe(T.Body("required-column-projections")),
+            __S(481, __c15, 1).pipe(T.Body("required-column-projections")),
           ),
           required_row_filter: S.optional(S.Unknown.pipe(T.Body("required-row-filter"))),
         }),
       ).annotate({ identifier: "ReadRestrictions" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           metadata_location: S.optional(S.NullOr(S.String).pipe(T.Body("metadata-location"))),
@@ -2569,7 +2713,7 @@ function __c15(j: number): any {
           remote_signing_config: S.optional(
             __S(480, __c15, 0).pipe(T.Body("remote-signing-config")),
           ),
-          read_restrictions: S.optional(__S(483, __c15, 3).pipe(T.Body("read-restrictions"))),
+          read_restrictions: S.optional(__S(482, __c15, 2).pipe(T.Body("read-restrictions"))),
           labels: S.optional(__S(386, __c12, 2)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "LoadTableResult" });
@@ -3557,8 +3701,8 @@ function __c50(j: number): any {
           table: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           identifier: S.optional(__S(160, __c5, 0)),
-          requirements: __S(193, __c6, 1),
-          updates: __S(194, __c6, 2),
+          requirements: __S(192, __c6, 0),
+          updates: __S(193, __c6, 1),
         })
           .pipe(
             T.Http({ method: "POST", uri: "/namespaces/{namespace}/tables/{table}", code: 200 }),

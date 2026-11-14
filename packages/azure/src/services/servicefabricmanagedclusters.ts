@@ -1517,7 +1517,7 @@ export interface ServiceCorrelation {
   serviceName: string;
 }
 /** A list that describes the correlation of the service with other services. */
-export type ServiceResourcePropertiesCorrelationSchemeList = Array<ServiceCorrelation>;
+export type StatefulServicePropertiesCorrelationSchemeList = Array<ServiceCorrelation>;
 /** Determines the metric weight relative to the other metrics that are configured for this service. During runtime, if two metrics end up in conflict, the Cluster Resource Manager prefers the metric with the higher weight. */
 export type ServiceLoadMetricWeight = "Zero" | "Low" | "Medium" | "High";
 /** Specifies a metric to load balance a service during runtime. */
@@ -1534,36 +1534,126 @@ export interface ServiceLoadMetric {
   defaultLoad?: number | undefined;
 }
 /** The service load metrics is given as an array of ServiceLoadMetric objects. */
-export type ServiceResourcePropertiesServiceLoadMetricsList = Array<ServiceLoadMetric>;
+export type StatefulServicePropertiesServiceLoadMetricsList = Array<ServiceLoadMetric>;
 /** The type of placement policy for a service fabric service. Following are the possible values. */
-export type ServicePlacementPolicyType =
-  | "InvalidDomain"
-  | "RequiredDomain"
-  | "PreferredPrimaryDomain"
-  | "RequiredDomainDistribution"
-  | "NonPartiallyPlaceService";
-/** Describes the policy to be used for placement of a Service Fabric service. */
-export interface ServicePlacementPolicy {
-  type: ServicePlacementPolicyType | (string & {});
+export type ServicePlacementInvalidDomainPolicyType = "InvalidDomain";
+/** Describes the policy to be used for placement of a Service Fabric service where a particular fault or upgrade domain should not be used for placement of the instances or replicas of that service. */
+export interface ServicePlacementInvalidDomainPolicy {
+  /** The type of placement policy for a service fabric service. Following are the possible values. */
+  type: ServicePlacementInvalidDomainPolicyType;
+  /** The name of the domain that should not be used for placement. */
+  domainName: string;
 }
+/** The type of placement policy for a service fabric service. Following are the possible values. */
+export type ServicePlacementNonPartiallyPlaceServicePolicyType = "NonPartiallyPlaceService";
+/** Describes the policy to be used for placement of a Service Fabric service. */
+export interface ServicePlacementNonPartiallyPlaceServicePolicy {
+  /** The type of placement policy for a service fabric service. Following are the possible values. */
+  type: ServicePlacementNonPartiallyPlaceServicePolicyType;
+}
+/** The type of placement policy for a service fabric service. Following are the possible values. */
+export type ServicePlacementPreferPrimaryDomainPolicyType = "PreferredPrimaryDomain";
+/** Describes the policy to be used for placement of a Service Fabric service where the service's Primary replicas should optimally be placed in a particular domain. This placement policy is usually used with fault domains in scenarios where the Service Fabric cluster is geographically distributed in order to indicate that a service's primary replica should be located in a particular fault domain, which in geo-distributed scenarios usually aligns with regional or datacenter boundaries. Note that since this is an optimization it is possible that the Primary replica may not end up located in this domain due to failures, capacity limits, or other constraints. */
+export interface ServicePlacementPreferPrimaryDomainPolicy {
+  /** The type of placement policy for a service fabric service. Following are the possible values. */
+  type: ServicePlacementPreferPrimaryDomainPolicyType;
+  /** The name of the domain that should used for placement as per this policy. */
+  domainName: string;
+}
+/** The type of placement policy for a service fabric service. Following are the possible values. */
+export type ServicePlacementRequireDomainDistributionPolicyType = "RequiredDomainDistribution";
+/** Describes the policy to be used for placement of a Service Fabric service where two replicas from the same partition should never be placed in the same fault or upgrade domain. While this is not common it can expose the service to an increased risk of concurrent failures due to unplanned outages or other cases of subsequent/concurrent failures. As an example, consider a case where replicas are deployed across different data center, with one replica per location. In the event that one of the datacenters goes offline, normally the replica that was placed in that datacenter will be packed into one of the remaining datacenters. If this is not desirable then this policy should be set. */
+export interface ServicePlacementRequireDomainDistributionPolicy {
+  /** The type of placement policy for a service fabric service. Following are the possible values. */
+  type: ServicePlacementRequireDomainDistributionPolicyType;
+  /** The name of the domain that should used for placement as per this policy. */
+  domainName: string;
+}
+/** The type of placement policy for a service fabric service. Following are the possible values. */
+export type ServicePlacementRequiredDomainPolicyType = "RequiredDomain";
+/** Describes the policy to be used for placement of a Service Fabric service where the instances or replicas of that service must be placed in a particular domain. */
+export interface ServicePlacementRequiredDomainPolicy {
+  /** The type of placement policy for a service fabric service. Following are the possible values. */
+  type: ServicePlacementRequiredDomainPolicyType;
+  /** The name of the domain that should used for placement as per this policy. */
+  domainName: string;
+}
+/** Describes the policy to be used for placement of a Service Fabric service. */
+export type ServicePlacementPolicy =
+  | ServicePlacementInvalidDomainPolicy
+  | ServicePlacementNonPartiallyPlaceServicePolicy
+  | ServicePlacementPreferPrimaryDomainPolicy
+  | ServicePlacementRequireDomainDistributionPolicy
+  | ServicePlacementRequiredDomainPolicy;
 /** A list that describes the correlation of the service with other services. */
-export type ServiceResourcePropertiesServicePlacementPoliciesList = Array<ServicePlacementPolicy>;
+export type StatefulServicePropertiesServicePlacementPoliciesList = Array<ServicePlacementPolicy>;
 /** Specifies the move cost for the service. */
 export type MoveCost = "Zero" | "Low" | "Medium" | "High";
 /** Enumerates the ways that a service can be partitioned. */
-export type ServiceScalingMechanismKind =
-  | "ScalePartitionInstanceCount"
-  | "AddRemoveIncrementalNamedPartition";
-/** Describes the mechanism for performing a scaling operation. */
-export interface ScalingMechanism {
-  kind: ServiceScalingMechanismKind | (string & {});
+export type AddRemoveIncrementalNamedPartitionScalingMechanismKind =
+  "AddRemoveIncrementalNamedPartition";
+/** Represents a scaling mechanism for adding or removing named partitions of a stateless service. Partition names are in the format '0','1'...'N-1'. */
+export interface AddRemoveIncrementalNamedPartitionScalingMechanism {
+  /** Enumerates the ways that a service can be partitioned. */
+  kind: AddRemoveIncrementalNamedPartitionScalingMechanismKind;
+  /** Minimum number of named partitions of the service. */
+  minPartitionCount: number;
+  /** Maximum number of named partitions of the service. */
+  maxPartitionCount: number;
+  /** The number of instances to add or remove during a scaling operation. */
+  scaleIncrement: number;
 }
 /** Enumerates the ways that a service can be partitioned. */
-export type ServiceScalingTriggerKind = "AveragePartitionLoadTrigger" | "AverageServiceLoadTrigger";
-/** Describes the trigger for performing a scaling operation. */
-export interface ScalingTrigger {
-  kind: ServiceScalingTriggerKind | (string & {});
+export type PartitionInstanceCountScaleMechanismKind = "ScalePartitionInstanceCount";
+/** Represents a scaling mechanism for adding or removing instances of stateless service partition. */
+export interface PartitionInstanceCountScaleMechanism {
+  /** Enumerates the ways that a service can be partitioned. */
+  kind: PartitionInstanceCountScaleMechanismKind;
+  /** Minimum number of instances of the partition. */
+  minInstanceCount: number;
+  /** Maximum number of instances of the partition. */
+  maxInstanceCount: number;
+  /** The number of instances to add or remove during a scaling operation. */
+  scaleIncrement: number;
 }
+/** Describes the mechanism for performing a scaling operation. */
+export type ScalingMechanism =
+  | AddRemoveIncrementalNamedPartitionScalingMechanism
+  | PartitionInstanceCountScaleMechanism;
+/** Enumerates the ways that a service can be partitioned. */
+export type AveragePartitionLoadScalingTriggerKind = "AveragePartitionLoadTrigger";
+/** Represents a scaling trigger related to an average load of a metric/resource of a partition. */
+export interface AveragePartitionLoadScalingTrigger {
+  /** Enumerates the ways that a service can be partitioned. */
+  kind: AveragePartitionLoadScalingTriggerKind;
+  /** The name of the metric for which usage should be tracked. */
+  metricName: string;
+  /** The lower limit of the load below which a scale in operation should be performed. */
+  lowerLoadThreshold: number;
+  /** The upper limit of the load beyond which a scale out operation should be performed. */
+  upperLoadThreshold: number;
+  /** The period in seconds on which a decision is made whether to scale or not. This property should come in ISO 8601 format "hh:mm:ss". */
+  scaleInterval: string;
+}
+/** Enumerates the ways that a service can be partitioned. */
+export type AverageServiceLoadScalingTriggerKind = "AverageServiceLoadTrigger";
+/** Represents a scaling policy related to an average load of a metric/resource of a service. */
+export interface AverageServiceLoadScalingTrigger {
+  /** Enumerates the ways that a service can be partitioned. */
+  kind: AverageServiceLoadScalingTriggerKind;
+  /** The name of the metric for which usage should be tracked. */
+  metricName: string;
+  /** The lower limit of the load below which a scale in operation should be performed. */
+  lowerLoadThreshold: number;
+  /** The upper limit of the load beyond which a scale out operation should be performed. */
+  upperLoadThreshold: number;
+  /** The period in seconds on which a decision is made whether to scale or not. This property should come in ISO 8601 format "hh:mm:ss". */
+  scaleInterval: string;
+  /** Flag determines whether only the load of primary replica should be considered for scaling. If set to true, then trigger will only consider the load of primary replicas of stateful service. If set to false, trigger will consider load of all replicas. This parameter cannot be set to true for stateless service. */
+  useOnlyPrimaryLoad: boolean;
+}
+/** Describes the trigger for performing a scaling operation. */
+export type ScalingTrigger = AveragePartitionLoadScalingTrigger | AverageServiceLoadScalingTrigger;
 /** Specifies a metric to load balance a service during runtime. */
 export interface ScalingPolicy {
   /** Specifies the mechanism associated with this scaling policy */
@@ -1572,45 +1662,65 @@ export interface ScalingPolicy {
   scalingTrigger: ScalingTrigger;
 }
 /** Scaling policies for this service. */
-export type ServiceResourcePropertiesScalingPoliciesList = Array<ScalingPolicy>;
+export type StatefulServicePropertiesScalingPoliciesList = Array<ScalingPolicy>;
 /** The kind of service (Stateless or Stateful). */
-export type ServiceKind = "Stateless" | "Stateful";
+export type StatefulServicePropertiesServiceKind = "Stateful";
 /** Enumerates the ways that a service can be partitioned. */
-export type PartitionScheme = "Singleton" | "UniformInt64Range" | "Named";
-/** Partition names (Named scheme). */
-export type PartitionNamesList = Array<string>;
-/** Describes how the service is partitioned. */
-export interface Partition {
-  partitionScheme: PartitionScheme | (string & {});
-  /** Number of partitions (UniformInt64Range / Named). */
-  count?: number | undefined;
-  /** Lower bound of the partition key range (UniformInt64Range). */
-  lowKey?: number | undefined;
-  /** Upper bound of the partition key range (UniformInt64Range). */
-  highKey?: number | undefined;
-  /** Partition names (Named). */
-  names?: PartitionNamesList | undefined;
+export type NamedPartitionSchemePartitionScheme = "Named";
+/** Array for the names of the partitions. */
+export type NamedPartitionSchemeNamesList = Array<string>;
+/** Describes the named partition scheme of the service. */
+export interface NamedPartitionScheme {
+  /** Enumerates the ways that a service can be partitioned. */
+  partitionScheme: NamedPartitionSchemePartitionScheme;
+  /** Array for the names of the partitions. */
+  names: NamedPartitionSchemeNamesList;
 }
+/** Enumerates the ways that a service can be partitioned. */
+export type SingletonPartitionSchemePartitionScheme = "Singleton";
+/** Describes how the service is partitioned. */
+export interface SingletonPartitionScheme {
+  /** Enumerates the ways that a service can be partitioned. */
+  partitionScheme: SingletonPartitionSchemePartitionScheme;
+}
+/** Enumerates the ways that a service can be partitioned. */
+export type UniformInt64RangePartitionSchemePartitionScheme = "UniformInt64Range";
+/** Describes a partitioning scheme where an integer range is allocated evenly across a number of partitions. */
+export interface UniformInt64RangePartitionScheme {
+  /** Enumerates the ways that a service can be partitioned. */
+  partitionScheme: UniformInt64RangePartitionSchemePartitionScheme;
+  /** The number of partitions. */
+  count: number;
+  /** The lower bound of the partition key range that should be split between the partition 'Count' */
+  lowKey: number;
+  /** The upper bound of the partition key range that should be split between the partition 'Count' */
+  highKey: number;
+}
+/** Describes how the service is partitioned. */
+export type Partition =
+  | NamedPartitionScheme
+  | SingletonPartitionScheme
+  | UniformInt64RangePartitionScheme;
 /** The activation Mode of the service package */
 export type ServicePackageActivationMode = "SharedProcess" | "ExclusiveProcess";
-/** The service resource properties. */
-export interface ServiceResourceProperties {
+/** The properties of a stateful service resource. */
+export interface StatefulServiceProperties {
   /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
   placementConstraints?: string | undefined;
   /** A list that describes the correlation of the service with other services. */
-  correlationScheme?: ServiceResourcePropertiesCorrelationSchemeList | undefined;
+  correlationScheme?: StatefulServicePropertiesCorrelationSchemeList | undefined;
   /** The service load metrics is given as an array of ServiceLoadMetric objects. */
-  serviceLoadMetrics?: ServiceResourcePropertiesServiceLoadMetricsList | undefined;
+  serviceLoadMetrics?: StatefulServicePropertiesServiceLoadMetricsList | undefined;
   /** A list that describes the correlation of the service with other services. */
-  servicePlacementPolicies?: ServiceResourcePropertiesServicePlacementPoliciesList | undefined;
+  servicePlacementPolicies?: StatefulServicePropertiesServicePlacementPoliciesList | undefined;
   /** Specifies the move cost for the service. */
   defaultMoveCost?: MoveCost | undefined;
   /** Scaling policies for this service. */
-  scalingPolicies?: ServiceResourcePropertiesScalingPoliciesList | undefined;
+  scalingPolicies?: StatefulServicePropertiesScalingPoliciesList | undefined;
   /** The current deployment or provisioning state, which only appears in the response */
   provisioningState?: string | undefined;
   /** The kind of service (Stateless or Stateful). */
-  serviceKind: ServiceKind;
+  serviceKind: StatefulServicePropertiesServiceKind;
   /** The name of the service type */
   serviceTypeName: string;
   /** Describes how the service is partitioned. */
@@ -1619,27 +1729,66 @@ export interface ServiceResourceProperties {
   servicePackageActivationMode?: ServicePackageActivationMode | undefined;
   /** Dns name used for the service. If this is specified, then the DNS name can be used to return the IP addresses of service endpoints for application layer protocols (e.g., HTTP). When updating serviceDnsName, old name may be temporarily resolvable. However, rely on new name. When removing serviceDnsName, removed name may temporarily be resolvable. Do not rely on the name being unresolvable. */
   serviceDnsName?: string | undefined;
-  /** Stateless: instance count per partition (-1 = every node). */
-  instanceCount?: number | undefined;
-  /** Stateless: minimum instance count. */
-  minInstanceCount?: number | undefined;
-  /** Stateless: minimum instance percentage. */
-  minInstancePercentage?: number | undefined;
-  /** Stateful: target replica set size. */
-  targetReplicaSetSize?: number | undefined;
-  /** Stateful: minimum replica set size. */
-  minReplicaSetSize?: number | undefined;
-  /** Stateful: whether the service persists state on disk. */
+  /** A flag indicating whether this is a persistent service which stores states on the local disk. If it is then the value of this property is true, if not it is false. */
   hasPersistedState?: boolean | undefined;
-  /** Stateful: ISO 8601 replica restart wait duration. */
+  /** The target replica set size as a number. */
+  targetReplicaSetSize?: number | undefined;
+  /** The minimum replica set size as a number. */
+  minReplicaSetSize?: number | undefined;
+  /** The duration between when a replica goes down and when a new replica is created, represented in ISO 8601 format "hh:mm:ss". */
   replicaRestartWaitDuration?: string | undefined;
-  /** Stateful: ISO 8601 quorum loss wait duration. */
+  /** The maximum duration for which a partition is allowed to be in a state of quorum loss, represented in ISO 8601 format "hh:mm:ss". */
   quorumLossWaitDuration?: string | undefined;
-  /** Stateful: ISO 8601 standby replica keep duration. */
+  /** The definition on how long StandBy replicas should be maintained before being removed, represented in ISO 8601 format "hh:mm:ss". */
   standByReplicaKeepDuration?: string | undefined;
-  /** Stateful: ISO 8601 service placement time limit. */
+  /** The duration for which replicas can stay InBuild before reporting that build is stuck, represented in ISO 8601 format "hh:mm:ss". */
   servicePlacementTimeLimit?: string | undefined;
 }
+/** A list that describes the correlation of the service with other services. */
+export type StatelessServicePropertiesCorrelationSchemeList = Array<ServiceCorrelation>;
+/** The service load metrics is given as an array of ServiceLoadMetric objects. */
+export type StatelessServicePropertiesServiceLoadMetricsList = Array<ServiceLoadMetric>;
+/** A list that describes the correlation of the service with other services. */
+export type StatelessServicePropertiesServicePlacementPoliciesList = Array<ServicePlacementPolicy>;
+/** Scaling policies for this service. */
+export type StatelessServicePropertiesScalingPoliciesList = Array<ScalingPolicy>;
+/** The kind of service (Stateless or Stateful). */
+export type StatelessServicePropertiesServiceKind = "Stateless";
+/** The properties of a stateless service resource. */
+export interface StatelessServiceProperties {
+  /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
+  placementConstraints?: string | undefined;
+  /** A list that describes the correlation of the service with other services. */
+  correlationScheme?: StatelessServicePropertiesCorrelationSchemeList | undefined;
+  /** The service load metrics is given as an array of ServiceLoadMetric objects. */
+  serviceLoadMetrics?: StatelessServicePropertiesServiceLoadMetricsList | undefined;
+  /** A list that describes the correlation of the service with other services. */
+  servicePlacementPolicies?: StatelessServicePropertiesServicePlacementPoliciesList | undefined;
+  /** Specifies the move cost for the service. */
+  defaultMoveCost?: MoveCost | undefined;
+  /** Scaling policies for this service. */
+  scalingPolicies?: StatelessServicePropertiesScalingPoliciesList | undefined;
+  /** The current deployment or provisioning state, which only appears in the response */
+  provisioningState?: string | undefined;
+  /** The kind of service (Stateless or Stateful). */
+  serviceKind: StatelessServicePropertiesServiceKind;
+  /** The name of the service type */
+  serviceTypeName: string;
+  /** Describes how the service is partitioned. */
+  partitionDescription: Partition;
+  /** The activation Mode of the service package */
+  servicePackageActivationMode?: ServicePackageActivationMode | undefined;
+  /** Dns name used for the service. If this is specified, then the DNS name can be used to return the IP addresses of service endpoints for application layer protocols (e.g., HTTP). When updating serviceDnsName, old name may be temporarily resolvable. However, rely on new name. When removing serviceDnsName, removed name may temporarily be resolvable. Do not rely on the name being unresolvable. */
+  serviceDnsName?: string | undefined;
+  /** The instance count. */
+  instanceCount: number;
+  /** MinInstanceCount is the minimum number of instances that must be up to meet the EnsureAvailability safety check during operations like upgrade or deactivate node. The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 * InstanceCount) ). Note, if InstanceCount is set to -1, during MinInstanceCount computation -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service. */
+  minInstanceCount?: number | undefined;
+  /** MinInstancePercentage is the minimum percentage of InstanceCount that must be up to meet the EnsureAvailability safety check during operations like upgrade or deactivate node. The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 * InstanceCount) ). Note, if InstanceCount is set to -1, during MinInstancePercentage computation, -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service. */
+  minInstancePercentage?: number | undefined;
+}
+/** The service resource properties. */
+export type ServiceResourceProperties = StatefulServiceProperties | StatelessServiceProperties;
 /** Resource tags. */
 export type GetServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetServiceResponse {
@@ -2563,30 +2712,32 @@ export interface ResumeApplicationUpgradeResponse {
   location?: string | undefined;
 }
 /** A list that describes the correlation of the service with other services. */
-export type ServiceResourcePropertiesInputCorrelationSchemeList = Array<ServiceCorrelation>;
+export type StatefulServicePropertiesInputCorrelationSchemeList = Array<ServiceCorrelation>;
 /** The service load metrics is given as an array of ServiceLoadMetric objects. */
-export type ServiceResourcePropertiesInputServiceLoadMetricsList = Array<ServiceLoadMetric>;
+export type StatefulServicePropertiesInputServiceLoadMetricsList = Array<ServiceLoadMetric>;
 /** A list that describes the correlation of the service with other services. */
-export type ServiceResourcePropertiesInputServicePlacementPoliciesList =
+export type StatefulServicePropertiesInputServicePlacementPoliciesList =
   Array<ServicePlacementPolicy>;
 /** Scaling policies for this service. */
-export type ServiceResourcePropertiesInputScalingPoliciesList = Array<ScalingPolicy>;
-/** The service resource properties. */
-export interface ServiceResourcePropertiesInput {
+export type StatefulServicePropertiesInputScalingPoliciesList = Array<ScalingPolicy>;
+/** The kind of service (Stateless or Stateful). */
+export type StatefulServicePropertiesInputServiceKind = "Stateful";
+/** The properties of a stateful service resource. */
+export interface StatefulServicePropertiesInput {
   /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
   placementConstraints?: string | undefined;
   /** A list that describes the correlation of the service with other services. */
-  correlationScheme?: ServiceResourcePropertiesInputCorrelationSchemeList | undefined;
+  correlationScheme?: StatefulServicePropertiesInputCorrelationSchemeList | undefined;
   /** The service load metrics is given as an array of ServiceLoadMetric objects. */
-  serviceLoadMetrics?: ServiceResourcePropertiesInputServiceLoadMetricsList | undefined;
+  serviceLoadMetrics?: StatefulServicePropertiesInputServiceLoadMetricsList | undefined;
   /** A list that describes the correlation of the service with other services. */
-  servicePlacementPolicies?: ServiceResourcePropertiesInputServicePlacementPoliciesList | undefined;
+  servicePlacementPolicies?: StatefulServicePropertiesInputServicePlacementPoliciesList | undefined;
   /** Specifies the move cost for the service. */
   defaultMoveCost?: MoveCost | (string & {}) | undefined;
   /** Scaling policies for this service. */
-  scalingPolicies?: ServiceResourcePropertiesInputScalingPoliciesList | undefined;
+  scalingPolicies?: StatefulServicePropertiesInputScalingPoliciesList | undefined;
   /** The kind of service (Stateless or Stateful). */
-  serviceKind: ServiceKind | (string & {});
+  serviceKind: StatefulServicePropertiesInputServiceKind;
   /** The name of the service type */
   serviceTypeName: string;
   /** Describes how the service is partitioned. */
@@ -2595,27 +2746,69 @@ export interface ServiceResourcePropertiesInput {
   servicePackageActivationMode?: ServicePackageActivationMode | (string & {}) | undefined;
   /** Dns name used for the service. If this is specified, then the DNS name can be used to return the IP addresses of service endpoints for application layer protocols (e.g., HTTP). When updating serviceDnsName, old name may be temporarily resolvable. However, rely on new name. When removing serviceDnsName, removed name may temporarily be resolvable. Do not rely on the name being unresolvable. */
   serviceDnsName?: string | undefined;
-  /** Stateless: instance count per partition (-1 = every node). */
-  instanceCount?: number | undefined;
-  /** Stateless: minimum instance count. */
-  minInstanceCount?: number | undefined;
-  /** Stateless: minimum instance percentage. */
-  minInstancePercentage?: number | undefined;
-  /** Stateful: target replica set size. */
-  targetReplicaSetSize?: number | undefined;
-  /** Stateful: minimum replica set size. */
-  minReplicaSetSize?: number | undefined;
-  /** Stateful: whether the service persists state on disk. */
+  /** A flag indicating whether this is a persistent service which stores states on the local disk. If it is then the value of this property is true, if not it is false. */
   hasPersistedState?: boolean | undefined;
-  /** Stateful: ISO 8601 replica restart wait duration. */
+  /** The target replica set size as a number. */
+  targetReplicaSetSize?: number | undefined;
+  /** The minimum replica set size as a number. */
+  minReplicaSetSize?: number | undefined;
+  /** The duration between when a replica goes down and when a new replica is created, represented in ISO 8601 format "hh:mm:ss". */
   replicaRestartWaitDuration?: string | undefined;
-  /** Stateful: ISO 8601 quorum loss wait duration. */
+  /** The maximum duration for which a partition is allowed to be in a state of quorum loss, represented in ISO 8601 format "hh:mm:ss". */
   quorumLossWaitDuration?: string | undefined;
-  /** Stateful: ISO 8601 standby replica keep duration. */
+  /** The definition on how long StandBy replicas should be maintained before being removed, represented in ISO 8601 format "hh:mm:ss". */
   standByReplicaKeepDuration?: string | undefined;
-  /** Stateful: ISO 8601 service placement time limit. */
+  /** The duration for which replicas can stay InBuild before reporting that build is stuck, represented in ISO 8601 format "hh:mm:ss". */
   servicePlacementTimeLimit?: string | undefined;
 }
+/** A list that describes the correlation of the service with other services. */
+export type StatelessServicePropertiesInputCorrelationSchemeList = Array<ServiceCorrelation>;
+/** The service load metrics is given as an array of ServiceLoadMetric objects. */
+export type StatelessServicePropertiesInputServiceLoadMetricsList = Array<ServiceLoadMetric>;
+/** A list that describes the correlation of the service with other services. */
+export type StatelessServicePropertiesInputServicePlacementPoliciesList =
+  Array<ServicePlacementPolicy>;
+/** Scaling policies for this service. */
+export type StatelessServicePropertiesInputScalingPoliciesList = Array<ScalingPolicy>;
+/** The kind of service (Stateless or Stateful). */
+export type StatelessServicePropertiesInputServiceKind = "Stateless";
+/** The properties of a stateless service resource. */
+export interface StatelessServicePropertiesInput {
+  /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
+  placementConstraints?: string | undefined;
+  /** A list that describes the correlation of the service with other services. */
+  correlationScheme?: StatelessServicePropertiesInputCorrelationSchemeList | undefined;
+  /** The service load metrics is given as an array of ServiceLoadMetric objects. */
+  serviceLoadMetrics?: StatelessServicePropertiesInputServiceLoadMetricsList | undefined;
+  /** A list that describes the correlation of the service with other services. */
+  servicePlacementPolicies?:
+    | StatelessServicePropertiesInputServicePlacementPoliciesList
+    | undefined;
+  /** Specifies the move cost for the service. */
+  defaultMoveCost?: MoveCost | (string & {}) | undefined;
+  /** Scaling policies for this service. */
+  scalingPolicies?: StatelessServicePropertiesInputScalingPoliciesList | undefined;
+  /** The kind of service (Stateless or Stateful). */
+  serviceKind: StatelessServicePropertiesInputServiceKind;
+  /** The name of the service type */
+  serviceTypeName: string;
+  /** Describes how the service is partitioned. */
+  partitionDescription: Partition;
+  /** The activation Mode of the service package */
+  servicePackageActivationMode?: ServicePackageActivationMode | (string & {}) | undefined;
+  /** Dns name used for the service. If this is specified, then the DNS name can be used to return the IP addresses of service endpoints for application layer protocols (e.g., HTTP). When updating serviceDnsName, old name may be temporarily resolvable. However, rely on new name. When removing serviceDnsName, removed name may temporarily be resolvable. Do not rely on the name being unresolvable. */
+  serviceDnsName?: string | undefined;
+  /** The instance count. */
+  instanceCount: number;
+  /** MinInstanceCount is the minimum number of instances that must be up to meet the EnsureAvailability safety check during operations like upgrade or deactivate node. The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 * InstanceCount) ). Note, if InstanceCount is set to -1, during MinInstanceCount computation -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service. */
+  minInstanceCount?: number | undefined;
+  /** MinInstancePercentage is the minimum percentage of InstanceCount that must be up to meet the EnsureAvailability safety check during operations like upgrade or deactivate node. The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 * InstanceCount) ). Note, if InstanceCount is set to -1, during MinInstancePercentage computation, -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service. */
+  minInstancePercentage?: number | undefined;
+}
+/** The service resource properties. */
+export type ServiceResourcePropertiesInput =
+  | StatefulServicePropertiesInput
+  | StatelessServicePropertiesInput;
 /** Resource tags. */
 export type ServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export interface ServicesCreateOrUpdateRequest {
@@ -3806,8 +3999,8 @@ export const ServicesCreateOrUpdate: API.OperationMethod<
   ServicesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2081, __c65, 1) as any as S.Schema<ServicesCreateOrUpdateRequest>,
-  output: __S(2082, __c65, 2) as any as S.Schema<ServicesCreateOrUpdateResponse>,
+  input: __S(2083, __c65, 3) as any as S.Schema<ServicesCreateOrUpdateRequest>,
+  output: __S(2084, __c65, 4) as any as S.Schema<ServicesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5139,62 +5332,147 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
+          domainName: S.String,
         }),
-      ).annotate({ identifier: "ServicePlacementPolicy" });
+      ).annotate({ identifier: "ServicePlacementInvalidDomainPolicy" });
     case 5:
-      return S.Array(__S(1060, __c33, 4));
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+        }),
+      ).annotate({ identifier: "ServicePlacementNonPartiallyPlaceServicePolicy" });
     case 6:
+      return S.Union([
+        __S(1060, __c33, 4),
+        __S(1061, __c33, 5),
+        __S(1060, __c33, 4),
+        __S(1060, __c33, 4),
+        __S(1060, __c33, 4),
+      ]);
+    case 7:
+      return S.Array(__S(1062, __c33, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
+          minPartitionCount: S.Number,
+          maxPartitionCount: S.Number,
+          scaleIncrement: S.Number,
         }),
-      ).annotate({ identifier: "ScalingMechanism" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          scalingMechanism: __S(1062, __c33, 6),
-          scalingTrigger: __S(1062, __c33, 6),
-        }),
-      ).annotate({ identifier: "ScalingPolicy" });
-    case 8:
-      return S.Array(__S(1063, __c33, 7));
+      ).annotate({ identifier: "AddRemoveIncrementalNamedPartitionScalingMechanism" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          partitionScheme: S.String,
-          count: S.optional(S.Number),
-          lowKey: S.optional(S.Number),
-          highKey: S.optional(S.Number),
-          names: S.optional(__S(2528, __c79, 0)),
+          kind: S.String,
+          minInstanceCount: S.Number,
+          maxInstanceCount: S.Number,
+          scaleIncrement: S.Number,
         }),
-      ).annotate({ identifier: "Partition" });
+      ).annotate({ identifier: "PartitionInstanceCountScaleMechanism" });
     case 10:
+      return S.Union([__S(1064, __c33, 8), __S(1065, __c33, 9)]);
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          metricName: S.String,
+          lowerLoadThreshold: S.Number,
+          upperLoadThreshold: S.Number,
+          scaleInterval: S.String,
+        }),
+      ).annotate({ identifier: "AveragePartitionLoadScalingTrigger" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          metricName: S.String,
+          lowerLoadThreshold: S.Number,
+          upperLoadThreshold: S.Number,
+          scaleInterval: S.String,
+          useOnlyPrimaryLoad: S.Boolean,
+        }),
+      ).annotate({ identifier: "AverageServiceLoadScalingTrigger" });
+    case 13:
+      return S.Union([__S(1067, __c33, 11), __S(1068, __c33, 12)]);
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          scalingMechanism: __S(1066, __c33, 10),
+          scalingTrigger: __S(1069, __c33, 13),
+        }),
+      ).annotate({ identifier: "ScalingPolicy" });
+    case 15:
+      return S.Array(__S(1070, __c33, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          partitionScheme: S.String,
+          names: __S(2528, __c79, 0),
+        }),
+      ).annotate({ identifier: "NamedPartitionScheme" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          partitionScheme: S.String,
+        }),
+      ).annotate({ identifier: "SingletonPartitionScheme" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          partitionScheme: S.String,
+          count: S.Number,
+          lowKey: S.Number,
+          highKey: S.Number,
+        }),
+      ).annotate({ identifier: "UniformInt64RangePartitionScheme" });
+    case 19:
+      return S.Union([__S(1072, __c33, 16), __S(1073, __c33, 17), __S(1074, __c33, 18)]);
+    case 20:
       return S.suspend(() =>
         S.Struct({
           placementConstraints: S.optional(S.String),
           correlationScheme: S.optional(__S(1057, __c33, 1)),
           serviceLoadMetrics: S.optional(__S(1059, __c33, 3)),
-          servicePlacementPolicies: S.optional(__S(1061, __c33, 5)),
+          servicePlacementPolicies: S.optional(__S(1063, __c33, 7)),
           defaultMoveCost: S.optional(S.String),
-          scalingPolicies: S.optional(__S(1064, __c33, 8)),
+          scalingPolicies: S.optional(__S(1071, __c33, 15)),
           provisioningState: S.optional(S.String),
           serviceKind: S.String,
           serviceTypeName: S.String,
-          partitionDescription: __S(1065, __c33, 9),
+          partitionDescription: __S(1075, __c33, 19),
           servicePackageActivationMode: S.optional(S.String),
           serviceDnsName: S.optional(S.String),
-          instanceCount: S.optional(S.Number),
-          minInstanceCount: S.optional(S.Number),
-          minInstancePercentage: S.optional(S.Number),
+          hasPersistedState: S.optional(S.Boolean),
           targetReplicaSetSize: S.optional(S.Number),
           minReplicaSetSize: S.optional(S.Number),
-          hasPersistedState: S.optional(S.Boolean),
           replicaRestartWaitDuration: S.optional(S.String),
           quorumLossWaitDuration: S.optional(S.String),
           standByReplicaKeepDuration: S.optional(S.String),
           servicePlacementTimeLimit: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ServiceResourceProperties" });
+      ).annotate({ identifier: "StatefulServiceProperties" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          placementConstraints: S.optional(S.String),
+          correlationScheme: S.optional(__S(1057, __c33, 1)),
+          serviceLoadMetrics: S.optional(__S(1059, __c33, 3)),
+          servicePlacementPolicies: S.optional(__S(1063, __c33, 7)),
+          defaultMoveCost: S.optional(S.String),
+          scalingPolicies: S.optional(__S(1071, __c33, 15)),
+          provisioningState: S.optional(S.String),
+          serviceKind: S.String,
+          serviceTypeName: S.String,
+          partitionDescription: __S(1075, __c33, 19),
+          servicePackageActivationMode: S.optional(S.String),
+          serviceDnsName: S.optional(S.String),
+          instanceCount: S.Number,
+          minInstanceCount: S.optional(S.Number),
+          minInstancePercentage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "StatelessServiceProperties" });
+    case 22:
+      return S.Union([__S(1076, __c33, 20), __S(1077, __c33, 21)]);
   }
 }
 function __c34(j: number): any {
@@ -5206,7 +5484,7 @@ function __c34(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(33, __c1, 1)),
-          properties: S.optional(__S(1066, __c33, 10)),
+          properties: S.optional(__S(1078, __c33, 22)),
           tags: S.optional(__S(32, __c1, 0)),
           location: S.optional(S.String),
         }),
@@ -6045,27 +6323,45 @@ function __c65(j: number): any {
           placementConstraints: S.optional(S.String),
           correlationScheme: S.optional(__S(1057, __c33, 1)),
           serviceLoadMetrics: S.optional(__S(1059, __c33, 3)),
-          servicePlacementPolicies: S.optional(__S(1061, __c33, 5)),
+          servicePlacementPolicies: S.optional(__S(1063, __c33, 7)),
           defaultMoveCost: S.optional(S.String),
-          scalingPolicies: S.optional(__S(1064, __c33, 8)),
+          scalingPolicies: S.optional(__S(1071, __c33, 15)),
           serviceKind: S.String,
           serviceTypeName: S.String,
-          partitionDescription: __S(1065, __c33, 9),
+          partitionDescription: __S(1075, __c33, 19),
           servicePackageActivationMode: S.optional(S.String),
           serviceDnsName: S.optional(S.String),
-          instanceCount: S.optional(S.Number),
-          minInstanceCount: S.optional(S.Number),
-          minInstancePercentage: S.optional(S.Number),
+          hasPersistedState: S.optional(S.Boolean),
           targetReplicaSetSize: S.optional(S.Number),
           minReplicaSetSize: S.optional(S.Number),
-          hasPersistedState: S.optional(S.Boolean),
           replicaRestartWaitDuration: S.optional(S.String),
           quorumLossWaitDuration: S.optional(S.String),
           standByReplicaKeepDuration: S.optional(S.String),
           servicePlacementTimeLimit: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ServiceResourcePropertiesInput" });
+      ).annotate({ identifier: "StatefulServicePropertiesInput" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          placementConstraints: S.optional(S.String),
+          correlationScheme: S.optional(__S(1057, __c33, 1)),
+          serviceLoadMetrics: S.optional(__S(1059, __c33, 3)),
+          servicePlacementPolicies: S.optional(__S(1063, __c33, 7)),
+          defaultMoveCost: S.optional(S.String),
+          scalingPolicies: S.optional(__S(1071, __c33, 15)),
+          serviceKind: S.String,
+          serviceTypeName: S.String,
+          partitionDescription: __S(1075, __c33, 19),
+          servicePackageActivationMode: S.optional(S.String),
+          serviceDnsName: S.optional(S.String),
+          instanceCount: S.Number,
+          minInstanceCount: S.optional(S.Number),
+          minInstancePercentage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "StatelessServicePropertiesInput" });
+    case 2:
+      return S.Union([__S(2080, __c65, 0), __S(2081, __c65, 1)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -6073,7 +6369,7 @@ function __c65(j: number): any {
           clusterName: S.String.pipe(T.Label()),
           applicationName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2080, __c65, 0)),
+          properties: S.optional(__S(2082, __c65, 2)),
           tags: S.optional(__S(32, __c1, 0)),
           location: S.optional(S.String),
         }).pipe(
@@ -6085,14 +6381,14 @@ function __c65(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ServicesCreateOrUpdateRequest" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(33, __c1, 1)),
-          properties: S.optional(__S(1066, __c33, 10)),
+          properties: S.optional(__S(1078, __c33, 22)),
           tags: S.optional(__S(32, __c1, 0)),
           location: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),

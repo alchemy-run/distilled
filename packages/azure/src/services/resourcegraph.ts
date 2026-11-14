@@ -282,13 +282,44 @@ export interface ResourcesRequest {
 }
 /** Indicates whether the query results are truncated. */
 export type ResultTruncated = "true" | "false";
-/** A facet containing additional statistics on the response of a query. Can be either FacetResult or FacetError. */
-export interface Facet {
+/** Result type */
+export type FacetErrorResultType = "FacetError";
+/** Error details. */
+export interface ResourceGraphCommonErrorDetails {
+  /** Error code identifying the specific error. */
+  code: string;
+  /** A human readable error message. */
+  message: string;
+  [key: string]: unknown;
+}
+/** An array containing detected facet errors with details. */
+export type FacetErrorErrorsList = Array<ResourceGraphCommonErrorDetails>;
+/** A facet whose execution resulted in an error. */
+export interface FacetError {
   /** Facet expression, same as in the corresponding facet request. */
   expression: string;
   /** Result type */
-  resultType: string;
+  resultType: FacetErrorResultType;
+  /** An array containing detected facet errors with details. */
+  errors: FacetErrorErrorsList;
 }
+/** Result type */
+export type FacetResultResultType = "FacetResult";
+/** Successfully executed facet containing additional statistics on the response of a query. */
+export interface FacetResult {
+  /** Facet expression, same as in the corresponding facet request. */
+  expression: string;
+  /** Result type */
+  resultType: FacetResultResultType;
+  /** Number of total records in the facet results. */
+  totalRecords: number;
+  /** Number of records returned in the facet response. */
+  count: number;
+  /** A JObject array or Table containing the desired facets. Only present if the facet is valid. */
+  data: unknown;
+}
+/** A facet containing additional statistics on the response of a query. Can be either FacetResult or FacetError. */
+export type Facet = FacetError | FacetResult;
 /** Query facets. */
 export type QueryResponseFacetsList = Array<Facet>;
 /** Query result. */
@@ -460,7 +491,7 @@ export const Resources: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(133, __c8, 5) as any as S.Schema<ResourcesRequest>,
-  output: __S(136, __c8, 8) as any as S.Schema<QueryResponse>,
+  output: __S(140, __c8, 12) as any as S.Schema<QueryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -736,14 +767,39 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ResourcesRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          expression: S.String,
-          resultType: S.String,
-        }),
-      ).annotate({ identifier: "Facet" });
+        S.StructWithRest(
+          S.Struct({
+            code: S.String,
+            message: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ResourceGraphCommonErrorDetails" });
     case 7:
       return S.Array(__S(134, __c8, 6));
     case 8:
+      return S.suspend(() =>
+        S.Struct({
+          expression: S.String,
+          resultType: S.String,
+          errors: __S(135, __c8, 7),
+        }),
+      ).annotate({ identifier: "FacetError" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          expression: S.String,
+          resultType: S.String,
+          totalRecords: S.Number,
+          count: S.Number,
+          data: S.Unknown,
+        }),
+      ).annotate({ identifier: "FacetResult" });
+    case 10:
+      return S.Union([__S(136, __c8, 8), __S(137, __c8, 9)]);
+    case 11:
+      return S.Array(__S(138, __c8, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           totalRecords: S.Number,
@@ -751,7 +807,7 @@ function __c8(j: number): any {
           resultTruncated: S.String,
           _skipToken: S.optional(S.String.pipe(T.Body("$skipToken"))),
           data: S.Unknown,
-          facets: S.optional(__S(135, __c8, 7)),
+          facets: S.optional(__S(139, __c8, 11)),
         }),
       ).annotate({ identifier: "QueryResponse" });
   }
