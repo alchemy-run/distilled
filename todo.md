@@ -42,3 +42,5 @@
     `/* webpackIgnore: true */` comment on the import is the likely fix
   - protobuf.ts throws its encode/decode errors (43 throws) and
     protocol-grpc.ts catches them; decide if that stays or becomes typed
+- layer to enable PII redaction; we know some things will be PII (e.g. from stripe calls);
+  we might want to either redact; or have a layer to redact that information
