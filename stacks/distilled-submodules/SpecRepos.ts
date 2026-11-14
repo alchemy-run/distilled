@@ -88,6 +88,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "hetzner" },
   { package: "hostinger" },
   { package: "huggingface" },
+  { package: "hydradb" },
   { package: "iceberg" },
   { package: "infisical" },
   { package: "inngest" },
