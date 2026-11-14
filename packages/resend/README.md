@@ -22,7 +22,7 @@ const program = Effect.gen(function* () {
     subject: "Hello",
     text: "It works.",
   });
-  return yield* Resend.getEmail({ email_id: id! });
+  return yield* Resend.getEmail({ email_id: id });
 });
 
 const Live = Layer.mergeAll(
@@ -86,8 +86,8 @@ yield* Resend.createAutomation({
 ## Webhooks
 
 `Resend.Webhooks.constructEvent` checks a delivery's Svix signature with
-WebCrypto (Node, Bun and workerd) and returns the event typed from the spec,
-narrowed on `type`:
+core's `Crypto` service (Node, Bun and workerd) and returns the event typed
+from the spec, narrowed on `type`:
 
 ```ts
 const event = yield* Resend.Webhooks.constructEvent({
