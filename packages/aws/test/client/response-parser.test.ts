@@ -67,6 +67,7 @@ describe("REST-XML unstructured server errors", () => {
         } else {
           expect(error).toBeInstanceOf(InternalError);
         }
+        // AWS retries every 500, 502, 503 and 504; these classes are marked.
         expect(isTransientError(error)).toBe(true);
         expect(JSON.stringify(error)).not.toContain("SENSITIVE_SENTINEL");
       });

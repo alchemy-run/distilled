@@ -186,8 +186,8 @@ export const DEFAULT_ERROR_STATUSES = /*@__PURE__*/ new Set([401, 429, 500, 502,
 
 /**
  * HTTP status codes whose corresponding error class in {@link HTTP_STATUS_MAP}
- * declares a `retryAfter` field. The retry policy honors `error.retryAfter`
- * with precedence over the default backoff for these.
+ * declares a `retryAfter` field. The retry policy waits at least
+ * `error.retryAfter` for these.
  *
  * `matchError` implementations should only pass `retryAfter` into the
  * constructor when the status is in this set; passing it on non-retryable

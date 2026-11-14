@@ -6,8 +6,7 @@ import * as Retries from "@distilled.cloud/core/retry";
  * `API.make({ retry: Retry })`, so a caller-installed policy applies to all
  * Discord calls below it and core's `makeDefault` is the fallback when none
  * is provided. Discord rate limits aggressively per-bucket and answers 429s
- * with a `Retry-After` header, which the default policy honors with
- * precedence over its own backoff.
+ * with a `Retry-After` header, which the default policy waits at least.
  *
  * @example
  * ```ts

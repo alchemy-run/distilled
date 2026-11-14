@@ -132,8 +132,9 @@ const withPolicy =
 const none: Retry.Options = { while: () => false };
 
 beforeEach(() => {
-  // Pin jitter (Math.random * 50ms) to zero so delays are exact.
-  vi.spyOn(Math, "random").mockReturnValue(0);
+  // Pin jitter to the middle of its range so delays are exact.
+  vi.spyOn(Math, "random").mockReturnValue(0.5);
+  Retry.defaultBudget.reset();
 });
 
 afterEach(() => {
@@ -181,13 +182,14 @@ const transient = [
   new BadGateway({ message: "" }),
   new ServiceUnavailable({ message: "" }),
   new GatewayTimeout({ message: "" }),
-  new CategorizedNetworkError({ message: "" }),
-  new CategorizedTimeoutError({ message: "" }),
   new RetryableMarked({ message: "" }),
+  new CategorizedNetworkError({ message: "" }),
   transportError,
 ];
 
+// A category describes an error; only a mark retries it.
 const permanent = [
+  new CategorizedTimeoutError({ message: "" }),
   new BadRequest({ message: "" }),
   new Unauthorized({ message: "" }),
   new Forbidden({ message: "" }),
@@ -245,33 +247,51 @@ describe("retry predicates by error category", () => {
 // =============================================================================
 
 describe("makeDefault schedule", () => {
-  test("backs off exponentially from 250ms, capped at 5s, and gives up after 8 retries", async () => {
+  test("full jitter from 50ms, and gives up after 2 retries", async () => {
     const http = scripted(() => status(503));
     const result = await runVirtual(getThing({}), http.layer);
     expect(result._tag).toBe("Failure");
     expect(result.failure).toBeInstanceOf(ServiceUnavailable);
-    expect(http.attempts).toHaveLength(9);
-    expect(delays(http.times())).toEqual([250, 500, 1000, 2000, 4000, 5000, 5000, 5000]);
+    expect(http.attempts).toHaveLength(3);
+    // random 0.5 × 50ms × 2^n
+    expect(delays(http.times())).toEqual([25, 50]);
+  });
+
+  test("each delay is a random fraction of the exponential delay", async () => {
+    vi.spyOn(Math, "random").mockReturnValue(0);
+    const http = scripted(failTimes(2, () => status(503)));
+    await runVirtual(getThing({}), http.layer);
+    expect(delays(http.times())).toEqual([0, 0]);
   });
 
   test("succeeds as soon as a retry succeeds", async () => {
-    const http = scripted(failTimes(2, () => status(500)));
+    const http = scripted(failTimes(2, () => status(503)));
     const result = await runVirtual(getThing({}), http.layer);
     expect(result).toMatchObject({ _tag: "Success", success: { ok: true } });
     expect(http.attempts).toHaveLength(3);
   });
 
-  test("throttling errors wait at least 500ms", async () => {
-    const http = scripted(failTimes(3, () => status(429)));
+  test("throttling errors back off from 1s", async () => {
+    const http = scripted(failTimes(2, () => status(429)));
     await runVirtual(getThing({}), http.layer);
-    expect(delays(http.times())).toEqual([500, 500, 1000]);
+    expect(delays(http.times())).toEqual([500, 1000]);
   });
 
   test("retries wire-level transport failures", async () => {
     const http = scripted(failTimes(2, () => "transport"));
     const result = await runVirtual(getThing({}), http.layer);
     expect(result._tag).toBe("Success");
-    expect(delays(http.times())).toEqual([250, 500]);
+    expect(delays(http.times())).toEqual([25, 50]);
+  });
+
+  test("retries the statuses core's error classes mark: 500, 502, 503, 504, 408, 423", async () => {
+    for (const code of [500, 502, 503, 504, 408, 423]) {
+      Retry.defaultBudget.reset();
+      const http = scripted(() => status(code));
+      const result = await runVirtual(getThing({}), http.layer);
+      expect(result._tag).toBe("Failure");
+      expect(http.attempts).toHaveLength(3);
+    }
   });
 
   test("does not retry non-transient failures", async () => {
@@ -291,103 +311,173 @@ describe("makeDefault schedule", () => {
     expect(writes.attempts.map((a) => a.method)).toEqual(["POST", "POST", "POST"]);
     expect(writes.times()).toEqual(reads.times());
   });
+});
 
-  test("jitter adds up to 50ms to each delay", async () => {
-    vi.spyOn(Math, "random").mockReturnValue(0.5);
-    const http = scripted(failTimes(2, () => status(503)));
+describe("retry budget", () => {
+  test("a bucket starts with 100 tokens: 7 transient retries, then the call fails at once", async () => {
+    const http = scripted(() => status(503));
+    for (let i = 0; i < 4; i++) await runVirtual(getThing({}), http.layer);
+    // 3 calls × 2 retries = 6 retries (84 tokens), then 1 retry (14 tokens), then none.
+    expect(http.attempts).toHaveLength(4 + 7);
+    expect(Retry.defaultBudget.tokens("api.test")).toBe(2);
+    const more = scripted(() => status(503));
+    await runVirtual(getThing({}), more.layer);
+    expect(more.attempts).toHaveLength(1);
+  });
+
+  test("a throttling retry costs 5 tokens", async () => {
+    const http = scripted(() => status(429));
     await runVirtual(getThing({}), http.layer);
-    expect(delays(http.times())).toEqual([275, 525]);
+    expect(Retry.defaultBudget.tokens("api.test")).toBe(90);
+  });
+
+  test("a successful response adds a token, up to 500", async () => {
+    const http = scripted(() => status(503));
+    await runVirtual(getThing({}), http.layer);
+    expect(Retry.defaultBudget.tokens("api.test")).toBe(72);
+    const success = scripted(() => ok());
+    for (let i = 0; i < 3; i++) await runVirtual(getThing({}), success.layer);
+    expect(Retry.defaultBudget.tokens("api.test")).toBe(75);
+  });
+
+  test("a retry that succeeds gets its cost back", async () => {
+    const http = scripted(failTimes(1, () => status(503)));
+    await runVirtual(getThing({}), http.layer);
+    expect(Retry.defaultBudget.tokens("api.test")).toBe(100);
+  });
+
+  test("buckets are per host", async () => {
+    const budget = Retry.makeBudget({ initial: 14 });
+    expect(budget.withdraw("a.test", false)).toBe(14);
+    expect(budget.withdraw("a.test", false)).toBeUndefined();
+    expect(budget.withdraw("b.test", false)).toBe(14);
+  });
+
+  test("a call that sends without core send is not budgeted", async () => {
+    // A protocol with its own `call` bypasses `send`: no host is
+    // recorded and no success would refill a bucket.
+    let attempts = 0;
+    const RawProtocol = Layer.succeed(API.Protocol, {
+      encode: () => Effect.die("unused"),
+      decode: () => Effect.die("unused"),
+      call: () =>
+        Effect.suspend(() => {
+          attempts++;
+          return Effect.fail(new ServiceUnavailable({ message: "" }));
+        }),
+    } as any);
+    const rawCall = API.make(() => ({
+      input: S.Struct({}).pipe(T.Http({ method: "GET", uri: "/thing" })),
+      output: Output,
+      protocol: RawProtocol,
+      retry: TestRetry,
+    })) as unknown as Call;
+    const budget = Retry.makeBudget({ initial: 0 });
+    const policy: Retry.Options = {
+      while: () => true,
+      backoff: { baseMs: 0, factor: 1, capMs: 0, maxRetries: 2, budget },
+    };
+    await runVirtual(rawCall({}).pipe(withPolicy(policy)), Layer.empty as Layer.Layer<any>);
+    expect(attempts).toBe(3);
+  });
+
+  test("a policy without a budget is not limited", async () => {
+    const http = scripted(failTimes(10, () => status(503)));
+    const result = await runVirtual(
+      getThing({}).pipe(withPolicy(Retry.transientOptions)),
+      http.layer,
+    );
+    expect(result._tag).toBe("Success");
+    expect(http.attempts).toHaveLength(11);
+  });
+
+  test("a budget lives as long as the policy value that holds it", async () => {
+    const policy: Retry.Options = {
+      while: () => true,
+      backoff: { baseMs: 0, factor: 1, capMs: 0, budget: Retry.makeBudget({ initial: 28 }) },
+    };
+    const http = scripted(() => status(503));
+    // Two provides of one policy share its 28 tokens: 2 retries in total.
+    await runVirtual(getThing({}).pipe(withPolicy(policy)), http.layer);
+    await runVirtual(getThing({}).pipe(withPolicy(policy)), http.layer);
+    expect(http.attempts).toHaveLength(3 + 1);
   });
 });
 
 describe("server retry hints", () => {
-  test("the default policy honors retryAfter over its own backoff", async () => {
+  test("Retry-After is the least the default policy waits", async () => {
     const http = scripted(failTimes(2, () => status(503, { "retry-after": "2" })));
     await runVirtual(getThing({}), http.layer);
     expect(delays(http.times())).toEqual([2000, 2000]);
   });
 
-  test("a hint longer than the 5s backoff cap is honored in full", async () => {
+  test("a Retry-After shorter than the backoff does not shorten it", async () => {
+    const http = scripted(failTimes(1, () => status(429, { "retry-after": "0" })));
+    await runVirtual(getThing({}), http.layer);
+    expect(delays(http.times())).toEqual([500]);
+  });
+
+  test("a Retry-After longer than the 20s backoff cap is honored in full", async () => {
     const http = scripted(failTimes(1, () => status(429, { "retry-after": "30" })));
     await runVirtual(getThing({}), http.layer);
     expect(delays(http.times())).toEqual([30_000]);
   });
 
-  test("a hint shorter than the throttling floor still wins", async () => {
-    const http = scripted(failTimes(1, () => status(429, { "retry-after": "0" })));
-    await runVirtual(getThing({}), http.layer);
-    expect(delays(http.times())).toEqual([0]);
-  });
-
-  test("hints are capped at DEFAULT_SERVER_RETRY_HINT_CAP_MS", async () => {
+  test("a Retry-After over the hint cap fails instead of retrying early", async () => {
     expect(Retry.DEFAULT_SERVER_RETRY_HINT_CAP_MS).toBe(60_000);
     const http = scripted(failTimes(1, () => status(429, { "retry-after": "600" })));
-    await runVirtual(getThing({}), http.layer);
-    expect(delays(http.times())).toEqual([60_000]);
+    const result = await runVirtual(getThing({}), http.layer);
+    expect(result.failure).toBeInstanceOf(TooManyRequests);
+    expect(http.attempts).toHaveLength(1);
   });
 
-  test("serverRetryHintCapLayer overrides the cap", async () => {
-    const http = scripted(failTimes(1, () => status(429, { "retry-after": "600" })));
-    await runVirtual(
-      getThing({}),
-      Layer.mergeAll(http.layer, Retry.serverRetryHintCapLayer(1_500)),
-    );
-    expect(delays(http.times())).toEqual([1_500]);
+  /** Attempts of a call whose 429 asks for 2s, under `layer`'s hint cap. */
+  const attemptsUnder = async <A>(layer: Layer.Layer<A>) => {
+    const http = scripted(failTimes(1, () => status(429, { "retry-after": "2" })));
+    await runVirtual(getThing({}), Layer.mergeAll(http.layer, layer));
+    return http.attempts.length;
+  };
+
+  test("serverRetryHintCapLayer sets the cap", async () => {
+    expect(await attemptsUnder(Retry.serverRetryHintCapLayer(1_500))).toBe(1);
+    expect(await attemptsUnder(Retry.serverRetryHintCapLayer(2_500))).toBe(2);
   });
 
-  test("DISTILLED_SERVER_RETRY_HINT_CAP_MS overrides the cap", async () => {
-    const http = scripted(failTimes(1, () => status(429, { "retry-after": "600" })));
-    await runVirtual(
-      getThing({}),
-      Layer.mergeAll(http.layer, env({ DISTILLED_SERVER_RETRY_HINT_CAP_MS: "2500" })),
-    );
-    expect(delays(http.times())).toEqual([2_500]);
+  test("DISTILLED_SERVER_RETRY_HINT_CAP_MS sets the cap", async () => {
+    expect(await attemptsUnder(env({ DISTILLED_SERVER_RETRY_HINT_CAP_MS: "1500" }))).toBe(1);
+    expect(await attemptsUnder(env({ DISTILLED_SERVER_RETRY_HINT_CAP_MS: "2500" }))).toBe(2);
   });
 
   test("an invalid DISTILLED_SERVER_RETRY_HINT_CAP_MS falls back to the default cap", async () => {
     for (const raw of ["-1", "soon", "Infinity", ""]) {
-      const http = scripted(failTimes(1, () => status(429, { "retry-after": "600" })));
-      await runVirtual(
-        getThing({}),
-        Layer.mergeAll(http.layer, env({ DISTILLED_SERVER_RETRY_HINT_CAP_MS: raw })),
-      );
-      expect(delays(http.times())).toEqual([60_000]);
+      expect(await attemptsUnder(env({ DISTILLED_SERVER_RETRY_HINT_CAP_MS: raw }))).toBe(2);
     }
   });
 
   test("DISTILLED_SERVER_RETRY_HINT_CAP_MS is truncated to whole milliseconds", async () => {
-    const http = scripted(failTimes(1, () => status(429, { "retry-after": "600" })));
-    await runVirtual(
-      getThing({}),
-      Layer.mergeAll(http.layer, env({ DISTILLED_SERVER_RETRY_HINT_CAP_MS: "1234.9" })),
-    );
-    expect(delays(http.times())).toEqual([1_234]);
+    expect(await attemptsUnder(env({ DISTILLED_SERVER_RETRY_HINT_CAP_MS: "1999.9" }))).toBe(1);
   });
 
   test("the layer cap wins over the environment cap", async () => {
-    const http = scripted(failTimes(1, () => status(429, { "retry-after": "600" })));
-    await runVirtual(
-      getThing({}),
-      Layer.mergeAll(
-        http.layer,
-        Retry.serverRetryHintCapLayer(1_000),
-        env({ DISTILLED_SERVER_RETRY_HINT_CAP_MS: "2500" }),
+    expect(
+      await attemptsUnder(
+        Layer.mergeAll(
+          Retry.serverRetryHintCapLayer(1_000),
+          env({ DISTILLED_SERVER_RETRY_HINT_CAP_MS: "2500" }),
+        ),
       ),
-    );
-    expect(delays(http.times())).toEqual([1_000]);
+    ).toBe(1);
   });
 
   test("an invalid layer cap falls back to the environment cap", async () => {
-    const http = scripted(failTimes(1, () => status(429, { "retry-after": "600" })));
-    await runVirtual(
-      getThing({}),
-      Layer.mergeAll(
-        http.layer,
-        Retry.serverRetryHintCapLayer(-1),
-        env({ DISTILLED_SERVER_RETRY_HINT_CAP_MS: "2500" }),
+    expect(
+      await attemptsUnder(
+        Layer.mergeAll(
+          Retry.serverRetryHintCapLayer(-1),
+          env({ DISTILLED_SERVER_RETRY_HINT_CAP_MS: "2500" }),
+        ),
       ),
-    );
-    expect(delays(http.times())).toEqual([2_500]);
+    ).toBe(2);
   });
 
   test("factory policies honor hints; static Options policies cannot", async () => {
@@ -397,7 +487,65 @@ describe("server retry hints", () => {
 
     const options = scripted(failTimes(1, () => status(429, { "retry-after": "3" })));
     await runVirtual(getThing({}).pipe(withPolicy(Retry.throttlingOptions)), options.layer);
-    expect(delays(options.times())).toEqual([1_000]);
+    expect(delays(options.times())).toEqual([1_025]);
+  });
+});
+
+describe("bounded server hints (x-amz-retry-after, x-distilled-retry-after)", () => {
+  const delayFor = async (code: number, headers: Record<string, string>) => {
+    const http = scripted(failTimes(1, () => status(code, headers)));
+    await runVirtual(getThing({}), http.layer);
+    return delays(http.times());
+  };
+
+  for (const header of ["x-amz-retry-after", "x-distilled-retry-after"]) {
+    test(`${header} within [t, t + 5s] is used as is`, async () => {
+      // t = 25ms
+      expect(await delayFor(503, { [header]: "3000" })).toEqual([3_000]);
+    });
+
+    test(`${header} below the backoff waits the backoff`, async () => {
+      expect(await delayFor(503, { [header]: "10" })).toEqual([25]);
+    });
+
+    test(`${header} is clamped to the backoff plus 5s`, async () => {
+      expect(await delayFor(503, { [header]: "60000" })).toEqual([5_025]);
+    });
+
+    test(`${header} that is not whole milliseconds is ignored`, async () => {
+      for (const value of ["abc", "-5", "1.5", ""]) {
+        expect(await delayFor(503, { [header]: value })).toEqual([25]);
+      }
+    });
+
+    test(`${header} does not make an error retryable`, async () => {
+      expect(await delayFor(400, { [header]: "3000" })).toEqual([]);
+      expect(await delayFor(404, { [header]: "3000" })).toEqual([]);
+    });
+  }
+
+  test("the larger of the two headers wins", async () => {
+    expect(
+      await delayFor(503, { "x-amz-retry-after": "1000", "x-distilled-retry-after": "2000" }),
+    ).toEqual([2_000]);
+  });
+
+  test("Retry-After is ignored when a bounded hint is present", async () => {
+    expect(await delayFor(429, { "retry-after": "30", "x-distilled-retry-after": "700" })).toEqual([
+      700,
+    ]);
+    expect(await delayFor(429, { "retry-after": "600", "x-amz-retry-after": "700" })).toEqual([
+      700,
+    ]);
+  });
+
+  test("a hint applies only to the retry after the response that carried it", async () => {
+    let n = 0;
+    const http = scripted(() =>
+      n++ === 0 ? status(503, { "x-distilled-retry-after": "3000" }) : n === 2 ? "transport" : ok(),
+    );
+    await runVirtual(getThing({}), http.layer);
+    expect(delays(http.times())).toEqual([3_000, 50]);
   });
 });
 
@@ -414,8 +562,9 @@ describe("readServerRetryHintCapMsFromEnv", () => {
 
 describe("throttling and transient policies", () => {
   test("transient policies back off from 1s, cap at 5s, and keep retrying past 8 attempts", async () => {
+    vi.spyOn(Math, "random").mockReturnValue(0);
     for (const policy of [Retry.transientFactory, Retry.transientOptions]) {
-      const http = scripted(failTimes(10, () => status(502)));
+      const http = scripted(failTimes(10, () => status(503)));
       const result = await runVirtual(getThing({}).pipe(withPolicy(policy)), http.layer);
       expect(result._tag).toBe("Success");
       expect(delays(http.times())).toEqual([

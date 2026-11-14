@@ -21,6 +21,7 @@ import {
 import { checkSuccess, unwrapRedactedDeep } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
+import * as Send from "@distilled.cloud/core/send";
 import * as Telemetry from "@distilled.cloud/core/telemetry";
 /**
  * StripeProtocol -- hand-written.
@@ -363,7 +364,7 @@ const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown>
     return withCredentials(context, (creds) => {
       const client = Context.get(context, HttpClient.HttpClient);
       return Effect.flatMap(requestFor(creds, context, input, op.inputAst), (request) =>
-        Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
+        Effect.flatMap(Send.send(context, client, request), (response) =>
           decodeResponse(context, response, op.outputAst, op.errors),
         ),
       );

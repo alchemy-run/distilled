@@ -25,6 +25,7 @@ import {
 } from "./protocol-http.ts";
 import { checkResponse, withholdActual } from "./response-validation.ts";
 import { parseRetryAfterForStatus } from "./retry-after.ts";
+import * as Send from "./send.ts";
 import { holdsSensitive, sensitiveValueSymbol, wrapSensitive } from "./sensitive.ts";
 /**
  * Generic REST protocol factory for simple bearer/header-auth JSON APIs
@@ -59,7 +60,6 @@ import { holdsSensitive, sensitiveValueSymbol, wrapSensitive } from "./sensitive
  * Anything provider-specific (envelope quirks, bespoke error codes) belongs
  * in the provider package -- via these options or a hand-written protocol.
  */
-import * as Telemetry from "./telemetry.ts";
 import { httpSymbol, makeAnnotation, type HttpTrait } from "./trait.ts";
 import type { UnknownErrorProps } from "./unknown-error.ts";
 
@@ -627,7 +627,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       return withCredentials(context, (creds) => {
         const client = Context.get(context, HttpClient.HttpClient);
         return Effect.flatMap(requestFor(creds, input, op.inputAst), (request) =>
-          Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
+          Effect.flatMap(Send.send(context, client, request), (response) =>
             streaming
               ? openFramed(context, response, op)
               : decodeResponse(

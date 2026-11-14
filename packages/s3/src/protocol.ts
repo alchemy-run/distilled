@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
+import * as Send from "@distilled.cloud/core/send";
 import * as Telemetry from "@distilled.cloud/core/telemetry";
 /**
  * AwsProtocol -- AWS's implementation of `@distilled.cloud/core`'s Protocol
@@ -500,7 +501,7 @@ const thenSend = <A>(
 /**
  * Stamp a server-provided `retryAfterSeconds` hint (modeled on several AWS
  * throttling errors) as the `retryAfter` Duration that core's default retry
- * policy honors with precedence over its backoff.
+ * policy treats as the least it waits (RFC 9110).
  */
 const stampRetryAfter = (error: unknown): unknown => {
   if (typeof error !== "object" || error === null) return error;
@@ -689,7 +690,7 @@ const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown>
     const run = (plan: Plan) => {
       const client = Context.get(context, HttpClient.HttpClient);
       return encodeWith(prepared, plan, fiber as unknown as Fiber, input, (request) =>
-        Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
+        Effect.flatMap(Send.send(context, client, request), (response) =>
           Telemetry.phase(
             context,
             "aws.deserialize",
