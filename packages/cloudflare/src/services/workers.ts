@@ -1656,6 +1656,8 @@ export interface BetaWorkersVersionsCreateRequestBindingsItemService {
   entrypoint?: string | undefined;
   /** Optional environment if the Worker utilizes one. */
   environment?: string | undefined;
+  /** JSON object the bound entrypoint reads as `ctx.props`, kept with its keys as written. */
+  props?: unknown | undefined;
 }
 export type BetaWorkersVersionsCreateRequestBindingsItemTextBlobType = "text_blob";
 export interface BetaWorkersVersionsCreateRequestBindingsItemTextBlob {
@@ -2533,6 +2535,8 @@ export interface BetaWorkersVersionsCreateResponseBindingsItemService {
   entrypoint?: string | null | undefined;
   /** Optional environment if the Worker utilizes one. */
   environment?: string | null | undefined;
+  /** JSON object the bound entrypoint reads as `ctx.props`, kept with its keys as written. */
+  props?: unknown | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseBindingsItemTextBlobType = "text_blob";
 export interface BetaWorkersVersionsCreateResponseBindingsItemTextBlob {
@@ -5456,6 +5460,503 @@ export interface CreateScriptVersionRequest {
   /** Module / asset file parts, appended under their own filenames. */
   files?: File | Blob | (File | Blob)[] | undefined;
 }
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemAIType = "ai";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemAI {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemAIType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchType = "ai_search";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearch {
+  /** The user-chosen instance name. Must exist at deploy time. The worker can search, chat, update, and manage items/jobs on this instance. */
+  instanceName: string;
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchType;
+  /** The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field. */
+  namespace?: string | null | undefined;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchNamespaceType =
+  "ai_search_namespace";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchNamespace {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The user-chosen namespace name. Must exist before deploy -- Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace. */
+  namespace: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchNamespaceType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemMessagingType = "messaging";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemMessaging {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The Messaging namespace to bind to. */
+  namespace: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemMessagingType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemAnalyticsEngineType =
+  "analytics_engine";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemAnalyticsEngine {
+  /** The name of the dataset to bind to. */
+  dataset: string;
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemAnalyticsEngineType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemArtifactsType = "artifacts";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemArtifacts {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The Artifacts namespace exposed to the Worker in the Worker's account. Must be 2-63 characters, start with an ASCII alphanumeric character, contain only ASCII alphanumeric characters, dots, underscores, and hyphens, and must not end with a hyphen. The namespace does not need to be created before binding it. */
+  namespace: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemArtifactsType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemAssetsType = "assets";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemAssets {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemAssetsType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemBrowserType = "browser";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemBrowser {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemBrowserType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemD1Type = "d1";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemD1 {
+  /** Identifier of the D1 database to bind to. */
+  databaseId: string;
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemD1Type;
+  /** This property has been renamed to `database_id`. */
+  id?: string | null | undefined;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemDataBlobType = "data_blob";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemDataBlob {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The name of the file containing the data content. Only accepted for `service worker syntax` Workers. */
+  part: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemDataBlobType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceType =
+  "dispatch_namespace";
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceOutboundParamsItem =
+  BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundParamsItem;
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceOutboundParamsList =
+  Array<BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundParamsItem>;
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceOutboundWorker =
+  BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker;
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceOutbound {
+  /** Pass information from the Dispatch Worker to the Outbound Worker through the parameters. */
+  params?:
+    | ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceOutboundParamsList
+    | null
+    | undefined;
+  /** Outbound worker. */
+  worker?:
+    | BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker
+    | null
+    | undefined;
+}
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespace {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The name of the dispatch namespace. */
+  namespace: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceType;
+  /** Outbound worker. */
+  outbound?:
+    | ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceOutbound
+    | null
+    | undefined;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemDurableObjectNamespaceType =
+  "durable_object_namespace";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemDurableObjectNamespace {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemDurableObjectNamespaceType;
+  /** The exported class name of the Durable Object. */
+  className?: string | null | undefined;
+  /** The dispatch namespace the Durable Object script belongs to. */
+  dispatchNamespace?: string | null | undefined;
+  /** The environment of the script_name to bind to. */
+  environment?: string | null | undefined;
+  /** Namespace identifier tag. */
+  namespaceId?: string | null | undefined;
+  /** The script where the Durable Object is defined, if it is external to this Worker. */
+  scriptName?: string | null | undefined;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemHyperdriveType = "hyperdrive";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemHyperdrive {
+  /** Identifier of the Hyperdrive connection to bind to. */
+  id: string;
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemHyperdriveType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemInheritType = "inherit";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemInherit {
+  /** The name of the inherited binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemInheritType;
+  /** The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions. */
+  oldName?: string | null | undefined;
+  /** Identifier for the version to inherit the binding from. This can be a version ID, or the literal "latest" to inherit from the most recently uploaded version, which may not be the deployed version. Defaults to "latest". Only the Workers API version endpoints under `/accounts/{account_id}/workers/workers/{worker_id}/versions` accept a version ID. Other endpoints, including script upload and script version upload, accept only "latest" and reject a version ID with error 10057. */
+  versionId?: string | null | undefined;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemImagesType = "images";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemImages {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemImagesType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemJsonType = "json";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemJson {
+  /** JSON data to use. */
+  json: unknown;
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemJsonType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemKVNamespaceType = "kv_namespace";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemKVNamespace {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** Namespace identifier tag. */
+  namespaceId: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemKVNamespaceType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemMediaType = "media";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemMedia {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemMediaType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemMTLSCertificateType =
+  "mtls_certificate";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemMTLSCertificate {
+  /** Identifier of the certificate to bind to. */
+  certificateId: string;
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemMTLSCertificateType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemPlainTextType = "plain_text";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemPlainText {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The text value to use. */
+  text: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemPlainTextType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemPipelinesType = "pipelines";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemPipelines {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** Name of the Pipeline to bind to. */
+  pipeline: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemPipelinesType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemK2Type = "k2";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemK2 {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** ID of a K2 stream owned by the account deploying the Worker. */
+  stream: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemK2Type;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemQueueType = "queue";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemQueue {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** Name of the Queue to bind to. */
+  queueName: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemQueueType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemRatelimitSimple =
+  BetaWorkersVersionsCreateResponseBindingsItemRatelimitSimple;
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemRatelimitType = "ratelimit";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemRatelimit {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** Identifier of the rate limit namespace to bind to. */
+  namespaceId: string;
+  /** The rate limit configuration. */
+  simple: BetaWorkersVersionsCreateResponseBindingsItemRatelimitSimple;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemRatelimitType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2BucketType = "r2_bucket";
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2BucketJurisdiction =
+  | "eu"
+  | "fedramp"
+  | "fedramp-high"
+  | "us";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2Bucket {
+  /** R2 bucket to bind to. */
+  bucketName: string;
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2BucketType;
+  /** The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket. */
+  jurisdiction?:
+    | ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2BucketJurisdiction
+    | null
+    | undefined;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretTextType = "secret_text";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretText {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The secret value to use. */
+  text: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretTextType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmailType = "send_email";
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmailAllowedDestinationAddressesList =
+  Array<string>;
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmailAllowedSenderAddressesList =
+  Array<string>;
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmail {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmailType;
+  /** List of allowed destination addresses. */
+  allowedDestinationAddresses?:
+    | ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmailAllowedDestinationAddressesList
+    | null
+    | undefined;
+  /** List of allowed sender addresses. */
+  allowedSenderAddresses?:
+    | ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmailAllowedSenderAddressesList
+    | null
+    | undefined;
+  /** Destination address for the email. */
+  destinationAddress?: string | null | undefined;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemServiceType = "service";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemService {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** Name of Worker to bind to. */
+  service: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemServiceType;
+  /** Entrypoint to invoke on the target Worker. */
+  entrypoint?: string | null | undefined;
+  /** Optional environment if the Worker utilizes one. */
+  environment?: string | null | undefined;
+  /** JSON object the bound entrypoint reads as `ctx.props`, kept with its keys as written. */
+  props?: unknown | null | undefined;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemTextBlobType = "text_blob";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemTextBlob {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The name of the file containing the text content. Only accepted for `service worker syntax` Workers. */
+  part: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemTextBlobType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemVectorizeType = "vectorize";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemVectorize {
+  /** Name of the Vectorize index to bind to. */
+  indexName: string;
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemVectorizeType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemVersionMetadataType =
+  "version_metadata";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemVersionMetadata {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemVersionMetadataType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretsStoreSecretType =
+  "secrets_store_secret";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretsStoreSecret {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** Name of the secret in the store. */
+  secretName: string;
+  /** ID of the store containing the secret. */
+  storeId: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretsStoreSecretType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemFlagshipType = "flagship";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemFlagship {
+  /** ID of the Flagship app to bind to for feature flag evaluation. */
+  appId: string;
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemFlagshipType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKeyFormat =
+  | "raw"
+  | "pkcs8"
+  | "spki"
+  | "jwk";
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKeyType = "secret_key";
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKeyUsagesItem =
+  | "encrypt"
+  | "decrypt"
+  | "sign"
+  | "verify"
+  | "deriveKey"
+  | "deriveBits"
+  | "wrapKey"
+  | "unwrapKey";
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKeyUsagesList =
+  Array<ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKeyUsagesItem>;
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKey {
+  /** Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm). */
+  algorithm: unknown;
+  /** Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format). */
+  format: ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKeyFormat;
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKeyType;
+  /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
+  usages: ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKeyUsagesList;
+  /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
+  keyBase64?: string | null | undefined;
+  /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
+  keyJwk?: unknown | null | undefined;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkflowType = "workflow";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkflow {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkflowType;
+  /** Name of the Workflow to bind to. */
+  workflowName: string;
+  /** Class name of the Workflow. Should only be provided if the Workflow belongs to this script. */
+  className?: string | null | undefined;
+  /** Script name that contains the Workflow. If not provided, defaults to this script name. */
+  scriptName?: string | null | undefined;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemWasmModuleType = "wasm_module";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemWasmModule {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The name of the file containing the WebAssembly module content. Only accepted for `service worker syntax` Workers. */
+  part: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemWasmModuleType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCServiceType = "vpc_service";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCService {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** Identifier of the VPC service to bind to. */
+  serviceId: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCServiceType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkType = "vpc_network";
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkIdentity =
+  "runtime-email-alpha";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetwork {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkType;
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
+  identity?:
+    | ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkIdentity
+    | null
+    | undefined;
+  /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
+  networkId?: string | null | undefined;
+  /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
+  tunnelId?: string | null | undefined;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkerLoaderType =
+  "worker_loader";
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkerLoader {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkerLoaderType;
+}
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItem =
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemAI
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearch
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchNamespace
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemMessaging
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemAnalyticsEngine
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemArtifacts
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemAssets
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemBrowser
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemD1
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemDataBlob
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespace
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemDurableObjectNamespace
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemHyperdrive
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemInherit
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemImages
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemJson
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemKVNamespace
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemMedia
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemMTLSCertificate
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemPlainText
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemPipelines
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemK2
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemQueue
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemRatelimit
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2Bucket
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretText
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmail
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemService
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemTextBlob
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemVectorize
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemVersionMetadata
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretsStoreSecret
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemFlagship
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKey
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkflow
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemWasmModule
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCService
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetwork
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkerLoader;
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsList =
+  Array<ScriptsScriptAndVersionSettingsGetResponseBindingsItem>;
 export type ScriptsVersionsCreateResponseResourcesScriptHandlersList = Array<string>;
 export type ScriptsVersionsCreateResponseResourcesScriptNamedHandlersItemHandlersList =
   Array<string>;
@@ -5608,7 +6109,7 @@ export interface ScriptsVersionsCreateResponseResourcesScriptRuntime {
 }
 export interface ScriptsVersionsCreateResponseResources {
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
-  bindings: unknown;
+  bindings: ScriptsScriptAndVersionSettingsGetResponseBindingsList;
   script?: ScriptsVersionsCreateResponseResourcesScript | null | undefined;
   /** Runtime configuration for the Worker. */
   scriptRuntime?: ScriptsVersionsCreateResponseResourcesScriptRuntime | null | undefined;
@@ -6558,6 +7059,8 @@ export interface BetaWorkersVersionsGetResponseBindingsItemService {
   entrypoint?: string | null | undefined;
   /** Optional environment if the Worker utilizes one. */
   environment?: string | null | undefined;
+  /** JSON object the bound entrypoint reads as `ctx.props`, kept with its keys as written. */
+  props?: unknown | null | undefined;
 }
 export type BetaWorkersVersionsGetResponseBindingsItemTextBlobType = "text_blob";
 export interface BetaWorkersVersionsGetResponseBindingsItemTextBlob {
@@ -8582,501 +9085,6 @@ export interface ScriptsScriptAndVersionSettingsGetResponseAnnotations {
   /** Operation that triggered the creation of the version. This is read-only and set by the server. */
   workersTriggeredBy?: string | null | undefined;
 }
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemAIType = "ai";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemAI {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemAIType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchType = "ai_search";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearch {
-  /** The user-chosen instance name. Must exist at deploy time. The worker can search, chat, update, and manage items/jobs on this instance. */
-  instanceName: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchType;
-  /** The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field. */
-  namespace?: string | null | undefined;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchNamespaceType =
-  "ai_search_namespace";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchNamespace {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The user-chosen namespace name. Must exist before deploy -- Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace. */
-  namespace: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchNamespaceType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemMessagingType = "messaging";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemMessaging {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The Messaging namespace to bind to. */
-  namespace: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemMessagingType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemAnalyticsEngineType =
-  "analytics_engine";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemAnalyticsEngine {
-  /** The name of the dataset to bind to. */
-  dataset: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemAnalyticsEngineType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemArtifactsType = "artifacts";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemArtifacts {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The Artifacts namespace exposed to the Worker in the Worker's account. Must be 2-63 characters, start with an ASCII alphanumeric character, contain only ASCII alphanumeric characters, dots, underscores, and hyphens, and must not end with a hyphen. The namespace does not need to be created before binding it. */
-  namespace: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemArtifactsType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemAssetsType = "assets";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemAssets {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemAssetsType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemBrowserType = "browser";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemBrowser {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemBrowserType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemD1Type = "d1";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemD1 {
-  /** Identifier of the D1 database to bind to. */
-  databaseId: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemD1Type;
-  /** This property has been renamed to `database_id`. */
-  id?: string | null | undefined;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemDataBlobType = "data_blob";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemDataBlob {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The name of the file containing the data content. Only accepted for `service worker syntax` Workers. */
-  part: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemDataBlobType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceType =
-  "dispatch_namespace";
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceOutboundParamsItem =
-  BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundParamsItem;
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceOutboundParamsList =
-  Array<BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundParamsItem>;
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceOutboundWorker =
-  BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker;
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceOutbound {
-  /** Pass information from the Dispatch Worker to the Outbound Worker through the parameters. */
-  params?:
-    | ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceOutboundParamsList
-    | null
-    | undefined;
-  /** Outbound worker. */
-  worker?:
-    | BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker
-    | null
-    | undefined;
-}
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespace {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The name of the dispatch namespace. */
-  namespace: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceType;
-  /** Outbound worker. */
-  outbound?:
-    | ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceOutbound
-    | null
-    | undefined;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemDurableObjectNamespaceType =
-  "durable_object_namespace";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemDurableObjectNamespace {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemDurableObjectNamespaceType;
-  /** The exported class name of the Durable Object. */
-  className?: string | null | undefined;
-  /** The dispatch namespace the Durable Object script belongs to. */
-  dispatchNamespace?: string | null | undefined;
-  /** The environment of the script_name to bind to. */
-  environment?: string | null | undefined;
-  /** Namespace identifier tag. */
-  namespaceId?: string | null | undefined;
-  /** The script where the Durable Object is defined, if it is external to this Worker. */
-  scriptName?: string | null | undefined;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemHyperdriveType = "hyperdrive";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemHyperdrive {
-  /** Identifier of the Hyperdrive connection to bind to. */
-  id: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemHyperdriveType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemInheritType = "inherit";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemInherit {
-  /** The name of the inherited binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemInheritType;
-  /** The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions. */
-  oldName?: string | null | undefined;
-  /** Identifier for the version to inherit the binding from. This can be a version ID, or the literal "latest" to inherit from the most recently uploaded version, which may not be the deployed version. Defaults to "latest". Only the Workers API version endpoints under `/accounts/{account_id}/workers/workers/{worker_id}/versions` accept a version ID. Other endpoints, including script upload and script version upload, accept only "latest" and reject a version ID with error 10057. */
-  versionId?: string | null | undefined;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemImagesType = "images";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemImages {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemImagesType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemJsonType = "json";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemJson {
-  /** JSON data to use. */
-  json: unknown;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemJsonType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemKVNamespaceType = "kv_namespace";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemKVNamespace {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Namespace identifier tag. */
-  namespaceId: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemKVNamespaceType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemMediaType = "media";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemMedia {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemMediaType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemMTLSCertificateType =
-  "mtls_certificate";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemMTLSCertificate {
-  /** Identifier of the certificate to bind to. */
-  certificateId: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemMTLSCertificateType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemPlainTextType = "plain_text";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemPlainText {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The text value to use. */
-  text: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemPlainTextType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemPipelinesType = "pipelines";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemPipelines {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Name of the Pipeline to bind to. */
-  pipeline: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemPipelinesType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemK2Type = "k2";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemK2 {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** ID of a K2 stream owned by the account deploying the Worker. */
-  stream: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemK2Type;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemQueueType = "queue";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemQueue {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Name of the Queue to bind to. */
-  queueName: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemQueueType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemRatelimitSimple =
-  BetaWorkersVersionsCreateResponseBindingsItemRatelimitSimple;
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemRatelimitType = "ratelimit";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemRatelimit {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Identifier of the rate limit namespace to bind to. */
-  namespaceId: string;
-  /** The rate limit configuration. */
-  simple: BetaWorkersVersionsCreateResponseBindingsItemRatelimitSimple;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemRatelimitType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2BucketType = "r2_bucket";
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2BucketJurisdiction =
-  | "eu"
-  | "fedramp"
-  | "fedramp-high"
-  | "us";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2Bucket {
-  /** R2 bucket to bind to. */
-  bucketName: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2BucketType;
-  /** The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket. */
-  jurisdiction?:
-    | ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2BucketJurisdiction
-    | null
-    | undefined;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretTextType = "secret_text";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretText {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The secret value to use. */
-  text: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretTextType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmailType = "send_email";
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmailAllowedDestinationAddressesList =
-  Array<string>;
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmailAllowedSenderAddressesList =
-  Array<string>;
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmail {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmailType;
-  /** List of allowed destination addresses. */
-  allowedDestinationAddresses?:
-    | ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmailAllowedDestinationAddressesList
-    | null
-    | undefined;
-  /** List of allowed sender addresses. */
-  allowedSenderAddresses?:
-    | ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmailAllowedSenderAddressesList
-    | null
-    | undefined;
-  /** Destination address for the email. */
-  destinationAddress?: string | null | undefined;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemServiceType = "service";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemService {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Name of Worker to bind to. */
-  service: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemServiceType;
-  /** Entrypoint to invoke on the target Worker. */
-  entrypoint?: string | null | undefined;
-  /** Optional environment if the Worker utilizes one. */
-  environment?: string | null | undefined;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemTextBlobType = "text_blob";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemTextBlob {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The name of the file containing the text content. Only accepted for `service worker syntax` Workers. */
-  part: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemTextBlobType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemVectorizeType = "vectorize";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemVectorize {
-  /** Name of the Vectorize index to bind to. */
-  indexName: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemVectorizeType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemVersionMetadataType =
-  "version_metadata";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemVersionMetadata {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemVersionMetadataType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretsStoreSecretType =
-  "secrets_store_secret";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretsStoreSecret {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Name of the secret in the store. */
-  secretName: string;
-  /** ID of the store containing the secret. */
-  storeId: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretsStoreSecretType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemFlagshipType = "flagship";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemFlagship {
-  /** ID of the Flagship app to bind to for feature flag evaluation. */
-  appId: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemFlagshipType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKeyFormat =
-  | "raw"
-  | "pkcs8"
-  | "spki"
-  | "jwk";
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKeyType = "secret_key";
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKeyUsagesItem =
-  | "encrypt"
-  | "decrypt"
-  | "sign"
-  | "verify"
-  | "deriveKey"
-  | "deriveBits"
-  | "wrapKey"
-  | "unwrapKey";
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKeyUsagesList =
-  Array<ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKeyUsagesItem>;
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKey {
-  /** Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm). */
-  algorithm: unknown;
-  /** Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format). */
-  format: ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKeyFormat;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKeyType;
-  /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
-  usages: ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKeyUsagesList;
-  /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null | undefined;
-  /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null | undefined;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkflowType = "workflow";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkflow {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkflowType;
-  /** Name of the Workflow to bind to. */
-  workflowName: string;
-  /** Class name of the Workflow. Should only be provided if the Workflow belongs to this script. */
-  className?: string | null | undefined;
-  /** Script name that contains the Workflow. If not provided, defaults to this script name. */
-  scriptName?: string | null | undefined;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemWasmModuleType = "wasm_module";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemWasmModule {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The name of the file containing the WebAssembly module content. Only accepted for `service worker syntax` Workers. */
-  part: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemWasmModuleType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCServiceType = "vpc_service";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCService {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Identifier of the VPC service to bind to. */
-  serviceId: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCServiceType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkType = "vpc_network";
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkIdentity =
-  "runtime-email-alpha";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetwork {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkType;
-  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
-  identity?:
-    | ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkIdentity
-    | null
-    | undefined;
-  /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
-  networkId?: string | null | undefined;
-  /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
-  tunnelId?: string | null | undefined;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkerLoaderType =
-  "worker_loader";
-export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkerLoader {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkerLoaderType;
-}
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsItem =
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemAI
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearch
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchNamespace
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemMessaging
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemAnalyticsEngine
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemArtifacts
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemAssets
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemBrowser
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemD1
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemDataBlob
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespace
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemDurableObjectNamespace
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemHyperdrive
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemInherit
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemImages
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemJson
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemKVNamespace
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemMedia
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemMTLSCertificate
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemPlainText
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemPipelines
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemK2
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemQueue
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemRatelimit
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2Bucket
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretText
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmail
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemService
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemTextBlob
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemVectorize
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemVersionMetadata
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretsStoreSecret
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemFlagship
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKey
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkflow
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemWasmModule
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCService
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetwork
-  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkerLoader;
-export type ScriptsScriptAndVersionSettingsGetResponseBindingsList =
-  Array<ScriptsScriptAndVersionSettingsGetResponseBindingsItem>;
 export type ScriptsScriptAndVersionSettingsGetResponseCacheOptions =
   BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions;
 export type ScriptsScriptAndVersionSettingsGetResponseCompatibilityFlagsList = Array<string>;
@@ -9899,7 +9907,7 @@ export interface ScriptsVersionsGetResponseResourcesScriptRuntime {
 }
 export interface ScriptsVersionsGetResponseResources {
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
-  bindings: unknown;
+  bindings: ScriptsScriptAndVersionSettingsGetResponseBindingsList;
   script?: ScriptsVersionsGetResponseResourcesScript | null | undefined;
   /** Runtime configuration for the Worker. */
   scriptRuntime?: ScriptsVersionsGetResponseResourcesScriptRuntime | null | undefined;
@@ -10792,6 +10800,8 @@ export interface BetaWorkersVersionsListResultItemBindingsItemService {
   entrypoint?: string | null | undefined;
   /** Optional environment if the Worker utilizes one. */
   environment?: string | null | undefined;
+  /** JSON object the bound entrypoint reads as `ctx.props`, kept with its keys as written. */
+  props?: unknown | null | undefined;
 }
 export type BetaWorkersVersionsListResultItemBindingsItemTextBlobType = "text_blob";
 export interface BetaWorkersVersionsListResultItemBindingsItemTextBlob {
@@ -13920,6 +13930,8 @@ export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemService 
   entrypoint?: string | null | undefined;
   /** Optional environment if the Worker utilizes one. */
   environment?: string | null | undefined;
+  /** JSON object the bound entrypoint reads as `ctx.props`, kept with its keys as written. */
+  props?: unknown | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseBindingsItemTextBlobType = "text_blob";
 export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemTextBlob {
@@ -18242,7 +18254,7 @@ export const createServiceEdgePreview: API.OperationMethod<
   CreateServiceEdgePreviewError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<CreateServiceEdgePreviewRequest>,
+  input: __S(3936, __c123, 0) as any as S.Schema<CreateServiceEdgePreviewRequest>,
   output: __S(3570, __c111, 18) as any as S.Schema<CreateServiceEdgePreviewResponse>,
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -18259,8 +18271,8 @@ export const createSubdomainEdgePreviewSession: API.OperationMethod<
   CreateSubdomainEdgePreviewSessionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<CreateSubdomainEdgePreviewSessionRequest>,
-  output: __S(3968, __c124, 0) as any as S.Schema<CreateSubdomainEdgePreviewSessionResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<CreateSubdomainEdgePreviewSessionRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<CreateSubdomainEdgePreviewSessionResponse>,
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -18276,8 +18288,8 @@ export const createZoneEdgePreviewSession: API.OperationMethod<
   CreateZoneEdgePreviewSessionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<CreateZoneEdgePreviewSessionRequest>,
-  output: __S(3968, __c124, 0) as any as S.Schema<CreateZoneEdgePreviewSessionResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<CreateZoneEdgePreviewSessionRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<CreateZoneEdgePreviewSessionResponse>,
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -18293,7 +18305,7 @@ export const deleteBetaWorker: API.OperationMethod<
   DeleteBetaWorkerError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<DeleteBetaWorkerRequest>,
+  input: __S(4064, __c127, 0) as any as S.Schema<DeleteBetaWorkerRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteBetaWorkerResponse>,
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -18313,7 +18325,7 @@ export const deleteBetaWorkerVersion: API.OperationMethod<
   DeleteBetaWorkerVersionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<DeleteBetaWorkerVersionRequest>,
+  input: __S(4096, __c128, 0) as any as S.Schema<DeleteBetaWorkerVersionRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteBetaWorkerVersionResponse>,
   errors: [WorkerNotFound, WorkerVersionNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -18330,7 +18342,7 @@ export const deleteDomain: API.OperationMethod<
   DeleteDomainError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<DeleteDomainRequest>,
+  input: __S(4128, __c129, 0) as any as S.Schema<DeleteDomainRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteDomainResponse>,
   errors: [DomainNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -18350,7 +18362,7 @@ export const deleteObservabilityDestination: API.OperationMethod<
   DeleteObservabilityDestinationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<DeleteObservabilityDestinationRequest>,
+  input: __S(4160, __c130, 0) as any as S.Schema<DeleteObservabilityDestinationRequest>,
   output: __S(2720, __c85, 0) as any as S.Schema<DeleteObservabilityDestinationResponse>,
   errors: [ObservabilityDestinationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -18370,7 +18382,7 @@ export const deleteObservabilityIssueAutomation: API.OperationMethod<
   DeleteObservabilityIssueAutomationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<DeleteObservabilityIssueAutomationRequest>,
+  input: __S(4192, __c131, 0) as any as S.Schema<DeleteObservabilityIssueAutomationRequest>,
   output: __S(2816, __c88, 0) as any as S.Schema<ObservabilityIssueAutomationResponse>,
   errors: [ObservabilityIssueAutomationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -18387,7 +18399,7 @@ export const deleteObservabilityIssuesAutomation: API.OperationMethod<
   DeleteObservabilityIssuesAutomationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<DeleteObservabilityIssuesAutomationRequest>,
+  input: __S(4224, __c132, 0) as any as S.Schema<DeleteObservabilityIssuesAutomationRequest>,
   output: __S(2912, __c91, 0) as any as S.Schema<DeleteObservabilityIssuesAutomationResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -18404,7 +18416,7 @@ export const deletePreview: API.OperationMethod<
   DeletePreviewError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<DeletePreviewRequest>,
+  input: __S(4256, __c133, 0) as any as S.Schema<DeletePreviewRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeletePreviewResponse>,
   errors: [PreviewNotFound, WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -18421,8 +18433,8 @@ export const deleteRoute: API.OperationMethod<
   DeleteRouteError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<DeleteRouteRequest>,
-  output: __S(4257, __c133, 1) as any as S.Schema<DeleteRouteResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<DeleteRouteRequest>,
+  output: __S(4289, __c134, 1) as any as S.Schema<DeleteRouteResponse>,
   errors: [RouteNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -18442,8 +18454,8 @@ export const deleteScript: API.OperationMethod<
   DeleteScriptError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<DeleteScriptRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<DeleteScriptResponse>,
+  input: __S(4320, __c135, 0) as any as S.Schema<DeleteScriptRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<DeleteScriptResponse>,
   errors: [
     WorkerNotFound,
     QueueConsumerConflict,
@@ -18465,7 +18477,7 @@ export const deleteScriptDeployment: API.OperationMethod<
   DeleteScriptDeploymentError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<DeleteScriptDeploymentRequest>,
+  input: __S(4384, __c137, 0) as any as S.Schema<DeleteScriptDeploymentRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteScriptDeploymentResponse>,
   errors: [WorkerNotFound, DeploymentNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -18482,8 +18494,8 @@ export const deleteScriptSecret: API.OperationMethod<
   DeleteScriptSecretError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<DeleteScriptSecretRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<DeleteScriptSecretResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<DeleteScriptSecretRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<DeleteScriptSecretResponse>,
   errors: [WorkerNotFound, SecretNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -18499,7 +18511,7 @@ export const deleteScriptSubdomain: API.OperationMethod<
   DeleteScriptSubdomainError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<DeleteScriptSubdomainRequest>,
+  input: __S(4448, __c139, 0) as any as S.Schema<DeleteScriptSubdomainRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<DeleteScriptSubdomainResponse>,
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -18516,7 +18528,7 @@ export const deleteScriptTail: API.OperationMethod<
   DeleteScriptTailError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<DeleteScriptTailRequest>,
+  input: __S(4480, __c140, 0) as any as S.Schema<DeleteScriptTailRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteScriptTailResponse>,
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -18533,7 +18545,7 @@ export const deleteSubdomain: API.OperationMethod<
   DeleteSubdomainError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<DeleteSubdomainRequest>,
+  input: __S(4512, __c141, 0) as any as S.Schema<DeleteSubdomainRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteSubdomainResponse>,
   errors: [InvalidRoute, SubdomainNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -18550,8 +18562,8 @@ export const getAccountSetting: API.OperationMethod<
   GetAccountSettingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<GetAccountSettingRequest>,
-  output: __S(4544, __c142, 0) as any as S.Schema<GetAccountSettingResponse>,
+  input: __S(4544, __c142, 0) as any as S.Schema<GetAccountSettingRequest>,
+  output: __S(4576, __c143, 0) as any as S.Schema<GetAccountSettingResponse>,
   errors: [InvalidRoute, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -18567,8 +18579,8 @@ export const getBetaWorker: API.OperationMethod<
   GetBetaWorkerError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<GetBetaWorkerRequest>,
-  output: __S(4579, __c143, 3) as any as S.Schema<GetBetaWorkerResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetBetaWorkerRequest>,
+  output: __S(4611, __c144, 3) as any as S.Schema<GetBetaWorkerResponse>,
   errors: [WorkerNotFound, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -18584,8 +18596,8 @@ export const getBetaWorkerVersion: API.OperationMethod<
   GetBetaWorkerVersionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<GetBetaWorkerVersionRequest>,
-  output: __S(4618, __c144, 10) as any as S.Schema<GetBetaWorkerVersionResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<GetBetaWorkerVersionRequest>,
+  output: __S(4650, __c145, 10) as any as S.Schema<GetBetaWorkerVersionResponse>,
   errors: [WorkerNotFound, WorkerVersionNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -18601,8 +18613,8 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(4672, __c146, 0) as any as S.Schema<GetDomainResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<GetDomainRequest>,
+  output: __S(4704, __c147, 0) as any as S.Schema<GetDomainResponse>,
   errors: [DomainNotFound, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -18618,8 +18630,8 @@ export const getObservabilityAgentsTrace: API.OperationMethod<
   GetObservabilityAgentsTraceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<GetObservabilityAgentsTraceRequest>,
-  output: __S(4705, __c147, 1) as any as S.Schema<GetObservabilityAgentsTraceResponse>,
+  input: __S(4736, __c148, 0) as any as S.Schema<GetObservabilityAgentsTraceRequest>,
+  output: __S(4737, __c148, 1) as any as S.Schema<GetObservabilityAgentsTraceResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -18635,8 +18647,8 @@ export const getObservabilityIssue: API.OperationMethod<
   GetObservabilityIssueError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<GetObservabilityIssueRequest>,
-  output: __S(4737, __c148, 1) as any as S.Schema<GetObservabilityIssueResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<GetObservabilityIssueRequest>,
+  output: __S(4769, __c149, 1) as any as S.Schema<GetObservabilityIssueResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -18655,7 +18667,7 @@ export const getObservabilityIssueAutomation: API.OperationMethod<
   GetObservabilityIssueAutomationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<GetObservabilityIssueAutomationRequest>,
+  input: __S(4832, __c151, 0) as any as S.Schema<GetObservabilityIssueAutomationRequest>,
   output: __S(2816, __c88, 0) as any as S.Schema<ObservabilityIssueAutomationResponse>,
   errors: [ObservabilityIssueAutomationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -18672,7 +18684,7 @@ export const getObservabilityIssuesAutomation: API.OperationMethod<
   GetObservabilityIssuesAutomationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<GetObservabilityIssuesAutomationRequest>,
+  input: __S(4864, __c152, 0) as any as S.Schema<GetObservabilityIssuesAutomationRequest>,
   output: __S(2912, __c91, 0) as any as S.Schema<GetObservabilityIssuesAutomationResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -18689,8 +18701,8 @@ export const getObservabilitySharedQuery: API.OperationMethod<
   GetObservabilitySharedQueryError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<GetObservabilitySharedQueryRequest>,
-  output: __S(4916, __c153, 20) as any as S.Schema<GetObservabilitySharedQueryResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<GetObservabilitySharedQueryRequest>,
+  output: __S(4948, __c154, 20) as any as S.Schema<GetObservabilitySharedQueryResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -18706,7 +18718,7 @@ export const getPreview: API.OperationMethod<
   GetPreviewError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<GetPreviewRequest>,
+  input: __S(5024, __c157, 0) as any as S.Schema<GetPreviewRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<PreviewResource>,
   errors: [PreviewNotFound, WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -18727,7 +18739,7 @@ export const getPreviewDeployment: API.OperationMethod<
   GetPreviewDeploymentError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<GetPreviewDeploymentRequest>,
+  input: __S(5056, __c158, 0) as any as S.Schema<GetPreviewDeploymentRequest>,
   output: __S(3264, __c102, 0) as any as S.Schema<PreviewDeploymentResource>,
   errors: [
     PreviewNotFound,
@@ -18755,7 +18767,7 @@ export const getRoute: API.OperationMethod<
   GetRouteError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<GetRouteRequest>,
+  input: __S(5088, __c159, 0) as any as S.Schema<GetRouteRequest>,
   output: __S(3328, __c104, 0) as any as S.Schema<GetRouteResponse>,
   errors: [
     WorkerNotFound,
@@ -18783,7 +18795,7 @@ export const getScript: API.OperationMethod<
   GetScriptError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<GetScriptRequest>,
+  input: __S(5120, __c160, 0) as any as S.Schema<GetScriptRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<GetScriptResponse>,
   errors: [
     WorkerNotFound,
@@ -18806,7 +18818,7 @@ export const getScriptContent: API.OperationMethod<
   GetScriptContentError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<GetScriptContentRequest>,
+  input: __S(5152, __c161, 0) as any as S.Schema<GetScriptContentRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<GetScriptContentResponse>,
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -18823,7 +18835,7 @@ export const getScriptDeployment: API.OperationMethod<
   GetScriptDeploymentError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<GetScriptDeploymentRequest>,
+  input: __S(5184, __c162, 0) as any as S.Schema<GetScriptDeploymentRequest>,
   output: __S(3456, __c108, 0) as any as S.Schema<GetScriptDeploymentResponse>,
   errors: [WorkerNotFound, DeploymentNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -18840,8 +18852,8 @@ export const getScriptEventTriggers: API.OperationMethod<
   GetScriptEventTriggersError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<GetScriptEventTriggersRequest>,
-  output: __S(5222, __c163, 6) as any as S.Schema<GetScriptEventTriggersResponse>,
+  input: __S(5216, __c163, 0) as any as S.Schema<GetScriptEventTriggersRequest>,
+  output: __S(5254, __c164, 6) as any as S.Schema<GetScriptEventTriggersResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -18857,8 +18869,8 @@ export const getScriptSchedule: API.OperationMethod<
   GetScriptScheduleError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<GetScriptScheduleRequest>,
-  output: __S(5282, __c165, 2) as any as S.Schema<GetScriptScheduleResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<GetScriptScheduleRequest>,
+  output: __S(5314, __c166, 2) as any as S.Schema<GetScriptScheduleResponse>,
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -18877,8 +18889,8 @@ export const getScriptScriptAndVersionSetting: API.OperationMethod<
   GetScriptScriptAndVersionSettingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<GetScriptScriptAndVersionSettingRequest>,
-  output: __S(5319, __c166, 7) as any as S.Schema<GetScriptScriptAndVersionSettingResponse>,
+  input: __S(5344, __c167, 0) as any as S.Schema<GetScriptScriptAndVersionSettingRequest>,
+  output: __S(5349, __c167, 5) as any as S.Schema<GetScriptScriptAndVersionSettingResponse>,
   errors: [WorkerNotFound, WorkerHasNoVersions, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -19309,7 +19321,7 @@ export const liveTailHeartbeatObservabilityTelemetry: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<LiveTailHeartbeatObservabilityTelemetryRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<LiveTailHeartbeatObservabilityTelemetryResponse>,
+  output: __S(4352, __c136, 0) as any as S.Schema<LiveTailHeartbeatObservabilityTelemetryResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -19526,7 +19538,7 @@ export const putAccountSetting: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<PutAccountSettingRequest>,
-  output: __S(4544, __c142, 0) as any as S.Schema<PutAccountSettingResponse>,
+  output: __S(4576, __c143, 0) as any as S.Schema<PutAccountSettingResponse>,
   errors: [InvalidRoute, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -19547,7 +19559,7 @@ export const putDomain: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<PutDomainRequest>,
-  output: __S(4672, __c146, 0) as any as S.Schema<PutDomainResponse>,
+  output: __S(4704, __c147, 0) as any as S.Schema<PutDomainResponse>,
   errors: [
     WorkerNotFound,
     InvalidRoute,
@@ -19659,7 +19671,7 @@ export const putScriptEventTriggers: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<PutScriptEventTriggersRequest>,
-  output: __S(5222, __c163, 6) as any as S.Schema<PutScriptEventTriggersResponse>,
+  output: __S(5254, __c164, 6) as any as S.Schema<PutScriptEventTriggersResponse>,
   errors: [
     EventTriggerWorkflowNotFound,
     InvalidEventTriggers,
@@ -19681,7 +19693,7 @@ export const putScriptSchedule: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1314, __c41, 2) as any as S.Schema<PutScriptScheduleRequest>,
-  output: __S(5282, __c165, 2) as any as S.Schema<PutScriptScheduleResponse>,
+  output: __S(5314, __c166, 2) as any as S.Schema<PutScriptScheduleResponse>,
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -19973,9 +19985,9 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           logpush: S.optional(S.NullOr(S.Boolean)),
-          observability: S.optional(S.NullOr(__S(5345, __c167, 1))),
+          observability: S.optional(S.NullOr(__S(5377, __c168, 1))),
           tags: S.optional(S.NullOr(__S(1824, __c57, 0))),
-          tailConsumers: S.optional(S.NullOr(__S(5347, __c167, 3)).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(S.NullOr(__S(5379, __c168, 3)).pipe(T.Body("tail_consumers"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetScriptSettingResponse" });
   }
@@ -20066,7 +20078,7 @@ function __c5(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.Unknown,
+          bindings: __S(3905, __c122, 1),
           script: S.optional(S.NullOr(__S(3744, __c117, 0))),
           scriptRuntime: S.optional(S.NullOr(__S(163, __c5, 3)).pipe(T.Body("script_runtime"))),
         }),
@@ -20331,7 +20343,7 @@ function __c10(j: number): any {
               "allowedSenderAddresses",
               "destinationAddress",
             ],
-            ["name", "service", "type", "entrypoint", "environment"],
+            ["name", "service", "type", "entrypoint", "environment", "props"],
             ["name", "part", "type"],
             ["indexName", "name", "type"],
             ["name", "type"],
@@ -20388,6 +20400,47 @@ function __c10(j: number): any {
               "worker_loader",
             ],
           },
+          [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { json: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { props: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+          ],
         ),
       );
     case 5:
@@ -20672,7 +20725,7 @@ function __c15(j: number): any {
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListObservabilityIssuesRequest" });
     case 1:
-      return S.Array(__S(4770, __c149, 2));
+      return S.Array(__S(4802, __c150, 2));
     case 2:
       return S.suspend(() =>
         __S(481, __c15, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
@@ -20930,14 +20983,14 @@ function __c21(j: number): any {
           migrationTag: S.optional(S.NullOr(S.String).pipe(T.Body("migration_tag"))),
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
           namedHandlers: S.optional(S.NullOr(__S(3777, __c118, 1)).pipe(T.Body("named_handlers"))),
-          observability: S.optional(S.NullOr(__S(5345, __c167, 1))),
+          observability: S.optional(S.NullOr(__S(5377, __c168, 1))),
           placement: S.optional(S.NullOr(__S(675, __c21, 3))),
           placementMode: S.optional(S.NullOr(S.String).pipe(T.Body("placement_mode"))),
           placementStatus: S.optional(S.NullOr(S.String).pipe(T.Body("placement_status"))),
           routes: S.optional(S.NullOr(__S(609, __c19, 1))),
           tag: S.optional(S.NullOr(S.String)),
           tags: S.optional(S.NullOr(__S(1824, __c57, 0))),
-          tailConsumers: S.optional(S.NullOr(__S(5347, __c167, 3)).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(S.NullOr(__S(5379, __c168, 3)).pipe(T.Body("tail_consumers"))),
           usageModel: S.optional(S.NullOr(S.String).pipe(T.Body("usage_model"))),
         }),
       ).annotate({ identifier: "ScriptsListResultItem" });
@@ -21200,7 +21253,7 @@ function __c27(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          metadata: __S(4928, __c154, 0).pipe(T.Body("$metadata")),
+          metadata: __S(4960, __c155, 0).pipe(T.Body("$metadata")),
           dataset: S.String,
           source: __S(865, __c27, 1),
           timestamp: S.Number,
@@ -21597,7 +21650,7 @@ function __c34(j: number): any {
               "allowedSenderAddresses",
               "destinationAddress",
             ],
-            ["name", "service", "type", "entrypoint", "environment"],
+            ["name", "service", "type", "entrypoint", "environment", "props"],
             ["name", "part", "type"],
             ["indexName", "name", "type"],
             ["name", "type"],
@@ -21654,6 +21707,47 @@ function __c34(j: number): any {
               "worker_loader",
             ],
           },
+          [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { json: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { props: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+          ],
         ),
       );
     case 2:
@@ -21716,10 +21810,10 @@ function __c34(j: number): any {
           limits: S.optional(S.NullOr(__S(2208, __c69, 0))),
           logpush: S.optional(S.NullOr(S.Boolean)),
           migrations: S.optional(S.NullOr(__S(1093, __c34, 5))),
-          observability: S.optional(S.NullOr(__S(5345, __c167, 1))),
+          observability: S.optional(S.NullOr(__S(5377, __c168, 1))),
           placement: S.optional(S.NullOr(__S(1094, __c34, 6))),
           tags: S.optional(S.NullOr(__S(1824, __c57, 0))),
-          tailConsumers: S.optional(S.NullOr(__S(5347, __c167, 3)).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(S.NullOr(__S(5379, __c168, 3)).pipe(T.Body("tail_consumers"))),
           usageModel: S.optional(S.NullOr(S.String).pipe(T.Body("usage_model"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PatchScriptScriptAndVersionSettingResponse" });
@@ -21983,13 +22077,13 @@ function __c38(j: number): any {
           migrationTag: S.optional(S.NullOr(S.String).pipe(T.Body("migration_tag"))),
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
           namedHandlers: S.optional(S.NullOr(__S(3777, __c118, 1)).pipe(T.Body("named_handlers"))),
-          observability: S.optional(S.NullOr(__S(5345, __c167, 1))),
+          observability: S.optional(S.NullOr(__S(5377, __c168, 1))),
           placement: S.optional(S.NullOr(__S(1219, __c38, 3))),
           placementMode: S.optional(S.NullOr(S.String).pipe(T.Body("placement_mode"))),
           placementStatus: S.optional(S.NullOr(S.String).pipe(T.Body("placement_status"))),
           tag: S.optional(S.NullOr(S.String)),
           tags: S.optional(S.NullOr(__S(1824, __c57, 0))),
-          tailConsumers: S.optional(S.NullOr(__S(5347, __c167, 3)).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(S.NullOr(__S(5379, __c168, 3)).pipe(T.Body("tail_consumers"))),
           usageModel: S.optional(S.NullOr(S.String).pipe(T.Body("usage_model"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutScriptResponse" });
@@ -22069,13 +22163,13 @@ function __c39(j: number): any {
           migrationTag: S.optional(S.NullOr(S.String).pipe(T.Body("migration_tag"))),
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
           namedHandlers: S.optional(S.NullOr(__S(3777, __c118, 1)).pipe(T.Body("named_handlers"))),
-          observability: S.optional(S.NullOr(__S(5345, __c167, 1))),
+          observability: S.optional(S.NullOr(__S(5377, __c168, 1))),
           placement: S.optional(S.NullOr(__S(1252, __c39, 4))),
           placementMode: S.optional(S.NullOr(S.String).pipe(T.Body("placement_mode"))),
           placementStatus: S.optional(S.NullOr(S.String).pipe(T.Body("placement_status"))),
           tag: S.optional(S.NullOr(S.String)),
           tags: S.optional(S.NullOr(__S(1824, __c57, 0))),
-          tailConsumers: S.optional(S.NullOr(__S(5347, __c167, 3)).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(S.NullOr(__S(5379, __c168, 3)).pipe(T.Body("tail_consumers"))),
           usageModel: S.optional(S.NullOr(S.String).pipe(T.Body("usage_model"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutScriptContentResponse" });
@@ -22088,7 +22182,7 @@ function __c40(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           scriptName: S.String.pipe(T.Label("script_name")),
-          body: __S(5220, __c163, 4).pipe(T.HttpBody()),
+          body: __S(5252, __c164, 4).pipe(T.HttpBody()),
         })
           .pipe(
             T.Http({
@@ -22296,7 +22390,7 @@ function __c44(j: number): any {
           groupBys: S.optional(S.NullOr(__S(3009, __c94, 1))),
           havings: S.optional(S.NullOr(__S(3011, __c94, 3))),
           limit: S.optional(S.NullOr(S.Number)),
-          needle: S.optional(S.NullOr(__S(4960, __c155, 0))),
+          needle: S.optional(S.NullOr(__S(4992, __c156, 0))),
           orderBy: S.optional(S.NullOr(__S(3040, __c95, 0))),
         }),
       ).annotate({ identifier: "ObservabilityTelemetryQueryResponseRunQueryParameters" });
@@ -22326,7 +22420,7 @@ function __c44(j: number): any {
           timeframe: __S(3104, __c97, 0),
           userId: S.String,
           created: S.optional(S.NullOr(S.String)),
-          statistics: S.optional(S.NullOr(__S(4961, __c155, 1))),
+          statistics: S.optional(S.NullOr(__S(4993, __c156, 1))),
           updated: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ObservabilityTelemetryQueryResponseRun" });
@@ -22531,7 +22625,7 @@ function __c45(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          metadata: __S(4928, __c154, 0).pipe(T.Body("$metadata")),
+          metadata: __S(4960, __c155, 0).pipe(T.Body("$metadata")),
           dataset: S.String,
           source: __S(1451, __c45, 11),
           timestamp: S.Number,
@@ -22548,7 +22642,7 @@ function __c45(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          aggregates: __S(4969, __c155, 9),
+          aggregates: __S(5001, __c156, 9),
           count: S.Number,
           interval: S.Number,
           sampleInterval: S.Number,
@@ -22572,7 +22666,7 @@ function __c45(j: number): any {
         S.Struct({
           count: S.optional(S.NullOr(S.Number)),
           events: S.optional(S.NullOr(__S(1454, __c45, 14))),
-          fields: S.optional(S.NullOr(__S(4968, __c155, 8))),
+          fields: S.optional(S.NullOr(__S(5000, __c156, 8))),
           series: S.optional(S.NullOr(__S(1460, __c45, 20))),
         }),
       ).annotate({ identifier: "ObservabilityTelemetryQueryResponseEvents" });
@@ -22622,7 +22716,7 @@ function __c45(j: number): any {
     case 24:
       return S.suspend(() =>
         S.Struct({
-          metadata: __S(4928, __c154, 0).pipe(T.Body("$metadata")),
+          metadata: __S(4960, __c155, 0).pipe(T.Body("$metadata")),
           dataset: S.String,
           source: __S(1462, __c45, 22),
           timestamp: S.Number,
@@ -22638,14 +22732,14 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           run: __S(1422, __c44, 14),
-          statistics: __S(4961, __c155, 1),
-          agents: S.optional(S.NullOr(__S(4963, __c155, 3))),
+          statistics: __S(4993, __c156, 1),
+          agents: S.optional(S.NullOr(__S(4995, __c156, 3))),
           calculations: S.optional(S.NullOr(__S(1436, __c44, 28))),
           compare: S.optional(S.NullOr(__S(1450, __c45, 10))),
-          distribution: S.optional(S.NullOr(__S(4966, __c155, 6))),
+          distribution: S.optional(S.NullOr(__S(4998, __c156, 6))),
           events: S.optional(S.NullOr(__S(1461, __c45, 21))),
           invocations: S.optional(S.NullOr(__S(1466, __c45, 26))),
-          traces: S.optional(S.NullOr(__S(4971, __c155, 11))),
+          traces: S.optional(S.NullOr(__S(5003, __c156, 11))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "QueryObservabilityTelemetryResponse" });
   }
@@ -23562,7 +23656,7 @@ function __c76(j: number): any {
               "allowedSenderAddresses",
               "destinationAddress",
             ],
-            ["name", "service", "type", "entrypoint", "environment"],
+            ["name", "service", "type", "entrypoint", "environment", "props"],
             ["name", "part", "type"],
             ["indexName", "name", "type"],
             ["name", "type"],
@@ -23619,6 +23713,47 @@ function __c76(j: number): any {
               "worker_loader",
             ],
           },
+          [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { json: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { props: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+          ],
         ),
       );
     case 5:
@@ -23760,7 +23895,7 @@ function __c76(j: number): any {
               "allowedSenderAddresses",
               "destinationAddress",
             ],
-            ["name", "service", "type", "entrypoint", "environment"],
+            ["name", "service", "type", "entrypoint", "environment", "props"],
             ["name", "part", "type"],
             ["indexName", "name", "type"],
             ["name", "type"],
@@ -23817,6 +23952,47 @@ function __c76(j: number): any {
               "worker_loader",
             ],
           },
+          [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { json: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { props: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+          ],
         ),
       );
     case 15:
@@ -25300,7 +25476,7 @@ function __c116(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.Unknown,
+          bindings: __S(3905, __c122, 1),
           script: S.optional(S.NullOr(__S(3744, __c117, 0))),
           scriptRuntime: S.optional(S.NullOr(__S(3715, __c116, 3)).pipe(T.Body("script_runtime"))),
         }),
@@ -25657,6 +25833,157 @@ function __c121(j: number): any {
 function __c122(j: number): any {
   switch (j) {
     case 0:
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases(
+          [
+            ["name", "type"],
+            ["instanceName", "name", "type", "namespace"],
+            ["name", "namespace", "type"],
+            ["name", "namespace", "type"],
+            ["dataset", "name", "type"],
+            ["name", "namespace", "type"],
+            ["name", "type"],
+            ["name", "type"],
+            ["databaseId", "name", "type", "id"],
+            ["name", "part", "type"],
+            ["name", "namespace", "type", "outbound"],
+            [
+              "name",
+              "type",
+              "className",
+              "dispatchNamespace",
+              "environment",
+              "namespaceId",
+              "scriptName",
+            ],
+            ["id", "name", "type"],
+            ["name", "type", "oldName", "versionId"],
+            ["name", "type"],
+            ["json", "name", "type"],
+            ["name", "namespaceId", "type"],
+            ["name", "type"],
+            ["certificateId", "name", "type"],
+            ["name", "text", "type"],
+            ["name", "pipeline", "type"],
+            ["name", "stream", "type"],
+            ["name", "queueName", "type"],
+            ["name", "namespaceId", "simple", "type"],
+            ["bucketName", "name", "type", "jurisdiction"],
+            ["name", "text", "type"],
+            [
+              "name",
+              "type",
+              "allowedDestinationAddresses",
+              "allowedSenderAddresses",
+              "destinationAddress",
+            ],
+            ["name", "service", "type", "entrypoint", "environment", "props"],
+            ["name", "part", "type"],
+            ["indexName", "name", "type"],
+            ["name", "type"],
+            ["name", "secretName", "storeId", "type"],
+            ["appId", "name", "type"],
+            ["algorithm", "format", "name", "type", "usages", "keyBase64", "keyJwk"],
+            ["name", "type", "workflowName", "className", "scriptName"],
+            ["name", "part", "type"],
+            ["name", "serviceId", "type"],
+            ["name", "type", "identity", "networkId", "tunnelId"],
+            ["name", "type"],
+          ],
+          {
+            key: "type",
+            values: [
+              "ai",
+              "ai_search",
+              "ai_search_namespace",
+              "messaging",
+              "analytics_engine",
+              "artifacts",
+              "assets",
+              "browser",
+              "d1",
+              "data_blob",
+              "dispatch_namespace",
+              "durable_object_namespace",
+              "hyperdrive",
+              "inherit",
+              "images",
+              "json",
+              "kv_namespace",
+              "media",
+              "mtls_certificate",
+              "plain_text",
+              "pipelines",
+              "k2",
+              "queue",
+              "ratelimit",
+              "r2_bucket",
+              "secret_text",
+              "send_email",
+              "service",
+              "text_blob",
+              "vectorize",
+              "version_metadata",
+              "secrets_store_secret",
+              "flagship",
+              "secret_key",
+              "workflow",
+              "wasm_module",
+              "vpc_service",
+              "vpc_network",
+              "worker_loader",
+            ],
+          },
+          [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { json: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { props: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+          ],
+        ),
+      );
+    case 1:
+      return S.Array(__S(3904, __c122, 0));
+  }
+}
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
@@ -25681,7 +26008,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "CreateServiceEdgePreviewRequest" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25699,7 +26026,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "CreateSubdomainEdgePreviewSessionRequest" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25710,7 +26037,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "CreateSubdomainEdgePreviewSessionResponse" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25722,7 +26049,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "CreateZoneEdgePreviewSessionRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25742,7 +26069,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "DeleteBetaWorkerRequest" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25762,7 +26089,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "DeleteBetaWorkerVersionRequest" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25781,7 +26108,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "DeleteDomainRequest" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25800,7 +26127,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "DeleteObservabilityDestinationRequest" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25819,7 +26146,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "DeleteObservabilityIssueAutomationRequest" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25838,7 +26165,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "DeleteObservabilityIssuesAutomationRequest" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25858,7 +26185,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "DeletePreviewRequest" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25883,7 +26210,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "DeleteRouteResponse" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25903,7 +26230,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "DeleteScriptRequest" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25911,7 +26238,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "DeleteScriptResponse" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25931,7 +26258,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "DeleteScriptDeploymentRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25952,7 +26279,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "DeleteScriptSecretRequest" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25971,7 +26298,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "DeleteScriptSubdomainRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25991,7 +26318,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "DeleteScriptTailRequest" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26009,7 +26336,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "DeleteSubdomainRequest" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26027,7 +26354,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetAccountSettingRequest" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26038,7 +26365,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "GetAccountSettingResponse" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26076,7 +26403,7 @@ function __c143(j: number): any {
           limits: S.optional(S.NullOr(__S(2208, __c69, 0))),
           logpush: S.optional(S.NullOr(S.Boolean)),
           observability: S.optional(S.NullOr(__S(2339, __c73, 3))),
-          placement: S.optional(S.NullOr(__S(4577, __c143, 1))),
+          placement: S.optional(S.NullOr(__S(4609, __c144, 1))),
           tailConsumers: S.optional(S.NullOr(__S(2337, __c73, 1)).pipe(T.Body("tail_consumers"))),
         }),
       ).annotate({ identifier: "BetaWorkersGetResponsePreviewsBaseConfig" });
@@ -26095,13 +26422,13 @@ function __c143(j: number): any {
           updatedOn: S.String.pipe(T.Body("updated_on")),
           deployedOn: S.optional(S.NullOr(S.String).pipe(T.Body("deployed_on"))),
           previewsBaseConfig: S.optional(
-            S.NullOr(__S(4578, __c143, 2)).pipe(T.Body("previews_base_config")),
+            S.NullOr(__S(4610, __c144, 2)).pipe(T.Body("previews_base_config")),
           ),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBetaWorkerResponse" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26129,14 +26456,14 @@ function __c144(j: number): any {
           htmlHandling: S.optional(S.NullOr(S.String).pipe(T.Body("html_handling"))),
           notFoundHandling: S.optional(S.NullOr(S.String).pipe(T.Body("not_found_handling"))),
           runWorkerFirst: S.optional(
-            S.NullOr(__S(4609, __c144, 1)).pipe(T.Body("run_worker_first")),
+            S.NullOr(__S(4641, __c145, 1)).pipe(T.Body("run_worker_first")),
           ),
         }),
       ).annotate({ identifier: "BetaWorkersVersionsGetResponseAssetsConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          config: S.optional(S.NullOr(__S(4610, __c144, 2))),
+          config: S.optional(S.NullOr(__S(4642, __c145, 2))),
           jwt: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "BetaWorkersVersionsGetResponseAssets" });
@@ -26185,7 +26512,7 @@ function __c144(j: number): any {
               "allowedSenderAddresses",
               "destinationAddress",
             ],
-            ["name", "service", "type", "entrypoint", "environment"],
+            ["name", "service", "type", "entrypoint", "environment", "props"],
             ["name", "part", "type"],
             ["indexName", "name", "type"],
             ["name", "type"],
@@ -26242,10 +26569,51 @@ function __c144(j: number): any {
               "worker_loader",
             ],
           },
+          [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { json: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { props: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+          ],
         ),
       );
     case 5:
-      return S.Array(__S(4612, __c144, 4));
+      return S.Array(__S(4644, __c145, 4));
     case 6:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -26258,7 +26626,7 @@ function __c144(j: number): any {
         ]),
       );
     case 7:
-      return S.Record(S.String, __S(4614, __c144, 6));
+      return S.Record(S.String, __S(4646, __c145, 6));
     case 8:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -26295,29 +26663,29 @@ function __c144(j: number): any {
           number: S.Number,
           urls: __S(1824, __c57, 0),
           annotations: S.optional(S.NullOr(__S(2624, __c82, 0))),
-          assets: S.optional(S.NullOr(__S(4611, __c144, 3))),
+          assets: S.optional(S.NullOr(__S(4643, __c145, 3))),
           authorEmail: S.optional(S.NullOr(S.String).pipe(T.Body("author_email"))),
           authorId: S.optional(S.NullOr(S.String).pipe(T.Body("author_id"))),
-          bindings: S.optional(S.NullOr(__S(4613, __c144, 5))),
+          bindings: S.optional(S.NullOr(__S(4645, __c145, 5))),
           cacheOptions: S.optional(S.NullOr(__S(2176, __c68, 0)).pipe(T.Body("cache_options"))),
           compatibilityDate: S.optional(S.NullOr(S.String).pipe(T.Body("compatibility_date"))),
           compatibilityFlags: S.optional(
             S.NullOr(__S(1824, __c57, 0)).pipe(T.Body("compatibility_flags")),
           ),
           containers: S.optional(S.NullOr(__S(2529, __c79, 1))),
-          exports: S.optional(S.NullOr(__S(4615, __c144, 7))),
+          exports: S.optional(S.NullOr(__S(4647, __c145, 7))),
           exportsReconciliation: S.optional(
             S.NullOr(__S(2570, __c80, 10)).pipe(T.Body("exports_reconciliation")),
           ),
           limits: S.optional(S.NullOr(__S(2208, __c69, 0))),
           mainModule: S.optional(S.NullOr(S.String).pipe(T.Body("main_module"))),
           migrationTag: S.optional(S.NullOr(S.String).pipe(T.Body("migration_tag"))),
-          migrations: S.optional(S.NullOr(__S(4616, __c144, 8))),
+          migrations: S.optional(S.NullOr(__S(4648, __c145, 8))),
           modules: S.optional(S.NullOr(__S(2593, __c81, 1))),
           packageDependencies: S.optional(
             S.NullOr(__S(2595, __c81, 3)).pipe(T.Body("package_dependencies")),
           ),
-          placement: S.optional(S.NullOr(__S(4617, __c144, 9))),
+          placement: S.optional(S.NullOr(__S(4649, __c145, 9))),
           source: S.optional(S.NullOr(S.String)),
           startupTimeMs: S.optional(S.NullOr(S.Number).pipe(T.Body("startup_time_ms"))),
           usageModel: S.optional(S.NullOr(S.String).pipe(T.Body("usage_model"))),
@@ -26325,7 +26693,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "GetBetaWorkerVersionResponse" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26344,7 +26712,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "GetDomainRequest" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26362,7 +26730,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "GetDomainResponse" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26410,7 +26778,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "GetObservabilityAgentsTraceResponse" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26430,12 +26798,12 @@ function __c148(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          issue: __S(4770, __c149, 2),
+          issue: __S(4802, __c150, 2),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetObservabilityIssueResponse" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26460,12 +26828,12 @@ function __c149(j: number): any {
         }),
       ).annotate({ identifier: "GetObservabilityIssueResponseIssueActivityItem" });
     case 1:
-      return S.Array(__S(4768, __c149, 0));
+      return S.Array(__S(4800, __c150, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          activity: __S(4769, __c149, 1),
+          activity: __S(4801, __c150, 1),
           count: S.Number,
           created: S.Number,
           firstObserved: S.Number,
@@ -26480,25 +26848,6 @@ function __c149(j: number): any {
           type: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "GetObservabilityIssueResponseIssue" });
-  }
-}
-function __c150(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          automationId: S.String.pipe(T.Label()),
-        })
-          .pipe(
-            T.Http({
-              method: "GET",
-              uri: "/accounts/{account_id}/workers/observability/issues/automations/{automationId}",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "GetObservabilityIssueAutomationRequest" });
   }
 }
 function __c151(j: number): any {
@@ -26517,10 +26866,29 @@ function __c151(j: number): any {
             }),
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "GetObservabilityIssuesAutomationRequest" });
+      ).annotate({ identifier: "GetObservabilityIssueAutomationRequest" });
   }
 }
 function __c152(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          automationId: S.String.pipe(T.Label()),
+        })
+          .pipe(
+            T.Http({
+              method: "GET",
+              uri: "/accounts/{account_id}/workers/observability/issues/automations/{automationId}",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetObservabilityIssuesAutomationRequest" });
+  }
+}
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26546,7 +26914,7 @@ function __c152(j: number): any {
         ]),
       );
     case 2:
-      return S.Array(__S(4865, __c152, 1));
+      return S.Array(__S(4897, __c153, 1));
     case 3:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases(
@@ -26558,18 +26926,18 @@ function __c152(j: number): any {
         ),
       );
     case 4:
-      return S.Array(__S(4867, __c152, 3));
+      return S.Array(__S(4899, __c153, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          calculations: S.optional(S.NullOr(__S(4866, __c152, 2))),
+          calculations: S.optional(S.NullOr(__S(4898, __c153, 2))),
           datasets: S.optional(S.NullOr(__S(1824, __c57, 0))),
           filterCombination: S.optional(S.NullOr(S.String)),
-          filters: S.optional(S.NullOr(__S(4868, __c152, 4))),
+          filters: S.optional(S.NullOr(__S(4900, __c153, 4))),
           groupBys: S.optional(S.NullOr(__S(3009, __c94, 1))),
           havings: S.optional(S.NullOr(__S(3011, __c94, 3))),
           limit: S.optional(S.NullOr(S.Number)),
-          needle: S.optional(S.NullOr(__S(4960, __c155, 0))),
+          needle: S.optional(S.NullOr(__S(4992, __c156, 0))),
           orderBy: S.optional(S.NullOr(__S(3040, __c95, 0))),
         }),
       ).annotate({ identifier: "ObservabilitySharedQueriesGetResponseRunQueryParameters" });
@@ -26582,7 +26950,7 @@ function __c152(j: number): any {
           createdBy: S.String,
           description: S.String,
           name: S.String,
-          parameters: __S(4869, __c152, 5),
+          parameters: __S(4901, __c153, 5),
           updated: S.String,
           updatedBy: S.String,
         }),
@@ -26594,12 +26962,12 @@ function __c152(j: number): any {
           accountId: S.String,
           dry: S.Boolean,
           granularity: S.Number,
-          query: __S(4870, __c152, 6),
+          query: __S(4902, __c153, 6),
           status: S.String,
           timeframe: __S(3104, __c97, 0),
           userId: S.String,
           created: S.optional(S.NullOr(S.String)),
-          statistics: S.optional(S.NullOr(__S(4961, __c155, 1))),
+          statistics: S.optional(S.NullOr(__S(4993, __c156, 1))),
           updated: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ObservabilitySharedQueriesGetResponseRun" });
@@ -26609,13 +26977,13 @@ function __c152(j: number): any {
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          value: __S(4872, __c152, 8),
+          value: __S(4904, __c153, 8),
         }),
       ).annotate({
         identifier: "ObservabilitySharedQueriesGetResponseCalculationsItemAggregatesItemGroupsItem",
       });
     case 10:
-      return S.Array(__S(4873, __c152, 9));
+      return S.Array(__S(4905, __c153, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -26623,27 +26991,27 @@ function __c152(j: number): any {
           interval: S.Number,
           sampleInterval: S.Number,
           value: S.Number,
-          groups: S.optional(S.NullOr(__S(4874, __c152, 10))),
+          groups: S.optional(S.NullOr(__S(4906, __c153, 10))),
         }),
       ).annotate({
         identifier: "ObservabilitySharedQueriesGetResponseCalculationsItemAggregatesItem",
       });
     case 12:
-      return S.Array(__S(4875, __c152, 11));
+      return S.Array(__S(4907, __c153, 11));
     case 13:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], []]));
     case 14:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          value: __S(4877, __c152, 13),
+          value: __S(4909, __c153, 13),
         }),
       ).annotate({
         identifier:
           "ObservabilitySharedQueriesGetResponseCalculationsItemSeriesItemDataItemGroupsItem",
       });
     case 15:
-      return S.Array(__S(4878, __c152, 14));
+      return S.Array(__S(4910, __c153, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -26652,47 +27020,47 @@ function __c152(j: number): any {
           sampleInterval: S.Number,
           value: S.Number,
           firstSeen: S.optional(S.NullOr(S.String)),
-          groups: S.optional(S.NullOr(__S(4879, __c152, 15))),
+          groups: S.optional(S.NullOr(__S(4911, __c153, 15))),
           lastSeen: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({
         identifier: "ObservabilitySharedQueriesGetResponseCalculationsItemSeriesItemDataItem",
       });
     case 17:
-      return S.Array(__S(4880, __c152, 16));
+      return S.Array(__S(4912, __c153, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4881, __c152, 17),
+          data: __S(4913, __c153, 17),
           time: S.String,
         }),
       ).annotate({ identifier: "ObservabilitySharedQueriesGetResponseCalculationsItemSeriesItem" });
     case 19:
-      return S.Array(__S(4882, __c152, 18));
+      return S.Array(__S(4914, __c153, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          aggregates: __S(4876, __c152, 12),
+          aggregates: __S(4908, __c153, 12),
           calculation: S.String,
-          series: __S(4883, __c152, 19),
+          series: __S(4915, __c153, 19),
           alias: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ObservabilitySharedQueriesGetResponseCalculationsItem" });
     case 21:
-      return S.Array(__S(4884, __c152, 20));
+      return S.Array(__S(4916, __c153, 20));
     case 22:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], []]));
     case 23:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          value: __S(4886, __c152, 22),
+          value: __S(4918, __c153, 22),
         }),
       ).annotate({
         identifier: "ObservabilitySharedQueriesGetResponseCompareItemAggregatesItemGroupsItem",
       });
     case 24:
-      return S.Array(__S(4887, __c152, 23));
+      return S.Array(__S(4919, __c153, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
@@ -26700,24 +27068,24 @@ function __c152(j: number): any {
           interval: S.Number,
           sampleInterval: S.Number,
           value: S.Number,
-          groups: S.optional(S.NullOr(__S(4888, __c152, 24))),
+          groups: S.optional(S.NullOr(__S(4920, __c153, 24))),
         }),
       ).annotate({ identifier: "ObservabilitySharedQueriesGetResponseCompareItemAggregatesItem" });
     case 26:
-      return S.Array(__S(4889, __c152, 25));
+      return S.Array(__S(4921, __c153, 25));
     case 27:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], []]));
     case 28:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          value: __S(4891, __c152, 27),
+          value: __S(4923, __c153, 27),
         }),
       ).annotate({
         identifier: "ObservabilitySharedQueriesGetResponseCompareItemSeriesItemDataItemGroupsItem",
       });
     case 29:
-      return S.Array(__S(4892, __c152, 28));
+      return S.Array(__S(4924, __c153, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
@@ -26726,38 +27094,38 @@ function __c152(j: number): any {
           sampleInterval: S.Number,
           value: S.Number,
           firstSeen: S.optional(S.NullOr(S.String)),
-          groups: S.optional(S.NullOr(__S(4893, __c152, 29))),
+          groups: S.optional(S.NullOr(__S(4925, __c153, 29))),
           lastSeen: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({
         identifier: "ObservabilitySharedQueriesGetResponseCompareItemSeriesItemDataItem",
       });
     case 31:
-      return S.Array(__S(4894, __c152, 30));
+      return S.Array(__S(4926, __c153, 30));
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4895, __c152, 31),
+          data: __S(4927, __c153, 31),
           time: S.String,
         }),
       ).annotate({ identifier: "ObservabilitySharedQueriesGetResponseCompareItemSeriesItem" });
     case 1:
-      return S.Array(__S(4896, __c153, 0));
+      return S.Array(__S(4928, __c154, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          aggregates: __S(4890, __c152, 26),
+          aggregates: __S(4922, __c153, 26),
           calculation: S.String,
-          series: __S(4897, __c153, 1),
+          series: __S(4929, __c154, 1),
           alias: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ObservabilitySharedQueriesGetResponseCompareItem" });
     case 3:
-      return S.Array(__S(4898, __c153, 2));
+      return S.Array(__S(4930, __c154, 2));
     case 4:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 5:
@@ -26804,49 +27172,49 @@ function __c153(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          metadata: __S(4928, __c154, 0).pipe(T.Body("$metadata")),
+          metadata: __S(4960, __c155, 0).pipe(T.Body("$metadata")),
           dataset: S.String,
-          source: __S(4900, __c153, 4),
+          source: __S(4932, __c154, 4),
           timestamp: S.Number,
           containers: S.optional(S.NullOr(__S(1984, __c62, 0)).pipe(T.Body("$containers"))),
-          workers: S.optional(S.NullOr(__S(4901, __c153, 5)).pipe(T.Body("$workers"))),
+          workers: S.optional(S.NullOr(__S(4933, __c154, 5)).pipe(T.Body("$workers"))),
         }),
       ).annotate({ identifier: "ObservabilitySharedQueriesGetResponseEventsEventsItem" });
     case 7:
-      return S.Array(__S(4902, __c153, 6));
+      return S.Array(__S(4934, __c154, 6));
     case 8:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], []]));
     case 9:
-      return S.Record(S.String, __S(4904, __c153, 8));
+      return S.Record(S.String, __S(4936, __c154, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          aggregates: __S(4969, __c155, 9),
+          aggregates: __S(5001, __c156, 9),
           count: S.Number,
           interval: S.Number,
           sampleInterval: S.Number,
           errors: S.optional(S.NullOr(S.Number)),
-          groups: S.optional(S.NullOr(__S(4905, __c153, 9))),
+          groups: S.optional(S.NullOr(__S(4937, __c154, 9))),
         }),
       ).annotate({ identifier: "ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItem" });
     case 11:
-      return S.Array(__S(4906, __c153, 10));
+      return S.Array(__S(4938, __c154, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4907, __c153, 11),
+          data: __S(4939, __c154, 11),
           time: S.String,
         }),
       ).annotate({ identifier: "ObservabilitySharedQueriesGetResponseEventsSeriesItem" });
     case 13:
-      return S.Array(__S(4908, __c153, 12));
+      return S.Array(__S(4940, __c154, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.NullOr(S.Number)),
-          events: S.optional(S.NullOr(__S(4903, __c153, 7))),
-          fields: S.optional(S.NullOr(__S(4968, __c155, 8))),
-          series: S.optional(S.NullOr(__S(4909, __c153, 13))),
+          events: S.optional(S.NullOr(__S(4935, __c154, 7))),
+          fields: S.optional(S.NullOr(__S(5000, __c156, 8))),
+          series: S.optional(S.NullOr(__S(4941, __c154, 13))),
         }),
       ).annotate({ identifier: "ObservabilitySharedQueriesGetResponseEvents" });
     case 15:
@@ -26895,35 +27263,35 @@ function __c153(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          metadata: __S(4928, __c154, 0).pipe(T.Body("$metadata")),
+          metadata: __S(4960, __c155, 0).pipe(T.Body("$metadata")),
           dataset: S.String,
-          source: __S(4911, __c153, 15),
+          source: __S(4943, __c154, 15),
           timestamp: S.Number,
           containers: S.optional(S.NullOr(__S(1984, __c62, 0)).pipe(T.Body("$containers"))),
-          workers: S.optional(S.NullOr(__S(4912, __c153, 16)).pipe(T.Body("$workers"))),
+          workers: S.optional(S.NullOr(__S(4944, __c154, 16)).pipe(T.Body("$workers"))),
         }),
       ).annotate({ identifier: "ObservabilitySharedQueriesGetResponseInvocationsValueItem" });
     case 18:
-      return S.Array(__S(4913, __c153, 17));
+      return S.Array(__S(4945, __c154, 17));
     case 19:
-      return S.Record(S.String, __S(4914, __c153, 18));
+      return S.Record(S.String, __S(4946, __c154, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          run: __S(4871, __c152, 7),
-          statistics: __S(4961, __c155, 1),
-          agents: S.optional(S.NullOr(__S(4963, __c155, 3))),
-          calculations: S.optional(S.NullOr(__S(4885, __c152, 21))),
-          compare: S.optional(S.NullOr(__S(4899, __c153, 3))),
-          distribution: S.optional(S.NullOr(__S(4966, __c155, 6))),
-          events: S.optional(S.NullOr(__S(4910, __c153, 14))),
-          invocations: S.optional(S.NullOr(__S(4915, __c153, 19))),
-          traces: S.optional(S.NullOr(__S(4971, __c155, 11))),
+          run: __S(4903, __c153, 7),
+          statistics: __S(4993, __c156, 1),
+          agents: S.optional(S.NullOr(__S(4995, __c156, 3))),
+          calculations: S.optional(S.NullOr(__S(4917, __c153, 21))),
+          compare: S.optional(S.NullOr(__S(4931, __c154, 3))),
+          distribution: S.optional(S.NullOr(__S(4998, __c156, 6))),
+          events: S.optional(S.NullOr(__S(4942, __c154, 14))),
+          invocations: S.optional(S.NullOr(__S(4947, __c154, 19))),
+          traces: S.optional(S.NullOr(__S(5003, __c156, 11))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetObservabilitySharedQueryResponse" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26970,7 +27338,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "ObservabilitySharedQueriesGetResponseEventsEventsItemMetadata" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27011,19 +27379,19 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "ObservabilitySharedQueriesGetResponseAgentsItem" });
     case 3:
-      return S.Array(__S(4962, __c155, 2));
+      return S.Array(__S(4994, __c156, 2));
     case 4:
       return S.Array(S.Number);
     case 5:
-      return S.Array(__S(4964, __c155, 4));
+      return S.Array(__S(4996, __c156, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           bins: __S(1824, __c57, 0),
-          bucketBoundaries: __S(4964, __c155, 4),
+          bucketBoundaries: __S(4996, __c156, 4),
           bucketMode: S.String,
           buckets: __S(1824, __c57, 0),
-          matrix: __S(4965, __c155, 5),
+          matrix: __S(4997, __c156, 5),
         }),
       ).annotate({ identifier: "ObservabilitySharedQueriesGetResponseDistribution" });
     case 7:
@@ -27034,7 +27402,7 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "ObservabilitySharedQueriesGetResponseEventsFieldsItem" });
     case 8:
-      return S.Array(__S(4967, __c155, 7));
+      return S.Array(__S(4999, __c156, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -27062,10 +27430,10 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "ObservabilitySharedQueriesGetResponseTracesItem" });
     case 11:
-      return S.Array(__S(4970, __c155, 10));
+      return S.Array(__S(5002, __c156, 10));
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27085,7 +27453,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "GetPreviewRequest" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27106,7 +27474,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "GetPreviewDeploymentRequest" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27121,7 +27489,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "GetRouteRequest" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27140,7 +27508,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "GetScriptRequest" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27159,7 +27527,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "GetScriptContentRequest" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27179,7 +27547,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "GetScriptDeploymentRequest" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27198,7 +27566,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "GetScriptEventTriggersRequest" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27216,31 +27584,31 @@ function __c163(j: number): any {
         }),
       ).annotate({ identifier: "EventTriggerTarget" });
     case 2:
-      return S.Array(__S(5217, __c163, 1));
+      return S.Array(__S(5249, __c164, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          filter: S.optional(S.NullOr(__S(5216, __c163, 0))),
-          targets: __S(5218, __c163, 2),
+          filter: S.optional(S.NullOr(__S(5248, __c164, 0))),
+          targets: __S(5250, __c164, 2),
         }),
       ).annotate({ identifier: "EventTrigger" });
     case 4:
-      return S.Array(__S(5219, __c163, 3));
+      return S.Array(__S(5251, __c164, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           scriptName: S.String.pipe(T.Body("script_name")),
-          triggers: __S(5220, __c163, 4),
+          triggers: __S(5252, __c164, 4),
         }),
       ).annotate({ identifier: "ScriptEventTriggers" });
     case 6:
       return S.suspend(() =>
-        __S(5221, __c163, 5).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(5253, __c164, 5).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetScriptEventTriggersResponse" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27259,7 +27627,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "GetScriptScheduleRequest" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27270,16 +27638,16 @@ function __c165(j: number): any {
         }),
       ).annotate({ identifier: "ScriptsSchedulesGetResponseSchedulesItem" });
     case 1:
-      return S.Array(__S(5280, __c165, 0));
+      return S.Array(__S(5312, __c166, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          schedules: __S(5281, __c165, 1),
+          schedules: __S(5313, __c166, 1),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetScriptScheduleResponse" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27298,112 +27666,6 @@ function __c166(j: number): any {
       ).annotate({ identifier: "GetScriptScriptAndVersionSettingRequest" });
     case 1:
       return S.Unknown.pipe(
-        /*@__PURE__*/ T.UnionCases(
-          [
-            ["name", "type"],
-            ["instanceName", "name", "type", "namespace"],
-            ["name", "namespace", "type"],
-            ["name", "namespace", "type"],
-            ["dataset", "name", "type"],
-            ["name", "namespace", "type"],
-            ["name", "type"],
-            ["name", "type"],
-            ["databaseId", "name", "type", "id"],
-            ["name", "part", "type"],
-            ["name", "namespace", "type", "outbound"],
-            [
-              "name",
-              "type",
-              "className",
-              "dispatchNamespace",
-              "environment",
-              "namespaceId",
-              "scriptName",
-            ],
-            ["id", "name", "type"],
-            ["name", "type", "oldName", "versionId"],
-            ["name", "type"],
-            ["json", "name", "type"],
-            ["name", "namespaceId", "type"],
-            ["name", "type"],
-            ["certificateId", "name", "type"],
-            ["name", "text", "type"],
-            ["name", "pipeline", "type"],
-            ["name", "stream", "type"],
-            ["name", "queueName", "type"],
-            ["name", "namespaceId", "simple", "type"],
-            ["bucketName", "name", "type", "jurisdiction"],
-            ["name", "text", "type"],
-            [
-              "name",
-              "type",
-              "allowedDestinationAddresses",
-              "allowedSenderAddresses",
-              "destinationAddress",
-            ],
-            ["name", "service", "type", "entrypoint", "environment"],
-            ["name", "part", "type"],
-            ["indexName", "name", "type"],
-            ["name", "type"],
-            ["name", "secretName", "storeId", "type"],
-            ["appId", "name", "type"],
-            ["algorithm", "format", "name", "type", "usages", "keyBase64", "keyJwk"],
-            ["name", "type", "workflowName", "className", "scriptName"],
-            ["name", "part", "type"],
-            ["name", "serviceId", "type"],
-            ["name", "type", "identity", "networkId", "tunnelId"],
-            ["name", "type"],
-          ],
-          {
-            key: "type",
-            values: [
-              "ai",
-              "ai_search",
-              "ai_search_namespace",
-              "messaging",
-              "analytics_engine",
-              "artifacts",
-              "assets",
-              "browser",
-              "d1",
-              "data_blob",
-              "dispatch_namespace",
-              "durable_object_namespace",
-              "hyperdrive",
-              "inherit",
-              "images",
-              "json",
-              "kv_namespace",
-              "media",
-              "mtls_certificate",
-              "plain_text",
-              "pipelines",
-              "k2",
-              "queue",
-              "ratelimit",
-              "r2_bucket",
-              "secret_text",
-              "send_email",
-              "service",
-              "text_blob",
-              "vectorize",
-              "version_metadata",
-              "secrets_store_secret",
-              "flagship",
-              "secret_key",
-              "workflow",
-              "wasm_module",
-              "vpc_service",
-              "vpc_network",
-              "worker_loader",
-            ],
-          },
-        ),
-      );
-    case 2:
-      return S.Array(__S(5313, __c166, 1));
-    case 3:
-      return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           ["type", "cache", "state"],
           ["storage", "type", "container", "state"],
@@ -27413,9 +27675,9 @@ function __c166(j: number): any {
           ["state", "storage", "transferFrom", "type", "container"],
         ]),
       );
-    case 4:
-      return S.Record(S.String, __S(5315, __c166, 3));
-    case 5:
+    case 2:
+      return S.Record(S.String, __S(5345, __c167, 1));
+    case 3:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           [
@@ -27430,7 +27692,7 @@ function __c166(j: number): any {
           ["newTag", "oldTag", "steps"],
         ]),
       );
-    case 6:
+    case 4:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           ["mode"],
@@ -27443,33 +27705,33 @@ function __c166(j: number): any {
           ["mode", "target"],
         ]),
       );
-    case 7:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           annotations: S.optional(S.NullOr(__S(2624, __c82, 0))),
-          bindings: S.optional(S.NullOr(__S(5314, __c166, 2))),
+          bindings: S.optional(S.NullOr(__S(3905, __c122, 1))),
           cacheOptions: S.optional(S.NullOr(__S(2176, __c68, 0)).pipe(T.Body("cache_options"))),
           compatibilityDate: S.optional(S.NullOr(S.String).pipe(T.Body("compatibility_date"))),
           compatibilityFlags: S.optional(
             S.NullOr(__S(1824, __c57, 0)).pipe(T.Body("compatibility_flags")),
           ),
-          exports: S.optional(S.NullOr(__S(5316, __c166, 4))),
+          exports: S.optional(S.NullOr(__S(5346, __c167, 2))),
           exportsReconciliation: S.optional(
             S.NullOr(__S(2570, __c80, 10)).pipe(T.Body("exports_reconciliation")),
           ),
           limits: S.optional(S.NullOr(__S(2208, __c69, 0))),
           logpush: S.optional(S.NullOr(S.Boolean)),
-          migrations: S.optional(S.NullOr(__S(5317, __c166, 5))),
-          observability: S.optional(S.NullOr(__S(5345, __c167, 1))),
-          placement: S.optional(S.NullOr(__S(5318, __c166, 6))),
+          migrations: S.optional(S.NullOr(__S(5347, __c167, 3))),
+          observability: S.optional(S.NullOr(__S(5377, __c168, 1))),
+          placement: S.optional(S.NullOr(__S(5348, __c167, 4))),
           tags: S.optional(S.NullOr(__S(1824, __c57, 0))),
-          tailConsumers: S.optional(S.NullOr(__S(5347, __c167, 3)).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(S.NullOr(__S(5379, __c168, 3)).pipe(T.Body("tail_consumers"))),
           usageModel: S.optional(S.NullOr(S.String).pipe(T.Body("usage_model"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetScriptScriptAndVersionSettingResponse" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27487,7 +27749,7 @@ function __c167(j: number): any {
           enabled: S.Boolean,
           headSamplingRate: S.optional(S.NullOr(S.Number).pipe(T.Body("head_sampling_rate"))),
           issues: S.optional(S.NullOr(__S(2368, __c74, 0))),
-          logs: S.optional(S.NullOr(__S(5344, __c167, 0))),
+          logs: S.optional(S.NullOr(__S(5376, __c168, 0))),
           redactQueryString: S.optional(S.NullOr(S.Boolean).pipe(T.Body("redact_query_string"))),
           traces: S.optional(S.NullOr(__S(2369, __c74, 1))),
         }),
@@ -27501,7 +27763,7 @@ function __c167(j: number): any {
         }),
       ).annotate({ identifier: "ScriptsScriptAndVersionSettingsGetResponseTailConsumersItem" });
     case 3:
-      return S.Array(__S(5346, __c167, 2));
+      return S.Array(__S(5378, __c168, 2));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -1,0 +1,111 @@
+{
+  "description": "A json binding's json and a service binding's props (read by the bound entrypoint as ctx.props, https://developers.cloudflare.com/workers/runtime-apis/context/#props) are the caller's own JSON, which the Worker reads back unchanged. An empty keyDictionary keeps their keys as written instead of renaming them through the fallback dictionary, on requests and responses. The docs omit props on service bindings; Wrangler sends it (packages/deploy-helpers/src/deploy/helpers/create-worker-upload-form.ts) and modeling it keeps the response decoder from dropping it. Upload metadata shapes (putScript, putDispatchNamespaceScript, createScriptEdgePreview) carry the same marks in their own manual patches. Script version resources.bindings is an untyped Document in the docs, which renamed json content on decode; it now targets the settings bindings list (same binding kinds, https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#BetaWorkersVersionsCreateRequestBindingsItemJson/members/json/traits/com.cloudflare.protocols#keyDictionary",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#BetaWorkersVersionsCreateRequestBindingsItemService/members/props",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "JSON object the bound entrypoint reads as `ctx.props`, kept with its keys as written.",
+          "com.cloudflare.protocols#keyDictionary": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#BetaWorkersVersionsCreateResponseBindingsItemJson/members/json/traits/com.cloudflare.protocols#keyDictionary",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#BetaWorkersVersionsCreateResponseBindingsItemService/members/props",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "JSON object the bound entrypoint reads as `ctx.props`, kept with its keys as written.",
+          "com.cloudflare.protocols#keyDictionary": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#BetaWorkersVersionsGetResponseBindingsItemJson/members/json/traits/com.cloudflare.protocols#keyDictionary",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#BetaWorkersVersionsGetResponseBindingsItemService/members/props",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "JSON object the bound entrypoint reads as `ctx.props`, kept with its keys as written.",
+          "com.cloudflare.protocols#keyDictionary": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#BetaWorkersVersionsListResultItemBindingsItemJson/members/json/traits/com.cloudflare.protocols#keyDictionary",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#BetaWorkersVersionsListResultItemBindingsItemService/members/props",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "JSON object the bound entrypoint reads as `ctx.props`, kept with its keys as written.",
+          "com.cloudflare.protocols#keyDictionary": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ScriptsScriptAndVersionSettingsGetResponseBindingsItemJson/members/json/traits/com.cloudflare.protocols#keyDictionary",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ScriptsScriptAndVersionSettingsGetResponseBindingsItemService/members/props",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "JSON object the bound entrypoint reads as `ctx.props`, kept with its keys as written.",
+          "com.cloudflare.protocols#keyDictionary": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ScriptsScriptAndVersionSettingsEditResponseBindingsItemJson/members/json/traits/com.cloudflare.protocols#keyDictionary",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ScriptsScriptAndVersionSettingsEditResponseBindingsItemService/members/props",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "JSON object the bound entrypoint reads as `ctx.props`, kept with its keys as written.",
+          "com.cloudflare.protocols#keyDictionary": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.workers#ScriptsVersionsCreateResponseResources/members/bindings/target",
+      "value": "com.cloudflare.workers#ScriptsScriptAndVersionSettingsGetResponseBindingsList"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.workers#ScriptsVersionsGetResponseResources/members/bindings/target",
+      "value": "com.cloudflare.workers#ScriptsScriptAndVersionSettingsGetResponseBindingsList"
+    }
+  ]
+}

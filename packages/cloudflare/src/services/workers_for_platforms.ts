@@ -1229,6 +1229,8 @@ export interface DispatchNamespacesScriptsBindingsGetResultItemService {
   entrypoint?: string | null | undefined;
   /** Optional environment if the Worker utilizes one. */
   environment?: string | null | undefined;
+  /** JSON object the bound entrypoint reads as `ctx.props`, kept with its keys as written. */
+  props?: unknown | null | undefined;
 }
 export type DispatchNamespacesScriptsBindingsGetResultItemTextBlobType = "text_blob";
 export interface DispatchNamespacesScriptsBindingsGetResultItemTextBlob {
@@ -1801,6 +1803,8 @@ export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemService
   entrypoint?: string | null | undefined;
   /** Optional environment if the Worker utilizes one. */
   environment?: string | null | undefined;
+  /** JSON object the bound entrypoint reads as `ctx.props`, kept with its keys as written. */
+  props?: unknown | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseBindingsItemTextBlobType = "text_blob";
 export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemTextBlob {
@@ -2952,6 +2956,8 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsIte
   entrypoint?: string | undefined;
   /** Optional environment if the Worker utilizes one. */
   environment?: string | undefined;
+  /** JSON object the bound entrypoint reads as `ctx.props`, kept with its keys as written. */
+  props?: unknown | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemTextBlobType =
   "text_blob";
@@ -4003,6 +4009,8 @@ export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemServic
   entrypoint?: string | null | undefined;
   /** Optional environment if the Worker utilizes one. */
   environment?: string | null | undefined;
+  /** JSON object the bound entrypoint reads as `ctx.props`, kept with its keys as written. */
+  props?: unknown | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemTextBlobType = "text_blob";
 export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemTextBlob {
@@ -7053,7 +7061,7 @@ function __c15(j: number): any {
               "allowedSenderAddresses",
               "destinationAddress",
             ],
-            ["name", "service", "type", "entrypoint", "environment"],
+            ["name", "service", "type", "entrypoint", "environment", "props"],
             ["name", "part", "type"],
             ["indexName", "name", "type"],
             ["name", "type"],
@@ -7110,6 +7118,47 @@ function __c15(j: number): any {
               "worker_loader",
             ],
           },
+          [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { json: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { props: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+          ],
         ),
       );
     case 2:
@@ -7246,7 +7295,7 @@ function __c18(j: number): any {
               "allowedSenderAddresses",
               "destinationAddress",
             ],
-            ["name", "service", "type", "entrypoint", "environment"],
+            ["name", "service", "type", "entrypoint", "environment", "props"],
             ["name", "part", "type"],
             ["indexName", "name", "type"],
             ["name", "type"],
@@ -7303,6 +7352,47 @@ function __c18(j: number): any {
               "worker_loader",
             ],
           },
+          [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { json: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { props: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+          ],
         ),
       );
     case 2:
@@ -7622,7 +7712,7 @@ function __c24(j: number): any {
               "allowedSenderAddresses",
               "destinationAddress",
             ],
-            ["name", "service", "type", "entrypoint", "environment"],
+            ["name", "service", "type", "entrypoint", "environment", "props"],
             ["name", "part", "type"],
             ["indexName", "name", "type"],
             ["name", "type"],
@@ -7679,6 +7769,47 @@ function __c24(j: number): any {
               "worker_loader",
             ],
           },
+          [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { json: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { props: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+          ],
         ),
       );
     case 1:
@@ -7907,7 +8038,7 @@ function __c24(j: number): any {
               "allowedSenderAddresses",
               "destinationAddress",
             ],
-            ["name", "service", "type", "entrypoint", "environment"],
+            ["name", "service", "type", "entrypoint", "environment", "props"],
             ["name", "part", "type"],
             ["indexName", "name", "type"],
             ["name", "type"],
@@ -7964,6 +8095,47 @@ function __c24(j: number): any {
               "worker_loader",
             ],
           },
+          [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { json: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { props: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+          ],
         ),
       );
     case 19:
