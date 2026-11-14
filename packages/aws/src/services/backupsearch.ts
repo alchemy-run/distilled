@@ -86,6 +86,12 @@ const TELEMETRY = {
   propagate: TxXray.propagate,
 } as const;
 
+export class AccessDeniedException
+  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
+    "AccessDeniedException",
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
+  ).pipe(C.withAuthError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
@@ -96,6 +102,17 @@ export class ConflictException
     },
     /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
+export class InternalServerException
+  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+    "InternalServerException",
+    {
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
+        /*@__PURE__*/ T.HttpHeader("Retry-After"),
+      ),
+    },
+    /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(500), /*@__PURE__*/ T.Retryable()),
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -118,6 +135,28 @@ export class ServiceQuotaExceededException
     },
     /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
+export class ThrottlingException
+  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+    "ThrottlingException",
+    {
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      serviceCode: /*@__PURE__*/ S.optional(S.String),
+      quotaCode: /*@__PURE__*/ S.optional(S.String),
+      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
+        /*@__PURE__*/ T.HttpHeader("Retry-After"),
+      ),
+    },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.HttpError(429),
+      /*@__PURE__*/ T.Retryable({ throttling: true }),
+    ),
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+export class ValidationException
+  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+    "ValidationException",
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
+  ).pipe(C.withBadRequestError) {}
 export type GenericId = string;
 export interface GetSearchJobInput {
   SearchJobIdentifier: string;
@@ -387,7 +426,13 @@ export interface UntagResourceRequest {
   TagKeys: string[];
 }
 export interface UntagResourceResponse {}
-export type GetSearchJobError = ResourceNotFoundException | CommonErrors;
+export type GetSearchJobError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation retrieves metadata of a search job, including its progress.
  */
@@ -397,9 +442,15 @@ export const getSearchJob: API.OperationMethod<
   GetSearchJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetSearchJobInput>,
-  output: __S(98, __c6, 2) as any as S.Schema<GetSearchJobOutput>,
-  errors: [ResourceNotFoundException],
+  input: __S(160, __c10, 0) as any as S.Schema<GetSearchJobInput>,
+  output: __S(162, __c10, 2) as any as S.Schema<GetSearchJobOutput>,
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSearchJob",
@@ -407,7 +458,13 @@ export const getSearchJob: API.OperationMethod<
   span: "GetSearchJob",
 }));
 
-export type GetSearchResultExportJobError = ResourceNotFoundException | CommonErrors;
+export type GetSearchResultExportJobError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation retrieves the metadata of an export job.
  *
@@ -421,9 +478,15 @@ export const getSearchResultExportJob: API.OperationMethod<
   GetSearchResultExportJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetSearchResultExportJobInput>,
-  output: __S(177, __c11, 1) as any as S.Schema<GetSearchResultExportJobOutput>,
-  errors: [ResourceNotFoundException],
+  input: __S(240, __c15, 0) as any as S.Schema<GetSearchResultExportJobInput>,
+  output: __S(241, __c15, 1) as any as S.Schema<GetSearchResultExportJobOutput>,
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSearchResultExportJob",
@@ -431,7 +494,13 @@ export const getSearchResultExportJob: API.OperationMethod<
   span: "GetSearchResultExportJob",
 }));
 
-export type ListSearchJobBackupsError = ResourceNotFoundException | CommonErrors;
+export type ListSearchJobBackupsError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation returns a list of all backups (recovery points) in a paginated format that were included in the search job.
  *
@@ -446,9 +515,15 @@ export const listSearchJobBackups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SearchJobBackupsResult
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<ListSearchJobBackupsInput>,
-  output: __S(211, __c13, 3) as any as S.Schema<ListSearchJobBackupsOutput>,
-  errors: [ResourceNotFoundException],
+  input: __S(272, __c17, 0) as any as S.Schema<ListSearchJobBackupsInput>,
+  output: __S(275, __c17, 3) as any as S.Schema<ListSearchJobBackupsOutput>,
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSearchJobBackups",
@@ -462,7 +537,13 @@ export const listSearchJobBackups: API.PaginatedOperationMethod<
   span: "ListSearchJobBackups",
 })) as any;
 
-export type ListSearchJobResultsError = ResourceNotFoundException | CommonErrors;
+export type ListSearchJobResultsError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation returns a list of a specified search job.
  */
@@ -473,9 +554,15 @@ export const listSearchJobResults: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResultItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ListSearchJobResultsInput>,
-  output: __S(229, __c14, 5) as any as S.Schema<ListSearchJobResultsOutput>,
-  errors: [ResourceNotFoundException],
+  input: __S(0, __c0, 0) as any as S.Schema<ListSearchJobResultsInput>,
+  output: __S(5, __c0, 5) as any as S.Schema<ListSearchJobResultsOutput>,
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSearchJobResults",
@@ -489,7 +576,12 @@ export const listSearchJobResults: API.PaginatedOperationMethod<
   span: "ListSearchJobResults",
 })) as any;
 
-export type ListSearchJobsError = CommonErrors;
+export type ListSearchJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation returns a list of search jobs belonging to an account.
  */
@@ -500,9 +592,14 @@ export const listSearchJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SearchJobSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ListSearchJobsInput>,
-  output: __S(243, __c15, 3) as any as S.Schema<ListSearchJobsOutput>,
-  errors: [],
+  input: __S(16, __c1, 0) as any as S.Schema<ListSearchJobsInput>,
+  output: __S(19, __c1, 3) as any as S.Schema<ListSearchJobsOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSearchJobs",
@@ -519,6 +616,10 @@ export const listSearchJobs: API.PaginatedOperationMethod<
 export type ListSearchResultExportJobsError =
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
  * This operation exports search results of a search job to a specified destination S3 bucket.
@@ -530,9 +631,16 @@ export const listSearchResultExportJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ExportJobSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<ListSearchResultExportJobsInput>,
-  output: __S(259, __c16, 3) as any as S.Schema<ListSearchResultExportJobsOutput>,
-  errors: [ResourceNotFoundException, ServiceQuotaExceededException],
+  input: __S(32, __c2, 0) as any as S.Schema<ListSearchResultExportJobsInput>,
+  output: __S(35, __c2, 3) as any as S.Schema<ListSearchResultExportJobsOutput>,
+  errors: [
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSearchResultExportJobs",
@@ -546,7 +654,13 @@ export const listSearchResultExportJobs: API.PaginatedOperationMethod<
   span: "ListSearchResultExportJobs",
 })) as any;
 
-export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
+export type ListTagsForResourceError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation returns the tags for a resource type.
  */
@@ -556,9 +670,15 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(273, __c17, 1) as any as S.Schema<ListTagsForResourceResponse>,
-  errors: [ResourceNotFoundException],
+  input: __S(48, __c3, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(49, __c3, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -570,6 +690,10 @@ export type StartSearchJobError =
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
  * This operation creates a search job which returns recovery points filtered by SearchScope and items filtered by ItemFilters.
@@ -582,9 +706,17 @@ export const startSearchJob: API.OperationMethod<
   StartSearchJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<StartSearchJobInput>,
-  output: __S(1, __c0, 1) as any as S.Schema<StartSearchJobOutput>,
-  errors: [ConflictException, ResourceNotFoundException, ServiceQuotaExceededException],
+  input: __S(64, __c4, 0) as any as S.Schema<StartSearchJobInput>,
+  output: __S(65, __c4, 1) as any as S.Schema<StartSearchJobOutput>,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSearchJob",
@@ -596,6 +728,10 @@ export type StartSearchResultExportJobError =
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
  * This operations starts a job to export the results of search job to a designated S3 bucket.
@@ -606,9 +742,17 @@ export const startSearchResultExportJob: API.OperationMethod<
   StartSearchResultExportJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<StartSearchResultExportJobInput>,
-  output: __S(17, __c1, 1) as any as S.Schema<StartSearchResultExportJobOutput>,
-  errors: [ConflictException, ResourceNotFoundException, ServiceQuotaExceededException],
+  input: __S(80, __c5, 0) as any as S.Schema<StartSearchResultExportJobInput>,
+  output: __S(81, __c5, 1) as any as S.Schema<StartSearchResultExportJobOutput>,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSearchResultExportJob",
@@ -616,7 +760,14 @@ export const startSearchResultExportJob: API.OperationMethod<
   span: "StartSearchResultExportJob",
 }));
 
-export type StopSearchJobError = ConflictException | ResourceNotFoundException | CommonErrors;
+export type StopSearchJobError =
+  | ConflictException
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operations ends a search job.
  *
@@ -628,9 +779,16 @@ export const stopSearchJob: API.OperationMethod<
   StopSearchJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<StopSearchJobInput>,
-  output: __S(48, __c3, 0) as any as S.Schema<StopSearchJobOutput>,
-  errors: [ConflictException, ResourceNotFoundException],
+  input: __S(96, __c6, 0) as any as S.Schema<StopSearchJobInput>,
+  output: __S(112, __c7, 0) as any as S.Schema<StopSearchJobOutput>,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSearchJob",
@@ -638,7 +796,13 @@ export const stopSearchJob: API.OperationMethod<
   span: "StopSearchJob",
 }));
 
-export type TagResourceError = ResourceNotFoundException | CommonErrors;
+export type TagResourceError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation puts tags on the resource you indicate.
  */
@@ -648,9 +812,15 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<TagResourceResponse>,
-  errors: [ResourceNotFoundException],
+  input: __S(128, __c8, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<TagResourceResponse>,
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -658,7 +828,13 @@ export const tagResource: API.OperationMethod<
   span: "TagResource",
 }));
 
-export type UntagResourceError = ResourceNotFoundException | CommonErrors;
+export type UntagResourceError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation removes tags from the specified resource.
  */
@@ -668,9 +844,15 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<UntagResourceResponse>,
-  errors: [ResourceNotFoundException],
+  input: __S(144, __c9, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<UntagResourceResponse>,
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -680,341 +862,6 @@ export const untagResource: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Tags: S.optional(__S(160, __c10, 0)),
-          Name: S.optional(S.String),
-          EncryptionKeyArn: S.optional(S.String),
-          ClientToken: S.optional(S.String),
-          SearchScope: __S(114, __c7, 2),
-          ItemFilters: S.optional(__S(125, __c7, 13)),
-        }).pipe(
-          T.all(T.Http({ method: "PUT", uri: "/search-jobs" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "StartSearchJobInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          SearchJobArn: S.optional(S.String),
-          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          SearchJobIdentifier: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StartSearchJobOutput" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          SearchJobIdentifier: S.String,
-          ExportSpecification: __S(193, __c12, 1),
-          ClientToken: S.optional(S.String),
-          Tags: S.optional(__S(160, __c10, 0)),
-          RoleArn: S.optional(S.String),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PUT", uri: "/export-search-jobs" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "StartSearchResultExportJobInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ ExportJobArn: S.optional(S.String), ExportJobIdentifier: S.String }),
-      ).annotate({ identifier: "StartSearchResultExportJobOutput" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ SearchJobIdentifier: S.String.pipe(T.HttpLabel("SearchJobIdentifier")) }).pipe(
-          T.all(
-            T.Http({ method: "PUT", uri: "/search-jobs/{SearchJobIdentifier}/actions/cancel" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "StopSearchJobInput" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "StopSearchJobOutput" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-          Tags: __S(160, __c10, 0),
-        }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "TagResourceRequest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-          TagKeys: __S(128, __c8, 0).pipe(T.HttpQuery("tagKeys")),
-        }).pipe(
-          T.all(
-            T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UntagResourceRequest" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ SearchJobIdentifier: S.String.pipe(T.HttpLabel("SearchJobIdentifier")) }).pipe(
-          T.all(
-            T.Http({ method: "GET", uri: "/search-jobs/{SearchJobIdentifier}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "GetSearchJobInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          RecoveryPointsScannedCount: S.optional(S.Number),
-          ItemsScannedCount: S.optional(S.Number),
-          ItemsMatchedCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "CurrentSearchProgress" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          Name: S.optional(S.String),
-          SearchScopeSummary: S.optional(__S(144, __c9, 0)),
-          CurrentSearchProgress: S.optional(__S(97, __c6, 1)),
-          StatusMessage: S.optional(S.String),
-          EncryptionKeyArn: S.optional(S.String),
-          CompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Status: S.String,
-          SearchScope: __S(114, __c7, 2),
-          ItemFilters: __S(125, __c7, 13),
-          CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          SearchJobIdentifier: S.String,
-          SearchJobArn: S.String,
-        }),
-      ).annotate({ identifier: "GetSearchJobOutput" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          CreatedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          CreatedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-        }),
-      ).annotate({ identifier: "BackupCreationTimeFilter" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          BackupResourceTypes: __S(112, __c7, 0),
-          BackupResourceCreationTime: S.optional(__S(113, __c7, 1)),
-          SourceResourceArns: S.optional(__S(128, __c8, 0)),
-          BackupResourceArns: S.optional(__S(128, __c8, 0)),
-          BackupResourceTags: S.optional(__S(160, __c10, 0)),
-        }),
-      ).annotate({ identifier: "SearchScope" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({ Value: S.String, Operator: S.optional(S.String) }),
-      ).annotate({ identifier: "StringCondition" });
-    case 4:
-      return S.Array(__S(115, __c7, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({ Value: S.Number, Operator: S.optional(S.String) }),
-      ).annotate({ identifier: "LongCondition" });
-    case 6:
-      return S.Array(__S(117, __c7, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          Value: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          Operator: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TimeCondition" });
-    case 8:
-      return S.Array(__S(119, __c7, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          ObjectKeys: S.optional(__S(116, __c7, 4)),
-          Sizes: S.optional(__S(118, __c7, 6)),
-          CreationTimes: S.optional(__S(120, __c7, 8)),
-          VersionIds: S.optional(__S(116, __c7, 4)),
-          ETags: S.optional(__S(116, __c7, 4)),
-        }),
-      ).annotate({ identifier: "S3ItemFilter" });
-    case 10:
-      return S.Array(__S(121, __c7, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          FilePaths: S.optional(__S(116, __c7, 4)),
-          Sizes: S.optional(__S(118, __c7, 6)),
-          CreationTimes: S.optional(__S(120, __c7, 8)),
-          LastModificationTimes: S.optional(__S(120, __c7, 8)),
-        }),
-      ).annotate({ identifier: "EBSItemFilter" });
-    case 12:
-      return S.Array(__S(123, __c7, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          S3ItemFilters: S.optional(__S(122, __c7, 10)),
-          EBSItemFilters: S.optional(__S(124, __c7, 12)),
-        }),
-      ).annotate({ identifier: "ItemFilters" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          TotalRecoveryPointsToScanCount: S.optional(S.Number),
-          TotalItemsToScanCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SearchScopeSummary" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional)).pipe(
-        /*@__PURE__*/ T.Sparse(),
-      );
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ ExportJobIdentifier: S.String.pipe(T.HttpLabel("ExportJobIdentifier")) }).pipe(
-          T.all(
-            T.Http({ method: "GET", uri: "/export-search-jobs/{ExportJobIdentifier}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "GetSearchResultExportJobInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ExportJobIdentifier: S.String,
-          ExportJobArn: S.optional(S.String),
-          Status: S.optional(S.String),
-          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          CompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          StatusMessage: S.optional(S.String),
-          ExportSpecification: S.optional(__S(193, __c12, 1)),
-          SearchJobArn: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetSearchResultExportJobOutput" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ DestinationBucket: S.String, DestinationPrefix: S.optional(S.String) }),
-      ).annotate({ identifier: "S3ExportSpecification" });
-    case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ s3ExportSpecification: __S(192, __c12, 0) })]);
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          SearchJobIdentifier: S.String.pipe(T.HttpLabel("SearchJobIdentifier")),
-          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-        }).pipe(
-          T.all(
-            T.Http({ method: "GET", uri: "/search-jobs/{SearchJobIdentifier}/backups" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "ListSearchJobBackupsInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Status: S.optional(S.String),
-          StatusMessage: S.optional(S.String),
-          ResourceType: S.optional(S.String),
-          BackupResourceArn: S.optional(S.String),
-          SourceResourceArn: S.optional(S.String),
-          IndexCreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          BackupCreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-        }),
-      ).annotate({ identifier: "SearchJobBackupsResult" });
-    case 2:
-      return S.Array(__S(209, __c13, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({ Results: __S(210, __c13, 2), NextToken: S.optional(S.String) }),
-      ).annotate({ identifier: "ListSearchJobBackupsOutput" });
-  }
-}
-function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1061,18 +908,18 @@ function __c14(j: number): any {
       ).annotate({ identifier: "EBSResultItem" });
     case 3:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ S3ResultItem: __S(225, __c14, 1) }),
-        /*@__PURE__*/ S.Struct({ EBSResultItem: __S(226, __c14, 2) }),
+        /*@__PURE__*/ S.Struct({ S3ResultItem: __S(1, __c0, 1) }),
+        /*@__PURE__*/ S.Struct({ EBSResultItem: __S(2, __c0, 2) }),
       ]);
     case 4:
-      return S.Array(__S(227, __c14, 3));
+      return S.Array(__S(3, __c0, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ Results: __S(228, __c14, 4), NextToken: S.optional(S.String) }),
+        S.Struct({ Results: __S(4, __c0, 4), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListSearchJobResultsOutput" });
   }
 }
-function __c15(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1093,19 +940,19 @@ function __c15(j: number): any {
           Status: S.optional(S.String),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          SearchScopeSummary: S.optional(__S(144, __c9, 0)),
+          SearchScopeSummary: S.optional(__S(176, __c11, 0)),
           StatusMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchJobSummary" });
     case 2:
-      return S.Array(__S(241, __c15, 1));
+      return S.Array(__S(17, __c1, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ SearchJobs: __S(242, __c15, 2), NextToken: S.optional(S.String) }),
+        S.Struct({ SearchJobs: __S(18, __c1, 2), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListSearchJobsOutput" });
   }
 }
-function __c16(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1138,14 +985,14 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "ExportJobSummary" });
     case 2:
-      return S.Array(__S(257, __c16, 1));
+      return S.Array(__S(33, __c2, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ ExportJobs: __S(258, __c16, 2), NextToken: S.optional(S.String) }),
+        S.Struct({ ExportJobs: __S(34, __c2, 2), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListSearchResultExportJobsOutput" });
   }
 }
-function __c17(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1161,9 +1008,344 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Tags: S.optional(__S(160, __c10, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(192, __c12, 0)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Tags: S.optional(__S(192, __c12, 0)),
+          Name: S.optional(S.String),
+          EncryptionKeyArn: S.optional(S.String),
+          ClientToken: S.optional(S.String),
+          SearchScope: __S(210, __c13, 2),
+          ItemFilters: S.optional(__S(221, __c13, 13)),
+        }).pipe(
+          T.all(T.Http({ method: "PUT", uri: "/search-jobs" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StartSearchJobInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SearchJobArn: S.optional(S.String),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          SearchJobIdentifier: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StartSearchJobOutput" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SearchJobIdentifier: S.String,
+          ExportSpecification: __S(257, __c16, 1),
+          ClientToken: S.optional(S.String),
+          Tags: S.optional(__S(192, __c12, 0)),
+          RoleArn: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/export-search-jobs" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartSearchResultExportJobInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ExportJobArn: S.optional(S.String), ExportJobIdentifier: S.String }),
+      ).annotate({ identifier: "StartSearchResultExportJobOutput" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SearchJobIdentifier: S.String.pipe(T.HttpLabel("SearchJobIdentifier")) }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/search-jobs/{SearchJobIdentifier}/actions/cancel" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StopSearchJobInput" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "StopSearchJobOutput" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+          Tags: __S(192, __c12, 0),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+          TagKeys: __S(224, __c14, 0).pipe(T.HttpQuery("tagKeys")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SearchJobIdentifier: S.String.pipe(T.HttpLabel("SearchJobIdentifier")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/search-jobs/{SearchJobIdentifier}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetSearchJobInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          RecoveryPointsScannedCount: S.optional(S.Number),
+          ItemsScannedCount: S.optional(S.Number),
+          ItemsMatchedCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CurrentSearchProgress" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          SearchScopeSummary: S.optional(__S(176, __c11, 0)),
+          CurrentSearchProgress: S.optional(__S(161, __c10, 1)),
+          StatusMessage: S.optional(S.String),
+          EncryptionKeyArn: S.optional(S.String),
+          CompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Status: S.String,
+          SearchScope: __S(210, __c13, 2),
+          ItemFilters: __S(221, __c13, 13),
+          CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          SearchJobIdentifier: S.String,
+          SearchJobArn: S.String,
+        }),
+      ).annotate({ identifier: "GetSearchJobOutput" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TotalRecoveryPointsToScanCount: S.optional(S.Number),
+          TotalItemsToScanCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SearchScopeSummary" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional)).pipe(
+        /*@__PURE__*/ T.Sparse(),
+      );
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          CreatedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          CreatedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "BackupCreationTimeFilter" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          BackupResourceTypes: __S(208, __c13, 0),
+          BackupResourceCreationTime: S.optional(__S(209, __c13, 1)),
+          SourceResourceArns: S.optional(__S(224, __c14, 0)),
+          BackupResourceArns: S.optional(__S(224, __c14, 0)),
+          BackupResourceTags: S.optional(__S(192, __c12, 0)),
+        }),
+      ).annotate({ identifier: "SearchScope" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Value: S.String, Operator: S.optional(S.String) }),
+      ).annotate({ identifier: "StringCondition" });
+    case 4:
+      return S.Array(__S(211, __c13, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ Value: S.Number, Operator: S.optional(S.String) }),
+      ).annotate({ identifier: "LongCondition" });
+    case 6:
+      return S.Array(__S(213, __c13, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          Value: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          Operator: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TimeCondition" });
+    case 8:
+      return S.Array(__S(215, __c13, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          ObjectKeys: S.optional(__S(212, __c13, 4)),
+          Sizes: S.optional(__S(214, __c13, 6)),
+          CreationTimes: S.optional(__S(216, __c13, 8)),
+          VersionIds: S.optional(__S(212, __c13, 4)),
+          ETags: S.optional(__S(212, __c13, 4)),
+        }),
+      ).annotate({ identifier: "S3ItemFilter" });
+    case 10:
+      return S.Array(__S(217, __c13, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          FilePaths: S.optional(__S(212, __c13, 4)),
+          Sizes: S.optional(__S(214, __c13, 6)),
+          CreationTimes: S.optional(__S(216, __c13, 8)),
+          LastModificationTimes: S.optional(__S(216, __c13, 8)),
+        }),
+      ).annotate({ identifier: "EBSItemFilter" });
+    case 12:
+      return S.Array(__S(219, __c13, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          S3ItemFilters: S.optional(__S(218, __c13, 10)),
+          EBSItemFilters: S.optional(__S(220, __c13, 12)),
+        }),
+      ).annotate({ identifier: "ItemFilters" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ExportJobIdentifier: S.String.pipe(T.HttpLabel("ExportJobIdentifier")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/export-search-jobs/{ExportJobIdentifier}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetSearchResultExportJobInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ExportJobIdentifier: S.String,
+          ExportJobArn: S.optional(S.String),
+          Status: S.optional(S.String),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          CompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StatusMessage: S.optional(S.String),
+          ExportSpecification: S.optional(__S(257, __c16, 1)),
+          SearchJobArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetSearchResultExportJobOutput" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DestinationBucket: S.String, DestinationPrefix: S.optional(S.String) }),
+      ).annotate({ identifier: "S3ExportSpecification" });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ s3ExportSpecification: __S(256, __c16, 0) })]);
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SearchJobIdentifier: S.String.pipe(T.HttpLabel("SearchJobIdentifier")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/search-jobs/{SearchJobIdentifier}/backups" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListSearchJobBackupsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          ResourceType: S.optional(S.String),
+          BackupResourceArn: S.optional(S.String),
+          SourceResourceArn: S.optional(S.String),
+          IndexCreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          BackupCreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "SearchJobBackupsResult" });
+    case 2:
+      return S.Array(__S(273, __c17, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Results: __S(274, __c17, 2), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListSearchJobBackupsOutput" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

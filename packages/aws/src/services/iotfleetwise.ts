@@ -1635,6 +1635,7 @@ export type CreateCampaignError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | InternalServerException
   | CommonErrors;
 /**
  * Creates an orchestration of data collection rules. The Amazon Web Services IoT FleetWise Edge Agent software
@@ -1662,6 +1663,7 @@ export const createCampaign: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    InternalServerException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1678,6 +1680,7 @@ export type CreateDecoderManifestError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | InternalServerException
   | CommonErrors;
 /**
  * Creates the decoder manifest associated with a model manifest. To create a decoder
@@ -1707,6 +1710,7 @@ export const createDecoderManifest: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    InternalServerException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1764,6 +1768,7 @@ export type CreateModelManifestError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | InternalServerException
   | CommonErrors;
 /**
  * Creates a vehicle model (model manifest) that specifies signals (attributes,
@@ -1788,6 +1793,7 @@ export const createModelManifest: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    InternalServerException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1804,6 +1810,7 @@ export type CreateSignalCatalogError =
   | LimitExceededException
   | ThrottlingException
   | ValidationException
+  | InternalServerException
   | CommonErrors;
 /**
  * Creates a collection of standardized signals that can be reused to create vehicle
@@ -1825,6 +1832,7 @@ export const createSignalCatalog: API.OperationMethod<
     LimitExceededException,
     ThrottlingException,
     ValidationException,
+    InternalServerException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1922,6 +1930,7 @@ export type DeleteCampaignError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | InternalServerException
   | CommonErrors;
 /**
  * Deletes a data collection campaign. Deleting a campaign suspends all data collection
@@ -1940,6 +1949,7 @@ export const deleteCampaign: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    InternalServerException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2175,6 +2185,7 @@ export type GetCampaignError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | InternalServerException
   | CommonErrors;
 /**
  * Retrieves information about a campaign.
@@ -2194,6 +2205,7 @@ export const getCampaign: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    InternalServerException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2207,6 +2219,7 @@ export type GetDecoderManifestError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | InternalServerException
   | CommonErrors;
 /**
  * Retrieves information about a created decoder manifest.
@@ -2224,6 +2237,7 @@ export const getDecoderManifest: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    InternalServerException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2296,7 +2310,11 @@ export const getFleet: API.OperationMethod<
   span: "GetFleet",
 }));
 
-export type GetLoggingOptionsError = AccessDeniedException | ThrottlingException | CommonErrors;
+export type GetLoggingOptionsError =
+  | AccessDeniedException
+  | ThrottlingException
+  | InternalServerException
+  | CommonErrors;
 /**
  * Retrieves the logging options.
  */
@@ -2308,7 +2326,7 @@ export const getLoggingOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetLoggingOptionsRequest>,
   output: __S(1185, __c37, 1) as any as S.Schema<GetLoggingOptionsResponse>,
-  errors: [AccessDeniedException, ThrottlingException],
+  errors: [AccessDeniedException, ThrottlingException, InternalServerException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggingOptions",
@@ -2321,6 +2339,7 @@ export type GetModelManifestError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | InternalServerException
   | CommonErrors;
 /**
  * Retrieves information about a vehicle model (model manifest).
@@ -2338,6 +2357,7 @@ export const getModelManifest: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    InternalServerException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2389,6 +2409,7 @@ export type GetSignalCatalogError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | InternalServerException
   | CommonErrors;
 /**
  * Retrieves information about a signal catalog.
@@ -2406,6 +2427,7 @@ export const getSignalCatalog: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    InternalServerException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2485,6 +2507,7 @@ export type GetVehicleStatusError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | InternalServerException
   | CommonErrors;
 /**
  * Retrieves information about the status of campaigns, decoder manifests, or state templates
@@ -2504,6 +2527,7 @@ export const getVehicleStatus: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    InternalServerException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2526,6 +2550,7 @@ export type ImportDecoderManifestError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | InternalServerException
   | CommonErrors;
 /**
  * Creates a decoder manifest using your existing CAN DBC file from your local device.
@@ -2548,6 +2573,7 @@ export const importDecoderManifest: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    InternalServerException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2599,6 +2625,7 @@ export type ListCampaignsError =
   | AccessDeniedException
   | ThrottlingException
   | ValidationException
+  | InternalServerException
   | CommonErrors;
 /**
  * Lists information about created campaigns.
@@ -2614,7 +2641,12 @@ export const listCampaigns: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<ListCampaignsRequest>,
   output: __S(1571, __c49, 3) as any as S.Schema<ListCampaignsResponse>,
-  errors: [AccessDeniedException, ThrottlingException, ValidationException],
+  errors: [
+    AccessDeniedException,
+    ThrottlingException,
+    ValidationException,
+    InternalServerException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCampaigns",
@@ -3192,6 +3224,7 @@ export type PutLoggingOptionsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | InternalServerException
   | CommonErrors;
 /**
  * Creates or updates the logging option.
@@ -3210,6 +3243,7 @@ export const putLoggingOptions: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    InternalServerException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3345,6 +3379,7 @@ export type UpdateCampaignError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | InternalServerException
   | CommonErrors;
 /**
  * Updates a campaign.
@@ -3363,6 +3398,7 @@ export const updateCampaign: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    InternalServerException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3379,6 +3415,7 @@ export type UpdateDecoderManifestError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | InternalServerException
   | CommonErrors;
 /**
  * Updates a decoder manifest.
@@ -3402,6 +3439,7 @@ export const updateDecoderManifest: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    InternalServerException,
   ],
   protocol: AwsProtocol,
   retry: Retry,

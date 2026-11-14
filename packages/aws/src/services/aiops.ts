@@ -99,6 +99,12 @@ export class ConflictException
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
+export class ForbiddenException
+  extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
+    "ForbiddenException",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
+  ).pipe(C.withAuthError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
@@ -270,6 +276,7 @@ export type CreateInvestigationGroupError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | ForbiddenException
   | CommonErrors;
 /**
  * Creates an *investigation group* in your account. Creating an investigation group is a one-time setup task for each Region in your account. It is a necessary task to be able to perform investigations.
@@ -296,8 +303,8 @@ export const createInvestigationGroup: API.OperationMethod<
   CreateInvestigationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<CreateInvestigationGroupInput>,
-  output: __S(37, __c9, 1) as any as S.Schema<CreateInvestigationGroupOutput>,
+  input: __S(44, __c11, 0) as any as S.Schema<CreateInvestigationGroupInput>,
+  output: __S(45, __c11, 1) as any as S.Schema<CreateInvestigationGroupOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -306,6 +313,7 @@ export const createInvestigationGroup: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    ForbiddenException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -320,6 +328,9 @@ export type DeleteInvestigationGroupError =
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
+  | ConflictException
+  | ForbiddenException
+  | ValidationException
   | CommonErrors;
 /**
  * Deletes the specified investigation group from your account. You can currently have one investigation group per Region in your account. After you delete an investigation group, you can later create a new investigation group in the same Region.
@@ -330,14 +341,17 @@ export const deleteInvestigationGroup: API.OperationMethod<
   DeleteInvestigationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<DeleteInvestigationGroupRequest>,
-  output: __S(56, __c14, 0) as any as S.Schema<DeleteInvestigationGroupResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteInvestigationGroupRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<DeleteInvestigationGroupResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     UnauthorizedException,
+    ConflictException,
+    ForbiddenException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -353,6 +367,8 @@ export type DeleteInvestigationGroupPolicyError =
   | ThrottlingException
   | ValidationException
   | UnauthorizedException
+  | ConflictException
+  | ForbiddenException
   | CommonErrors;
 /**
  * Removes the IAM resource policy from being associated with the investigation group that you specify.
@@ -363,8 +379,8 @@ export const deleteInvestigationGroupPolicy: API.OperationMethod<
   DeleteInvestigationGroupPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteInvestigationGroupPolicyRequest>,
-  output: __S(56, __c14, 0) as any as S.Schema<DeleteInvestigationGroupPolicyOutput>,
+  input: __S(8, __c2, 0) as any as S.Schema<DeleteInvestigationGroupPolicyRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<DeleteInvestigationGroupPolicyOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -372,6 +388,8 @@ export const deleteInvestigationGroupPolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
     UnauthorizedException,
+    ConflictException,
+    ForbiddenException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -386,6 +404,9 @@ export type GetInvestigationGroupError =
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
+  | ConflictException
+  | ForbiddenException
+  | ValidationException
   | CommonErrors;
 /**
  * Returns the configuration information for the specified investigation group.
@@ -396,14 +417,17 @@ export const getInvestigationGroup: API.OperationMethod<
   GetInvestigationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<GetInvestigationGroupRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<GetInvestigationGroupResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<GetInvestigationGroupRequest>,
+  output: __S(13, __c3, 1) as any as S.Schema<GetInvestigationGroupResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     UnauthorizedException,
+    ConflictException,
+    ForbiddenException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -419,6 +443,8 @@ export type GetInvestigationGroupPolicyError =
   | ThrottlingException
   | ValidationException
   | UnauthorizedException
+  | ConflictException
+  | ForbiddenException
   | CommonErrors;
 /**
  * Returns the JSON of the IAM resource policy associated with the specified investigation group in a string. For example, `{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"aiops.alarms.cloudwatch.amazonaws.com\"},\"Action\":[\"aiops:CreateInvestigation\",\"aiops:CreateInvestigationEvent\"],\"Resource\":\"*\",\"Condition\":{\"StringEquals\":{\"aws:SourceAccount\":\"111122223333\"},\"ArnLike\":{\"aws:SourceArn\":\"arn:aws:cloudwatch:us-east-1:111122223333:alarm:*\"}}}]}`.
@@ -429,8 +455,8 @@ export const getInvestigationGroupPolicy: API.OperationMethod<
   GetInvestigationGroupPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<GetInvestigationGroupPolicyRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<GetInvestigationGroupPolicyResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<GetInvestigationGroupPolicyRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<GetInvestigationGroupPolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -438,6 +464,8 @@ export const getInvestigationGroupPolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
     UnauthorizedException,
+    ConflictException,
+    ForbiddenException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -450,6 +478,10 @@ export type ListInvestigationGroupsError =
   | AccessDeniedException
   | InternalServerException
   | ThrottlingException
+  | ConflictException
+  | ForbiddenException
+  | ResourceNotFoundException
+  | ValidationException
   | CommonErrors;
 /**
  * Returns the ARN and name of each investigation group in the account.
@@ -461,9 +493,17 @@ export const listInvestigationGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListInvestigationGroupsModel
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<ListInvestigationGroupsInput>,
-  output: __S(15, __c3, 3) as any as S.Schema<ListInvestigationGroupsOutput>,
-  errors: [AccessDeniedException, InternalServerException, ThrottlingException],
+  input: __S(20, __c5, 0) as any as S.Schema<ListInvestigationGroupsInput>,
+  output: __S(23, __c5, 3) as any as S.Schema<ListInvestigationGroupsOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ConflictException,
+    ForbiddenException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInvestigationGroups",
@@ -484,6 +524,7 @@ export type ListTagsForResourceError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ForbiddenException
   | CommonErrors;
 /**
  * Displays the tags associated with a CloudWatch investigations resource. Currently, investigation groups support tagging.
@@ -494,8 +535,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<ListTagsForResourceOutput>,
+  input: __S(24, __c6, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(25, __c6, 1) as any as S.Schema<ListTagsForResourceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -503,6 +544,7 @@ export const listTagsForResource: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ForbiddenException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -519,6 +561,7 @@ export type PutInvestigationGroupPolicyError =
   | ThrottlingException
   | ValidationException
   | UnauthorizedException
+  | ForbiddenException
   | CommonErrors;
 /**
  * Creates an IAM resource policy and assigns it to the specified investigation group.
@@ -533,8 +576,8 @@ export const putInvestigationGroupPolicy: API.OperationMethod<
   PutInvestigationGroupPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<PutInvestigationGroupPolicyRequest>,
-  output: __S(21, __c5, 1) as any as S.Schema<PutInvestigationGroupPolicyResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<PutInvestigationGroupPolicyRequest>,
+  output: __S(29, __c7, 1) as any as S.Schema<PutInvestigationGroupPolicyResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -543,6 +586,7 @@ export const putInvestigationGroupPolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
     UnauthorizedException,
+    ForbiddenException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -558,6 +602,7 @@ export type TagResourceError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ForbiddenException
   | CommonErrors;
 /**
  * Assigns one or more tags (key-value pairs) to the specified resource.
@@ -574,8 +619,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(56, __c14, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -583,6 +628,7 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ForbiddenException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -598,6 +644,7 @@ export type UntagResourceError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ForbiddenException
   | CommonErrors;
 /**
  * Removes one or more tags from the specified resource.
@@ -608,8 +655,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(56, __c14, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -617,6 +664,7 @@ export const untagResource: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ForbiddenException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -633,6 +681,7 @@ export type UpdateInvestigationGroupError =
   | ThrottlingException
   | ValidationException
   | UnauthorizedException
+  | ForbiddenException
   | CommonErrors;
 /**
  * Updates the configuration of the specified investigation group.
@@ -643,8 +692,8 @@ export const updateInvestigationGroup: API.OperationMethod<
   UpdateInvestigationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<UpdateInvestigationGroupRequest>,
-  output: __S(56, __c14, 0) as any as S.Schema<UpdateInvestigationGroupOutput>,
+  input: __S(40, __c10, 0) as any as S.Schema<UpdateInvestigationGroupRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<UpdateInvestigationGroupOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -653,6 +702,7 @@ export const updateInvestigationGroup: API.OperationMethod<
     ThrottlingException,
     ValidationException,
     UnauthorizedException,
+    ForbiddenException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -663,6 +713,31 @@ export const updateInvestigationGroup: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/investigationGroups/{identifier}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteInvestigationGroupRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "DeleteInvestigationGroupResponse",
+      });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -679,7 +754,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DeleteInvestigationGroupPolicyRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -704,17 +779,17 @@ function __c1(j: number): any {
           name: S.optional(S.String),
           arn: S.optional(S.String),
           roleArn: S.optional(S.String),
-          encryptionConfiguration: S.optional(__S(44, __c11, 0)),
+          encryptionConfiguration: S.optional(__S(52, __c13, 0)),
           retentionInDays: S.optional(S.Number),
-          chatbotNotificationChannel: S.optional(__S(45, __c11, 1)),
-          tagKeyBoundaries: S.optional(__S(40, __c10, 0)),
+          chatbotNotificationChannel: S.optional(__S(53, __c13, 1)),
+          tagKeyBoundaries: S.optional(__S(48, __c12, 0)),
           isCloudTrailEventHistoryEnabled: S.optional(S.Boolean),
-          crossAccountConfigurations: S.optional(__S(47, __c11, 3)),
+          crossAccountConfigurations: S.optional(__S(55, __c13, 3)),
         }),
       ).annotate({ identifier: "GetInvestigationGroupResponse" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -735,7 +810,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetInvestigationGroupPolicyResponse" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -758,17 +833,17 @@ function __c3(j: number): any {
         S.Struct({ arn: S.optional(S.String), name: S.optional(S.String) }),
       ).annotate({ identifier: "ListInvestigationGroupsModel" });
     case 2:
-      return S.Array(__S(13, __c3, 1));
+      return S.Array(__S(21, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextToken: S.optional(SensitiveString),
-          investigationGroups: S.optional(__S(14, __c3, 2)),
+          investigationGroups: S.optional(__S(22, __c5, 2)),
         }),
       ).annotate({ identifier: "ListInvestigationGroupsOutput" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -784,12 +859,12 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(48, __c12, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(56, __c14, 0)) })).annotate({
         identifier: "ListTagsForResourceOutput",
       });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -810,13 +885,13 @@ function __c5(j: number): any {
       });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tags: __S(48, __c12, 0),
+          tags: __S(56, __c14, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
@@ -830,13 +905,13 @@ function __c6(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(40, __c10, 0).pipe(T.HttpQuery("tagKeys")),
+          tagKeys: __S(48, __c12, 0).pipe(T.HttpQuery("tagKeys")),
         }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
@@ -850,18 +925,18 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           roleArn: S.optional(S.String),
-          encryptionConfiguration: S.optional(__S(44, __c11, 0)),
-          tagKeyBoundaries: S.optional(__S(40, __c10, 0)),
-          chatbotNotificationChannel: S.optional(__S(45, __c11, 1)),
+          encryptionConfiguration: S.optional(__S(52, __c13, 0)),
+          tagKeyBoundaries: S.optional(__S(48, __c12, 0)),
+          chatbotNotificationChannel: S.optional(__S(53, __c13, 1)),
           isCloudTrailEventHistoryEnabled: S.optional(S.Boolean),
-          crossAccountConfigurations: S.optional(__S(47, __c11, 3)),
+          crossAccountConfigurations: S.optional(__S(55, __c13, 3)),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/investigationGroups/{identifier}" }),
@@ -875,20 +950,20 @@ function __c8(j: number): any {
       ).annotate({ identifier: "UpdateInvestigationGroupRequest" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           roleArn: S.String,
-          encryptionConfiguration: S.optional(__S(44, __c11, 0)),
+          encryptionConfiguration: S.optional(__S(52, __c13, 0)),
           retentionInDays: S.optional(S.Number),
-          tags: S.optional(__S(48, __c12, 0)),
-          tagKeyBoundaries: S.optional(__S(40, __c10, 0)),
-          chatbotNotificationChannel: S.optional(__S(45, __c11, 1)),
+          tags: S.optional(__S(56, __c14, 0)),
+          tagKeyBoundaries: S.optional(__S(48, __c12, 0)),
+          chatbotNotificationChannel: S.optional(__S(53, __c13, 1)),
           isCloudTrailEventHistoryEnabled: S.optional(S.Boolean),
-          crossAccountConfigurations: S.optional(__S(47, __c11, 3)),
+          crossAccountConfigurations: S.optional(__S(55, __c13, 3)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/investigationGroups" }),
@@ -906,57 +981,32 @@ function __c9(j: number): any {
       });
   }
 }
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ type: S.optional(S.String), kmsKeyId: S.optional(S.String) }),
-      ).annotate({ identifier: "EncryptionConfiguration" });
-    case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(40, __c10, 0).pipe(S.optional));
-    case 2:
-      return S.suspend(() => S.Struct({ sourceRoleArn: S.optional(S.String) })).annotate({
-        identifier: "CrossAccountConfiguration",
-      });
-    case 3:
-      return S.Array(__S(46, __c11, 2));
-  }
-}
 function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+      return S.Array(S.String);
   }
 }
 function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
-          T.all(
-            T.Http({ method: "DELETE", uri: "/investigationGroups/{identifier}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "DeleteInvestigationGroupRequest" });
+        S.Struct({ type: S.optional(S.String), kmsKeyId: S.optional(S.String) }),
+      ).annotate({ identifier: "EncryptionConfiguration" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ __S(48, __c12, 0).pipe(S.optional));
+    case 2:
+      return S.suspend(() => S.Struct({ sourceRoleArn: S.optional(S.String) })).annotate({
+        identifier: "CrossAccountConfiguration",
+      });
+    case 3:
+      return S.Array(__S(54, __c13, 2));
   }
 }
 function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "DeleteInvestigationGroupResponse",
-      });
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

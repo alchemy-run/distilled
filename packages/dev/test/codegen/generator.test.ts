@@ -429,3 +429,37 @@ describe("distilled.retry#policy", () => {
     expect(code).toContain(`  retryPolicy: {"factor":1.3},`);
   });
 });
+
+describe("service errors", () => {
+  const error = (status: number) => ({
+    type: "structure",
+    members: {},
+    traits: { "smithy.api#error": "client", "smithy.api#httpError": status },
+  });
+  const model = () => ({
+    smithy: "2.0",
+    shapes: {
+      "com.example.errors#Example": {
+        type: "service",
+        version: "2024-01-01",
+        operations: [{ target: "com.example.errors#GetValue" }],
+        errors: [{ target: "com.example.errors#Denied" }, { target: "com.example.errors#Missing" }],
+      },
+      "com.example.errors#GetValue": {
+        type: "operation",
+        input: { target: "smithy.api#Unit" },
+        output: { target: "smithy.api#Unit" },
+        errors: [{ target: "com.example.errors#Missing" }],
+        traits: { "smithy.api#http": { method: "GET", uri: "/value" } },
+      },
+      "com.example.errors#Denied": error(403),
+      "com.example.errors#Missing": error(404),
+    },
+  });
+
+  test("every operation returns the service's errors, after its own", () => {
+    const { code } = generateService(model(), spec);
+    expect(code).toContain("export class Denied ");
+    expect(code).toContain("  errors: [Missing, Denied],");
+  });
+});

@@ -25,6 +25,7 @@ import { stampGeneratedAt } from "./generated-at.ts";
 import { generateService, type SdkSpec } from "./generator.ts";
 import { toLatin1 } from "./latin1.ts";
 import { collectModels } from "./models.ts";
+import { inheritServiceErrors } from "./operations.ts";
 import { privatizeSchemas, typeOnlyNamespaceImports } from "./privatize.ts";
 import { annotateNestedCalls } from "./pure.ts";
 import { tableSchemas } from "./table.ts";
@@ -264,6 +265,8 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
             // throw; with continueOnModelError the throw is recorded and the
             // run moves on, so one broken model doesn't hide the state of
             // every model after it. The run still fails at the end.
+            // Before the provider spec, which reads operation errors too.
+            inheritServiceErrors(model.shapes ?? {});
             let generated;
             try {
               generated = generateService(model, options.spec(model));
