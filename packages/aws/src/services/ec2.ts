@@ -1213,7 +1213,7 @@ export class RequestError
 export class RequestLimitExceeded
   extends /*@__PURE__*/ S.TaggedError<RequestLimitExceeded>()("RequestLimitExceeded", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }).pipe(C.withThrottlingError) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ResourceLimitExceeded
   extends /*@__PURE__*/ S.TaggedError<ResourceLimitExceeded>()("ResourceLimitExceeded", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),

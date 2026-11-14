@@ -336,7 +336,7 @@ export class ReceiptHandleIsInvalid
 export class RequestLimitExceeded
   extends /*@__PURE__*/ S.TaggedError<RequestLimitExceeded>()("RequestLimitExceeded", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }).pipe(C.withThrottlingError) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class RequestThrottled
   extends /*@__PURE__*/ S.TaggedError<RequestThrottled>()(
     "RequestThrottled",
@@ -1662,6 +1662,7 @@ export const receiveMessage: API.OperationMethod<
       messageId: "MessageId",
     }),
   },
+  retryPolicy: { longPoll: true },
 }));
 
 export type RemovePermissionError =

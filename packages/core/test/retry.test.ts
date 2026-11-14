@@ -411,6 +411,29 @@ describe("retry budget", () => {
     expect(attempts).toBe(3);
   });
 
+  test("a long-poll operation still backs off when the budget is empty", async () => {
+    const budget = Retry.makeBudget({ initial: 0 });
+    const policy = (longPoll: boolean): Retry.Options => ({
+      while: () => true,
+      backoff: { baseMs: 400, factor: 2, capMs: 1000, budget, longPoll },
+    });
+    const endedAt = async (longPoll: boolean) => {
+      const http = scripted(() => status(503));
+      const at = await runVirtual(
+        Effect.flatMap(
+          Effect.result(getThing({}).pipe(withPolicy(policy(longPoll)))),
+          () => Clock.currentTimeMillis,
+        ),
+        http.layer,
+      );
+      expect(http.attempts).toHaveLength(1);
+      return at.success;
+    };
+    expect(await endedAt(false)).toBe(0);
+    // No full jitter and no jitterMs: the delay is the 400ms base.
+    expect(await endedAt(true)).toBe(400);
+  });
+
   test("a policy without a budget is not limited", async () => {
     const http = scripted(failTimes(10, () => status(503)));
     const result = await runVirtual(

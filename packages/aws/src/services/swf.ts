@@ -2416,6 +2416,7 @@ export const pollForActivityTask: API.OperationMethod<
   operationName: "PollForActivityTask",
   telemetry: TELEMETRY,
   span: "PollForActivityTask",
+  retryPolicy: { longPoll: true },
 }));
 
 export type PollForDecisionTaskError =
@@ -2489,6 +2490,7 @@ export const pollForDecisionTask: API.PaginatedOperationMethod<
   } as const,
   telemetry: TELEMETRY,
   span: "PollForDecisionTask",
+  retryPolicy: { longPoll: true },
 })) as any;
 
 export type RecordActivityTaskHeartbeatError =

@@ -305,7 +305,7 @@ export class InternalServerError
     "InternalServerError",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.AwsQueryError({ code: "InternalServerError", httpResponseCode: 500 }),
-  ) {}
+  ).pipe(C.withRetryableError) {}
 export class InvalidActivation
   extends /*@__PURE__*/ S.TaggedError<InvalidActivation>()(
     "InvalidActivation",
@@ -1026,7 +1026,7 @@ export class ThrottlingException
     message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
     QuotaCode: /*@__PURE__*/ S.optional(S.String),
     ServiceCode: /*@__PURE__*/ S.optional(S.String),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class TooManyTagsError
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsError>()(
     "TooManyTagsError",

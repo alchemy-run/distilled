@@ -146,7 +146,7 @@ export class CancelledByUserException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ClientTimeoutException
   extends /*@__PURE__*/ S.TaggedError<ClientTimeoutException>()(
     "ClientTimeoutException",
@@ -223,7 +223,7 @@ export class InternalFailureException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidArgumentException
   extends /*@__PURE__*/ S.TaggedError<InvalidArgumentException>()(
     "InvalidArgumentException",
@@ -421,7 +421,7 @@ export class ServerShutdownException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class StatisticsNotAvailableException
   extends /*@__PURE__*/ S.TaggedError<StatisticsNotAvailableException>()(
     "StatisticsNotAvailableException",
@@ -454,7 +454,7 @@ export class ThrottlingException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(500), /*@__PURE__*/ T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+  ).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError) {}
 export class TimeLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<TimeLimitExceededException>()(
     "TimeLimitExceededException",

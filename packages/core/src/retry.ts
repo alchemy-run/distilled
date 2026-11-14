@@ -59,6 +59,12 @@ export interface Backoff {
   readonly throttlingBaseMs?: number;
   readonly fullJitter?: boolean;
   readonly budget?: Budget;
+  /**
+   * When the budget cannot pay for a retry, wait the delay before failing
+   * anyway, so a polling loop around the call cannot spin (AWS Retry
+   * Behavior 2.1 for long-polling operations such as SQS `ReceiveMessage`).
+   */
+  readonly longPoll?: boolean;
 }
 
 /** How far a bounded server hint may lengthen the computed delay. */
@@ -360,6 +366,7 @@ export interface RetryOverride {
   readonly baseMs?: number;
   readonly throttlingBaseMs?: number;
   readonly capMs?: number;
+  readonly longPoll?: boolean;
 }
 
 const overridden = new WeakMap<RetryOverride, Options>();
@@ -379,6 +386,7 @@ export const defaultWith = (override: RetryOverride): Options => {
         ? { throttlingBaseMs: override.throttlingBaseMs }
         : {}),
       ...(override.capMs !== undefined ? { capMs: override.capMs } : {}),
+      ...(override.longPoll !== undefined ? { longPoll: override.longPoll } : {}),
     },
   };
   overridden.set(override, result);

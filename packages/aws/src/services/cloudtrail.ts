@@ -906,7 +906,7 @@ export class ThrottlingException
       /*@__PURE__*/ T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 }),
       /*@__PURE__*/ T.HttpError(429),
     ),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class TrailAlreadyExistsException
   extends /*@__PURE__*/ S.TaggedError<TrailAlreadyExistsException>()(
     "TrailAlreadyExistsException",

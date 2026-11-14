@@ -197,7 +197,7 @@ export class InvalidStateException
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }).pipe(C.withQuotaError) {}
+  }).pipe(C.withQuotaError, C.withThrottlingError, C.withRetryableError) {}
 export class ManagedRuleException
   extends /*@__PURE__*/ S.TaggedError<ManagedRuleException>()("ManagedRuleException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),

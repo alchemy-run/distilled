@@ -74,8 +74,9 @@
        classification
     2. codegen: `distilled.retry#policy` trait + per-operation override;
        DynamoDB patch (25 ms, 4 attempts)
-    3. aws: header parsing at the response, modeled `retryAfterSeconds`
-       stays on the error but no longer drives timing, long-poll back-off
+    3. aws: AWS's documented throttling and transient error codes get
+       explicit marks; long-poll back-off. (Header parsing landed in 1 for
+       every SDK; a modeled `Retry-After` stays a minimum, as elsewhere.)
     4. gcp: converter reads googleapis service configs, skips templates
     5. alchemy: its own deploy-time policy, merged before 1 is released
        (throttling patience drops from ~22 s to ~1.5 s)

@@ -127,7 +127,7 @@ export class ConcurrentModificationException
       }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ConcurrentOperationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentOperationException>()(
     "ConcurrentOperationException",
@@ -157,7 +157,7 @@ export class HandlerFailureException
       /*@__PURE__*/ T.AwsQueryError({ code: "HandlerFailureException", httpResponseCode: 502 }),
       /*@__PURE__*/ T.HttpError(502),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class HandlerInternalFailureException
   extends /*@__PURE__*/ S.TaggedError<HandlerInternalFailureException>()(
     "HandlerInternalFailureException",
@@ -169,7 +169,7 @@ export class HandlerInternalFailureException
       }),
       /*@__PURE__*/ T.HttpError(502),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidCredentialsException
   extends /*@__PURE__*/ S.TaggedError<InvalidCredentialsException>()(
     "InvalidCredentialsException",
@@ -196,7 +196,7 @@ export class NetworkFailureException
       /*@__PURE__*/ T.AwsQueryError({ code: "NetworkFailureException", httpResponseCode: 502 }),
       /*@__PURE__*/ T.HttpError(502),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class NotStabilizedException
   extends /*@__PURE__*/ S.TaggedError<NotStabilizedException>()(
     "NotStabilizedException",
@@ -265,7 +265,7 @@ export class ServiceInternalErrorException
       }),
       /*@__PURE__*/ T.HttpError(502),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ServiceLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceLimitExceededException>()(
     "ServiceLimitExceededException",
@@ -286,7 +286,7 @@ export class ThrottlingException
       /*@__PURE__*/ T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 }),
       /*@__PURE__*/ T.HttpError(429),
     ),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class TypeNotFoundException
   extends /*@__PURE__*/ S.TaggedError<TypeNotFoundException>()(
     "TypeNotFoundException",

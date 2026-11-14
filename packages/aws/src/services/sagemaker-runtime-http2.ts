@@ -364,7 +364,7 @@ export class InternalServerError
       ErrorCode: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InternalStreamFailure
   extends /*@__PURE__*/ S.TaggedError<InternalStreamFailure>()("InternalStreamFailure", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -394,7 +394,7 @@ export class ServiceUnavailableError
       ErrorCode: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export type SensitiveBlob = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface RequestPayloadPart {
   Bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;

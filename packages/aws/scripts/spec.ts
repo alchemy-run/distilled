@@ -277,6 +277,10 @@ export const applyAwsSpecPatches = (
   };
 
   for (const [opKey, patch] of Object.entries(serviceSpec.operations ?? {})) {
+    if (patch.retryPolicy !== undefined) {
+      const opShape = opShapeByExportName.get(opKey)!;
+      opShape.traits = { ...opShape.traits, [RETRY_POLICY_TRAIT]: patch.retryPolicy };
+    }
     addErrors(opShapeByExportName.get(opKey)!, [
       ...(patch.errors ?? []).map(materializePatchedError),
       ...(patch.syntheticErrors ?? []).map(materializeSyntheticError),
@@ -574,6 +578,44 @@ function inferCategoriesFromName(errorName: string): string[] {
 
   return categories;
 }
+
+/**
+ * Error codes the AWS SDKs retry whatever the model says (botocore
+ * `retries/standard.py`, the same lists as Retry Behavior 2.1). Marking
+ * them here makes them explicit: a status alone retries nothing.
+ */
+const AWS_THROTTLING_CODES = new Set([
+  "Throttling",
+  "ThrottlingException",
+  "ThrottledException",
+  "RequestThrottledException",
+  "TooManyRequestsException",
+  "ProvisionedThroughputExceededException",
+  "TransactionInProgressException",
+  "RequestLimitExceeded",
+  "BandwidthLimitExceeded",
+  "LimitExceededException",
+  "RequestThrottled",
+  "SlowDown",
+  "PriorRequestNotComplete",
+  "EC2ThrottledException",
+]);
+const AWS_TRANSIENT_CODES = new Set([
+  "RequestTimeout",
+  "RequestTimeoutException",
+  "PriorRequestNotComplete",
+]);
+
+/** The statuses the AWS SDKs retry whatever the error code. */
+const AWS_TRANSIENT_STATUSES = new Set([500, 502, 503, 504]);
+
+/** Retry categories AWS's own rules give an error code and its HTTP status. */
+export const awsRetryCategories = (code: string, status: number | undefined): string[] =>
+  AWS_THROTTLING_CODES.has(code)
+    ? ["ThrottlingError", "RetryableError"]
+    : AWS_TRANSIENT_CODES.has(code) || (status !== undefined && AWS_TRANSIENT_STATUSES.has(status))
+      ? ["RetryableError"]
+      : [];
 
 // =============================================================================
 // Model collections (sync passes over the loaded model)
@@ -2183,7 +2225,14 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
               "smithy.api#httpError": errorTraits?.httpError,
               "smithy.api#retryable": errorTraits?.retryable,
             },
-            [...(serviceSpec.errorCategories?.[name] ?? []), ...inferCategoriesFromName(name)],
+            [
+              ...(serviceSpec.errorCategories?.[name] ?? []),
+              ...awsRetryCategories(
+                errorTraits?.awsQueryError?.code ?? name,
+                errorTraits?.httpError ?? errorTraits?.awsQueryError?.httpResponseCode,
+              ),
+              ...inferCategoriesFromName(name),
+            ],
           ).map((cat) => `C.with${cat}`),
         );
 
