@@ -128,6 +128,7 @@ const openSocket = (url: string) =>
       });
     }),
     (socket) => Effect.sync(() => socket.close()),
+    { interruptible: true },
   );
 
 const parseOutput = (data: ArrayBuffer): ProcessOutput | ProcessError => {
