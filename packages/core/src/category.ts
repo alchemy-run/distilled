@@ -261,17 +261,20 @@ const isHttpTransportError = (error: unknown): boolean =>
  *   the SDK's own error classes);
  * - the `RetryableError` and `ThrottlingError` categories (`ThrottlingError`
  *   is HTTP 429, the server's own "try again later");
+ * - the `NetworkError` category: the request failed on the way, before any
+ *   server answered;
  * - an Effect `HttpClientError` with `reason._tag === "TransportError"`
  *   (connect timeout, socket reset, DNS failure, premature stream close),
  *   which no spec can mark.
  *
- * `ServerError`, `TimeoutError`, `NetworkError` and `LockedError` describe an
+ * `ServerError`, `TimeoutError` and `LockedError` describe an
  * error; they do not retry it.
  */
 export const isTransientError = (error: unknown): boolean =>
   isRetryable(error) ||
   hasCategory(error, RetryableError) ||
   hasCategory(error, ThrottlingError) ||
+  hasCategory(error, NetworkError) ||
   isHttpTransportError(error);
 
 // ============================================================================

@@ -183,12 +183,12 @@ const transient = [
   new ServiceUnavailable({ message: "" }),
   new GatewayTimeout({ message: "" }),
   new RetryableMarked({ message: "" }),
+  new CategorizedNetworkError({ message: "" }),
   transportError,
 ];
 
 // A category describes an error; only a mark retries it.
 const permanent = [
-  new CategorizedNetworkError({ message: "" }),
   new CategorizedTimeoutError({ message: "" }),
   new BadRequest({ message: "" }),
   new Unauthorized({ message: "" }),
