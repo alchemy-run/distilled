@@ -225,6 +225,78 @@ describe("multipart binary parts", () => {
   });
 });
 
+describe("multipart file lists", () => {
+  const schema = S.Struct({
+    documents: S.optional(S.Array(S.Unknown)),
+    attachments: S.optional(S.Array(S.Unknown).pipe(T.Body("files[]"))),
+    tags: S.optional(S.Array(S.String)),
+    database: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/context/ingest", contentType: "multipart" }));
+
+  const formOf = (input: unknown): FormData => {
+    const request = Effect.runSync(
+      buildRequest({ input, inputAst: schema.ast, baseUrl: "https://example.test" }),
+    );
+    if (request.body._tag !== "FormData") throw new Error("Expected multipart");
+    return request.body.formData;
+  };
+
+  const partsOf = (form: FormData, name: string) =>
+    Promise.all(
+      form.getAll(name).map(async (part) => {
+        if (!(part instanceof File)) throw new Error(`${name}: expected a file part`);
+        return { filename: part.name, bytes: [...new Uint8Array(await part.arrayBuffer())] };
+      }),
+    );
+
+  test("every file in a list is a part under the member's wire name, with its own filename", async () => {
+    const form = formOf({
+      database: "acme_corp",
+      documents: [
+        new File([new Uint8Array([1, 2])], "policy.pdf"),
+        new File([new Uint8Array([3])], "notes.txt"),
+      ],
+    });
+    expect(await partsOf(form, "documents")).toEqual([
+      { filename: "policy.pdf", bytes: [1, 2] },
+      { filename: "notes.txt", bytes: [3] },
+    ]);
+    expect(form.has("policy.pdf")).toBe(false);
+    expect(form.has("notes.txt")).toBe(false);
+    expect(form.get("database")).toBe("acme_corp");
+  });
+
+  test("a renamed member keeps its wire name and the File's path-like filename", async () => {
+    const form = formOf({
+      database: "acme_corp",
+      attachments: [new File([new Uint8Array([9])], "skill/SKILL.md")],
+    });
+    expect(await partsOf(form, "files[]")).toEqual([{ filename: "skill/SKILL.md", bytes: [9] }]);
+    expect(form.has("attachments")).toBe(false);
+  });
+
+  test("a nameless Blob, a Uint8Array and an ArrayBuffer are binary parts named after the member", async () => {
+    const form = formOf({
+      database: "acme_corp",
+      documents: [
+        new Blob([new Uint8Array([4, 5])]),
+        new Uint8Array([99, 6, 7, 99]).subarray(1, 3),
+        new Uint8Array([8]).buffer,
+      ],
+    });
+    expect(await partsOf(form, "documents")).toEqual([
+      { filename: "documents", bytes: [4, 5] },
+      { filename: "documents", bytes: [6, 7] },
+      { filename: "documents", bytes: [8] },
+    ]);
+  });
+
+  test("a list of non-binary values is still one JSON part", () => {
+    const form = formOf({ database: "acme_corp", tags: ["a", "b"] });
+    expect(form.getAll("tags")).toEqual([JSON.stringify(["a", "b"])]);
+  });
+});
+
 describe("sensitive union responses", () => {
   const schema = S.suspend(() =>
     S.Union([

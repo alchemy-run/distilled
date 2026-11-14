@@ -1,0 +1,40 @@
+{
+  "description": "Type the 422 with `error.code` TENANT_INFRA_NOT_READY as DatabaseNotReady on ingestContext and query. HydraDB's agent guide (https://docs.hydradb.com/AGENTS.md, section 12) documents it: '422 | semantic validation failure, including TENANT_INFRA_NOT_READY | Only for TENANT_INFRA_NOT_READY, after polling readiness' and 'TENANT_INFRA_NOT_READY | 422: the database exists but its infrastructure is still provisioning. This is what querying before polling readiness returns'; section 4 makes polling GET /databases/status the step before ingesting. The spec lists 422 on POST /context/ingest but not on POST /query, and types both only as the shared envelope. It is a client error, not retried by the default policy: poll getDatabaseStatus until `infra.ready_for_ingestion`, then call again. No live response was recorded (no API key yet).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.hydradb.api#DatabaseNotReady",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 422,
+          "smithy.api#documentation": "The database exists but its infrastructure is still provisioning (HydraDB TENANT_INFRA_NOT_READY, HTTP 422). Poll `getDatabaseStatus` until `infra.ready_for_ingestion` is true, then retry.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422,
+              "body": {
+                "/error/code": "TENANT_INFRA_NOT_READY"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.hydradb.api#PostContextIngest/errors/-",
+      "value": {
+        "target": "com.hydradb.api#DatabaseNotReady"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.hydradb.api#PostQuery/errors/-",
+      "value": {
+        "target": "com.hydradb.api#DatabaseNotReady"
+      }
+    }
+  ]
+}
