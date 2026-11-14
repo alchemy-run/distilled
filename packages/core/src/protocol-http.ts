@@ -118,6 +118,21 @@ export const withResponseHeaders = (
 
 export { isOpaqueValue };
 
+/** TS name -> wire name (encode) or every wire spelling -> TS name (decode). */
+const renameTable = (
+  dict: KeyDictionaryEntries,
+  direction: "encode" | "decode",
+): Record<string, string> =>
+  direction === "decode"
+    ? Object.fromEntries(
+        Object.entries(dict).flatMap(([ts, wire]) =>
+          typeof wire === "string" ? [[wire, ts] as const] : wire.map((w) => [w, ts] as const),
+        ),
+      )
+    : Object.fromEntries(
+        Object.entries(dict).map(([ts, wire]) => [ts, typeof wire === "string" ? wire : wire[0]!]),
+      );
+
 /**
  * Deep-rename keys via a plain dictionary (see `T.KeyDictionary`). An entry
  * may list several wire spellings; encode uses the first (canonical) one and
@@ -134,19 +149,7 @@ export const mapKeysByDictionary = (
   if (Array.isArray(value)) {
     return value.map((v) => mapKeysByDictionary(dict, v, direction));
   }
-  const rename: Record<string, string> =
-    direction === "decode"
-      ? Object.fromEntries(
-          Object.entries(dict).flatMap(([ts, wire]) =>
-            typeof wire === "string" ? [[wire, ts] as const] : wire.map((w) => [w, ts] as const),
-          ),
-        )
-      : Object.fromEntries(
-          Object.entries(dict).map(([ts, wire]) => [
-            ts,
-            typeof wire === "string" ? wire : wire[0]!,
-          ]),
-        );
+  const rename = renameTable(dict, direction);
   const out: Record<string, unknown> = {};
   for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
     if (v === undefined) continue;
@@ -175,7 +178,8 @@ const stringEncode = (value: unknown): unknown =>
 /**
  * Whether {@link mapKeys} returns every value of `root` unchanged (as a deep
  * copy) in `direction` with no fallback dictionary: no member is renamed,
- * string-encoded (encode) or picked by `T.UnionCases` (decode), and no
+ * string-encoded (encode) or picked by `T.UnionCases` (decode, or encode for
+ * a union whose cases carry member dictionaries), and no
  * `T.KeyDictionary` is in scope anywhere below `root`. Protocols use it to
  * skip the walk. Computed once per schema node and direction.
  */
@@ -194,7 +198,11 @@ export const mapsVerbatim = (root: AST.AST, direction: "encode" | "decode"): boo
       result = false;
       break;
     }
-    if (direction === "decode" && getAnn(ast, unionCasesSymbol) !== undefined) {
+    const unionCases = getAnn(ast, unionCasesSymbol) as UnionCasesValue | undefined;
+    if (
+      unionCases !== undefined &&
+      (direction === "decode" || unionCases.dictionaries !== undefined)
+    ) {
       result = false;
       break;
     }
@@ -223,6 +231,13 @@ export const mapsVerbatim = (root: AST.AST, direction: "encode" | "decode"): boo
   cache.set(root, result);
   return result;
 };
+
+/** The value `T.UnionCases` annotates. */
+interface UnionCasesValue {
+  readonly cases: ReadonlyArray<ReadonlyArray<string>>;
+  readonly discriminator?: UnionDiscriminator;
+  readonly dictionaries?: ReadonlyArray<Readonly<Record<string, KeyDictionaryEntries>>>;
+}
 const verbatimEncode = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
 const verbatimDecode = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
 
@@ -247,27 +262,33 @@ export const mapKeys = (
   // active case is the one that best EXPLAINS the value: most present,
   // non-null keys covered, minus present keys the case cannot explain (ties
   // break by coverage, then declaration order).
-  const unionCases = getAnn(ast, unionCasesSymbol) as
-    | {
-        readonly cases: ReadonlyArray<ReadonlyArray<string>>;
-        readonly discriminator?: UnionDiscriminator;
-      }
-    | undefined;
-  if (unionCases && direction === "decode" && !Array.isArray(value)) {
-    const obj = (dict ? mapKeysByDictionary(dict, value, "decode") : value) as Record<
-      string,
-      unknown
-    >;
+  //
+  // A case member with its own dictionary (`{}` for caller content such as
+  // a Worker binding's `json`) maps its value by that one. Encode takes this
+  // path only for a union that has such members: it picks the case the same
+  // way, then renames the top-level keys.
+  const unionCases = getAnn(ast, unionCasesSymbol) as UnionCasesValue | undefined;
+  if (
+    unionCases &&
+    (direction === "decode" || unionCases.dictionaries !== undefined) &&
+    !Array.isArray(value)
+  ) {
+    // Top-level keys in TS names; values still as given.
+    const rename = dict ? renameTable(dict, direction) : undefined;
+    const obj: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
+      if (v !== undefined) obj[direction === "decode" ? (rename?.[k] ?? k) : k] = v;
+    }
     const present = Object.keys(obj).filter((k) => obj[k] !== undefined && obj[k] !== null);
     const disc = unionCases.discriminator;
     const tag = disc ? obj[disc.key] : undefined;
     const tagged = typeof tag === "string" ? disc!.values.indexOf(tag) : -1;
-    let best: { keys: ReadonlyArray<string>; score: number; matched: number } | undefined;
+    let best: { index: number; score: number; matched: number } | undefined;
     if (tagged >= 0) {
-      best = { keys: unionCases.cases[tagged]!, score: 0, matched: 0 };
+      best = { index: tagged, score: 0, matched: 0 };
     } else {
-      for (const keys of unionCases.cases) {
-        const set = new Set(keys);
+      for (let index = 0; index < unionCases.cases.length; index++) {
+        const set = new Set(unionCases.cases[index]);
         let matched = 0;
         let excess = 0;
         for (const k of present) {
@@ -279,16 +300,25 @@ export const mapKeys = (
           matched > 0 &&
           (!best || score > best.score || (score === best.score && matched > best.matched))
         ) {
-          best = { keys, score, matched };
+          best = { index, score, matched };
         }
       }
     }
-    if (best) {
-      const out: Record<string, unknown> = {};
-      for (const k of best.keys) out[k] = obj[k];
-      return out;
+    const own = best ? unionCases.dictionaries?.[best.index] : undefined;
+    const mapValue = (k: string, v: unknown): unknown => {
+      const d = own?.[k] ?? dict;
+      return d ? mapKeysByDictionary(d, v, direction) : v;
+    };
+    const out: Record<string, unknown> = {};
+    if (direction === "encode") {
+      // Every given key goes out, like the plain dictionary walk.
+      for (const [k, v] of Object.entries(obj)) out[rename?.[k] ?? k] = mapValue(k, v);
+    } else {
+      for (const k of best ? unionCases.cases[best.index]! : Object.keys(obj)) {
+        out[k] = mapValue(k, obj[k]);
+      }
     }
-    return obj;
+    return out;
   }
 
   const node = resolveNode(ast);

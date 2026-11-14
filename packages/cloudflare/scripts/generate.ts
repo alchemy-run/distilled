@@ -154,6 +154,9 @@ const makeCfSpec = (
   // Cloudflare returns every union case's keys (null for the inactive
   // ones), so the protocol discriminates by key-set at decode time.
   unionStyle: "opaque-cases",
+  // A union case's member-level dictionary (`{}` on a Worker binding's
+  // `json` or `props`) travels on `T.UnionCases`.
+  memberKeyDictionaryTrait: KEY_DICTIONARY_TRAIT,
 
   operationDecl: {
     contextType: "CloudflareOpContext",

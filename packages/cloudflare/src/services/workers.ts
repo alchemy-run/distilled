@@ -4533,6 +4533,8 @@ export interface CreateScriptEdgePreviewMetadataBindingService {
   environment?: string | undefined;
   entrypoint?: string | undefined;
   crossAccountGrant?: string | undefined;
+  /** JSON object the bound entrypoint reads as `ctx.props`, sent with its keys as written. */
+  props?: unknown | undefined;
 }
 export type CreateScriptEdgePreviewMetadataBindingAiType = "ai";
 export interface CreateScriptEdgePreviewMetadataBindingAi {
@@ -5157,6 +5159,8 @@ export interface PutScriptBindingService {
   service: string;
   entrypoint?: string | undefined;
   environment?: string | undefined;
+  /** JSON object the bound entrypoint reads as `ctx.props`, sent with its keys as written. */
+  props?: unknown | undefined;
   type: PutScriptBindingServiceType;
 }
 export type PutScriptBindingTextBlobType = "text_blob";
@@ -24829,7 +24833,7 @@ function __c111(j: number): any {
             ["type", "name", "bucketName", "jurisdiction", "raw"],
             ["type", "name", "id", "internalEnv", "raw"],
             ["type", "name", "queueName", "deliveryDelay", "raw"],
-            ["type", "name", "service", "environment", "entrypoint", "crossAccountGrant"],
+            ["type", "name", "service", "environment", "entrypoint", "crossAccountGrant", "props"],
             ["type", "name", "staging", "raw"],
             ["type", "name", "raw"],
             ["type", "name", "raw"],
@@ -24911,6 +24915,47 @@ function __c111(j: number): any {
               "inherit",
             ],
           },
+          [
+            {},
+            {},
+            { json: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            { props: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+          ],
         ),
       );
     case 4:
@@ -25414,7 +25459,7 @@ function __c121(j: number): any {
               "destinationAddress",
               "type",
             ],
-            ["name", "service", "entrypoint", "environment", "type"],
+            ["name", "service", "entrypoint", "environment", "props", "type"],
             ["name", "part", "type"],
             ["indexName", "name", "type"],
             ["name", "type"],
@@ -25474,6 +25519,47 @@ function __c121(j: number): any {
               "k2",
             ],
           },
+          [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { json: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            { props: {} },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+          ],
         ),
       );
     case 6:
